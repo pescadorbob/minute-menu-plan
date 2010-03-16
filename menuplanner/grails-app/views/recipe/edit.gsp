@@ -50,12 +50,12 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="recipeIngredients"><g:message code="recipe.recipeIngredients.label" default="Recipe Ingredients" /></label>
+                                  <label for="ingredients"><g:message code="recipe.ingredients.label" default="Recipe Ingredients" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'recipeIngredients', 'errors')}">
+                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'ingredients', 'errors')}">
                                     
 <ul>
-<g:each in="${recipe?.recipeIngredients?}" var="r">
+<g:each in="${recipe?.ingredients?}" var="r">
     <li><g:link controller="recipeIngredient" action="show" id="${r.id}">${r?.encodeAsHTML()}</g:link></li>
 </g:each>
 </ul>
@@ -66,12 +66,12 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="recipeDirections"><g:message code="recipe.recipeDirections.label" default="Recipe Directions" /></label>
+                                  <label for="directions"><g:message code="recipe.directions.label" default="Recipe Directions" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'recipeDirections', 'errors')}">
+                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'directions', 'errors')}">
                                     
 <ul>
-<g:each in="${recipe?.recipeDirections?}" var="r">
+<g:each in="${recipe?.directions?}" var="r">
     <li><g:link controller="recipeDirection" action="show" id="${r.id}">${r?.encodeAsHTML()}</g:link></li>
 </g:each>
 </ul>

@@ -46,11 +46,11 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="recipe.recipeIngredients.label" default="Recipe Ingredients" /></td>
+                            <td valign="top" class="name"><g:message code="recipe.ingredients.label" default="Recipe Ingredients" /></td>
                             
                             <td valign="top" style="text-align: left;" class="value">
                                 <ul>
-                                <g:each in="${recipe.recipeIngredients}" var="r">
+                                <g:each in="${recipe.ingredients}" var="r">
                                     <li><g:link controller="recipeIngredient" action="show" id="${r.id}">${r?.encodeAsHTML()}</g:link></li>
                                 </g:each>
                                 </ul>
@@ -59,11 +59,11 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="recipe.recipeDirections.label" default="Recipe Directions" /></td>
+                            <td valign="top" class="name"><g:message code="recipe.directions.label" default="Recipe Directions" /></td>
                             
                             <td valign="top" style="text-align: left;" class="value">
                                 <ul>
-                                <g:each in="${recipe.recipeDirections}" var="r">
+                                <g:each in="${recipe.directions}" var="r">
                                     <li><g:link controller="recipeDirection" action="show" id="${r.id}">${r?.encodeAsHTML()}</g:link></li>
                                 </g:each>
                                 </ul>

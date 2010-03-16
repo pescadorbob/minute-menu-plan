@@ -12,8 +12,6 @@ class RecipeDirection {
     }
 
     static constraints = {
-        recipe()
         sequence(unique:'recipe')
-        step()
     }
 }
