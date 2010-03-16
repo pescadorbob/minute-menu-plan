@@ -12,7 +12,5 @@ class Metric {
 
     static constraints = {
         name(unique: true)
-        symbol()
-        definition()
     }
 }

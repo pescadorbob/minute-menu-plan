@@ -4,7 +4,7 @@ class Recipe {
 
     String name
     byte[] image
-    static hasMany = [recipeIngredients: RecipeIngredient, recipeDirections: RecipeDirection]
+    static hasMany = [ingredients: RecipeIngredient, directions: RecipeDirection]
 
     String toString() {
         return name

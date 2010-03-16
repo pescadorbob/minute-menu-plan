@@ -13,10 +13,10 @@ class BootStrap {
                     println it
                 }
             }
-            object
+            return object
         }
 
-        //Populating DOMAIN:Metric
+        //DOMAIN:Metric
         List<Metric> metrics = []
         metrics << new Metric(name:'drop' , symbol:'-' , definition:'1/96 tsp.' ).s()
         metrics << new Metric(name:'teaspoon' , symbol:'tsp' , definition:'1/3 tbsp.' ).s()
@@ -30,30 +30,29 @@ class BootStrap {
         metrics << new Metric(name:'gallon' , symbol:'gal' , definition:'231 in3' ).s()
         metrics << new Metric(name:'single' , symbol:'' , definition:'one of anything' ).s()
 
-        //Populating DOMAIN:Quantity
+        //DOMAIN:Quantity
         List<Quantity> quantities = []
         metrics.each{Metric metric ->
            quantities << new Quantity(amount: new Random().nextInt(10), metric: metric).s()
         }
 
-        //Populating DOMAIN:MeasuredProduct
+        //DOMAIN:MeasuredProduct
         List<String> productNames = ['vegetable oil', 'sugar', 'brown sugar', 'egg', 'vanilla', 'all-purpose flour', 'baking soda', 'salt', 'semisweet chocolate chips', 'walnuts']
         List<MeasuredProduct> products = []
         productNames.eachWithIndex {String productName, Integer index ->
-            //byte[] tempImg = new File("/home/neeraj/Pictures/sampleForProjects/img11.jpg").readBytes()
             products << new MeasuredProduct(name: productName, preferredMetric: metrics[index]).s()
         }
 
-        //Populating DOMAIN:Recipe
+        //DOMAIN:Recipe
         byte[]  recipeImage = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/img12.jpg")).readBytes()
         Recipe cookieSticks = new Recipe(name: 'Cookie Sticks', image: recipeImage).s()
 
-        //Populating DOMAIN:RecipeIngradients
+        //DOMAIN:RecipeIngredients
         new RecipeIngredient(sequence: 1, recipe: cookieSticks, ingredient: products[new Random().nextInt(products.size())], quantity: quantities[new Random().nextInt(quantities.size())]).s()
         new RecipeIngredient(sequence: 2, recipe: cookieSticks, ingredient: products[new Random().nextInt(products.size())], quantity: quantities[new Random().nextInt(quantities.size())]).s()
         new RecipeIngredient(sequence: 3, recipe: cookieSticks, ingredient: products[new Random().nextInt(products.size())], quantity: quantities[new Random().nextInt(quantities.size())]).s()
 
-        //Populating DOMAIN:RecipeDirection
+        //DOMAIN:RecipeDirection
         new RecipeDirection(step: 'boil Milk', sequence: 1, recipe: cookieSticks).s()
         new RecipeDirection(step: 'add Sugar', sequence: 2, recipe: cookieSticks).s()
 

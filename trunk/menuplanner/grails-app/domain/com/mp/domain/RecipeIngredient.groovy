@@ -13,9 +13,6 @@ class RecipeIngredient {
     }
 
     static constraints = {
-        recipe()
         sequence(unique: 'recipe')
-        ingredient()
-        quantity()
     }
 }

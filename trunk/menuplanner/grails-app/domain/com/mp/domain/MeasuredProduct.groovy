@@ -7,7 +7,6 @@ class MeasuredProduct extends Product {
     byte[] image
 
     static constraints = {
-        preferredMetric()
         image(maxSize: 6 * 1024 * 1024, nullable: true)
     }
 }
