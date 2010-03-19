@@ -22,7 +22,7 @@
                 <g:renderErrors bean="${recipe}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form action="save" method="post"  enctype="multipart/form-data">
+            <g:form action="save" method="post" >
                 <div class="dialog">
                     <table>
                         <tbody>
@@ -33,15 +33,6 @@
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: recipe, field: 'name', 'errors')}">
                                     <g:textField name="name" value="${recipe?.name}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="image"><g:message code="recipe.image.label" default="Image" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'image', 'errors')}">
-                                    <input type="file" id="image" name="image" />
                                 </td>
                             </tr>
                         

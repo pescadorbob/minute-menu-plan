@@ -21,33 +21,24 @@
             <div class="dialog">
                 <table>
                     <tbody>
-                    
+
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="recipe.id.label" default="Id" /></td>
-                            
+
                             <td valign="top" class="value">${fieldValue(bean: recipe, field: "id")}</td>
-                            
+
                         </tr>
-                    
+
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="recipe.name.label" default="Name" /></td>
-                            
+
                             <td valign="top" class="value">${fieldValue(bean: recipe, field: "name")}</td>
-                            
+
                         </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="recipe.image.label" default="Image" /></td>
-                            
-                            <td valign="top" class="value">
-                                <img src="${createLink(controller:'image',action:'imgRecipe', id:recipe?.id)}" width=100, height=100/>
-                            </td>
-                            
-                        </tr>
-                    
+
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="recipe.ingredients.label" default="Recipe Ingredients" /></td>
-                            
+
                             <td valign="top" style="text-align: left;" class="value">
                                 <ul>
                                 <g:each in="${recipe.ingredients}" var="r">
@@ -55,12 +46,12 @@
                                 </g:each>
                                 </ul>
                             </td>
-                            
+
                         </tr>
-                    
+
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="recipe.directions.label" default="Recipe Directions" /></td>
-                            
+
                             <td valign="top" style="text-align: left;" class="value">
                                 <ul>
                                 <g:each in="${recipe.directions}" var="r">
@@ -68,9 +59,9 @@
                                 </g:each>
                                 </ul>
                             </td>
-                            
+
                         </tr>
-                    
+
                     </tbody>
                 </table>
             </div>

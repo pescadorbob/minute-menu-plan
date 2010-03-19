@@ -23,7 +23,7 @@
                 <g:renderErrors bean="${measuredProduct}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form method="post"  enctype="multipart/form-data">
+            <g:form method="post" >
                 <g:hiddenField name="id" value="${measuredProduct?.id}" />
                 <g:hiddenField name="version" value="${measuredProduct?.version}" />
                 <div class="dialog">
@@ -32,10 +32,10 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="name"><g:message code="measuredProduct.name.label" default="Name" /></label>
+                                  <label for="product"><g:message code="measuredProduct.product.label" default="Product" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: measuredProduct, field: 'name', 'errors')}">
-                                    <g:textField name="name" value="${measuredProduct?.name}" />
+                                <td valign="top" class="value ${hasErrors(bean: measuredProduct, field: 'product', 'errors')}">
+                                    <g:select name="product.id" from="${com.mp.domain.Product.list()}" optionKey="id" value="${measuredProduct?.product?.id}"  />
                                 </td>
                             </tr>
                         
@@ -45,15 +45,6 @@
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: measuredProduct, field: 'preferredMetric', 'errors')}">
                                     <g:select name="preferredMetric.id" from="${com.mp.domain.Metric.list()}" optionKey="id" value="${measuredProduct?.preferredMetric?.id}"  />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="image"><g:message code="measuredProduct.image.label" default="Image" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: measuredProduct, field: 'image', 'errors')}">
-                                    <input type="file" id="image" name="image" />
                                 </td>
                             </tr>
                         

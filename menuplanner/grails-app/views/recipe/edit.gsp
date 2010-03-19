@@ -23,13 +23,13 @@
                 <g:renderErrors bean="${recipe}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form method="post"  enctype="multipart/form-data">
+            <g:form method="post" >
                 <g:hiddenField name="id" value="${recipe?.id}" />
                 <g:hiddenField name="version" value="${recipe?.version}" />
                 <div class="dialog">
                     <table>
                         <tbody>
-                        
+
                             <tr class="prop">
                                 <td valign="top" class="name">
                                   <label for="name"><g:message code="recipe.name.label" default="Name" /></label>
@@ -38,22 +38,13 @@
                                     <g:textField name="name" value="${recipe?.name}" />
                                 </td>
                             </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="image"><g:message code="recipe.image.label" default="Image" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'image', 'errors')}">
-                                    <input type="file" id="image" name="image" />
-                                </td>
-                            </tr>
-                        
+
                             <tr class="prop">
                                 <td valign="top" class="name">
                                   <label for="ingredients"><g:message code="recipe.ingredients.label" default="Recipe Ingredients" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: recipe, field: 'ingredients', 'errors')}">
-                                    
+
 <ul>
 <g:each in="${recipe?.ingredients?}" var="r">
     <li><g:link controller="recipeIngredient" action="show" id="${r.id}">${r?.encodeAsHTML()}</g:link></li>
@@ -63,15 +54,15 @@
 
                                 </td>
                             </tr>
-                        
+
                             <tr class="prop">
                                 <td valign="top" class="name">
                                   <label for="directions"><g:message code="recipe.directions.label" default="Recipe Directions" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: recipe, field: 'directions', 'errors')}">
-                                    
+
 <ul>
-<g:each in="${recipe?.directions?}" var="r">
+<g:each in="${recipe?.directions}" var="r">
     <li><g:link controller="recipeDirection" action="show" id="${r.id}">${r?.encodeAsHTML()}</g:link></li>
 </g:each>
 </ul>
@@ -79,7 +70,7 @@
 
                                 </td>
                             </tr>
-                        
+
                         </tbody>
                     </table>
                 </div>

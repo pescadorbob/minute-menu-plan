@@ -1,3 +1,4 @@
+<%@ page import="org.codehaus.groovy.grails.commons.ApplicationHolder" %>
 <html>
     <head>
         <title>Welcome to Grails</title>
@@ -100,5 +101,11 @@
 	            </ul>
 	        </div>
 		</div>
+
+        %{--<g:set var="Arr" value="['images/imgSlideShow/2.png','images/imgSlideShow/3.png','images/imgSlideShow/F.jpg','images/imgSlideShow/77.png','images/imgSlideShow/1.png','images/imgSlideShow/img14.jpg']"/>--}%
+        %{--<div Id="For_SlideShow" style="float:left;">--}%
+          %{--<ig:igSlideShow imageList="${Arr}" BigImgWidth="450" BigImgHeight="250" SmallImgHeight="50" SmallImgWidth="50"/>--}%
+        %{--</div>--}%
+    
     </body>
 </html>
