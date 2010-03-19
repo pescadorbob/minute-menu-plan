@@ -9,6 +9,10 @@ class Product {
     }
 
     static constraints = {
-        name(unique: true)
+        name(unique: true, nullable:false)
+    }
+
+    static mapping = {
+        tablePerHierarchy false
     }
 }

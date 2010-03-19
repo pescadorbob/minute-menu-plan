@@ -10,5 +10,6 @@ class Quantity {
     }
 
     static constraints = {
+        amount(min:0.0001)
     }
 }

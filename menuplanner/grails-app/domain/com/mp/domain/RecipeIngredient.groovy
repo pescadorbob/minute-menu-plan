@@ -7,12 +7,11 @@ class RecipeIngredient {
     MeasuredProduct ingredient
     Quantity quantity
 
-  String toString()
-    {
-      return (sequence + '. ' + ingredient + ' : ' + quantity)
+    String toString() {
+        return (sequence + '. ' + ingredient + ' : ' + quantity)
     }
 
     static constraints = {
-        sequence(unique: 'recipe')
+        sequence(min:1, unique: 'recipe')
     }
 }
