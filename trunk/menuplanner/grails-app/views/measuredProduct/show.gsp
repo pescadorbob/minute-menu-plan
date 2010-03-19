@@ -30,9 +30,9 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="measuredProduct.name.label" default="Name" /></td>
+                            <td valign="top" class="name"><g:message code="measuredProduct.product.label" default="Product" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: measuredProduct, field: "name")}</td>
+                            <td valign="top" class="value"><g:link controller="product" action="show" id="${measuredProduct?.product?.id}">${measuredProduct?.product?.encodeAsHTML()}</g:link></td>
                             
                         </tr>
                     
@@ -40,15 +40,6 @@
                             <td valign="top" class="name"><g:message code="measuredProduct.preferredMetric.label" default="Preferred Metric" /></td>
                             
                             <td valign="top" class="value"><g:link controller="metric" action="show" id="${measuredProduct?.preferredMetric?.id}">${measuredProduct?.preferredMetric?.encodeAsHTML()}</g:link></td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="measuredProduct.image.label" default="Image" /></td>
-                            
-                            <td valign="top" class="value">
-                                <img src="${createLink(controller:'image',action:'imgMeasuredProduct', id:measuredProduct?.id)}" width=100, height=100/>
-                            </td>
                             
                         </tr>
                     

@@ -26,21 +26,15 @@
                         
                             <g:sortableColumn property="name" title="${message(code: 'recipe.name.label', default: 'Name')}" />
                         
-                            <g:sortableColumn property="image" title="${message(code: 'recipe.image.label', default: 'Image')}" />
-                        
                         </tr>
                     </thead>
                     <tbody>
                     <g:each in="${recipeList}" status="i" var="recipe">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
-                            <td><g:link action="show" id="${recipe.id}">${fieldValue(bean: recipe, field: "id")}</g:link></td>
+                            <td><g:link action="show_recipe" id="${recipe.id}">${fieldValue(bean: recipe, field: "id")}</g:link></td>
                         
                             <td>${fieldValue(bean: recipe, field: "name")}</td>
-                        
-                            <td>
-                                <img src="${createLink(controller:'image',action:'imgRecipe', id:recipe?.id)}" width=50, height=50/>
-                            </td>
                         
                         </tr>
                     </g:each>

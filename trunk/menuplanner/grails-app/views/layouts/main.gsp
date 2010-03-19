@@ -5,6 +5,8 @@
         <link rel="shortcut icon" href="${resource(dir:'images',file:'favicon.ico')}" type="image/x-icon" />
         <g:layoutHead />
         <g:javascript library="application" />
+        <script src="${resource(dir: 'js', file: 'jquery.js')}" type="text/javascript"></script>
+        <script src="${resource(dir: 'js', file: 'jsThumb.js')}" type="text/javascript"></script>
     </head>
     <body>
         <div id="spinner" class="spinner" style="display:none;">

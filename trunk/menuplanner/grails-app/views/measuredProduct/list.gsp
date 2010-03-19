@@ -24,12 +24,10 @@
                         
                             <g:sortableColumn property="id" title="${message(code: 'measuredProduct.id.label', default: 'Id')}" />
                         
-                            <g:sortableColumn property="name" title="${message(code: 'measuredProduct.name.label', default: 'Name')}" />
-                        
+                            <th><g:message code="measuredProduct.product.label" default="Product" /></th>
+                   	    
                             <th><g:message code="measuredProduct.preferredMetric.label" default="Preferred Metric" /></th>
                    	    
-                            <g:sortableColumn property="image" title="${message(code: 'measuredProduct.image.label', default: 'Image')}" />
-                        
                         </tr>
                     </thead>
                     <tbody>
@@ -38,13 +36,9 @@
                         
                             <td><g:link action="show" id="${measuredProduct.id}">${fieldValue(bean: measuredProduct, field: "id")}</g:link></td>
                         
-                            <td>${fieldValue(bean: measuredProduct, field: "name")}</td>
+                            <td>${fieldValue(bean: measuredProduct, field: "product")}</td>
                         
                             <td>${fieldValue(bean: measuredProduct, field: "preferredMetric")}</td>
-                        
-                            <td>
-                                <img src="${createLink(controller:'image',action:'imgMeasuredProduct', id:measuredProduct?.id)}" width=50, height=50/>
-                            </td>
                         
                         </tr>
                     </g:each>
