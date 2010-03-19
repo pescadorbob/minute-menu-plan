@@ -58,7 +58,7 @@ class RecipeController {
             if (params.version) {
                 def version = params.version.toLong()
                 if (recipe.version > version) {
-                    
+
                     recipe.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'recipe.label', default: 'Recipe')] as Object[], "Another user has updated this Recipe while you were editing")
                     render(view: "edit", model: [recipe: recipe])
                     return
@@ -97,4 +97,33 @@ class RecipeController {
             redirect(action: "list")
         }
     }
+
+    def show_recipe = {
+        def recipe = Recipe.get(params.id)
+        RecipeDetailCO recipeDetail = new RecipeDetailCO(recipe)
+        [recipeDetail:recipeDetail]
+    }
+
+}
+
+class RecipeDetailCO {
+    String recipeName
+    int recipeId
+
+    List<String> ingredients=[]
+    List<String> directions=[]
+
+    RecipeDetailCO() {}
+
+    RecipeDetailCO(Recipe recipe) {
+        recipeId=recipe?.id
+        recipeName = recipe.name
+        recipe.ingredients.each {RecipeIngredient ingredient ->
+            ingredients<<ingredient.toString()
+        }
+        recipe.directions.each {RecipeDirection direction ->
+            directions<< direction.toString()
+        }
+    }
+
 }
