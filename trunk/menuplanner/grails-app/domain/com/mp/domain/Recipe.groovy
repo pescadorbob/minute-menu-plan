@@ -3,7 +3,7 @@ package com.mp.domain
 class Recipe {
 
     String name
-    byte[] image
+
     static hasMany = [ingredients: RecipeIngredient, directions: RecipeDirection]
 
     String toString() {
@@ -12,6 +12,10 @@ class Recipe {
 
     static constraints = {
         name(unique: true)
-        image(maxSize: 6 * 1024 * 1024)
+    }
+
+    static mapping = {
+        ingredients sort:'sequence'
+        directions sort:'sequence'
     }
 }

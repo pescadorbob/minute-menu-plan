@@ -2,7 +2,6 @@ package com.mp.domain
 
 class RecipeDirection {
 
-    //TODO:Add image too
     Recipe recipe
     String step
     Integer sequence
@@ -12,6 +11,8 @@ class RecipeDirection {
     }
 
     static constraints = {
-        sequence(unique:'recipe')
+        recipe()
+        sequence(min:1, unique:'recipe')
+        step()
     }
 }

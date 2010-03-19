@@ -1,12 +1,21 @@
 package com.mp.domain
 
-class MeasuredProduct extends Product {
+class MeasuredProduct {
 
     static hasMany = [possibleMetrics: Metric]
+    Product product
     Metric preferredMetric
-    byte[] image
+
+    String toString() {
+        return product
+    }
 
     static constraints = {
-        image(maxSize: 6 * 1024 * 1024, nullable: true)
+        product()
+        preferredMetric()
+    }
+
+    static mapping = {
+        tablePerHierarchy false
     }
 }
