@@ -32,10 +32,10 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="product"><g:message code="measuredProduct.product.label" default="Product" /></label>
+                                  <label for="name"><g:message code="measuredProduct.name.label" default="Name" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: measuredProduct, field: 'product', 'errors')}">
-                                    <g:select name="product.id" from="${com.mp.domain.Product.list()}" optionKey="id" value="${measuredProduct?.product?.id}"  />
+                                <td valign="top" class="value ${hasErrors(bean: measuredProduct, field: 'name', 'errors')}">
+                                    <g:textField name="name" value="${measuredProduct?.name}" />
                                 </td>
                             </tr>
                         

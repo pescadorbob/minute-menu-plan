@@ -36,6 +36,51 @@
                                 </td>
                             </tr>
                         
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="preparationTime"><g:message code="recipe.preparationTime.label" default="Preparation Time" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'preparationTime', 'errors')}">
+                                    <g:textField name="preparationTime" value="${fieldValue(bean: recipe, field: 'preparationTime')}" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="cookTime"><g:message code="recipe.cookTime.label" default="Cook Time" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'cookTime', 'errors')}">
+                                    <g:textField name="cookTime" value="${fieldValue(bean: recipe, field: 'cookTime')}" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="difficulty"><g:message code="recipe.difficulty.label" default="Difficulty" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'difficulty', 'errors')}">
+                                    <g:select name="difficulty" from="${com.mp.domain.RecipeDifficulty?.values()}" value="${recipe?.difficulty}"  />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="makesServing"><g:message code="recipe.makesServing.label" default="Makes Serving" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'makesServing', 'errors')}">
+                                    <g:textField name="makesServing" value="${fieldValue(bean: recipe, field: 'makesServing')}" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="shareWithCommunity"><g:message code="recipe.shareWithCommunity.label" default="Share With Community" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'shareWithCommunity', 'errors')}">
+                                    <g:checkBox name="shareWithCommunity" value="${recipe?.shareWithCommunity}" />
+                                </td>
+                            </tr>
+                        
                         </tbody>
                     </table>
                 </div>

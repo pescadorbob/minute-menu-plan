@@ -17,11 +17,12 @@ class BootStrap {
             }
             object
         }
+        bootstrapService.populateCategory(10)
         bootstrapService.populateMetrics(10)
         bootstrapService.populateQuantities(20)
-        bootstrapService.populateProduct(35)
-        bootstrapService.populateMeasuredProduct(25)
-        bootstrapService.populateRecipe(5)
+        bootstrapService.populateMeasuredProduct(50)
+        bootstrapService.createRecipes(5)
+
     }
     def destroy = {
     }
