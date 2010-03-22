@@ -97,33 +97,75 @@ class RecipeController {
             redirect(action: "list")
         }
     }
-
-    def show_recipe = {
-        def recipe = Recipe.get(params.id)
-        RecipeDetailCO recipeDetail = new RecipeDetailCO(recipe)
-        [recipeDetail:recipeDetail]
+    def createRecipe = {
+        render(view: 'createRecipe')
+    }
+    def saveRecipe = {RecipeDetailCO recipeDetailCO ->
+        println "Props: " + recipeDetailCO.properties
+        recipeDetailCO.convertToRecipe()
+        render(view: 'createRecipe')
     }
 
+    def showRecipe = {
+        def recipe = Recipe.get(2)
+        RecipeDetailCO recipeDetail = new RecipeDetailCO(recipe)
+        render(view: 'show_recipe', model: [recipeDetail: recipeDetail])
+    }
 }
 
 class RecipeDetailCO {
-    String recipeName
-    int recipeId
+    String name
 
-    List<String> ingredients=[]
-    List<String> directions=[]
+    String difficulty
+    Boolean shareWithCommunity
+    Integer makesServing
+    Integer preparationTime
+    Integer cookTime
+
+    List<Long> categoryIds = []
+    List<BigDecimal> ingredientQuantities = []
+    List<Long> ingredientMetricIds = []
+    List<Long> ingredientProductIds = []
+    List<String> directions = []
 
     RecipeDetailCO() {}
 
-    RecipeDetailCO(Recipe recipe) {
+    /*RecipeDetailCO(Recipe recipe) {
         recipeId=recipe?.id
-        recipeName = recipe.name
+        name = recipe.name
         recipe.ingredients.each {RecipeIngredient ingredient ->
             ingredients<<ingredient.toString()
         }
         recipe.directions.each {RecipeDirection direction ->
             directions<< direction.toString()
         }
-    }
+        categories=recipe.getCategories()
+    }*/
 
+    public convertToRecipe() {
+
+        Recipe recipe = new Recipe()
+        recipe.name = name
+        recipe.shareWithCommunity=shareWithCommunity
+        recipe.makesServing=makesServing
+        recipe.difficulty = RecipeDifficulty."${difficulty}"
+        recipe.preparationTime=preparationTime
+        recipe.cookTime=cookTime
+        recipe.s()
+
+        directions.eachWithIndex {String step, Integer index ->
+            new RecipeDirection(recipe: recipe, sequence: (index + 1), step: step).s()
+        }
+
+        categoryIds.eachWithIndex {Long categoryId, Integer index ->
+            recipe.addToCategories(Category.get(categoryId))
+        }
+
+        ingredientQuantities.eachWithIndex {BigDecimal amount, Integer index ->
+            MeasuredProduct product = MeasuredProduct.get(ingredientProductIds[index])
+            Metric metric = Metric.get(ingredientMetricIds[index])
+            Quantity quantity = new Quantity(metric: metric, amount: amount).s()
+            new RecipeIngredient(sequence: (index + 1), recipe: recipe, ingredient: product, quantity: quantity).s()
+        }
+    }
 }

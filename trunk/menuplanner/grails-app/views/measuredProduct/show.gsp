@@ -30,9 +30,9 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="measuredProduct.product.label" default="Product" /></td>
+                            <td valign="top" class="name"><g:message code="measuredProduct.name.label" default="Name" /></td>
                             
-                            <td valign="top" class="value"><g:link controller="product" action="show" id="${measuredProduct?.product?.id}">${measuredProduct?.product?.encodeAsHTML()}</g:link></td>
+                            <td valign="top" class="value">${fieldValue(bean: measuredProduct, field: "name")}</td>
                             
                         </tr>
                     

@@ -29,7 +29,7 @@
                 <div class="dialog">
                     <table>
                         <tbody>
-
+                        
                             <tr class="prop">
                                 <td valign="top" class="name">
                                   <label for="name"><g:message code="recipe.name.label" default="Name" /></label>
@@ -38,39 +38,109 @@
                                     <g:textField name="name" value="${recipe?.name}" />
                                 </td>
                             </tr>
-
+                        
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="ingredients"><g:message code="recipe.ingredients.label" default="Recipe Ingredients" /></label>
+                                  <label for="preparationTime"><g:message code="recipe.preparationTime.label" default="Preparation Time" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'ingredients', 'errors')}">
-
-<ul>
-<g:each in="${recipe?.ingredients?}" var="r">
-    <li><g:link controller="recipeIngredient" action="show" id="${r.id}">${r?.encodeAsHTML()}</g:link></li>
-</g:each>
-</ul>
-<g:link controller="recipeIngredient" action="create" params="['recipe.id': recipe?.id]">${message(code: 'default.add.label', args: [message(code: 'recipeIngredient.label', default: 'RecipeIngredient')])}</g:link>
-
+                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'preparationTime', 'errors')}">
+                                    <g:textField name="preparationTime" value="${fieldValue(bean: recipe, field: 'preparationTime')}" />
                                 </td>
                             </tr>
-
+                        
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="directions"><g:message code="recipe.directions.label" default="Recipe Directions" /></label>
+                                  <label for="cookTime"><g:message code="recipe.cookTime.label" default="Cook Time" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'cookTime', 'errors')}">
+                                    <g:textField name="cookTime" value="${fieldValue(bean: recipe, field: 'cookTime')}" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                  <label for="difficulty"><g:message code="recipe.difficulty.label" default="Difficulty" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'difficulty', 'errors')}">
+                                    <g:select name="difficulty" from="${com.mp.domain.RecipeDifficulty?.values()}" value="${recipe?.difficulty}"  />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                  <label for="makesServing"><g:message code="recipe.makesServing.label" default="Makes Serving" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'makesServing', 'errors')}">
+                                    <g:textField name="makesServing" value="${fieldValue(bean: recipe, field: 'makesServing')}" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                  <label for="directions"><g:message code="recipe.directions.label" default="Directions" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: recipe, field: 'directions', 'errors')}">
-
+                                    
 <ul>
-<g:each in="${recipe?.directions}" var="r">
-    <li><g:link controller="recipeDirection" action="show" id="${r.id}">${r?.encodeAsHTML()}</g:link></li>
+<g:each in="${recipe?.directions?}" var="d">
+    <li><g:link controller="recipeDirection" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></li>
 </g:each>
 </ul>
 <g:link controller="recipeDirection" action="create" params="['recipe.id': recipe?.id]">${message(code: 'default.add.label', args: [message(code: 'recipeDirection.label', default: 'RecipeDirection')])}</g:link>
 
                                 </td>
                             </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                  <label for="ingredients"><g:message code="recipe.ingredients.label" default="Ingredients" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'ingredients', 'errors')}">
+                                    
+<ul>
+<g:each in="${recipe?.ingredients?}" var="i">
+    <li><g:link controller="recipeIngredient" action="show" id="${i.id}">${i?.encodeAsHTML()}</g:link></li>
+</g:each>
+</ul>
+<g:link controller="recipeIngredient" action="create" params="['recipe.id': recipe?.id]">${message(code: 'default.add.label', args: [message(code: 'recipeIngredient.label', default: 'RecipeIngredient')])}</g:link>
 
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                  <label for="shareWithCommunity"><g:message code="recipe.shareWithCommunity.label" default="Share With Community" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'shareWithCommunity', 'errors')}">
+                                    <g:checkBox name="shareWithCommunity" value="${recipe?.shareWithCommunity}" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                  <label for="recipeCategories"><g:message code="recipe.recipeCategories.label" default="Recipe Categories" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'recipeCategories', 'errors')}">
+                                    
+<ul>
+<g:each in="${recipe?.recipeCategories?}" var="r">
+    <li><g:link controller="recipeCategory" action="show" id="${r.id}">${r?.encodeAsHTML()}</g:link></li>
+</g:each>
+</ul>
+<g:link controller="recipeCategory" action="create" params="['recipe.id': recipe?.id]">${message(code: 'default.add.label', args: [message(code: 'recipeCategory.label', default: 'RecipeCategory')])}</g:link>
+
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                  <label for="categories"><g:message code="recipe.categories.label" default="Categories" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'categories', 'errors')}">
+                                    
+                                </td>
+                            </tr>
+                        
                         </tbody>
                     </table>
                 </div>

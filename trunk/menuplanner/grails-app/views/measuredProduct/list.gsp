@@ -24,8 +24,8 @@
                         
                             <g:sortableColumn property="id" title="${message(code: 'measuredProduct.id.label', default: 'Id')}" />
                         
-                            <th><g:message code="measuredProduct.product.label" default="Product" /></th>
-                   	    
+                            <g:sortableColumn property="name" title="${message(code: 'measuredProduct.name.label', default: 'Name')}" />
+                        
                             <th><g:message code="measuredProduct.preferredMetric.label" default="Preferred Metric" /></th>
                    	    
                         </tr>
@@ -36,7 +36,7 @@
                         
                             <td><g:link action="show" id="${measuredProduct.id}">${fieldValue(bean: measuredProduct, field: "id")}</g:link></td>
                         
-                            <td>${fieldValue(bean: measuredProduct, field: "product")}</td>
+                            <td>${fieldValue(bean: measuredProduct, field: "name")}</td>
                         
                             <td>${fieldValue(bean: measuredProduct, field: "preferredMetric")}</td>
                         
