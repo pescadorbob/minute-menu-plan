@@ -21,7 +21,7 @@ environments {
 	test {
 		dataSource {
 			dbCreate = "update"
-			url = "jdbc:mysql://localhost:3306/menuplanner"
+			url = "jdbc:mysql://localhost:3306/menuplanner_test"
 		}
 	}
 	production {
