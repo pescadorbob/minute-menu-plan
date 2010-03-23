@@ -2,8 +2,8 @@ package com.mp.domain
 
 class MeasuredProduct extends Product{
 
-    static hasMany = [possibleMetrics: Metric]
-    Metric preferredMetric
+    static hasMany = [possibleUnits: Unit]
+    Unit preferredUnit
 
     String toString() {
         return name
@@ -11,7 +11,7 @@ class MeasuredProduct extends Product{
 
     static constraints = {
         name()
-        preferredMetric()
+        preferredUnit()
     }
 
     static mapping = {

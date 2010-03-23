@@ -26,7 +26,7 @@
                         
                             <g:sortableColumn property="amount" title="${message(code: 'quantity.amount.label', default: 'Amount')}" />
                         
-                            <th><g:message code="quantity.metric.label" default="Metric" /></th>
+                            <th><g:message code="quantity.unit.label" default="Unit" /></th>
                    	    
                         </tr>
                     </thead>
@@ -38,7 +38,7 @@
                         
                             <td>${fieldValue(bean: quantity, field: "amount")}</td>
                         
-                            <td>${fieldValue(bean: quantity, field: "metric")}</td>
+                            <td>${fieldValue(bean: quantity, field: "unit")}</td>
                         
                         </tr>
                     </g:each>

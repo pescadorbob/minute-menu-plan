@@ -124,7 +124,7 @@ class RecipeDetailCO {
 
     List<Long> categoryIds = []
     List<BigDecimal> ingredientQuantities = []
-    List<Long> ingredientMetricIds = []
+    List<Long> ingredientUnitIds = []
     List<Long> ingredientProductIds = []
     List<String> directions = []
 
@@ -163,8 +163,8 @@ class RecipeDetailCO {
 
         ingredientQuantities.eachWithIndex {BigDecimal amount, Integer index ->
             MeasuredProduct product = MeasuredProduct.get(ingredientProductIds[index])
-            Metric metric = Metric.get(ingredientMetricIds[index])
-            Quantity quantity = new Quantity(metric: metric, amount: amount).s()
+            Unit unit = Unit.get(ingredientUnitIds[index])
+            Quantity quantity = new Quantity(unit: unit, amount: amount).s()
             new RecipeIngredient(sequence: (index + 1), recipe: recipe, ingredient: product, quantity: quantity).s()
         }
     }

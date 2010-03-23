@@ -37,9 +37,9 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="quantity.metric.label" default="Metric" /></td>
+                            <td valign="top" class="name"><g:message code="quantity.unit.label" default="Unit" /></td>
                             
-                            <td valign="top" class="value"><g:link controller="metric" action="show" id="${quantity?.metric?.id}">${quantity?.metric?.encodeAsHTML()}</g:link></td>
+                            <td valign="top" class="value"><g:link controller="unit" action="show" id="${quantity?.unit?.id}">${quantity?.unit?.encodeAsHTML()}</g:link></td>
                             
                         </tr>
                     
