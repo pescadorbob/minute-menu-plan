@@ -38,10 +38,10 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="metric"><g:message code="quantity.metric.label" default="Metric" /></label>
+                                    <label for="unit"><g:message code="quantity.unit.label" default="Unit" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: quantity, field: 'metric', 'errors')}">
-                                    <g:select name="metric.id" from="${com.mp.domain.Metric.list()}" optionKey="id" value="${quantity?.metric?.id}"  />
+                                <td valign="top" class="value ${hasErrors(bean: quantity, field: 'unit', 'errors')}">
+                                    <g:select name="unit.id" from="${com.mp.domain.Unit.list()}" optionKey="id" value="${quantity?.unit?.id}"  />
                                 </td>
                             </tr>
                         

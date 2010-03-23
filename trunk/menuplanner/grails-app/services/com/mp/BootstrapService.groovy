@@ -13,15 +13,15 @@ class BootstrapService {
         }
     }
 
-    public void populateMetrics(Integer count) {
+    public void populateUnits(Integer count) {
         (1..count).each {Integer index ->
-            new Metric(name: "Metric-${index}", symbol: "Symbol-${index}", definition: "This is definition for Metrics-${index}").s()
+            new Unit(name: "Unit-${index}", symbol: "Symbol-${index}", definition: "This is definition for Units-${index}").s()
         }
     }
 
     public void populateQuantities(Integer count) {
         (1..count).each {Integer index ->
-            new Quantity(amount: new Random().nextInt(10) + 1, metric: Metric.get(new Random().nextInt(Metric.count()) + 1)).s()
+            new Quantity(amount: new Random().nextInt(10) + 1, unit: Unit.get(new Random().nextInt(Unit.count()) + 1)).s()
         }
     }
 
@@ -29,8 +29,8 @@ class BootstrapService {
         (1..count).each {Integer index ->
             MeasuredProduct measuredProduct = new MeasuredProduct()
             measuredProduct.name = "Product-${index}"
-            measuredProduct.preferredMetric = Metric.get(new Random().nextInt(Metric.count()) + 1)
-            //measuredProduct.possibleMetrics= Metric.get(new Random().nextInt(Metric.count())+1)
+            measuredProduct.preferredUnit = Unit.get(new Random().nextInt(Unit.count()) + 1)
+            //measuredProduct.possibleUnits= Unit.get(new Random().nextInt(Unit.count())+1)
             measuredProduct.s()
             def image = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/img13.jpg")).readBytes()
             ProductImage productImage = new ProductImage(productId: measuredProduct.id, image: image).s()

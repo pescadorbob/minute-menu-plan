@@ -3,10 +3,10 @@ package com.mp.domain
 class Quantity {
 
     BigDecimal amount
-    Metric metric
+    Unit unit
 
     String toString() {
-        return (amount + ' ' + metric)
+        return (amount + ' ' + unit)
     }
 
     static constraints = {

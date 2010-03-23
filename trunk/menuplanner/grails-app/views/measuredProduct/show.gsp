@@ -37,19 +37,19 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="measuredProduct.preferredMetric.label" default="Preferred Metric" /></td>
+                            <td valign="top" class="name"><g:message code="measuredProduct.preferredUnit.label" default="Preferred Unit" /></td>
                             
-                            <td valign="top" class="value"><g:link controller="metric" action="show" id="${measuredProduct?.preferredMetric?.id}">${measuredProduct?.preferredMetric?.encodeAsHTML()}</g:link></td>
+                            <td valign="top" class="value"><g:link controller="unit" action="show" id="${measuredProduct?.preferredUnit?.id}">${measuredProduct?.preferredUnit?.encodeAsHTML()}</g:link></td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="measuredProduct.possibleMetrics.label" default="Possible Metrics" /></td>
+                            <td valign="top" class="name"><g:message code="measuredProduct.possibleUnits.label" default="Possible Units" /></td>
                             
                             <td valign="top" style="text-align: left;" class="value">
                                 <ul>
-                                <g:each in="${measuredProduct.possibleMetrics}" var="p">
-                                    <li><g:link controller="metric" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></li>
+                                <g:each in="${measuredProduct.possibleUnits}" var="p">
+                                    <li><g:link controller="unit" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></li>
                                 </g:each>
                                 </ul>
                             </td>

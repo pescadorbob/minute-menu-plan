@@ -45,7 +45,7 @@
                 <div id="ingredients" style="padding-left:50px;">
                     <g:each in="${(1..3)}" var="count">
                         <g:textField name="ingredientQuantities" value="" style="width:40px;"/>
-                        <g:select name="ingredientMetricIds" from="${Metric.list()}" optionKey="id"/>
+                        <g:select name="ingredientUnitIds" from="${Unit.list()}" optionKey="id"/>
                         <g:select name="ingredientProductIds" from="${Product.list()}" optionKey="id"/><br>
                     </g:each>
                 </div>
