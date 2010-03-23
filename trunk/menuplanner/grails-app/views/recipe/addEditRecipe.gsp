@@ -6,6 +6,7 @@
     <title>Minute Menu Plan</title>
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'global-style.css')}"/>
     <script src="${resource(dir: 'js', file: 'jquery-1.4.2.min.js')}" type="text/javascript"></script>
+    <ui:resources/>
 </head>
 
 <body>
@@ -47,9 +48,14 @@
                     <ul class="add-recipe-form-container">
                         <li class="add-recipe-form-content"><strong>Category :</strong></li>
                         <li class="add-recipe-form-input">
-                            <g:each in="${(1..3)}" var="count">
-                                <g:select class="input1" name="categoryIds" from="${Category.list()}" optionKey="id"/><br>
-                            </g:each>
+                            <ui:multiSelect
+                                    name="categoryIds"
+                                    multiple="true"
+                                    from="${Category.list()}"
+                                    value=""
+                                    isLeftAligned="true"
+                                    optionKey="id"
+                                    noSelection="['':'(Select One)']"/>
                         </li>
                     </ul>
                     <ul class="add-recipe-form-container">
@@ -126,7 +132,7 @@
 
                                 <!-- Show Directions Here -->
                             </span>
-                            <span id="AddIngredientToolBox">
+                            <span id="AddDirectionToolBox">
                                 <li>
                                     <img id="btnAddDirection" src="${resource(dir: 'images', file: 'add.jpg')}" hspace="4" align="left" vspace="4" border="0" style="cursor:pointer;"/>
                                     <span id="directionToBeAdded">
@@ -246,6 +252,8 @@
     var quantity = 0;
     var unitId= 0;
     var productId = 0;
+    var direction = ""
+
     var options=
             '<img src="${resource(dir: 'images', file: 'delete.jpg')}" width="16" height="16" align="left" hspace="2" vspace="2" border="0"/>'
             + '<img src="${resource(dir: 'images', file: 'arrow-up.jpg')}" width="16" height="16" align="left" hspace="2" vspace="2" border="0"/>'
@@ -255,6 +263,7 @@
             quantity=jQuery('#optionIngredientQuantities').attr('value')
             unitId=jQuery('#optionIngredientUnitIds').attr('value')
             productId=jQuery('#optionIngredientProductIds').attr('value')
+
 
             var hiddenIngredient =
                     '<span><input type="hidden" name="ingredientQuantities" value="' + quantity
@@ -270,6 +279,9 @@
             jQuery('#optionIngredientQuantities').attr('value','')
             jQuery('#optionIngredientUnitIds').attr('value','1')
             jQuery('#optionIngredientProductIds').attr('value','1')
+        })
+        jQuery('#btnAddDirection').click(function(){
+            var showDirection=''
         })
     })
 </script>
