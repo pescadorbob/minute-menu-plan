@@ -1,7 +1,6 @@
 package com.mp
 
 import com.mp.domain.*
-import org.codehaus.groovy.grails.commons.ApplicationHolder
 
 class BootstrapService {
 
@@ -32,8 +31,8 @@ class BootstrapService {
             measuredProduct.preferredUnit = Unit.get(new Random().nextInt(Unit.count()) + 1)
             //measuredProduct.possibleUnits= Unit.get(new Random().nextInt(Unit.count())+1)
             measuredProduct.s()
-            def image = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/img13.jpg")).readBytes()
-            ProductImage productImage = new ProductImage(productId: measuredProduct.id, image: image).s()
+//            def image = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/img13.jpg")).readBytes()
+//            ProductImage productImage = new ProductImage(productId: measuredProduct.id, image: image).s()
 
         }
     }
@@ -48,8 +47,8 @@ class BootstrapService {
             recipe.preparationTime=new Random().nextInt(5)*5
             recipe.cookingTime=new Random().nextInt(5)*5
             recipe.s()
-            def image = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/coffee.jpg")).readBytes()
-            new RecipeImage(recipeId: recipe.id, image: image).s()
+//            def image = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/coffee.jpg")).readBytes()
+//            new RecipeImage(recipeId: recipe.id, image: image).s()
             populateRecipeCategories(recipe)
             populateRecipeIngredient(recipe)
             populateRecipeDirections(recipe)
@@ -77,8 +76,8 @@ class BootstrapService {
     public void populateRecipeDirections(Recipe recipe) {
         (1..5).each {Integer index ->
             RecipeDirection recipeDirection = new RecipeDirection(step: "for ${recipe.name} step-${index}", sequence: index, recipe: recipe).s()
-            def image = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/img11.jpg")).readBytes()
-            RecipeDirectionImage recipeDirectionImage = new RecipeDirectionImage(recipeDirectionId: recipeDirection.id, image: image).s()
+//            def image = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/img11.jpg")).readBytes()
+//            RecipeDirectionImage recipeDirectionImage = new RecipeDirectionImage(recipeDirectionId: recipeDirection.id, image: image).s()
         }
     }
 }

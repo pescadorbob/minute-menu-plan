@@ -14,11 +14,11 @@ class Image {
 
 
     static constraints = {
-        name(unique: path)
+        storedName(unique: 'path')
     }
 
-    public static Image createFile(Long id, String path, String fileName, byte[] fileContents,String altText) {
-        String filePath = config.imagesRootDir  + path
+    public static Image createFile(Long id, String relativePath, String fileName, byte[] fileContents,String altText) {
+        String filePath = config.imagesRootDir  + relativePath
         File file = new File(filePath)
         file.mkdirs()
         File actualFile = new File(file, id.toString())
