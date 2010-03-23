@@ -98,24 +98,22 @@ class RecipeController {
         }
     }
     def createRecipe = {
-        render(view: 'createRecipe')
+        render(view: 'addEditRecipe')
     }
-    def saveRecipe = {RecipeDetailCO recipeDetailCO ->
-        println "Props: " + recipeDetailCO.properties
-        recipeDetailCO.convertToRecipe()
-        render(view: 'createRecipe')
+    def saveRecipe = {AddRecipeCO addRecipeCO ->
+        addRecipeCO.convertToRecipe()
+        redirect(actin: 'createRecipe')
     }
 
-    def showRecipe = {
-        def recipe = Recipe.get(2)
-        RecipeDetailCO recipeDetail = new RecipeDetailCO(recipe)
-        render(view: 'show_recipe', model: [recipeDetail: recipeDetail])
-    }
+//    def editRecipe = {EditRecipeCO recipeDetailCO ->
+//        def recipe = Recipe.get(params.id)
+//        EditRecipeCO.populateRecipeDetail(recipe)
+//        render(view: 'editRecipe', model: [recipeDetail: recipeDetail])
+//    }
 }
 
-class RecipeDetailCO {
+class AddRecipeCO {
     String name
-
     String difficulty
     Boolean shareWithCommunity
     Integer makesServing
@@ -128,19 +126,7 @@ class RecipeDetailCO {
     List<Long> ingredientProductIds = []
     List<String> directions = []
 
-    RecipeDetailCO() {}
-
-    /*RecipeDetailCO(Recipe recipe) {
-        recipeId=recipe?.id
-        name = recipe.name
-        recipe.ingredients.each {RecipeIngredient ingredient ->
-            ingredients<<ingredient.toString()
-        }
-        recipe.directions.each {RecipeDirection direction ->
-            directions<< direction.toString()
-        }
-        categories=recipe.getCategories()
-    }*/
+    AddRecipeCO() {}
 
     public convertToRecipe() {
 
@@ -153,12 +139,12 @@ class RecipeDetailCO {
         recipe.cookingTime=cookTime
         recipe.s()
 
-        directions.eachWithIndex {String step, Integer index ->
-            new RecipeDirection(recipe: recipe, sequence: (index + 1), step: step).s()
-        }
-
         categoryIds.eachWithIndex {Long categoryId, Integer index ->
             recipe.addToCategories(Category.get(categoryId))
+        }
+
+        directions.eachWithIndex {String step, Integer index ->
+            new RecipeDirection(recipe: recipe, sequence: (index + 1), step: step).s()
         }
 
         ingredientQuantities.eachWithIndex {BigDecimal amount, Integer index ->
@@ -169,3 +155,66 @@ class RecipeDetailCO {
         }
     }
 }
+
+
+/*
+class EditRecipeCO {
+    String name
+    String difficulty
+    Boolean shareWithCommunity
+    Integer makesServing
+    Integer preparationTime
+    Integer cookTime
+
+    List<Long> category = []
+    List<BigDecimal> ingredientQuantities = []
+    List<Long> ingredientUnitIds = []
+    List<Long> ingredientProductIds = []
+    List<String> directions = []
+
+    EditRecipeCO() {}
+
+    public populateRecipeDetail(Recipe recipe){
+        name=recipe.name
+        difficulty=recipe.difficulty
+        shareWithCommunity=recipe.shareWithCommunity
+        makesServing=recipe.makesServing
+        preparationTime=recipe.preparationTime
+        cookTime=recipe.cookTime
+
+       recipe.directions.each {RecipeDirection recipeDirection ->
+           directions<<recipeDirection.toString()
+       }
+        recipe.categories.each {
+            category<<it.toString()
+        }
+
+    }
+
+    public convertToRecipe() {
+
+        Recipe recipe = new Recipe()
+        recipe.name = name
+        recipe.shareWithCommunity=shareWithCommunity
+        recipe.makesServing=makesServing
+        recipe.difficulty = RecipeDifficulty."${difficulty}"
+        recipe.preparationTime=preparationTime
+        recipe.cookTime=cookTime
+        recipe.s()
+
+        categoryIds.eachWithIndex {Long categoryId, Integer index ->
+            recipe.addToCategories(Category.get(categoryId))
+        }
+
+        directions.eachWithIndex {String step, Integer index ->
+            new RecipeDirection(recipe: recipe, sequence: (index + 1), step: step).s()
+        }
+
+        ingredientQuantities.eachWithIndex {BigDecimal amount, Integer index ->
+            MeasuredProduct product = MeasuredProduct.get(ingredientProductIds[index])
+            Unit unit = Unit.get(ingredientUnitIds[index])
+            Quantity quantity = new Quantity(unit: unit, amount: amount).s()
+            new RecipeIngredient(sequence: (index + 1), recipe: recipe, ingredient: product, quantity: quantity).s()
+        }
+    }
+} */
