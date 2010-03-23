@@ -13,7 +13,7 @@
 <div class="header-container">
     <div class="header">
         <div class="logo-container">
-            <a href="#"><img id="imgLogo" src="${resource(dir: 'images', file: 'logo.jpg')}" alt="Minute Menu Plan" border="0"/></a>
+            <a href="${createLink(uri: '/')}"><img id="imgLogo" src="${resource(dir: 'images', file: 'logo.jpg')}" alt="Minute Menu Plan" border="0"/></a>
         </div>
         <div class="logotext-container">Plan Your Month’s Menu in a Minute!</div>
         <div class="top-nav">
@@ -48,28 +48,23 @@
                     <ul class="add-recipe-form-container">
                         <li class="add-recipe-form-content"><strong>Category :</strong></li>
                         <li class="add-recipe-form-input">
-                            <ui:multiSelect
-                                    name="categoryIds"
-                                    multiple="true"
-                                    from="${Category.list()}"
-                                    value=""
-                                    isLeftAligned="true"
-                                    optionKey="id"
-                                    noSelection="['':'(Select One)']"/>
+                            <ui:multiSelect name="categoryIds" multiple="true" style="width:200px;"
+                                    from="${Category.list()}" value="" isLeftAligned="true"
+                                    optionKey="id" class="select2"/>
                         </li>
                     </ul>
                     <ul class="add-recipe-form-container">
                         <li class="add-recipe-form-content"><strong>Prep Time:</strong></li>
                         <li class="add-recipe-form-input">
                             <g:textField class="input2" name="preparationTime" value=""/>
-                            <g:select class="select2" name="prepUnit" from="${['min','hrs']}"/>
+                            <g:select class="select2" name="prepUnit" from="${['minutes','hours']}"/>
                         </li>
                     </ul>
                     <ul class="add-recipe-form-container">
                         <li class="add-recipe-form-content"><strong>Cook Time :</strong></li>
                         <li class="add-recipe-form-input">
                             <g:textField class="input2" name="cookTime" value=""/>
-                            <g:select class="select2" name="cookUnit" from="${['min','hrs']}"/>
+                            <g:select class="select2" name="cookUnit" from="${['minutes','hours']}"/>
                         </li>
                     </ul>
                     <ul class="add-recipe-form-container">
@@ -103,8 +98,7 @@
                     </ul>
                     <div class="clr"></div>
                     <div>
-                        <h1 class="sub-h1">ingredients</h1>
-                        --------------------------------------------------------------------------------------
+                        <h1 class="sub-h1">Ingredients</h1>
                         <ul class="ingredients">
                             <span id="IngredientAdded">
 
@@ -123,10 +117,9 @@
                             </span>
                         </ul>
                         <div class="clr"></div>
-                        --------------------------------------------------------------------------------------
                     </div>
                     <div><br/>
-                        <h1 class="sub-h1">cooking steps:</h1>
+                        <h1 class="sub-h1">Cooking Steps:</h1>
                         <ul class="ingredients">
                             <span id="DirectionsAdded">
 
