@@ -136,7 +136,7 @@
                                 <li>
                                     <img id="btnAddDirection" src="${resource(dir: 'images', file: 'add.jpg')}" hspace="4" align="left" vspace="4" border="0" style="cursor:pointer;"/>
                                     <span id="directionToBeAdded">
-                                        <g:textField class="input1" name="directions" value=""/>
+                                        <g:textField class="input1" name="optionDirections" value=""/>
                                     </span>
                                 </li>
                             </span>
@@ -281,7 +281,14 @@
             jQuery('#optionIngredientProductIds').attr('value','1')
         })
         jQuery('#btnAddDirection').click(function(){
-            var showDirection=''
+            direction=jQuery('#optionDirections').attr('value')
+            var hiddenDirection =
+                    '<span><input type="hidden" name="directions" value="' + direction
+                    + '" /></span>';
+            var showDirection=direction
+            var addDirection= options + hiddenDirection + showDirection
+            jQuery('#DirectionsAdded').append(addDirection + '<br><br>')
+            jQuery('#optionDirections').attr('value','')
         })
     })
 </script>
