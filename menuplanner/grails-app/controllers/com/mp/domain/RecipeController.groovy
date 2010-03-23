@@ -102,7 +102,7 @@ class RecipeController {
     }
     def saveRecipe = {AddRecipeCO addRecipeCO ->
         addRecipeCO.convertToRecipe()
-        redirect(actin: 'createRecipe')
+        redirect(action: 'createRecipe')
     }
 
 //    def editRecipe = {EditRecipeCO recipeDetailCO ->
@@ -157,64 +157,3 @@ class AddRecipeCO {
 }
 
 
-/*
-class EditRecipeCO {
-    String name
-    String difficulty
-    Boolean shareWithCommunity
-    Integer makesServing
-    Integer preparationTime
-    Integer cookTime
-
-    List<Long> category = []
-    List<BigDecimal> ingredientQuantities = []
-    List<Long> ingredientUnitIds = []
-    List<Long> ingredientProductIds = []
-    List<String> directions = []
-
-    EditRecipeCO() {}
-
-    public populateRecipeDetail(Recipe recipe){
-        name=recipe.name
-        difficulty=recipe.difficulty
-        shareWithCommunity=recipe.shareWithCommunity
-        makesServing=recipe.makesServing
-        preparationTime=recipe.preparationTime
-        cookTime=recipe.cookTime
-
-       recipe.directions.each {RecipeDirection recipeDirection ->
-           directions<<recipeDirection.toString()
-       }
-        recipe.categories.each {
-            category<<it.toString()
-        }
-
-    }
-
-    public convertToRecipe() {
-
-        Recipe recipe = new Recipe()
-        recipe.name = name
-        recipe.shareWithCommunity=shareWithCommunity
-        recipe.makesServing=makesServing
-        recipe.difficulty = RecipeDifficulty."${difficulty}"
-        recipe.preparationTime=preparationTime
-        recipe.cookTime=cookTime
-        recipe.s()
-
-        categoryIds.eachWithIndex {Long categoryId, Integer index ->
-            recipe.addToCategories(Category.get(categoryId))
-        }
-
-        directions.eachWithIndex {String step, Integer index ->
-            new RecipeDirection(recipe: recipe, sequence: (index + 1), step: step).s()
-        }
-
-        ingredientQuantities.eachWithIndex {BigDecimal amount, Integer index ->
-            MeasuredProduct product = MeasuredProduct.get(ingredientProductIds[index])
-            Unit unit = Unit.get(ingredientUnitIds[index])
-            Quantity quantity = new Quantity(unit: unit, amount: amount).s()
-            new RecipeIngredient(sequence: (index + 1), recipe: recipe, ingredient: product, quantity: quantity).s()
-        }
-    }
-} */

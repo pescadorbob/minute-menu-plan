@@ -513,15 +513,14 @@ body .input2{
 	margin-right:4px;
 }
 body .select2{
-	width:50px;
 	height:21px;
 	float:left;
 	border:#E2E2E2 1px solid;
 	_margin-bottom:0px;
 	margin-bottom:5px;
-	margin-left:10px;
 	margin-right:4px;
 }
+
 body  .add-recipe-form-input2{
 	float:left;
 	width: auto;
