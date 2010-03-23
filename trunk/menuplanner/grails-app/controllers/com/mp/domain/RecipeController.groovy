@@ -147,10 +147,10 @@ class RecipeDetailCO {
         Recipe recipe = new Recipe()
         recipe.name = name
         recipe.shareWithCommunity=shareWithCommunity
-        recipe.makesServing=makesServing
+        recipe.servings=makesServing
         recipe.difficulty = RecipeDifficulty."${difficulty}"
         recipe.preparationTime=preparationTime
-        recipe.cookTime=cookTime
+        recipe.cookingTime=cookTime
         recipe.s()
 
         directions.eachWithIndex {String step, Integer index ->

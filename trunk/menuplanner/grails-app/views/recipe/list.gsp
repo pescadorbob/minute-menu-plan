@@ -28,11 +28,11 @@
                         
                             <g:sortableColumn property="preparationTime" title="${message(code: 'recipe.preparationTime.label', default: 'Preparation Time')}" />
                         
-                            <g:sortableColumn property="cookTime" title="${message(code: 'recipe.cookTime.label', default: 'Cook Time')}" />
+                            <g:sortableColumn property="cookTime" title="${message(code: 'recipe.cookingTime.label', default: 'Cook Time')}" />
                         
                             <g:sortableColumn property="difficulty" title="${message(code: 'recipe.difficulty.label', default: 'Difficulty')}" />
                         
-                            <g:sortableColumn property="makesServing" title="${message(code: 'recipe.makesServing.label', default: 'Makes Serving')}" />
+                            <g:sortableColumn property="makesServing" title="${message(code: 'recipe.servings.label', default: 'Makes Serving')}" />
                         
                         </tr>
                     </thead>
@@ -46,11 +46,11 @@
                         
                             <td>${fieldValue(bean: recipe, field: "preparationTime")}</td>
                         
-                            <td>${fieldValue(bean: recipe, field: "cookTime")}</td>
+                            <td>${fieldValue(bean: recipe, field: "cookingTime")}</td>
                         
                             <td>${fieldValue(bean: recipe, field: "difficulty")}</td>
                         
-                            <td>${fieldValue(bean: recipe, field: "makesServing")}</td>
+                            <td>${fieldValue(bean: recipe, field: "servings")}</td>
                         
                         </tr>
                     </g:each>
