@@ -5,9 +5,10 @@ class Recipe {
     String name
     RecipeDifficulty difficulty
     Boolean shareWithCommunity=false
-    Integer makesServing
+    Image image
+    Integer servings
     Integer preparationTime
-    Integer cookTime
+    Integer cookingTime
 
     static transients = ['categories']
 
@@ -34,9 +35,10 @@ class Recipe {
     static constraints = {
         name(unique: true)
         preparationTime()
-        cookTime()
+        cookingTime()
         difficulty()
-        makesServing()
+        servings()
+        image(nullable: true)
     }
     static mapping = {
         ingredients sort: 'sequence'

@@ -44,9 +44,9 @@ class BootstrapService {
             recipe.name = "Recipe-${index}"
             recipe.difficulty= [RecipeDifficulty.EASY, RecipeDifficulty.MEDIUM, RecipeDifficulty.HARD].get(new Random().nextInt(3))
             recipe.shareWithCommunity=false
-            recipe.makesServing=new Random().nextInt(5)
+            recipe.servings=new Random().nextInt(5)
             recipe.preparationTime=new Random().nextInt(5)*5
-            recipe.cookTime=new Random().nextInt(5)*5
+            recipe.cookingTime=new Random().nextInt(5)*5
             recipe.s()
             def image = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/coffee.jpg")).readBytes()
             new RecipeImage(recipeId: recipe.id, image: image).s()

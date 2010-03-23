@@ -46,7 +46,7 @@
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="recipe.cookTime.label" default="Cook Time" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: recipe, field: "cookTime")}</td>
+                            <td valign="top" class="value">${fieldValue(bean: recipe, field: "cookingTime")}</td>
                             
                         </tr>
                     
@@ -60,7 +60,7 @@
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="recipe.makesServing.label" default="Makes Serving" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: recipe, field: "makesServing")}</td>
+                            <td valign="top" class="value">${fieldValue(bean: recipe, field: "servings")}</td>
                             
                         </tr>
                     

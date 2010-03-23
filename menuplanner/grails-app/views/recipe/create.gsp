@@ -49,8 +49,8 @@
                                 <td valign="top" class="name">
                                     <label for="cookTime"><g:message code="recipe.cookTime.label" default="Cook Time" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'cookTime', 'errors')}">
-                                    <g:textField name="cookTime" value="${fieldValue(bean: recipe, field: 'cookTime')}" />
+                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'cookingTime', 'errors')}">
+                                    <g:textField name="cookTime" value="${fieldValue(bean: recipe, field: 'cookingTime')}" />
                                 </td>
                             </tr>
                         
@@ -67,8 +67,8 @@
                                 <td valign="top" class="name">
                                     <label for="makesServing"><g:message code="recipe.makesServing.label" default="Makes Serving" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'makesServing', 'errors')}">
-                                    <g:textField name="makesServing" value="${fieldValue(bean: recipe, field: 'makesServing')}" />
+                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'servings', 'errors')}">
+                                    <g:textField name="makesServing" value="${fieldValue(bean: recipe, field: 'servings')}" />
                                 </td>
                             </tr>
                         
