@@ -30,7 +30,6 @@
                 </g:each>
             </div>
             <br><span class="columnName">Prep Time:</span>
-            ${recipeDetail.}
             <br><span class="columnName">Cook Time:</span>
             <g:textField name="cookTime" value="" style="width:40px;"/>
             <br><span class="columnName">Difficulty:</span>
