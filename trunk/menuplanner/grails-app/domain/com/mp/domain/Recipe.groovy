@@ -15,7 +15,7 @@ class Recipe {
     static hasMany = [ingredients: RecipeIngredient, directions: RecipeDirection, recipeCategories: RecipeCategory]
 
     List<Category> getCategories() {
-        return recipeCategories?.collect {it.category}
+        return ((recipeCategories) ? ((recipeCategories?.collect {it.category}).sort{it.name}) : [])
     }
 
     def addToCategories(Category category) {
