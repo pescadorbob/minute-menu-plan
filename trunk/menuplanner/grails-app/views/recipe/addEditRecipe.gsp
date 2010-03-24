@@ -50,22 +50,25 @@
                         <li class="add-recipe-form-content"><strong>Category :</strong></li>
                         <li class="add-recipe-form-input">
                             %{--*************************************************************************************************************************************--}%
-                            %{--<div class="yui-skin-sam" style="float:left;">--}%
-                            %{--<gui:autoComplete--}%
-                            %{--id="optionCategoryIds"--}%
-                            %{--labelField="name"--}%
-                            %{--idField="id"--}%
-                            %{--controller="recipe"--}%
-                            %{--action="getMatchingCategory"--}%
-                            %{--minQueryLength='3'--}%
-                            %{--queryDelay='.5'--}%
-                            %{--/>--}%
-                            %{--</div>--}%
+                            <span id="hiddenCategory">
+                                <g:hiddenField name="categoryIds"/>
+                            </span>
+                            <div class="yui-skin-sam" style="float:left;">
+                            <gui:autoComplete
+                            id="optionCategoryIds"
+                            labelField="name"
+                            idField="id"
+                            controller="recipe"
+                            action="getMatchingCategory"
+                            minQueryLength='3'
+                            queryDelay='.5'
+                            />
+                            </div>
                             %{--*************************************************************************************************************************************--}%
 
-                            <ui:multiSelect name="categoryIds" multiple="true" style="width:200px;"
-                                    from="${Category.list()}" value="" isLeftAligned="true"
-                                    optionKey="id" class="select2"/>
+                            %{--<ui:multiSelect name="categoryIds" multiple="true" style="width:200px;"--}%
+                                    %{--from="${Category.list()}" value="" isLeftAligned="true"--}%
+                                    %{--optionKey="id" class="select2"/>--}%
 
                         </li>
                     </ul>
@@ -277,6 +280,12 @@
 
     jQuery(document).ready(function() {
 
+        /* Setting value of hidden Field categoryIds */
+        jQuery("#optionCategoryIds").blur(function(){
+            var varCategory=jQuery("#optionCategoryIds_id").attr('value')
+            jQuery('#categoryIds').attr('value',varCategory)
+        })
+
         var quantity = 0;
         var unitId = 0;
         var productId = 0;
@@ -374,6 +383,7 @@
 
         jQuery.each(jQuery('#IngredientAdded .btnUp'), function() {
             jQuery(this).unbind('click');
+ 
 
             jQuery(this).click(function() {
                 var index = jQuery(this).index('#IngredientAdded .btnUp')
