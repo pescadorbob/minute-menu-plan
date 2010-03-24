@@ -1,5 +1,7 @@
 package com.mp.domain
 
+import grails.converters.JSON
+
 class RecipeController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -105,6 +107,22 @@ class RecipeController {
         redirect(action: 'createRecipe')
     }
 
+    def getMatchingProducts={
+        def productList =Product.findAllByNameLike("%" + params.query + "%")
+        def jsonList = productList.collect { [ id: it.id, name: it.name ] }
+        def jsonResult = [
+            result: jsonList
+        ]
+        render jsonResult as JSON
+    }
+    def getMatchingCategory={
+        def productList =Category.findAllByNameLike("%" + params.query + "%")
+        def jsonList = productList.collect { [ id: it.id, name: it.name ] }
+        def jsonResult = [
+            result: jsonList
+        ]
+        render jsonResult as JSON
+    }
 //    def editRecipe = {EditRecipeCO recipeDetailCO ->
 //        def recipe = Recipe.get(params.id)
 //        EditRecipeCO.populateRecipeDetail(recipe)

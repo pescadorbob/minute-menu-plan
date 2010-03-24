@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'global-style.css')}"/>
     <script src="${resource(dir: 'js', file: 'jquery-1.4.2.min.js')}" type="text/javascript"></script>
     <ui:resources/>
+    <gui:resources components="['autoComplete']"/>
 </head>
 
 <body>
@@ -48,9 +49,24 @@
                     <ul class="add-recipe-form-container">
                         <li class="add-recipe-form-content"><strong>Category :</strong></li>
                         <li class="add-recipe-form-input">
+                            %{--*************************************************************************************************************************************--}%
+                            %{--<div class="yui-skin-sam" style="float:left;">--}%
+                            %{--<gui:autoComplete--}%
+                            %{--id="optionCategoryIds"--}%
+                            %{--labelField="name"--}%
+                            %{--idField="id"--}%
+                            %{--controller="recipe"--}%
+                            %{--action="getMatchingCategory"--}%
+                            %{--minQueryLength='3'--}%
+                            %{--queryDelay='.5'--}%
+                            %{--/>--}%
+                            %{--</div>--}%
+                            %{--*************************************************************************************************************************************--}%
+
                             <ui:multiSelect name="categoryIds" multiple="true" style="width:200px;"
                                     from="${Category.list()}" value="" isLeftAligned="true"
                                     optionKey="id" class="select2"/>
+
                         </li>
                     </ul>
                     <ul class="add-recipe-form-container">
@@ -109,9 +125,28 @@
                                 <li>
                                     <img id="btnAddIngredient" src="${resource(dir: 'images', file: 'add.jpg')}" hspace="4" align="left" vspace="4" border="0" style="cursor:pointer;"/>
                                     <span id="ingredientToBeAdded">
-                                        <g:textField class="input2" id='optionIngredientQuantities' name="optionIngredientQuantities" value=""/>
-                                        <g:select class="select2" id='optionIngredientUnitIds' name="optionIngredientUnitIds" from="${Unit.list()}" optionKey="id" style="width:60px;" param="Unit"/>
-                                        <g:select class="select2" id='optionIngredientProductIds' name="optionIngredientProductIds" from="${Product.list()}" optionKey="id" style="width:100px;"/>
+
+                                        <div style="float:left;">
+                                            <g:textField class="input2" id='optionIngredientQuantities' name="optionIngredientQuantities" value=""/>
+                                            <g:select class="select2" id='optionIngredientUnitIds' name="optionIngredientUnitIds" from="${Unit.list()}" optionKey="id" style="width:60px;"/>
+                                        </div>
+                                        %{--*************************************************************************************************************************************--}%
+                                        <div class="yui-skin-sam" style="float:left;">
+                                            <gui:autoComplete
+                                                    id="optionIngredientProductIds"
+                                                    labelField="name"
+                                                    idField="id"
+                                                    controller="recipe"
+                                                    action="getMatchingProducts"
+                                                    minQueryLength='3'
+                                                    queryDelay='.5'/>
+                                        </div>
+                                        %{--*************************************************************************************************************************************--}%
+
+                                        %{--<g:textField class="input2" id='optionIngredientQuantities' name="optionIngredientQuantities" value=""/>--}%
+                                        %{--<g:select class="select2" id='optionIngredientUnitIds' name="optionIngredientUnitIds" from="${Unit.list()}" optionKey="id" style="width:60px;" param="Unit"/>--}%
+                                        %{--<g:select class="select2" id='optionIngredientProductIds' name="optionIngredientProductIds" from="${Product.list()}" optionKey="id" style="width:100px;"/>--}%
+
                                     </span>
                                 </li>
                             </span>
@@ -242,49 +277,115 @@
 
     jQuery(document).ready(function() {
 
-    var quantity = 0;
-    var unitId= 0;
-    var productId = 0;
-    var direction = ""
+        var quantity = 0;
+        var unitId = 0;
+        var productId = 0;
+        var direction = ""
 
-    var options=
-            '<img src="${resource(dir: 'images', file: 'delete.jpg')}" width="16" height="16" align="left" hspace="2" vspace="2" border="0"/>'
-            + '<img src="${resource(dir: 'images', file: 'arrow-up.jpg')}" width="16" height="16" align="left" hspace="2" vspace="2" border="0"/>'
-            + '<img src="${resource(dir: 'images', file: 'arrow-dwn.jpg')}" width="16" height="16" vspace="2" hspace="2" align="left" border="0"/>'
+        /* span to contain All available options to move up/down or delete Ingredients or Directions */
+
+        var optionImages =
+                '<span class="optionImages">'
+                        + '<img class="btnDelete" src="${resource(dir: 'images', file: 'delete.jpg')}" width="16" height="16" align="left" hspace="2" vspace="2" border="0" style="cursor:pointer;"/>'
+                        + '<img class="btnUp" src="${resource(dir: 'images', file: 'arrow-up.jpg')}" width="16" height="16" align="left" hspace="2" vspace="2" border="0" style="cursor:pointer;"/>'
+                        + '<img class="btnDown" src="${resource(dir: 'images', file: 'arrow-dwn.jpg')}" width="16" height="16" vspace="2" hspace="2" align="left" border="0" style="cursor:pointer;"/>'
+                        + '</span>'
+
+        /* function to be executed when btnAddIngredient is Clicked... */
 
         jQuery('#btnAddIngredient').click(function() {
-            quantity=jQuery('#optionIngredientQuantities').attr('value')
-            unitId=jQuery('#optionIngredientUnitIds').attr('value')
-            productId=jQuery('#optionIngredientProductIds').attr('value')
-
+            quantity = jQuery('#optionIngredientQuantities').attr('value')
+            unitId = jQuery('#optionIngredientUnitIds').attr('value')
+            productId = jQuery('#optionIngredientProductIds_id').attr('value')
 
             var hiddenIngredient =
-                    '<span><input type="hidden" name="ingredientQuantities" value="' + quantity
-                    + '" /><input type="hidden" name="ingredientUnitIds" value="' + unitId
-                    + '" /><input type="hidden" name="ingredientProductIds" value="' + productId
-                    + '" /></span>';
+                    '<span class="ingredientHiddenFields"><input type="hidden" name="ingredientQuantities" value="' + quantity
+                            + '" /><input type="hidden" name="ingredientUnitIds" value="' + unitId
+                            + '" /><input type="hidden" name="ingredientProductIds" value="' + productId
+                            + '" /></span>';
 
-            var showFields = quantity + ' ' + jQuery('#optionIngredientUnitIds :selected').text() + ' '
-                    + jQuery('#optionIngredientProductIds :selected').text()
+            var showIngredient = '<span class="showIngredient">' + quantity + ' ' + jQuery('#optionIngredientUnitIds :selected').text() + ' '
+                    + jQuery('#optionIngredientProductIds').attr('value') + '<br><br></span>';
 
-            var addIngredient= options + hiddenIngredient + showFields
-            jQuery('#IngredientAdded').append(addIngredient + '<br><br>')
-            jQuery('#optionIngredientQuantities').attr('value','')
-            jQuery('#optionIngredientUnitIds').attr('value','1')
-            jQuery('#optionIngredientProductIds').attr('value','1')
+            var addIngredient = '<span class="ingredientRow">' + optionImages + hiddenIngredient + showIngredient + '</span>';
+
+            jQuery('#IngredientAdded').append(addIngredient)
+
+            /* Reset Add Ingredient ToolBox.... */
+
+            jQuery('#optionIngredientQuantities').attr('value', '')
+            jQuery('#optionIngredientUnitIds').attr('value', '1')
+            jQuery('#optionIngredientProductIds').attr('value', '')
+
+            /* FUNCTION to bind EVENTS and ACTIONS of optionImages in Span IngredientAdded */
+            bindEvents();
+
+
         })
-        jQuery('#btnAddDirection').click(function(){
-            direction=jQuery('#optionDirections').attr('value')
+
+        /* function to be executed when btnAddDirection is Clicked... */
+
+        jQuery('#btnAddDirection').click(function() {
+            direction = jQuery('#optionDirections').attr('value')
             var hiddenDirection =
                     '<span><input type="hidden" name="directions" value="' + direction
-                    + '" /></span>';
-            var showDirection=direction
-            var addDirection= options + hiddenDirection + showDirection
-            jQuery('#DirectionsAdded').append(addDirection + '<br><br>')
-            jQuery('#optionDirections').attr('value','')
+                            + '" /></span>';
+            var showDirection = '<span class="showDirection">' + direction + '</span>'
+            var addDirection = '<span class="directionRow">' + optionImages + hiddenDirection + showDirection + '<br><br></span>'
+            jQuery('#DirectionsAdded').append(addDirection)
+
+            /* Reset Add Ingredient ToolBox.... */
+
+            jQuery('#optionDirections').attr('value', '')
+
+            /* FUNCTION to bind EVENTS and ACTIONS of optionImages in Span btnAddDirection */
+
+            jQuery.each(jQuery("#DirectionsAdded .optionImages .btnDelete"), function() {
+                jQuery(this).unbind('click');
+                jQuery(this).click(function() {
+                    jQuery(this).parents('.directionRow').remove()
+                })
+            })
+
+
         })
     })
-</script>
 
+    function bindEvents() {
+        jQuery.each(jQuery("#IngredientAdded .optionImages .btnDelete"), function() {
+            jQuery(this).unbind('click');
+            jQuery(this).click(function() {
+                jQuery(this).parents('.ingredientRow').remove()
+            })
+        })
+
+        jQuery.each(jQuery('#IngredientAdded .btnDown'), function() {
+            jQuery(this).unbind('click');
+            jQuery(this).click(function() {
+                var index = jQuery(this).index('#IngredientAdded .btnDown')
+                var a = jQuery('.ingredientRow:eq(' + index + ')')
+                var b = jQuery('.ingredientRow:eq(' + (index + 1) + ')')
+                var temp = a.html()
+                a.html(b.html())
+                b.html(temp)
+                bindEvents()
+            })
+        })
+
+        jQuery.each(jQuery('#IngredientAdded .btnUp'), function() {
+            jQuery(this).unbind('click');
+
+            jQuery(this).click(function() {
+                var index = jQuery(this).index('#IngredientAdded .btnUp')
+                var a = jQuery('.ingredientRow:eq(' + index + ')')
+                var b = jQuery('.ingredientRow:eq(' + (index - 1) + ')')
+                var temp = a.html()
+                a.html(b.html())
+                b.html(temp)
+                bindEvents()
+            })
+        })
+    }
+</script>
 </body>
 </html>
