@@ -4,6 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Minute Menu Plan</title>
+    <link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}"/>
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'global-style.css')}"/>
     <script src="${resource(dir: 'js', file: 'jquery-1.4.2.min.js')}" type="text/javascript"></script>
     <ui:resources/>
@@ -33,11 +34,10 @@
 </div>
 
 <div class="wrapper">
-    <div><img src="${resource(dir: 'images', file: 'wrapper-header-img.jpg')}"/></div>
     <div class="body-container">
         <div class="left-container" style="">
             <g:form name="formCreateRecipe" controller="recipe" action="saveRecipe">
-                <h1 class="sub-h1">Add Recipe</h1>
+                <h1>Add Recipe</h1>
                 <!-- left-sub-container1 -->
                 <div class="left-sub-container1" style="">
                     <ul class="add-recipe-form-container">
@@ -54,21 +54,20 @@
                                 <g:hiddenField name="categoryIds"/>
                             </span>
                             <div class="yui-skin-sam" style="float:left;">
-                            <gui:autoComplete
-                            id="optionCategoryIds"
-                            labelField="name"
-                            idField="id"
-                            controller="recipe"
-                            action="getMatchingCategory"
-                            minQueryLength='3'
-                            queryDelay='.5'
-                            />
+                                <gui:autoComplete
+                                        id="optionCategoryIds"
+                                        labelField="name"
+                                        idField="id"
+                                        controller="recipe"
+                                        action="getMatchingCategory"
+                                        minQueryLength='3'
+                                        queryDelay='.5'/>
                             </div>
                             %{--*************************************************************************************************************************************--}%
 
                             %{--<ui:multiSelect name="categoryIds" multiple="true" style="width:200px;"--}%
-                                    %{--from="${Category.list()}" value="" isLeftAligned="true"--}%
-                                    %{--optionKey="id" class="select2"/>--}%
+                            %{--from="${Category.list()}" value="" isLeftAligned="true"--}%
+                            %{--optionKey="id" class="select2"/>--}%
 
                         </li>
                     </ul>
@@ -117,7 +116,7 @@
                     </ul>
                     <div class="clr"></div>
                     <div>
-                        <h1 class="sub-h1">Ingredients</h1>
+                        <h2>Ingredients</h2>
                         <ul class="ingredients">
                             <span id="IngredientAdded">
 
@@ -157,7 +156,7 @@
                         <div class="clr"></div>
                     </div>
                     <div><br/>
-                        <h1 class="sub-h1">Cooking Steps:</h1>
+                        <h2>Cooking Steps:</h2>
                         <ul class="ingredients">
                             <span id="DirectionsAdded">
 
@@ -281,9 +280,9 @@
     jQuery(document).ready(function() {
 
         /* Setting value of hidden Field categoryIds */
-        jQuery("#optionCategoryIds").blur(function(){
-            var varCategory=jQuery("#optionCategoryIds_id").attr('value')
-            jQuery('#categoryIds').attr('value',varCategory)
+        jQuery("#optionCategoryIds").blur(function() {
+            var varCategory = jQuery("#optionCategoryIds_id").attr('value')
+            jQuery('#categoryIds').attr('value', varCategory)
         })
 
         var quantity = 0;
@@ -327,7 +326,7 @@
             jQuery('#optionIngredientProductIds').attr('value', '')
 
             /* FUNCTION to bind EVENTS and ACTIONS of optionImages in Span IngredientAdded */
-            bindEvents();
+            bindEventsForIngredient();
 
 
         })
@@ -349,18 +348,12 @@
 
             /* FUNCTION to bind EVENTS and ACTIONS of optionImages in Span btnAddDirection */
 
-            jQuery.each(jQuery("#DirectionsAdded .optionImages .btnDelete"), function() {
-                jQuery(this).unbind('click');
-                jQuery(this).click(function() {
-                    jQuery(this).parents('.directionRow').remove()
-                })
-            })
-
+            bindEventsForDirection()
 
         })
     })
 
-    function bindEvents() {
+    function bindEventsForIngredient() {
         jQuery.each(jQuery("#IngredientAdded .optionImages .btnDelete"), function() {
             jQuery(this).unbind('click');
             jQuery(this).click(function() {
@@ -377,13 +370,12 @@
                 var temp = a.html()
                 a.html(b.html())
                 b.html(temp)
-                bindEvents()
+                bindEventsForIngredient()
             })
         })
 
         jQuery.each(jQuery('#IngredientAdded .btnUp'), function() {
             jQuery(this).unbind('click');
- 
 
             jQuery(this).click(function() {
                 var index = jQuery(this).index('#IngredientAdded .btnUp')
@@ -392,7 +384,42 @@
                 var temp = a.html()
                 a.html(b.html())
                 b.html(temp)
-                bindEvents()
+                bindEventsForIngredient()
+            })
+        })
+    }
+    function bindEventsForDirection() {
+        jQuery.each(jQuery("#DirectionsAdded .optionImages .btnDelete"), function() {
+            jQuery(this).unbind('click');
+            jQuery(this).click(function() {
+                jQuery(this).parents('.directionRow').remove()
+            })
+        })
+
+        jQuery.each(jQuery('#DirectionsAdded .btnDown'), function() {
+            jQuery(this).unbind('click');
+            jQuery(this).click(function() {
+                var index = jQuery(this).index('#DirectionsAdded .btnDown')
+                var a = jQuery('.directionRow:eq(' + index + ')')
+                var b = jQuery('.directionRow:eq(' + (index + 1) + ')')
+                var temp = a.html()
+                a.html(b.html())
+                b.html(temp)
+                bindEventsForDirection()
+            })
+        })
+
+        jQuery.each(jQuery('#DirectionsAdded .btnUp'), function() {
+            jQuery(this).unbind('click');
+
+            jQuery(this).click(function() {
+                var index = jQuery(this).index('#DirectionsAdded .btnUp')
+                var a = jQuery('.directionRow:eq(' + index + ')')
+                var b = jQuery('.directionRow:eq(' + (index - 1) + ')')
+                var temp = a.html()
+                a.html(b.html())
+                b.html(temp)
+                bindEventsForDirection()
             })
         })
     }
