@@ -97,12 +97,12 @@ class RecipeController {
         render(view: 'addEditRecipe')
     }
     def saveRecipe = {RecipeCO recipeCO ->
-        //println params.hiddenDirections
+        println params.hiddenIngredients
         if(recipeCO.validate()){
             recipeCO.convertToRecipe()
             redirect(action: 'createRecipe')
         } else {
-            println "*******************Invalid.."
+            //println "*******************Invalid.."
             render(view: 'addEditRecipe', model:[recipeCO: recipeCO])
         }
     }
@@ -141,6 +141,7 @@ class RecipeCO {
     List<Long> ingredientProductIds = []
     List<String> directions = []
     List<String> hiddenDirections = []
+    List<String> hiddenIngredients = []
 
     static constraints = {
         name(blank: false, validator: {val, obj ->

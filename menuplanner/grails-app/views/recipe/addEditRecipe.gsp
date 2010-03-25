@@ -12,6 +12,13 @@
 </head>
 
 <body>
+%{--***************************************** SAMPLE INGREDIENT ROW *****************************************--}%
+<g:render template="ingredientRow"/>
+%{--**********************************************************************************************************--}%
+%{--***************************************** SAMPLE DIRECTION0 ROW *****************************************--}%
+<g:render template="directionRow"/>
+%{--**********************************************************************************************************--}%
+
 <div class="header-container">
     <div class="header">
         <div class="logo-container">
@@ -119,7 +126,12 @@
                         <ul class="ingredients">
                             <span id="IngredientAdded">
 
+                                <g:each status="i" in="${recipeCO?.hiddenIngredients}" var="X">
+                                    <g:render template="ingredientRowWithParams" model="[hiddenIngredient:recipeCO?.hiddenIngredients[i], ingredientQuantity:recipeCO.ingredientQuantities[i],ingredientUnitId:recipeCO.ingredientUnitIds[i],ingredientProductId:recipeCO.ingredientProductIds[i]]"/>
+                                </g:each>
+
                                 <!-- Show Ingredients Here -->
+
                             </span>
 
                             <span id="AddIngredientToolBox">
@@ -159,16 +171,13 @@
                         <ul class="ingredients">
                             <span id="DirectionsAdded">
 
-                                %{--<g:each in="${recipeCO?.hiddenDirections}">--}%
-                                %{--<span class="optionImages">--}%
-                                %{--<img class="btnDelete" src="${resource(dir: 'images', file: 'delete.jpg')}" width="16" height="16" align="left" hspace="2" vspace="2" border="0" style="cursor:pointer;"/>--}%
-                                %{--<img class="btnUp" src="${resource(dir: 'images', file: 'arrow-up.jpg')}" width="16" height="16" align="left" hspace="2" vspace="2" border="0" style="cursor:pointer;"/>--}%
-                                %{--<img class="btnDown" src="${resource(dir: 'images', file: 'arrow-dwn.jpg')}" width="16" height="16" vspace="2" hspace="2" align="left" border="0" style="cursor:pointer;"/>--}%
-                                %{--</span>--}%
-                                %{--${it}<br><br>--}%
-                                %{--</g:each>--}%
+                                <g:each in="${recipeCO?.hiddenDirections}">
+                                    <g:render template="directionRowWithParams" model="[hiddenDirection:it]"/> 
+                                </g:each>
+
                                 <!-- Show Directions Here -->
                             </span>
+
                             <span id="AddDirectionToolBox">
                                 <li>
                                     <img id="btnAddDirection" src="${resource(dir: 'images', file: 'add.jpg')}" hspace="4" align="left" vspace="4" border="0" style="cursor:pointer;"/>
@@ -283,95 +292,38 @@
 
 
 <script type="text/javascript">
-
-    jQuery(document).ready(function() {
-
-        /* Setting value of hidden Field categoryIds */
-        jQuery("#optionCategoryIds").blur(function() {
-            var varCategory = jQuery("#optionCategoryIds_id").attr('value')
-            jQuery('#categoryIds').attr('value', varCategory)
-        })
-
-        var quantity = 0;
-        var unitId = 0;
-        var productId = 0;
-        var direction = ""
-
-        /* span to contain All available options to move up/down or delete Ingredients or Directions */
-
-        var optionImages =
-                '<span class="optionImages">'
-                        + '<img class="btnDelete" src="${resource(dir: 'images', file: 'delete.jpg')}" width="16" height="16" align="left" hspace="2" vspace="2" border="0" style="cursor:pointer;"/>'
-                        + '<img class="btnUp" src="${resource(dir: 'images', file: 'arrow-up.jpg')}" width="16" height="16" align="left" hspace="2" vspace="2" border="0" style="cursor:pointer;"/>'
-                        + '<img class="btnDown" src="${resource(dir: 'images', file: 'arrow-dwn.jpg')}" width="16" height="16" vspace="2" hspace="2" align="left" border="0" style="cursor:pointer;"/>'
-                        + '</span>'
-
-        /* function to be executed when btnAddIngredient is Clicked... */
-
-        jQuery('#btnAddIngredient').click(function() {
-            quantity = jQuery('#optionIngredientQuantities').attr('value')
-            unitId = jQuery('#optionIngredientUnitIds').attr('value')
-            productId = jQuery('#optionIngredientProductIds_id').attr('value')
-
-            var hiddenIngredient =
-                    '<span class="ingredientHiddenFields"><input type="hidden" name="ingredientQuantities" value="' + quantity
-                            + '" /><input type="hidden" name="ingredientUnitIds" value="' + unitId
-                            + '" /><input type="hidden" name="ingredientProductIds" value="' + productId
-                            + '" /></span>';
-
-            var showIngredient = '<span class="showIngredient">' + quantity + ' ' + jQuery('#optionIngredientUnitIds :selected').text() + ' '
-                    + jQuery('#optionIngredientProductIds').attr('value') + '<br><br></span>';
-
-            var addIngredient = '<span class="ingredientRow">' + optionImages + hiddenIngredient + showIngredient + '</span>';
-
-            jQuery('#IngredientAdded').append(addIngredient)
-
-            /* Reset Add Ingredient ToolBox.... */
-
-            jQuery('#optionIngredientQuantities').attr('value', '')
-            jQuery('#optionIngredientUnitIds').attr('value', '1')
-            jQuery('#optionIngredientProductIds').attr('value', '')
-
-            /* FUNCTION to bind EVENTS and ACTIONS of optionImages in Span IngredientAdded */
-            bindEventsForIngredient();
+    var sampleIngredientRowHTML=jQuery('#sampleIngredientRow').html();
+    var sampleDirectionRowHTML=jQuery('#sampleDirectionRow').html();
 
 
-        })
+    function AddIngredient(quantity,unitId,productId,ingredientText){
+        var addIngredient = '<span class="ingredientRowNew">' + sampleIngredientRowHTML + '</span>';
+        jQuery('#IngredientAdded').append(addIngredient)
+        jQuery('.ingredientRowNew .showIngredient').html(ingredientText)
+        jQuery('.ingredientRowNew .Q').val(quantity);
+        jQuery('.ingredientRowNew .U').val(unitId);
+        jQuery('.ingredientRowNew .P').val(productId);
+        jQuery('.ingredientRowNew .H').val(ingredientText);
+        jQuery('.ingredientRowNew').attr('class','ingredientRow')
+    }
 
-        /* function to be executed when btnAddDirection is Clicked... */
-
-        jQuery('#btnAddDirection').click(function() {
-            direction = jQuery('#optionDirections').attr('value')
-            var hiddenDirection =
-                    '<span chass="hiddenDirectionField"><input type="hidden" name="directions" value="' + direction
-                            + '" /></span>';
-            var showDirection = '<span class="showDirection">' + direction + '</span>'
-
-            var hiddenTextDirection = '<span class="hiddenTextDirection"> <input type="hidden" name="hiddenDirections" value="' + direction + '"/></span>';
-
-            var addDirection = '<span class="directionRow">' + optionImages + hiddenDirection + showDirection + hiddenTextDirection + '<br><br></span>';
-
-
-            jQuery('#DirectionsAdded').append(addDirection)
-
-            /* Reset Add Ingredient ToolBox.... */
-
-            jQuery('#optionDirections').attr('value', '')
-
-            /* FUNCTION to bind EVENTS and ACTIONS of optionImages in Span btnAddDirection */
-
-            bindEventsForDirection()
-
-        })
-    })
-
+    function AddDirection(direction){
+        var addDirection = '<span class="directionRowNew">' + sampleDirectionRowHTML + '</span>';
+        alert(sampleDirectionRowHTML)
+        jQuery('#DirectionsAdded').append(addDirection)
+        jQuery('.directionRowNew .showDirection').html(direction)
+        jQuery('.directionRowNew .D').val(direction);
+        jQuery('.directionRowNew .H').val(direction);
+        jQuery('.directionRowNew').attr('class','directionRow')
+    }
     function bindEventsForIngredient() {
         jQuery('#IngredientAdded .btnUp').css('visibility', 'visible');
         jQuery('#IngredientAdded .btnUp:first').css('visibility', 'hidden');
         jQuery('#IngredientAdded .btnDown').css('visibility', 'visible');
         jQuery('#IngredientAdded .btnDown:last').css('visibility', 'hidden');
+        jQuery("#IngredientAdded .optionImages .btnDelete").unbind();
         jQuery.each(jQuery("#IngredientAdded .optionImages .btnDelete"), function() {
-            jQuery(this).unbind('click');
+//            jQuery(this).unbind('click');
             jQuery(this).click(function() {
                 jQuery(this).parents('.ingredientRow').remove();
                 bindEventsForIngredient();
@@ -446,6 +398,49 @@
             })
         })
     }
+    jQuery(document).ready(function() {
+
+
+
+        /* Setting value of hidden Field categoryIds */
+        jQuery("#optionCategoryIds").blur(function() {
+            var varCategory = jQuery("#optionCategoryIds_id").attr('value')
+            jQuery('#categoryIds').attr('value', varCategory)
+        })
+
+
+        /* function to be executed when btnAddIngredient is Clicked... */
+
+        jQuery('#btnAddIngredient').click(function() {
+            var quantity = jQuery('#optionIngredientQuantities').attr('value')
+            var unitId = jQuery('#optionIngredientUnitIds').attr('value')
+            var productId = jQuery('#optionIngredientProductIds_id').attr('value')
+            var ingredientText= quantity + ' ' + jQuery('#optionIngredientUnitIds :selected').text() + ' ' + jQuery('#optionIngredientProductIds').attr('value')
+
+            AddIngredient(quantity,unitId,productId,ingredientText)
+
+            /* Reset Add Ingredient ToolBox.... */
+            jQuery('#optionIngredientQuantities').attr('value', '')
+            jQuery('#optionIngredientUnitIds').attr('value', '1')
+            jQuery('#optionIngredientProductIds').attr('value', '')
+
+            bindEventsForIngredient();
+        })
+
+        /* function to be executed when btnAddDirection is Clicked... */
+
+        jQuery('#btnAddDirection').click(function() {
+            var direction = jQuery('#optionDirections').attr('value')
+            AddDirection(direction)
+            jQuery('#optionDirections').attr('value', '')   /* Reset Add Ingredient ToolBox.... */
+            bindEventsForDirection()
+        })
+
+        bindEventsForDirection();
+        bindEventsForIngredient();
+
+    })
+
 </script>
 </body>
 </html>
