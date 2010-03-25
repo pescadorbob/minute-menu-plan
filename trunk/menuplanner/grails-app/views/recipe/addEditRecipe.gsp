@@ -43,7 +43,7 @@
                     <ul class="add-recipe-form-container">
                         <li class="add-recipe-form-content"><strong>Name :</strong></li>
                         <li class="add-recipe-form-input">
-                            <g:textField class="input1" name="name" value=""/>
+                            <g:textField class="input1" name="name" value="${recipeCO?.name}"/>
                         </li>
                     </ul>
                     <ul class="add-recipe-form-container">
@@ -74,21 +74,20 @@
                     <ul class="add-recipe-form-container">
                         <li class="add-recipe-form-content"><strong>Prep Time:</strong></li>
                         <li class="add-recipe-form-input">
-                            <g:textField class="input2" name="preparationTime" value=""/>
+                            <g:textField class="input2" name="preparationTime" value="${recipeCO?.preparationTime}"/>
                             <g:select class="select2" name="prepUnit" from="${['minutes','hours']}"/>
                         </li>
                     </ul>
                     <ul class="add-recipe-form-container">
                         <li class="add-recipe-form-content"><strong>Cook Time :</strong></li>
                         <li class="add-recipe-form-input">
-                            <g:textField class="input2" name="cookTime" value=""/>
+                            <g:textField class="input2" name="cookTime" value="${recipeCO?.cookTime}"/>
                             <g:select class="select2" name="cookUnit" from="${['minutes','hours']}"/>
                         </li>
                     </ul>
                     <ul class="add-recipe-form-container">
                         <li class="add-recipe-form-content"><strong>Difficulty :</strong></li>
-                        <g:radioGroup name="difficulty" values="${RecipeDifficulty.list()*.name()}"
-                                value="1" labels="${RecipeDifficulty.list()*.name}">
+                        <g:radioGroup name="difficulty" values="${RecipeDifficulty.list()*.name()}" value="${recipeCO?.difficulty}" labels="${RecipeDifficulty.list()*.name}">
                             ${it.radio} <g:message code="${it.label}"/>
                         </g:radioGroup>
                     </ul>
@@ -98,7 +97,7 @@
                         <li class="add-recipe-form-input">
                             <div class="clr">
                                 <div class="add-recipe-form-input2">
-                                    <g:textField class="input2" name="makesServing" value="" style=""/>
+                                    <g:textField class="input2" name="makesServing" value="${recipeCO?.makesServing}" style=""/>
                                 </div>
                                 <div class="add-recipe-form-input2">
                                     Servings
@@ -106,7 +105,7 @@
                             </div>
                             <div class="clr">
                                 <div class="add-recipe-form-input2">
-                                    <g:checkBox name="shareWithCommunity" value="${false}"/>
+                                    <g:checkBox name="shareWithCommunity" value="${recipeCO?.shareWithCommunity}"/>
                                 </div>
                                 <div class="add-recipe-form-input2">
                                     Share with Community
@@ -160,6 +159,14 @@
                         <ul class="ingredients">
                             <span id="DirectionsAdded">
 
+                                %{--<g:each in="${recipeCO?.hiddenDirections}">--}%
+                                %{--<span class="optionImages">--}%
+                                %{--<img class="btnDelete" src="${resource(dir: 'images', file: 'delete.jpg')}" width="16" height="16" align="left" hspace="2" vspace="2" border="0" style="cursor:pointer;"/>--}%
+                                %{--<img class="btnUp" src="${resource(dir: 'images', file: 'arrow-up.jpg')}" width="16" height="16" align="left" hspace="2" vspace="2" border="0" style="cursor:pointer;"/>--}%
+                                %{--<img class="btnDown" src="${resource(dir: 'images', file: 'arrow-dwn.jpg')}" width="16" height="16" vspace="2" hspace="2" align="left" border="0" style="cursor:pointer;"/>--}%
+                                %{--</span>--}%
+                                %{--${it}<br><br>--}%
+                                %{--</g:each>--}%
                                 <!-- Show Directions Here -->
                             </span>
                             <span id="AddDirectionToolBox">
@@ -336,10 +343,15 @@
         jQuery('#btnAddDirection').click(function() {
             direction = jQuery('#optionDirections').attr('value')
             var hiddenDirection =
-                    '<span><input type="hidden" name="directions" value="' + direction
+                    '<span chass="hiddenDirectionField"><input type="hidden" name="directions" value="' + direction
                             + '" /></span>';
             var showDirection = '<span class="showDirection">' + direction + '</span>'
-            var addDirection = '<span class="directionRow">' + optionImages + hiddenDirection + showDirection + '<br><br></span>'
+
+            var hiddenTextDirection = '<span class="hiddenTextDirection"> <input type="hidden" name="hiddenDirections" value="' + direction + '"/></span>';
+
+            var addDirection = '<span class="directionRow">' + optionImages + hiddenDirection + showDirection + hiddenTextDirection + '<br><br></span>';
+
+
             jQuery('#DirectionsAdded').append(addDirection)
 
             /* Reset Add Ingredient ToolBox.... */
@@ -354,10 +366,15 @@
     })
 
     function bindEventsForIngredient() {
+        jQuery('#IngredientAdded .btnUp').css('visibility', 'visible');
+        jQuery('#IngredientAdded .btnUp:first').css('visibility', 'hidden');
+        jQuery('#IngredientAdded .btnDown').css('visibility', 'visible');
+        jQuery('#IngredientAdded .btnDown:last').css('visibility', 'hidden');
         jQuery.each(jQuery("#IngredientAdded .optionImages .btnDelete"), function() {
             jQuery(this).unbind('click');
             jQuery(this).click(function() {
-                jQuery(this).parents('.ingredientRow').remove()
+                jQuery(this).parents('.ingredientRow').remove();
+                bindEventsForIngredient();
             })
         })
 
@@ -370,7 +387,7 @@
                 var temp = a.html()
                 a.html(b.html())
                 b.html(temp)
-                bindEventsForIngredient()
+                bindEventsForIngredient();
             })
         })
 
@@ -384,15 +401,21 @@
                 var temp = a.html()
                 a.html(b.html())
                 b.html(temp)
-                bindEventsForIngredient()
+                bindEventsForIngredient();
             })
         })
     }
     function bindEventsForDirection() {
+        jQuery('#DirectionsAdded .btnUp').css('visibility', 'visible');
+        jQuery('#DirectionsAdded .btnUp:first').css('visibility', 'hidden');
+        jQuery('#DirectionsAdded .btnDown').css('visibility', 'visible');
+        jQuery('#DirectionsAdded .btnDown:last').css('visibility', 'hidden');
+
         jQuery.each(jQuery("#DirectionsAdded .optionImages .btnDelete"), function() {
             jQuery(this).unbind('click');
             jQuery(this).click(function() {
-                jQuery(this).parents('.directionRow').remove()
+                jQuery(this).parents('.directionRow').remove();
+                bindEventsForDirection();
             })
         })
 

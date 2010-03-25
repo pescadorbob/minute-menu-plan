@@ -9,18 +9,15 @@ class RecipeController {
     def index = {
         redirect(action: "list", params: params)
     }
-
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [recipeList: Recipe.list(params), recipeTotal: Recipe.count()]
     }
-
     def create = {
         def recipe = new Recipe()
         recipe.properties = params
         return [recipe: recipe]
     }
-
     def save = {
         def recipe = new Recipe(params)
         if (recipe.save(flush: true)) {
@@ -31,7 +28,6 @@ class RecipeController {
             render(view: "create", model: [recipe: recipe])
         }
     }
-
     def show = {
         def recipe = Recipe.get(params.id)
         if (!recipe) {
@@ -42,7 +38,6 @@ class RecipeController {
             [recipe: recipe]
         }
     }
-
     def edit = {
         def recipe = Recipe.get(params.id)
         if (!recipe) {
@@ -53,7 +48,6 @@ class RecipeController {
             return [recipe: recipe]
         }
     }
-
     def update = {
         def recipe = Recipe.get(params.id)
         if (recipe) {
@@ -80,7 +74,6 @@ class RecipeController {
             redirect(action: "list")
         }
     }
-
     def delete = {
         def recipe = Recipe.get(params.id)
         if (recipe) {
@@ -99,12 +92,19 @@ class RecipeController {
             redirect(action: "list")
         }
     }
+  
     def createRecipe = {
         render(view: 'addEditRecipe')
     }
-    def saveRecipe = {AddRecipeCO addRecipeCO ->
-        addRecipeCO.convertToRecipe()
-        redirect(action: 'createRecipe')
+    def saveRecipe = {RecipeCO recipeCO ->
+        //println params.hiddenDirections
+        if(recipeCO.validate()){
+            recipeCO.convertToRecipe()
+            redirect(action: 'createRecipe')
+        } else {
+            println "*******************Invalid.."
+            render(view: 'addEditRecipe', model:[recipeCO: recipeCO])
+        }
     }
 
     def getMatchingProducts={
@@ -123,14 +123,11 @@ class RecipeController {
         ]
         render jsonResult as JSON
     }
-//    def editRecipe = {EditRecipeCO recipeDetailCO ->
-//        def recipe = Recipe.get(params.id)
-//        EditRecipeCO.populateRecipeDetail(recipe)
-//        render(view: 'editRecipe', model: [recipeDetail: recipeDetail])
-//    }
 }
 
-class AddRecipeCO {
+class RecipeCO {
+    RecipeCO() {} //constructor
+
     String name
     String difficulty
     Boolean shareWithCommunity
@@ -138,15 +135,48 @@ class AddRecipeCO {
     Integer preparationTime
     Integer cookTime
 
-    List<Long> categoryIds = []
+    Set<Long> categoryIds = []
     List<BigDecimal> ingredientQuantities = []
     List<Long> ingredientUnitIds = []
     List<Long> ingredientProductIds = []
     List<String> directions = []
+    List<String> hiddenDirections = []
 
-    AddRecipeCO() {}
+    static constraints = {
+        name(blank: false, validator: {val, obj ->
+            if(Recipe.countByName(val)){
+                return 'default.invalid.message'
+            }
+        })
+        difficulty(blank:false, inList: RecipeDifficulty.list()*.name)
+        makesServing(min:1)
+        preparationTime(min:1)
+        cookTime(min:1)
+        categoryIds(minSize:1)
 
-    public convertToRecipe() {
+        ingredientQuantities(minSize: 1, validator:{val, obj ->
+            if((val.any{!it}) || (val.size()!=obj.ingredientUnitIds?.size())||(val.size()!=obj.ingredientProductIds?.size())){
+                return 'default.invalid.message'
+            }
+        })
+        ingredientUnitIds(minSize: 1, validator:{val, obj ->
+            if((val.any{!it})||(val.size()!=obj.ingredientQuantities?.size())||(val.size()!=obj.ingredientProductIds?.size())){
+                return 'default.invalid.message'
+            }
+        })
+        ingredientProductIds(minSize: 1, validator:{val, obj ->
+            if((val.any{!it})|| (val == val.unique()) || (val.size()!=obj.ingredientUnitIds?.size())||(val.size()!=obj.ingredientQuantities?.size())){
+                return 'default.invalid.message'
+            }
+        })
+        directions(minSize: 1, validator:{val, obj ->
+            if((val.any{!it})|| (val == val.unique())){
+                return 'default.invalid.message'
+            }
+        })
+    }        
+
+   public convertToRecipe() {
 
         Recipe recipe = new Recipe()
         recipe.name = name
