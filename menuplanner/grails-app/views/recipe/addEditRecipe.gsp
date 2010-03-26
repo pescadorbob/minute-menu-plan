@@ -6,9 +6,9 @@
     <title>Minute Menu Plan</title>
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'main.css')}"/>
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'global-style.css')}"/>
+    <link rel="stylesheet" href="${resource(dir: 'css', file: 'token-input-facebook.css')}"/>
     <script src="${resource(dir: 'js', file: 'jquery-1.4.2.min.js')}" type="text/javascript"></script>
-    <ui:resources/>
-    <gui:resources components="['autoComplete']"/>
+    <script src="${resource(dir: 'js', file: 'jquery.taginput.js')}" type="text/javascript"></script>
 </head>
 
 <body>
@@ -59,26 +59,7 @@
                     <ul class="add-recipe-form-container">
                         <li class="add-recipe-form-content"><strong>Category :</strong></li>
                         <li class="add-recipe-form-input">
-                            %{--*************************************************************************************************************************************--}%
-                            <span id="hiddenCategory">
-                                <g:hiddenField name="categoryIds"/>
-                            </span>
-                            <div class="yui-skin-sam" style="float:left;">
-                                <gui:autoComplete
-                                        id="optionCategoryIds"
-                                        labelField="name"
-                                        idField="id"
-                                        controller="recipe"
-                                        action="getMatchingCategory"
-                                        minQueryLength='3'
-                                        queryDelay='.5'/>
-                            </div>
-                            %{--*************************************************************************************************************************************--}%
-
-                            %{--<ui:multiSelect name="categoryIds" multiple="true" style="width:200px;"--}%
-                            %{--from="${Category.list()}" value="" isLeftAligned="true"--}%
-                            %{--optionKey="id" class="select2"/>--}%
-
+                            <mp:tagInput name="categoryIds" controller="recipe" action="getMatchingCategories"/>
                         </li>
                     </ul>
                     <ul class="add-recipe-form-container">
@@ -148,14 +129,7 @@
                                         </div>
                                         %{--*************************************************************************************************************************************--}%
                                         <div class="yui-skin-sam" style="float:left;">
-                                            <gui:autoComplete
-                                                    id="optionIngredientProductIds"
-                                                    labelField="name"
-                                                    idField="id"
-                                                    controller="recipe"
-                                                    action="getMatchingProducts"
-                                                    minQueryLength='3'
-                                                    queryDelay='.5'/>
+                                            <mp:tagInput name="ingredientProductIds" controller="recipe" action="getMatchingProducts" multiselect="false"/>
                                         </div>
                                         %{--*************************************************************************************************************************************--}%
 
