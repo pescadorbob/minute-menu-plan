@@ -97,7 +97,6 @@ class RecipeController {
         render(view: 'addEditRecipe')
     }
     def saveRecipe = {RecipeCO recipeCO ->
-        println params.hiddenIngredients
         if(recipeCO.validate()){
             recipeCO.convertToRecipe()
             redirect(action: 'createRecipe')
