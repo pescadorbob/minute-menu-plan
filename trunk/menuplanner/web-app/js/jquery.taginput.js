@@ -301,10 +301,17 @@ $.TokenList = function (input, settings) {
 
     // The token holding the input box
     var input_token = $("<li />")
-        .addClass(settings.classes.inputToken)
-        .appendTo(token_list)
-        .append(input_box)
-        .append(cross_button);
+            .addClass(settings.classes.inputToken)
+            .appendTo(token_list)
+            .append(input_box);
+
+    if(!settings.tokenLimit){
+        input_token = $("<li />")
+            .addClass(settings.classes.inputToken)
+            .appendTo(token_list)
+            .append(input_box)
+            .append(cross_button);
+    }
 
 
     init_list();
@@ -420,6 +427,7 @@ $.TokenList = function (input, settings) {
             if (settings.tokenLimit != null && settings.tokenLimit >= token_count) {
                 input_box.hide();
                 hide_dropdown();
+                
             }
         return true;
     }

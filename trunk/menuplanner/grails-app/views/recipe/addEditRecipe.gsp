@@ -46,7 +46,7 @@
 <div class="wrapper">
     <div class="body-container">
         <div class="left-container" style="">
-            <g:form name="formCreateRecipe" controller="recipe" action="saveRecipe">
+            <g:form name="formCreateRecipe" controller="recipe" action="saveRecipe" enctype="multipart/form-data">
                 <h1>Add Recipe</h1>
                 <!-- left-sub-container1 -->
                 <div class="left-sub-container1" style="">
@@ -59,7 +59,9 @@
                     <ul class="add-recipe-form-container">
                         <li class="add-recipe-form-content"><strong>Category :</strong></li>
                         <li class="add-recipe-form-input">
+                            %{--*************************************************************************************************************************************--}%
                             <mp:tagInput name="categoryIds" controller="recipe" action="getMatchingCategories"/>
+                            %{--*************************************************************************************************************************************--}%
                         </li>
                     </ul>
                     <ul class="add-recipe-form-container">
@@ -119,26 +121,16 @@
                             </span>
 
                             <span id="AddIngredientToolBox">
-                                <li>
-                                    <img id="btnAddIngredient" src="${resource(dir: 'images', file: 'add.jpg')}" hspace="4" align="left" vspace="4" border="0" style="cursor:pointer;"/>
-                                    <span id="ingredientToBeAdded">
+                                <img id="btnAddIngredient" src="${resource(dir: 'images', file: 'add.jpg')}" hspace="4" align="left" vspace="4" border="0" style="cursor:pointer;"/>
+                                <span id="ingredientToBeAdded">
 
-                                        <div style="float:left;">
-                                            <g:textField class="input2" id='optionIngredientQuantities' name="optionIngredientQuantities" value=""/>
-                                            <g:select class="select2" id='optionIngredientUnitIds' name="optionIngredientUnitIds" from="${Unit.list()}" optionKey="id" style="width:60px;"/>
-                                        </div>
-                                        %{--*************************************************************************************************************************************--}%
-                                        <div class="yui-skin-sam" style="float:left;">
-                                            <mp:tagInput name="ingredientProductIds" controller="recipe" action="getMatchingProducts" multiselect="false"/>
-                                        </div>
-                                        %{--*************************************************************************************************************************************--}%
+                                    <g:textField class="input2" id='optionIngredientQuantities' name="optionIngredientQuantities" value=""/>
+                                    <g:select class="select2" id='optionIngredientUnitIds' name="optionIngredientUnitIds" from="${Unit.list()}" optionKey="id" style="width:60px;"/>
+                                    %{--*************************************************************************************************************************************--}%
+                                    <mp:tagInput name="optionIngredientProductIds" controller="recipe" action="getMatchingProducts" multiselect="false"/>
+                                    %{--*************************************************************************************************************************************--}%
 
-                                        %{--<g:textField class="input2" id='optionIngredientQuantities' name="optionIngredientQuantities" value=""/>--}%
-                                        %{--<g:select class="select2" id='optionIngredientUnitIds' name="optionIngredientUnitIds" from="${Unit.list()}" optionKey="id" style="width:60px;" param="Unit"/>--}%
-                                        %{--<g:select class="select2" id='optionIngredientProductIds' name="optionIngredientProductIds" from="${Product.list()}" optionKey="id" style="width:100px;"/>--}%
-
-                                    </span>
-                                </li>
+                                </span>
                             </span>
                         </ul>
                         <div class="clr"></div>
@@ -149,19 +141,19 @@
                             <span id="DirectionsAdded">
 
                                 <g:each in="${recipeCO?.hiddenDirections}">
-                                    <g:render template="directionRowWithParams" model="[hiddenDirection:it]"/> 
+                                    <g:render template="directionRowWithParams" model="[hiddenDirection:it]"/>
                                 </g:each>
 
                                 <!-- Show Directions Here -->
                             </span>
 
                             <span id="AddDirectionToolBox">
-                                <li>
-                                    <img id="btnAddDirection" src="${resource(dir: 'images', file: 'add.jpg')}" hspace="4" align="left" vspace="4" border="0" style="cursor:pointer;"/>
-                                    <span id="directionToBeAdded">
-                                        <g:textField class="input1" name="optionDirections" value=""/>
-                                    </span>
-                                </li>
+
+                                <img id="btnAddDirection" src="${resource(dir: 'images', file: 'add.jpg')}" hspace="4" align="left" vspace="4" border="0" style="cursor:pointer;"/>
+                                <span id="directionToBeAdded">
+                                    <g:textField class="input1" name="optionDirections" value=""/>
+                                </span>
+
                             </span>
                         </ul>
                         <div class="clr"></div>
@@ -198,47 +190,52 @@
                     %{--</div>--}%
                     <div align="center">
                         <br> <br>
-                        <span class="button" style=""><g:submitButton name="btnSave" class="save" value="Save Recipe" style="font-size:14px;color:white;background-color:orange;width:120px;height:35px;cursor:pointer;"/></span>
+                        <span class="button" style="">
+                            <g:submitButton name="btnSave" class="save" value="Save Recipe" style="font-size:14px;color:white;background-color:orange;width:120px;height:35px;cursor:pointer;"/>
+                        </span>
                         %{--<span class="button"><g:submitButton name="btnDelete" class="delete" value="Delete Recipe" style="font-size:14px;color:white;background-color:orange;width:120px;height:35px;cursor:pointer;"/></span>--}%
-                        %{--<img src="${resource(dir: 'images', file: 'save-recipe.gif')}" hspace="4" vspace="10" border="0"/>--}%
                         %{--<img src="${resource(dir: 'images', file: 'delete-recipe.gif')}" hspace="4" vspace="10" border="0"/>--}%
                     </div>
                 </div>
                 <!-- end -->
                 <!-- left-sub-container2 -->
-            %{--<div class="left-sub-container2" style="">--}%
-            %{--<ul class="add-recipe-form-container">--}%
-            %{--<li class="add-recipe-form-input2">images :</li>--}%
-            %{--<li class="add-recipe-form-input2"><input name="" class="input3" type="file"/></li>--}%
-            %{--<li class="clr"></li>--}%
-            %{--</ul>--}%
-            %{--<div class="clr">--}%
-            %{--<div align="right">--}%
-            %{--<img src="${resource(dir: 'images', file: 'delete-icon.jpg')}" hspace="4" border="0"/><br/>--}%
-            %{--</div>--}%
-            %{--<div align="center">--}%
-            %{--<img src="${resource(dir: 'images', file: 'img2.jpg')}" hspace="4" border="0"/>--}%
-            %{--</div>--}%
-            %{--</div>--}%
-            %{--<div><br/>--}%
-            %{--<h1 class="sub-h1">lorem ipsum lorem ipsum lorem</h1>--}%
-            %{--<div class="clr add-recipe-form-input4">--}%
-            %{--<input class="input2" type="text" name="textfield" id="textfield"/> Lorem ipsum Lorem ipsum--}%
-            %{--</div>--}%
-            %{--<div class="clr add-recipe-form-input5">--}%
-            %{--<input class="input2" type="text" name="textfield" id="textfield"/> Lorem ipsum Lorem ipsum--}%
-            %{--</div>--}%
-            %{--<div class="clr add-recipe-form-input4">--}%
-            %{--<input class="input2" type="text" name="textfield" id="textfield"/> Lorem ipsum Lorem ipsum--}%
-            %{--</div>--}%
-            %{--<div class="clr add-recipe-form-input5">--}%
-            %{--<input class="input2" type="text" name="textfield" id="textfield"/> Lorem ipsum Lorem ipsum--}%
-            %{--</div>--}%
-            %{--<div class="clr add-recipe-form-input4">--}%
-            %{--<input class="input2" type="text" name="textfield" id="textfield"/> Lorem ipsum Lorem ipsum--}%
-            %{--</div>--}%
-            %{--</div>--}%
-            %{--</div>--}%
+                <div class="left-sub-container2" style="">
+                    <ul class="add-recipe-form-container">
+                        <li class="add-recipe-form-input2">
+                            image :
+                        </li>
+                        <li class="add-recipe-form-input2">
+                            <input name="recipeImage" class="input3" type="file" onchange="changeRecipeImage(this)"/>
+                        </li>
+                        <li class="clr"></li>
+                    </ul>
+                    <div class="clr">
+                        <div align="right">
+                            <img src="${resource(dir: 'images', file: 'delete-icon.jpg')}" hspace="4" border="0"/><br/>
+                        </div>
+                        <div align="center">
+                            <img id="recipeImage" src="${resource(dir: 'images', file: 'img2.jpg')}" border="0" width="310" height="195"/>
+                        </div>
+                    </div>
+                    %{--<div><br/>--}%
+                    %{--<h1 class="sub-h1">lorem ipsum lorem ipsum lorem</h1>--}%
+                    %{--<div class="clr add-recipe-form-input4">--}%
+                    %{--<input class="input2" type="text" name="textfield" id="textfield"/> Lorem ipsum Lorem ipsum--}%
+                    %{--</div>--}%
+                    %{--<div class="clr add-recipe-form-input5">--}%
+                    %{--<input class="input2" type="text" name="textfield" id="textfield"/> Lorem ipsum Lorem ipsum--}%
+                    %{--</div>--}%
+                    %{--<div class="clr add-recipe-form-input4">--}%
+                    %{--<input class="input2" type="text" name="textfield" id="textfield"/> Lorem ipsum Lorem ipsum--}%
+                    %{--</div>--}%
+                    %{--<div class="clr add-recipe-form-input5">--}%
+                    %{--<input class="input2" type="text" name="textfield" id="textfield"/> Lorem ipsum Lorem ipsum--}%
+                    %{--</div>--}%
+                    %{--<div class="clr add-recipe-form-input4">--}%
+                    %{--<input class="input2" type="text" name="textfield" id="textfield"/> Lorem ipsum Lorem ipsum--}%
+                    %{--</div>--}%
+                    %{--</div>--}%
+                </div>
             </g:form>
         </div><!-- end  left-Container!!!-->
     %{--<div class="right-container" style="">--}%
@@ -269,38 +266,20 @@
 
 
 <script type="text/javascript">
-    var sampleIngredientRowHTML=jQuery('#sampleIngredientRow').html();
-    var sampleDirectionRowHTML=jQuery('#sampleDirectionRow').html();
+    var sampleIngredientRowHTML = jQuery('#sampleIngredientRow').html();
+    var sampleDirectionRowHTML = jQuery('#sampleDirectionRow').html();
 
-
-    function AddIngredient(quantity,unitId,productId,ingredientText){
-        var addIngredient = sampleIngredientRowHTML;
-        jQuery('#IngredientAdded').append(addIngredient)
-        jQuery('.ingredientRowNew .showIngredient').html(ingredientText)
-        jQuery('.ingredientRowNew .Q').val(quantity);
-        jQuery('.ingredientRowNew .U').val(unitId);
-        jQuery('.ingredientRowNew .P').val(productId);
-        jQuery('.ingredientRowNew .H').val(ingredientText);
-        jQuery('.ingredientRowNew').attr('class','ingredientRow')
-    }
-
-    function AddDirection(direction){
-        var addDirection = sampleDirectionRowHTML;
-        //alert(sampleDirectionRowHTML)
-        jQuery('#DirectionsAdded').append(addDirection)
-        jQuery('.directionRowNew .showDirection').html(direction)
-        jQuery('.directionRowNew .D').val(direction);
-        jQuery('.directionRowNew .H').val(direction);
-        jQuery('.directionRowNew').attr('class','directionRow')
-    }
     function bindEventsForIngredient() {
         jQuery('#IngredientAdded .btnUp').css('visibility', 'visible');
         jQuery('#IngredientAdded .btnUp:first').css('visibility', 'hidden');
         jQuery('#IngredientAdded .btnDown').css('visibility', 'visible');
         jQuery('#IngredientAdded .btnDown:last').css('visibility', 'hidden');
+
         jQuery("#IngredientAdded .optionImages .btnDelete").unbind();
+        jQuery("#IngredientAdded .btnDown").unbind();
+        jQuery("#IngredientAdded .btnUp").unbind();
+
         jQuery.each(jQuery("#IngredientAdded .optionImages .btnDelete"), function() {
-//            jQuery(this).unbind('click');
             jQuery(this).click(function() {
                 jQuery(this).parents('.ingredientRow').remove();
                 bindEventsForIngredient();
@@ -308,11 +287,10 @@
         })
 
         jQuery.each(jQuery('#IngredientAdded .btnDown'), function() {
-            jQuery(this).unbind('click');
             jQuery(this).click(function() {
                 var index = jQuery(this).index('#IngredientAdded .btnDown')
-                var a = jQuery('.ingredientRow:eq(' + index + ')')
-                var b = jQuery('.ingredientRow:eq(' + (index + 1) + ')')
+                var a = jQuery('#IngredientAdded .ingredientRow:eq(' + index + ')')
+                var b = jQuery('#IngredientAdded .ingredientRow:eq(' + (index + 1) + ')')
                 var temp = a.html()
                 a.html(b.html())
                 b.html(temp)
@@ -321,12 +299,10 @@
         })
 
         jQuery.each(jQuery('#IngredientAdded .btnUp'), function() {
-            jQuery(this).unbind('click');
-
             jQuery(this).click(function() {
                 var index = jQuery(this).index('#IngredientAdded .btnUp')
-                var a = jQuery('.ingredientRow:eq(' + index + ')')
-                var b = jQuery('.ingredientRow:eq(' + (index - 1) + ')')
+                var a = jQuery('#IngredientAdded .ingredientRow:eq(' + index + ')')
+                var b = jQuery('#IngredientAdded .ingredientRow:eq(' + (index - 1) + ')')
                 var temp = a.html()
                 a.html(b.html())
                 b.html(temp)
@@ -340,8 +316,11 @@
         jQuery('#DirectionsAdded .btnDown').css('visibility', 'visible');
         jQuery('#DirectionsAdded .btnDown:last').css('visibility', 'hidden');
 
+        jQuery("#DirectionsAdded .optionImages .btnDelete").unbind();
+        jQuery("#DirectionsAdded .btnDown").unbind();
+        jQuery("#DirectionsAdded .btnUp").unbind();
+
         jQuery.each(jQuery("#DirectionsAdded .optionImages .btnDelete"), function() {
-            jQuery(this).unbind('click');
             jQuery(this).click(function() {
                 jQuery(this).parents('.directionRow').remove();
                 bindEventsForDirection();
@@ -349,11 +328,10 @@
         })
 
         jQuery.each(jQuery('#DirectionsAdded .btnDown'), function() {
-            jQuery(this).unbind('click');
             jQuery(this).click(function() {
                 var index = jQuery(this).index('#DirectionsAdded .btnDown')
-                var a = jQuery('.directionRow:eq(' + index + ')')
-                var b = jQuery('.directionRow:eq(' + (index + 1) + ')')
+                var a = jQuery('#DirectionsAdded .directionRow:eq(' + index + ')')
+                var b = jQuery('#DirectionsAdded .directionRow:eq(' + (index + 1) + ')')
                 var temp = a.html()
                 a.html(b.html())
                 b.html(temp)
@@ -362,12 +340,10 @@
         })
 
         jQuery.each(jQuery('#DirectionsAdded .btnUp'), function() {
-            jQuery(this).unbind('click');
-
             jQuery(this).click(function() {
                 var index = jQuery(this).index('#DirectionsAdded .btnUp')
-                var a = jQuery('.directionRow:eq(' + index + ')')
-                var b = jQuery('.directionRow:eq(' + (index - 1) + ')')
+                var a = jQuery('#DirectionsAdded .directionRow:eq(' + index + ')')
+                var b = jQuery('#DirectionsAdded .directionRow:eq(' + (index - 1) + ')')
                 var temp = a.html()
                 a.html(b.html())
                 b.html(temp)
@@ -375,49 +351,72 @@
             })
         })
     }
+
     jQuery(document).ready(function() {
 
 
-
-        /* Setting value of hidden Field categoryIds */
-        jQuery("#optionCategoryIds").blur(function() {
-            var varCategory = jQuery("#optionCategoryIds_id").attr('value')
-            jQuery('#categoryIds').attr('value', varCategory)
-        })
-
-
-        /* function to be executed when btnAddIngredient is Clicked... */
+        /* ADD INGREDIENT:  function to be executed when btnAddIngredient is Clicked... */
 
         jQuery('#btnAddIngredient').click(function() {
             var quantity = jQuery('#optionIngredientQuantities').attr('value')
             var unitId = jQuery('#optionIngredientUnitIds').attr('value')
-            var productId = jQuery('#optionIngredientProductIds_id').attr('value')
-            var ingredientText= quantity + ' ' + jQuery('#optionIngredientUnitIds :selected').text() + ' ' + jQuery('#optionIngredientProductIds').attr('value')
+            var productId = jQuery('#AddIngredientToolBox input[name=optionIngredientProductIds][value!=""]').attr('value')
+            var ingredientText = quantity + ' ' + jQuery('#optionIngredientUnitIds :selected').text() + ' ' + jQuery('#AddIngredientToolBox p').html()
 
-            AddIngredient(quantity,unitId,productId,ingredientText)
+            if ((quantity.length > 0) && (unitId.length > 0) && (productId.length > 0)) {
+                AddIngredient(quantity, unitId, productId, ingredientText)
 
-            /* Reset Add Ingredient ToolBox.... */
-            jQuery('#optionIngredientQuantities').attr('value', '')
-            jQuery('#optionIngredientUnitIds').attr('value', '1')
-            jQuery('#optionIngredientProductIds').attr('value', '')
+                /* Reset Add Ingredient ToolBox.... */
+                jQuery('#optionIngredientQuantities').attr('value', '')
+                jQuery('#optionIngredientUnitIds').attr('value', '1')
+                jQuery('#AddIngredientToolBox .token-input-delete-token-facebook').click()
+            }
 
             bindEventsForIngredient();
         })
 
-        /* function to be executed when btnAddDirection is Clicked... */
+        /* ADD DIRECTION:  function to be executed when btnAddDirection is Clicked... */
 
         jQuery('#btnAddDirection').click(function() {
             var direction = jQuery('#optionDirections').attr('value')
-            AddDirection(direction)
-            jQuery('#optionDirections').attr('value', '')   /* Reset Add Ingredient ToolBox.... */
+            if (direction.length > 0) {
+                AddDirection(direction)
+                /* Reset Add Ingredient ToolBox.... */
+                jQuery('#optionDirections').attr('value', '')
+            }
             bindEventsForDirection()
         })
 
-        bindEventsForDirection();
         bindEventsForIngredient();
-
+        bindEventsForDirection();
     })
 
+    function AddIngredient(quantity, unitId, productId, ingredientText) {
+        var addIngredient = sampleIngredientRowHTML;
+        jQuery('#IngredientAdded').append(addIngredient)
+        jQuery('.ingredientRowNew .showIngredient').html(ingredientText)
+        jQuery('.ingredientRowNew .Q').val(quantity);
+        jQuery('.ingredientRowNew .U').val(unitId);
+        jQuery('.ingredientRowNew .P').val(productId);
+        jQuery('.ingredientRowNew .H').val(ingredientText);
+        jQuery('.ingredientRowNew').attr('class', 'ingredientRow')
+    }
+
+    function AddDirection(direction) {
+        var addDirection = sampleDirectionRowHTML;
+        jQuery('#DirectionsAdded').append(addDirection)
+        jQuery('.directionRowNew .showDirection').html(direction)
+        jQuery('.directionRowNew .D').val(direction);
+        jQuery('.directionRowNew .H').val(direction);
+        jQuery('.directionRowNew').attr('class', 'directionRow')
+    }
+
+    %{--*************** A JAVA-SCRIPT FUNCTION TO DISPLAY CHANGED IMAGE OF RECIPE ****************--}%
+    function changeRecipeImage(attachment) {
+        previewImage = document.getElementById('recipeImage');
+        if (attachment.files)   previewImage.src = attachment.files.item(0).getAsDataURL();
+        else    previewImage.src = attachment.value;
+    }
 </script>
 </body>
 </html>
