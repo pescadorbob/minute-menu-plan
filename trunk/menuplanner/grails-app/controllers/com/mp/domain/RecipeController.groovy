@@ -97,6 +97,7 @@ class RecipeController {
         render(view: 'addEditRecipe')
     }
     def saveRecipe = {RecipeCO recipeCO ->
+        println params.tags
         if(recipeCO.validate()){
             recipeCO.convertToRecipe()
             redirect(action: 'createRecipe')
@@ -107,21 +108,17 @@ class RecipeController {
     }
 
     def getMatchingProducts={
-        def productList =Product.findAllByNameLike("%" + params.query + "%")
-        def jsonList = productList.collect { [ id: it.id, name: it.name ] }
-        def jsonResult = [
-            result: jsonList
-        ]
-        render jsonResult as JSON
+        List<Product> products =Product.findAllByNameIlike(params.query + "%")
+        List productsJson = products.collect { [ id: it.id, name: it.name ] }
+        render (productsJson as JSON)
     }
-    def getMatchingCategory={
-        def productList =Category.findAllByNameLike("%" + params.query + "%")
-        def jsonList = productList.collect { [ id: it.id, name: it.name ] }
-        def jsonResult = [
-            result: jsonList
-        ]
-        render jsonResult as JSON
+
+    def getMatchingCategories = {
+        List<Category> categories =Category.findAllByNameIlike(params.query + "%")
+        List categoriesJson = categories.collect { [ id: it.id, name: it.name ] }
+        render (categoriesJson as JSON)
     }
+
 }
 
 class RecipeCO {
