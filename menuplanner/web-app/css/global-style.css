@@ -493,8 +493,7 @@ body  .add-recipe-form-input{
 	_height:20px;
 	_overflow:visible;
 	line-height:20px;
-	padding-bottom:10px;
-	_padding-bottom:10px;
+	margin-bottom:10px;
 }
 body .input1{
 	width:190px;

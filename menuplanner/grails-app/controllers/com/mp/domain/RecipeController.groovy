@@ -92,31 +92,32 @@ class RecipeController {
             redirect(action: "list")
         }
     }
-  
+
     def createRecipe = {
         render(view: 'addEditRecipe')
     }
     def saveRecipe = {RecipeCO recipeCO ->
-        println params.tags
-        if(recipeCO.validate()){
+        if (recipeCO.validate()) {
             recipeCO.convertToRecipe()
             redirect(action: 'createRecipe')
         } else {
-            //println "*******************Invalid.."
-            render(view: 'addEditRecipe', model:[recipeCO: recipeCO])
+            println recipeCO.errors.allErrors.each {
+                println it
+            }
+            render(view: 'addEditRecipe', model: [recipeCO: recipeCO])
         }
     }
 
-    def getMatchingProducts={
-        List<Product> products =Product.findAllByNameIlike(params.query + "%")
-        List productsJson = products.collect { [ id: it.id, name: it.name ] }
-        render (productsJson as JSON)
+    def getMatchingProducts = {
+        List<Product> products = Product.findAllByNameIlike(params.query + "%")
+        List productsJson = products.collect { [id: it.id, name: it.name] }
+        render(productsJson as JSON)
     }
 
     def getMatchingCategories = {
-        List<Category> categories =Category.findAllByNameIlike(params.query + "%")
-        List categoriesJson = categories.collect { [ id: it.id, name: it.name ] }
-        render (categoriesJson as JSON)
+        List<Category> categories = Category.findAllByNameIlike(params.query + "%")
+        List categoriesJson = categories.collect { [id: it.id, name: it.name] }
+        render(categoriesJson as JSON)
     }
 
 }
@@ -130,6 +131,7 @@ class RecipeCO {
     Integer makesServing
     Integer preparationTime
     Integer cookTime
+    def recipeImage
 
     Set<Long> categoryIds = []
     List<BigDecimal> ingredientQuantities = []
@@ -141,48 +143,50 @@ class RecipeCO {
 
     static constraints = {
         name(blank: false, validator: {val, obj ->
-            if(Recipe.countByName(val)){
+            if (Recipe.countByName(val)) {
                 return 'default.invalid.message'
             }
         })
-        difficulty(blank:false, inList: RecipeDifficulty.list()*.name)
-        makesServing(min:1)
-        preparationTime(min:1)
-        cookTime(min:1)
-        categoryIds(minSize:1)
+        difficulty(blank: false, inList: RecipeDifficulty.list()*.name)
+        makesServing(min: 1)
+        recipeImage(blank: true)
+        preparationTime(min: 1)
+        cookTime(min: 1)
+        categoryIds(minSize: 1)
 
-        ingredientQuantities(minSize: 1, validator:{val, obj ->
-            if((val.any{!it}) || (val.size()!=obj.ingredientUnitIds?.size())||(val.size()!=obj.ingredientProductIds?.size())){
+        ingredientQuantities(minSize: 1, validator: {val, obj ->
+            if ((val.any {!it}) || (val.size() != obj.ingredientUnitIds?.size()) || (val.size() != obj.ingredientProductIds?.size())) {
                 return 'default.invalid.message'
             }
         })
-        ingredientUnitIds(minSize: 1, validator:{val, obj ->
-            if((val.any{!it})||(val.size()!=obj.ingredientQuantities?.size())||(val.size()!=obj.ingredientProductIds?.size())){
+        ingredientUnitIds(minSize: 1, validator: {val, obj ->
+            if ((val.any {!it}) || (val.size() != obj.ingredientQuantities?.size()) || (val.size() != obj.ingredientProductIds?.size())) {
                 return 'default.invalid.message'
             }
         })
-        ingredientProductIds(minSize: 1, validator:{val, obj ->
-            if((val.any{!it})|| (val == val.unique()) || (val.size()!=obj.ingredientUnitIds?.size())||(val.size()!=obj.ingredientQuantities?.size())){
+        ingredientProductIds(minSize: 1, validator: {val, obj ->
+            if ((val.any {!it}) || (val == val.unique()) || (val.size() != obj.ingredientUnitIds?.size()) || (val.size() != obj.ingredientQuantities?.size())) {
                 return 'default.invalid.message'
             }
         })
-        directions(minSize: 1, validator:{val, obj ->
-            if((val.any{!it})|| (val == val.unique())){
+        directions(minSize: 1, validator: {val, obj ->
+            if ((val.any {!it}) || (val == val.unique())) {
                 return 'default.invalid.message'
             }
         })
-    }        
+    }
 
-   public convertToRecipe() {
-
+    public convertToRecipe() {
         Recipe recipe = new Recipe()
         recipe.name = name
-        recipe.shareWithCommunity=shareWithCommunity
-        recipe.servings=makesServing
+        recipe.shareWithCommunity = shareWithCommunity
+        recipe.servings = makesServing
         recipe.difficulty = RecipeDifficulty."${difficulty}"
-        recipe.preparationTime=preparationTime
-        recipe.cookingTime=cookTime
+        recipe.preparationTime = preparationTime
+        recipe.cookingTime = cookTime
         recipe.s()
+
+//       Image image =    Image.createFile(recipe.id, "/recipes", recipeImage.originalFilename, recipeImage.bytes,"Some alt text").s()
 
         categoryIds.eachWithIndex {Long categoryId, Integer index ->
             recipe.addToCategories(Category.get(categoryId))
