@@ -1,4 +1,5 @@
-<span id="sampleIngredientRow" style="display:none;">
+<li>
+<span class="ingredientRowNew">  <!-- "NEW" -->
     <span class="optionImages">
         <img hspace="2" height="16" border="0" align="left" width="16" vspace="2" style="cursor: pointer;" src="/menuplanner/images/delete.jpg" class="btnDelete"/>
         <img hspace="2" height="16" border="0" align="left" width="16" vspace="2" style="cursor: pointer;" src="/menuplanner/images/arrow-up.jpg" class="btnUp"/>
@@ -13,5 +14,5 @@
     <span class="hiddenTextIngredient">
         <input class='H' type="hidden" name="hiddenIngredients" value=""/>
     </span>
-    <br><br>
 </span>
+</li>

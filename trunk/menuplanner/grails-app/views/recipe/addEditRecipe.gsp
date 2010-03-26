@@ -13,10 +13,13 @@
 
 <body>
 %{--***************************************** SAMPLE INGREDIENT ROW *****************************************--}%
-<g:render template="ingredientRow"/>
-%{--**********************************************************************************************************--}%
+<span id="sampleIngredientRow" style="display:none;">
+    <g:render template="ingredientRow"/>
+</span>
 %{--***************************************** SAMPLE DIRECTION0 ROW *****************************************--}%
-<g:render template="directionRow"/>
+<span id="sampleDirectionRow" style="display:none;">
+    <g:render template="directionRow"/>
+</span>
 %{--**********************************************************************************************************--}%
 
 <div class="header-container">
@@ -297,7 +300,7 @@
 
 
     function AddIngredient(quantity,unitId,productId,ingredientText){
-        var addIngredient = '<span class="ingredientRowNew">' + sampleIngredientRowHTML + '</span>';
+        var addIngredient = sampleIngredientRowHTML;
         jQuery('#IngredientAdded').append(addIngredient)
         jQuery('.ingredientRowNew .showIngredient').html(ingredientText)
         jQuery('.ingredientRowNew .Q').val(quantity);
@@ -308,8 +311,8 @@
     }
 
     function AddDirection(direction){
-        var addDirection = '<span class="directionRowNew">' + sampleDirectionRowHTML + '</span>';
-        alert(sampleDirectionRowHTML)
+        var addDirection = sampleDirectionRowHTML;
+        //alert(sampleDirectionRowHTML)
         jQuery('#DirectionsAdded').append(addDirection)
         jQuery('.directionRowNew .showDirection').html(direction)
         jQuery('.directionRowNew .D').val(direction);

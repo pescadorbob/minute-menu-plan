@@ -1,4 +1,5 @@
 <g:if test="${hiddenDirection}">
+    <li>
     <span class="directionRow">
         <span class="optionImages">
             <img hspace="2" height="16" border="0" align="left" width="16" vspace="2" style="cursor: pointer;" src="${resource(dir: 'images', file: 'delete.jpg')}" class="btnDelete"/>
@@ -12,6 +13,6 @@
         <span class="hiddenTextDirection">
             <input class='H' type="hidden" name="hiddenDirections" value="${hiddenDirection}"/>
         </span>
-        <br><br>
     </span>
+    </li>
 </g:if>
