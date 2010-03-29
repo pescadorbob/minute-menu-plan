@@ -26,13 +26,13 @@
                         
                             <g:sortableColumn property="name" title="${message(code: 'recipe.name.label', default: 'Name')}" />
                         
-                            <g:sortableColumn property="preparationTime" title="${message(code: 'recipe.preparationTime.label', default: 'Preparation Time')}" />
-                        
-                            <g:sortableColumn property="cookTime" title="${message(code: 'recipe.cookingTime.label', default: 'Cook Time')}" />
-                        
+                            <th><g:message code="recipe.preparationTime.label" default="Preparation Time" /></th>
+                   	    
+                            <th><g:message code="recipe.cookingTime.label" default="Cooking Time" /></th>
+                   	    
                             <g:sortableColumn property="difficulty" title="${message(code: 'recipe.difficulty.label', default: 'Difficulty')}" />
                         
-                            <g:sortableColumn property="makesServing" title="${message(code: 'recipe.servings.label', default: 'Makes Serving')}" />
+                            <g:sortableColumn property="servings" title="${message(code: 'recipe.servings.label', default: 'Servings')}" />
                         
                         </tr>
                     </thead>

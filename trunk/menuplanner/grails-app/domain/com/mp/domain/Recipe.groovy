@@ -7,12 +7,13 @@ class Recipe {
     Boolean shareWithCommunity=false
     Image image
     Integer servings
-    Integer preparationTime
-    Integer cookingTime
+
+    Time preparationTime
+    Time cookingTime
 
     static transients = ['categories']
 
-    static hasMany = [ingredients: RecipeIngredient, directions: RecipeDirection, recipeCategories: RecipeCategory]
+    static hasMany = [ingredients: RecipeIngredient, directions: RecipeDirection, recipeCategories: RecipeCategory, nutrients:RecipeNutrient]
 
     List<Category> getCategories() {
         return ((recipeCategories) ? ((recipeCategories?.collect {it.category}).sort{it.name}) : [])

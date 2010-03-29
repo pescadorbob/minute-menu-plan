@@ -17,8 +17,10 @@ class BootStrap {
             }
             object
         }
-        bootstrapService.populateCategory(10)
+        bootstrapService.populateTimeUnit()
         bootstrapService.populateUnits(10)
+        bootstrapService.populateNutrient(15)
+        bootstrapService.populateCategory(10)
         bootstrapService.populateQuantities(20)
         bootstrapService.populateMeasuredProduct(50)
         bootstrapService.createRecipes(5)

@@ -20,6 +20,10 @@
 <span id="sampleDirectionRow" style="display:none;">
     <g:render template="directionRow"/>
 </span>
+%{--***************************************** SAMPLE DIRECTION0 ROW *****************************************--}%
+<span id="sampleNutrientsRow" style="display:none;">
+    <g:render template="nutrientRow"/>
+</span>
 %{--**********************************************************************************************************--}%
 
 <div class="header-container">
@@ -68,14 +72,14 @@
                         <li class="add-recipe-form-content"><strong>Prep Time:</strong></li>
                         <li class="add-recipe-form-input">
                             <g:textField class="input2" name="preparationTime" value="${recipeCO?.preparationTime}"/>
-                            <g:select class="select2" name="prepUnit" from="${['minutes','hours']}"/>
+                            <g:select class="select2" name="preparationUnitId" from="${TimeUnit.list()}" optionKey="id" value="${recipeCO?.preparationUnitId}"/>
                         </li>
                     </ul>
                     <ul class="add-recipe-form-container">
                         <li class="add-recipe-form-content"><strong>Cook Time :</strong></li>
                         <li class="add-recipe-form-input">
                             <g:textField class="input2" name="cookTime" value="${recipeCO?.cookTime}"/>
-                            <g:select class="select2" name="cookUnit" from="${['minutes','hours']}"/>
+                            <g:select class="select2" name="cookUnitId" from="${TimeUnit.list()}" optionKey="id" value="${recipeCO?.cookUnitId}"/>
                         </li>
                     </ul>
                     <ul class="add-recipe-form-container">
@@ -205,36 +209,60 @@
                             image :
                         </li>
                         <li class="add-recipe-form-input2">
-                            <input name="recipeImage" class="input3" type="file" onchange="changeRecipeImage(this)"/>
+                            <input id="selectRecipeImage" name="selectRecipeImage" class="input3" type="file" onchange="changeRecipeImage(this)"/>
                         </li>
                         <li class="clr"></li>
                     </ul>
                     <div class="clr">
                         <div align="right">
-                            <img src="${resource(dir: 'images', file: 'delete-icon.jpg')}" hspace="4" border="0"/><br/>
+                            <img id="removeRecipeImage" src="${resource(dir: 'images', file: 'delete-icon.jpg')}" hspace="4" border="0" style="cursor:pointer"/><br/>
                         </div>
                         <div align="center">
-                            <img id="recipeImage" src="${resource(dir: 'images', file: 'img2.jpg')}" border="0" width="310" height="195"/>
+                            <img id="recipeImage" src="${resource(dir: 'images', file: 'img2.jpg')}" border="0"/>
                         </div>
                     </div>
-                    %{--<div><br/>--}%
-                    %{--<h1 class="sub-h1">lorem ipsum lorem ipsum lorem</h1>--}%
-                    %{--<div class="clr add-recipe-form-input4">--}%
-                    %{--<input class="input2" type="text" name="textfield" id="textfield"/> Lorem ipsum Lorem ipsum--}%
-                    %{--</div>--}%
-                    %{--<div class="clr add-recipe-form-input5">--}%
-                    %{--<input class="input2" type="text" name="textfield" id="textfield"/> Lorem ipsum Lorem ipsum--}%
-                    %{--</div>--}%
-                    %{--<div class="clr add-recipe-form-input4">--}%
-                    %{--<input class="input2" type="text" name="textfield" id="textfield"/> Lorem ipsum Lorem ipsum--}%
-                    %{--</div>--}%
-                    %{--<div class="clr add-recipe-form-input5">--}%
-                    %{--<input class="input2" type="text" name="textfield" id="textfield"/> Lorem ipsum Lorem ipsum--}%
-                    %{--</div>--}%
-                    %{--<div class="clr add-recipe-form-input4">--}%
-                    %{--<input class="input2" type="text" name="textfield" id="textfield"/> Lorem ipsum Lorem ipsum--}%
-                    %{--</div>--}%
-                    %{--</div>--}%
+                    <div><br/>
+                        <h2>Nutrition Facts pre serving:</h2>
+
+                        <span id="NutrientsAdded">
+
+                            <g:each status="i" in="${recipeCO?.hiddenNutrients}" var="X">
+                                <g:render template="nutrientRowWithParams" model="[hiddenNutrients:recipeCO?.hiddenNutrients[i], nutrientQuantity:recipeCO.nutrientQuantities[i],nutrientId:recipeCO.nutrientIds[i]]"/>
+                            </g:each>
+
+                            <!-- Show Nutrients Here -->
+
+                        </span>
+
+                        <span id="AddNutrientToolBox">
+                            <img id="btnAddNutrient" src="${resource(dir: 'images', file: 'add.jpg')}" hspace="4" align="left" vspace="4" border="0" style="cursor:pointer;"/>
+                            <span id="nutrientToBeAdded">
+
+                                <g:textField class="input2" id='optionNutrientQuantities' name="optionNutrientQuantities" value=""/>
+                                <g:select class="select2" id='optionNutrientIds' name="optionNutrientIds" from="${Nutrient.list()}" optionKey="id"/>
+
+                            </span>
+                        </span>
+
+
+                        %{--<div class="clr add-recipe-form-input4">--}%
+                            %{--<input class="input2" type="text" name="textfield" id="textfield"/> Lorem ipsum Lorem ipsum--}%
+                        %{--</div>--}%
+                        %{--<div class="clr add-recipe-form-input5">--}%
+                            %{--<input class="input2" type="text" name="textfield" id="textfield"/> Lorem ipsum Lorem ipsum--}%
+                        %{--</div>--}%
+                        %{--<div class="clr add-recipe-form-input4">--}%
+                            %{--<input class="input2" type="text" name="textfield" id="textfield"/> Lorem ipsum Lorem ipsum--}%
+                        %{--</div>--}%
+                        %{--<div class="clr add-recipe-form-input5">--}%
+                            %{--<input class="input2" type="text" name="textfield" id="textfield"/> Lorem ipsum Lorem ipsum--}%
+                        %{--</div>--}%
+                        %{--<div class="clr add-recipe-form-input4">--}%
+                            %{--<input class="input2" type="text" name="textfield" id="textfield"/> Lorem ipsum Lorem ipsum--}%
+                        %{--</div>--}%
+
+
+                    </div>
                 </div>
             </g:form>
         </div><!-- end  left-Container!!!-->
@@ -268,6 +296,7 @@
 <script type="text/javascript">
     var sampleIngredientRowHTML = jQuery('#sampleIngredientRow').html();
     var sampleDirectionRowHTML = jQuery('#sampleDirectionRow').html();
+    var sampleNutrientRowHTML = jQuery('#sampleNutrientsRow').html();
 
     function bindEventsForIngredient() {
         jQuery('#IngredientAdded .btnUp').css('visibility', 'visible');
@@ -381,10 +410,31 @@
             var direction = jQuery('#optionDirections').attr('value')
             if (direction.length > 0) {
                 AddDirection(direction)
-                /* Reset Add Ingredient ToolBox.... */
+                /* Reset Add Direction ToolBox.... */
                 jQuery('#optionDirections').attr('value', '')
             }
             bindEventsForDirection()
+        })
+
+        jQuery('#btnAddNutrient').click(function(){
+            var quantity = jQuery('#optionNutrientQuantities').attr('value')
+            var nutrientId = jQuery('#optionNutrientIds').attr('value')
+            var nutrientText = quantity + ' ' + jQuery('#optionNutrientIds :selected').text()
+
+            if ((quantity.length > 0) && (nutrientId.length > 0)) {
+                AddNutrient(quantity, nutrientId, nutrientText)
+
+                /* Reset Add Nutrient ToolBox.... */
+                jQuery('#optionNutrientQuantities').attr('value', '')
+                jQuery('#optionNutrientIds').attr('value', '1')
+            }
+
+//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$   bindEventsForNutrients(); $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+        })
+
+        jQuery('#removeRecipeImage').click(function(){
+            jQuery('#selectRecipeImage').attr('value','')
+            jQuery('#recipeImage').attr('src','')
         })
 
         bindEventsForIngredient();
@@ -409,6 +459,16 @@
         jQuery('.directionRowNew .D').val(direction);
         jQuery('.directionRowNew .H').val(direction);
         jQuery('.directionRowNew').attr('class', 'directionRow')
+    }
+
+    function AddNutrient(quantity, nutrientId, nutrientText){
+        var addNutrient = sampleNutrientRowHTML
+        jQuery('#NutrientsAdded').append(addNutrient)
+        jQuery('.nutrientsRowNew .showNutrient').html(nutrientText)
+        jQuery('.nutrientsRowNew .Q').val(quantity);
+        jQuery('.nutrientsRowNew .T').val(nutrientId);
+        jQuery('.nutrientsRowNew .H').val(nutrientText);
+        jQuery('.nutrientsRowNew').attr('class', 'nutrientsRow')
     }
 
     %{--*************** A JAVA-SCRIPT FUNCTION TO DISPLAY CHANGED IMAGE OF RECIPE ****************--}%

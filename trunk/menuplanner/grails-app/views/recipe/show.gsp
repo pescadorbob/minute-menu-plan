@@ -39,14 +39,14 @@
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="recipe.preparationTime.label" default="Preparation Time" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: recipe, field: "preparationTime")}</td>
+                            <td valign="top" class="value"><g:link controller="time" action="show" id="${recipe?.preparationTime?.id}">${recipe?.preparationTime?.encodeAsHTML()}</g:link></td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="recipe.cookTime.label" default="Cook Time" /></td>
+                            <td valign="top" class="name"><g:message code="recipe.cookingTime.label" default="Cooking Time" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: recipe, field: "cookingTime")}</td>
+                            <td valign="top" class="value"><g:link controller="time" action="show" id="${recipe?.cookingTime?.id}">${recipe?.cookingTime?.encodeAsHTML()}</g:link></td>
                             
                         </tr>
                     
@@ -58,9 +58,16 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="recipe.makesServing.label" default="Makes Serving" /></td>
+                            <td valign="top" class="name"><g:message code="recipe.servings.label" default="Servings" /></td>
                             
                             <td valign="top" class="value">${fieldValue(bean: recipe, field: "servings")}</td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="recipe.image.label" default="Image" /></td>
+                            
+                            <td valign="top" class="value"><g:link controller="image" action="show" id="${recipe?.image?.id}">${recipe?.image?.encodeAsHTML()}</g:link></td>
                             
                         </tr>
                     
@@ -84,6 +91,19 @@
                                 <ul>
                                 <g:each in="${recipe.ingredients}" var="i">
                                     <li><g:link controller="recipeIngredient" action="show" id="${i.id}">${i?.encodeAsHTML()}</g:link></li>
+                                </g:each>
+                                </ul>
+                            </td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="recipe.nutrients.label" default="Nutrients" /></td>
+                            
+                            <td valign="top" style="text-align: left;" class="value">
+                                <ul>
+                                <g:each in="${recipe.nutrients}" var="n">
+                                    <li><g:link controller="recipeNutrient" action="show" id="${n.id}">${n?.encodeAsHTML()}</g:link></li>
                                 </g:each>
                                 </ul>
                             </td>

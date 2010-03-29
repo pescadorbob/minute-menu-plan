@@ -589,7 +589,8 @@ body .add-recipe-form-input5{
 /**************/
 .left-sub-container2{
 	float:left;
-	width:310px;
+	width:300px;
+    margin-left:10px;
 	font-size:11px;
 	font-family:Arial, Helvetica, sans-serif;
 }/**************/
