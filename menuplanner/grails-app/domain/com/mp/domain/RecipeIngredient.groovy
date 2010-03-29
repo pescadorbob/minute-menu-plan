@@ -8,7 +8,7 @@ class RecipeIngredient {
     Quantity quantity
 
     String toString() {
-        return (sequence + '. ' + ingredient + ' : ' + quantity)
+        return (sequence + ' ' + ingredient + ' ' + quantity)
     }
 
     static constraints = {

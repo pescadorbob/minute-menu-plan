@@ -130,16 +130,24 @@ class RecipeCO {
     Boolean shareWithCommunity
     Integer makesServing
     Integer preparationTime
+    Integer preparationUnitId
     Integer cookTime
+    Integer cookUnitId
     def recipeImage
 
     Set<Long> categoryIds = []
     List<BigDecimal> ingredientQuantities = []
+    List<BigDecimal> nutrientQuantities = []
+
     List<Long> ingredientUnitIds = []
     List<Long> ingredientProductIds = []
+    List<Long> nutrientIds = []
+    
     List<String> directions = []
+
     List<String> hiddenDirections = []
     List<String> hiddenIngredients = []
+    List<String> hiddenNutrients = []
 
     static constraints = {
         name(blank: false, validator: {val, obj ->
@@ -147,7 +155,7 @@ class RecipeCO {
                 return 'default.invalid.message'
             }
         })
-        difficulty(blank: false, inList: RecipeDifficulty.list()*.name)
+        difficulty(blank: false, inList: RecipeDifficulty.list()*.name())
         makesServing(min: 1)
         recipeImage(blank: true)
         preparationTime(min: 1)
@@ -165,12 +173,12 @@ class RecipeCO {
             }
         })
         ingredientProductIds(minSize: 1, validator: {val, obj ->
-            if ((val.any {!it}) || (val == val.unique()) || (val.size() != obj.ingredientUnitIds?.size()) || (val.size() != obj.ingredientQuantities?.size())) {
+            if ((val.any {!it}) || (val != val.unique()) || (val.size() != obj.ingredientUnitIds?.size()) || (val.size() != obj.ingredientQuantities?.size())) {
                 return 'default.invalid.message'
             }
         })
         directions(minSize: 1, validator: {val, obj ->
-            if ((val.any {!it}) || (val == val.unique())) {
+            if ((val.any {!it}) || (val != val.unique())) {
                 return 'default.invalid.message'
             }
         })
@@ -182,8 +190,22 @@ class RecipeCO {
         recipe.shareWithCommunity = shareWithCommunity
         recipe.servings = makesServing
         recipe.difficulty = RecipeDifficulty."${difficulty}"
-        recipe.preparationTime = preparationTime
-        recipe.cookingTime = cookTime
+
+        Time CTime=new Time()
+        CTime.preferredUnit=TimeUnit.get(cookUnitId)
+        if(CTime.preferredUnit.name=='Hours') cookTime*=60;
+        CTime.minutes=cookTime
+        CTime.s()
+
+        Time PTime=new Time()
+        PTime.preferredUnit=TimeUnit.get(preparationUnitId)
+        if(PTime.preferredUnit.name=='Hours') preparationTime*=60;
+        PTime.minutes=preparationTime
+        PTime.s()
+
+        recipe.preparationTime=PTime
+        recipe.cookingTime=CTime
+
         recipe.s()
 
 //       Image image =    Image.createFile(recipe.id, "/recipes", recipeImage.originalFilename, recipeImage.bytes,"Some alt text").s()
@@ -202,7 +224,12 @@ class RecipeCO {
             Quantity quantity = new Quantity(unit: unit, amount: amount).s()
             new RecipeIngredient(sequence: (index + 1), recipe: recipe, ingredient: product, quantity: quantity).s()
         }
+        nutrientQuantities.eachWithIndex {BigDecimal quantity, Integer index ->
+            RecipeNutrient nutrient =new RecipeNutrient()
+            nutrient.recipe=recipe
+            nutrient.nutrient=Nutrient.get(nutrientIds[index])
+            nutrient.quantity=nutrientQuantities[index]
+            nutrient.s()
+        }
     }
 }
-
-

@@ -6,15 +6,24 @@ class BootstrapService {
 
     boolean transactional = true
 
-    public void populateCategory(Integer count) {
-        (1..count).each {Integer index ->
-            new Category(name: "Category-${index}").s()
-        }
+    public void populateTimeUnit() {
+        new TimeUnit(name: "Hours", symbol: "hrs", definition: "This is definition for hours").s()
+        new TimeUnit(name: "Minutes", symbol: "mins", definition: "This is definition for minuts").s()
     }
 
     public void populateUnits(Integer count) {
         (1..count).each {Integer index ->
             new Unit(name: "Unit-${index}", symbol: "Symbol-${index}", definition: "This is definition for Units-${index}").s()
+        }
+    }
+    public void populateNutrient(Integer count){
+        (1..count).each {Integer index ->
+            new Nutrient(name: "Nutrient-${index}").s()
+        }
+    }
+    public void populateCategory(Integer count) {
+        (1..count).each {Integer index ->
+            new Category(name: "Category-${index}").s()
         }
     }
 
@@ -41,17 +50,29 @@ class BootstrapService {
         (1..count).each {Integer index ->
             Recipe recipe = new Recipe()
             recipe.name = "Recipe-${index}"
-            recipe.difficulty= [RecipeDifficulty.EASY, RecipeDifficulty.MEDIUM, RecipeDifficulty.HARD].get(new Random().nextInt(3))
-            recipe.shareWithCommunity=false
-            recipe.servings=new Random().nextInt(5)
-            recipe.preparationTime=new Random().nextInt(5)*5
-            recipe.cookingTime=new Random().nextInt(5)*5
+            recipe.difficulty = [RecipeDifficulty.EASY, RecipeDifficulty.MEDIUM, RecipeDifficulty.HARD].get(new Random().nextInt(3))
+            recipe.shareWithCommunity = false
+            recipe.servings = new Random().nextInt(5) + 1
+            Time pTime = new Time(minutes: (new Random().nextInt(5) + 1) * 5, preferredUnit: TimeUnit.get(new Random().nextInt(TimeUnit.count()) + 1))
+            pTime.s()
+            recipe.preparationTime = pTime
+            Time cTime = new Time(minutes: (new Random().nextInt(5) + 1) * 5, preferredUnit: TimeUnit.get(new Random().nextInt(TimeUnit.count()) + 1))
+            cTime.s()
+            recipe.cookingTime = cTime
             recipe.s()
-//            def image = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/coffee.jpg")).readBytes()
-//            new RecipeImage(recipeId: recipe.id, image: image).s()
             populateRecipeCategories(recipe)
             populateRecipeIngredient(recipe)
             populateRecipeDirections(recipe)
+            populateRecipeNutrient(recipe)
+        }
+    }
+    public void populateRecipeNutrient(Recipe recipe) {
+        (1..new Random().nextInt(5)).each {Integer index ->
+            RecipeNutrient nutrient=new RecipeNutrient()
+            nutrient.recipe=recipe
+            nutrient.nutrient= Nutrient.get(new Random().nextInt(Nutrient.count()) + 1)
+            nutrient.quantity=new Random().nextInt(500) + 1
+            nutrient.s()
         }
     }
 

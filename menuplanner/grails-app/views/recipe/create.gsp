@@ -41,16 +41,16 @@
                                     <label for="preparationTime"><g:message code="recipe.preparationTime.label" default="Preparation Time" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: recipe, field: 'preparationTime', 'errors')}">
-                                    <g:textField name="preparationTime" value="${fieldValue(bean: recipe, field: 'preparationTime')}" />
+                                    <g:select name="preparationTime.id" from="${com.mp.domain.Time.list()}" optionKey="id" value="${recipe?.preparationTime?.id}"  />
                                 </td>
                             </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="cookTime"><g:message code="recipe.cookTime.label" default="Cook Time" /></label>
+                                    <label for="cookingTime"><g:message code="recipe.cookingTime.label" default="Cooking Time" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: recipe, field: 'cookingTime', 'errors')}">
-                                    <g:textField name="cookTime" value="${fieldValue(bean: recipe, field: 'cookingTime')}" />
+                                    <g:select name="cookingTime.id" from="${com.mp.domain.Time.list()}" optionKey="id" value="${recipe?.cookingTime?.id}"  />
                                 </td>
                             </tr>
                         
@@ -65,10 +65,19 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="makesServing"><g:message code="recipe.makesServing.label" default="Makes Serving" /></label>
+                                    <label for="servings"><g:message code="recipe.servings.label" default="Servings" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: recipe, field: 'servings', 'errors')}">
-                                    <g:textField name="makesServing" value="${fieldValue(bean: recipe, field: 'servings')}" />
+                                    <g:textField name="servings" value="${fieldValue(bean: recipe, field: 'servings')}" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="image"><g:message code="recipe.image.label" default="Image" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'image', 'errors')}">
+                                    <g:select name="image.id" from="${com.mp.domain.Image.list()}" optionKey="id" value="${recipe?.image?.id}" noSelection="['null': '']" />
                                 </td>
                             </tr>
                         
