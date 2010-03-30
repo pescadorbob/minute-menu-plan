@@ -6,21 +6,14 @@ class BootstrapService {
 
     boolean transactional = true
 
-    public void populateTimeUnit() {
-        new TimeUnit(name: "Hours", symbol: "hrs", definition: "This is definition for hours").s()
-        new TimeUnit(name: "Minutes", symbol: "mins", definition: "This is definition for minuts").s()
+    public void populateStandardConversion() {
+        StandardConversion hoursToMinutes = new StandardConversion()
+        hoursToMinutes.sourceUnit = Unit.findByName('Hours')
+        hoursToMinutes.targetUnit = Unit.findByName('Minutes')
+        hoursToMinutes.conversionFactor = 60
+        hoursToMinutes.s()
     }
 
-    public void populateUnits(Integer count) {
-        (1..count).each {Integer index ->
-            new Unit(name: "Unit-${index}", symbol: "Symbol-${index}", definition: "This is definition for Units-${index}").s()
-        }
-    }
-    public void populateNutrient(Integer count){
-        (1..count).each {Integer index ->
-            new Nutrient(name: "Nutrient-${index}").s()
-        }
-    }
     public void populateCategory(Integer count) {
         (1..count).each {Integer index ->
             new Category(name: "Category-${index}").s()
@@ -29,7 +22,7 @@ class BootstrapService {
 
     public void populateQuantities(Integer count) {
         (1..count).each {Integer index ->
-            new Quantity(amount: new Random().nextInt(10) + 1, unit: Unit.get(new Random().nextInt(Unit.count()) + 1)).s()
+            new Quantity(value: new Random().nextInt(10) + 1, unit: Unit.get(new Random().nextInt(Unit.count()-3) + 3)).s()
         }
     }
 
@@ -53,10 +46,10 @@ class BootstrapService {
             recipe.difficulty = [RecipeDifficulty.EASY, RecipeDifficulty.MEDIUM, RecipeDifficulty.HARD].get(new Random().nextInt(3))
             recipe.shareWithCommunity = false
             recipe.servings = new Random().nextInt(5) + 1
-            Time pTime = new Time(minutes: (new Random().nextInt(5) + 1) * 5, preferredUnit: TimeUnit.get(new Random().nextInt(TimeUnit.count()) + 1))
+            Quantity pTime = new Quantity(value: new Random().nextInt(10) + 1, unit: Unit.findByName('Hours'))
             pTime.s()
             recipe.preparationTime = pTime
-            Time cTime = new Time(minutes: (new Random().nextInt(5) + 1) * 5, preferredUnit: TimeUnit.get(new Random().nextInt(TimeUnit.count()) + 1))
+            Quantity cTime = new Quantity(value: new Random().nextInt(10) + 1, unit: Unit.findByName('Minutes'))
             cTime.s()
             recipe.cookingTime = cTime
             recipe.s()
@@ -66,12 +59,13 @@ class BootstrapService {
             populateRecipeNutrient(recipe)
         }
     }
+
     public void populateRecipeNutrient(Recipe recipe) {
         (1..new Random().nextInt(5)).each {Integer index ->
-            RecipeNutrient nutrient=new RecipeNutrient()
-            nutrient.recipe=recipe
-            nutrient.nutrient= Nutrient.get(new Random().nextInt(Nutrient.count()) + 1)
-            nutrient.quantity=new Random().nextInt(500) + 1
+            RecipeNutrient nutrient = new RecipeNutrient()
+            nutrient.recipe = recipe
+            nutrient.nutrient = Nutrient.get(new Random().nextInt(Nutrient.count()) + 1)
+            nutrient.quantity = Quantity.get(new Random().nextInt(Quantity.count()) + 1)
             nutrient.s()
         }
     }

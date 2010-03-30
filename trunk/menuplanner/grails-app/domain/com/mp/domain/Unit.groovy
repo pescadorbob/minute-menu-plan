@@ -1,6 +1,6 @@
 package com.mp.domain
 
-class Unit {
+class Unit extends Metric{
 
     String name
     String symbol

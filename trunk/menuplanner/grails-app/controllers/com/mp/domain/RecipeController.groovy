@@ -1,6 +1,7 @@
 package com.mp.domain
 
 import grails.converters.JSON
+import static com.mp.MenuConstants.*
 
 class RecipeController {
 
@@ -94,7 +95,10 @@ class RecipeController {
     }
 
     def createRecipe = {
-        render(view: 'addEditRecipe')
+        List<Unit> timeUnitList = Unit.findAllByMetricType(MetricType.TIME)
+        List<Unit> metricUnitList = Unit.findAllByMetricType(MetricType.METRIC)
+        List<Nutrient> nutrientList = Nutrient.list()
+        render(view: 'addEditRecipe', model: [timeUnitList: timeUnitList, metricUnitList: metricUnitList, nutrientList: nutrientList])
     }
     def saveRecipe = {RecipeCO recipeCO ->
         if (recipeCO.validate()) {
@@ -104,7 +108,10 @@ class RecipeController {
             println recipeCO.errors.allErrors.each {
                 println it
             }
-            render(view: 'addEditRecipe', model: [recipeCO: recipeCO])
+            List<Unit> timeUnitList = Unit.findAllByMetricType(MetricType.TIME)
+            List<Unit> metricUnitList = Unit.findAllByMetricType(MetricType.METRIC)
+            List<Nutrient> nutrientList = Nutrient.list()
+            render(view: 'addEditRecipe', model: [recipeCO: recipeCO, timeUnitList: timeUnitList, metricUnitList: metricUnitList, nutrientList: nutrientList])
         }
     }
 
@@ -142,7 +149,7 @@ class RecipeCO {
     List<Long> ingredientUnitIds = []
     List<Long> ingredientProductIds = []
     List<Long> nutrientIds = []
-    
+
     List<String> directions = []
 
     List<String> hiddenDirections = []
@@ -191,20 +198,20 @@ class RecipeCO {
         recipe.servings = makesServing
         recipe.difficulty = RecipeDifficulty."${difficulty}"
 
-        Time CTime=new Time()
-        CTime.preferredUnit=TimeUnit.get(cookUnitId)
-        if(CTime.preferredUnit.name=='Hours') cookTime*=60;
-        CTime.minutes=cookTime
-        CTime.s()
+        Quantity quantityPreparationTime = new Quantity()
+        quantityPreparationTime.unit = Unit.get(cookUnitId)
+        if (quantityPreparationTime.unit.name == TIME_UNIT_HOURS) preparationTime *= 60;
+        quantityPreparationTime.value = preparationTime
+        quantityPreparationTime.s()
 
-        Time PTime=new Time()
-        PTime.preferredUnit=TimeUnit.get(preparationUnitId)
-        if(PTime.preferredUnit.name=='Hours') preparationTime*=60;
-        PTime.minutes=preparationTime
-        PTime.s()
+        Quantity quantityCokTime = new Quantity()
+        quantityCokTime.unit = Unit.get(cookUnitId)
+        if (quantityCokTime.unit.name == TIME_UNIT_HOURS) cookTime *= 60;
+        quantityCokTime.value = cookTime
+        quantityCokTime.s()
 
-        recipe.preparationTime=PTime
-        recipe.cookingTime=CTime
+        recipe.preparationTime = quantityPreparationTime
+        recipe.cookingTime = quantityCokTime
 
         recipe.s()
 
@@ -221,14 +228,18 @@ class RecipeCO {
         ingredientQuantities.eachWithIndex {BigDecimal amount, Integer index ->
             MeasuredProduct product = MeasuredProduct.get(ingredientProductIds[index])
             Unit unit = Unit.get(ingredientUnitIds[index])
-            Quantity quantity = new Quantity(unit: unit, amount: amount).s()
+            Quantity quantity = new Quantity(unit: unit, value: amount).s()
             new RecipeIngredient(sequence: (index + 1), recipe: recipe, ingredient: product, quantity: quantity).s()
         }
         nutrientQuantities.eachWithIndex {BigDecimal quantity, Integer index ->
-            RecipeNutrient nutrient =new RecipeNutrient()
-            nutrient.recipe=recipe
-            nutrient.nutrient=Nutrient.get(nutrientIds[index])
-            nutrient.quantity=nutrientQuantities[index]
+            RecipeNutrient nutrient = new RecipeNutrient()
+            nutrient.recipe = recipe
+            nutrient.nutrient = Nutrient.get(nutrientIds[index])
+            Quantity recipeNutrientQuantity = new Quantity()
+            recipeNutrientQuantity.value = nutrientQuantities[index]
+            recipeNutrientQuantity.unit = Unit.findByName(UNIT_MILLI_LITRE)
+            recipeNutrientQuantity.s()
+            nutrient.quantity = recipeNutrientQuantity
             nutrient.s()
         }
     }

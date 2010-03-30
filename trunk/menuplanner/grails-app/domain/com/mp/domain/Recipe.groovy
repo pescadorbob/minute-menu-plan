@@ -8,8 +8,8 @@ class Recipe {
     Image image
     Integer servings
 
-    Time preparationTime
-    Time cookingTime
+    Quantity preparationTime
+    Quantity cookingTime
 
     static transients = ['categories']
 

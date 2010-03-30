@@ -4,7 +4,7 @@ import org.codehaus.groovy.grails.commons.ApplicationHolder
 class BootStrap {
 
     def bootstrapService
-
+    def masterDataBootStrapService
     def init = {servletContext ->
 
         // Inject the helper s() method
@@ -17,9 +17,8 @@ class BootStrap {
             }
             object
         }
-        bootstrapService.populateTimeUnit()
-        bootstrapService.populateUnits(10)
-        bootstrapService.populateNutrient(15)
+
+        bootstrapMasterData()
         bootstrapService.populateCategory(10)
         bootstrapService.populateQuantities(20)
         bootstrapService.populateMeasuredProduct(50)
@@ -27,5 +26,11 @@ class BootStrap {
 
     }
     def destroy = {
+    }
+
+    private void bootstrapMasterData(){
+        masterDataBootStrapService.populateNutrients()
+        masterDataBootStrapService.populateTimeUnits()
+        masterDataBootStrapService.populateUnitsAndStandardConversions()
     }
 }
