@@ -13,6 +13,7 @@ class Unit {
     static constraints = {
         name(unique: true, nullable:false)
     }
+
     static mapping = {
         tablePerHierarchy false
     }
