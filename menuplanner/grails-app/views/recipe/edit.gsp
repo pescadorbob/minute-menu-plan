@@ -44,7 +44,7 @@
                                   <label for="preparationTime"><g:message code="recipe.preparationTime.label" default="Preparation Time" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: recipe, field: 'preparationTime', 'errors')}">
-                                    <g:select name="preparationTime.id" from="${com.mp.domain.Time.list()}" optionKey="id" value="${recipe?.preparationTime?.id}"  />
+                                    <g:select name="preparationTime.id" from="${com.mp.domain.Quantity.list()}" optionKey="id" value="${recipe?.preparationTime?.id}"  />
                                 </td>
                             </tr>
                         
@@ -53,7 +53,7 @@
                                   <label for="cookingTime"><g:message code="recipe.cookingTime.label" default="Cooking Time" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: recipe, field: 'cookingTime', 'errors')}">
-                                    <g:select name="cookingTime.id" from="${com.mp.domain.Time.list()}" optionKey="id" value="${recipe?.cookingTime?.id}"  />
+                                    <g:select name="cookingTime.id" from="${com.mp.domain.Quantity.list()}" optionKey="id" value="${recipe?.cookingTime?.id}"  />
                                 </td>
                             </tr>
                         

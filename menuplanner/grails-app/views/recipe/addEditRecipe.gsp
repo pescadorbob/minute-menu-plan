@@ -63,23 +63,21 @@
                     <ul class="add-recipe-form-container">
                         <li class="add-recipe-form-content"><strong>Category :</strong></li>
                         <li class="add-recipe-form-input">
-                            %{--*************************************************************************************************************************************--}%
                             <mp:tagInput name="categoryIds" controller="recipe" action="getMatchingCategories"/>
-                            %{--*************************************************************************************************************************************--}%
                         </li>
                     </ul>
                     <ul class="add-recipe-form-container">
                         <li class="add-recipe-form-content"><strong>Prep Time:</strong></li>
                         <li class="add-recipe-form-input">
                             <g:textField class="input2" name="preparationTime" value="${recipeCO?.preparationTime}"/>
-                            <g:select class="select2" name="preparationUnitId" from="${TimeUnit.list()}" optionKey="id" value="${recipeCO?.preparationUnitId}"/>
+                            <g:select class="select2" name="preparationUnitId" from="${timeUnitList}" optionKey="id" value="${recipeCO?.preparationUnitId}"/>
                         </li>
                     </ul>
                     <ul class="add-recipe-form-container">
                         <li class="add-recipe-form-content"><strong>Cook Time :</strong></li>
                         <li class="add-recipe-form-input">
                             <g:textField class="input2" name="cookTime" value="${recipeCO?.cookTime}"/>
-                            <g:select class="select2" name="cookUnitId" from="${TimeUnit.list()}" optionKey="id" value="${recipeCO?.cookUnitId}"/>
+                            <g:select class="select2" name="cookUnitId" from="${timeUnitList}" optionKey="id" value="${recipeCO?.cookUnitId}"/>
                         </li>
                     </ul>
                     <ul class="add-recipe-form-container">
@@ -129,10 +127,8 @@
                                 <span id="ingredientToBeAdded">
 
                                     <g:textField class="input2" id='optionIngredientQuantities' name="optionIngredientQuantities" value=""/>
-                                    <g:select class="select2" id='optionIngredientUnitIds' name="optionIngredientUnitIds" from="${Unit.list()}" optionKey="id" style="width:60px;"/>
-                                    %{--*************************************************************************************************************************************--}%
+                                    <g:select class="select2" id='optionIngredientUnitIds' name="optionIngredientUnitIds" from="${metricUnitList}" optionKey="id" style="width:60px;"/>
                                     <mp:tagInput name="optionIngredientProductIds" controller="recipe" action="getMatchingProducts" multiselect="false"/>
-                                    %{--*************************************************************************************************************************************--}%
 
                                 </span>
                             </span>
@@ -239,7 +235,7 @@
                             <span id="nutrientToBeAdded">
 
                                 <g:textField class="input2" id='optionNutrientQuantities' name="optionNutrientQuantities" value=""/>
-                                <g:select class="select2" id='optionNutrientIds' name="optionNutrientIds" from="${Nutrient.list()}" optionKey="id"/>
+                                <g:select class="select2" id='optionNutrientIds' name="optionNutrientIds" from="${nutrientList}" optionKey="id"/>
 
                             </span>
                         </span>

@@ -2,14 +2,14 @@ package com.mp.domain
 
 class Quantity {
 
-    BigDecimal amount
+    BigDecimal value
     Unit unit
 
     String toString() {
-        return (amount + ' ' + unit)
+        return (value + ' ' + unit)
     }
 
     static constraints = {
-        amount(min:0.0001)
+        value(min: 0.0001)
     }
 }

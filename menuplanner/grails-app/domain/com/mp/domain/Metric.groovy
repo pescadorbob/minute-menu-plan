@@ -1,15 +1,10 @@
 package com.mp.domain
 
-class TimeUnit extends Unit {
-
+class Metric {
+    MetricType metricType
     static constraints = {
     }
-
     static mapping = {
         tablePerHierarchy false
-    }
-
-    String toString() {
-        return name
     }
 }

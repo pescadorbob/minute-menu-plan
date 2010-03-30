@@ -39,14 +39,14 @@
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="recipe.preparationTime.label" default="Preparation Time" /></td>
                             
-                            <td valign="top" class="value"><g:link controller="time" action="show" id="${recipe?.preparationTime?.id}">${recipe?.preparationTime?.encodeAsHTML()}</g:link></td>
+                            <td valign="top" class="value"><g:link controller="quantity" action="show" id="${recipe?.preparationTime?.id}">${recipe?.preparationTime?.encodeAsHTML()}</g:link></td>
                             
                         </tr>
                     
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="recipe.cookingTime.label" default="Cooking Time" /></td>
                             
-                            <td valign="top" class="value"><g:link controller="time" action="show" id="${recipe?.cookingTime?.id}">${recipe?.cookingTime?.encodeAsHTML()}</g:link></td>
+                            <td valign="top" class="value"><g:link controller="quantity" action="show" id="${recipe?.cookingTime?.id}">${recipe?.cookingTime?.encodeAsHTML()}</g:link></td>
                             
                         </tr>
                     

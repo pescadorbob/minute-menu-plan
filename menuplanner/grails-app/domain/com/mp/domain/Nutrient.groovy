@@ -1,10 +1,13 @@
 package com.mp.domain
 
 class Nutrient {
+
     String name
+
     static constraints = {
     }
-    String toString(){
-        return name;
+
+    String toString() {
+        return name
     }
 }

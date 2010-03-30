@@ -3,7 +3,7 @@ package com.mp.domain
 class RecipeNutrient {
     Recipe recipe
     Nutrient nutrient 
-    BigDecimal quantity
+    Quantity quantity
 
     String toString(){
         return "${quantity}: ${nutrient}"
