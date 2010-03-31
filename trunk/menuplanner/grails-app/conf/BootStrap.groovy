@@ -29,8 +29,9 @@ class BootStrap {
     }
 
     private void bootstrapMasterData(){
-        masterDataBootStrapService.populateNutrients()
+        masterDataBootStrapService.populateSystemOfUnits()
         masterDataBootStrapService.populateTimeUnits()
         masterDataBootStrapService.populateUnitsAndStandardConversions()
+        masterDataBootStrapService.populateNutrients()
     }
 }
