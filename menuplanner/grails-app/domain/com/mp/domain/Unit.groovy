@@ -2,16 +2,10 @@ package com.mp.domain
 
 class Unit extends Metric{
 
-    String name
-    String symbol
-    String definition
-
-    String toString() {
-        name
-    }
+    static hasMany = [systemOfUnits:SystemOfUnit]
+    static belongsTo = SystemOfUnit
 
     static constraints = {
-        name(unique: true, nullable:false)
     }
 
     static mapping = {

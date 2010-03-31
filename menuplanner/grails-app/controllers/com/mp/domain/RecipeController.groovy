@@ -95,10 +95,16 @@ class RecipeController {
     }
 
     def createRecipe = {
-        List<Unit> timeUnitList = Unit.findAllByMetricType(MetricType.TIME)
-        List<Unit> metricUnitList = Unit.findAllByMetricType(MetricType.METRIC)
-        List<Nutrient> nutrientList = Nutrient.list()
-        render(view: 'addEditRecipe', model: [timeUnitList: timeUnitList, metricUnitList: metricUnitList, nutrientList: nutrientList])
+        SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
+
+        List<Unit> timeUnits = Unit.findAllByMetricType(MetricType.TIME)
+        timeUnits = timeUnits.findAll{(sys.id in it.systemOfUnits*.id)}
+
+        List<Unit> metricUnits = Unit.findAllByMetricType(MetricType.METRIC)
+        metricUnits = metricUnits.findAll{sys.id in it.systemOfUnits*.id}
+
+        List<Nutrient> nutrients = Nutrient.list()
+        render(view: 'addEditRecipe', model: [timeUnits: timeUnits, metricUnits: metricUnits, nutrients: nutrients])
     }
     def saveRecipe = {RecipeCO recipeCO ->
         if (recipeCO.validate()) {
@@ -108,10 +114,13 @@ class RecipeController {
             println recipeCO.errors.allErrors.each {
                 println it
             }
-            List<Unit> timeUnitList = Unit.findAllByMetricType(MetricType.TIME)
-            List<Unit> metricUnitList = Unit.findAllByMetricType(MetricType.METRIC)
-            List<Nutrient> nutrientList = Nutrient.list()
-            render(view: 'addEditRecipe', model: [recipeCO: recipeCO, timeUnitList: timeUnitList, metricUnitList: metricUnitList, nutrientList: nutrientList])
+            SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
+            List<Unit> timeUnits = Unit.findAllByMetricType(MetricType.TIME)
+            timeUnits = timeUnits.findAll{(sys.id in it.systemOfUnits*.id)}
+            List<Unit> metricUnits = Unit.findAllByMetricType(MetricType.METRIC)
+            metricUnits = metricUnits.findAll{sys.id in it.systemOfUnits*.id}
+            List<Nutrient> nutrients = Nutrient.list()
+            render(view: 'addEditRecipe', model: [recipeCO: recipeCO, timeUnits: timeUnits, metricUnits: metricUnits, nutrients: nutrients])
         }
     }
 
@@ -169,6 +178,8 @@ class RecipeCO {
         cookTime(min: 1)
         categoryIds(minSize: 1)
 
+        nutrientQuantities()
+
         ingredientQuantities(minSize: 1, validator: {val, obj ->
             if ((val.any {!it}) || (val.size() != obj.ingredientUnitIds?.size()) || (val.size() != obj.ingredientProductIds?.size())) {
                 return 'default.invalid.message'
@@ -199,19 +210,19 @@ class RecipeCO {
         recipe.difficulty = RecipeDifficulty."${difficulty}"
 
         Quantity quantityPreparationTime = new Quantity()
-        quantityPreparationTime.unit = Unit.get(cookUnitId)
+        quantityPreparationTime.unit = Unit.get(preparationUnitId)
         if (quantityPreparationTime.unit.name == TIME_UNIT_HOURS) preparationTime *= 60;
         quantityPreparationTime.value = preparationTime
         quantityPreparationTime.s()
 
-        Quantity quantityCokTime = new Quantity()
-        quantityCokTime.unit = Unit.get(cookUnitId)
-        if (quantityCokTime.unit.name == TIME_UNIT_HOURS) cookTime *= 60;
-        quantityCokTime.value = cookTime
-        quantityCokTime.s()
+        Quantity quantityCookTime = new Quantity()
+        quantityCookTime.unit = Unit.get(cookUnitId)
+        if (quantityCookTime.unit.name == TIME_UNIT_HOURS) cookTime *= 60;
+        quantityCookTime.value = cookTime
+        quantityCookTime.s()
 
         recipe.preparationTime = quantityPreparationTime
-        recipe.cookingTime = quantityCokTime
+        recipe.cookingTime = quantityCookTime
 
         recipe.s()
 

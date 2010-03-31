@@ -1,18 +1,11 @@
 package com.mp
 
 import com.mp.domain.*
+import static com.mp.MenuConstants.*
 
 class BootstrapService {
 
     boolean transactional = true
-
-    public void populateStandardConversion() {
-        StandardConversion hoursToMinutes = new StandardConversion()
-        hoursToMinutes.sourceUnit = Unit.findByName('Hours')
-        hoursToMinutes.targetUnit = Unit.findByName('Minutes')
-        hoursToMinutes.conversionFactor = 60
-        hoursToMinutes.s()
-    }
 
     public void populateCategory(Integer count) {
         (1..count).each {Integer index ->
@@ -46,12 +39,12 @@ class BootstrapService {
             recipe.difficulty = [RecipeDifficulty.EASY, RecipeDifficulty.MEDIUM, RecipeDifficulty.HARD].get(new Random().nextInt(3))
             recipe.shareWithCommunity = false
             recipe.servings = new Random().nextInt(5) + 1
-            Quantity pTime = new Quantity(value: new Random().nextInt(10) + 1, unit: Unit.findByName('Hours'))
-            pTime.s()
-            recipe.preparationTime = pTime
-            Quantity cTime = new Quantity(value: new Random().nextInt(10) + 1, unit: Unit.findByName('Minutes'))
-            cTime.s()
-            recipe.cookingTime = cTime
+            Quantity recipePreparationTime = new Quantity(value: new Random().nextInt(10) + 1, unit: Unit.findByName(TIME_UNIT_HOURS))
+            recipePreparationTime.s()
+            recipe.preparationTime = recipePreparationTime
+            Quantity recipeCookTime = new Quantity(value: new Random().nextInt(10) + 1, unit: Unit.findByName(TIME_UNIT_MINUTES))
+            recipeCookTime.s()
+            recipe.cookingTime = recipeCookTime
             recipe.s()
             populateRecipeCategories(recipe)
             populateRecipeIngredient(recipe)
@@ -66,7 +59,9 @@ class BootstrapService {
             nutrient.recipe = recipe
             nutrient.nutrient = Nutrient.get(new Random().nextInt(Nutrient.count()) + 1)
             nutrient.quantity = Quantity.get(new Random().nextInt(Quantity.count()) + 1)
-            nutrient.s()
+            if(!RecipeNutrient.findByNutrientAndRecipe(nutrient.nutrient, recipe)){
+                nutrient.s()
+            }
         }
     }
 
@@ -84,7 +79,9 @@ class BootstrapService {
             ingredient.sequence = index
             ingredient.ingredient = MeasuredProduct.get(new Random().nextInt(MeasuredProduct.count()) + 1)
             ingredient.quantity = Quantity.get(new Random().nextInt(Quantity.count()) + 1)
-            ingredient.s()
+            if(!RecipeIngredient.findByRecipeAndIngredient(recipe, ingredient.ingredient)){
+                ingredient.s()
+            }
         }
     }
 
