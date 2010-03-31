@@ -98,10 +98,10 @@ class RecipeController {
         SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
 
         List<Unit> timeUnits = Unit.findAllByMetricType(MetricType.TIME)
-        timeUnits = timeUnits.findAll{(sys.id in it.systemOfUnits*.id)}
+        timeUnits = timeUnits.findAll {(sys.id in it.systemOfUnits*.id)}
 
         List<Unit> metricUnits = Unit.findAllByMetricType(MetricType.METRIC)
-        metricUnits = metricUnits.findAll{sys.id in it.systemOfUnits*.id}
+        metricUnits = metricUnits.findAll {sys.id in it.systemOfUnits*.id}
 
         List<Nutrient> nutrients = Nutrient.list()
         render(view: 'addEditRecipe', model: [timeUnits: timeUnits, metricUnits: metricUnits, nutrients: nutrients])
@@ -116,9 +116,9 @@ class RecipeController {
             }
             SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
             List<Unit> timeUnits = Unit.findAllByMetricType(MetricType.TIME)
-            timeUnits = timeUnits.findAll{(sys.id in it.systemOfUnits*.id)}
+            timeUnits = timeUnits.findAll {(sys.id in it.systemOfUnits*.id)}
             List<Unit> metricUnits = Unit.findAllByMetricType(MetricType.METRIC)
-            metricUnits = metricUnits.findAll{sys.id in it.systemOfUnits*.id}
+            metricUnits = metricUnits.findAll {sys.id in it.systemOfUnits*.id}
             List<Nutrient> nutrients = Nutrient.list()
             render(view: 'addEditRecipe', model: [recipeCO: recipeCO, timeUnits: timeUnits, metricUnits: metricUnits, nutrients: nutrients])
         }
@@ -246,12 +246,14 @@ class RecipeCO {
             RecipeNutrient nutrient = new RecipeNutrient()
             nutrient.recipe = recipe
             nutrient.nutrient = Nutrient.get(nutrientIds[index])
-            Quantity recipeNutrientQuantity = new Quantity()
-            recipeNutrientQuantity.value = nutrientQuantities[index]
-            recipeNutrientQuantity.unit = Unit.findByName(UNIT_MILLI_LITRE)
-            recipeNutrientQuantity.s()
-            nutrient.quantity = recipeNutrientQuantity
-            nutrient.s()
+            if (nutrientQuantities[index]) {
+                Quantity recipeNutrientQuantity = new Quantity()
+                recipeNutrientQuantity.value = nutrientQuantities[index]
+                recipeNutrientQuantity.unit = Unit.findByName(UNIT_MILLI_LITRE)
+                recipeNutrientQuantity.s()
+                nutrient.quantity = recipeNutrientQuantity
+                nutrient.s()
+            }
         }
     }
 }
