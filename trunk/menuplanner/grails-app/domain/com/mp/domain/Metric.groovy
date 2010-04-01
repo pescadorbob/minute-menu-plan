@@ -8,7 +8,7 @@ class Metric {
     MetricType metricType
     
     String toString() {
-        name
+        return "${name}"
     }
 
     static constraints = {

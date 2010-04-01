@@ -6,7 +6,7 @@ class RecipeNutrient {
     Quantity quantity
 
     String toString(){
-        return "${quantity}: ${nutrient}"
+        return "${quantity} ${nutrient}"
     }
     static constraints = {
         recipe(unique: 'nutrient')

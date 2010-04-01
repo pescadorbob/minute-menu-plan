@@ -15,6 +15,8 @@ class Recipe {
 
     static hasMany = [ingredients: RecipeIngredient, directions: RecipeDirection, recipeCategories: RecipeCategory, nutrients:RecipeNutrient]
 
+    static belongsTo = Item
+
     List<Category> getCategories() {
         return ((recipeCategories) ? ((recipeCategories?.collect {it.category}).sort{it.name}) : [])
     }

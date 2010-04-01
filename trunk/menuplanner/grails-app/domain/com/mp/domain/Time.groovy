@@ -8,8 +8,4 @@ class Time extends Unit {
     static mapping = {
         tablePerHierarchy false
     }
-
-    String toString() {
-        return "${name}"
-    }
 }
