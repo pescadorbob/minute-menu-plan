@@ -141,6 +141,7 @@ class RecipeController {
 class RecipeCO {
     RecipeCO() {} //constructor
 
+    Long itemId
     String name
     String difficulty
     Boolean shareWithCommunity
@@ -226,6 +227,9 @@ class RecipeCO {
 
         recipe.s()
 
+        Item item = Item.findById(itemId)
+        item.addToRecipes(recipe)
+
 //       Image image =    Image.createFile(recipe.id, "/recipes", recipeImage.originalFilename, recipeImage.bytes,"Some alt text").s()
 
         categoryIds.eachWithIndex {Long categoryId, Integer index ->
@@ -249,7 +253,7 @@ class RecipeCO {
             if (nutrientQuantities[index]) {
                 Quantity recipeNutrientQuantity = new Quantity()
                 recipeNutrientQuantity.value = nutrientQuantities[index]
-                recipeNutrientQuantity.unit = Unit.findByName(UNIT_MILLI_LITRE)
+                recipeNutrientQuantity.unit = Nutrient.get(nutrientIds[index]).preferredUnit
                 recipeNutrientQuantity.s()
                 nutrient.quantity = recipeNutrientQuantity
                 nutrient.s()

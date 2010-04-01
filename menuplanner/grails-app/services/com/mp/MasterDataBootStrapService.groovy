@@ -31,15 +31,10 @@ class MasterDataBootStrapService {
     public void populateUnitsAndStandardConversions() {
 
         SystemOfUnit systemOfUnitsUsa = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
-        SystemOfUnit systemOfUnitsMetric = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_METRIC)
 
         Unit drop = new Unit(name: UNIT_DROP, symbol: UNIT_DROP_SYMBOL, definition: "This is definition for drop", metricType: MetricType.METRIC)
         drop.addToSystemOfUnits(systemOfUnitsUsa)
         drop.s()
-
-        Unit milliLitres = new Unit(name: UNIT_MILLI_LITRE, symbol: UNIT_MILLI_LITRE_SYMBOL, definition: "This is definition for millilitre", metricType: MetricType.METRIC)
-        milliLitres.addToSystemOfUnits(systemOfUnitsUsa)
-        milliLitres.s()
         Unit teaspoon = new Unit(name: UNIT_TEA_SPOON, symbol: UNIT_TEA_SPOON_SYMBOL, definition: "This is definition for Teaspoon", metricType: MetricType.METRIC)
         teaspoon.addToSystemOfUnits(systemOfUnitsUsa)
         teaspoon.s()
@@ -68,6 +63,21 @@ class MasterDataBootStrapService {
         gallon.addToSystemOfUnits(systemOfUnitsUsa)
         gallon.s()
 
+
+        SystemOfUnit systemOfUnitsMetric = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_METRIC)
+        Unit milliLitres = new Unit(name: UNIT_MILLI_LITRE, symbol: UNIT_MILLI_LITRE_SYMBOL, definition: "This is definition for millilitre", metricType: MetricType.METRIC)
+        milliLitres.addToSystemOfUnits(systemOfUnitsMetric)
+        milliLitres.s()
+        Unit milliGram = new Unit(name: UNIT_MILLI_GRAM, symbol: UNIT_MILLI_GRAM_SYMBOL, definition: "This is definition for milligram", metricType: MetricType.METRIC)
+        milliGram.addToSystemOfUnits(systemOfUnitsMetric)
+        milliGram.s()
+        Unit gram = new Unit(name: UNIT_GRAM, symbol: UNIT_GRAM_SYMBOL, definition: "This is definition for gram", metricType: MetricType.METRIC)
+        gram.addToSystemOfUnits(systemOfUnitsMetric)
+        gram.s()
+        Unit none = new Unit(name: "-", symbol: "", definition: "This is definition for none", metricType: MetricType.METRIC)
+        none.addToSystemOfUnits(systemOfUnitsMetric)
+        none.s()
+
         new StandardConversion(sourceUnit: milliLitres, targetUnit: drop, conversionFactor: UNIT_DROP_CONVERSION_FACTOR).s()
         new StandardConversion(sourceUnit: milliLitres, targetUnit: teaspoon, conversionFactor: UNIT_TEA_SPOON_CONVERSION_FACTOR).s()
         new StandardConversion(sourceUnit: milliLitres, targetUnit: tableSpoon, conversionFactor: UNIT_TABLE_SPOON_CONVERSION_FACTOR).s()
@@ -78,19 +88,22 @@ class MasterDataBootStrapService {
         new StandardConversion(sourceUnit: milliLitres, targetUnit: fifth, conversionFactor: UNIT_FIFTH_CONVERSION_FACTOR).s()
         new StandardConversion(sourceUnit: milliLitres, targetUnit: quart, conversionFactor: UNIT_QUART_CONVERSION_FACTOR).s()
         new StandardConversion(sourceUnit: milliLitres, targetUnit: gallon, conversionFactor: UNIT_GALLON_CONVERSION_FACTOR).s()
+
     }
 
     public void populateNutrients() {
 
-        Unit nutrientUnit = Unit.findByName(UNIT_MILLI_LITRE)
+        Unit none = Unit.findByName("-")
+        Unit gram = Unit.findByName(UNIT_GRAM)
+        Unit milliGram = Unit.findByName(UNIT_MILLI_GRAM)
 
-        new Nutrient(name: NUTRIENT_CALORIES, preferredUnit: nutrientUnit).s()
-        new Nutrient(name: NUTRIENT_TOTAL_FAT, preferredUnit: nutrientUnit).s()
-        new Nutrient(name: NUTRIENT_SATURATED_FAT, preferredUnit: nutrientUnit).s()
-        new Nutrient(name: NUTRIENT_CHOLESTEROL, preferredUnit: nutrientUnit).s()
-        new Nutrient(name: NUTRIENT_SODIUM, preferredUnit: nutrientUnit).s()
-        new Nutrient(name: NUTRIENT_CARBOHYDRATES, preferredUnit: nutrientUnit).s()
-        new Nutrient(name: NUTRIENT_FIBER, preferredUnit: nutrientUnit).s()
-        new Nutrient(name: NUTRIENT_PROTEIN, preferredUnit: nutrientUnit).s()
+        new Nutrient(name: NUTRIENT_CALORIES, preferredUnit: none).s()
+        new Nutrient(name: NUTRIENT_TOTAL_FAT, preferredUnit: none).s()
+        new Nutrient(name: NUTRIENT_SATURATED_FAT, preferredUnit: gram).s()
+        new Nutrient(name: NUTRIENT_CHOLESTEROL, preferredUnit: milliGram).s()
+        new Nutrient(name: NUTRIENT_SODIUM, preferredUnit: milliGram).s()
+        new Nutrient(name: NUTRIENT_CARBOHYDRATES, preferredUnit: gram).s()
+        new Nutrient(name: NUTRIENT_FIBER, preferredUnit: gram).s()
+        new Nutrient(name: NUTRIENT_PROTEIN, preferredUnit: gram).s()
     }
 }

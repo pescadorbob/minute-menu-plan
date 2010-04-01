@@ -6,10 +6,10 @@ class Quantity {
     Unit unit
 
     String toString() {
-        return (value + ' ' + unit)
+        return "${value} ${unit}"
     }
 
     static constraints = {
-        value(min: 0.0001)
+        value(min: 0.0)
     }
 }

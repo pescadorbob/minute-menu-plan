@@ -12,11 +12,6 @@ class MenuConstants {
     public static final String TIME_UNIT_MINUTES_SYMBOL = "mins"
     public static final Double TIME_UNIT_HOURS_TO_MINUTES_CONVERSION_FACTOR = 60
 
-
-    public static final String UNIT_MILLI_LITRE = "Milli Litre"
-    public static final String UNIT_MILLI_LITRE_SYMBOL = "mL"
-    //public static final Double UNIT_MILLI_LITRE_CONVERSION_FACTOR =
-
     public static final String UNIT_DROP = "Drop"
     public static final String UNIT_DROP_SYMBOL = ""
     public static final Double UNIT_DROP_CONVERSION_FACTOR =0.05
@@ -60,6 +55,19 @@ class MenuConstants {
     public static final String UNIT_GALLON = "Gallon"
     public static final String UNIT_GALLON_SYMBOL = "gal."
     public static final Double UNIT_GALLON_CONVERSION_FACTOR = 3785.41
+
+
+    public static final String UNIT_MILLI_LITRE = "Milli Litre"
+    public static final String UNIT_MILLI_LITRE_SYMBOL = "mL"
+    //public static final Double UNIT_MILLI_LITRE_CONVERSION_FACTOR =
+
+    public static final String UNIT_MILLI_GRAM = "Milli Grams"
+    public static final String UNIT_MILLI_GRAM_SYMBOL = "mg."
+    //public static final Double UNIT_MILLI_GRAM_CONVERSION_FACTOR = 
+
+    public static final String UNIT_GRAM = "Grams"
+    public static final String UNIT_GRAM_SYMBOL = "g."
+    //public static final Double UNIT_GRAM_CONVERSION_FACTOR =
 
 
     public static final String NUTRIENT_CALORIES = "Calories"

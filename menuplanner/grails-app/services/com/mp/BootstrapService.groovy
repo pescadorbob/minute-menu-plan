@@ -15,7 +15,7 @@ class BootstrapService {
 
     public void populateQuantities(Integer count) {
         (1..count).each {Integer index ->
-            new Quantity(value: new Random().nextInt(10) + 1, unit: Unit.get(new Random().nextInt(Unit.count()-3) + 3)).s()
+            new Quantity(value: new Random().nextInt(10) + 1, unit: Unit.get(new Random().nextInt(Unit.count()-4) + 3)).s()
         }
     }
 
@@ -29,6 +29,14 @@ class BootstrapService {
 //            def image = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/img13.jpg")).readBytes()
 //            ProductImage productImage = new ProductImage(productId: measuredProduct.id, image: image).s()
 
+        }
+    }
+
+    public void populateItems(Integer count) {
+        (1..count).each {Integer index ->
+            Item item = new Item()
+            item.name="Item-${index}"
+            item.s()
         }
     }
 
@@ -50,6 +58,10 @@ class BootstrapService {
             populateRecipeIngredient(recipe)
             populateRecipeDirections(recipe)
             populateRecipeNutrient(recipe)
+
+            Item item = Item.get(new Random().nextInt(Item.count()) + 1)
+            item.addToRecipes(recipe)
+
         }
     }
 
@@ -58,8 +70,12 @@ class BootstrapService {
             RecipeNutrient nutrient = new RecipeNutrient()
             nutrient.recipe = recipe
             nutrient.nutrient = Nutrient.get(new Random().nextInt(Nutrient.count()) + 1)
-            nutrient.quantity = Quantity.get(new Random().nextInt(Quantity.count()) + 1)
             if(!RecipeNutrient.findByNutrientAndRecipe(nutrient.nutrient, recipe)){
+                Quantity nutrientQuantity= new Quantity()
+                nutrientQuantity.value=new Random().nextInt(10) + 1
+                nutrientQuantity.unit= nutrient.nutrient.preferredUnit
+                nutrientQuantity.s()
+                nutrient.quantity=nutrientQuantity
                 nutrient.s()
             }
         }
