@@ -29,7 +29,7 @@ class UtilController {
         }
         render testStr + [' Converted To: '] + results
     }
-    String[] decimalToFraction(String input) {
+    List<String> decimalToFraction(String input) {
         Integer res1, res2, res3 = 1;
         String[] myList = input.split("\\.");
         if (myList[0] == '')  myList[0] = '0'
@@ -42,7 +42,7 @@ class UtilController {
         Integer HCF = hcf_function(res2, res3)
         res2 = res2 / HCF
         res3 = res3 / HCF
-        List<String> result = [res1, res2, res3]
+        List<String> result = [res1.toString(), res2.toString(), res3.toString()]
         return result;
     }
 
@@ -63,9 +63,10 @@ class UtilController {
         }
     }
 
-    String[] fractionToDecimal(String input) {
+    List<String> fractionToDecimal(String input) {
         String res1, res2;
         def resFloat;
+
         List<String> myList = []
         String[] temp = input.split("\\ ");
         if (temp.size() == 1) {

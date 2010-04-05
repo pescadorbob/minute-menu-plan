@@ -4,6 +4,7 @@ class Nutrient {
 
     String name
     Unit preferredUnit
+    
     static hasMany = [possibleUnits: Unit]
 
     static constraints = {

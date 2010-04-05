@@ -58,10 +58,6 @@ class BootstrapService {
             populateRecipeIngredient(recipe)
             populateRecipeDirections(recipe)
             populateRecipeNutrient(recipe)
-
-            Item item = Item.get(new Random().nextInt(Item.count()) + 1)
-            item.addToRecipes(recipe)
-
         }
     }
 
