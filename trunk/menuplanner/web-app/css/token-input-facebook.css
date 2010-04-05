@@ -1,8 +1,7 @@
 /* Example tokeninput style #2: Facebook style */
 ul.token-input-list-facebook {
-    overflow: hidden; 
-    height: auto !important;
-    border: 1px solid #8496ba;
+    overflow: hidden;
+    border: 1px solid #dddddd;
     cursor: text;
     font-size: 12px;
     min-height: 1px;
@@ -25,8 +24,8 @@ ul.token-input-list-facebook li input {
 }
 
 li.token-input-token-facebook {
-    overflow: hidden; 
-    height: auto !important; 
+    overflow: hidden;
+    height: auto !important;
     margin: 3px;
     padding: 1px 3px;
     background-color: #eff2f7;
@@ -61,21 +60,22 @@ li.token-input-selected-token-facebook {
 
 li.token-input-input-token-facebook {
     float: left;
+    height: 19px;
 }
 
 div.token-input-dropdown-facebook {
     position: absolute;
     width: 400px;
     background-color: #fff;
-    overflow-y:scroll;
-    overflow-x:hidden;
+    overflow-y: scroll;
+    overflow-x: hidden;
     border-left: 1px solid #ccc;
     border-right: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
     cursor: default;
     font-size: 11px;
     font-family: Verdana;
-    height:170px;
+    height: 170px;
     z-index: 1;
 }
 
@@ -114,8 +114,6 @@ div.token-input-dropdown-facebook ul li.token-input-selected-dropdown-item-faceb
     color: #fff;
 }
 
-
-
 .token-chan-tweaks1 {
     outline-color: -moz-use-text-color;
     outline-style: none;
@@ -123,6 +121,6 @@ div.token-input-dropdown-facebook ul li.token-input-selected-dropdown-item-faceb
     -moz-border-radius-topleft: 5px;
     -moz-border-radius-topright: 5px;
     -moz-border-radius-bottomright: 5px;
-    -moz-bor-width:auto;
-    background-color:#EFF2F7;
+    -moz-bor-width: auto;
+    background-color: #EFF2F7;
 }
