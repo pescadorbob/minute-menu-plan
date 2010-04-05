@@ -1,9 +1,9 @@
 <g:if test="${hiddenDirection}">
     <span class="directionRow">
         <span class="optionImages">
-            <img hspace="2" height="16" border="0" align="left" width="16" vspace="2" style="cursor: pointer;" src="${resource(dir: 'images', file: 'delete.jpg')}" class="btnDelete"/>
-            <img hspace="2" height="16" border="0" align="left" width="16" vspace="2" style="cursor: pointer;" src="${resource(dir: 'images', file: 'arrow-up.jpg')}" class="btnUp"/>
-            <img hspace="2" height="16" border="0" align="left" width="16" vspace="2" style="cursor: pointer;" src="${resource(dir: 'images', file: 'arrow-dwn.jpg')}" class="btnDown"/>
+            <img class="btnDelete" src="${resource(dir: 'images', file: 'remove1.gif')}" width="11" height="13" hspace="2" vspace="2" border="0" style="cursor: pointer;"/>
+            <img class="btnUp" src="${resource(dir: 'images', file: 'arw-up.gif')}" hspace="2" vspace="2" border="0" style="cursor: pointer;"/>
+            <img class="btnDown" src="${resource(dir: 'images', file: 'arw-dwn.gif')}" vspace="2" hspace="2" border="0" style="cursor: pointer;"/>
         </span>
         <span chass="hiddenDirectionField">
             <input class="D" type="hidden" value="${hiddenDirection}" name="directions"/>
@@ -11,6 +11,6 @@
         <span class="showDirection">${hiddenDirection}</span>
         <span class="hiddenTextDirection">
             <input class='H' type="hidden" name="hiddenDirections" value="${hiddenDirection}"/>
-        </span>  <br><br>
+        </span>  <br>
     </span>
 </g:if>

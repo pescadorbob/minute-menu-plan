@@ -74,9 +74,9 @@ class MasterDataBootStrapService {
         Unit gram = new Unit(name: UNIT_GRAM, symbol: UNIT_GRAM_SYMBOL, definition: "This is definition for gram", metricType: MetricType.METRIC)
         gram.addToSystemOfUnits(systemOfUnitsMetric)
         gram.s()
-        Unit none = new Unit(name: "-", symbol: "", definition: "This is definition for none", metricType: MetricType.METRIC)
-        none.addToSystemOfUnits(systemOfUnitsMetric)
-        none.s()
+        Unit calories = new Unit(name: UNIT_CALORIES, symbol: UNIT_CALORIES_SYMBOL, definition: "This is definition for calories", metricType: MetricType.METRIC)
+        calories.addToSystemOfUnits(systemOfUnitsMetric)
+        calories.s()
 
         new StandardConversion(sourceUnit: milliLitres, targetUnit: drop, conversionFactor: UNIT_DROP_CONVERSION_FACTOR).s()
         new StandardConversion(sourceUnit: milliLitres, targetUnit: teaspoon, conversionFactor: UNIT_TEA_SPOON_CONVERSION_FACTOR).s()
@@ -93,12 +93,12 @@ class MasterDataBootStrapService {
 
     public void populateNutrients() {
 
-        Unit none = Unit.findByName("-")
+        Unit calories = Unit.findByName(UNIT_CALORIES)
         Unit gram = Unit.findByName(UNIT_GRAM)
         Unit milliGram = Unit.findByName(UNIT_MILLI_GRAM)
 
-        new Nutrient(name: NUTRIENT_CALORIES, preferredUnit: none).s()
-        new Nutrient(name: NUTRIENT_TOTAL_FAT, preferredUnit: none).s()
+        new Nutrient(name: NUTRIENT_CALORIES, preferredUnit: calories).s()
+        new Nutrient(name: NUTRIENT_TOTAL_FAT, preferredUnit: gram).s()
         new Nutrient(name: NUTRIENT_SATURATED_FAT, preferredUnit: gram).s()
         new Nutrient(name: NUTRIENT_CHOLESTEROL, preferredUnit: milliGram).s()
         new Nutrient(name: NUTRIENT_SODIUM, preferredUnit: milliGram).s()

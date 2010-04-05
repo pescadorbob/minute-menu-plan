@@ -69,6 +69,10 @@ class MenuConstants {
     public static final String UNIT_GRAM_SYMBOL = "g."
     //public static final Double UNIT_GRAM_CONVERSION_FACTOR =
 
+    public static final String UNIT_CALORIES = "Calories"
+    public static final String UNIT_CALORIES_SYMBOL = "cal."
+    //public static final Double UNIT_GRAM_CONVERSION_FACTOR =
+
 
     public static final String NUTRIENT_CALORIES = "Calories"
     public static final String NUTRIENT_TOTAL_FAT = "Total Fat"

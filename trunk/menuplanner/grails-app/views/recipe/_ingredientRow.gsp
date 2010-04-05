@@ -1,8 +1,8 @@
 <span class="ingredientRowNew"><!-- "NEW" -->
     <span class="optionImages">
-        <img hspace="2" height="16" border="0" align="left" width="16" vspace="2" style="cursor: pointer;" src="${resource(dir: 'images', file: 'delete.jpg')}" class="btnDelete"/>
-        <img hspace="2" height="16" border="0" align="left" width="16" vspace="2" style="cursor: pointer;" src="${resource(dir: 'images', file: 'arrow-up.jpg')}" class="btnUp"/>
-        <img hspace="2" height="16" border="0" align="left" width="16" vspace="2" style="cursor: pointer;" src="${resource(dir: 'images', file: 'arrow-dwn.jpg')}" class="btnDown"/>
+        <img class="btnDelete" src="${resource(dir: 'images', file: 'remove1.gif')}" width="11" height="13" hspace="2" vspace="2" border="0" style="cursor: pointer;"/>
+        <img class="btnUp" src="${resource(dir: 'images', file: 'arw-up.gif')}" hspace="2" vspace="2" border="0" style="cursor: pointer;"/>
+        <img class="btnDown" src="${resource(dir: 'images', file: 'arw-dwn.gif')}" vspace="2" hspace="2" border="0" style="cursor: pointer;"/>
     </span>
     <span class="ingredientHiddenFields">
         <input class='Q' type="hidden" value="" name="ingredientQuantities"/>
@@ -12,5 +12,5 @@
     <span class="showIngredient"></span>
     <span class="hiddenTextIngredient">
         <input class='H' type="hidden" name="hiddenIngredients" value=""/>
-    </span> <br> <br>
+    </span> <br> 
 </span>

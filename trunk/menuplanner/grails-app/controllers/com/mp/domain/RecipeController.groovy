@@ -14,11 +14,6 @@ class RecipeController {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [recipeList: Recipe.list(params), recipeTotal: Recipe.count()]
     }
-    def create = {
-        def recipe = new Recipe()
-        recipe.properties = params
-        return [recipe: recipe]
-    }
     def save = {
         def recipe = new Recipe(params)
         if (recipe.save(flush: true)) {
@@ -94,22 +89,10 @@ class RecipeController {
         }
     }
 
-    def createRecipe = {
-        SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
-
-        List<Unit> timeUnits = Unit.findAllByMetricType(MetricType.TIME)
-        timeUnits = timeUnits.findAll {(sys.id in it.systemOfUnits*.id)}
-
-        List<Unit> metricUnits = Unit.findAllByMetricType(MetricType.METRIC)
-        metricUnits = metricUnits.findAll {sys.id in it.systemOfUnits*.id}
-
-        List<Nutrient> nutrients = Nutrient.list()
-        render(view: 'addEditRecipe', model: [timeUnits: timeUnits, metricUnits: metricUnits, nutrients: nutrients])
-    }
     def saveRecipe = {RecipeCO recipeCO ->
         if (recipeCO.validate()) {
             recipeCO.convertToRecipe()
-            redirect(action: 'createRecipe')
+            redirect(action: 'create')
         } else {
             println recipeCO.errors.allErrors.each {
                 println it
@@ -120,7 +103,7 @@ class RecipeController {
             List<Unit> metricUnits = Unit.findAllByMetricType(MetricType.METRIC)
             metricUnits = metricUnits.findAll {sys.id in it.systemOfUnits*.id}
             List<Nutrient> nutrients = Nutrient.list()
-            render(view: 'addEditRecipe', model: [recipeCO: recipeCO, timeUnits: timeUnits, metricUnits: metricUnits, nutrients: nutrients])
+            render(view: 'create', model: [recipeCO: recipeCO, timeUnits: timeUnits, metricUnits: metricUnits, nutrients: nutrients])
         }
     }
 
@@ -136,12 +119,24 @@ class RecipeController {
         render(categoriesJson as JSON)
     }
 
+    def create = {
+        SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
+
+        List<Unit> timeUnits = Unit.findAllByMetricType(MetricType.TIME)
+        timeUnits = timeUnits.findAll {(sys.id in it.systemOfUnits*.id)}
+
+        List<Unit> metricUnits = Unit.findAllByMetricType(MetricType.METRIC)
+        metricUnits = metricUnits.findAll {sys.id in it.systemOfUnits*.id}
+
+        List<Nutrient> nutrients = Nutrient.list()
+        render(view: 'create', model: [timeUnits: timeUnits, metricUnits: metricUnits, nutrients: nutrients])
+    }
+
 }
 
 class RecipeCO {
     RecipeCO() {} //constructor
 
-    Long itemId
     String name
     String difficulty
     Boolean shareWithCommunity
@@ -226,9 +221,6 @@ class RecipeCO {
         recipe.cookingTime = quantityCookTime
 
         recipe.s()
-
-        Item item = Item.findById(itemId)
-        item.addToRecipes(recipe)
 
 //       Image image =    Image.createFile(recipe.id, "/recipes", recipeImage.originalFilename, recipeImage.bytes,"Some alt text").s()
 
