@@ -513,12 +513,12 @@ body .input1{
 }
 body .input2{
 	width:50px;
-	height:21px;
+	height:25px;
 	float:left;
 	border:#E2E2E2 1px solid;
 	_margin-bottom:0px;
 	margin-bottom:5px;
-	margin-right:4px;
+	margin-right:14px;
 }
 body .select2{
 	height:21px;
@@ -534,7 +534,7 @@ body  .add-recipe-form-input2{
 	width: auto;
 	_height:21px;
 	_overflow:visible;
-	line-height:20px;
+	line-height:30px;
 	padding-bottom:15px;
 	_padding-bottom:15px;
 	margin-right:4px;
@@ -548,21 +548,21 @@ body  .add-recipe-form-input2{
 	margin:0px 15px;
 }
 .addrecipe{
-	height:23px;
-	line-height:23px;
+	height:30px;
+	line-height:25px;
 	clear:both;
 	position:relative;
-	font-weight:bold;
-	padding-left:118px;
+	padding-left:70px;
+    margin-top:5px;
 }
 .addrecipe2{
-	height:23px;
+	height:30px;
 	background-color:#f0f0f0;
-	line-height:23px;
+	line-height:25px;
 	clear:both;
 	position:relative;
-	padding-left:118px;
-	font-weight:bold;
+	padding-left:70px;
+    margin-top:5px;
 }
 .add-content{
 	position:relative;
@@ -776,7 +776,7 @@ body .preview-container-header{
 	font-family:Arial, Helvetica, sans-serif;
 }
 .add-recipe-form{
-	width:338px;
+	width:355px;
 	float:left;
 	padding-left:30px;
 }
@@ -794,7 +794,8 @@ body .preview-container-header{
 	margin-right:4px;
 }
 body .input4{
-	width:50px;
+	width:25px;
+    height:16px;
 	float:left;
     height:21px;
 	border:#E2E2E2 1px solid;
@@ -891,7 +892,7 @@ body .rating{
 	_padding-top:8px;
 }
 .save-recips{
-	padding:10px 0px 0px 630px;
+	padding:10px;
 	clear:both;
 }
 body .min-height-container{	
@@ -902,4 +903,16 @@ body .min-height-container{
 }
 .Ingredients{
 	
+}
+.ingredientRow{
+    display:block;
+    padding:2px;
+    width:572px;
+    margin-top:5px;
+}
+.directionRow{
+    display:block;
+    padding:2px;
+    width:572px;
+    margin-top:5px;
 }

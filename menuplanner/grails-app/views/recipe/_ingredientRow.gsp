@@ -9,8 +9,8 @@
         <input class='U' type="hidden" value="" name="ingredientUnitIds"/>
         <input class='P' type="hidden" value="" name="ingredientProductIds"/>
     </span>
-    <span class="showIngredient"></span>
+    <span class="showIngredient" style="padding-left:10px;"></span>
     <span class="hiddenTextIngredient">
         <input class='H' type="hidden" name="hiddenIngredients" value=""/>
-    </span> <br> 
+    </span>
 </span>
