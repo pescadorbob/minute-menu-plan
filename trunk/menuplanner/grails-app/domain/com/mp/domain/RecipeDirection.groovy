@@ -5,6 +5,7 @@ class RecipeDirection {
     Recipe recipe
     String step
     Integer sequence
+    Image image
 
     String toString() {
         return (sequence + '. ' + step)
@@ -14,5 +15,6 @@ class RecipeDirection {
         recipe()
         sequence(min:1, unique:'recipe')
         step()
+        image(nullable: true)       
     }
 }

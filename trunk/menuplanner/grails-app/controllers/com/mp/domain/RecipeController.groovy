@@ -145,7 +145,7 @@ class RecipeCO {
     Integer preparationUnitId
     Integer cookTime
     Integer cookUnitId
-    def recipeImage
+    def selectRecipeImage
 
     Set<Long> categoryIds = []
     List<BigDecimal> ingredientQuantities = []
@@ -169,7 +169,7 @@ class RecipeCO {
         })
         difficulty(blank: false, inList: RecipeDifficulty.list()*.name())
         makesServing(min: 1)
-        recipeImage(blank: true)
+        selectRecipeImage(blank: true)
         preparationTime(min: 1)
         cookTime(min: 1)
         categoryIds(minSize: 1)
@@ -222,7 +222,9 @@ class RecipeCO {
 
         recipe.s()
 
-//       Image image =    Image.createFile(recipe.id, "/recipes", recipeImage.originalFilename, recipeImage.bytes,"Some alt text").s()
+        if (selectRecipeImage.originalFilename){
+            Image image =    Image.createFile(recipe.id, "/recipes", selectRecipeImage.originalFilename, selectRecipeImage.bytes,"Some alt text").s()
+        }
 
         categoryIds.eachWithIndex {Long categoryId, Integer index ->
             recipe.addToCategories(Category.get(categoryId))
