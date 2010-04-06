@@ -117,7 +117,7 @@
                             <ul class="add-recipe-form-container">
                                 <li class="add-recipe-form-content"><strong>Difficulty</strong></li>
                                 <g:radioGroup name="difficulty" values="${RecipeDifficulty.list()*.name()}" value="${recipeCO?.difficulty}" labels="${RecipeDifficulty.list()*.name}">
-                                    ${it.radio} <g:message code="${it.label}"/>
+                                    ${it.radio} <strong> <g:message code="${it.label}"/> </strong>
                                 </g:radioGroup>
                             </ul>
 
@@ -130,6 +130,10 @@
                                         </div>
                                         <div class="add-recipe-form-input2"><strong>Servings</strong></div>
                                     </div>
+                                </li>
+                                <li class="add-recipe-form-input" style="margin-left:100px;">
+                                    <g:checkBox name="shareWithCommunity" value="${recipeCO?.shareWithCommunity}"/>
+                                    <strong>Share with Community</strong>
                                 </li>
                             </ul>
 
@@ -149,25 +153,6 @@
                             </ul>
                             <div class="clr">
                                 <img id="recipeImage" src="${resource(dir: 'images', file: 'img4.jpg')}" border="0" width="195" height="171"/>
-                            </div>
-                        </div>
-
-                        <div class="apply-btn">
-                            <div>
-                                <img src="${resource(dir: 'images', file: 'add-recipe-img1.jpg')}"/>
-                            </div>
-                            <div class="apply-btn2">
-                                <a href="#">
-                                    <img src="${resource(dir: 'images', file: 'apply-btn.jpg')}" alt="Apply" border="0"/>
-                                </a>
-                            </div>
-                            <div class="apply-btn-text1">
-                                <div class="clr">
-                                    <div class="add-recipe-form-input2">
-                                        <g:checkBox name="shareWithCommunity" value="${recipeCO?.shareWithCommunity}"/>
-                                    </div>
-                                    <div class="add-recipe-form-input2">Share with Community</div>
-                                </div>
                             </div>
                         </div>
 
@@ -211,24 +196,6 @@
                                 </span>
                             </li>
                         </ul>
-
-                        <div class="apply-btn">
-                            <div>
-                                <img src="${resource(dir: 'images', file: 'add-recipe-img1.jpg')}"/>
-                            </div>
-                            <div class="apply-btn2">
-                                <a href="#">
-                                    <img src="${resource(dir: 'images', file: 'apply-btn.jpg')}" alt="Apply" border="0"/>
-                                </a>
-                            </div>
-                            <div class="apply-btn-text1">
-                                <div class="clr">
-                                    <div class="add-recipe-form-input2">
-                                    </div>
-                                    <div class="add-recipe-form-input2"></div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div>
                         <img src="${resource(dir: 'images', file: 'left-container-img1.jpg')}"/>
@@ -265,23 +232,6 @@
                             </li>
                         </ul>
 
-                        <div class="apply-btn">
-                            <div>
-                                <img src="${resource(dir: 'images', file: 'add-recipe-img1.jpg')}"/>
-                            </div>
-                            <div class="apply-btn2">
-                                <a href="#">
-                                    <img src="${resource(dir: 'images', file: 'apply-btn.jpg')}" alt="Apply" border="0"/>
-                                </a>
-                            </div>
-                            <div class="apply-btn-text1">
-                                <div class="clr">
-                                    <div class="add-recipe-form-input2">
-                                    </div>
-                                    <div class="add-recipe-form-input2"></div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div>
                         <img src="${resource(dir: 'images', file: 'left-container-img1.jpg')}"/>
@@ -318,23 +268,6 @@
                             </li>
                         </ul>
 
-                        <div class="apply-btn">
-                            <div>
-                                <img src="${resource(dir: 'images', file: 'add-recipe-img1.jpg')}"/>
-                            </div>
-                            <div class="apply-btn2">
-                                <a href="#">
-                                    <img src="${resource(dir: 'images', file: 'apply-btn.jpg')}" alt="Apply" border="0"/>
-                                </a>
-                            </div>
-                            <div class="apply-btn-text1">
-                                <div class="clr">
-                                    <div class="add-recipe-form-input2">
-                                    </div>
-                                    <div class="add-recipe-form-input2"></div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div>
                         <img src="${resource(dir: 'images', file: 'left-container-img1.jpg')}"/>
@@ -357,23 +290,6 @@
                                 </g:each>
                             </li>
                         </ul>
-                        <div class="apply-btn">
-                            <div>
-                                <img src="${resource(dir: 'images', file: 'add-recipe-img1.jpg')}"/>
-                            </div>
-                            <div class="apply-btn2">
-                                <a href="#">
-                                    <img src="${resource(dir: 'images', file: 'apply-btn.jpg')}" alt="Apply" border="0"/>
-                                </a>
-                            </div>
-                            <div class="apply-btn-text1">
-                                <div class="clr">
-                                    <div class="add-recipe-form-input2">
-                                    </div>
-                                    <div class="add-recipe-form-input2"></div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div>
                         <img src="${resource(dir: 'images', file: 'left-container-img1.jpg')}"/>
@@ -444,6 +360,8 @@
             <div class="save-recips">
                 <a href="#">
                     <g:submitButton name="btnSave" class="save" value="Save Recipe" style="font-size:14px;color:white;background-color:orange;width:120px;height:35px;cursor:pointer;"/>
+                    <input type="button" name="preview" id="preview" value="Preview" style="font-size:14px;color:white;background-color:orange;width:120px;height:35px;cursor:pointer;"/>
+                    <input type="button" name="delete" id="delete" value="Delete" style="font-size:14px;color:white;background-color:orange;width:120px;height:35px;cursor:pointer;"/>
                     %{--<img src="${resource(dir: 'images', file: 'save-recipe1.jpg')}" alt="Save Recipe" border="0"/>--}%
                 </a>
             </div>
