@@ -505,15 +505,15 @@ body  .add-recipe-form-input{
 	margin-bottom:15px;
 }
 body .input1{
-	width:220px;
-	height:21px;
+	width:210px;
+	height:18px;
 	border:#E2E2E2 1px solid;
 	_margin-bottom:0px;
 	margin-bottom:5px;
 }
 body .input2{
 	width:50px;
-	height:25px;
+	height:18px;
 	float:left;
 	border:#E2E2E2 1px solid;
 	_margin-bottom:0px;
@@ -521,7 +521,7 @@ body .input2{
 	margin-right:14px;
 }
 body .select2{
-	height:21px;
+	height:24px;
 	float:left;
 	border:#E2E2E2 1px solid;
 	_margin-bottom:0px;
@@ -795,9 +795,8 @@ body .preview-container-header{
 }
 body .input4{
 	width:25px;
-    height:16px;
+    height:18px;
 	float:left;
-    height:21px;
 	border:#E2E2E2 1px solid;
 	_margin-bottom:0px;
 	margin-bottom:5px;
@@ -896,7 +895,7 @@ body .rating{
 	clear:both;
 }
 body .min-height-container{	
-	height:auto; 
+	height:auto;
 	min-height:376px; 	
 	_height:376px;
 	_overflow:visible;
@@ -915,4 +914,10 @@ body .min-height-container{
     padding:2px;
     width:572px;
     margin-top:5px;
+}
+input.errors{
+    border: 1px solid red;
+}
+span.errors{
+    border: 1px solid red;
 }
