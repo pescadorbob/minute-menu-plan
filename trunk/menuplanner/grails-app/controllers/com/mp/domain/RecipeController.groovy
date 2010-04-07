@@ -1,10 +1,12 @@
 package com.mp.domain
 
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import grails.converters.JSON
 import static com.mp.MenuConstants.*
 
 class RecipeController {
-
+    static config = ConfigurationHolder.config
+    
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index = {
@@ -132,6 +134,37 @@ class RecipeController {
         render(view: 'create', model: [timeUnits: timeUnits, metricUnits: metricUnits, nutrients: nutrients])
     }
 
+    def uploadImage={
+        println params.Filedata.originalFilename
+        println params.Filedata.size
+//        Image image = Image.createFile(1000, "/recipes", params.Filedata.originalFilename, params.Filedata.bytes, "Some alt text").s()
+        String relativePath="/recipes"
+        def fileContents=params.Filedata.bytes
+        String filePath = config.imagesRootDir  + relativePath
+        File file = new File(filePath)
+        file.mkdirs()
+        File actualFile = new File(file, params.Filedata.originalFilename)
+        actualFile.withOutputStream {out ->
+            out.write fileContents
+        }
+        render actualFile.absolutePath as String
+    }
+
+/*
+    def test={
+        Image image=Image.get(1)
+        byte[] fileContent = image.readFile()
+        String fileName = image.actualName+"."+image.extension
+        response.setContentLength(fileContent.size())
+        response.setHeader("Content-disposition", "attachment; filename=" + fileName)
+        response.setContentType("image/${image.extension}")
+        OutputStream out = response.getOutputStream()
+        out.write(fileContent)
+        out.flush()
+        out.close()
+    }
+
+*/
 }
 
 class RecipeCO {
@@ -146,54 +179,68 @@ class RecipeCO {
     Integer cookTime
     Integer cookUnitId
     def selectRecipeImage
-
+    def selectRecipeImagePath
     Set<Long> categoryIds = []
-    List<BigDecimal> ingredientQuantities = []
-    List<BigDecimal> nutrientQuantities = []
 
+    List<BigDecimal> ingredientQuantities = []
     List<Long> ingredientUnitIds = []
     List<Long> ingredientProductIds = []
-    List<Long> nutrientIds = []
+    List<String> hiddenIngredients = []
 
     List<String> directions = []
-
     List<String> hiddenDirections = []
-    List<String> hiddenIngredients = []
+
+    List<Long> nutrientIds = []
+    def nutrientQuantities = []
     List<String> hiddenNutrients = []
 
+    void setNutrientQuantities(def listOfNq) {
+        [listOfNq].flatten().each {
+            try {nutrientQuantities << new BigDecimal(it)} catch (ex) {nutrientQuantities << it}
+
+        }
+    }
+
     static constraints = {
-        name(blank: false, validator: {val, obj ->
+        name(blank: false, matches: /[a-zA-Z0-9\s]*/, validator: {val, obj ->
             if (Recipe.countByName(val)) {
-                return 'default.invalid.message'
+                return 'recipeCO.name.not.Unique.message'
             }
         })
+        selectRecipeImagePath(nullable:true)
+
         difficulty(blank: false, inList: RecipeDifficulty.list()*.name())
-        makesServing(min: 1)
+        makesServing(nullable: false, min: 1)
         selectRecipeImage(blank: true)
-        preparationTime(min: 1)
-        cookTime(min: 1)
+        preparationTime(nullable: false, min: 1)
+        cookTime(nullable: false, min: 1)
         categoryIds(minSize: 1)
 
-        nutrientQuantities()
+        nutrientQuantities(validator: {val ->
+            println val*.class
+            if (val.findAll {!(it instanceof BigDecimal || it == "")}.size() > 0) {
+                return 'recipeCO.nutrientQuantities.matches.invalid.nutrientQuantities'
+            }
+        })
 
-        ingredientQuantities(minSize: 1, validator: {val, obj ->
-            if ((val.any {!it}) || (val.size() != obj.ingredientUnitIds?.size()) || (val.size() != obj.ingredientProductIds?.size())) {
-                return 'default.invalid.message'
+        ingredientQuantities(validator: {val, obj ->
+            if ((val.size() < 1) || (val.any {!it}) || (val.size() != obj.ingredientUnitIds?.size()) || (val.size() != obj.ingredientProductIds?.size())) {
+                return 'recipeCO.ingredientQuantities.not.Amount.message'
             }
         })
-        ingredientUnitIds(minSize: 1, validator: {val, obj ->
-            if ((val.any {!it}) || (val.size() != obj.ingredientQuantities?.size()) || (val.size() != obj.ingredientProductIds?.size())) {
-                return 'default.invalid.message'
-            }
-        })
-        ingredientProductIds(minSize: 1, validator: {val, obj ->
-            if ((val.any {!it}) || (val != val.unique()) || (val.size() != obj.ingredientUnitIds?.size()) || (val.size() != obj.ingredientQuantities?.size())) {
-                return 'default.invalid.message'
-            }
-        })
-        directions(minSize: 1, validator: {val, obj ->
-            if ((val.any {!it}) || (val != val.unique())) {
-                return 'default.invalid.message'
+//        ingredientUnitIds(validator: {val, obj ->
+//            if ((val.size() < 1) || (val.any {!it}) || (val.size() != obj.ingredientQuantities?.size()) || (val.size() != obj.ingredientProductIds?.size())) {
+//                return 'default.invalid.message'
+//            }
+//        })
+//        ingredientProductIds(minSize: 1, validator: {val, obj ->
+//            if ((val.any {!it}) || (val != val.unique()) || (val.size() != obj.ingredientUnitIds?.size()) || (val.size() != obj.ingredientQuantities?.size())) {
+//                return 'default.invalid.message'
+//            }
+//        })
+        directions(validator: {val, obj ->
+            if ((val.size() < 1) || (val.any {!it}) || (val.size() != val.unique().size())) {
+                return 'recipeCO.directions.not.valid.message'
             }
         })
     }
@@ -221,9 +268,20 @@ class RecipeCO {
         recipe.cookingTime = quantityCookTime
 
         recipe.s()
+        if (selectRecipeImagePath) {
+            File file=new File(selectRecipeImagePath)
+            String filePath = config.imagesRootDir  + "/recipes"
+            String fileName=file.name
+//            Image image = Image.createFile(recipe.id, "/recipes", Filedata.originalFilename, Filedata.bytes, "Some alt text").s()
+            Image image = Image.findByStoredNameAndPath(recipe.id.toString(), filePath)
+            if(!image){image = new Image()}
+            image.storedName = fileName
+            image.actualName = fileName.tokenize('.').first()
+            image.extension = fileName.tokenize('.').tail().join('.')
+            image.path = filePath
+            image.altText = "Some alt text"
+            image.s()
 
-        if (selectRecipeImage.originalFilename){
-            Image image =    Image.createFile(recipe.id, "/recipes", selectRecipeImage.originalFilename, selectRecipeImage.bytes,"Some alt text").s()
         }
 
         categoryIds.eachWithIndex {Long categoryId, Integer index ->
@@ -240,13 +298,13 @@ class RecipeCO {
             Quantity quantity = new Quantity(unit: unit, value: amount).s()
             new RecipeIngredient(sequence: (index + 1), recipe: recipe, ingredient: product, quantity: quantity).s()
         }
-        nutrientQuantities.eachWithIndex {BigDecimal quantity, Integer index ->
+        nutrientQuantities.eachWithIndex {def quantity, Integer index ->
             RecipeNutrient nutrient = new RecipeNutrient()
             nutrient.recipe = recipe
             nutrient.nutrient = Nutrient.get(nutrientIds[index])
             if (nutrientQuantities[index]) {
                 Quantity recipeNutrientQuantity = new Quantity()
-                recipeNutrientQuantity.value = nutrientQuantities[index]
+                recipeNutrientQuantity.value = quantity
                 recipeNutrientQuantity.unit = Nutrient.get(nutrientIds[index]).preferredUnit
                 recipeNutrientQuantity.s()
                 nutrient.quantity = recipeNutrientQuantity

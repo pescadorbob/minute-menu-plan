@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'token-input-facebook.css')}"/>
     <script src="${resource(dir: 'js', file: 'jquery-1.4.2.min.js')}" type="text/javascript"></script>
     <script src="${resource(dir: 'js', file: 'jquery.taginput.js')}" type="text/javascript"></script>
+
+    <script type="text/javascript" src="${resource(dir: 'jquery.uploadify-v2.1.0', file: 'swfobject.js')}"></script>
+    <script type="text/javascript" src="${resource(dir: 'jquery.uploadify-v2.1.0', file: 'jquery.uploadify.v2.1.0.min.js')}"></script>
+
 </head>
 <body>
 %{--***************************************** SAMPLE INGREDIENT ROW *****************************************--}%
@@ -66,16 +70,26 @@
                     <div class="add-recipe-header1">
                         <img src="${resource(dir: 'images', file: 'add-recipe-header-img2.jpg')}">
                     </div>
-                    <div class="clr">
-                    </div>
+
+                    <div class="clr"></div>
                 </div>
+
+
+                <div>
+                    <g:hasErrors bean="${recipeCO}">
+                        <div class="errors">
+                            <g:renderErrors bean="${recipeCO}"/>
+                        </div>
+                    </g:hasErrors>
+                </div>
+
                 <div class="menu-nav clr">
                     <ul>
-                        <li><a class="tabs active" id="tabGeneralInfo" style="cursor:pointer;">General Info</a></li>
-                        <li><a class="tabs" id="tabIngredients" style="cursor:pointer;">Ingredients</a></li>
-                        <li><a class="tabs" id="tabCookingSteps" style="cursor:pointer;">Cooking Steps</a></li>
+                        <li><a class="tabs active" id="tabGeneralInfo" style="cursor:pointer; ${mp.checkGeneralInfoTabError(bean: recipeCO, fields: ['name', 'makesServing', 'preparationTime', 'cookTime', 'difficulty', 'categoryIds'])}">General Info</a></li>
+                        <li><a class="tabs" id="tabIngredients" style="cursor:pointer;${hasErrors(bean: recipeCO, field: 'ingredientQuantities', 'color:red;')}">Ingredients</a></li>
+                        <li><a class="tabs" id="tabCookingSteps" style="cursor:pointer; ${hasErrors(bean: recipeCO, field: 'directions', 'color:red;')}">Cooking Steps</a></li>
                         <li><a class="tabs" id="tabServeWith" style="cursor:pointer;">Serve With</a></li>
-                        <li><a class="tabs" id="tabNutritionFacts" style="cursor:pointer;">Nutrition Facts</a></li>
+                        <li><a class="tabs" id="tabNutritionFacts" style="cursor:pointer;${hasErrors(bean: recipeCO, field: 'nutrientQuantities', 'color:red;')}">Nutrition Facts</a></li>
                     </ul>
                 </div>
 
@@ -87,21 +101,23 @@
                             <ul class="add-recipe-form-container">
                                 <li class="add-recipe-form-content"><strong>Name</strong></li>
                                 <li class="add-recipe-form-input">
-                                    <g:textField class="input1" name="name" value="${recipeCO?.name}"/>
+                                    <g:textField class="input1 ${hasErrors(bean:recipeCO,field:'name', 'errors')}" name="name" value="${recipeCO?.name}"/>
                                 </li>
                             </ul>
 
                             <ul class="add-recipe-form-container">
                                 <li class="add-recipe-form-content"><strong>Categories</strong></li>
                                 <li class="add-recipe-form-input">
-                                    <mp:tagInput name="categoryIds" controller="recipe" action="getMatchingCategories"/>
+                                    <span class="${hasErrors(bean: recipeCO, field: 'categoryIds', 'errors')}" style="display:block; clear:both;">
+                                        <mp:tagInput name="categoryIds" controller="recipe" action="getMatchingCategories"/>
+                                    </span>
                                 </li>
                             </ul>
 
                             <ul class="add-recipe-form-container">
                                 <li class="add-recipe-form-content"><strong>Prep Time</strong></li>
                                 <li class="add-recipe-form-input">
-                                    <g:textField class="input4" name="preparationTime" value="${recipeCO?.preparationTime}"/>
+                                    <g:textField class="input4 ${hasErrors(bean:recipeCO,field:'preparationTime', 'errors')}" name="preparationTime" value="${recipeCO?.preparationTime}"/>
                                     <g:select class="select2" name="preparationUnitId" from="${timeUnits}" optionKey="id" value="${recipeCO?.preparationUnitId}"/>
                                 </li>
                             </ul>
@@ -109,14 +125,14 @@
                             <ul class="add-recipe-form-container">
                                 <li class="add-recipe-form-content"><strong>Cook Time</strong></li>
                                 <li class="add-recipe-form-input">
-                                    <g:textField class="input4" name="cookTime" value="${recipeCO?.cookTime}"/>
+                                    <g:textField class="input4 ${hasErrors(bean:recipeCO,field:'cookTime', 'errors')}" name="cookTime" value="${recipeCO?.cookTime}"/>
                                     <g:select class="select2" name="cookUnitId" from="${timeUnits}" optionKey="id" value="${recipeCO?.cookUnitId}"/>
                                 </li>
                             </ul>
 
                             <ul class="add-recipe-form-container">
                                 <li class="add-recipe-form-content"><strong>Difficulty</strong></li>
-                                <g:radioGroup name="difficulty" values="${RecipeDifficulty.list()*.name()}" value="${recipeCO?.difficulty}" labels="${RecipeDifficulty.list()*.name}">
+                                <g:radioGroup name="difficulty" values="${RecipeDifficulty.list()*.name()}" value="${recipeCO? (recipeCO?.difficulty): RecipeDifficulty.EASY.name()}" labels="${RecipeDifficulty.list()*.name}">
                                     ${it.radio} <strong><g:message code="${it.label}"/></strong>
                                 </g:radioGroup>
                             </ul>
@@ -126,7 +142,7 @@
                                 <li class="add-recipe-form-input">
                                     <div class="clr">
                                         <div class="add-recipe-form-input2">
-                                            <g:textField class="input4" name="makesServing" value="${recipeCO?.makesServing}" style=""/>
+                                            <g:textField class="input4 ${hasErrors(bean:recipeCO,field:'makesServing', 'errors')}" name="makesServing" value="${recipeCO?.makesServing}" style=""/>
                                         </div>
                                         <div class="add-recipe-form-input2"><strong>Servings</strong></div>
                                     </div>
@@ -140,18 +156,18 @@
                             <div class="clr"></div>
                         </div>
 
-                        <div class="add-recipe-form2">
+                        <div class="add-recipe-form2" style="display:none;">
                             <ul class="add-recipe-form-container">
                                 <li class="add-recipe-form-input2">
-                                    <strong>images</strong>
-                                    <input id="selectRecipeImage" size="1" name="selectRecipeImage" class="input3" type="file" onchange="changeRecipeImage(this)"/>
+                                    <div style="float:left; height:25px;line-height:25px;padding-right:10px;"><strong>images</strong></div>
+                                    <a href="#" style="float:left;display:block;"><input id="selectRecipeImage" size="1" name="selectRecipeImage" class="input3" type="file" onchange="changeRecipeImage(this)"/></a>
                                     %{--<img src="${resource(dir: 'images', file: 'browser.jpg')}" alt="Browse" border="0"/>--}%
-                                    <br>
-                                    <img id="removeRecipeImage" src="${resource(dir: 'images', file: 'remove.jpg')}" alt="Remove" border="0" height="28px;" style="cursor:pointer"/>
+                                    %{--<img id="removeRecipeImage" src="${resource(dir: 'images', file: 'remove.jpg')}" alt="Remove" border="0" height="28px;" style="cursor:pointer"/>--}%
                                 </li>
                             </ul>
                             <div class="clr">
                                 <img id="recipeImage" src="${resource(dir: 'images', file: '')}" border="0" width="195" height="171" style="visibility:hidden;"/>
+                                <input type="hidden" name="selecteRecipeImagePath" id="selecteRecipeImagePath" value=""/>
                             </div>
                         </div>
 
@@ -196,7 +212,7 @@
                             </li>
 
                             <li class="clr">
-                                <span id="AddIngredientToolBox" style="float:left; padding-left:30px;padding-top:20px;">
+                                <span id="AddIngredientToolBox" style="float:left; margin-top:10px; padding-left:30px;padding-top:10px;padding-bottom:10px; width:545px; border:1px solid #ddd;">
                                     <img id="btnAddIngredient" src="${resource(dir: 'images', file: 'plus-add.jpg')}" hspace="4" align="left" border="0" style="cursor:pointer; margin:0px;"/>
                                     <span id="ingredientToBeAdded" style="display:block; float:left;padding-left:10px;">
                                         <g:textField class="input2" id='optionIngredientQuantities' name="optionIngredientQuantities" value=""/>
@@ -246,7 +262,7 @@
                             </li>
 
                             <li class="clr">
-                                <span id="AddDirectionToolBox" style="float:left; padding-left:30px;padding-top:20px;">
+                                <span id="AddDirectionToolBox" style="float:left; margin-top:10px; padding-left:30px;padding-top:10px;padding-bottom:10px; width:545px; border:1px solid #ddd;">
                                     <img id="btnAddDirection" src="${resource(dir: 'images', file: 'plus-add.jpg')}" hspace="4" align="left" border="0" style="cursor:pointer; margin:0px;"/>
                                     <span id="directionToBeAdded" style="display:block; float:left;padding-left:10px;">
                                         <g:textField class="input1" id="optionDirections" name="optionDirections" value=""/>
@@ -284,17 +300,12 @@
                             <li>
                                 <span id="ItemsAdded">
 
-                                    <g:each in="${recipeCO?.hiddenDirections}">
-                                        <br>
-                                    </g:each>
-
-                                <!-- Show Items Here -->
+                                    <!-- Show Items Here -->
                                 </span>
                             </li>
 
                             <li class="clr">
-                                <span id="AddItemToolBox" style="float:left; padding-left:30px;padding-top:20px;">
-                                    <br>
+                                <span id="AddItemToolBox" style="float:left; margin-top:10px; padding-left:30px;padding-top:10px;padding-bottom:10px; width:545px; border:1px solid #ddd;">
                                     <img id="btnAddItem" src="${resource(dir: 'images', file: 'plus-add.jpg')}" hspace="4" align="left" border="0" style="cursor:pointer; margin:0px;"/>
                                     <span id="itemToBeAdded" style="display:block; float:left;padding-left:10px;">
                                         <g:textField class="input1" name="someName" value=""/>
@@ -334,7 +345,8 @@
 
                                     <div class="addrecipe${(i % 2 == 0) ? '' : '2'}">
                                         <input type="hidden" value="${nutrient?.id}" name="nutrientIds"/>
-                                        <input class="input2" type="text" name="nutrientQuantities" id="text1" value="${((recipeCO) ? recipeCO.nutrientQuantities[i] : '')}"/> ${nutrient?.preferredUnit?.symbol}  ${nutrient?.name}
+                                        <input class="input2" type="text" name="nutrientQuantities" id="text1" value="${((recipeCO) ? recipeCO.nutrientQuantities[i] : '')}"/>
+                                        ${nutrient?.preferredUnit?.symbol}  ${nutrient?.name}
                                     </div>
 
                                 </g:each>
@@ -453,40 +465,40 @@
 <script type="text/javascript">
     var sampleIngredientRowHTML = jQuery('#sampleIngredientRow').html();
     var sampleDirectionRowHTML = jQuery('#sampleDirectionRow').html();
-    bindEventsFor("IngredientAdded", "ingredientRow");
-    bindEventsFor("DirectionsAdded", "directionRow")
 
     jQuery(document).ready(function() {
         jQuery('#tabGeneralInfo').click(function() {
             jQuery('.left-container2').css('display', 'none');
-            jQuery('.tabs').attr('class', 'tabs');
-            jQuery('#tabGeneralInfo').attr('class', 'tabs active');
+            jQuery('.tabs').removeClass('active');
+            jQuery('#tabGeneralInfo').addClass('active');
             jQuery('#panelGeneralInfo').show()
         })
         jQuery('#tabIngredients').click(function() {
             jQuery('.left-container2').css('display', 'none');
-            jQuery('.tabs').attr('class', 'tabs');
-            jQuery('#tabIngredients').attr('class', 'tabs active');
+            jQuery('.tabs').removeClass('active');
+            jQuery('#tabIngredients').addClass('active');
             jQuery('#panelIngredients').show()
-            colorRowAlternate()
+            bindEventsFor("IngredientAdded", "ingredientRow");
+            bindEventsFor("DirectionsAdded", "directionRow")
         })
         jQuery('#tabCookingSteps').click(function() {
             jQuery('.left-container2').css('display', 'none');
-            jQuery('.tabs').attr('class', 'tabs');
-            jQuery('#tabCookingSteps').attr('class', 'tabs active');
+            jQuery('.tabs').removeClass('active');
+            jQuery('#tabCookingSteps').addClass('active');
             jQuery('#panelCookingSteps').show()
-            colorRowAlternate()
+            bindEventsFor("IngredientAdded", "ingredientRow");
+            bindEventsFor("DirectionsAdded", "directionRow")
         })
         jQuery('#tabServeWith').click(function() {
             jQuery('.left-container2').css('display', 'none');
-            jQuery('.tabs').attr('class', 'tabs');
-            jQuery('#tabServeWith').attr('class', 'tabs active');
+            jQuery('.tabs').removeClass('active');
+            jQuery('#tabServeWith').addClass('active');
             jQuery('#panelServeWith').show()
         })
         jQuery('#tabNutritionFacts').click(function() {
             jQuery('.left-container2').css('display', 'none');
-            jQuery('.tabs').attr('class', 'tabs');
-            jQuery('#tabNutritionFacts').attr('class', 'tabs active');
+            jQuery('.tabs').removeClass('active');
+            jQuery('#tabNutritionFacts').addClass('active');
             jQuery('#panelNutritionFacts').show()
         })
         /* REMOVE IMAGE: function to be executed when removeRecipeImage is Clicked... */
@@ -529,6 +541,22 @@
         jQuery('#preview').click(function() {
             reflectInPreviewPanel()
         })
+
+        jQuery('#selectRecipeImage').uploadify({
+            'uploader': "${resource(dir:'jquery.uploadify-v2.1.0', file:'uploadify.swf')}",
+            'script':    "${createLink(controller:'recipe', action:'uploadImage')}",
+            'folder':    'uploads-folder',
+            'auto':true,
+            'buttonImg':"${resource(dir:'jquery.uploadify-v2.1.0', file:'browser.jpg')}",
+            'cancelImg': "${resource(dir:'jquery.uploadify-v2.1.0', file:'cancel.png')}",
+            onComplete: function(event, queId, fileObj, response, data) {
+
+                jQuery('#selecteRecipeImagePath').val(response);
+                alert(response)
+            }
+
+        });
+
     })
 
     function AddIngredient(quantity, unitId, productId, ingredientText) {
@@ -597,7 +625,7 @@
         if (attachment.files)   previewImage.src = attachment.files.item(0).getAsDataURL();
         else    previewImage.src = attachment.value;
         jQuery('#recipeImage').css('visibility', 'visible')
-        
+
     }
     function colorRowAlternate() {
         jQuery('.ingredientRow:visible:odd').css('backgroundColor', '#eee')
