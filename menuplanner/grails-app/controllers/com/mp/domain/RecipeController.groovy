@@ -283,7 +283,12 @@ class RecipeCO {
         }
 
         ingredientQuantities.eachWithIndex {BigDecimal amount, Integer index ->
-            MeasuredProduct product = MeasuredProduct.get(ingredientProductIds[index])
+            MeasuredProduct product = MeasuredProduct.findByName(hiddenIngredientProductNames[index])
+            if(!product){
+                MeasuredProduct newProduct= new Product(name:'hiddenIngredientProductNames[index]', isVisible:false)
+                newProduct.s()
+            }
+            product= MeasuredProduct.findByName(hiddenIngredientProductNames[index])
             Unit unit = Unit.get(ingredientUnitIds[index])
             Quantity quantity = new Quantity(unit: unit, value: amount).s()
             new RecipeIngredient(sequence: (index + 1), recipe: recipe, ingredient: product, quantity: quantity).s()
