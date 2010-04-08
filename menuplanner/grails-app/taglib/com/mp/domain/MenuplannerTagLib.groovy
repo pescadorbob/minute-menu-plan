@@ -18,20 +18,31 @@ class MenuplannerTagLib {
         out << g.render(template: '/tagInput/tagInput', model: model)
     }
 
-    def checkGeneralInfoTabError={attrs->
-        def bean=attrs['bean']
-        def fieldsToCheck=attrs['fields']
+    def checkGeneralInfoTabError = {attrs ->
+        def bean = attrs['bean']
+        def fieldsToCheck = attrs['fields']
 
-        if(bean){
+        if (bean) {
 
-            def fieldsHavingError=bean?.errors?.allErrors.collect {it.properties['field']}
-            if(fieldsHavingError.any{it.toString() in fieldsToCheck}){
-                out<<"color:red;"
-            }else{
-                out<<""
+            def fieldsHavingError = bean?.errors?.allErrors.collect {it.properties['field']}
+            if (fieldsHavingError.any {it.toString() in fieldsToCheck}) {
+                out << "color:red;"
+            } else {
+                out << ""
             }
         }
 
     }
 
+    def recipeImageById = {attrs ->
+        if (attrs['id']) {
+            out << "<img id='recipeImage'  border='0' width='195' src=" + '"' + "${g.createLink(controller: 'recipe', action: 'showImage', id: attrs['id'])} " + '"' + "/>"
+        }
+    }
+
+    def recipeImageByPath = {attrs ->
+        if (attrs['selectRecipeImagePath']) {
+            out << "<img id='recipeImage'  border='0' width='195' src=" + '"' + "${g.createLink(controller: 'recipe', action: 'showImage', params:[selectRecipeImagePath: attrs['selectRecipeImagePath']])} " + '"' + "/>"
+        }
+    }
 }
