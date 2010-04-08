@@ -23,7 +23,8 @@ class RecipeController {
             redirect(action: "show", id: recipe.id)
         }
         else {
-            render(view: "create", model: [recipe: recipe])
+            render(view: "create",
+                    model: [recipe: recipe])
         }
     }
     def show = {
@@ -185,10 +186,10 @@ class RecipeCO {
     List<BigDecimal> ingredientQuantities = []
     List<Long> ingredientUnitIds = []
     List<Long> ingredientProductIds = []
-    List<String> hiddenIngredients = []
+    List<String> hiddenIngredientUnitNames = []
+    List<String> hiddenIngredientProductNames = []
 
     List<String> directions = []
-    List<String> hiddenDirections = []
 
     List<Long> nutrientIds = []
     def nutrientQuantities = []

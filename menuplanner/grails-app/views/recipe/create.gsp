@@ -16,13 +16,13 @@
 </head>
 <body>
 %{--***************************************** SAMPLE INGREDIENT ROW *****************************************--}%
-<span id="sampleIngredientRow" style="display:none;">
+<table id="sampleIngredientRow" style="display:none;">
     <g:render template="ingredientRow"/>
-</span>
+</table>
 %{--***************************************** SAMPLE DIRECTION0 ROW *****************************************--}%
-<span id="sampleDirectionRow" style="display:none;">
+<table id="sampleDirectionRow" style="display:none;">
     <g:render template="directionRow"/>
-</span>
+</table>
 <g:form name="formCreateRecipe" controller="recipe" action="saveRecipe" enctype="multipart/form-data">
     <div class="header-container">
         <div class="header">
@@ -73,7 +73,6 @@
 
                     <div class="clr"></div>
                 </div>
-
 
                 <div>
                     <g:hasErrors bean="${recipeCO}">
@@ -185,40 +184,32 @@
 
                         <ul class="ingredients">
                             <li>
-                                <div style="background-color:#ddd; padding:5px;">
-                                    <table style="border:0px;">
-                                        <tr>
-                                            <td style="width:50px; text-align:left;"></td>
-                                            <td style="width:50px; text-align:left;"><strong>Amount</strong></td>
-                                            <td style="width:50px; text-align:left;"><strong>Unit</strong></td>
-                                            <td style="width:100px; text-align:left;"><strong>Ingredient</strong></td>
-                                            <td></td>
+                                <div class="showIngredientsHere" style="">
+                                    <table id="tableIngredients" cellspacing="0px" cellpadding="0px">
+                                        <tr id="tableIngredientsHeader" class="mnuTableHeader">
+                                            <td style="width:33px;"></td>
+                                            <td style="width:33px;"></td>
+                                            <td style="width:33px;"></td>
+                                            <td style="width:50px;"><strong>Amount</strong></td>
+                                            <td style="width:80px;"><strong>Unit</strong></td>
+                                            <td><strong>Ingredient</strong></td>
                                         </tr>
+                                        <!-- Show Ingredients Here -->
+                                        <g:each status="i" in="${recipeCO?.hiddenIngredientUnitNames}" var="X">
+                                            <g:render template="ingredientRowWithParams" model="[hiddenIngredientUnitNames:recipeCO?.hiddenIngredientUnitNames[i],hiddenIngredientProductNames:recipeCO.hiddenIngredientProductNames[i], ingredientQuantity:recipeCO.ingredientQuantities[i],ingredientUnitId:recipeCO.ingredientUnitIds[i],ingredientProductId:recipeCO.ingredientProductIds[i]]"/>
+                                        </g:each>
                                     </table>
                                 </div>
                             </li>
-
-                            <li>
-
-                                <span id="IngredientAdded">
-
-                                    <g:each status="i" in="${recipeCO?.hiddenIngredients}" var="X">
-                                        <g:render template="ingredientRowWithParams" model="[hiddenIngredient:recipeCO?.hiddenIngredients[i], ingredientQuantity:recipeCO.ingredientQuantities[i],ingredientUnitId:recipeCO.ingredientUnitIds[i],ingredientProductId:recipeCO.ingredientProductIds[i]]"/>
-                                    </g:each>
-
-                                    <!-- Show Ingredients Here -->
-
-                                </span>
-                            </li>
-
                             <li class="clr">
-                                <span id="AddIngredientToolBox" style="float:left; margin-top:10px; padding-left:30px;padding-top:10px;padding-bottom:10px; width:545px; border:1px solid #ddd;">
+                                <span id="AddIngredientToolBox" style="float:left; margin-top:10px; padding-left:90px;padding-top:10px;padding-bottom:10px; width:545px; border:1px solid #ddd;">
                                     <img id="btnAddIngredient" src="${resource(dir: 'images', file: 'plus-add.jpg')}" hspace="4" align="left" border="0" style="cursor:pointer; margin:0px;"/>
                                     <span id="ingredientToBeAdded" style="display:block; float:left;padding-left:10px;">
                                         <g:textField class="input2" id='optionIngredientQuantities' name="optionIngredientQuantities" value=""/>
                                         <g:select class="select2" id='optionIngredientUnitIds' name="optionIngredientUnitIds" from="${metricUnits}" optionKey="id"/>
                                         <div style="padding-top:2px; float:left;">
                                             <mp:tagInput name="optionIngredientProductIds" controller="recipe" action="getMatchingProducts" multiselect="false"/>
+                                        
                                         </div>
                                     </span>
                                 </span>
@@ -238,36 +229,27 @@
 
                         <ul class="ingredients">
                             <li>
-                                <div style="background-color:#ddd; padding:5px;">
-                                    <table style="border:0px;">
-                                        <tr>
-                                            <td style="width:60px; text-align:left;"></td>
-                                            <td style="width:40px; text-align:left;"><strong>Image</strong></td>
-                                            <td style="width:150px; text-align:left;"><strong>Step Text</strong></td>
-                                            <td></td>
+                                <div class="showDirectionsHere">
+                                    <table id="tableDirections" cellspacing="0px" cellpadding="0px">
+                                        <tr id="tableDirectionsHeader" class="mnuTableHeader">
+                                            <td style="width:33px;"></td>
+                                            <td style="width:33px;"></td>
+                                            <td style="width:33px;"></td>
+                                            %{--<td style="width:40px; text-align:left;"><strong>Image</strong></td>--}%
+                                            <td><strong>Step Text</strong></td>
+                                            <g:each in="${recipeCO?.directions}">
+                                                <g:render template="directionRowWithParams" model="[direction:it]"/>
+                                            </g:each>
                                         </tr>
                                     </table>
                                 </div>
                             </li>
-
-                            <li>
-                                <span id="DirectionsAdded">
-
-                                    <g:each in="${recipeCO?.hiddenDirections}">
-                                        <g:render template="directionRowWithParams" model="[hiddenDirection:it]"/>
-                                    </g:each>
-
-                                    <!-- Show Directions Here -->
-                                </span>
-                            </li>
-
                             <li class="clr">
-                                <span id="AddDirectionToolBox" style="float:left; margin-top:10px; padding-left:30px;padding-top:10px;padding-bottom:10px; width:545px; border:1px solid #ddd;">
+                                <span id="AddDirectionToolBox" style="float:left; margin-top:10px; padding-left:90px;padding-top:10px;padding-bottom:10px;border:1px solid #ddd;padding-right:30px;">
                                     <img id="btnAddDirection" src="${resource(dir: 'images', file: 'plus-add.jpg')}" hspace="4" align="left" border="0" style="cursor:pointer; margin:0px;"/>
                                     <span id="directionToBeAdded" style="display:block; float:left;padding-left:10px;">
-                                        <g:textField class="input1" id="optionDirections" name="optionDirections" value=""/>
+                                        <g:textArea class="inputTextArea" id="optionDirections" name="optionDirections" value="" rows="5"/>
                                     </span>
-
                                 </span>
                             </li>
                         </ul>
@@ -463,8 +445,8 @@
 </g:form>
 
 <script type="text/javascript">
-    var sampleIngredientRowHTML = jQuery('#sampleIngredientRow').html();
-    var sampleDirectionRowHTML = jQuery('#sampleDirectionRow').html();
+    var sampleIngredientRowHTML = jQuery('#sampleIngredientRow>tbody').html();
+    var sampleDirectionRowHTML = jQuery('#sampleDirectionRow>tbody').html();
 
     jQuery(document).ready(function() {
         jQuery('#tabGeneralInfo').click(function() {
@@ -478,16 +460,16 @@
             jQuery('.tabs').removeClass('active');
             jQuery('#tabIngredients').addClass('active');
             jQuery('#panelIngredients').show()
-            bindEventsFor("IngredientAdded", "ingredientRow");
-            bindEventsFor("DirectionsAdded", "directionRow")
+            bindEventsFor("tableIngredients", "ingredientRow");
+            bindEventsFor("tableDirections", "directionRow")
         })
         jQuery('#tabCookingSteps').click(function() {
             jQuery('.left-container2').css('display', 'none');
             jQuery('.tabs').removeClass('active');
             jQuery('#tabCookingSteps').addClass('active');
             jQuery('#panelCookingSteps').show()
-            bindEventsFor("IngredientAdded", "ingredientRow");
-            bindEventsFor("DirectionsAdded", "directionRow")
+            bindEventsFor("tableIngredients", "ingredientRow");
+            bindEventsFor("tableDirections", "directionRow")
         })
         jQuery('#tabServeWith').click(function() {
             jQuery('.left-container2').css('display', 'none');
@@ -512,20 +494,17 @@
             var quantity = jQuery('#optionIngredientQuantities').attr('value')
             var unitId = jQuery('#optionIngredientUnitIds').attr('value')
             var productId = jQuery('#AddIngredientToolBox input[name=optionIngredientProductIds][value!=""]').attr('value')
-            var ingredientText = quantity +
-                                 ' &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ' +
-                                 jQuery('#optionIngredientUnitIds :selected').text() +
-                                 '&nbsp; &nbsp; ' +
-                                 jQuery('#AddIngredientToolBox p').html()
+            var unitName = jQuery('#optionIngredientUnitIds :selected').text()
+            var prodName = jQuery('#AddIngredientToolBox p').html()
 
             if ((quantity.length > 0) && (unitId.length > 0) && (productId.length > 0)) {
-                AddIngredient(quantity, unitId, productId, ingredientText)
+                AddIngredient(quantity, unitId, productId, unitName, prodName)
                 /* Reset Add Ingredient ToolBox.... */
                 jQuery('#optionIngredientQuantities').attr('value', '')
                 jQuery('#optionIngredientUnitIds').attr('value', '1')
                 jQuery('#AddIngredientToolBox .token-input-delete-token-facebook').click()
             }
-            bindEventsFor("IngredientAdded", "ingredientRow");
+            bindEventsFor("tableIngredients", "ingredientRow");
         })
 
         /* ADD DIRECTION:  function to be executed when btnAddDirection is Clicked... */
@@ -536,7 +515,7 @@
                 /* Reset Add Direction ToolBox.... */
                 jQuery('#optionDirections').attr('value', '')
             }
-            bindEventsFor("DirectionsAdded", "directionRow")
+            bindEventsFor("tableDirections", "directionRow")
         })
         jQuery('#preview').click(function() {
             reflectInPreviewPanel()
@@ -559,23 +538,25 @@
 
     })
 
-    function AddIngredient(quantity, unitId, productId, ingredientText) {
+    function AddIngredient(quantity, unitId, productId, unitName, prodName) {
         var addIngredient = sampleIngredientRowHTML;
-        jQuery('#IngredientAdded').append(addIngredient)
-        jQuery('.ingredientRowNew .showIngredient').html(ingredientText)
+        jQuery('#tableIngredients tbody').append(addIngredient)
         jQuery('.ingredientRowNew .Q').val(quantity);
         jQuery('.ingredientRowNew .U').val(unitId);
         jQuery('.ingredientRowNew .P').val(productId);
-        jQuery('.ingredientRowNew .H').val(ingredientText);
+        jQuery('.ingredientRowNew .UN').val(unitName);
+        jQuery('.ingredientRowNew .PN').val(prodName);
+        jQuery('.ingredientRowNew .quantity').html(quantity)
+        jQuery('.ingredientRowNew .unit').html(unitName)
+        jQuery('.ingredientRowNew .product').html(prodName)
         jQuery('.ingredientRowNew').attr('class', 'ingredientRow')
     }
 
     function AddDirection(direction) {
         var addDirection = sampleDirectionRowHTML;
-        jQuery('#DirectionsAdded').append(addDirection)
-        jQuery('.directionRowNew .showDirection').html(direction)
+        jQuery('#tableDirections tbody').append(addDirection)
         jQuery('.directionRowNew .D').val(direction);
-        jQuery('.directionRowNew .H').val(direction);
+        jQuery('.directionRowNew .direction').html(direction)
         jQuery('.directionRowNew').attr('class', 'directionRow')
     }
 
@@ -587,51 +568,41 @@
         jQuery(domId + ' .btnUp:first').css('visibility', 'hidden');
         jQuery(domId + ' .btnDown').css('visibility', 'visible');
         jQuery(domId + ' .btnDown:last').css('visibility', 'hidden');
-        jQuery(domId + ' .optionImages .btnDelete').unbind();
+        jQuery(domId + ' .btnDelete').unbind();
         jQuery(domId + ' .btnDown').unbind();
         jQuery(domId + ' .btnUp').unbind();
-        jQuery.each(jQuery(domId + ' .optionImages .btnDelete'), function() {
+        jQuery.each(jQuery(domId + ' .btnDelete'), function() {
             jQuery(this).click(function() {
-                jQuery(this).parents(domClass).remove();
+                jQuery(this).parents('tr').remove();
                 bindEventsFor(DOM_ID, DOM_CLASS);
             })
         })
         jQuery.each(jQuery(domId + ' .btnDown'), function() {
             jQuery(this).click(function() {
-                var index = jQuery(this).index(domId + ' .btnDown')
-                var a = jQuery(domId + ' ' + domClass + ':eq(' + index + ')')
-                var b = jQuery(domId + ' ' + domClass + ':eq(' + (index + 1) + ')')
-                var temp = a.html()
-                a.html(b.html())
-                b.html(temp)
+                var a = jQuery(this).parents('tr').html()
+                var b = jQuery(this).parents('tr').next().html()
+                var temp = a
+                jQuery(this).parents('tr').next().html(temp)
+                jQuery(this).parents('tr').html(b)
                 bindEventsFor(DOM_ID, DOM_CLASS);
             })
         })
         jQuery.each(jQuery(domId + ' .btnUp'), function() {
             jQuery(this).click(function() {
-                var index = jQuery(this).index(domId + ' .btnUp')
-                var a = jQuery(domId + ' ' + domClass + ':eq(' + index + ')')
-                var b = jQuery(domId + ' ' + domClass + ':eq(' + (index - 1) + ')')
-                var temp = a.html()
-                a.html(b.html())
-                b.html(temp)
+                var a = jQuery(this).parents('tr').html()
+                var b = jQuery(this).parents('tr').prev().html()
+                var temp = a
+                jQuery(this).parents('tr').prev().html(temp)
+                jQuery(this).parents('tr').html(b)
                 bindEventsFor(DOM_ID, DOM_CLASS);
             })
         })
     }
-    %{--*************** A JAVA-SCRIPT FUNCTION TO DISPLAY CHANGED IMAGE OF RECIPE ****************--}%
-    function changeRecipeImage(attachment) {
-        previewImage = document.getElementById('recipeImage');
-        if (attachment.files)   previewImage.src = attachment.files.item(0).getAsDataURL();
-        else    previewImage.src = attachment.value;
-        jQuery('#recipeImage').css('visibility', 'visible')
-
-    }
     function colorRowAlternate() {
-        jQuery('.ingredientRow:visible:odd').css('backgroundColor', '#eee')
-        jQuery('.directionRow:visible:odd').css('backgroundColor', '#eee')
-        jQuery('.ingredientRow:visible:even').css('backgroundColor', '#fff')
-        jQuery('.directionRow:visible:even').css('backgroundColor', '#fff')
+        jQuery('#tableIngredients .ingredientRow:odd').css('backgroundColor', '#eee')
+        jQuery('#tableDirections .directionRow:odd').css('backgroundColor', '#eee')
+        jQuery('#tableIngredients .ingredientRow:even').css('backgroundColor', '#fff')
+        jQuery('#tableDirections .directionRow:even').css('backgroundColor', '#fff')
     }
     function reflectInPreviewPanel() {
         //        jQuery('#displayName').html(jQuery('#name').attr('value'))
