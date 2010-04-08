@@ -6,7 +6,7 @@ import static com.mp.MenuConstants.*
 
 class RecipeController {
     static config = ConfigurationHolder.config
-    
+
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index = {
@@ -135,13 +135,10 @@ class RecipeController {
         render(view: 'create', model: [timeUnits: timeUnits, metricUnits: metricUnits, nutrients: nutrients])
     }
 
-    def uploadImage={
-        println params.Filedata.originalFilename
-        println params.Filedata.size
-//        Image image = Image.createFile(1000, "/recipes", params.Filedata.originalFilename, params.Filedata.bytes, "Some alt text").s()
-        String relativePath="/recipes"
-        def fileContents=params.Filedata.bytes
-        String filePath = config.imagesRootDir  + relativePath
+    def uploadImage = {
+        String relativePath = "/recipes"
+        def fileContents = params.Filedata.bytes
+        String filePath = config.imagesRootDir + relativePath
         File file = new File(filePath)
         file.mkdirs()
         File actualFile = new File(file, params.Filedata.originalFilename)
@@ -151,11 +148,15 @@ class RecipeController {
         render actualFile.absolutePath as String
     }
 
-/*
-    def test={
-        Image image=Image.get(1)
+    def showImage = {
+        Image image
+        if(params.selectRecipeImagePath){
+            image=new Image(params.selectRecipeImagePath,"Some alt Text")
+        }else{
+            image = Recipe.get(params.id.toLong()).image
+        }
         byte[] fileContent = image.readFile()
-        String fileName = image.actualName+"."+image.extension
+        String fileName = image.actualName + "." + image.extension
         response.setContentLength(fileContent.size())
         response.setHeader("Content-disposition", "attachment; filename=" + fileName)
         response.setContentType("image/${image.extension}")
@@ -164,11 +165,12 @@ class RecipeController {
         out.flush()
         out.close()
     }
-
-*/
+    
 }
 
 class RecipeCO {
+    static config = ConfigurationHolder.config
+
     RecipeCO() {} //constructor
 
     String name
@@ -208,17 +210,16 @@ class RecipeCO {
                 return 'recipeCO.name.not.Unique.message'
             }
         })
-        selectRecipeImagePath(nullable:true)
 
         difficulty(blank: false, inList: RecipeDifficulty.list()*.name())
         makesServing(nullable: false, min: 1)
+        selectRecipeImagePath(nullable: true)
         selectRecipeImage(blank: true)
         preparationTime(nullable: false, min: 1)
         cookTime(nullable: false, min: 1)
         categoryIds(minSize: 1)
 
         nutrientQuantities(validator: {val ->
-            println val*.class
             if (val.findAll {!(it instanceof BigDecimal || it == "")}.size() > 0) {
                 return 'recipeCO.nutrientQuantities.matches.invalid.nutrientQuantities'
             }
@@ -229,16 +230,6 @@ class RecipeCO {
                 return 'recipeCO.ingredientQuantities.not.Amount.message'
             }
         })
-//        ingredientUnitIds(validator: {val, obj ->
-//            if ((val.size() < 1) || (val.any {!it}) || (val.size() != obj.ingredientQuantities?.size()) || (val.size() != obj.ingredientProductIds?.size())) {
-//                return 'default.invalid.message'
-//            }
-//        })
-//        ingredientProductIds(minSize: 1, validator: {val, obj ->
-//            if ((val.any {!it}) || (val != val.unique()) || (val.size() != obj.ingredientUnitIds?.size()) || (val.size() != obj.ingredientQuantities?.size())) {
-//                return 'default.invalid.message'
-//            }
-//        })
         directions(validator: {val, obj ->
             if ((val.size() < 1) || (val.any {!it}) || (val.size() != val.unique().size())) {
                 return 'recipeCO.directions.not.valid.message'
@@ -269,20 +260,11 @@ class RecipeCO {
         recipe.cookingTime = quantityCookTime
 
         recipe.s()
-        if (selectRecipeImagePath) {
-            File file=new File(selectRecipeImagePath)
-            String filePath = config.imagesRootDir  + "/recipes"
-            String fileName=file.name
-//            Image image = Image.createFile(recipe.id, "/recipes", Filedata.originalFilename, Filedata.bytes, "Some alt text").s()
-            Image image = Image.findByStoredNameAndPath(recipe.id.toString(), filePath)
-            if(!image){image = new Image()}
-            image.storedName = fileName
-            image.actualName = fileName.tokenize('.').first()
-            image.extension = fileName.tokenize('.').tail().join('.')
-            image.path = filePath
-            image.altText = "Some alt text"
-            image.s()
 
+        if (selectRecipeImagePath) {
+            Image image = new Image(selectRecipeImagePath, "Some alt text")
+            recipe.image = image
+            image.s()
         }
 
         categoryIds.eachWithIndex {Long categoryId, Integer index ->

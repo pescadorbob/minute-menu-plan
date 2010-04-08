@@ -37,9 +37,22 @@ class Image {
     }
 
     public readFile() {
-        String filePath = config.imagesRootDir + path
+        String filePath = path
         File file = new File(filePath)
         File actualFile = new File(file, storedName)
         return actualFile.readBytes()
+    }
+
+    public Image(){}
+
+    public Image(String selectRecipeImagePath, String altText="Some alt text"){
+        File file=new File(selectRecipeImagePath)
+        String filePath = config.imagesRootDir  + "/recipes"
+        String fileName=file.name
+        storedName = fileName
+        actualName = fileName.tokenize('.').first()
+        extension = fileName.tokenize('.').tail().join('.')
+        path = filePath
+        this.altText =altText
     }
 }

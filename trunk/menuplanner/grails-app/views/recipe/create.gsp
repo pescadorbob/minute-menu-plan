@@ -155,18 +155,24 @@
                             <div class="clr"></div>
                         </div>
 
-                        <div class="add-recipe-form2" style="display:none;">
+                        <div class="add-recipe-form2">
                             <ul class="add-recipe-form-container">
                                 <li class="add-recipe-form-input2">
                                     <div style="float:left; height:25px;line-height:25px;padding-right:10px;"><strong>images</strong></div>
-                                    <a href="#" style="float:left;display:block;"><input id="selectRecipeImage" size="1" name="selectRecipeImage" class="input3" type="file" onchange="changeRecipeImage(this)"/></a>
-                                    %{--<img src="${resource(dir: 'images', file: 'browser.jpg')}" alt="Browse" border="0"/>--}%
-                                    %{--<img id="removeRecipeImage" src="${resource(dir: 'images', file: 'remove.jpg')}" alt="Remove" border="0" height="28px;" style="cursor:pointer"/>--}%
+                                    <div>
+                                    <input id="selectRecipeImage" size="1" name="selectRecipeImage" class="input3" type="file"/>
+                                    <img id="removeRecipeImage" src="${resource(dir: 'images', file: 'remove.jpg')}" alt="Remove" border="0" height="28px;" style="cursor:pointer"/>
+                                        </div>
                                 </li>
                             </ul>
                             <div class="clr">
-                                <img id="recipeImage" src="${resource(dir: 'images', file: '')}" border="0" width="195" height="171" style="visibility:hidden;"/>
-                                <input type="hidden" name="selecteRecipeImagePath" id="selecteRecipeImagePath" value=""/>
+                                %{--<mp:recipeImageById id="7"/>--}%
+                                <div id="myImageDiv">
+                                 %{--<img id='recipeImage'  border='0' width='195' src=""/> --}%
+                                <mp:recipeImageByPath selectRecipeImagePath="${recipeCO?.selectRecipeImagePath}"/>
+                                </div>
+                                %{--<img id="recipeImage" src="${resource(dir: 'images', file: '')}" border="0" width="195" height="171" style="visibility:hidden;"/>--}%
+                                <input type="hidden" name="selectRecipeImagePath" id="selectRecipeImagePath" value="${recipeCO?.selectRecipeImagePath}"/>
                             </div>
                         </div>
 
@@ -485,9 +491,10 @@
         })
         /* REMOVE IMAGE: function to be executed when removeRecipeImage is Clicked... */
         jQuery('#removeRecipeImage').click(function() {
-            jQuery('#selectRecipeImage').attr('value', '')
+//            jQuery('#selectRecipeImage').attr('value', '')
             jQuery('#recipeImage').attr('src', '')
             jQuery('#recipeImage').css('visibility', 'hidden')
+            jQuery('#selectRecipeImagePath').val("");
         })
         /* ADD INGREDIENT:  function to be executed when btnAddIngredient is Clicked... */
         jQuery('#btnAddIngredient').click(function() {
@@ -524,14 +531,11 @@
         jQuery('#selectRecipeImage').uploadify({
             'uploader': "${resource(dir:'jquery.uploadify-v2.1.0', file:'uploadify.swf')}",
             'script':    "${createLink(controller:'recipe', action:'uploadImage')}",
-            'folder':    'uploads-folder',
             'auto':true,
             'buttonImg':"${resource(dir:'jquery.uploadify-v2.1.0', file:'browser.jpg')}",
-            'cancelImg': "${resource(dir:'jquery.uploadify-v2.1.0', file:'cancel.png')}",
             onComplete: function(event, queId, fileObj, response, data) {
-
-                jQuery('#selecteRecipeImagePath').val(response);
-                alert(response)
+                jQuery('#selectRecipeImagePath').val(response);
+                jQuery('#myImageDiv').html('<img id="recipeImage" border="0" width="195" src="${createLink(action:'showImage', controller:'recipe')}?selectRecipeImagePath='+response+'"/>')
             }
 
         });
