@@ -613,6 +613,19 @@ body  .add-recipe-form-input2 {
     _padding-bottom: 15px;
     margin-right: 4px;
 }
+.add-recipe-form-input2 div{
+    float:left !important;
+    width:auto !important;
+}
+
+.add-recipe-form-input2 div img{
+    float:left !important;
+    margin-left:2px !important;
+}
+
+.add-recipe-form-input2 div object{
+    float:left !important;
+}
 
 .ingredients {
     margin: 0px;
@@ -902,9 +915,14 @@ body .input4 {
 }
 
 .add-recipe-form2 {
-    width: 198px;
+    width: 200px;
     float: left;
-    margin-left: 25px;
+    margin-left: 23px;
+}
+
+.add-recipe-form5 {
+    width: auto;
+    float: left;
 }
 
 .apply-btn {
@@ -1028,12 +1046,12 @@ span.errors {
 }
 
 .showIngredientsHere table {
-    width: 500px;
+    width: 577px;
     border: 0px;
 }
 
 .showDirectionsHere table {
-    width: 500px;
+    width: 577px;
     border: 0px;
 }
 

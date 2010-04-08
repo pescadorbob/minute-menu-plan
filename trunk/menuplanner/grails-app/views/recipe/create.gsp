@@ -155,7 +155,7 @@
                             <div class="clr"></div>
                         </div>
 
-                        <div class="add-recipe-form2">
+                        <div class="add-recipe-form5">
                             <ul class="add-recipe-form-container">
                                 <li class="add-recipe-form-input2">
                                     <div style="float:left; height:25px;line-height:25px;padding-right:10px;"><strong>images</strong></div>
@@ -533,6 +533,7 @@
             'script':    "${createLink(controller:'recipe', action:'uploadImage')}",
             'auto':true,
             'buttonImg':"${resource(dir:'jquery.uploadify-v2.1.0', file:'browser.jpg')}",
+            'width':130,
             onComplete: function(event, queId, fileObj, response, data) {
                 jQuery('#selectRecipeImagePath').val(response);
                 jQuery('#myImageDiv').html('<img id="recipeImage" border="0" width="195" src="${createLink(action:'showImage', controller:'recipe')}?selectRecipeImagePath='+response+'"/>')
