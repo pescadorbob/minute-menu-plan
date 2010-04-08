@@ -119,11 +119,11 @@
                                 </div>
                             </li>
                             <li class="clr">
-                                <span id="AddIngredientToolBox" style="float:left; margin-top:10px; padding-left:100px;padding-top:10px;padding-bottom:10px; width:485px;; border:1px solid #ddd;">
+                                <span id="AddIngredientToolBox" style="float:left; margin-top:10px; padding-left:115px;padding-top:10px;padding-bottom:10px; width:470px;; border:1px solid #ddd;">
                                     <img id="btnAddIngredient" src="${resource(dir: 'images', file: 'plus-add.jpg')}" hspace="4" align="left" border="0" style="cursor:pointer; margin:0px;"/>
                                     <span id="ingredientToBeAdded" style="display:block; float:left;padding-left:10px;">
                                         <g:textField class="input2" id='optionIngredientQuantities' name="optionIngredientQuantities" value=""/>
-                                        <g:select class="select2" id='optionIngredientUnitIds' name="optionIngredientUnitIds" from="${metricUnits}" optionKey="id" style="width:120px;"/>
+                                        <g:select class="select2" id='optionIngredientUnitIds' name="optionIngredientUnitIds" from="${metricUnits}" optionKey="id" style="width:105px;"/>
                                         <div style="padding-top:2px; float:left;">
                                             <mp:tagInput name="optionIngredientProductIds" controller="recipe" action="getMatchingProducts" multiselect="false"/>
                                         </div>
@@ -306,7 +306,8 @@
                                 %{--Cook - 30 min--}%
                             </span>
                             <br/><br/>
-                            <span id="displayIngredients">
+
+                            <span id="displayIngredients" style="font-weight:bold;">
                                 %{--<strong>--}%
                                     %{--1 lb. chicken, partially frozen--}%
                                     %{--<br/>--}%
