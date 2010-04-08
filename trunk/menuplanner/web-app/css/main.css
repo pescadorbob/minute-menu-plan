@@ -43,7 +43,7 @@ ul {
 
 input, select, textarea {
     background-color: #fcfcfc;
-    border: 1px solid #ccc;
+    border: #e2e2e2 1px solid;
     font: 11px verdana, arial, helvetica, sans-serif;
     margin: 2px 0;
     padding: 2px 4px;
@@ -271,4 +271,11 @@ th.desc a {
 .buttons input.save {
     background: transparent url(../images/skin/database_save.png) 5px 50% no-repeat;
     padding-left: 28px;
+}
+body .inputTextArea {
+   width: 350px;
+   height: 60px;
+   border: #E2E2E2 1px solid;
+   _margin-bottom: 0px;
+   margin-bottom: 5px;
 }
