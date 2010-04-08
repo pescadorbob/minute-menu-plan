@@ -1059,3 +1059,9 @@ span.errors {
     background-color: #ddd;
     height: 35px;
 }
+.mnuTableHeader td {
+   line-height:24px !important; 
+}
+.add-recipe-form-input-radio input {
+	border:0px;
+}

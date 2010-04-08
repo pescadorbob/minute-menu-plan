@@ -131,9 +131,11 @@
 
                             <ul class="add-recipe-form-container">
                                 <li class="add-recipe-form-content"><strong>Difficulty</strong></li>
+                                <li class="add-recipe-form-input-radio">
                                 <g:radioGroup name="difficulty" values="${RecipeDifficulty.list()*.name()}" value="${recipeCO? (recipeCO?.difficulty): RecipeDifficulty.EASY.name()}" labels="${RecipeDifficulty.list()*.name}">
                                     ${it.radio} <strong><g:message code="${it.label}"/></strong>
                                 </g:radioGroup>
+                                </li>
                             </ul>
 
                             <ul class="add-recipe-form-container">
@@ -160,16 +162,16 @@
                                 <li class="add-recipe-form-input2">
                                     <div style="float:left; height:25px;line-height:25px;padding-right:10px;"><strong>images</strong></div>
                                     <div>
-                                    <input id="selectRecipeImage" size="1" name="selectRecipeImage" class="input3" type="file"/>
-                                    <img id="removeRecipeImage" src="${resource(dir: 'images', file: 'remove.jpg')}" alt="Remove" border="0" height="28px;" style="cursor:pointer"/>
-                                        </div>
+                                        <input id="selectRecipeImage" size="1" name="selectRecipeImage" class="input3" type="file"/>
+                                        <img id="removeRecipeImage" src="${resource(dir: 'images', file: 'remove.jpg')}" alt="Remove" border="0" height="28px;" style="cursor:pointer"/>
+                                    </div>
                                 </li>
                             </ul>
                             <div class="clr">
                                 %{--<mp:recipeImageById id="7"/>--}%
                                 <div id="myImageDiv">
-                                 %{--<img id='recipeImage'  border='0' width='195' src=""/> --}%
-                                <mp:recipeImageByPath selectRecipeImagePath="${recipeCO?.selectRecipeImagePath}"/>
+                                    %{--<img id='recipeImage'  border='0' width='195' src=""/> --}%
+                                    <mp:recipeImageByPath selectRecipeImagePath="${recipeCO?.selectRecipeImagePath}"/>
                                 </div>
                                 %{--<img id="recipeImage" src="${resource(dir: 'images', file: '')}" border="0" width="195" height="171" style="visibility:hidden;"/>--}%
                                 <input type="hidden" name="selectRecipeImagePath" id="selectRecipeImagePath" value="${recipeCO?.selectRecipeImagePath}"/>
@@ -198,7 +200,7 @@
                                             <td style="width:33px;"></td>
                                             <td style="width:50px;"><strong>Amount</strong></td>
                                             <td style="width:80px;"><strong>Unit</strong></td>
-                                            <td><strong>Ingredient</strong></td>
+                                            <td style="width:200px;"><strong>Ingredient</strong></td>
                                         </tr>
                                         <!-- Show Ingredients Here -->
                                         <g:each status="i" in="${recipeCO?.hiddenIngredientUnitNames}" var="X">
@@ -208,14 +210,13 @@
                                 </div>
                             </li>
                             <li class="clr">
-                                <span id="AddIngredientToolBox" style="float:left; margin-top:10px; padding-left:90px;padding-top:10px;padding-bottom:10px; width:545px; border:1px solid #ddd;">
+                                <span id="AddIngredientToolBox" style="float:left; margin-top:10px; padding-left:100px;padding-top:10px;padding-bottom:10px; width:485px;; border:1px solid #ddd;">
                                     <img id="btnAddIngredient" src="${resource(dir: 'images', file: 'plus-add.jpg')}" hspace="4" align="left" border="0" style="cursor:pointer; margin:0px;"/>
                                     <span id="ingredientToBeAdded" style="display:block; float:left;padding-left:10px;">
                                         <g:textField class="input2" id='optionIngredientQuantities' name="optionIngredientQuantities" value=""/>
-                                        <g:select class="select2" id='optionIngredientUnitIds' name="optionIngredientUnitIds" from="${metricUnits}" optionKey="id"/>
+                                        <g:select class="select2" id='optionIngredientUnitIds' name="optionIngredientUnitIds" from="${metricUnits}" optionKey="id" style="width:120px;"/>
                                         <div style="padding-top:2px; float:left;">
                                             <mp:tagInput name="optionIngredientProductIds" controller="recipe" action="getMatchingProducts" multiselect="false"/>
-                                        
                                         </div>
                                     </span>
                                 </span>
@@ -251,9 +252,9 @@
                                 </div>
                             </li>
                             <li class="clr">
-                                <span id="AddDirectionToolBox" style="float:left; margin-top:10px; padding-left:90px;padding-top:10px;padding-bottom:10px;border:1px solid #ddd;padding-right:30px;">
+                                <span id="AddDirectionToolBox" style="float:left; margin-top:10px; padding-left:90px;padding-top:10px;padding-bottom:10px;border:1px solid #ddd;width:485px;">
                                     <img id="btnAddDirection" src="${resource(dir: 'images', file: 'plus-add.jpg')}" hspace="4" align="left" border="0" style="cursor:pointer; margin:0px;"/>
-                                    <span id="directionToBeAdded" style="display:block; float:left;padding-left:10px;">
+                                    <span id="directionToBeAdded" style="display:block; float:left;padding-left:20px;">
                                         <g:textArea class="inputTextArea" id="optionDirections" name="optionDirections" value="" rows="5"/>
                                     </span>
                                 </span>
@@ -274,8 +275,8 @@
 
                         <ul class="ingredients">
                             <li>
-                                <div style="background-color:#ddd; padding:5px;">
-                                    <table style="border:0px;">
+                                <div>
+                                    <table class="mnuTableHeader" cellspacing="0px" cellpadding="0px">
                                         <tr>
                                             <td style="width:50px; text-align:left;"></td>
                                             <td style="width:150px; text-align:left;"><strong>Recipe/Food Name</strong></td>
@@ -294,9 +295,9 @@
 
                             <li class="clr">
                                 <span id="AddItemToolBox" style="float:left; margin-top:10px; padding-left:30px;padding-top:10px;padding-bottom:10px; width:545px; border:1px solid #ddd;">
-                                    <img id="btnAddItem" src="${resource(dir: 'images', file: 'plus-add.jpg')}" hspace="4" align="left" border="0" style="cursor:pointer; margin:0px;"/>
-                                    <span id="itemToBeAdded" style="display:block; float:left;padding-left:10px;">
-                                        <g:textField class="input1" name="someName" value=""/>
+                                    %{--<img id="btnAddItem" src="${resource(dir: 'images', file: 'plus-add.jpg')}" hspace="4" align="left" border="0" style="cursor:pointer; margin:0px;"/>--}%
+                                    <span id="itemToBeAdded" style="display:block; float:left;padding-left:42px;">
+                                        <mp:tagInput name="serveWithItem" controller="recipe" action="getMatchingProducts"/>
                                     </span>
 
                                 </span>
@@ -321,7 +322,7 @@
                                     <table style="border:0px;">
                                         <tr>
                                             <td style="width:50px; text-align:left;"></td>
-                                            <td style="width:40px; text-align:left;"><strong>Amount</strong></td>
+                                            <td style="width:53px; text-align:left;"><strong>Amount</strong></td>
                                             <td style="width:150px; text-align:left;"><strong>Nutrients per Serving</strong></td>
                                             <td></td>
                                         </tr>
@@ -335,6 +336,8 @@
                                         <input type="hidden" value="${nutrient?.id}" name="nutrientIds"/>
                                         <input class="input2" type="text" name="nutrientQuantities" id="text1" value="${((recipeCO) ? recipeCO.nutrientQuantities[i] : '')}"/>
                                         ${nutrient?.preferredUnit?.symbol}  ${nutrient?.name}
+                                        %{--IMP for Preview--}%
+                                        <input type="hidden" value="${nutrient?.name}" name="nutrientNames"/>
                                     </div>
 
                                 </g:each>
@@ -369,7 +372,7 @@
                             <img src="${resource(dir: 'images', file: 'add-rgt-hdr1.jpg')}" align="left"/>
                             <div class="add-rgt-hdr1">
                                 <span id="displayName">
-                                    Beef Broccoil
+                                    %{--Beef Broccoil--}%
                                 </span>
                             </div>
                             <img src="${resource(dir: 'images', file: 'add-rgt-hdr3.jpg')}" align="left"/>
@@ -381,47 +384,65 @@
                                 <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
                             </div>
                         </div>
-                        <img src="${resource(dir: 'images', file: 'img5.jpg')}" align="right" width="148" height="130"/>
+
+                        <img id="showPreviewRecipeImage" src="${resource(dir: 'images', file: '')}" align="right" width="148" height="130"/>
+
                         <p>
-                            Prep - <span id="displayPrepTime">30 min</span> .
+                            <br>
+                            <span id="displayPrepTime">
+                                %{--Prep - 30 min--}%
+                            </span>
                             <br/>
-                            Cook - <span id="displayCookTime">30 min</span> .
-                            <br/>
+                            <span id="displayCookTime">
+                                %{--Cook - 30 min--}%
+                            </span>
+                            <br/><br/>
                             <span id="displayIngredients">
-                                1 lb. chicken, partially frozen
-                                <br/>
-                                3 lg. carrots, sliced diagonally
-                                <br/>
-                                2 c. string beans, fresh or
-                                <br/>
-                                frozen
-                                <br/>
-                                3/4 c. chicken broth
-                                <br/>
-                                1 can mushrooms
+                                %{--<strong>--}%
+                                    %{--1 lb. chicken, partially frozen--}%
+                                    %{--<br/>--}%
+                                    %{--3 lg. carrots, sliced diagonally--}%
+                                    %{--<br/>--}%
+                                    %{--2 c. string beans, fresh or--}%
+                                    %{--<br/>--}%
+                                    %{--frozen--}%
+                                    %{--<br/>--}%
+                                    %{--3/4 c. chicken broth--}%
+                                    %{--<br/>--}%
+                                    %{--1 can mushrooms--}%
+                                %{--</strong>--}%
                             </span>
                         </p>
                         <p>&nbsp;</p><p>&nbsp;</p>
                         <p class="clr">
                         </p>
                         <span id="displayDirections">
-                            Slice meat diagonally with grain into thin strips.
-                            Pour terikate sauce over and marinate while preparing vegetables.
-                            <p>&nbsp;</p>
-                            <p>&nbsp;</p>
-                            <p>
-                                Place oil in pan, stir fry beans until tender, add carrots, onions and then put meat in a little at a time. Stir meat and vegetables together. Add mushrooms and beef broth. Stir until hot. Serve over rice.
-                            </p>
+                            %{--Slice meat diagonally with grain into thin strips.--}%
+                            %{--Pour terikate sauce over and marinate while preparing vegetables.--}%
+                            %{--<p>&nbsp;</p>--}%
+                            %{--<p>&nbsp;</p>--}%
+                            %{--<p>--}%
+                                %{--Place oil in pan, stir fry beans until tender, add carrots, onions and then put meat in a little at a time. Stir meat and vegetables together. Add mushrooms and beef broth. Stir until hot. Serve over rice.--}%
+                            %{--</p>--}%
 
                         </span>
                         <p>&nbsp;</p><p>&nbsp;</p>
-                        <p class="serve-link">Serve With<br/>
-                            <a class="serve-link" href="#">Rice</a>, <a class="serve-link" href="#">Won Tons</a>, <a class="serve-link" href="#">Egg Rolls</a>, <a class="serve-link" href="#">Egg Drop Soup</a></p>
+                        <p class="serve-link">
+                            %{--Serve With--}%
+                            <br/>
+                            %{--<a class="serve-link" href="#">Rice</a>, <a class="serve-link" href="#">Won Tons</a>, <a class="serve-link" href="#">Egg Rolls</a>, <a class="serve-link" href="#">Egg Drop Soup</a></p>--}%
                         <p>&nbsp;</p><p>&nbsp;</p>
 
-                        <p>By - <span class="blue-text">Cheryl - Bakersfield, CA</span></p><p>&nbsp;</p><p>&nbsp;</p>
+                        <p>
+                            %{--By - <span class="blue-text">Cheryl - Bakersfield, CA--}%
+                        </span></p><p>&nbsp;</p><p>&nbsp;</p>
 
-                        <p class="font-10">Nutritional Facts per serving: 204 cal., 7g total fat, 4 mg chol. 533 mg sodium, 33 g. carbo., 2 g fiber, 6 g. pro.</p>
+                        <p class="font-10">
+                            <span id="showNutrients">
+                                %{--Nutritional Facts per serving:--}%
+                                %{--204 cal., 7g total fat, 4 mg chol. 533 mg sodium, 33 g. carbo., 2 g fiber, 6 g. pro.--}%
+                            </span>
+                        </p>
 
                     </div>
                     <div>
@@ -433,12 +454,9 @@
             %{--********************************** ONLY PREVIEW ********************************--}%
 
             <div class="save-recips">
-                <a href="#">
-                    <g:submitButton name="btnSave" class="save" value="Save Recipe" style="font-size:14px;color:white;background-color:orange;width:120px;height:35px;cursor:pointer;"/>
-                    <input type="button" name="preview" id="preview" value="Preview" style="font-size:14px;color:white;background-color:orange;width:120px;height:35px;cursor:pointer;"/>
-                    <input type="button" name="delete" id="delete" value="Delete" style="font-size:14px;color:white;background-color:orange;width:120px;height:35px;cursor:pointer;"/>
-                    %{--<img src="${resource(dir: 'images', file: 'save-recipe1.jpg')}" alt="Save Recipe" border="0"/>--}%
-                </a>
+                <g:submitButton name="btnSave" class="save" value="Save Recipe" style="font-size:14px;color:white;background-color:orange;width:120px;height:35px;cursor:pointer;"/>
+                <input type="button" name="preview" id="preview" value="Preview" style="font-size:14px;color:white;background-color:orange;width:120px;height:35px;cursor:pointer;"/>
+                <input type="button" name="delete" id="delete" value="Delete" style="font-size:14px;color:white;background-color:orange;width:120px;height:35px;cursor:pointer;"/>
             </div>
         </div>
         <div class="clr"></div>
@@ -491,7 +509,7 @@
         })
         /* REMOVE IMAGE: function to be executed when removeRecipeImage is Clicked... */
         jQuery('#removeRecipeImage').click(function() {
-//            jQuery('#selectRecipeImage').attr('value', '')
+            //            jQuery('#selectRecipeImage').attr('value', '')
             jQuery('#recipeImage').attr('src', '')
             jQuery('#recipeImage').css('visibility', 'hidden')
             jQuery('#selectRecipeImagePath').val("");
@@ -504,7 +522,8 @@
             var unitName = jQuery('#optionIngredientUnitIds :selected').text()
             var prodName = jQuery('#AddIngredientToolBox p').html()
 
-            if ((quantity.length > 0) && (unitId.length > 0) && (productId.length > 0)) {
+            if ((quantity.length > 0) && (unitId.length > 0) && (productId.length > 0) && !isNaN(quantity)) {
+
                 AddIngredient(quantity, unitId, productId, unitName, prodName)
                 /* Reset Add Ingredient ToolBox.... */
                 jQuery('#optionIngredientQuantities').attr('value', '')
@@ -536,7 +555,7 @@
             'width':130,
             onComplete: function(event, queId, fileObj, response, data) {
                 jQuery('#selectRecipeImagePath').val(response);
-                jQuery('#myImageDiv').html('<img id="recipeImage" border="0" width="195" src="${createLink(action:'showImage', controller:'recipe')}?selectRecipeImagePath='+response+'"/>')
+                jQuery('#myImageDiv').html('<img id="recipeImage" border="0" width="195" src="${createLink(action:'showImage', controller:'recipe')}?selectRecipeImagePath=' + response + '"/>')
             }
 
         });
@@ -610,18 +629,43 @@
         jQuery('#tableDirections .directionRow:even').css('backgroundColor', '#fff')
     }
     function reflectInPreviewPanel() {
-        //        jQuery('#displayName').html(jQuery('#name').attr('value'))
-        //        jQuery('#displayPrepTime').html(jQuery('#preparationTime').attr('value') + ' ' + jQuery('#preparationUnitId :selected').text())
-        //        jQuery('#displayCookTime').html(jQuery('#cookTime').attr('value') + ' ' + jQuery('#cookUnitId :selected').text())
-        //        var i;
-        //        jQuery('#displayIngredients').html('')
-        //        for(i=1;i<jQuery('input[name="hiddenIngredients"]').size();i++){
-        //            jQuery('#displayIngredients').append(jQuery('input[name="hiddenIngredients"]:eq('+i+')').attr('value') + '<br>')
-        //        }
-        //        jQuery('#displayDirections').html('')
-        //        for(i=1;i<jQuery('input[name="hiddenDirections"]').size();i++){
-        //            jQuery('#displayDirections').append(jQuery('input[name="hiddenDirections"]:eq('+i+')').attr('value') + ', ')
-        //        }
+        jQuery('#displayName').html(jQuery('#name').attr('value'))
+        var showPrep = ''
+        if(jQuery('#preparationTime').attr('value').length){
+            showPrep = 'prep - ' + jQuery('#preparationTime').attr('value') + ' ' + jQuery('#preparationUnitId :selected').text() + '.'
+        }
+        jQuery('#displayPrepTime').html(showPrep)
+        var showCook = ''
+        if(jQuery('#cookTime').attr('value').length){
+            showCook = 'cook - ' + jQuery('#cookTime').attr('value') + ' ' + jQuery('#cookUnitId :selected').text() + '.'
+        }
+        jQuery('#displayCookTime').html(showCook)
+        var i;
+        jQuery('#displayIngredients').html('')
+        for (i = 1; i < jQuery('input[name="ingredientQuantities"]').size(); i++) {
+            var myIngredients = jQuery('input[name="ingredientQuantities"]:eq(' + i + ')').attr('value') +
+                                ' ' + jQuery('input[name="hiddenIngredientUnitNames"]:eq(' + i + ')').attr('value') +
+                                ' ' + jQuery('input[name="hiddenIngredientProductNames"]:eq(' + i + ')').attr('value') + '<br>'
+            jQuery('#displayIngredients').append(myIngredients)
+        }
+        jQuery('#displayDirections').html('')
+        for (i = 1; i < jQuery('input[name="directions"]').size(); i++) {
+            jQuery('#displayDirections').append(jQuery('input[name="directions"]:eq(' + i + ')').attr('value') + '. ')
+        }
+        jQuery('#showPreviewRecipeImage').attr('src', jQuery('#recipeImage').attr('src'))
+        var myNutrients = ''
+        for (i = 0; i < jQuery('input[name="nutrientIds"]').size(); i++) {
+            if (jQuery('input[name="nutrientQuantities"]:eq(' + i + ')').attr('value') != '') {
+
+                myNutrients += jQuery('input[name="nutrientQuantities"]:eq(' + i + ')').attr('value') +
+                               ' ' + jQuery('input[name="nutrientNames"]:eq(' + i + ')').attr('value') +
+                               '. '
+            }
+        }
+        if(myNutrients.length>=1){
+            myNutrients ='Nutritional Facts per serving: ' + myNutrients
+        }
+        jQuery('#showNutrients').html(myNutrients)
     }
 
 </script>

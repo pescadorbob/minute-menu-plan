@@ -195,12 +195,10 @@ class RecipeCO {
 
     List<Long> nutrientIds = []
     def nutrientQuantities = []
-    List<String> hiddenNutrients = []
 
     void setNutrientQuantities(def listOfNq) {
         [listOfNq].flatten().each {
             try {nutrientQuantities << new BigDecimal(it)} catch (ex) {nutrientQuantities << it}
-
         }
     }
 
@@ -226,12 +224,21 @@ class RecipeCO {
         })
 
         ingredientQuantities(validator: {val, obj ->
-            if ((val.size() < 1) || (val.any {!it}) || (val.size() != obj.ingredientUnitIds?.size()) || (val.size() != obj.ingredientProductIds?.size())) {
+            println "Validation ingredientQuantities..."
+            if (val.size() < 1) {
                 return 'recipeCO.ingredientQuantities.not.Amount.message'
+            }
+            if (val.size() != obj.ingredientUnitIds?.size()) {
+                return 'recipeCO.ingredientProduct.Repeated.message'
+            }
+        })
+        ingredientProductIds(validator: {val, obj ->
+            if (val.size() != obj.ingredientProductIds?.unique()?.size()) {
+                return 'recipeCO.ingredientProduct.Repeated.message'
             }
         })
         directions(validator: {val, obj ->
-            if ((val.size() < 1) || (val.any {!it}) || (val.size() != val.unique().size())) {
+            if ((val.size() < 1) || (val.any {!it})) {
                 return 'recipeCO.directions.not.valid.message'
             }
         })
