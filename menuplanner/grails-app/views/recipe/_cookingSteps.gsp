@@ -5,9 +5,9 @@
                 <div class="showDirectionsHere">
                     <table id="tableDirections" cellspacing="0px" cellpadding="0px">
                         <tr id="tableDirectionsHeader" class="mnuTableHeader">
-                            <td style="width:20px;"></td>
-                            <td style="width:20px;"></td>
-                            <td style="width:30px;"></td>
+                            <td width="24">&nbsp;</td>
+                            <td width="24">&nbsp;</td>
+                            <td width="30">&nbsp;</td>
                             %{--<td style="width:40px; text-align:left;"><strong>Image</strong></td>--}%
                             <td><strong>Step Text</strong></td>
                             <g:each in="${recipeCO?.directions}">
@@ -18,9 +18,9 @@
                 </div>
             </li>
             <li class="clr">
-                <span id="AddDirectionToolBox" style="float:left; margin-top:10px; padding-left:90px;padding-top:10px;padding-bottom:10px;border:1px solid #ddd;width:485px;">
+                <span id="AddDirectionToolBox" style="float:left; margin-top:10px; padding-left:35px;padding-top:10px;padding-bottom:10px;border:1px solid #ddd;width:485px;">
                     <img id="btnAddDirection" src="${resource(dir: 'images', file: 'plus-add.jpg')}" hspace="4" align="left" border="0" style="cursor:pointer; margin:0px;"/>
-                    <span id="directionToBeAdded" style="display:block; float:left;padding-left:20px;">
+                    <span id="directionToBeAdded" style="display:block; float:left;padding-left:10px;">
                         <g:textArea class="inputTextArea" id="optionDirections" name="optionDirections" value="" rows="5"/>
                     </span>
                 </span>

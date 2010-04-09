@@ -14,6 +14,16 @@
             <img src="${resource(dir: 'images', file: 'add-rgt-img1.jpg')}"/>
         </div>
         <div class="add-recipe-rgt2">
+
+               <div class="timePreview">
+                    <span id="displayPrepTime">
+                        %{--Prep - 30 min--}%
+                    </span>
+                    <span id="displayCookTime" >
+                        %{--Cook - 30 min--}%
+                    </span>
+                </div>
+
             <div class="add-rgt-hdr">
                 <img src="${resource(dir: 'images', file: 'add-rgt-hdr1.jpg')}" align="left"/>
                 <div class="add-rgt-hdr1">
@@ -29,21 +39,18 @@
                     <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
                     <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
                 </div>
+
             </div>
 
             <img id="showPreviewRecipeImage" src="${resource(dir: 'images', file: '')}" align="right" width="148" height="130"/>
-
             <p>
-                <br>
-                <span id="displayPrepTime">
-                    %{--Prep - 30 min--}%
-                </span>
-                <br/>
-                <span id="displayCookTime">
-                    %{--Cook - 30 min--}%
-                </span>
-                <br/><br/>
-
+                <span id="displayDifficulty"></span>
+            </p>
+            <p>
+                <span id="displayMakeServing"></span>
+            </p>
+            <br>
+            <p>
                 <span id="displayIngredients" style="font-weight:bold;">
                     %{--<strong>--}%
                         %{--1 lb. chicken, partially frozen--}%
@@ -60,7 +67,7 @@
                     %{--</strong>--}%
                 </span>
             </p>
-            <p>&nbsp;</p><p>&nbsp;</p>
+            <p>&nbsp;</p>
             <p class="clr">
             </p>
             <span id="displayDirections">
@@ -73,15 +80,16 @@
                 %{--</p>--}%
 
             </span>
-            <p>&nbsp;</p><p>&nbsp;</p>
+            <p>&nbsp;</p>
             <p class="serve-link">
+                <span id="displayServeWith">
                 %{--Serve With--}%
-                <br/>
                 %{--<a class="serve-link" href="#">Rice</a>, <a class="serve-link" href="#">Won Tons</a>, <a class="serve-link" href="#">Egg Rolls</a>, <a class="serve-link" href="#">Egg Drop Soup</a></p>--}%
+                </span>
             <p>&nbsp;</p><p>&nbsp;</p>
 
             <p>
-                %{--By - <span class="blue-text">Cheryl - Bakersfield, CA--}%
+                By - <span class="blue-text">Cheryl - Bakersfield, CA
             </span></p><p>&nbsp;</p><p>&nbsp;</p>
 
             <p class="font-10">
