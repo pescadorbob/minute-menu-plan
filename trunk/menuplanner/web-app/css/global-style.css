@@ -958,7 +958,7 @@ body .preview-container-header {
 .add-recipe-form {
     padding-left: 30px;
     float: left;
-    width: 355px
+    width: 350px
 }
 
 .add-recipe-form table {
@@ -1014,7 +1014,7 @@ html > body .input4 {
 
 .add-recipe-form5 {
     float: left;
-    width: auto
+    width:215px;
 }
 
 .apply-btn {
