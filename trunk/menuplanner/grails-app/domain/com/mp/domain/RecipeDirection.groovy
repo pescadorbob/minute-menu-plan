@@ -14,7 +14,7 @@ class RecipeDirection {
     static constraints = {
         recipe()
         sequence(min:1, unique:'recipe')
-        step()
+        step(maxSize: 5000)
         image(nullable: true)       
     }
 }
