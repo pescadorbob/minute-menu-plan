@@ -146,7 +146,8 @@ tr {
 td, th {
     font: 11px verdana, arial, helvetica, sans-serif;
     line-height: 12px;
-    padding: 5px 6px;
+    padding-top:4px;
+    padding-bottom:4px;
     text-align: left;
     vertical-align: top;
 }
