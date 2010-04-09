@@ -11,7 +11,10 @@
         <div class="top-nav">
             <ul>
                 <li><span class="top-nav-img1"><img src="${resource(dir: 'images', file: 'menu-img.jpg')}"/></span><a href="_header.gsp#">Menu Plans</a></li>
-                <li><span class="top-nav-img1"><img src="${resource(dir: 'images', file: 'search-icon.jpg')}"/></span><a href="_header.gsp#">Browse Recipes</a>
+                <li><span class="top-nav-img1"><img src="${resource(dir: 'images', file: 'search-icon.jpg')}"/></span>
+
+                    <a href="${createLink(controller:'recipe', action:'list')}">Browse Recipes</a>
+                    
                     <span class="top-nav-img">
                         <img src="${resource(dir: 'images', file: 'top-nav-img.jpg')}">
                     </span>

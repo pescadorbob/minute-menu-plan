@@ -1,8 +1,7 @@
 package com.mp.domain
 
-class Product {
+class Product extends Item{
 
-    String name
     Boolean isVisible = false
 
     String toString() {

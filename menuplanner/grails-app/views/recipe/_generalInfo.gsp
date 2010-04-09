@@ -11,7 +11,7 @@
             <ul class=add-recipe-form-container>
                 <li class=add-recipe-form-content><strong>Categories</strong></li>
                 <li class=add-recipe-form-input>
-                    <span class="${hasErrors(bean: recipeCO, field: 'categoryIds', 'errors')}" style="display:block; clear:both;">
+                    <span id="faceBookCategory" class="${hasErrors(bean: recipeCO, field: 'categoryIds', 'errors')}" style="display:block; clear:both;">
                         <mp:tagInput name="categoryIds" controller="recipe" action="getMatchingCategories"/>
                     </span></li>
             </ul>

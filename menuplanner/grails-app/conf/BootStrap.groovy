@@ -23,14 +23,13 @@ class BootStrap {
         bootstrapService.populateQuantities(20)
         bootstrapService.populateMeasuredProduct(50)
 
-        bootstrapService.populateItems(10)
         bootstrapService.createRecipes(5)
 
     }
     def destroy = {
     }
 
-    private void bootstrapMasterData(){
+    private void bootstrapMasterData() {
         masterDataBootStrapService.populateSystemOfUnits()
         masterDataBootStrapService.populateTimeUnits()
         masterDataBootStrapService.populateUnitsAndStandardConversions()

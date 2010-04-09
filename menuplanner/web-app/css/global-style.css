@@ -1087,7 +1087,7 @@ a.serve-link:hover {
 
 .add-rgt-hdr {
     left: 11px;
-    width: 357px;
+    width:  auto;
     position: absolute;
     top: 1px
 }
@@ -1403,4 +1403,95 @@ body .min-height-container2 {
     right:1px;
     text-align:left;
     width:auto;
+}
+.report-text{
+float:left;
+    height:30px;
+    line-height:30px;
+    width:auto;
+    padding-left:5px;
+}
+.report-text a{
+	color:#0066FF;
+	text-decoration:underline;
+}
+.month-menu-container-hdr{
+	position:absolute;
+	width: 126px;
+	top: -8px;
+	height:30px;
+	right: 2px;
+}
+.month-menu-container-hdr ul{
+	margin:0px;
+	padding:0px;
+	list-style:none;
+}
+.month-menu-container-hdr ul li{
+	float:left;
+	width:auto;
+	height:20px;
+	padding-right:5px;
+	padding-top:10px;
+	line-height:20px;
+}
+.month-menu-container1{
+	position:relative;
+	width:962px;
+}
+.month-menu-list{
+	clear:both;
+	padding:30px 0px;
+}
+.month-menu-list-container{
+	clear:both;
+	width:auto;
+}
+.month-menu-list1{
+	float:left;
+	width:auto;
+	padding-right:10px;
+}
+.month-menu-list1 a{
+	color:#0066FF;
+	text-decoration: underline;
+}
+.month-menu-content{
+	display:block;
+	padding:10px 0px;
+}
+body .rating1{
+	width:auto;
+	line-height:18px;
+	font-weight:bold;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#616a72;
+	height:30px;
+	_padding-top:8px;
+}
+.rating1 a{
+	color:#0066FF;
+	text-decoration:underline;
+}
+.month-menu{
+	width:610px;
+	position:relative;
+}
+ body .month-menu2{
+	color:#616a72;
+
+}
+.month-menu3{
+	padding-top:31px;
+	position:relative;
+	width:962px;
+}
+.month-menu-container{
+	background-image: url(../images/add-rgt-img5.jpg);
+	background-repeat:repeat-y;
+	padding:5px 15px 0px 15px;
+	min-height:400px;
+	_overflow:400px;
+	_height:400px;
 }

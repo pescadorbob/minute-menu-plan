@@ -36,7 +36,7 @@ class MenuplannerTagLib {
 
     def recipeImageById = {attrs ->
         if (attrs['id']) {
-            out << "<img id='recipeImage'  border='0' width='195' src=" + '"' + "${g.createLink(controller: 'recipe', action: 'showImage', id: attrs['id'])} " + '"' + "/>"
+            out << "${g.createLink(controller: 'recipe', action: 'showImage', id: attrs['id'])} "
         }
     }
 

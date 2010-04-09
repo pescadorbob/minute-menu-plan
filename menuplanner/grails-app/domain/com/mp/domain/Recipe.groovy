@@ -1,8 +1,7 @@
 package com.mp.domain
 
-class Recipe {
+class Recipe extends Item{
 
-    String name
     RecipeDifficulty difficulty
     Boolean shareWithCommunity=false
     Image image
@@ -13,9 +12,7 @@ class Recipe {
 
     static transients = ['categories']
 
-    static hasMany = [ingredients: RecipeIngredient, directions: RecipeDirection, recipeCategories: RecipeCategory, nutrients:RecipeNutrient]
-
-    static belongsTo = Item
+    static hasMany = [ingredients: RecipeIngredient, directions: RecipeDirection, recipeCategories: RecipeCategory, nutrients:RecipeNutrient, items: Item]
 
     List<Category> getCategories() {
         return ((recipeCategories) ? ((recipeCategories?.collect {it.category}).sort{it.name}) : [])
@@ -44,6 +41,7 @@ class Recipe {
         image(nullable: true)
     }
     static mapping = {
+        tablePerHierarchy false
         ingredients sort: 'sequence'
         directions sort: 'sequence'
     }

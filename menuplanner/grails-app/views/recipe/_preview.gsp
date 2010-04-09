@@ -81,6 +81,17 @@
 
             </span>
             <p>&nbsp;</p>
+            <p>
+                <span id="displayCategory">
+                </span>
+
+                %{--Categories: <br/>--}%
+                %{--<g:each in="${recipe?.items}" status="i" var="item">--}%
+                    %{--<a href="#" class="serve-link">${item}</a><g:if test="${( i < (recipe?.items?.size()-1 ))}">,</g:if>--}%
+                %{--</g:each>--}%
+
+
+            <br><br>
             <p class="serve-link">
                 <span id="displayServeWith">
                 %{--Serve With--}%

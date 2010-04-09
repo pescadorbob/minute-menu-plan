@@ -65,6 +65,24 @@ function colorRowAlternate() {
     jQuery('#tableDirections .directionRow:even').css('backgroundColor', '#fff')
 }
 function reflectInPreviewPanel() {
+    var myCategory = ''
+    for (i = 0; i < jQuery('input[name="categoryIds"]').size() - 1; i++) {
+        if (jQuery('#faceBookCategory p:eq(' + i + ')').html().length > 0) {
+            myCategory += jQuery('#faceBookCategory p:eq(' + i + ')').html()
+            if(i<jQuery('input[name="categoryIds"]').size() - 2){
+                myCategory+=', '
+            }
+        }
+    }
+    if (myCategory.length > 0) {
+        myCategory = 'Categories: ' + myCategory
+    }
+    jQuery('#displayCategory').html(myCategory)
+
+
+
+
+    
     jQuery('#displayName').html(jQuery('#name').attr('value'))
     var showPrep = ''
     if (jQuery('#preparationTime').attr('value').length) {
@@ -89,11 +107,11 @@ function reflectInPreviewPanel() {
     }
     jQuery('#displayCookTime').html(showCook)
     var myDifficulty = 'Difficulty Level: '
-    myDifficulty += jQuery('input[name="difficulty"]:checked').val()
+    myDifficulty += jQuery('input[name=difficulty]').filter(':checked').next().text();
     jQuery('#displayDifficulty').html(myDifficulty)
     var myMakeServing = ''
     if(jQuery('#makesServing').val().length>0){
-        myMakeServing+='Make serving for: ' + jQuery('#makesServing').val() 
+        myMakeServing+='Servings: ' + jQuery('#makesServing').val() 
     }
     jQuery('#displayMakeServing').html(myMakeServing)
 
@@ -110,18 +128,24 @@ function reflectInPreviewPanel() {
         jQuery('#displayDirections').append(jQuery('input[name="directions"]:eq(' + i + ')').attr('value') + '<br>')
     }
     jQuery('#showPreviewRecipeImage').attr('src', jQuery('#recipeImage').attr('src'))
+
     var myServeWith = ''
-    for (i = 0; i < jQuery('input[name="serveWithItem"]').size() - 1; i++) {
+    for (i = 0; i < jQuery('input[name="serveWithItems"]').size() - 1; i++) {
         if (jQuery('#AddItemToolBox p:eq(' + i + ')').html().length > 0) {
             myServeWith += '<a class="serve-link" href="#">' +
-                           jQuery('#AddItemToolBox p:eq(' + i + ')').html() + '</a>  '
-        }
-        if (myServeWith.length > 0) {
-            myServeWith = 'Serve with:<br/>' + myServeWith
+                           jQuery('#AddItemToolBox p:eq(' + i + ')').html()
+            if(i<jQuery('input[name="serveWithItems"]').size() - 2){
+                myServeWith+='</a>, '
+            }
+            else{
+                myServeWith+='</a>'
+            }
         }
     }
+    if (myServeWith.length > 0) {
+        myServeWith = 'Serve with:<br/>' + myServeWith
+    }
     jQuery('#displayServeWith').html(myServeWith)
-
 
     var myNutrients = ''
     for (i = 0; i < jQuery('input[name="nutrientIds"]').size(); i++) {
