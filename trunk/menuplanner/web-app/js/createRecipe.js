@@ -68,14 +68,35 @@ function reflectInPreviewPanel() {
     jQuery('#displayName').html(jQuery('#name').attr('value'))
     var showPrep = ''
     if (jQuery('#preparationTime').attr('value').length) {
-        showPrep = 'prep - ' + jQuery('#preparationTime').attr('value') + ' ' + jQuery('#preparationUnitId :selected').text() + '.'
+        showPrep = 'prep-' + jQuery('#preparationTime').attr('value')
+        if (jQuery('#preparationUnitId :selected').text() == 'Hours') {
+            showPrep += 'hrs. '
+        }
+        else {
+            showPrep += 'mins. '
+        }
     }
     jQuery('#displayPrepTime').html(showPrep)
     var showCook = ''
     if (jQuery('#cookTime').attr('value').length) {
-        showCook = 'cook - ' + jQuery('#cookTime').attr('value') + ' ' + jQuery('#cookUnitId :selected').text() + '.'
+        showCook = 'cook-' + jQuery('#cookTime').attr('value') + ' '
+        if (jQuery('#cookUnitId :selected').text() == 'Hours') {
+            showCook += 'hrs. '
+        }
+        else {
+            showCook += 'mins. '
+        }
     }
     jQuery('#displayCookTime').html(showCook)
+    var myDifficulty = 'Difficulty Level: '
+    myDifficulty += jQuery('input[name="difficulty"]:checked').val()
+    jQuery('#displayDifficulty').html(myDifficulty)
+    var myMakeServing = ''
+    if(jQuery('#makesServing').val().length>0){
+        myMakeServing+='Make serving for: ' + jQuery('#makesServing').val() 
+    }
+    jQuery('#displayMakeServing').html(myMakeServing)
+
     var i;
     jQuery('#displayIngredients').html('')
     for (i = 1; i < jQuery('input[name="ingredientQuantities"]').size(); i++) {
@@ -86,21 +107,25 @@ function reflectInPreviewPanel() {
     }
     jQuery('#displayDirections').html('')
     for (i = 1; i < jQuery('input[name="directions"]').size(); i++) {
-        jQuery('#displayDirections').append(jQuery('input[name="directions"]:eq(' + i + ')').attr('value') + '. ')
+        jQuery('#displayDirections').append(jQuery('input[name="directions"]:eq(' + i + ')').attr('value') + '<br>')
     }
     jQuery('#showPreviewRecipeImage').attr('src', jQuery('#recipeImage').attr('src'))
     var myServeWith = ''
-
-
-    for (i = 0; i < jQuery('input[name="nutrientIds"]').size(); i++) {
-
+    for (i = 0; i < jQuery('input[name="serveWithItem"]').size() - 1; i++) {
+        if (jQuery('#AddItemToolBox p:eq(' + i + ')').html().length > 0) {
+            myServeWith += '<a class="serve-link" href="#">' +
+                           jQuery('#AddItemToolBox p:eq(' + i + ')').html() + '</a>  '
+        }
+        if (myServeWith.length > 0) {
+            myServeWith = 'Serve with:<br/>' + myServeWith
+        }
     }
+    jQuery('#displayServeWith').html(myServeWith)
 
 
     var myNutrients = ''
     for (i = 0; i < jQuery('input[name="nutrientIds"]').size(); i++) {
         if (jQuery('input[name="nutrientQuantities"]:eq(' + i + ')').attr('value') != '') {
-
             myNutrients += jQuery('input[name="nutrientQuantities"]:eq(' + i + ')').attr('value') +
                            ' ' + jQuery('input[name="nutrientNames"]:eq(' + i + ')').attr('value') +
                            ' ' + jQuery('input[name="nutrientUnitSymbols"]:eq(' + i + ')').attr('value') +

@@ -1395,3 +1395,12 @@ body .min-height-container2 {
 .select4{
 	width:142px;
 }
+.timePreview{
+    height:30px;
+    line-height:15px;
+    position:absolute;
+    top:8px;
+    right:1px;
+    text-align:left;
+    width:auto;
+}
