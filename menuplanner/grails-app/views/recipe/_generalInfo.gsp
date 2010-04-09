@@ -49,8 +49,7 @@
                 </li>
                 <li class=add-recipe-form-input style="margin-left: 100px">
                     <g:checkBox style="border:0px; float:left; width:auto;" name="shareWithCommunity" value="${recipeCO?.shareWithCommunity}"/>
-                    <strong style="float:left;
-                    display:block; width:auto; padding-left:5px;">Share with community</strong></li>
+                    <strong style="float:left; display:block; width:auto; padding-left:5px;">Share with community</strong></li>
             </ul>
             <div class=clr></div>
         </div>
@@ -75,7 +74,7 @@
             </div>
         </div>
     </div>
-         <div>
-                        <img src="${resource(dir: 'images', file: 'left-container-img1.jpg')}"/>
-                    </div>
+    <div>
+        <img src="${resource(dir: 'images', file: 'left-container-img1.jpg')}"/>
+    </div>
 </div>
