@@ -121,6 +121,11 @@ class RecipeController {
         List categoriesJson = categories.collect { [id: it.id, name: it.name] }
         render(categoriesJson as JSON)
     }
+    def getMatchingItems = {
+        List<Item> items = Item.findAllByNameIlike(params.query + "%")
+        List itemsJson = items.collect { [id: it.id, name: it.name] }
+        render(itemsJson as JSON)
+    }
 
     def create = {
         SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
@@ -133,6 +138,11 @@ class RecipeController {
 
         List<Nutrient> nutrients = Nutrient.list()
         render(view: 'create', model: [timeUnits: timeUnits, metricUnits: metricUnits, nutrients: nutrients])
+    }
+
+    def showRecipe = {
+        Recipe recipe = Recipe.findById(params.id)
+        render(view: 'test', model:[recipe:recipe])
     }
 
     def uploadImage = {
@@ -150,9 +160,9 @@ class RecipeController {
 
     def showImage = {
         Image image
-        if(params.selectRecipeImagePath){
-            image=new Image(params.selectRecipeImagePath,"Some alt Text")
-        }else{
+        if (params.selectRecipeImagePath) {
+            image = new Image(params.selectRecipeImagePath, "Some alt Text")
+        } else {
             image = Recipe.get(params.id.toLong()).image
         }
         byte[] fileContent = image.readFile()
@@ -165,7 +175,7 @@ class RecipeController {
         out.flush()
         out.close()
     }
-    
+
 }
 
 class RecipeCO {
@@ -184,6 +194,7 @@ class RecipeCO {
     def selectRecipeImage
     def selectRecipeImagePath
     Set<Long> categoryIds = []
+    Set<Long> serveWithItems=[]
 
     List<BigDecimal> ingredientQuantities = []
     List<Long> ingredientUnitIds = []
@@ -266,6 +277,10 @@ class RecipeCO {
         recipe.preparationTime = quantityPreparationTime
         recipe.cookingTime = quantityCookTime
 
+        serveWithItems.eachWithIndex {Long itemId, Integer index ->
+            recipe.addToItems(Item.get(itemId))
+        }
+
         recipe.s()
 
         if (selectRecipeImagePath) {
@@ -284,11 +299,11 @@ class RecipeCO {
 
         ingredientQuantities.eachWithIndex {BigDecimal amount, Integer index ->
             MeasuredProduct product = MeasuredProduct.findByName(hiddenIngredientProductNames[index])
-            if(!product){
-                MeasuredProduct newProduct= new Product(name:'hiddenIngredientProductNames[index]', isVisible:false)
+            if (!product) {
+                MeasuredProduct newProduct = new Product(name: 'hiddenIngredientProductNames[index]', isVisible: false)
                 newProduct.s()
             }
-            product= MeasuredProduct.findByName(hiddenIngredientProductNames[index])
+            product = MeasuredProduct.findByName(hiddenIngredientProductNames[index])
             Unit unit = Unit.get(ingredientUnitIds[index])
             Quantity quantity = new Quantity(unit: unit, value: amount).s()
             new RecipeIngredient(sequence: (index + 1), recipe: recipe, ingredient: product, quantity: quantity).s()

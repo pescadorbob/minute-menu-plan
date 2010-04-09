@@ -32,13 +32,6 @@ class BootstrapService {
         }
     }
 
-    public void populateItems(Integer count) {
-        (1..count).each {Integer index ->
-            Item item = new Item()
-            item.name="Item-${index}"
-            item.s()
-        }
-    }
 
     public void createRecipes(Integer count) {
         (1..count).each {Integer index ->

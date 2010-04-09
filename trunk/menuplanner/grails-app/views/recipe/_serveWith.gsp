@@ -26,7 +26,7 @@
                 <span id="AddItemToolBox" style="float:left; margin-top:10px; padding-left:30px;padding-top:10px;padding-bottom:10px; width:545px; border:1px solid #ddd;">
                     %{--<img id="btnAddItem" src="${resource(dir: 'images', file: 'plus-add.jpg')}" hspace="4" align="left" border="0" style="cursor:pointer; margin:0px;"/>--}%
                     <span id="itemToBeAdded" style="display:block; float:left;padding-left:42px;">
-                        <mp:tagInput name="serveWithItem" controller="recipe" action="getMatchingProducts"/>
+                        <mp:tagInput name="serveWithItems" controller="recipe" action="getMatchingItems"/>
                     </span>
 
                 </span>

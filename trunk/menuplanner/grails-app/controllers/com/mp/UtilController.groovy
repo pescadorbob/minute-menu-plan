@@ -9,6 +9,7 @@ class UtilController {
     static config = ConfigurationHolder.config
 
     def index = {
+        println "*******Count"+Item.count()
         render config.imageRootDir
     }
 
