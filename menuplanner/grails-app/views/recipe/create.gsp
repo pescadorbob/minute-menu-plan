@@ -135,7 +135,7 @@
         })
         /* ADD DIRECTION:  function to be executed when btnAddDirection is Clicked... */
         jQuery('#btnAddDirection').click(function() {
-            var direction = jQuery('#optionDirections').attr('value')
+            var direction = getPlainText('optionDirections');
             if (direction.length > 0) {
                 AddDirection(direction)
                 /* Reset Add Direction ToolBox.... */

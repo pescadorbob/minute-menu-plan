@@ -83,10 +83,10 @@ function reflectInPreviewPanel() {
 
 
     
-    jQuery('#displayName').html(jQuery('#name').attr('value'))
+    jQuery('#displayName').html(getPlainText('name'))
     var showPrep = ''
-    if (jQuery('#preparationTime').attr('value').length) {
-        showPrep = 'prep-' + jQuery('#preparationTime').attr('value')
+    if (getPlainText('preparationTime').length) {
+        showPrep = 'prep-' + getPlainText('preparationTime');
         if (jQuery('#preparationUnitId :selected').text() == 'Hours') {
             showPrep += 'hrs. '
         }
@@ -96,8 +96,8 @@ function reflectInPreviewPanel() {
     }
     jQuery('#displayPrepTime').html(showPrep)
     var showCook = ''
-    if (jQuery('#cookTime').attr('value').length) {
-        showCook = 'cook-' + jQuery('#cookTime').attr('value') + ' '
+    if (getPlainText('cookTime').length) {
+        showCook = 'cook-' + getPlainText('cookTime') + ' '
         if (jQuery('#cookUnitId :selected').text() == 'Hours') {
             showCook += 'hrs. '
         }
@@ -110,8 +110,8 @@ function reflectInPreviewPanel() {
     myDifficulty += jQuery('input[name=difficulty]').filter(':checked').next().text();
     jQuery('#displayDifficulty').html(myDifficulty)
     var myMakeServing = ''
-    if(jQuery('#makesServing').val().length>0){
-        myMakeServing+='Servings: ' + jQuery('#makesServing').val() 
+    if(getPlainText('makesServing').length>0){
+        myMakeServing+='Servings: ' + getPlainText('makesServing')
     }
     jQuery('#displayMakeServing').html(myMakeServing)
 
@@ -149,10 +149,10 @@ function reflectInPreviewPanel() {
 
     var myNutrients = ''
     for (i = 0; i < jQuery('input[name="nutrientIds"]').size(); i++) {
-        if (jQuery('input[name="nutrientQuantities"]:eq(' + i + ')').attr('value') != '') {
-            myNutrients += jQuery('input[name="nutrientQuantities"]:eq(' + i + ')').attr('value') +
-                           ' ' + jQuery('input[name="nutrientNames"]:eq(' + i + ')').attr('value') +
-                           ' ' + jQuery('input[name="nutrientUnitSymbols"]:eq(' + i + ')').attr('value') +
+        if (getPlainTextFromHtml(jQuery('input[name="nutrientQuantities"]:eq(' + i + ')').attr('value')) != '') {
+            myNutrients += getPlainTextFromHtml(jQuery('input[name="nutrientQuantities"]:eq(' + i + ')').attr('value')) +
+                           ' ' + getPlainTextFromHtml(jQuery('input[name="nutrientNames"]:eq(' + i + ')').attr('value')) +
+                           ' ' + getPlainTextFromHtml(jQuery('input[name="nutrientUnitSymbols"]:eq(' + i + ')').attr('value')) +
                            '. '
         }
     }
@@ -160,4 +160,21 @@ function reflectInPreviewPanel() {
         myNutrients = 'Nutritional Facts per serving: ' + myNutrients
     }
     jQuery('#showNutrients').html(myNutrients)
+}
+
+function getPlainText(elementId) {
+    var x = jQuery('#' + elementId).val()
+    return getPlainTextFromHtml(x);
+}
+
+function getPlainTextFromHtml(htmlText) {
+    var returnText = ''
+    if (htmlText) {
+        if (jQuery(htmlText).text()) {
+            returnText = jQuery(htmlText).text()
+        } else {
+            returnText = htmlText
+        }
+    }
+    return returnText;
 }

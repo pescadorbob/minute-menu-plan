@@ -162,9 +162,11 @@ class RecipeController {
         Image image
         if (params.selectRecipeImagePath) {
             image = new Image(params.selectRecipeImagePath, "Some alt Text")
-        } else {
+        }
+        if (params.id) {
             image = Recipe.get(params.id.toLong()).image
         }
+        if(image){
         byte[] fileContent = image.readFile()
         String fileName = image.actualName + "." + image.extension
         response.setContentLength(fileContent.size())
@@ -174,6 +176,7 @@ class RecipeController {
         out.write(fileContent)
         out.flush()
         out.close()
+        }
     }
 
 }
