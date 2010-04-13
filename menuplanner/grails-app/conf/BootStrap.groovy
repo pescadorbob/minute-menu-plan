@@ -1,5 +1,9 @@
 import com.mp.domain.*
 import org.codehaus.groovy.grails.commons.ApplicationHolder
+import org.apache.commons.math.fraction.Fraction
+import org.apache.commons.math.fraction.ProperFractionFormat
+import java.text.FieldPosition
+import org.apache.commons.math.fraction.FractionFormat
 
 class BootStrap {
 
@@ -16,6 +20,18 @@ class BootStrap {
                 }
             }
             object
+        }
+
+        Fraction.metaClass.constructor << { String stringToParse ->
+            new ProperFractionFormat().parse(stringToParse)
+        }
+
+        Fraction.metaClass.myFormatUsingProperFractionFormat = {  ->
+            new ProperFractionFormat().format(delegate,new StringBuffer(),new FieldPosition(0))
+        }
+        
+        Fraction.metaClass.myFormatUsingFractionFormat = {  ->
+            new FractionFormat().format(delegate)
         }
 
         bootstrapMasterData()
