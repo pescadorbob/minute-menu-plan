@@ -80,9 +80,6 @@ function reflectInPreviewPanel() {
     jQuery('#displayCategory').html(myCategory)
 
 
-
-
-    
     jQuery('#displayName').html(getPlainText('name'))
     var showPrep = ''
     if (getPlainText('preparationTime').length) {
@@ -152,8 +149,10 @@ function reflectInPreviewPanel() {
         if (getPlainTextFromHtml(jQuery('input[name="nutrientQuantities"]:eq(' + i + ')').attr('value')) != '') {
             myNutrients += getPlainTextFromHtml(jQuery('input[name="nutrientQuantities"]:eq(' + i + ')').attr('value')) +
                            ' ' + getPlainTextFromHtml(jQuery('input[name="nutrientNames"]:eq(' + i + ')').attr('value')) +
-                           ' ' + getPlainTextFromHtml(jQuery('input[name="nutrientUnitSymbols"]:eq(' + i + ')').attr('value')) +
-                           '. '
+                           ' ' + getPlainTextFromHtml(jQuery('input[name="nutrientUnitSymbols"]:eq(' + i + ')').attr('value'))
+            if(i<jQuery('input[name="nutrientIds"]').size() - 2){
+                myServeWith+=', '
+            }
         }
     }
     if (myNutrients.length >= 1) {

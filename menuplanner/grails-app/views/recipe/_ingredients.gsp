@@ -20,8 +20,8 @@
                 </div>
             </li>
             <li class="clr">
-                <span id="AddIngredientToolBox" style="float:left; margin-top:10px; padding-left:35px;padding-top:10px;padding-bottom:10px; width:537px;; border:1px solid #ddd;">
-                    <img id="btnAddIngredient" src="${resource(dir: 'images', file: 'plus-add.jpg')}" hspace="4" align="left" border="0" style="cursor:pointer; margin:0px;"/>
+                <span id="AddIngredientToolBox" class="toolBoxes" style="width:537px;">
+                    <img class="imagePointer" id="btnAddIngredient" src="${resource(dir: 'images', file: 'plus-add.jpg')}" hspace="4" align="left" border="0"/>
                     <span id="ingredientToBeAdded" style="display:block; float:left;padding-left:10px;">
                         <g:textField class="input2" id='optionIngredientQuantities' name="optionIngredientQuantities" value="" style="margin-right:5px;"/>
                         <g:select class="select2" id='optionIngredientUnitIds' name="optionIngredientUnitIds" from="${metricUnits}" optionKey="id" style="width:105px;"/>

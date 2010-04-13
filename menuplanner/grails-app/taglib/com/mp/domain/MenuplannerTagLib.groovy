@@ -1,5 +1,7 @@
 package com.mp.domain
 
+import grails.converters.JSON
+
 class MenuplannerTagLib {
 
     static namespace = 'mp'
@@ -12,6 +14,8 @@ class MenuplannerTagLib {
         model.controller = attrs.controller
         model.action = attrs.action
         model.htmlClass = attrs.class ?: " "
+        model.prePopulated=attrs.prePopulated
+        println "<<<<<<<<<<<<<<<<<< ${model.prePopulated as JSON}"
         if (attrs.multiselect == "false") {
             model.tokenLimit = 1
         }
@@ -43,6 +47,15 @@ class MenuplannerTagLib {
     def recipeImageByPath = {attrs ->
         if (attrs['selectRecipeImagePath']) {
             out << "<img id='recipeImage'  border='0' width='195' src=" + '"' + "${g.createLink(controller: 'recipe', action: 'showImage', params:[selectRecipeImagePath: attrs['selectRecipeImagePath']])} " + '"' + "/>"
+        }
+    }
+
+    def getSelectedCategoriesAsJSON={attrs->
+        if(attrs['prePopulated']) {
+            List<Category> categories = Category.getAll([attrs['prePopulated']].flatten()*.toLong())
+            List categoriesJson = categories.collect { [id: it.id, name: it.name] }
+            println categoriesJson as JSON
+            out<<categoriesJson
         }
     }
 }

@@ -98,7 +98,13 @@ class RecipeController {
             List<Unit> metricUnits = Unit.findAllByMetricType(MetricType.METRIC)
             metricUnits = metricUnits.findAll {sys.id in it.systemOfUnits*.id}
             List<Nutrient> nutrients = Nutrient.list()
-            render(view: 'create', model: [recipeCO: recipeCO, timeUnits: timeUnits, metricUnits: metricUnits, nutrients: nutrients])
+            List<Category> categories =[]
+            if(recipeCO?.categoryIds)
+                categories=Category.getAll(recipeCO?.categoryIds.flatten() as List)
+//            List categoriesJson = categories.collect { [id: it.id, name: it.name] }
+//            println categoriesJson as JSON
+
+            render(view: 'create', model: [recipeCO: recipeCO, timeUnits: timeUnits, metricUnits: metricUnits, nutrients: nutrients, categories:categories])
         }
     }
 
@@ -153,6 +159,10 @@ class RecipeController {
         out.close()
         }
     }
+    def listRecipe={
+        List<Recipe> recipeList= Recipe.list()
+        render(view:'listRecipe', model:[recipeList:recipeList])
+    }
 
 }
 
@@ -172,7 +182,11 @@ class RecipeCO {
     Integer cookUnitId
     def selectRecipeImage
     def selectRecipeImagePath
+
+
     Set<Long> categoryIds = []
+    Set<String> categoryNames = []
+
     Set<Long> serveWithItems = []
 
     List<BigDecimal> ingredientQuantities = []
