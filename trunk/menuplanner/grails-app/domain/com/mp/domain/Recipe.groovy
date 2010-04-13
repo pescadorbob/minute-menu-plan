@@ -33,7 +33,7 @@ class Recipe extends Item{
     }
 
     static constraints = {
-        name(unique: true)
+        name(nullable:false)
         preparationTime()
         cookingTime()
         difficulty()

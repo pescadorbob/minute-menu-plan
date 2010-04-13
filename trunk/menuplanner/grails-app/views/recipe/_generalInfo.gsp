@@ -64,12 +64,15 @@
                 </li>
             </ul>
             <div class="clr">
-                %{--<mp:recipeImageById id="7"/>--}%
                 <div id="myImageDiv">
-                    %{--<img id='recipeImage'  border='0' width='195' src=""/> --}%
-                    <mp:recipeImageByPath selectRecipeImagePath="${recipeCO?.selectRecipeImagePath}"/>
+
+                    <g:if test="${recipeCO?.selectRecipeImagePath}">
+                        <img id='recipeImage' border='0' width='195' height="171" src="${g.createLink(controller: 'recipe', action: 'showImage', params: [selectRecipeImagePath: recipeCO?.selectRecipeImagePath])}"/>
+                    </g:if>
+                    <g:elseif test="${recipeCO?.id}">
+                        <img id='recipeImage' border='0' width='195' height="171" src="${g.createLink(controller: 'recipe', action: 'showImage', id: recipeCO?.id)}"/>
+                    </g:elseif>
                 </div>
-                %{--<img id="recipeImage" src="${resource(dir: 'images', file: '')}" border="0" width="195" height="171" style="visibility:hidden;"/>--}%
                 <input type="hidden" name="selectRecipeImagePath" id="selectRecipeImagePath" value="${recipeCO?.selectRecipeImagePath}"/>
             </div>
         </div>

@@ -1,179 +1,167 @@
-
-<%@ page import="com.mp.domain.Recipe" %>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'recipe.label', default: 'Recipe')}" />
-        <title><g:message code="default.edit.label" args="[entityName]" /></title>
-    </head>
-    <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}">Home</a></span>
-            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
-        </div>
-        <div class="body">
-            <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
-            <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
-            </g:if>
-            <g:hasErrors bean="${recipe}">
-            <div class="errors">
-                <g:renderErrors bean="${recipe}" as="list" />
+<%@ page import="com.mp.domain.*" %>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Minute Menu Plan</title>
+    <meta name="layout" content="menuPlanner"/>
+    <script type="text/javascript" src="${resource(dir: 'js', file: 'createRecipe.js')}"></script>
+</head>
+<body>
+%{--***************************************** SAMPLE INGREDIENT ROW *****************************************--}%
+<table id="sampleIngredientRow" style="display:none;">
+    <g:render template="ingredientRow"/>
+</table>
+%{--***************************************** SAMPLE DIRECTION0 ROW *****************************************--}%
+<table id="sampleDirectionRow" style="display:none;">
+    <g:render template="directionRow"/>
+</table>
+%{-------------------- HEADER --------------------------------}%
+<g:form name="formCreateRecipe" controller="recipe" action="update" enctype="multipart/form-data">
+    <div class="adrecipepage-left-container">
+        <div class="add-recipe-header">
+            <div class="add-recipe-header1">
+                <img src="${resource(dir: 'images', file: 'add-recipe-header-img1.jpg')}">
             </div>
-            </g:hasErrors>
-            <g:form method="post" >
-                <g:hiddenField name="id" value="${recipe?.id}" />
-                <g:hiddenField name="version" value="${recipe?.version}" />
-                <div class="dialog">
-                    <table>
-                        <tbody>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="name"><g:message code="recipe.name.label" default="Name" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'name', 'errors')}">
-                                    <g:textField name="name" value="${recipe?.name}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="preparationTime"><g:message code="recipe.preparationTime.label" default="Preparation Time" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'preparationTime', 'errors')}">
-                                    <g:select name="preparationTime.id" from="${com.mp.domain.Quantity.list()}" optionKey="id" value="${recipe?.preparationTime?.id}"  />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="cookingTime"><g:message code="recipe.cookingTime.label" default="Cooking Time" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'cookingTime', 'errors')}">
-                                    <g:select name="cookingTime.id" from="${com.mp.domain.Quantity.list()}" optionKey="id" value="${recipe?.cookingTime?.id}"  />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="difficulty"><g:message code="recipe.difficulty.label" default="Difficulty" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'difficulty', 'errors')}">
-                                    <g:select name="difficulty" from="${com.mp.domain.RecipeDifficulty?.values()}" value="${recipe?.difficulty}"  />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="servings"><g:message code="recipe.servings.label" default="Servings" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'servings', 'errors')}">
-                                    <g:textField name="servings" value="${fieldValue(bean: recipe, field: 'servings')}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="image"><g:message code="recipe.image.label" default="Image" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'image', 'errors')}">
-                                    <g:select name="image.id" from="${com.mp.domain.Image.list()}" optionKey="id" value="${recipe?.image?.id}" noSelection="['null': '']" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="directions"><g:message code="recipe.directions.label" default="Directions" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'directions', 'errors')}">
-                                    
-<ul>
-<g:each in="${recipe?.directions?}" var="d">
-    <li><g:link controller="recipeDirection" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></li>
-</g:each>
-</ul>
-<g:link controller="recipeDirection" action="create" params="['recipe.id': recipe?.id]">${message(code: 'default.add.label', args: [message(code: 'recipeDirection.label', default: 'RecipeDirection')])}</g:link>
+            <div class="add-recipe-header2">Add Recipe</div>
+            <div class="add-recipe-header1">
+                <img src="${resource(dir: 'images', file: 'add-recipe-header-img2.jpg')}">
+            </div>
 
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="ingredients"><g:message code="recipe.ingredients.label" default="Ingredients" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'ingredients', 'errors')}">
-                                    
-<ul>
-<g:each in="${recipe?.ingredients?}" var="i">
-    <li><g:link controller="recipeIngredient" action="show" id="${i.id}">${i?.encodeAsHTML()}</g:link></li>
-</g:each>
-</ul>
-<g:link controller="recipeIngredient" action="create" params="['recipe.id': recipe?.id]">${message(code: 'default.add.label', args: [message(code: 'recipeIngredient.label', default: 'RecipeIngredient')])}</g:link>
-
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="nutrients"><g:message code="recipe.nutrients.label" default="Nutrients" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'nutrients', 'errors')}">
-                                    
-<ul>
-<g:each in="${recipe?.nutrients?}" var="n">
-    <li><g:link controller="recipeNutrient" action="show" id="${n.id}">${n?.encodeAsHTML()}</g:link></li>
-</g:each>
-</ul>
-<g:link controller="recipeNutrient" action="create" params="['recipe.id': recipe?.id]">${message(code: 'default.add.label', args: [message(code: 'recipeNutrient.label', default: 'RecipeNutrient')])}</g:link>
-
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="shareWithCommunity"><g:message code="recipe.shareWithCommunity.label" default="Share With Community" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'shareWithCommunity', 'errors')}">
-                                    <g:checkBox name="shareWithCommunity" value="${recipe?.shareWithCommunity}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="recipeCategories"><g:message code="recipe.recipeCategories.label" default="Recipe Categories" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'recipeCategories', 'errors')}">
-                                    
-<ul>
-<g:each in="${recipe?.recipeCategories?}" var="r">
-    <li><g:link controller="recipeCategory" action="show" id="${r.id}">${r?.encodeAsHTML()}</g:link></li>
-</g:each>
-</ul>
-<g:link controller="recipeCategory" action="create" params="['recipe.id': recipe?.id]">${message(code: 'default.add.label', args: [message(code: 'recipeCategory.label', default: 'RecipeCategory')])}</g:link>
-
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="categories"><g:message code="recipe.categories.label" default="Categories" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: recipe, field: 'categories', 'errors')}">
-                                    
-                                </td>
-                            </tr>
-                        
-                        </tbody>
-                    </table>
-                </div>
-                <div class="buttons">
-                    <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
-                </div>
-            </g:form>
+            <div class="clr"></div>
         </div>
-    </body>
+
+        <div>
+            <g:hasErrors bean="${recipeCO}">
+                <div class="errors">
+                    <g:renderErrors bean="${recipeCO}"/>
+                </div>
+            </g:hasErrors>
+        </div>
+
+        <div class="menu-nav clr">
+            <ul>
+                <li><a class="tabs active" id="tabGeneralInfo" style="cursor:pointer; ${mp.checkGeneralInfoTabError(bean: recipeCO, fields: ['name', 'makesServing', 'preparationTime', 'cookTime', 'difficulty', 'categoryIds'])}">General Info</a></li>
+                <li><a class="tabs" id="tabIngredients" style="cursor:pointer;${hasErrors(bean: recipeCO, field: 'ingredientQuantities', 'color:red;')}">Ingredients</a></li>
+                <li><a class="tabs" id="tabCookingSteps" style="cursor:pointer; ${hasErrors(bean: recipeCO, field: 'directions', 'color:red;')}">Cooking Steps</a></li>
+                <li><a class="tabs" id="tabServeWith" style="cursor:pointer;">Serve With</a></li>
+                <li><a class="tabs" id="tabNutritionFacts" style="cursor:pointer;${hasErrors(bean: recipeCO, field: 'nutrientQuantities', 'color:red;')}">Nutrition Facts</a></li>
+            </ul>
+        </div>
+        <g:hiddenField name='id' value='${recipeCO.id}'/>
+        %{------------------------------PANEL: GENERAL-INFO------------------------------------}%
+        <g:render template="/recipe/generalInfo" model="[recipeCO: recipeCO, timeUnits: timeUnits]"/>
+        %{------------------------------PANEL: INGREDIENTS------------------------------------}%
+        <g:render template="/recipe/ingredients" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
+        %{------------------------------PANEL: COOKING STEPS------------------------------------}%
+        <g:render template="/recipe/cookingSteps" model="[recipeCO: recipeCO]"/>
+        %{------------------------------PANEL: SERVE-WITH------------------------------------}%
+        <g:render template="/recipe/serveWith" model="[recipeCO: recipeCO]"/>
+        %{------------------------------PANEL: NUTRIENTS-FACTS------------------------------------}%
+        <g:render template="/recipe/nutrientFacts" model="[recipeCO: recipeCO, nutrients:nutrients]"/>
+
+    </div>
+
+%{--********************************** ONLY PREVIEW ********************************--}%
+    <g:render template="/recipe/preview"/>
+%{--********************************** ONLY PREVIEW ********************************--}%
+
+    <div class="save-recips">
+        <g:submitButton name="btnUpdate" class="save" value="Update Recipe" style="font-size:14px;color:white;background-color:orange;width:120px;height:35px;cursor:pointer;"/>
+        <input type="button" name="preview" id="preview" value="Preview" style="font-size:14px;color:white;background-color:orange;width:120px;height:35px;cursor:pointer;"/>
+        <input type="button" name="delete" id="delete" value="Delete" style="font-size:14px;color:white;background-color:orange;width:120px;height:35px;cursor:pointer;"/>
+    </div>
+
+</g:form>
+
+<script type="text/javascript">
+    var sampleIngredientRowHTML = jQuery('#sampleIngredientRow>tbody').html();
+    var sampleDirectionRowHTML = jQuery('#sampleDirectionRow>tbody').html();
+
+    jQuery(document).ready(function() {
+        jQuery('#tabGeneralInfo').click(function() {
+            jQuery('.left-container2').css('display', 'none');
+            jQuery('.tabs').removeClass('active');
+            jQuery('#tabGeneralInfo').addClass('active');
+            jQuery('#panelGeneralInfo').show()
+        })
+        jQuery('#tabIngredients').click(function() {
+            jQuery('.left-container2').css('display', 'none');
+            jQuery('.tabs').removeClass('active');
+            jQuery('#tabIngredients').addClass('active');
+            jQuery('#panelIngredients').show()
+            bindEventsFor("tableIngredients", "ingredientRow");
+            bindEventsFor("tableDirections", "directionRow")
+        })
+        jQuery('#tabCookingSteps').click(function() {
+            jQuery('.left-container2').css('display', 'none');
+            jQuery('.tabs').removeClass('active');
+            jQuery('#tabCookingSteps').addClass('active');
+            jQuery('#panelCookingSteps').show()
+            bindEventsFor("tableIngredients", "ingredientRow");
+            bindEventsFor("tableDirections", "directionRow")
+        })
+        jQuery('#tabServeWith').click(function() {
+            jQuery('.left-container2').css('display', 'none');
+            jQuery('.tabs').removeClass('active');
+            jQuery('#tabServeWith').addClass('active');
+            jQuery('#panelServeWith').show()
+        })
+        jQuery('#tabNutritionFacts').click(function() {
+            jQuery('.left-container2').css('display', 'none');
+            jQuery('.tabs').removeClass('active');
+            jQuery('#tabNutritionFacts').addClass('active');
+            jQuery('#panelNutritionFacts').show()
+        })
+        /* REMOVE IMAGE: function to be executed when removeRecipeImage is Clicked... */
+        jQuery('#removeRecipeImage').click(function() {
+            //            jQuery('#selectRecipeImage').attr('value', '')
+            jQuery('#recipeImage').attr('src', '')
+            jQuery('#recipeImage').css('visibility', 'hidden')
+            jQuery('#selectRecipeImagePath').val("");
+        })
+        /* ADD INGREDIENT:  function to be executed when btnAddIngredient is Clicked... */
+        jQuery('#btnAddIngredient').click(function() {
+            var quantity = jQuery('#optionIngredientQuantities').attr('value')
+            var unitId = jQuery('#optionIngredientUnitIds').attr('value')
+            var productId = jQuery('#AddIngredientToolBox input[name=optionIngredientProductIds][value!=""]').attr('value')
+            var unitName = jQuery('#optionIngredientUnitIds :selected').text()
+            var prodName = jQuery('#AddIngredientToolBox p').html()
+
+            if ((quantity.length > 0) && (unitId.length > 0) && (productId.length > 0) && !isNaN(quantity)) {
+                AddIngredient(quantity, unitId, productId, unitName, prodName)
+                /* Reset Add Ingredient ToolBox.... */
+                jQuery('#optionIngredientQuantities').attr('value', '')
+                jQuery('#optionIngredientUnitIds').attr('value', '1')
+                jQuery('#AddIngredientToolBox .token-input-delete-token-facebook').click()
+            }
+            bindEventsFor("tableIngredients", "ingredientRow");
+        })
+        /* ADD DIRECTION:  function to be executed when btnAddDirection is Clicked... */
+        jQuery('#btnAddDirection').click(function() {
+            var direction = jQuery('#optionDirections').attr('value')
+            if (direction.length > 0) {
+                AddDirection(direction)
+                /* Reset Add Direction ToolBox.... */
+                jQuery('#optionDirections').attr('value', '')
+            }
+            bindEventsFor("tableDirections", "directionRow")
+        })
+        jQuery('#preview').click(function() {
+            reflectInPreviewPanel()
+        })
+        jQuery('#selectRecipeImage').uploadify({
+            'uploader': "${resource(dir:'jquery.uploadify-v2.1.0', file:'uploadify.swf')}",
+            'script': "${createLink(controller:'recipe', action:'uploadImage')}",
+            'auto': true,
+            'buttonImg': "${resource(dir:'jquery.uploadify-v2.1.0', file:'browser.jpg')}",
+            'width': 130,
+            onComplete: function(event, queId, fileObj, response, data) {
+                jQuery('#selectRecipeImagePath').val(response);
+                jQuery('#myImageDiv').html('<img id="recipeImage" border="0" width="195" src="${createLink(action:'showImage', controller:'recipe')}?selectRecipeImagePath=' + response + '"/>')
+            }
+        });
+        jQuery('#preview').click()
+    })
+
+</script>
+</body>
 </html>

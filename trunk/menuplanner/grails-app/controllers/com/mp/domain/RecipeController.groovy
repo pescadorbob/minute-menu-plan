@@ -12,66 +12,26 @@ class RecipeController {
     def index = {
         redirect(action: "list", params: params)
     }
+    def getMatchingProducts = {
+        List<Product> products = Product.findAllByNameIlike(params.query + "%")
+        List productsJson = products.collect { [id: it.id, name: it.name] }
+        render(productsJson as JSON)
+    }
+
+    def getMatchingCategories = {
+        List<Category> categories = Category.findAllByNameIlike(params.query + "%")
+        List categoriesJson = categories.collect { [id: it.id, name: it.name] }
+        render(categoriesJson as JSON)
+    }
+    def getMatchingItems = {
+        List<Item> items = Item.findAllByNameIlike(params.query + "%")
+        List itemsJson = items.collect { [id: it.id, name: it.name] }
+        render(itemsJson as JSON)
+    }
+
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [recipeList: Recipe.list(params), recipeTotal: Recipe.count()]
-    }
-    def save = {
-        def recipe = new Recipe(params)
-        if (recipe.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'recipe.label', default: 'Recipe'), recipe.id])}"
-            redirect(action: "show", id: recipe.id)
-        }
-        else {
-            render(view: "create",
-                    model: [recipe: recipe])
-        }
-    }
-    def show = {
-        def recipe = Recipe.get(params.id)
-        if (!recipe) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'recipe.label', default: 'Recipe'), params.id])}"
-            redirect(action: "list")
-        }
-        else {
-            [recipe: recipe]
-        }
-    }
-    def edit = {
-        def recipe = Recipe.get(params.id)
-        if (!recipe) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'recipe.label', default: 'Recipe'), params.id])}"
-            redirect(action: "list")
-        }
-        else {
-            return [recipe: recipe]
-        }
-    }
-    def update = {
-        def recipe = Recipe.get(params.id)
-        if (recipe) {
-            if (params.version) {
-                def version = params.version.toLong()
-                if (recipe.version > version) {
-
-                    recipe.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'recipe.label', default: 'Recipe')] as Object[], "Another user has updated this Recipe while you were editing")
-                    render(view: "edit", model: [recipe: recipe])
-                    return
-                }
-            }
-            recipe.properties = params
-            if (!recipe.hasErrors() && recipe.save(flush: true)) {
-                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'recipe.label', default: 'Recipe'), recipe.id])}"
-                redirect(action: "show", id: recipe.id)
-            }
-            else {
-                render(view: "edit", model: [recipe: recipe])
-            }
-        }
-        else {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'recipe.label', default: 'Recipe'), params.id])}"
-            redirect(action: "list")
-        }
     }
     def delete = {
         def recipe = Recipe.get(params.id)
@@ -92,7 +52,39 @@ class RecipeController {
         }
     }
 
-    def saveRecipe = {RecipeCO recipeCO ->
+    def edit = {
+        if (params.id) {
+            Recipe recipe = Recipe.get(params.id)
+            RecipeCO recipeCO = new RecipeCO(recipe)
+            SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
+            List<Unit> timeUnits = Unit.findAllByMetricType(MetricType.TIME)
+            timeUnits = timeUnits.findAll {(sys.id in it.systemOfUnits*.id)}
+            List<Unit> metricUnits = Unit.findAllByMetricType(MetricType.METRIC)
+            metricUnits = metricUnits.findAll {sys.id in it.systemOfUnits*.id}
+            List<Nutrient> nutrients = Nutrient.list()
+            render(view: 'edit', model: [recipeCO: recipeCO, timeUnits: timeUnits, metricUnits: metricUnits, nutrients: nutrients])
+        }
+    }
+
+    def update={ RecipeCO recipeCO ->
+                if (recipeCO.validate()) {
+                    recipeCO.updateRecipe()
+                    redirect(action: 'show', id:recipeCO?.id)
+                } else {
+                    println recipeCO.errors.allErrors.each {
+                        println it
+                    }
+                    SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
+                    List<Unit> timeUnits = Unit.findAllByMetricType(MetricType.TIME)
+                    timeUnits = timeUnits.findAll {(sys.id in it.systemOfUnits*.id)}
+                    List<Unit> metricUnits = Unit.findAllByMetricType(MetricType.METRIC)
+                    metricUnits = metricUnits.findAll {sys.id in it.systemOfUnits*.id}
+                    List<Nutrient> nutrients = Nutrient.list()
+                    render(view: 'edit', model: [recipeCO: recipeCO, timeUnits: timeUnits, metricUnits: metricUnits, nutrients: nutrients])
+                }
+            }
+
+    def save = {RecipeCO recipeCO ->
         if (recipeCO.validate()) {
             recipeCO.convertToRecipe()
             redirect(action: 'create')
@@ -110,23 +102,6 @@ class RecipeController {
         }
     }
 
-    def getMatchingProducts = {
-        List<Product> products = Product.findAllByNameIlike(params.query + "%")
-        List productsJson = products.collect { [id: it.id, name: it.name] }
-        render(productsJson as JSON)
-    }
-
-    def getMatchingCategories = {
-        List<Category> categories = Category.findAllByNameIlike(params.query + "%")
-        List categoriesJson = categories.collect { [id: it.id, name: it.name] }
-        render(categoriesJson as JSON)
-    }
-    def getMatchingItems = {
-        List<Item> items = Item.findAllByNameIlike(params.query + "%")
-        List itemsJson = items.collect { [id: it.id, name: it.name] }
-        render(itemsJson as JSON)
-    }
-
     def create = {
         SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
 
@@ -140,9 +115,9 @@ class RecipeController {
         render(view: 'create', model: [timeUnits: timeUnits, metricUnits: metricUnits, nutrients: nutrients])
     }
 
-    def showRecipe = {
+    def show = {
         Recipe recipe = Recipe.findById(params.id)
-        render(view: 'test', model:[recipe:recipe])
+        render(view: 'show', model: [recipe: recipe])
     }
 
     def uploadImage = {
@@ -186,6 +161,7 @@ class RecipeCO {
 
     RecipeCO() {} //constructor
 
+    Long id
     String name
     String difficulty
     Boolean shareWithCommunity
@@ -197,7 +173,7 @@ class RecipeCO {
     def selectRecipeImage
     def selectRecipeImagePath
     Set<Long> categoryIds = []
-    Set<Long> serveWithItems=[]
+    Set<Long> serveWithItems = []
 
     List<BigDecimal> ingredientQuantities = []
     List<Long> ingredientUnitIds = []
@@ -210,6 +186,43 @@ class RecipeCO {
     List<Long> nutrientIds = []
     def nutrientQuantities = []
 
+    RecipeCO(Recipe recipe) {
+        id=recipe.id
+        name = recipe.name
+        difficulty = recipe.difficulty.name()
+        shareWithCommunity = recipe.shareWithCommunity
+        makesServing = recipe.servings
+        preparationUnitId = recipe.preparationTime.unit.id
+        if (recipe.preparationTime?.unit?.name == TIME_UNIT_HOURS) {
+            preparationTime = recipe.preparationTime.value / 60
+        } else {
+            preparationTime = recipe.preparationTime.value
+        }
+        cookUnitId = recipe.cookingTime.unit.id
+        if (recipe.cookingTime?.unit?.name == TIME_UNIT_HOURS) {
+            cookTime = recipe.cookingTime.value / 60
+        } else {
+            cookTime = recipe.cookingTime.value
+        }
+        categoryIds = recipe.categories*.id
+        directions = recipe.directions*.step
+        ingredientQuantities = recipe?.ingredients*.quantity?.value
+        ingredientUnitIds = recipe?.ingredients*.quantity?.unit?.id
+        ingredientProductIds = recipe.ingredients*.ingredient.id
+
+        hiddenIngredientUnitNames = recipe?.ingredients*.quantity?.unit?.name
+        hiddenIngredientProductNames = recipe.ingredients*.ingredient?.name
+
+        nutrientIds = Nutrient.list()*.id
+        Nutrient.count().times {
+            nutrientQuantities[it]=""
+        }
+        recipe.nutrients.each {RecipeNutrient recipeNutrient ->
+            nutrientQuantities[recipeNutrient.nutrient.id.toInteger()-1] = recipeNutrient.quantity.value
+        }
+    } // parameterized constructor
+
+
     void setNutrientQuantities(def listOfNq) {
         [listOfNq].flatten().each {
             try {nutrientQuantities << new BigDecimal(it)} catch (ex) {nutrientQuantities << it}
@@ -217,11 +230,8 @@ class RecipeCO {
     }
 
     static constraints = {
-        name(blank: false, matches: /[a-zA-Z0-9\s]*/, validator: {val, obj ->
-            if (Recipe.countByName(val)) {
-                return 'recipeCO.name.not.Unique.message'
-            }
-        })
+        id(nullable:true)
+        name(blank: false, matches: /[a-zA-Z0-9\s]*/)
 
         difficulty(blank: false, inList: RecipeDifficulty.list()*.name())
         makesServing(nullable: false, min: 1)
@@ -238,7 +248,6 @@ class RecipeCO {
         })
 
         ingredientQuantities(validator: {val, obj ->
-            println "Validation ingredientQuantities..."
             if (val.size() < 1) {
                 return 'recipeCO.ingredientQuantities.not.Amount.message'
             }
@@ -258,6 +267,78 @@ class RecipeCO {
         })
     }
 
+    public updateRecipe(){
+        Recipe recipe = Recipe.get(id)
+        recipe.name = name
+        recipe.shareWithCommunity = shareWithCommunity
+        recipe.servings = makesServing
+        recipe.difficulty = RecipeDifficulty."${difficulty}"
+
+        recipe.preparationTime.unit=Unit.get(preparationUnitId)
+        if (recipe.preparationTime.unit.name == TIME_UNIT_HOURS) preparationTime *= 60;
+        recipe.preparationTime.value = preparationTime
+
+
+        recipe.cookingTime.unit=Unit.get(cookUnitId)
+        if (recipe.cookingTime.unit.name == TIME_UNIT_HOURS) cookTime *= 60;
+        recipe.cookingTime.value = cookTime
+
+//        recipe.items=Item.getAll(serveWithItems)
+//        recipe.s()
+
+        if (selectRecipeImagePath) {
+            Image image = new Image(selectRecipeImagePath, "Some alt text")
+            recipe.image = image
+            image.s()
+        }
+
+        def temp = recipe.recipeCategories
+        recipe.recipeCategories = []
+        temp*.delete()
+        categoryIds.eachWithIndex {Long categoryId, Integer index ->
+            Category category = Category.get(categoryId)
+            recipe.addToCategories(category)
+        }
+
+        def temp1=recipe.directions
+        recipe.directions=[]
+        temp1*.delete()
+        directions.eachWithIndex {String step, Integer index ->
+            new RecipeDirection(recipe: recipe, sequence: (index + 1), step: step).s()
+        }
+
+        def temp2=recipe.ingredients
+        recipe.ingredients=[]
+        temp2*.delete()
+        ingredientQuantities.eachWithIndex {BigDecimal amount, Integer index ->
+            MeasuredProduct product = MeasuredProduct.findByName(hiddenIngredientProductNames[index])
+            if (!product) {
+                MeasuredProduct newProduct = new Product(name: 'hiddenIngredientProductNames[index]', isVisible: false)
+                newProduct.s()
+            }
+            product = MeasuredProduct.findByName(hiddenIngredientProductNames[index])
+            Unit unit = Unit.get(ingredientUnitIds[index])
+            Quantity quantity = new Quantity(unit: unit, value: amount).s()
+            new RecipeIngredient(sequence: (index + 1), recipe: recipe, ingredient: product, quantity: quantity).s()
+        }
+
+        def temp3=recipe.nutrients
+        recipe.nutrients=[]
+        temp3*.delete()
+        nutrientQuantities.eachWithIndex {def quantity, Integer index ->
+            RecipeNutrient nutrient = new RecipeNutrient()
+            nutrient.recipe = recipe
+            nutrient.nutrient = Nutrient.get(nutrientIds[index])
+            if (nutrientQuantities[index]) {
+                Quantity recipeNutrientQuantity = new Quantity()
+                recipeNutrientQuantity.value = quantity
+                recipeNutrientQuantity.unit = Nutrient.get(nutrientIds[index]).preferredUnit
+                recipeNutrientQuantity.s()
+                nutrient.quantity = recipeNutrientQuantity
+                nutrient.s()
+            }
+        }
+    }
     public convertToRecipe() {
         Recipe recipe = new Recipe()
         recipe.name = name
