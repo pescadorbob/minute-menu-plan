@@ -31,7 +31,8 @@ class RecipeController {
 
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [recipeList: Recipe.list(params), recipeTotal: Recipe.count()]
+        List<Recipe> recipeList= Recipe.list(params)
+        render(view:'list', model:[recipeList:recipeList, recipeTotal: Recipe.count()])
     }
     def delete = {
         def recipe = Recipe.get(params.id)
