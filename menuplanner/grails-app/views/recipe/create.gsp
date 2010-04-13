@@ -15,7 +15,7 @@
     <g:render template="directionRow"/>
 </table>
 %{-------------------- HEADER --------------------------------}%
-<g:form name="formCreateRecipe" controller="recipe" action="saveRecipe" enctype="multipart/form-data">
+<g:form name="formCreateRecipe" controller="recipe" action="save" enctype="multipart/form-data">
     <div class="adrecipepage-left-container">
         <div class="add-recipe-header">
             <div class="add-recipe-header1">

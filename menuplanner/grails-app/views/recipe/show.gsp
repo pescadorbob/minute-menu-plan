@@ -34,9 +34,14 @@
                 <div class="month-menu-container-hdr">
                     <ul>
                         <li><img src="${resource(dir: 'images', file: 'edit-icon.jpg')}"/></li>
-                        <li><strong>test</strong></li>
+                        <li><strong>
+                            <g:link controller="recipe" action="edit" id="${recipe?.id}">
+                                Edit
+                            </g:link>
+                        </strong>
+                        </li>
                         <li><img src="${resource(dir: 'images', file: 'print-icon.jpg')}"/></li>
-                        <li><strong>test</strong></li>
+                        <li><strong>Print</strong></li>
                     </ul>
                 </div>
                 <div style="float: left; width: 413px;">
@@ -85,17 +90,6 @@
                     <g:each in="${recipe?.directions}">
                         ${it}<br>
                     </g:each>
-                %{--Slice meat diagonally with grain into thin--}%
-                %{--strips.--}%
-                %{--Pour terikate sauce over and marinate while--}%
-                %{--preparing vegetables.--}%
-                %{--<p></p>--}%
-                %{--<p></p>--}%
-                %{--<p>--}%
-                %{--Place oil in pan, stir fry beans until--}%
-                %{--tender, add carrots, onions and then put meat in a little at a time.--}%
-                %{--Stir meat and vegetables together. Add mushrooms and beef broth. Stir--}%
-                %{--until hot. Serve over rice.</p>--}%
                 </span>
                 <p>&nbsp;</p>
                 <p>
