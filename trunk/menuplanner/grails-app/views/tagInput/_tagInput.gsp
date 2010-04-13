@@ -1,3 +1,4 @@
+<%@ page import="grails.converters.JSON" %>
 <script type="text/javascript">
         $(function() {
 
@@ -15,7 +16,8 @@
                     selectedDropdownItem: "token-input-selected-dropdown-item-facebook",
                     inputToken: "token-input-input-token-facebook"
                 },
-                tokenLimit: "${tokenLimit}"
+                tokenLimit: "${tokenLimit}" ,
+                prePopulated:"${prePopulated as JSON}"
             });
 
         });

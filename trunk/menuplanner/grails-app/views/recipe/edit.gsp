@@ -21,7 +21,7 @@
             <div class="add-recipe-header1">
                 <img src="${resource(dir: 'images', file: 'add-recipe-header-img1.jpg')}">
             </div>
-            <div class="add-recipe-header2">Add Recipe</div>
+            <div class="add-recipe-header2">Edit Recipe</div>
             <div class="add-recipe-header1">
                 <img src="${resource(dir: 'images', file: 'add-recipe-header-img2.jpg')}">
             </div>

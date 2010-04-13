@@ -12,8 +12,11 @@
                 <li class=add-recipe-form-content><strong>Categories</strong></li>
                 <li class=add-recipe-form-input>
                     <span id="faceBookCategory" class="${hasErrors(bean: recipeCO, field: 'categoryIds', 'errors')}" style="display:block; clear:both;">
-                        <mp:tagInput name="categoryIds" controller="recipe" action="getMatchingCategories"/>
-                    </span></li>
+                        <mp:tagInput name="categoryIds" controller="recipe" action="getMatchingCategories"
+                                prePopulated="${categories}"/>
+                    </span>
+                    ${mp.getSelectedCategoriesAsJSON(prePopulated:recipeCO?.categoryIds)}
+                </li>
             </ul>
             <ul class="add-recipe-form-container" style="clear:both;">
                 <li class="add-recipe-form-content" style="clear:both;"><strong>Prep Time</strong></li>
@@ -56,7 +59,7 @@
         <div class="add-recipe-form5">
             <ul class="add-recipe-form-container">
                 <li class="add-recipe-form-input2">
-                    <div style="float:left; height:25px;line-height:25px;padding-right:10px;"><strong>image</strong></div>
+                    <div class="add-recipe-form-image-div"><strong>image</strong></div>
                     <div>
                         <input id="selectRecipeImage" size="1" name="selectRecipeImage" class="input3" type="file"/>
                         <img id="removeRecipeImage" src="${resource(dir: 'images', file: 'remove.jpg')}" alt="Remove" border="0" height="28px;" style="cursor:pointer"/>
@@ -65,7 +68,6 @@
             </ul>
             <div class="clr">
                 <div id="myImageDiv">
-
                     <g:if test="${recipeCO?.selectRecipeImagePath}">
                         <img id='recipeImage' border='0' width='195' height="171" src="${g.createLink(controller: 'recipe', action: 'showImage', params: [selectRecipeImagePath: recipeCO?.selectRecipeImagePath])}"/>
                     </g:if>

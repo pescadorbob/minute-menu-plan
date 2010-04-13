@@ -1190,6 +1190,12 @@ html > body .add-recipe-form-input-radio strong {
     height: 35px;
 }
 
+.add-recipe-form-image-div {
+    float:left;
+    height:25px;
+    line-height:25px;
+    padding-right:10px;
+}
 .add-recipe-form-container5 {
     clear: both;
     padding-right: 0px;
@@ -1270,6 +1276,10 @@ height: 35px;
     color: #616a72;
     background-repeat: repeat-y;
     font-family: arial, helvetica, sans-serif
+}
+.imagePointer{
+    cursor:pointer;
+    margin:0px;
 }
 .browse-recipes-container-content2 {
     border-right: #dddddd 1px solid;
@@ -1494,4 +1504,12 @@ body .rating1{
 	min-height:400px;
 	_overflow:400px;
 	_height:400px;
+}
+.toolBoxes{
+    margin-top:10px;
+    padding-bottom:10px;
+    padding-left:35px;
+    padding-top:10px;
+    float:left; 
+    border:1px solid #ddd;
 }
