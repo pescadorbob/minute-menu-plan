@@ -2,6 +2,7 @@ package com.mp.domain
 
 class Quantity {
 
+    static searchable = true
     BigDecimal value
     Unit unit
 

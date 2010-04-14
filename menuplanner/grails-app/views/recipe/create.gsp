@@ -6,15 +6,12 @@
     <script type="text/javascript" src="${resource(dir: 'js', file: 'createRecipe.js')}"></script>
 </head>
 <body>
-%{--***************************************** SAMPLE INGREDIENT ROW *****************************************--}%
 <table id="sampleIngredientRow" style="display:none;">
     <g:render template="ingredientRow"/>
 </table>
-%{--***************************************** SAMPLE DIRECTION0 ROW *****************************************--}%
 <table id="sampleDirectionRow" style="display:none;">
     <g:render template="directionRow"/>
 </table>
-%{-------------------- HEADER --------------------------------}%
 <g:form name="formCreateRecipe" controller="recipe" action="save" enctype="multipart/form-data">
     <div class="adrecipepage-left-container">
         <div class="add-recipe-header">
@@ -46,22 +43,15 @@
                 <li><a class="tabs" id="tabNutritionFacts" style="cursor:pointer;${hasErrors(bean: recipeCO, field: 'nutrientQuantities', 'color:red;')}">Nutrition Facts</a></li>
             </ul>
         </div>
-        %{------------------------------PANEL: GENERAL-INFO------------------------------------}%
         <g:render template="/recipe/generalInfo" model="[recipeCO: recipeCO, timeUnits: timeUnits]"/>
-        %{------------------------------PANEL: INGREDIENTS------------------------------------}%
         <g:render template="/recipe/ingredients" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
-        %{------------------------------PANEL: COOKING STEPS------------------------------------}%
         <g:render template="/recipe/cookingSteps" model="[recipeCO: recipeCO]"/>
-        %{------------------------------PANEL: SERVE-WITH------------------------------------}%
         <g:render template="/recipe/serveWith" model="[recipeCO: recipeCO]"/>
-        %{------------------------------PANEL: NUTRIENTS-FACTS------------------------------------}%
         <g:render template="/recipe/nutrientFacts" model="[recipeCO: recipeCO, nutrients:nutrients]"/>
 
     </div>
 
-%{--********************************** ONLY PREVIEW ********************************--}%
     <g:render template="/recipe/preview"/>
-%{--********************************** ONLY PREVIEW ********************************--}%
 
     <div class="save-recips">
         <g:submitButton name="btnSave" class="save" value="Save Recipe" style="font-size:14px;color:white;background-color:orange;width:120px;height:35px;cursor:pointer;"/>

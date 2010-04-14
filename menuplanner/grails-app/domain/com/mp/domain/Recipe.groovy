@@ -2,6 +2,8 @@ package com.mp.domain
 
 class Recipe extends Item{
 
+    static searchable = true
+
     RecipeDifficulty difficulty
     Boolean shareWithCommunity=false
     Image image

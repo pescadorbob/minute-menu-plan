@@ -39,7 +39,7 @@ class BootStrap {
         bootstrapService.populateQuantities(20)
         bootstrapService.populateMeasuredProduct(50)
 
-        bootstrapService.createRecipes(5)
+        bootstrapService.createRecipes(50)
 
     }
     def destroy = {

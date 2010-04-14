@@ -480,11 +480,8 @@ html > body .search-input-from {
 }
 
 .selected-data img {
-    border-right: #627f62 1px solid;
-    border-top: #627f62 1px solid;
-    margin: 5px 0px;
-    border-left: #627f62 1px solid;
-    border-bottom: #627f62 1px solid
+    border: #000000 1px solid;
+    margin: 5px 0px 0px 5px;
 }
 
 .selected-data1 {
@@ -1353,7 +1350,7 @@ height: 35px;
 	padding:0px 0px 10px 0px;
 }
 .youhave-selected-container2 {
-    margin: 10px 30px 20px 0px;
+    padding: 10px 30px 20px 0px;
     width: 214px;
 	float:left;
 }
