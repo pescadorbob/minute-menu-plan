@@ -298,9 +298,6 @@ class RecipeCO {
         if (recipe.cookingTime.unit.name == TIME_UNIT_HOURS) cookTime *= 60;
         recipe.cookingTime.value = cookTime
 
-//        recipe.items=Item.getAll(serveWithItems)
-//        recipe.s()
-
         if (selectRecipeImagePath) {
             Image image = new Image(selectRecipeImagePath, "Some alt text")
             recipe.image = image
@@ -315,6 +312,14 @@ class RecipeCO {
             recipe.addToCategories(category)
         }
 
+        def temp0 = recipe.items
+        recipe.items = []
+        temp0*.delete()
+        serveWithItems.eachWithIndex {Long itemId, Integer index ->
+            Item item = Item.get(itemId)
+            recipe.addToItems(item)
+        }
+        
         def temp1=recipe.directions
         recipe.directions=[]
         temp1*.delete()
