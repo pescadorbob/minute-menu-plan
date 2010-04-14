@@ -15,14 +15,14 @@
         </div>
         <div class="add-recipe-rgt2">
 
-               <div class="timePreview">
-                    <span id="displayPrepTime">
-                        %{--Prep - 30 min--}%
-                    </span>
-                    <span id="displayCookTime" >
-                        %{--Cook - 30 min--}%
-                    </span>
-                </div>
+            <div class="timePreview">
+                <span id="displayPrepTime">
+                    %{--Prep - 30 min--}%
+                </span>
+                <span id="displayCookTime">
+                    %{--Cook - 30 min--}%
+                </span>
+            </div>
 
             <div class="add-rgt-hdr">
                 <img src="${resource(dir: 'images', file: 'add-rgt-hdr1.jpg')}" align="left"/>
@@ -33,11 +33,9 @@
                 </div>
                 <img src="${resource(dir: 'images', file: 'add-rgt-hdr3.jpg')}" align="left"/>
 
-                <div class="rating">Rating
-                    <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
-                    <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
-                    <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
-                    <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
+                <div class="rating">
+                    Rating
+                    <g:render template="/recipe/rateing"/>
                 </div>
 
             </div>
@@ -53,17 +51,17 @@
             <p>
                 <span id="displayIngredients" style="font-weight:bold;">
                     %{--<strong>--}%
-                        %{--1 lb. chicken, partially frozen--}%
-                        %{--<br/>--}%
-                        %{--3 lg. carrots, sliced diagonally--}%
-                        %{--<br/>--}%
-                        %{--2 c. string beans, fresh or--}%
-                        %{--<br/>--}%
-                        %{--frozen--}%
-                        %{--<br/>--}%
-                        %{--3/4 c. chicken broth--}%
-                        %{--<br/>--}%
-                        %{--1 can mushrooms--}%
+                    %{--1 lb. chicken, partially frozen--}%
+                    %{--<br/>--}%
+                    %{--3 lg. carrots, sliced diagonally--}%
+                    %{--<br/>--}%
+                    %{--2 c. string beans, fresh or--}%
+                    %{--<br/>--}%
+                    %{--frozen--}%
+                    %{--<br/>--}%
+                    %{--3/4 c. chicken broth--}%
+                    %{--<br/>--}%
+                    %{--1 can mushrooms--}%
                     %{--</strong>--}%
                 </span>
             </p>
@@ -76,7 +74,7 @@
                 %{--<p>&nbsp;</p>--}%
                 %{--<p>&nbsp;</p>--}%
                 %{--<p>--}%
-                    %{--Place oil in pan, stir fry beans until tender, add carrots, onions and then put meat in a little at a time. Stir meat and vegetables together. Add mushrooms and beef broth. Stir until hot. Serve over rice.--}%
+                %{--Place oil in pan, stir fry beans until tender, add carrots, onions and then put meat in a little at a time. Stir meat and vegetables together. Add mushrooms and beef broth. Stir until hot. Serve over rice.--}%
                 %{--</p>--}%
 
             </span>
@@ -87,15 +85,15 @@
 
                 %{--Categories: <br/>--}%
                 %{--<g:each in="${recipe?.items}" status="i" var="item">--}%
-                    %{--<a href="#" class="serve-link">${item}</a><g:if test="${( i < (recipe?.items?.size()-1 ))}">,</g:if>--}%
+                %{--<a href="#" class="serve-link">${item}</a><g:if test="${( i < (recipe?.items?.size()-1 ))}">,</g:if>--}%
                 %{--</g:each>--}%
 
 
-            <br><br>
+                <br><br>
             <p class="serve-link">
                 <span id="displayServeWith">
-                %{--Serve With--}%
-                %{--<a class="serve-link" href="#">Rice</a>, <a class="serve-link" href="#">Won Tons</a>, <a class="serve-link" href="#">Egg Rolls</a>, <a class="serve-link" href="#">Egg Drop Soup</a></p>--}%
+                    %{--Serve With--}%
+                    %{--<a class="serve-link" href="#">Rice</a>, <a class="serve-link" href="#">Won Tons</a>, <a class="serve-link" href="#">Egg Rolls</a>, <a class="serve-link" href="#">Egg Drop Soup</a></p>--}%
                 </span>
             <p>&nbsp;</p><p>&nbsp;</p>
 

@@ -18,13 +18,13 @@
                     <div class="add-rgt-hdr1">
                         <img align="left" src="${resource(dir: 'images', file: 'add-rgt-hdr1.jpg')}"/>
                         <span id="displayName">
-                            ${recipe?.name}</span></div>
+                            ${recipe?.name}
+                        </span>
+                    </div>
                     <img align="left" src="${resource(dir: 'images', file: 'add-rgt-hdr3.jpg')}"/>
-                    <div class="rating">Rating
-                        <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
-                        <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
-                        <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
-                        <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
+                    <div class="rating">
+                        Rating
+                        <g:render template="/recipe/rateing"/>
                         <img src="${resource(dir: 'images', file: 'star2.jpg')}"/>
                     </div>
                     <div class="report-text">
@@ -96,11 +96,11 @@
                     <span id="displayCategory">
                         Categories:
                         <g:each in="${recipe?.categories}" status="i" var="category">
-                            ${category}<g:if test="${( i < (recipe?.categories?.size()-1 ))}">, </g:if>
+                            ${category}<g:if test="${( i < (recipe?.categories?.size()-1 ))}">,</g:if>
                         </g:each>
                     </span>
 
-                <br><br>
+                    <br><br>
                 <p class="serve-link">Serve With<br/>
                     <g:each in="${recipe?.items}" status="i" var="item">
                         <a href="#" class="serve-link">${item}</a><g:if test="${( i < (recipe?.items?.size()-1 ))}">,</g:if>

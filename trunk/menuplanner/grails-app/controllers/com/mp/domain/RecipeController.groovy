@@ -30,10 +30,38 @@ class RecipeController {
     }
 
     def list = {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        List<Recipe> recipeList= Recipe.list(params)
-        render(view:'list', model:[recipeList:recipeList, recipeTotal: Recipe.count()])
+        Integer listSize=Recipe.count()
+//        params.max = Math.min(params.max ? params.int('max') : 15, 150)
+        List<Category> categoryList=Category.list()
+        List<Recipe> recipeList= Recipe.list()
+//        List<Recipe> recipeList= Recipe.list(params)
+        render(view:'list', model:[recipeList:recipeList,listSize:listSize, recipeTotal: Recipe.count()])
     }
+
+    def search = {
+        RecipeDifficulty difficulty = (params.difficulty)? RecipeDifficulty."${params.difficulty}" : null
+        List<Recipe> results = Recipe.searchEvery([reload: true]) {
+            must(queryString(params.q))
+        }
+        
+        if(difficulty){
+            results = results?.findAll{it.difficulty == difficulty}
+        }
+//        Integer total = results?.size()
+//        if(total){
+//        Integer offset = (params?.offset)? params.int("offset") : 0
+//        Integer max = offset + 15
+//
+//        if(max > total){
+//            max = total - 1
+//        }
+//        results = results.subList(offset, max)
+//        }
+//        println "Total: " + search.total
+//        render(template:'/recipe/searchResultPanel',model:[recipeList:results, recipeTotal:total])
+        render(template:'/recipe/searchResultPanel',model:[recipeList:results])
+    }
+
     def delete = {
         def recipe = Recipe.get(params.id)
         if (recipe) {

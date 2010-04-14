@@ -36,7 +36,7 @@ class BootstrapService {
     public void createRecipes(Integer count) {
         (1..count).each {Integer index ->
             Recipe recipe = new Recipe()
-            recipe.name = "Recipe ${index}"
+            recipe.name = "Recipe${index}"
             recipe.difficulty = [RecipeDifficulty.EASY, RecipeDifficulty.MEDIUM, RecipeDifficulty.HARD].get(new Random().nextInt(3))
             recipe.shareWithCommunity = false
             recipe.servings = new Random().nextInt(5) + 1
