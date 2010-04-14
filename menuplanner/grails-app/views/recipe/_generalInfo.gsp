@@ -15,7 +15,7 @@
                         <mp:tagInput name="categoryIds" controller="recipe" action="getMatchingCategories"
                                 prePopulated="${categories}"/>
                     </span>
-                    ${mp.getSelectedCategoriesAsJSON(prePopulated:recipeCO?.categoryIds)}
+                    %{--${mp.getSelectedCategoriesAsJSON(prePopulated:recipeCO?.categoryIds)}--}%
                 </li>
             </ul>
             <ul class="add-recipe-form-container" style="clear:both;">
