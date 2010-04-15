@@ -17,6 +17,7 @@
     <g:layoutHead/>
 </head>
 <body>
+<g:setProvider library="jquery" />
 <g:render template="/layouts/header"/>
 <div class="wrapper">
     <div class="body-container">

@@ -1,23 +1,33 @@
 package com.mp.domain
 
-class Recipe extends Item{
+class Recipe extends Item {
 
-    static searchable = true
+    static searchable = {
+        cookingTime component: [prefix: 'cookingTime_']
+        preparationTime component: [prefix: 'preparationTime_', maxDepth:10]
+    }
 
     RecipeDifficulty difficulty
-    Boolean shareWithCommunity=false
+    Boolean shareWithCommunity = false
     Image image
     Integer servings
 
     Quantity preparationTime
     Quantity cookingTime
+    Set<RecipeCategory> recipeCategories = []
 
     static transients = ['categories']
 
-    static hasMany = [ingredients: RecipeIngredient, directions: RecipeDirection, recipeCategories: RecipeCategory, nutrients:RecipeNutrient, items: Item]
+    static hasMany = [ingredients: RecipeIngredient, directions: RecipeDirection, recipeCategories: RecipeCategory, nutrients: RecipeNutrient, items: Item]
 
-    List<Category> getCategories() {
-        return ((recipeCategories) ? ((recipeCategories?.collect {it.category}).sort{it.name}) : [])
+//    List<Category> getCategories() {
+    def getCategories() {
+        return ((recipeCategories) ? ((recipeCategories?.collect {it.category}).sort {it.name}) : [])
+    }
+
+    def getTotalTime() {
+        Quantity sum = Quantity.add(cookingTime, preparationTime)
+        return sum
     }
 
     def addToCategories(Category category) {
@@ -35,7 +45,7 @@ class Recipe extends Item{
     }
 
     static constraints = {
-        name(nullable:false)
+        name(nullable: false)
         preparationTime()
         cookingTime()
         difficulty()

@@ -13,8 +13,14 @@ class UtilController {
     static config = ConfigurationHolder.config
 
     def index = {
-        println "*******Count"+Item.count()
-        render config.imageRootDir
+         def search = Recipe.search([reload: true, max: 15]) {
+            must(queryString('recipeCategory_category_name:*'))
+        }
+            render "y"
+        List<Recipe> results = search?.results
+        search?.results?.each{
+            render "<br/> ${it.name} , ${it.cookingTime} , ${it.difficulty}"
+        }
     }
 
     def fractionTest={
