@@ -20,26 +20,26 @@ class Recipe extends Item {
     String totalTimeValue
     String categoriesString
 
-    String getCookingTimeValue(){
+    def getCookingTimeValue(){
         Long time  = (cookingTime.value)?.toLong() 
         return NumberTools.longToString(time)
     }
 
-    String getCategoriesString(){
+    def getCategoriesString(){
         return (categories? categories*.name.join(", ") : '')
     }
 
-    String getPrepTimeValue(){
+    def getPrepTimeValue(){
         Long time  = (preparationTime.value)?.toLong()
         return NumberTools.longToString(time)
     }
 
-    String getTotalTimeValue(){
+    def getTotalTimeValue(){
         Long time  = (totalTime.value)?.toLong()
         return NumberTools.longToString(time)
     }
 
-    static transients = ['categories', 'cookingTimeValue']
+    static transients = ['categories', 'cookingTimeValue', 'totalTimeValue', 'prepTimeValue', 'categoriesString']
     static hasMany = [ingredients: RecipeIngredient, directions: RecipeDirection, recipeCategories: RecipeCategory, nutrients: RecipeNutrient, items: Item]
 
     def getCategories() {
@@ -47,7 +47,7 @@ class Recipe extends Item {
     }
 
     def getTotalTime() {
-        Quantity sum = Quantity.add(cookingTime, preparationTime)
+        Quantity sum = Quantity.addTime(cookingTime, preparationTime)
         return sum
     }
 
