@@ -1,11 +1,10 @@
 package com.mp.domain
 
+import org.apache.lucene.document.NumberTools
+
 class Recipe extends Item {
 
-    static searchable = {
-        cookingTime component: [prefix: 'cookingTime_']
-        preparationTime component: [prefix: 'preparationTime_', maxDepth:10]
-    }
+    static searchable = true
 
     RecipeDifficulty difficulty
     Boolean shareWithCommunity = false
@@ -16,7 +15,34 @@ class Recipe extends Item {
     Quantity cookingTime
     Set<RecipeCategory> recipeCategories = []
 
-    static transients = ['categories']
+    String cookingTimeValue
+    String prepTimeValue
+    String totalTimeValue
+    String categoriesString
+
+    String getCookingTimeValue(){
+        Long time  = (cookingTime.value)?.toLong() 
+        return NumberTools.longToString(time)
+    }
+
+    String getCategoriesString(){
+        return (categories? categories*.name.join(", ") : '')
+    }
+
+    String getPrepTimeValue(){
+        Long time  = (preparationTime.value)?.toLong()
+        return NumberTools.longToString(time)
+    }
+
+    String getTotalTimeValue(){
+        Long time  = (totalTime.value)?.toLong()
+        return NumberTools.longToString(time)
+    }
+
+
+
+
+    static transients = ['categories', 'cookingTimeValue']
 
     static hasMany = [ingredients: RecipeIngredient, directions: RecipeDirection, recipeCategories: RecipeCategory, nutrients: RecipeNutrient, items: Item]
 

@@ -25,7 +25,6 @@
                                 <g:render template="/recipe/rateing"/>
                             </div>
                             <em>
-                                ${recipe?.cookingTime}<br/>
                                 ${recipe?.totalTime}<br/>
                                 ${recipe?.difficulty}</em><br/>
                             %{--Round Cut Beef<br/>--}%
