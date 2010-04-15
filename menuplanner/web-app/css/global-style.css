@@ -1280,17 +1280,13 @@ height: 35px;
 }
 .browse-recipes-container-content2 {
     border-right: #dddddd 1px solid;
-    padding-right: 11px;
+    padding: 11px;
     background-position: 50% top;
-    padding-left: 11px;
     background-image: url(../images/bg1.jpg);
     border-left: #dddddd 1px solid;
     width: 192px;
-    padding-top: 12px;
     background-repeat: repeat-x;
     background-color: #fafaf6;
-	height:400px;
-	min-height:400px;
 	overflow:visible;
 }
 .browse-recipes-search-input {
