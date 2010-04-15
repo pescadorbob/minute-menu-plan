@@ -31,22 +31,19 @@ class RecipeController {
 
     def list = {
         Integer listSize=Recipe.count()
-//        params.max = Math.min(params.max ? params.int('max') : 15, 150)
+        params.max = Math.min(params.max ? params.int('max') : 15, 150)
         List<Category> categoryList=Category.list()
-        List<Recipe> recipeList= Recipe.list()
-//        List<Recipe> recipeList= Recipe.list(params)
+        List<Recipe> recipeList= Recipe.list(params)
         render(view:'list', model:[recipeList:recipeList,categoryList:categoryList, recipeTotal: Recipe.count()])
     }
 
     def search = {
-        String query = params.list("q")?.join(" ")
-        println "######## Query: ${query}"
-        def search = Recipe.search([reload: true, max: 15]) {
+        String query = params.query?:params.list("q")?.join(" ")
+        def search = Recipe.search([reload: true, max: 15, offset: params.offset?:0]) {
             must(queryString(query))
         }
-
         List<Recipe> results = search?.results
-        render(template:'/recipe/searchResultPanel',model:[recipeList:results, recipeTotal: search?.total])
+        render(template:'/recipe/searchResultPanel',model:[recipeList:results, recipeTotal: search?.total, query: query])
     }
 
     def delete = {
