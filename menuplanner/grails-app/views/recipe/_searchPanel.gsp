@@ -70,17 +70,17 @@
                     Prep Time
                 </span>
                 <br/>
-                <span id="prepTime0to30" style="cursor:pointer;" onclick="submitSearchForm('prepTimeValue', '([00000000000000 TO 0000000000000u])');">0-30 min.</span><br/>
+                <span id="prepTime0to30" style="cursor:pointer;" onclick="submitSearchForm('prepTimeValue', '[00000000000000 TO 0000000000000u]');">0-30 min.</span><br/>
                 <span id="prepTime31to60" style="cursor:pointer;" onclick="submitSearchForm('prepTimeValue', '[0000000000000u TO 0000000000001o]');">31-60 min.</span><br/>
-                <span id="prepTime61to120" style="cursor:pointer;" onclick="submitSearchForm('prepTimeValue', '[0000000000001o TO 120]');">1-2 hrs.</span><br/>
-                <span id="prepTime121to" style="cursor:pointer;" onclick="submitSearchForm('prepTimeValue', '[121 TO *]');">2+ hrs.</span>
+                <span id="prepTime61to120" style="cursor:pointer;" onclick="submitSearchForm('prepTimeValue', '[0000000000001o TO 0000000000003c]');">1-2 hrs.</span><br/>
+                <span id="prepTime121to" style="cursor:pointer;" onclick="submitSearchForm('prepTimeValue', '[0000000000003d TO *]');">2+ hrs.</span>
             </p>
             <p>
                 <span class="narrow-text-header">
                     Cook Time
                 </span>
                 <br/>
-                <span id="cookTime0to30" style="cursor:pointer;" onclick="submitSearchForm('cookingTimeValue', '([00000000000000 TO 0000000000000u])');">0-30 min.</span><br/>
+                <span id="cookTime0to30" style="cursor:pointer;" onclick="submitSearchForm('cookingTimeValue', '[00000000000000 TO 0000000000000u]');">0-30 min.</span><br/>
                 <span id="cookTime31to60" style="cursor:pointer;" onclick="submitSearchForm('cookingTimeValue', '[0000000000000v TO 0000000000001o]');">31-60 min.</span><br/>
                 <span id="cookTime61to120" style="cursor:pointer;" onclick="submitSearchForm('cookingTimeValue', '[0000000000001o TO 0000000000003c]');">1-2 hrs.</span><br/>
                 <span id="cookTime121to" style="cursor:pointer;" onclick="submitSearchForm('cookingTimeValue', '[0000000000003d TO *]');">2+ hrs.</span>
@@ -90,7 +90,7 @@
                     Total Time
                 </span>
                 <br/>
-                <span id="totalTime0to30" style="cursor:pointer;" onclick="submitSearchForm('totalTimeValue', '([00000000000000 TO 0000000000000u])');">0-30 min.</span><br/>
+                <span id="totalTime0to30" style="cursor:pointer;" onclick="submitSearchForm('totalTimeValue', '[00000000000000 TO 0000000000000u])';">0-30 min.</span><br/>
                 <span id="totalTime31to60" style="cursor:pointer;" onclick="submitSearchForm('totalTimeValue', '[0000000000000u TO 0000000000001o]');">31-60 min.</span><br/>
                 <span id="totalTime61to120" style="cursor:pointer;" onclick="submitSearchForm('totalTimeValue', '[0000000000001o TO 0000000000003c]');">1-2 hrs.</span><br/>
                 <span id="totalTime121to" style="cursor:pointer;" onclick="submitSearchForm('totalTimeValue', '[0000000000003d TO *]');">2+ hrs.</span>

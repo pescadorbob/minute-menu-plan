@@ -2,6 +2,8 @@ package com.mp.domain
 
 class RecipeDirection {
 
+    static searchable = true
+
     Recipe recipe
     String step
     Integer sequence
