@@ -39,14 +39,9 @@ class Recipe extends Item {
         return NumberTools.longToString(time)
     }
 
-
-
-
     static transients = ['categories', 'cookingTimeValue']
-
     static hasMany = [ingredients: RecipeIngredient, directions: RecipeDirection, recipeCategories: RecipeCategory, nutrients: RecipeNutrient, items: Item]
 
-//    List<Category> getCategories() {
     def getCategories() {
         return ((recipeCategories) ? ((recipeCategories?.collect {it.category}).sort {it.name}) : [])
     }

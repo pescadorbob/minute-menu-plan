@@ -37,9 +37,10 @@
             </div>
         </g:each>
         <div class="clr"></div>
-        %{--<div class="paginateButtons" style="margin:5px; border:0px;">--}%
-            %{--<g:paginate total="${recipeTotal}" max="15" offset="${params.offset?:0}" params="[q:params.q]"/>--}%
-        %{--</div>--}%
+        <div class="paginateButtons" style="margin:5px; border:0px;">
+            <util:remotePaginate controller="recipe" action="search" total="${recipeTotal}" params="[query: query]"
+                                   max="15" offset="${params.offset}" update="rightContainer"/>
+        </div>
     </div>
     <div>
         <img src="${resource(dir: 'images', file: 'left-container-img1.jpg')}" width="770" align="left">
