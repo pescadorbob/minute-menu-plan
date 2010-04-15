@@ -35,31 +35,18 @@ class RecipeController {
         List<Category> categoryList=Category.list()
         List<Recipe> recipeList= Recipe.list()
 //        List<Recipe> recipeList= Recipe.list(params)
-        render(view:'list', model:[recipeList:recipeList,listSize:listSize, recipeTotal: Recipe.count()])
+        render(view:'list', model:[recipeList:recipeList,categoryList:categoryList, recipeTotal: Recipe.count()])
     }
 
     def search = {
-        RecipeDifficulty difficulty = (params.difficulty)? RecipeDifficulty."${params.difficulty}" : null
-        List<Recipe> results = Recipe.searchEvery([reload: true]) {
-            must(queryString(params.q))
+        String query = params.list("q")?.join(" ")
+        println "######## Query: ${query}"
+        def search = Recipe.search([reload: true, max: 15]) {
+            must(queryString(query))
         }
-        
-        if(difficulty){
-            results = results?.findAll{it.difficulty == difficulty}
-        }
-//        Integer total = results?.size()
-//        if(total){
-//        Integer offset = (params?.offset)? params.int("offset") : 0
-//        Integer max = offset + 15
-//
-//        if(max > total){
-//            max = total - 1
-//        }
-//        results = results.subList(offset, max)
-//        }
-//        println "Total: " + search.total
-//        render(template:'/recipe/searchResultPanel',model:[recipeList:results, recipeTotal:total])
-        render(template:'/recipe/searchResultPanel',model:[recipeList:results])
+
+        List<Recipe> results = search?.results
+        render(template:'/recipe/searchResultPanel',model:[recipeList:results, recipeTotal: search?.total])
     }
 
     def delete = {
@@ -86,12 +73,8 @@ class RecipeController {
             Recipe recipe = Recipe.get(params.id)
             RecipeCO recipeCO = new RecipeCO(recipe)
             SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
-            List<Unit> timeUnits = Unit.findAllByMetricType(MetricType.TIME)
-            timeUnits = timeUnits.findAll {(sys.id in it.systemOfUnits*.id)}
-            List<Unit> metricUnits = Unit.findAllByMetricType(MetricType.METRIC)
-            metricUnits = metricUnits.findAll {sys.id in it.systemOfUnits*.id}
             List<Nutrient> nutrients = Nutrient.list()
-            render(view: 'edit', model: [recipeCO: recipeCO, timeUnits: timeUnits, metricUnits: metricUnits, nutrients: nutrients])
+            render(view: 'edit', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits: sys.metricUnits, nutrients: nutrients])
         }
     }
 
@@ -104,12 +87,8 @@ class RecipeController {
                         println it
                     }
                     SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
-                    List<Unit> timeUnits = Unit.findAllByMetricType(MetricType.TIME)
-                    timeUnits = timeUnits.findAll {(sys.id in it.systemOfUnits*.id)}
-                    List<Unit> metricUnits = Unit.findAllByMetricType(MetricType.METRIC)
-                    metricUnits = metricUnits.findAll {sys.id in it.systemOfUnits*.id}
                     List<Nutrient> nutrients = Nutrient.list()
-                    render(view: 'edit', model: [recipeCO: recipeCO, timeUnits: timeUnits, metricUnits: metricUnits, nutrients: nutrients])
+                    render(view: 'edit', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits: sys.metricUnits, nutrients: nutrients])
                 }
             }
 
@@ -122,10 +101,6 @@ class RecipeController {
                 println it
             }
             SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
-            List<Unit> timeUnits = Unit.findAllByMetricType(MetricType.TIME)
-            timeUnits = timeUnits.findAll {(sys.id in it.systemOfUnits*.id)}
-            List<Unit> metricUnits = Unit.findAllByMetricType(MetricType.METRIC)
-            metricUnits = metricUnits.findAll {sys.id in it.systemOfUnits*.id}
             List<Nutrient> nutrients = Nutrient.list()
             List<Category> categories =[]
             if(recipeCO?.categoryIds)
@@ -133,21 +108,15 @@ class RecipeController {
 //            List categoriesJson = categories.collect { [id: it.id, name: it.name] }
 //            println categoriesJson as JSON
 
-            render(view: 'create', model: [recipeCO: recipeCO, timeUnits: timeUnits, metricUnits: metricUnits, nutrients: nutrients, categories:categories])
+            render(view: 'create', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits: sys.metricUnits, nutrients: nutrients, categories:categories])
         }
     }
 
     def create = {
         SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
 
-        List<Unit> timeUnits = Unit.findAllByMetricType(MetricType.TIME)
-        timeUnits = timeUnits.findAll {(sys.id in it.systemOfUnits*.id)}
-
-        List<Unit> metricUnits = Unit.findAllByMetricType(MetricType.METRIC)
-        metricUnits = metricUnits.findAll {sys.id in it.systemOfUnits*.id}
-
         List<Nutrient> nutrients = Nutrient.list()
-        render(view: 'create', model: [timeUnits: timeUnits, metricUnits: metricUnits, nutrients: nutrients])
+        render(view: 'create', model: [timeUnits: sys.timeUnits, metricUnits: sys.metricUnits, nutrients: nutrients])
     }
 
     def show = {
@@ -188,12 +157,7 @@ class RecipeController {
         out.close()
         }
     }
-    def listRecipe={
-        List<Recipe> recipeList= Recipe.list()
-        render(view:'listRecipe', model:[recipeList:recipeList])
-    }
-
-}
+ }
 
 class RecipeCO {
     static config = ConfigurationHolder.config
@@ -280,8 +244,8 @@ class RecipeCO {
         makesServing(nullable: false, min: 1)
         selectRecipeImagePath(nullable: true)
         selectRecipeImage(blank: true)
-        preparationTime(nullable: false, min: 1)
-        cookTime(nullable: false, min: 1)
+        preparationTime(nullable: false, min: 0)
+        cookTime(nullable: false, min: 0)
         categoryIds(minSize: 1)
 
         nutrientQuantities(validator: {val ->

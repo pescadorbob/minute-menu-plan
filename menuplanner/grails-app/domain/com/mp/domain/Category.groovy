@@ -1,6 +1,9 @@
 package com.mp.domain
 
 class Category {
+
+    static searchable = true
+    
     String name
     static hasMany = [recipeCategories: RecipeCategory]
 
