@@ -2,9 +2,6 @@ package com.mp.domain
 
 class RecipeCategory {
 
-    static searchable = {
-        category component: [prefix:  'category_', maxDepth: 10]
-    }
     Recipe recipe
     Category category
 

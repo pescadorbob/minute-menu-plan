@@ -1,7 +1,6 @@
 package com.mp.domain
 
 class RecipeNutrient {
-    static searchable = true
 
     Recipe recipe
     Nutrient nutrient 
