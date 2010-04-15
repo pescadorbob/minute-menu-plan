@@ -5,7 +5,7 @@ class Item {
     String name
 
     String toString(){
-        return "${name}";
+        return name
     }
 
     static constraints = {
