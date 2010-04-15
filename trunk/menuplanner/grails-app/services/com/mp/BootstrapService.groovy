@@ -40,10 +40,10 @@ class BootstrapService {
             recipe.difficulty = [RecipeDifficulty.EASY, RecipeDifficulty.MEDIUM, RecipeDifficulty.HARD].get(new Random().nextInt(3))
             recipe.shareWithCommunity = false
             recipe.servings = new Random().nextInt(5) + 1
-            Quantity recipePreparationTime = new Quantity(value: (new Random().nextInt(3) + 1) * 60, unit: Unit.findByName(TIME_UNIT_HOURS))
+            Quantity recipePreparationTime = new Quantity(value: (new Random().nextInt(15) + 1) * 10, unit: Unit.findByName(TIME_UNIT_MINUTES))
             recipePreparationTime.s()
             recipe.preparationTime = recipePreparationTime
-            Quantity recipeCookTime = new Quantity(value: (new Random().nextInt(20) + 1) * 10, unit: Unit.findByName(TIME_UNIT_MINUTES))
+            Quantity recipeCookTime = new Quantity(value: (new Random().nextInt(15) + 1) * 10, unit: Unit.findByName(TIME_UNIT_MINUTES))
             recipeCookTime.s()
             recipe.cookingTime = recipeCookTime
             recipe.s()

@@ -20,21 +20,21 @@ class Recipe extends Item {
     String totalTimeValue
     String categoriesString
 
-    def getCookingTimeValue(){
+    String getCookingTimeValue(){
         Long time  = (cookingTime.value)?.toLong() 
         return NumberTools.longToString(time)
     }
 
-    def getCategoriesString(){
+    String getCategoriesString(){
         return (categories? categories*.name.join(", ") : '')
     }
 
-    def getPrepTimeValue(){
+    String getPrepTimeValue(){
         Long time  = (preparationTime.value)?.toLong()
         return NumberTools.longToString(time)
     }
 
-    def getTotalTimeValue(){
+    String getTotalTimeValue(){
         Long time  = (totalTime.value)?.toLong()
         return NumberTools.longToString(time)
     }

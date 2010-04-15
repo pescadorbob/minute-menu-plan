@@ -1,7 +1,8 @@
 package com.mp.domain
 
 class RecipeIngredient {
-
+    static searchable = true
+  
     Integer sequence
     Recipe recipe
     MeasuredProduct ingredient
