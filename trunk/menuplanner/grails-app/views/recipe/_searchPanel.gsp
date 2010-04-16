@@ -9,6 +9,12 @@
     <div class="close-container">
 
         <table id="tableOption" style="border:0px;">
+            <tr id="categoriesStringRow" style="display:none;">
+                <td width="80px;"></td>
+                <td>
+                    <span id="categoriesStringDisplay" style="float:left; padding-left:5px;"></span>
+                </td>
+            </tr>
             <tr id="caloriesRow" style="display:none;">
                 <td width="80px;">
                     <img onclick="removeSearchOption('calories')" id="caloriesRemove" src="${resource(dir: 'images', file: 'delete-icon.jpg')}" align="top" style="cursor:pointer;"/>
@@ -145,6 +151,6 @@
         if (fieldValue == '*(Select One)*') {
             fieldValue = '*';
         }
-        submitSearchForm('categoriesString', fieldValue);
+        submitSearchForm(null,'categoriesString', fieldValue);
     }
 </script>

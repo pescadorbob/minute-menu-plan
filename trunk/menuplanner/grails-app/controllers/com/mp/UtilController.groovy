@@ -17,6 +17,10 @@ class UtilController {
         render "x:"+(NumberTools.longToString(120l))
     }
 
+    def readXls={
+
+        
+    }
     def fractionTest={
         Fraction f1=new ProperFractionFormat().parse("3  1/2")
         Fraction f2=new ProperFractionFormat().parse("7/2")
