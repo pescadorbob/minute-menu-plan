@@ -17,7 +17,7 @@
                 </div>
             </li>
             <li class="clr">
-                <span id="AddDirectionToolBox" class="toolBoxes" style="width:485px;">
+                <span id="AddDirectionToolBox" class="toolBoxes" style="width:537px;">
                     <img class="imagePointer" id="btnAddDirection" src="${resource(dir: 'images', file: 'plus-add.jpg')}" hspace="4" align="left" border="0"/>
                     <span id="directionToBeAdded" style="display:block; float:left;padding-left:10px;">
                         <g:textArea class="inputTextArea" id="optionDirections" name="optionDirections" value="" rows="5"/>
