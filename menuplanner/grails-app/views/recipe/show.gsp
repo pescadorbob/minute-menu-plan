@@ -45,7 +45,6 @@
                     </ul>
                 </div>
                 <div style="float: left; width: 413px;">
-
                     <p>
                         <span id="displayDifficulty">
                             Difficulty Level: ${recipe?.difficulty?.name}
@@ -60,22 +59,12 @@
                     <p>
                         <strong>
                             <span id="displayIngredients">
-
+                                ${recipe?.categoriesString} <br> 
                                 <g:each in="${recipe?.ingredients}">
                                     ${it}<br>
                                 </g:each>
-                            %{--1 lb. chicken, partially frozen--}%
-                            %{--<br/>--}%
-                            %{--3 lg. carrots, sliced diagonally--}%
-                            %{--<br/>--}%
-                            %{--2 c. string beans, fresh or--}%
-                            %{--<br/>--}%
-                            %{--frozen--}%
-                            %{--<br/>--}%
-                            %{--3/4 c. chicken broth--}%
-                            %{--<br/>--}%
-                            %{--1 can mushrooms--}%
-                            </span></strong>
+                            </span>
+                        </strong>
                 </div>
                 <div style="float: right;">
 
@@ -83,7 +72,8 @@
 
                     <div class="rating1">
                         <img src="${resource(dir: 'images', file: 'star1.jpg')}"/> Rating<br/>
-                        <a href="#">text link</a></div>
+                        <a href="#">text link</a>
+                    </div>
                 </div>
                 <p class="clr"/>
                 <span class="month-menu-content" id="displayDirections">
@@ -99,67 +89,37 @@
                             ${category}<g:if test="${( i < (recipe?.categories?.size()-1 ))}">,</g:if>
                         </g:each>
                     </span>
-
-                    <br><br>
+                </p>
+                <br>
                 <p class="serve-link">Serve With<br/>
                     <g:each in="${recipe?.items}" status="i" var="item">
                         <a href="#" class="serve-link">${item}</a><g:if test="${( i < (recipe?.items?.size()-1 ))}">,</g:if>
                     </g:each>
-
+                </p>
+                <br>
+                <p>Nutritional Facts per serving: &nbsp;
+                <g:each in="${recipe?.nutrients}" status="i" var="nutrient">
+                    ${nutrient?.nutrient?.name}
+                    ${nutrient?.quantity}
+                    <g:if test="${( i < (recipe?.nutrients?.size()-1 ))}">,</g:if>
+                </g:each>
+                </p>
                 <div class="month-menu-list">
-
-                    <div class="month-menu-list-container">
-                        <div class="month-menu-list1">
-                            <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
-                            <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
-                            <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
-                            <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
-                            <img src="${resource(dir: 'images', file: 'star2.jpg')}"/>
+                    <g:each in="${(1..4)}">
+                        <div class="month-menu-list-container">
+                            <div class="month-menu-list1">
+                                <g:render template="/recipe/rateing"/>
+                            </div>
+                            <div class="month-menu-list1">lorem ipsum lorem ipsum</div>
+                            <div class="month-menu-list1"><a href="#">lorem ipsum</a></div>
                         </div>
-                        <div class="month-menu-list1">lorem ipsum lorem ipsum</div>
-                        <div class="month-menu-list1"><a href="#">lorem ipsum</a></div>
-                    </div>
-
-                    <div class="month-menu-list-container">
-                        <div class="month-menu-list1">
-                            <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
-                            <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
-                            <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
-                            <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
-                            <img src="${resource(dir: 'images', file: 'star2.jpg')}"/>
-                        </div>
-                        <div class="month-menu-list1">lorem ipsum lorem ipsum</div>
-                        <div class="month-menu-list1"><a href="#">lorem ipsum</a></div>
-                    </div>
-
-                    <div class="month-menu-list-container">
-                        <div class="month-menu-list1">
-                            <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
-                            <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
-                            <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
-                            <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
-                            <img src="${resource(dir: 'images', file: 'star2.jpg')}"/>
-                        </div>
-                        <div class="month-menu-list1">lorem ipsum lorem ipsum</div>
-                        <div class="month-menu-list1"><a href="#">lorem ipsum</a></div>
-                    </div>
-
-                    <div class="month-menu-list-container">
-                        <div class="month-menu-list1">
-                            <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
-                            <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
-                            <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
-                            <img src="${resource(dir: 'images', file: 'star1.jpg')}"/>
-                            <img src="${resource(dir: 'images', file: 'star2.jpg')}"/>
-                        </div>
-                        <div class="month-menu-list1">lorem ipsum lorem ipsum</div>
-                        <div class="month-menu-list1"><a href="#">lorem ipsum</a></div>
-                    </div>
+                    </g:each>
                 </div>
             </div>
         </div>
         <div>
-            <img src="${resource(dir: 'images', file: 'add-rgt-img6.jpg')}"/></div>
+            <img src="${resource(dir: 'images', file: 'add-rgt-img6.jpg')}"/>
+        </div>
     </div>
 </div>
 </body>
