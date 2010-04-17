@@ -7,7 +7,8 @@ class CalendarController {
     }
 
     def calendar = {
-        render(view: 'calendar')
+        List<Week> weeks = Week.list()
+        render(view: 'calendar', model:[ weeks: weeks])
     }
 
 

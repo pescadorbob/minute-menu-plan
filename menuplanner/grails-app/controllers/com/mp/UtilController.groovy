@@ -24,15 +24,6 @@ class UtilController {
         importLineItems(myXls)
     }
 
-
-
-
-
-
-
-
-
-
     public void makeRecipe(List<List<String>> recipe) {
         Recipe recipe1 = new Recipe()
         recipe1.name = recipe[0].getAt(1)
@@ -54,8 +45,7 @@ class UtilController {
         directions.eachWithIndex {def directionRow, Integer i ->
             if (directionRow.getAt(0)) {
                 RecipeDirection recipeDirection = new RecipeDirection()
-                println "seq:${i + 1} step:${directionRow.getAt(0)}"
-                recipeDirection.sequence = i + 1
+                println "${directionRow.getAt(0)}"
                 recipeDirection.step = directionRow.getAt(0)
                 recipeDirection.recipe = Recipe.findByName(recipeName)
                 recipeDirection.s()
@@ -71,8 +61,7 @@ class UtilController {
             RecipeIngredient recipeIngredient = new RecipeIngredient()
             recipeIngredient.recipe = Recipe.findByName(recipeName)
             if (ingredientRow.getAt(0)) {
-                println "seq:${i + 1} quantity:${ingredientRow.getAt(0)}, unit:${ingredientRow.getAt(1)}, product:${ingredientRow.getAt(2)}"
-                recipeIngredient.sequence = i + 1
+                println "quantity:${ingredientRow.getAt(0)}, unit:${ingredientRow.getAt(1)}, product:${ingredientRow.getAt(2)}"
                 MeasurableProduct measurableProduct = new MeasurableProduct()
                 measurableProduct.name = ingredientRow.getAt(2).toString()
                 measurableProduct.preferredUnit = Unit.get(10)
