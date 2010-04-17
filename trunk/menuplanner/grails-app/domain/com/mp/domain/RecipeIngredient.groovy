@@ -5,7 +5,7 @@ class RecipeIngredient {
   
     Integer sequence
     Recipe recipe
-    MeasuredProduct ingredient
+    MeasurableProduct ingredient
     Quantity quantity
 
     String toString() {

@@ -1,10 +1,10 @@
 
-<%@ page import="com.mp.domain.MeasuredProduct" %>
+<%@ page import="com.mp.domain.MeasurableProduct" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'measuredProduct.label', default: 'MeasuredProduct')}" />
+        <g:set var="entityName" value="${message(code: 'measurableProduct.label', default: 'MeasurableProduct')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -22,23 +22,23 @@
                     <thead>
                         <tr>
                         
-                            <g:sortableColumn property="id" title="${message(code: 'measuredProduct.id.label', default: 'Id')}" />
+                            <g:sortableColumn property="id" title="${message(code: 'measurableProduct.id.label', default: 'Id')}" />
                         
-                            <g:sortableColumn property="name" title="${message(code: 'measuredProduct.name.label', default: 'Name')}" />
+                            <g:sortableColumn property="name" title="${message(code: 'measurableProduct.name.label', default: 'Name')}" />
                         
-                            <th><g:message code="measuredProduct.preferredUnit.label" default="Preferred Unit" /></th>
+                            <th><g:message code="measurableProduct.preferredUnit.label" default="Preferred Unit" /></th>
                    	    
                         </tr>
                     </thead>
                     <tbody>
-                    <g:each in="${measuredProductList}" status="i" var="measuredProduct">
+                    <g:each in="${measurableProductList}" status="i" var="measurableProduct">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
-                            <td><g:link action="show" id="${measuredProduct.id}">${fieldValue(bean: measuredProduct, field: "id")}</g:link></td>
+                            <td><g:link action="show" id="${measurableProduct.id}">${fieldValue(bean: measurableProduct, field: "id")}</g:link></td>
                         
-                            <td>${fieldValue(bean: measuredProduct, field: "name")}</td>
+                            <td>${fieldValue(bean: measurableProduct, field: "name")}</td>
                         
-                            <td>${fieldValue(bean: measuredProduct, field: "preferredUnit")}</td>
+                            <td>${fieldValue(bean: measurableProduct, field: "preferredUnit")}</td>
                         
                         </tr>
                     </g:each>
@@ -46,7 +46,7 @@
                 </table>
             </div>
             <div class="paginateButtons">
-                <g:paginate total="${measuredProductTotal}" />
+                <g:paginate total="${measurableProductTotal}" />
             </div>
         </div>
     </body>

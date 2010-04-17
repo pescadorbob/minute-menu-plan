@@ -1,9 +1,7 @@
-import com.mp.domain.*
-import org.codehaus.groovy.grails.commons.ApplicationHolder
-import org.apache.commons.math.fraction.Fraction
-import org.apache.commons.math.fraction.ProperFractionFormat
+import org.apache.commons.math.fraction.*
 import java.text.FieldPosition
-import org.apache.commons.math.fraction.FractionFormat
+import grails.util.GrailsUtil
+import grails.util.Environment
 
 class BootStrap {
 
@@ -22,24 +20,25 @@ class BootStrap {
             object
         }
 
-        Fraction.metaClass.constructor << { String stringToParse ->
+        Fraction.metaClass.constructor << {String stringToParse ->
             new ProperFractionFormat().parse(stringToParse)
         }
 
-        Fraction.metaClass.myFormatUsingProperFractionFormat = {  ->
-            new ProperFractionFormat().format(delegate,new StringBuffer(),new FieldPosition(0))
+        Fraction.metaClass.myFormatUsingProperFractionFormat = {->
+            new ProperFractionFormat().format(delegate, new StringBuffer(), new FieldPosition(0))
         }
-        
-        Fraction.metaClass.myFormatUsingFractionFormat = {  ->
+
+        Fraction.metaClass.myFormatUsingFractionFormat = {->
             new FractionFormat().format(delegate)
         }
 
         bootstrapMasterData()
-        bootstrapService.populateCategory(10)
-        bootstrapService.populateQuantities(20)
-        bootstrapService.populateMeasuredProduct(50)
-
-        bootstrapService.createRecipes(150)
+        if (!GrailsUtil.environment != Environment.PRODUCTION) {
+            bootstrapService.populateCategory(10)
+            bootstrapService.populateQuantities(20)
+            bootstrapService.populateMeasurableProduct(50)
+            bootstrapService.createRecipes((GrailsUtil.isDevelopmentEnv()) ? 20 : 150)
+        }
 
     }
     def destroy = {

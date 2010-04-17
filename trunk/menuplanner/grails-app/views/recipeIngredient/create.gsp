@@ -50,7 +50,7 @@
                                     <label for="ingredient"><g:message code="recipeIngredient.ingredient.label" default="Ingredient" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: recipeIngredient, field: 'ingredient', 'errors')}">
-                                    <g:select name="ingredient.id" from="${com.mp.domain.MeasuredProduct.list()}" optionKey="id" value="${recipeIngredient?.ingredient?.id}"  />
+                                    <g:select name="ingredient.id" from="${com.mp.domain.MeasurableProduct.list()}" optionKey="id" value="${recipeIngredient?.ingredient?.id}"  />
                                 </td>
                             </tr>
                         

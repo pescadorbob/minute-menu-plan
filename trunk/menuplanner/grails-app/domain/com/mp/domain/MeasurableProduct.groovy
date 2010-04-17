@@ -1,6 +1,6 @@
 package com.mp.domain
 
-class MeasuredProduct extends Product{
+class MeasurableProduct extends Product{
 
     static hasMany = [possibleUnits: Unit]
     Unit preferredUnit
