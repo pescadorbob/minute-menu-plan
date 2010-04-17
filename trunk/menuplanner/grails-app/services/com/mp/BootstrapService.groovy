@@ -48,26 +48,28 @@ class BootstrapService {
             recipe.cookingTime = recipeCookTime
             recipe.s()
             populateRecipeCategories(recipe)
-            populateRecipeIngredient(recipe)
-            populateRecipeDirections(recipe)
+            recipe.ingredients = populateRecipeIngredient(recipe)
+            recipe.directions = populateRecipeDirections(recipe)
             populateRecipeNutrient(recipe)
+            recipe.s()
         }
     }
 
-    public void populateRecipeNutrient(Recipe recipe) {
+    public List<RecipeNutrient> populateRecipeNutrient(Recipe recipe) {
+        List<RecipeNutrient> nutrients = []
         (1..new Random().nextInt(5)).each {Integer index ->
             RecipeNutrient nutrient = new RecipeNutrient()
             nutrient.recipe = recipe
             nutrient.nutrient = Nutrient.get(new Random().nextInt(Nutrient.count()) + 1)
-            if (!RecipeNutrient.findByNutrientAndRecipe(nutrient.nutrient, recipe)) {
-                Quantity nutrientQuantity = new Quantity()
-                nutrientQuantity.value = new Random().nextInt(10) + 1
-                nutrientQuantity.unit = nutrient.nutrient.preferredUnit
-                nutrientQuantity.s()
-                nutrient.quantity = nutrientQuantity
-                nutrient.s()
-            }
+
+            Quantity nutrientQuantity = new Quantity()
+            nutrientQuantity.value = new Random().nextInt(10) + 1
+            nutrientQuantity.unit = nutrient.nutrient.preferredUnit
+            nutrientQuantity.s()
+            nutrient.quantity = nutrientQuantity
+            nutrients.add(nutrient)
         }
+        return (nutrients.unique {it.nutrient})
     }
 
     public void populateRecipeCategories(Recipe recipe) {
@@ -77,23 +79,24 @@ class BootstrapService {
         }
     }
 
-    public void populateRecipeIngredient(Recipe recipe) {
+    public List<RecipeIngredient> populateRecipeIngredient(Recipe recipe) {
+        List<RecipeIngredient> ingredients = []
         (1..3).each {Integer index ->
             RecipeIngredient ingredient = new RecipeIngredient()
             ingredient.recipe = recipe
-            ingredient.sequence = index
             ingredient.ingredient = MeasurableProduct.get(new Random().nextInt(MeasurableProduct.count()) + 1)
             ingredient.quantity = Quantity.get(new Random().nextInt(Quantity.count()) + 1)
-            if (!RecipeIngredient.findByRecipeAndIngredient(recipe, ingredient.ingredient)) {
-                ingredient.s()
-            }
+            ingredients.add(ingredient)
         }
+        return (ingredients.unique {it.ingredient})
     }
 
-    public void populateRecipeDirections(Recipe recipe) {
+    public List<RecipeDirection> populateRecipeDirections(Recipe recipe) {
+        List<RecipeDirection> directions = []
         (1..5).each {Integer index ->
-            new RecipeDirection(step: "for ${recipe.name} step-${index}", sequence: index, recipe: recipe).s()
+            directions.add(new RecipeDirection(step: "for ${recipe.name} step-${index}", recipe: recipe))
         }
+        return directions
     }
 
     public void populateWeeks(Integer count) {
@@ -112,20 +115,20 @@ class BootstrapService {
         }
     }
 
-    public List<Meal> populateMeals(Day day){
+    public List<Meal> populateMeals(Day day) {
         Set<Meal> meals = []
-        (MealType.values()).eachWithIndex{MealType type, Integer index ->
-            Meal meal = new Meal(name: "Meal-${index+1}", day: day, type: type)
+        (MealType.values()).eachWithIndex {MealType type, Integer index ->
+            Meal meal = new Meal(name: "Meal-${index + 1}", day: day, type: type)
             meal.items = populateMealItems(meal)
             meals.add(meal)
         }
         return meals?.toList()
     }
 
-    public Set<Item> populateMealItems(Meal meal){
+    public Set<Item> populateMealItems(Meal meal) {
         Set<Item> items = []
-        (new Random().nextInt(2)+1).times{
-            Item item = Item.get(new Random().nextInt(Item.count()-1)+1)
+        (new Random().nextInt(2) + 1).times {
+            Item item = Item.get(new Random().nextInt(Item.count() - 1) + 1)
             items.add(item)
         }
         return items

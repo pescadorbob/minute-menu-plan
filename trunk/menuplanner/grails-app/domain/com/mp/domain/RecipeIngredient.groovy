@@ -3,16 +3,16 @@ package com.mp.domain
 class RecipeIngredient {
     static searchable = true
   
-    Integer sequence
-    Recipe recipe
     MeasurableProduct ingredient
     Quantity quantity
 
+    static belongsTo = [recipe: Recipe]
+
     String toString() {
-        return (sequence + ' ' + quantity + ' ' + ingredient)
+        return ("${quantity} ${ingredient}")
     }
 
     static constraints = {
-        sequence(min:1, unique: 'recipe')
+        ingredient(unique: 'recipe')
     }
 }

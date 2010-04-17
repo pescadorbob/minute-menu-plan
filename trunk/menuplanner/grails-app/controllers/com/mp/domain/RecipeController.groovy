@@ -303,6 +303,8 @@ class RecipeCO {
             image.s()
         }
 
+        recipe.s()
+
         def temp = recipe.recipeCategories
         recipe.recipeCategories = []
         temp*.delete()
@@ -323,7 +325,7 @@ class RecipeCO {
         recipe.directions = []
         temp1*.delete()
         directions.eachWithIndex {String step, Integer index ->
-            new RecipeDirection(recipe: recipe, sequence: (index + 1), step: step).s()
+            new RecipeDirection(recipe: recipe, step: step).s()
         }
 
         def temp2 = recipe.ingredients
@@ -332,13 +334,13 @@ class RecipeCO {
         ingredientQuantities.eachWithIndex {BigDecimal amount, Integer index ->
             MeasurableProduct product = MeasurableProduct.findByName(hiddenIngredientProductNames[index])
             if (!product) {
-                MeasurableProduct newProduct = new Product(name: 'hiddenIngredientProductNames[index]', isVisible: false)
+                MeasurableProduct newProduct = new MeasurableProduct(name: 'hiddenIngredientProductNames[index]', isVisible: false)
                 newProduct.s()
             }
             product = MeasurableProduct.findByName(hiddenIngredientProductNames[index])
             Unit unit = Unit.get(ingredientUnitIds[index])
             Quantity quantity = new Quantity(unit: unit, value: amount).s()
-            new RecipeIngredient(sequence: (index + 1), recipe: recipe, ingredient: product, quantity: quantity).s()
+            new RecipeIngredient(recipe: recipe, ingredient: product, quantity: quantity).s()
         }
 
         def temp3 = recipe.nutrients
@@ -398,7 +400,7 @@ class RecipeCO {
         }
 
         directions.eachWithIndex {String step, Integer index ->
-            new RecipeDirection(recipe: recipe, sequence: (index + 1), step: step).s()
+            recipe.addToDirections(new RecipeDirection(recipe: recipe, step: step))
         }
 
         ingredientQuantities.eachWithIndex {BigDecimal amount, Integer index ->
@@ -410,7 +412,7 @@ class RecipeCO {
             product = MeasurableProduct.findByName(hiddenIngredientProductNames[index])
             Unit unit = Unit.get(ingredientUnitIds[index])
             Quantity quantity = new Quantity(unit: unit, value: amount).s()
-            new RecipeIngredient(sequence: (index + 1), recipe: recipe, ingredient: product, quantity: quantity).s()
+            recipe.addToIngredients(new RecipeIngredient(recipe: recipe, ingredient: product, quantity: quantity))
         }
         nutrientQuantities.eachWithIndex {def quantity, Integer index ->
             RecipeNutrient nutrient = new RecipeNutrient()
@@ -422,8 +424,9 @@ class RecipeCO {
                 recipeNutrientQuantity.unit = Nutrient.get(nutrientIds[index]).preferredUnit
                 recipeNutrientQuantity.s()
                 nutrient.quantity = recipeNutrientQuantity
-                nutrient.s()
+                recipe.addToNutrients(nutrient)
             }
         }
+        recipe.s()
     }
 }
