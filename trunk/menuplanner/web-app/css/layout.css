@@ -12,7 +12,7 @@
 #daymenu{height:26px; clear:both; margin-top:5px; font-weight:bold; color:#fff;background:url(../images/day-menu-second.gif) repeat-x top left; font-size:12px;line-height:26px;}
 #daymenu ul li.first{ width:21px; float:left; background:url(../images/day-menu-first.gif) repeat-x top left; border-right:1px solid #fff;}
 #daymenu ul li{ float:left;  height:26px; }
-#daymenu ul li li{ float:left; padding:0px 19px;}
+#daymenu ul li li{ float:left; padding:0px 18px;}
 #daymenu ul li a{ color:#fff; text-decoration:none; }
 #daymenu ul li a:hover{ color:#f4f1f1;}
 #countrymenu{height:22px; margin-bottom:8px; clear:both; border-top:1px solid #fff; font-weight:bold; color:#fff;background:url(../images/couintry-menu-second.gif) repeat-x top left; font-size:11px;line-height:22px;}
