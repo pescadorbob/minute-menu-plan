@@ -330,12 +330,12 @@ class RecipeCO {
         recipe.ingredients = []
         temp2*.delete()
         ingredientQuantities.eachWithIndex {BigDecimal amount, Integer index ->
-            MeasuredProduct product = MeasuredProduct.findByName(hiddenIngredientProductNames[index])
+            MeasurableProduct product = MeasurableProduct.findByName(hiddenIngredientProductNames[index])
             if (!product) {
-                MeasuredProduct newProduct = new Product(name: 'hiddenIngredientProductNames[index]', isVisible: false)
+                MeasurableProduct newProduct = new Product(name: 'hiddenIngredientProductNames[index]', isVisible: false)
                 newProduct.s()
             }
-            product = MeasuredProduct.findByName(hiddenIngredientProductNames[index])
+            product = MeasurableProduct.findByName(hiddenIngredientProductNames[index])
             Unit unit = Unit.get(ingredientUnitIds[index])
             Quantity quantity = new Quantity(unit: unit, value: amount).s()
             new RecipeIngredient(sequence: (index + 1), recipe: recipe, ingredient: product, quantity: quantity).s()
@@ -402,12 +402,12 @@ class RecipeCO {
         }
 
         ingredientQuantities.eachWithIndex {BigDecimal amount, Integer index ->
-            MeasuredProduct product = MeasuredProduct.findByName(hiddenIngredientProductNames[index])
+            MeasurableProduct product = MeasurableProduct.findByName(hiddenIngredientProductNames[index])
             if (!product) {
-                MeasuredProduct newProduct = new Product(name: 'hiddenIngredientProductNames[index]', isVisible: false)
+                MeasurableProduct newProduct = new Product(name: 'hiddenIngredientProductNames[index]', isVisible: false)
                 newProduct.s()
             }
-            product = MeasuredProduct.findByName(hiddenIngredientProductNames[index])
+            product = MeasurableProduct.findByName(hiddenIngredientProductNames[index])
             Unit unit = Unit.get(ingredientUnitIds[index])
             Quantity quantity = new Quantity(unit: unit, value: amount).s()
             new RecipeIngredient(sequence: (index + 1), recipe: recipe, ingredient: product, quantity: quantity).s()

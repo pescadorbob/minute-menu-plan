@@ -73,11 +73,11 @@ class UtilController {
             if (ingredientRow.getAt(0)) {
                 println "seq:${i + 1} quantity:${ingredientRow.getAt(0)}, unit:${ingredientRow.getAt(1)}, product:${ingredientRow.getAt(2)}"
                 recipeIngredient.sequence = i + 1
-                MeasuredProduct measuredProduct = new MeasuredProduct()
-                measuredProduct.name = ingredientRow.getAt(2).toString()
-                measuredProduct.preferredUnit = Unit.get(10)
-                measuredProduct.s()
-                recipeIngredient.ingredient = measuredProduct
+                MeasurableProduct measurableProduct = new MeasurableProduct()
+                measurableProduct.name = ingredientRow.getAt(2).toString()
+                measurableProduct.preferredUnit = Unit.get(10)
+                measurableProduct.s()
+                recipeIngredient.ingredient = measurableProduct
                 Quantity quantity = new Quantity()
                 quantity.value = ingredientRow.getAt(0).toBigDecimal()
                 quantity.unit = (Unit.findBySymbol(ingredientRow.getAt(1)))

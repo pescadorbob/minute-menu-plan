@@ -46,7 +46,7 @@
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="recipeIngredient.ingredient.label" default="Ingredient" /></td>
                             
-                            <td valign="top" class="value"><g:link controller="measuredProduct" action="show" id="${recipeIngredient?.ingredient?.id}">${recipeIngredient?.ingredient?.encodeAsHTML()}</g:link></td>
+                            <td valign="top" class="value"><g:link controller="measurableProduct" action="show" id="${recipeIngredient?.ingredient?.id}">${recipeIngredient?.ingredient?.encodeAsHTML()}</g:link></td>
                             
                         </tr>
                     

@@ -1,10 +1,10 @@
 
-<%@ page import="com.mp.domain.MeasuredProduct" %>
+<%@ page import="com.mp.domain.MeasurableProduct" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'measuredProduct.label', default: 'MeasuredProduct')}" />
+        <g:set var="entityName" value="${message(code: 'measurableProduct.label', default: 'MeasurableProduct')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -23,32 +23,32 @@
                     <tbody>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="measuredProduct.id.label" default="Id" /></td>
+                            <td valign="top" class="name"><g:message code="measurableProduct.id.label" default="Id" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: measuredProduct, field: "id")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="measuredProduct.name.label" default="Name" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: measuredProduct, field: "name")}</td>
+                            <td valign="top" class="value">${fieldValue(bean: measurableProduct, field: "id")}</td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="measuredProduct.preferredUnit.label" default="Preferred Unit" /></td>
+                            <td valign="top" class="name"><g:message code="measurableProduct.name.label" default="Name" /></td>
                             
-                            <td valign="top" class="value"><g:link controller="unit" action="show" id="${measuredProduct?.preferredUnit?.id}">${measuredProduct?.preferredUnit?.encodeAsHTML()}</g:link></td>
+                            <td valign="top" class="value">${fieldValue(bean: measurableProduct, field: "name")}</td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="measuredProduct.possibleUnits.label" default="Possible Units" /></td>
+                            <td valign="top" class="name"><g:message code="measurableProduct.preferredUnit.label" default="Preferred Unit" /></td>
+                            
+                            <td valign="top" class="value"><g:link controller="unit" action="show" id="${measurableProduct?.preferredUnit?.id}">${measurableProduct?.preferredUnit?.encodeAsHTML()}</g:link></td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="measurableProduct.possibleUnits.label" default="Possible Units" /></td>
                             
                             <td valign="top" style="text-align: left;" class="value">
                                 <ul>
-                                <g:each in="${measuredProduct.possibleUnits}" var="p">
+                                <g:each in="${measurableProduct.possibleUnits}" var="p">
                                     <li><g:link controller="unit" action="show" id="${p.id}">${p?.encodeAsHTML()}</g:link></li>
                                 </g:each>
                                 </ul>
@@ -61,7 +61,7 @@
             </div>
             <div class="buttons">
                 <g:form>
-                    <g:hiddenField name="id" value="${measuredProduct?.id}" />
+                    <g:hiddenField name="id" value="${measurableProduct?.id}" />
                     <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </g:form>

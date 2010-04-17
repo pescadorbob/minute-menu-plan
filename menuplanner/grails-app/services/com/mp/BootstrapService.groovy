@@ -19,15 +19,15 @@ class BootstrapService {
         }
     }
 
-    public void populateMeasuredProduct(Integer count) {
+    public void populateMeasurableProduct(Integer count) {
         (1..count).each {Integer index ->
-            MeasuredProduct measuredProduct = new MeasuredProduct()
-            measuredProduct.name = "Product-${index}"
-            measuredProduct.preferredUnit = Unit.get(new Random().nextInt(Unit.count()) + 1)
-            //measuredProduct.possibleUnits= Unit.get(new Random().nextInt(Unit.count())+1)
-            measuredProduct.s()
+            MeasurableProduct measurableProduct = new MeasurableProduct()
+            measurableProduct.name = "Product-${index}"
+            measurableProduct.preferredUnit = Unit.get(new Random().nextInt(Unit.count()) + 1)
+            //measurableProduct.possibleUnits= Unit.get(new Random().nextInt(Unit.count())+1)
+            measurableProduct.s()
 //            def image = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/img13.jpg")).readBytes()
-//            ProductImage productImage = new ProductImage(productId: measuredProduct.id, image: image).s()
+//            ProductImage productImage = new ProductImage(productId: measurableProduct.id, image: image).s()
 
         }
     }
@@ -82,7 +82,7 @@ class BootstrapService {
             RecipeIngredient ingredient = new RecipeIngredient()
             ingredient.recipe = recipe
             ingredient.sequence = index
-            ingredient.ingredient = MeasuredProduct.get(new Random().nextInt(MeasuredProduct.count()) + 1)
+            ingredient.ingredient = MeasurableProduct.get(new Random().nextInt(MeasurableProduct.count()) + 1)
             ingredient.quantity = Quantity.get(new Random().nextInt(Quantity.count()) + 1)
             if (!RecipeIngredient.findByRecipeAndIngredient(recipe, ingredient.ingredient)) {
                 ingredient.s()
@@ -92,9 +92,7 @@ class BootstrapService {
 
     public void populateRecipeDirections(Recipe recipe) {
         (1..5).each {Integer index ->
-            RecipeDirection recipeDirection = new RecipeDirection(step: "for ${recipe.name} step-${index}", sequence: index, recipe: recipe).s()
-//            def image = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/img11.jpg")).readBytes()
-//            RecipeDirectionImage recipeDirectionImage = new RecipeDirectionImage(recipeDirectionId: recipeDirection.id, image: image).s()
+            new RecipeDirection(step: "for ${recipe.name} step-${index}", sequence: index, recipe: recipe).s()
         }
     }
 }
