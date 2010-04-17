@@ -35,7 +35,7 @@
 
                 <div class="rating">
                     Rating
-                    <g:render template="/recipe/rateing"/>
+                    <g:render template="/recipe/rating"/>
                 </div>
 
             </div>

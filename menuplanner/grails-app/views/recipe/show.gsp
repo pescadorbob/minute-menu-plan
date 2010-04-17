@@ -24,8 +24,7 @@
                     <img align="left" src="${resource(dir: 'images', file: 'add-rgt-hdr3.jpg')}"/>
                     <div class="rating">
                         Rating
-                        <g:render template="/recipe/rateing"/>
-                        <img src="${resource(dir: 'images', file: 'star2.jpg')}"/>
+                        <g:render template="/recipe/rating"/>
                     </div>
                     <div class="report-text">
                         Prep - ${recipe?.preparationTime}. Cook - ${recipe?.cookingTime}.
@@ -108,7 +107,7 @@
                     <g:each in="${(1..4)}">
                         <div class="month-menu-list-container">
                             <div class="month-menu-list1">
-                                <g:render template="/recipe/rateing"/>
+                                <g:render template="/recipe/rating"/>
                             </div>
                             <div class="month-menu-list1">lorem ipsum lorem ipsum</div>
                             <div class="month-menu-list1"><a href="#">lorem ipsum</a></div>

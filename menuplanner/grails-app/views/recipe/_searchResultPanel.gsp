@@ -22,7 +22,7 @@
 
                         <div class="selected-data2">
                             <div class="star-container">
-                                <g:render template="/recipe/rateing"/>
+                                <g:render template="/recipe/rating"/>
                             </div>
                             <em>
                                 ${recipe?.totalTime}<br/>
