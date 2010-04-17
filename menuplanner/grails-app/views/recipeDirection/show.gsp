@@ -37,13 +37,6 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="recipeDirection.sequence.label" default="Sequence" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: recipeDirection, field: "sequence")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
                             <td valign="top" class="name"><g:message code="recipeDirection.step.label" default="Step" /></td>
                             
                             <td valign="top" class="value">${fieldValue(bean: recipeDirection, field: "step")}</td>

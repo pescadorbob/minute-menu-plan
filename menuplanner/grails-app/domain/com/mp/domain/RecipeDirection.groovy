@@ -4,17 +4,15 @@ class RecipeDirection {
 
     static searchable = true
 
-    Recipe recipe
     String step
-    Integer sequence
+
+    static belongsTo = [recipe: Recipe]
 
     String toString() {
-        return (sequence + '. ' + step)
+        return (step)
     }
 
     static constraints = {
-        recipe()
-        sequence(min:1)
         step(maxSize: 5000)
     }
 }

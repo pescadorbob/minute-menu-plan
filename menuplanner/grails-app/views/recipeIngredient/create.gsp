@@ -38,15 +38,6 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="sequence"><g:message code="recipeIngredient.sequence.label" default="Sequence" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: recipeIngredient, field: 'sequence', 'errors')}">
-                                    <g:textField name="sequence" value="${fieldValue(bean: recipeIngredient, field: 'sequence')}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
                                     <label for="ingredient"><g:message code="recipeIngredient.ingredient.label" default="Ingredient" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: recipeIngredient, field: 'ingredient', 'errors')}">

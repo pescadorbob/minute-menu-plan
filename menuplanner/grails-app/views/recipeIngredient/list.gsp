@@ -26,8 +26,6 @@
                         
                             <th><g:message code="recipeIngredient.recipe.label" default="Recipe" /></th>
                    	    
-                            <g:sortableColumn property="sequence" title="${message(code: 'recipeIngredient.sequence.label', default: 'Sequence')}" />
-                        
                             <th><g:message code="recipeIngredient.ingredient.label" default="Ingredient" /></th>
                    	    
                             <th><g:message code="recipeIngredient.quantity.label" default="Quantity" /></th>
@@ -41,8 +39,6 @@
                             <td><g:link action="show" id="${recipeIngredient.id}">${fieldValue(bean: recipeIngredient, field: "id")}</g:link></td>
                         
                             <td>${fieldValue(bean: recipeIngredient, field: "recipe")}</td>
-                        
-                            <td>${fieldValue(bean: recipeIngredient, field: "sequence")}</td>
                         
                             <td>${fieldValue(bean: recipeIngredient, field: "ingredient")}</td>
                         

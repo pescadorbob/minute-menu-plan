@@ -13,12 +13,17 @@ class Recipe extends Item {
 
     Quantity preparationTime
     Quantity cookingTime
-    Set<RecipeCategory> recipeCategories = []
+    Set<RecipeCategory> recipeCategories = [] as Set
+    List<RecipeDirection> directions = []
+    List<RecipeIngredient> ingredients = []
 
     String cookingTimeValue
     String prepTimeValue
     String totalTimeValue
     String categoriesString
+
+    static transients = ['categories', 'cookingTimeValue', 'totalTimeValue', 'prepTimeValue', 'categoriesString']
+    static hasMany = [ingredients: RecipeIngredient, directions: RecipeDirection, recipeCategories: RecipeCategory, nutrients: RecipeNutrient, items: Item]
 
     String getCookingTimeValue(){
         Long time  = (cookingTime.value)?.toLong() 
@@ -38,9 +43,6 @@ class Recipe extends Item {
         Long time  = (totalTime.value)?.toLong()
         return NumberTools.longToString(time)
     }
-
-    static transients = ['categories', 'cookingTimeValue', 'totalTimeValue', 'prepTimeValue', 'categoriesString']
-    static hasMany = [ingredients: RecipeIngredient, directions: RecipeDirection, recipeCategories: RecipeCategory, nutrients: RecipeNutrient, items: Item]
 
     def getCategories() {
         return ((recipeCategories) ? ((recipeCategories?.collect {it.category}).sort {it.name}) : [])
@@ -75,7 +77,5 @@ class Recipe extends Item {
     }
     static mapping = {
         tablePerHierarchy false
-        ingredients sort: 'sequence'
-        directions sort: 'sequence'
     }
 }

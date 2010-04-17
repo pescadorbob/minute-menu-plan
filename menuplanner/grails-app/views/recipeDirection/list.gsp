@@ -26,8 +26,6 @@
                         
                             <th><g:message code="recipeDirection.recipe.label" default="Recipe" /></th>
                    	    
-                            <g:sortableColumn property="sequence" title="${message(code: 'recipeDirection.sequence.label', default: 'Sequence')}" />
-                        
                             <g:sortableColumn property="step" title="${message(code: 'recipeDirection.step.label', default: 'Step')}" />
                         
                         </tr>
@@ -39,8 +37,6 @@
                             <td><g:link action="show" id="${recipeDirection.id}">${fieldValue(bean: recipeDirection, field: "id")}</g:link></td>
                         
                             <td>${fieldValue(bean: recipeDirection, field: "recipe")}</td>
-                        
-                            <td>${fieldValue(bean: recipeDirection, field: "sequence")}</td>
                         
                             <td>${fieldValue(bean: recipeDirection, field: "step")}</td>
                         

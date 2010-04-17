@@ -32,8 +32,8 @@ class BootStrap {
             new FractionFormat().format(delegate)
         }
 
-        bootstrapMasterData()
-        if (!GrailsUtil.environment != Environment.PRODUCTION) {
+//        bootstrapMasterData()
+        if (false) {
             bootstrapService.populateCategory(10)
             println "Populated Categories"
             bootstrapService.populateQuantities(20)

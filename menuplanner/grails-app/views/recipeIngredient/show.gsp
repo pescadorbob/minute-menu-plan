@@ -37,13 +37,6 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="recipeIngredient.sequence.label" default="Sequence" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: recipeIngredient, field: "sequence")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
                             <td valign="top" class="name"><g:message code="recipeIngredient.ingredient.label" default="Ingredient" /></td>
                             
                             <td valign="top" class="value"><g:link controller="measurableProduct" action="show" id="${recipeIngredient?.ingredient?.id}">${recipeIngredient?.ingredient?.encodeAsHTML()}</g:link></td>
