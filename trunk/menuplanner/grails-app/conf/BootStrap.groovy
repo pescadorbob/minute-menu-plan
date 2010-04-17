@@ -35,9 +35,15 @@ class BootStrap {
         bootstrapMasterData()
         if (!GrailsUtil.environment != Environment.PRODUCTION) {
             bootstrapService.populateCategory(10)
+            println "Populated Categories"
             bootstrapService.populateQuantities(20)
+            println "Populated Quantities"
             bootstrapService.populateMeasurableProduct(50)
-            bootstrapService.createRecipes((GrailsUtil.isDevelopmentEnv()) ? 20 : 150)
+            println "Populated Products"
+            bootstrapService.populateRecipes((GrailsUtil.isDevelopmentEnv()) ? 20 : 150)
+            println "Populated Recipes"
+            bootstrapService.populateWeeks(4)
+            println "Populated Weeks"
         }
 
     }

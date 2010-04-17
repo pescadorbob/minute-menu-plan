@@ -33,7 +33,7 @@ class BootstrapService {
     }
 
 
-    public void createRecipes(Integer count) {
+    public void populateRecipes(Integer count) {
         (1..count).each {Integer index ->
             Recipe recipe = new Recipe()
             recipe.name = "Recipe${index}"
@@ -95,4 +95,41 @@ class BootstrapService {
             new RecipeDirection(step: "for ${recipe.name} step-${index}", sequence: index, recipe: recipe).s()
         }
     }
+
+    public void populateWeeks(Integer count) {
+        (1..count).each {Integer index ->
+            Week week = new Week(name: "Week-${index}").s()
+            populateDays(week)
+        }
+    }
+
+    public void populateDays(Week week) {
+
+        (['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']).each {String name ->
+            Day day = new Day(name: name, week: week).s()
+            day.meals = populateMeals(day)
+            day.s()
+        }
+    }
+
+    public List<Meal> populateMeals(Day day){
+        Set<Meal> meals = []
+        (MealType.values()).eachWithIndex{MealType type, Integer index ->
+            Meal meal = new Meal(name: "Meal-${index+1}", day: day, type: type)
+            meal.items = populateMealItems(meal)
+            meals.add(meal)
+        }
+        return meals?.toList()
+    }
+
+    public Set<Item> populateMealItems(Meal meal){
+        Set<Item> items = []
+        (new Random().nextInt(2)+1).times{
+            Item item = Item.get(new Random().nextInt(Item.count()-1)+1)
+            items.add(item)
+        }
+        return items
+    }
+
+
 }
