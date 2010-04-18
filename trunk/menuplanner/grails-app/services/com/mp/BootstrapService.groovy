@@ -102,21 +102,23 @@ class BootstrapService {
     public void populateWeeks(Integer count) {
         (1..count).each {Integer index ->
             Week week = new Week(name: "Week-${index}").s()
-            populateDays(week)
+            week.days = populateDays(week)
+            week.s()
         }
     }
 
-    public void populateDays(Week week) {
-
+    public List<Day> populateDays(Week week) {
+        List<Day> days = []
         (['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']).each {String name ->
-            Day day = new Day(name: name, week: week).s()
+            Day day = new Day(name: name, week: week)
             day.meals = populateMeals(day)
-            day.s()
+            days.add(day)
         }
+        return days
     }
 
     public List<Meal> populateMeals(Day day) {
-        Set<Meal> meals = []
+        List<Meal> meals = []
         (MealType.values()).eachWithIndex {MealType type, Integer index ->
             Meal meal = new Meal(name: "Meal-${index + 1}", day: day, type: type)
             meal.items = populateMealItems(meal)
@@ -125,8 +127,8 @@ class BootstrapService {
         return meals?.toList()
     }
 
-    public Set<Item> populateMealItems(Meal meal) {
-        Set<Item> items = []
+    public List<Item> populateMealItems(Meal meal) {
+        List<Item> items = []
         (new Random().nextInt(2) + 1).times {
             Item item = Item.get(new Random().nextInt(Item.count() - 1) + 1)
             items.add(item)

@@ -58,4 +58,12 @@ class MenuplannerTagLib {
             out<<categoriesJson
         }
     }
+
+    def mealItems = {attrs ->
+        MealType mealType = attrs['type']
+        Week week = attrs['week']
+        String image = attrs['image']
+        out << g.render(template: '/calendar/mealItems', model: [week: week, mealType: mealType, image: image])
+    }
+
 }

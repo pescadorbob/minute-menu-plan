@@ -1,3 +1,4 @@
+<%@ page import="com.mp.domain.MealType" %>
 <html>
 <head>
     <meta name="layout" content="menu"/>
@@ -53,15 +54,14 @@
         </div>
         <div class="week">
             <ul>
-                <g:render template="/calendar/mealItems" model="[image: 'week1.gif']"/>
-                <g:render template="/calendar/mealItems" model="[image: 'week2.gif']"/>
-                <g:render template="/calendar/mealItems" model="[image: 'week3.gif']"/>
-                <g:render template="/calendar/mealItems" model="[image: 'week4.gif']"/>
+                <mp:mealItems week="${weeks[0]}" type="${MealType.DINNER}" image="week1.gif"/>
+                <mp:mealItems week="${weeks[1]}" type="${MealType.DINNER}" image="week2.gif"/>
+                <mp:mealItems week="${weeks[2]}" type="${MealType.DINNER}" image="week3.gif"/>
+                <mp:mealItems week="${weeks[3]}" type="${MealType.DINNER}" image="week4.gif"/>
 
                 <li class="divider"><img src="${resource(dir: 'images', file: 'divider.gif')}"/></li>
-                <g:render template="/calendar/mealItems" model="[image: 'breakfast.gif']"/>
-                <g:render template="/calendar/mealItems" model="[image: 'lunch.gif']"/>
-
+                <mp:mealItems week="${weeks[0]}" type="${MealType.BREAKFAST}" image="breakfast.gif"/>
+                <mp:mealItems week="${weeks[0]}" type="${MealType.LUNCH}" image="lunch.gif"/>
             </ul>
         </div>
     </div>
