@@ -42,8 +42,8 @@ class BootStrap {
             println "Populated Products"
             bootstrapService.populateRecipes((GrailsUtil.isDevelopmentEnv()) ? 20 : 150)
             println "Populated Recipes"
-//            bootstrapService.populateWeeks(4)
-//            println "Populated Weeks"
+            bootstrapService.populateWeeks(4)
+            println "Populated Weeks"
         }
 
     }
