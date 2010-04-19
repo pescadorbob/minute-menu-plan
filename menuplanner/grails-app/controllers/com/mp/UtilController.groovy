@@ -8,105 +8,160 @@ import org.apache.commons.math.fraction.ProperFractionFormat
 import java.text.FieldPosition
 import org.apache.commons.math.fraction.FractionFormat
 import org.apache.lucene.document.NumberTools
+import static com.mp.MenuConstants.*
 
 import jxl.*
 
 class UtilController {
+
+    List<String> recipeLog = []
 
     static config = ConfigurationHolder.config
 
     def index = {
         render "x:" + (NumberTools.longToString(120l))
     }
-
+    def read = {
+        render(view: 'read')
+    }
     def readXls = {
-        File myXls = new File('/home/neeraj/mp/recipeSpreadsheet.xls')
+        println params
+        File myXls = new File('/home/neeraj/mp/RecipeSpreadsheetFormat.xls')
         importLineItems(myXls)
+        render(template: 'result', model: [result: recipeLog])
     }
 
-    public void makeRecipe(List<List<String>> recipe) {
+    public Recipe makeRecipe(List<List<String>> recipe, List<List<String>> directions, List<List<String>> ingredients) {
         Recipe recipe1 = new Recipe()
-        recipe1.name = recipe[0].getAt(1)
-        recipe1.servings = recipe[1].getAt(1).toInteger()
-        recipe1.difficulty = RecipeDifficulty.EASY
-        recipe1.cookingTime = Recipe.findByName('recipe11').cookingTime
-        recipe1.preparationTime = Recipe.findByName('recipe11').preparationTime
-        recipe1.s()
+        try {
+            recipe1.name = recipe[0].getAt(1)
+            recipe1.servings = recipe[1].getAt(1).toInteger()
 
-        recipe.each {
-            println "${it.getAt(0)} : ${it.getAt(1)}"
+            Quantity prep = new Quantity()
+            prep.value = recipe[2].getAt(1).toInteger()
+            if (recipe[2].getAt(2).toLowerCase() == 'mins.') {
+                prep.unit = Unit.findByName(TIME_UNIT_MINUTES)
+            }
+            else if (recipe[2].getAt(2).toLowerCase() == 'hrs.') {
+                prep.unit = Unit.findByName(TIME_UNIT_HOURS)
+            }
+            prep.s()
+            recipe1.preparationTime = prep
+            Quantity cook = new Quantity()
+            cook.value = recipe[3].getAt(1).toInteger()
+            if (recipe[3].getAt(2).toLowerCase() == 'mins.') {
+                cook.unit = Unit.findByName(TIME_UNIT_MINUTES)
+            }
+            else if (recipe[3].getAt(2).toLowerCase() == 'hrs.') {
+                cook.unit = Unit.findByName(TIME_UNIT_HOURS)
+            }
+            cook.s()
+            recipe1.cookingTime = cook
+            if (recipe[4].getAt(1).toLowerCase() == 'easy') {
+                recipe1.difficulty = RecipeDifficulty.EASY
+            }
+            else if (recipe[4].getAt(1).toLowerCase() == 'medium') {
+                recipe1.difficulty = RecipeDifficulty.MEDIUM
+            }
+            else if (recipe[4].getAt(1).toLowerCase() == 'hard') {
+                    recipe1.difficulty = RecipeDifficulty.HARD
+                }
+            recipe1.shareWithCommunity = (recipe[5].getAt(1).toLowerCase() == 'yes')
+            recipe1.s()
         }
+        catch (ex) {
+            return null
+        }
+        return recipe1
     }
 
-    public void createIDirections(List<List<String>> directions, String recipeName) {
-
-        println "Recipe: ${recipeName}"
-        println "Directions:"
-        directions.eachWithIndex {def directionRow, Integer i ->
-            if (directionRow.getAt(0)) {
+    public boolean createIDirections(List<List<String>> directions, Recipe recipe) {
+        try {
+            directions.eachWithIndex {List<String> directionRow, Integer index ->
                 RecipeDirection recipeDirection = new RecipeDirection()
-                println "${directionRow.getAt(0)}"
-                recipeDirection.step = directionRow.getAt(0)
-                recipeDirection.recipe = Recipe.findByName(recipeName)
-                recipeDirection.s()
+                recipeDirection.step = directionRow.getAt(1)
+                recipe.addToDirections(recipeDirection)
             }
         }
+        catch (ex) {
+            return false
+        }
+        return true
     }
 
-    public void createIngredients(List<List<String>> ingredients, String recipeName) {
+    public boolean createIngredients(List<List<String>> ingredients, Recipe recipe) {
+        try {
+            ingredients.eachWithIndex {List<String> ingredientRow, Integer i ->
+                RecipeIngredient recipeIngredient = new RecipeIngredient()
+                Item item = Item.findByName(ingredientRow.getAt(3))
+                if (!item) {
+                    item = new Item(name: ingredientRow.getAt(3))
+                    item.s()
+                }
+                recipeIngredient.ingredient = item
 
-        println "Recipe: ${recipeName}"
-        println "Ingredients:"
-        ingredients.eachWithIndex {def ingredientRow, Integer i ->
-            RecipeIngredient recipeIngredient = new RecipeIngredient()
-            recipeIngredient.recipe = Recipe.findByName(recipeName)
-            if (ingredientRow.getAt(0)) {
-                println "quantity:${ingredientRow.getAt(0)}, unit:${ingredientRow.getAt(1)}, product:${ingredientRow.getAt(2)}"
-                MeasurableProduct measurableProduct = new MeasurableProduct()
-                measurableProduct.name = ingredientRow.getAt(2).toString()
-                measurableProduct.preferredUnit = Unit.get(10)
-                measurableProduct.s()
-                recipeIngredient.ingredient = measurableProduct
                 Quantity quantity = new Quantity()
-                quantity.value = ingredientRow.getAt(0).toBigDecimal()
-                quantity.unit = (Unit.findBySymbol(ingredientRow.getAt(1)))
-                if (!Unit.findBySymbol(ingredientRow.getAt(1))) {
-                    Unit unit = new Unit(name: "some_${ingredientRow.getAt(1)}", symbol: "${ingredientRow.getAt(1)}", definition: "This is definition for some", metricType: MetricType.METRIC)
+                quantity.value = ingredientRow.getAt(1).toBigDecimal()
+                Unit unit = Unit.findBySymbol(ingredientRow.getAt(2))
+                if (!unit) {
+                    unit = Unit.findByName(ingredientRow.getAt(2))
+                }
+                if (!unit) {
+                    unit = new Unit(name: "${ingredientRow.getAt(2)}", symbol: "${ingredientRow.getAt(2)}", definition: "This is definition for some", metricType: MetricType.METRIC)
                     unit.addToSystemOfUnits(SystemOfUnit.findBySystemName(com.mp.MenuConstants.SYSTEM_OF_UNIT_USA))
                     unit.s()
-                    quantity.unit = unit
                 }
+                quantity.unit = unit
                 quantity.s()
                 recipeIngredient.quantity = quantity
-                recipeIngredient.s()
+                recipe.addToIngredients(recipeIngredient)
             }
         }
+        catch (ex) {
+            return false
+        }
+        return true
     }
 
     private void createRecipe(Sheet sheet, Map results) {
-
         List<List<String>> recipe = []
         List<List<String>> directions = []
         List<List<String>> ingredients = []
-
-
-        (0..1).each {Integer index ->
-            List<String> rowContents = sheet.getRow(index).toList()*.contents
-            recipe.add([rowContents.getAt(0), rowContents.getAt(1).toString()])
+        (0..6).eachWithIndex {Integer position, Integer index ->
+            String valueOne = sheet.getCell(0, position).contents.toString()
+            String valueTwo = sheet.getCell(1, position).contents.toString()
+            String valueThree = sheet.getCell(2, position).contents.toString()
+            if (valueOne) {
+                recipe.add([valueOne, valueTwo, valueThree])
+            }
         }
-        (17..26).each {Integer index ->
-            List<String> rowContents = sheet.getRow(index).toList()*.contents
-            directions.add([rowContents.getAt(1)])
+        (10..19).eachWithIndex {Integer position, Integer index ->
+            String valueOne = sheet.getCell(0, position).contents.toString()
+            String valueTwo = sheet.getCell(1, position).contents.toString()
+            String valueThree = sheet.getCell(2, position).contents.toString()
+            String valueFour = sheet.getCell(3, position).contents.toString()
+            if (valueTwo || valueThree || valueFour) {
+                ingredients.add([valueOne, valueTwo, valueThree, valueFour])
+            }
         }
-        (5..14).each {Integer index ->
-            List<String> rowContents = sheet.getRow(index).toList()*.contents
-            ingredients.add([rowContents.getAt(1), rowContents.getAt(2), rowContents.getAt(3)])
+        (22..31).eachWithIndex {Integer position, Integer index ->
+            String valueOne = sheet.getCell(0, position).contents.toString()
+            String valueTwo = sheet.getCell(1, position).contents.toString()
+            if (valueTwo) {
+                directions.add([valueOne, valueTwo])
+            }
         }
-
-        makeRecipe(recipe)
-        createIDirections(directions, recipe[0].get(1).toString())
-        createIngredients(ingredients, recipe[0].get(1).toString())
-
+        Recipe recipeObj = makeRecipe(recipe, directions, ingredients)
+        if (recipeObj) {
+            recipeLog.add("Created Recipe: ${recipeObj?.name}")
+            if (createIDirections(directions, recipeObj)) {recipeLog.add("Added Directions for Recipe: ${recipeObj?.name}")}
+            else {recipeLog.add("@: Error while Adding Directions for Recipe: ${recipeObj?.name}")}
+            if (createIngredients(ingredients, recipeObj)) {recipeLog.add("Added Ingredients for Recipe: ${recipeObj?.name}")}
+            else {recipeLog.add("@: Error while Adding Ingredients for Recipe: ${recipeObj?.name}")}
+        }
+        else {
+            recipeLog.add("@: Error while Creating Recipe.")
+        }
     }
 
     public Map<String, List<String>> createLineItems(InputStream fileInputStream) {
@@ -117,20 +172,16 @@ class UtilController {
         Map results = [:]
         results['success'] = []
         results['failure'] = []
-
         workbookSettings = new WorkbookSettings();
         workbookSettings.setLocale(new Locale("en", "EN"));
         workbook = Workbook.getWorkbook(fileInputStream, workbookSettings);
 
-        workbook?.sheets?.each {Sheet sheet ->
-
-            println "******************************************************************* Sheet: " + sheet.name
-
-            switch (sheet.name.trim().toLowerCase()) {
-
-                case 'recipe':
-                    createRecipe(sheet, results);
-                    break;
+        workbook?.sheets?.eachWithIndex {Sheet sheet, Integer index ->
+            println "**************************************** Sheet:${index} " + sheet.name + "****************************************"
+            if (index > 0) {
+                recipeLog.add("SHEET ${index + 1}: ${sheet.name}")
+                createRecipe(sheet, results);
+                recipeLog.add("")
             }
         }
         return results
@@ -141,20 +192,6 @@ class UtilController {
             createLineItems(it);
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     def fractionTest = {
         Fraction f1 = new ProperFractionFormat().parse("3  1/2")

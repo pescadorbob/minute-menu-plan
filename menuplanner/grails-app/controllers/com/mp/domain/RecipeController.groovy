@@ -325,7 +325,10 @@ class RecipeCO {
         recipe.directions = []
         temp1*.delete()
         directions.eachWithIndex {String step, Integer index ->
-            new RecipeDirection(recipe: recipe, step: step).s()
+            RecipeDirection recipeDirection = new RecipeDirection()
+            recipeDirection.recipe = recipe
+            recipeDirection.step = step
+            recipe.addToDirections(recipeDirection)
         }
 
         def temp2 = recipe.ingredients
@@ -334,13 +337,13 @@ class RecipeCO {
         ingredientQuantities.eachWithIndex {BigDecimal amount, Integer index ->
             MeasurableProduct product = MeasurableProduct.findByName(hiddenIngredientProductNames[index])
             if (!product) {
-                MeasurableProduct newProduct = new MeasurableProduct(name: 'hiddenIngredientProductNames[index]', isVisible: false)
-                newProduct.s()
+                product = new MeasurableProduct(name: hiddenIngredientProductNames[index], isVisible: false)
+                product.s()
             }
-            product = MeasurableProduct.findByName(hiddenIngredientProductNames[index])
             Unit unit = Unit.get(ingredientUnitIds[index])
             Quantity quantity = new Quantity(unit: unit, value: amount).s()
-            new RecipeIngredient(recipe: recipe, ingredient: product, quantity: quantity).s()
+            RecipeIngredient recipeIngredient = new RecipeIngredient(recipe: recipe, ingredient: product, quantity: quantity)
+            recipe.addToIngredients (recipeIngredient)
         }
 
         def temp3 = recipe.nutrients
@@ -356,7 +359,7 @@ class RecipeCO {
                 recipeNutrientQuantity.unit = Nutrient.get(nutrientIds[index]).preferredUnit
                 recipeNutrientQuantity.s()
                 nutrient.quantity = recipeNutrientQuantity
-                nutrient.s()
+                recipe.addToNutrients (nutrient)
             }
         }
     }
