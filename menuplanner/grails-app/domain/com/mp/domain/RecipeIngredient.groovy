@@ -3,7 +3,7 @@ package com.mp.domain
 class RecipeIngredient {
     static searchable = true
   
-    MeasurableProduct ingredient
+    Item ingredient
     Quantity quantity
 
     static belongsTo = [recipe: Recipe]
