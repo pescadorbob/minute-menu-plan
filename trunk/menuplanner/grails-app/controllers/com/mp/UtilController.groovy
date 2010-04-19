@@ -28,13 +28,13 @@ class UtilController {
     def index = {
         render "x:" + (NumberTools.longToString(120l))
     }
-    def read = {
-        render(view: 'read')
+    def uploadRecipes = {
+        render(view: 'uploadRecipes')
     }
-    def readXls = {
-        CommonsMultipartFile file = params.selectXls
+    def populateRecipes = {
+        CommonsMultipartFile file = params.recipeFile
         Map results = createLineItems(file.getInputStream())
-        render(view: 'read', model: [result: recipeLog])
+        render(view: 'uploadResults', model: [result: recipeLog])
     }
 
     public Recipe makeRecipe(List<List<String>> recipe, List<List<String>> directions, List<List<String>> ingredients) {

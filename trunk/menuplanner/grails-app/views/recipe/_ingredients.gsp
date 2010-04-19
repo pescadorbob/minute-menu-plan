@@ -26,7 +26,7 @@
                         <g:textField class="input2" id='optionIngredientQuantities' name="optionIngredientQuantities" value="" style="margin-right:5px;"/>
                         <g:select class="select2" id='optionIngredientUnitIds' name="optionIngredientUnitIds" from="${metricUnits}" optionKey="id" style="width:105px;"/>
                         <div style="padding-top:2px; float:left;">
-                            <mp:tagInput name="optionIngredientProductIds" controller="recipe" action="getMatchingProducts" multiselect="false"/>
+                            <mp:tagInput name="optionIngredientProductIds" controller="recipe" action="getMatchingItems" multiselect="false"/>
                         </div>
                     </span>
                 </span>

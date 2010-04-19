@@ -13,18 +13,18 @@ class RecipeController {
         redirect(action: "list", params: params)
     }
     def getMatchingProducts = {
-        List<Product> products = Product.findAllByNameIlike(params.query + "%")
+        List<Product> products = Product.findAllByNameIlike("%${params.query}%")
         List productsJson = products.collect { [id: it.id, name: it.name] }
         render(productsJson as JSON)
     }
 
     def getMatchingCategories = {
-        List<Category> categories = Category.findAllByNameIlike(params.query + "%")
+        List<Category> categories = Category.findAllByNameIlike("%${params.query}%")
         List categoriesJson = categories.collect { [id: it.id, name: it.name] }
         render(categoriesJson as JSON)
     }
     def getMatchingItems = {
-        List<Item> items = Item.findAllByNameIlike(params.query + "%")
+        List<Item> items = Item.findAllByNameIlike("%${params.query}%")
         List itemsJson = items.collect { [id: it.id, name: it.name] }
         render(itemsJson as JSON)
     }
@@ -110,10 +110,9 @@ class RecipeController {
             SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
             List<Nutrient> nutrients = Nutrient.list()
             List<Category> categories = []
-            if (recipeCO?.categoryIds)
+            if (recipeCO?.categoryIds) {
                 categories = Category.getAll(recipeCO?.categoryIds.flatten() as List)
-//            List categoriesJson = categories.collect { [id: it.id, name: it.name] }
-//            println categoriesJson as JSON
+            }
 
             render(view: 'create', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits: sys.metricUnits, nutrients: nutrients, categories: categories])
         }
@@ -121,7 +120,6 @@ class RecipeController {
 
     def create = {
         SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
-
         List<Nutrient> nutrients = Nutrient.list()
         render(view: 'create', model: [timeUnits: sys.timeUnits, metricUnits: sys.metricUnits, nutrients: nutrients])
     }
@@ -343,7 +341,7 @@ class RecipeCO {
             Unit unit = Unit.get(ingredientUnitIds[index])
             Quantity quantity = new Quantity(unit: unit, value: amount).s()
             RecipeIngredient recipeIngredient = new RecipeIngredient(recipe: recipe, ingredient: product, quantity: quantity)
-            recipe.addToIngredients (recipeIngredient)
+            recipe.addToIngredients(recipeIngredient)
         }
 
         def temp3 = recipe.nutrients
@@ -359,7 +357,7 @@ class RecipeCO {
                 recipeNutrientQuantity.unit = Nutrient.get(nutrientIds[index]).preferredUnit
                 recipeNutrientQuantity.s()
                 nutrient.quantity = recipeNutrientQuantity
-                recipe.addToNutrients (nutrient)
+                recipe.addToNutrients(nutrient)
             }
         }
     }
