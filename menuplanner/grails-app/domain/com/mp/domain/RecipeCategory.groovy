@@ -5,6 +5,8 @@ class RecipeCategory {
     Recipe recipe
     Category category
 
+    static belongsTo= [recipe: Recipe]
+
     static RecipeCategory link(recipe, category) {
         RecipeCategory recipeCategory = RecipeCategory.findByRecipeAndCategory(recipe, category)
         if (!recipeCategory) {

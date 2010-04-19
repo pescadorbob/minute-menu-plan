@@ -11,12 +11,19 @@ import org.apache.lucene.document.NumberTools
 import static com.mp.MenuConstants.*
 
 import jxl.*
+import org.springframework.web.multipart.commons.CommonsMultipartFile
 
 class UtilController {
 
     List<String> recipeLog = []
 
     static config = ConfigurationHolder.config
+
+    def deleteAllRecipes = {
+        List<Recipe> recipes = Recipe.list()
+        recipes*.delete(flush:true)
+        render "All recipes deleted!!"
+    }
 
     def index = {
         render "x:" + (NumberTools.longToString(120l))
@@ -25,10 +32,9 @@ class UtilController {
         render(view: 'read')
     }
     def readXls = {
-        println params
-        File myXls = new File('/home/neeraj/mp/RecipeSpreadsheetFormat.xls')
-        importLineItems(myXls)
-        render(template: 'result', model: [result: recipeLog])
+        CommonsMultipartFile file = params.selectXls
+        Map results = createLineItems(file.getInputStream())
+        render(view: 'read', model: [result: recipeLog])
     }
 
     public Recipe makeRecipe(List<List<String>> recipe, List<List<String>> directions, List<List<String>> ingredients) {
@@ -70,6 +76,7 @@ class UtilController {
             recipe1.s()
         }
         catch (ex) {
+            recipeLog.add(ex.toString())
             return null
         }
         return recipe1
@@ -95,7 +102,8 @@ class UtilController {
                 RecipeIngredient recipeIngredient = new RecipeIngredient()
                 Item item = Item.findByName(ingredientRow.getAt(3))
                 if (!item) {
-                    item = new Item(name: ingredientRow.getAt(3))
+                    item = new Product(name: ingredientRow.getAt(3))
+                    item.isVisible = true
                     item.s()
                 }
                 recipeIngredient.ingredient = item
@@ -115,6 +123,7 @@ class UtilController {
                 quantity.s()
                 recipeIngredient.quantity = quantity
                 recipe.addToIngredients(recipeIngredient)
+                recipe.s()
             }
         }
         catch (ex) {
@@ -185,12 +194,6 @@ class UtilController {
             }
         }
         return results
-    }
-
-    public void importLineItems(File file) {
-        file.withInputStream {
-            createLineItems(it);
-        }
     }
 
     def fractionTest = {
