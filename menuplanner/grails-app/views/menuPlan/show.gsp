@@ -13,9 +13,9 @@
             <div id="winterplan"><img src="${resource(dir: 'images', file: 'winter-menu-plan.gif')}"/></div>
             <div id="viewmenu">
                 <ul>
-                    <li>VIEW: <a href="#">Monthly</a></li>
-                    <li><a href="#">Weekly</a></li>
-                    <li class="noseprator"><a href="#">Shopping List</a></li>
+                    <li>VIEW: <a href="menuPlan.gsp#">Monthly</a></li>
+                    <li><a href="menuPlan.gsp#">Weekly</a></li>
+                    <li class="noseprator"><a href="menuPlan.gsp#">Shopping List</a></li>
                     <li class="noseprator1"><img src="${resource(dir: 'images', file: 'actions.gif')}"/></li>
                 </ul>
             </div>
@@ -25,13 +25,13 @@
                 <li class="first">&nbsp;</li>
                 <li>
                     <ul>
-                        <li><a href="#">Sunday</a></li>
-                        <li><a href="#">Monday</a></li>
-                        <li><a href="#">Tuesday</a></li>
-                        <li><a href="#">Wednesday</a></li>
-                        <li><a href="#">Thursday</a></li>
-                        <li><a href="#">Friday</a></li>
-                        <li><a href="#">Saturday</a></li>
+                        <li><a href="menuPlan.gsp#">Sunday</a></li>
+                        <li><a href="menuPlan.gsp#">Monday</a></li>
+                        <li><a href="menuPlan.gsp#">Tuesday</a></li>
+                        <li><a href="menuPlan.gsp#">Wednesday</a></li>
+                        <li><a href="menuPlan.gsp#">Thursday</a></li>
+                        <li><a href="menuPlan.gsp#">Friday</a></li>
+                        <li><a href="menuPlan.gsp#">Saturday</a></li>
                     </ul>
                 </li>
             </ul>
@@ -66,7 +66,7 @@
         </div>
     </div>
     <!--  end left-panel start right-panel -->
-    <g:render template="/calendar/search"/>
+    <g:render template="/menuPlan/search"/>
     <!--  end right-panel -->
 </div>
 </body>

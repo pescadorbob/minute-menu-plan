@@ -99,12 +99,22 @@ class BootstrapService {
         return directions
     }
 
-    public void populateWeeks(Integer count) {
+    public void populateMenuPlans(Integer count) {
         (1..count).each {Integer index ->
-            Week week = new Week(name: "Week-${index}").s()
-            week.days = populateDays(week)
-            week.s()
+            MenuPlan menuPlan = new MenuPlan(name: "MenuPlan-${index}").s()
+            menuPlan.weeks = populateWeeks(menuPlan)
+            menuPlan.s()
         }
+    }
+
+    public List<Week> populateWeeks(MenuPlan menuPlan) {
+        List<Week> weeks = []
+        (1..4).each {Integer index ->
+            Week week = new Week(name: "Week-${index}", menuPlan: menuPlan)
+            week.days = populateDays(week)
+            weeks.add(week)
+        }
+        return weeks
     }
 
     public List<Day> populateDays(Week week) {

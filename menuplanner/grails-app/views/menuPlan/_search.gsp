@@ -80,13 +80,13 @@
                 <div id="pagination">
                     <ul>
                         <li><img src="${resource(dir: 'images', file: 'first.gif')}" class="arrowbor"/></li>
-                        <li><img src="${resource(dir: 'images', file: 'prev.gif')}" class="arrowbor"/></li><li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#"><img src="${resource(dir: 'images', file: 'next.gif')}" border="0" class="arrowbor"/></a></li>
-                        <li><a href="#"><img src="${resource(dir: 'images', file: 'last.gif')}" border="0" class="arrowbor"/></a></li>
+                        <li><img src="${resource(dir: 'images', file: 'prev.gif')}" class="arrowbor"/></li><li><a href="_search.gsp#">1</a></li>
+                        <li><a href="_search.gsp#">2</a></li>
+                        <li><a href="_search.gsp#">3</a></li>
+                        <li><a href="_search.gsp#">4</a></li>
+                        <li><a href="_search.gsp#">5</a></li>
+                        <li><a href="_search.gsp#"><img src="${resource(dir: 'images', file: 'next.gif')}" border="0" class="arrowbor"/></a></li>
+                        <li><a href="_search.gsp#"><img src="${resource(dir: 'images', file: 'last.gif')}" border="0" class="arrowbor"/></a></li>
                     </ul>
                 </div>
                 <!--end paging-->
@@ -101,17 +101,17 @@
                         <li><img src="${resource(dir: 'images', file: 'italian.gif')}"/></li>
                         <li>Calories
                             <a href="E">0-500</a>
-                            <a href="#"><strong>501-1000</strong></a>
-                            <a href="#">1000+</a></li>
+                            <a href="_search.gsp#"><strong>501-1000</strong></a>
+                            <a href="_search.gsp#">1000+</a></li>
                         <li>Difficulty
                             <a href="E">Easy</a>
-                            <a href="#"><strong>Medium</strong></a>
-                            <a href="#">Difficult</a></li>
+                            <a href="_search.gsp#"><strong>Medium</strong></a>
+                            <a href="_search.gsp#">Difficult</a></li>
                         <li>Total Time
                             <a href="E">0-30 min.</a>
-                            <a href="#"><strong>31-60 min.</strong></a>
-                            <a href="#">1-2 hrs.</a>
-                            <a href="#">2+ hrs.</a></li>
+                            <a href="_search.gsp#"><strong>31-60 min.</strong></a>
+                            <a href="_search.gsp#">1-2 hrs.</a>
+                            <a href="_search.gsp#">2+ hrs.</a></li>
                     </ul>
                 </div>
 
