@@ -135,6 +135,4 @@ class BootstrapService {
         }
         return items
     }
-
-
 }

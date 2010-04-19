@@ -15,7 +15,6 @@ class MenuplannerTagLib {
         model.action = attrs.action
         model.htmlClass = attrs.class ?: " "
         model.prePopulated=attrs.prePopulated
-        println "<<<<<<<<<<<<<<<<<< ${model.prePopulated as JSON}"
         if (attrs.multiselect == "false") {
             model.tokenLimit = 1
         }
