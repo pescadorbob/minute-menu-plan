@@ -17,11 +17,11 @@ class MenuConstants {
     public static final Double UNIT_DROP_CONVERSION_FACTOR =0.05
 
     public static final String UNIT_TEA_SPOON = "Tea spoon"
-    public static final String UNIT_TEA_SPOON_SYMBOL = "tsp"
+    public static final String UNIT_TEA_SPOON_SYMBOL = "t"
     public static final Double UNIT_TEA_SPOON_CONVERSION_FACTOR = 4.93
 
     public static final String UNIT_TABLE_SPOON = "Table spoon"
-    public static final String UNIT_TABLE_SPOON_SYMBOL = "tbsp"
+    public static final String UNIT_TABLE_SPOON_SYMBOL = "T"
     public static final Double UNIT_TABLE_SPOON_CONVERSION_FACTOR = 14.79
 
     public static final String UNIT_FLUID_OUNCE = "Fluid Ounce"

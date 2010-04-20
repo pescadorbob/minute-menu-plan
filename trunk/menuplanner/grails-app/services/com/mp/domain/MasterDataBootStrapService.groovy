@@ -1,6 +1,5 @@
-package com.mp
+package com.mp.domain
 
-import com.mp.domain.*
 import static com.mp.MenuConstants.*
 
 class MasterDataBootStrapService {
