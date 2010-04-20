@@ -25,23 +25,35 @@ class Recipe extends Item {
     static transients = ['categories', 'cookingTimeValue', 'totalTimeValue', 'prepTimeValue', 'categoriesString']
     static hasMany = [ingredients: RecipeIngredient, directions: RecipeDirection, recipeCategories: RecipeCategory, nutrients: RecipeNutrient, items: Item]
 
-    String getCookingTimeValue(){
-        Long time  = (cookingTime.value)?.toLong() 
-        return NumberTools.longToString(time)
+    String getCookingTimeValue() {
+        if (cookingTime) {
+            Long time = (cookingTime.value)?.toLong()
+            return NumberTools.longToString(time)
+        } else {
+            return null
+        }
     }
 
-    String getCategoriesString(){
-        return (categories? categories*.name.join(", ") : '')
+    String getCategoriesString() {
+        return (categories ? categories*.name.join(", ") : '')
     }
 
-    String getPrepTimeValue(){
-        Long time  = (preparationTime.value)?.toLong()
-        return NumberTools.longToString(time)
+    String getPrepTimeValue() {
+        if (preparationTime) {
+            Long time = (preparationTime?.value)?.toLong()
+            return NumberTools.longToString(time)
+        } else {
+            return null
+        }
     }
 
-    String getTotalTimeValue(){
-        Long time  = (totalTime.value)?.toLong()
-        return NumberTools.longToString(time)
+    String getTotalTimeValue() {
+        if (totalTime) {
+            Long time = (totalTime?.value)?.toLong()
+            return NumberTools.longToString(time)
+        } else {
+            return null
+        }
     }
 
     def getCategories() {
@@ -49,8 +61,14 @@ class Recipe extends Item {
     }
 
     def getTotalTime() {
+        if(cookingTime && preparationTime){
         Quantity sum = Quantity.addTime(cookingTime, preparationTime)
         return sum
+        } else if(cookingTime){
+            return cookingTime
+        } else {
+            return preparationTime
+        }
     }
 
     def addToCategories(Category category) {
@@ -68,12 +86,12 @@ class Recipe extends Item {
     }
 
     static constraints = {
-        name(nullable: false)
-        preparationTime()
-        cookingTime()
-        difficulty()
-        servings()
-        image(nullable: true)
+        name(nullabe:false, blank:false)
+        preparationTime(nullable: true, blank: true)
+        cookingTime(nullable: true, blank: true)
+        difficulty(nullable: true, blank: true)
+        servings(nullable: true, blank: true)
+        image(nullable: true, blank: true)
     }
     static mapping = {
         tablePerHierarchy false

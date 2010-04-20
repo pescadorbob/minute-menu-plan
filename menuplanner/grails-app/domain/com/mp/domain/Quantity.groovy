@@ -8,12 +8,12 @@ class Quantity {
     Unit unit
 
     String toString() {
-        return "${value} ${unit.symbol}"
+        return "${value} ${unit?.symbol}"
     }
 
     static constraints = {
         value(min: 0.0)
-        unit(nullable: true)
+        unit(nullable: true, blank: true)
     }
 
     //TODO: Make it generic unit conversion method add(q1, q2).

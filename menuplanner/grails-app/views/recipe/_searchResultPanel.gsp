@@ -4,6 +4,7 @@
 <div class="browse-recipes-container-content1">
     <div class="min-height-container2">
         <g:each in="${(recipeList)}" var="recipe" status="i">
+            %{--<g:if test="${((i+1)%3)==1}"><div style="float: left;"></g:if>--}%
             <div class="youhave-selected-container2 recipeThumb">
                 <div class="browse-recipes-content-thmb">
                     <a href="">
@@ -35,6 +36,7 @@
                     </a>
                 </div>
             </div>
+            %{--<g:if test="${((i+1)%3)==0}"></div></g:if>--}%
         </g:each>
         <div class="clr"></div>
         <div class="paginateButtons" style="margin:5px; border:0px;">

@@ -101,8 +101,8 @@ class RecipeController {
 
     def save = {RecipeCO recipeCO ->
         if (recipeCO.validate()) {
-            recipeCO.convertToRecipe()
-            redirect(action: 'create')
+            Recipe recipe = recipeCO.convertToRecipe()
+            redirect(action: 'show', id: recipe.id)
         } else {
             println recipeCO.errors.allErrors.each {
                 println it
@@ -199,28 +199,31 @@ class RecipeCO {
     def nutrientQuantities = []
 
     RecipeCO(Recipe recipe) {
-        id = recipe.id
-        name = recipe.name
-        difficulty = recipe.difficulty.name()
-        shareWithCommunity = recipe.shareWithCommunity
-        makesServing = recipe.servings
-        preparationUnitId = recipe.preparationTime.unit.id
-        if (recipe.preparationTime?.unit?.name == TIME_UNIT_HOURS) {
-            preparationTime = recipe.preparationTime.value / 60
+        id = recipe?.id
+        name = recipe?.name
+
+        difficulty = recipe?.difficulty?.name()
+        shareWithCommunity = recipe?.shareWithCommunity
+        makesServing = recipe?.servings
+
+        preparationUnitId = recipe?.preparationTime?.unit?.id
+        if (recipe?.preparationTime?.unit?.name == TIME_UNIT_HOURS) {
+            preparationTime = recipe?.preparationTime?.value / 60
         } else {
-            preparationTime = recipe.preparationTime.value
+            preparationTime = recipe?.preparationTime?.value
         }
-        cookUnitId = recipe.cookingTime.unit.id
-        if (recipe.cookingTime?.unit?.name == TIME_UNIT_HOURS) {
-            cookTime = recipe.cookingTime.value / 60
+        cookUnitId = recipe?.cookingTime?.unit?.id
+        if (recipe?.cookingTime?.unit?.name == TIME_UNIT_HOURS) {
+            cookTime = recipe?.cookingTime?.value / 60
         } else {
-            cookTime = recipe.cookingTime.value
+            cookTime = recipe?.cookingTime?.value
         }
-        categoryIds = recipe.categories*.id
-        directions = recipe.directions*.step
+        categoryIds = recipe?.categories*.id
+        directions = recipe?.directions*.step
+
         ingredientQuantities = recipe?.ingredients*.quantity?.value
         ingredientUnitIds = recipe?.ingredients*.quantity?.unit?.id
-        ingredientProductIds = recipe.ingredients*.ingredient.id
+        ingredientProductIds = recipe?.ingredients*.ingredient.id
 
         hiddenIngredientUnitNames = recipe?.ingredients*.quantity?.unit?.name
         hiddenIngredientProductNames = recipe.ingredients*.ingredient?.name
@@ -230,7 +233,7 @@ class RecipeCO {
             nutrientQuantities[it] = ""
         }
         recipe.nutrients.each {RecipeNutrient recipeNutrient ->
-            nutrientQuantities[recipeNutrient.nutrient.id.toInteger() - 1] = recipeNutrient.quantity.value
+            nutrientQuantities[recipeNutrient?.nutrient?.id?.toInteger() - 1] = recipeNutrient?.quantity?.value
         }
     } // parameterized constructor
 
@@ -243,15 +246,14 @@ class RecipeCO {
 
     static constraints = {
         id(nullable: true)
-        name(blank: false, matches: /[a-zA-Z0-9\s]*/)
+        name(blank: false, matches: /[a-zA-Z0-9\s\&]*/)
 
         difficulty(blank: false, inList: RecipeDifficulty.list()*.name())
-        makesServing(nullable: false, min: 1)
+        makesServing(nullable: true, blank: true)
         selectRecipeImagePath(nullable: true)
         selectRecipeImage(blank: true)
-        preparationTime(nullable: false, min: 0)
-        cookTime(nullable: false, min: 0)
-        categoryIds(minSize: 1)
+        preparationTime(nullable: true, blank: true)
+        cookTime(nullable: true, blank: true)
 
         nutrientQuantities(validator: {val ->
             if (val.findAll {!(it instanceof BigDecimal || it == "")}.size() > 0) {
@@ -279,22 +281,24 @@ class RecipeCO {
         })
     }
 
-    public updateRecipe() {
+    public Recipe updateRecipe() {
         Recipe recipe = Recipe.get(id)
         recipe.name = name
         recipe.shareWithCommunity = shareWithCommunity
         recipe.servings = makesServing
         recipe.difficulty = RecipeDifficulty."${difficulty}"
 
-        recipe.preparationTime.unit = Unit.get(preparationUnitId)
-        if (recipe.preparationTime.unit.name == TIME_UNIT_HOURS) preparationTime *= 60;
-        recipe.preparationTime.value = preparationTime
+        if (preparationUnitId && preparationTime) {
+            recipe.preparationTime.unit = Unit.get(preparationUnitId)
+            if (recipe.preparationTime.unit.name == TIME_UNIT_HOURS) preparationTime *= 60;
+            recipe.preparationTime.value = preparationTime
+        }
 
-
-        recipe.cookingTime.unit = Unit.get(cookUnitId)
-        if (recipe.cookingTime.unit.name == TIME_UNIT_HOURS) cookTime *= 60;
-        recipe.cookingTime.value = cookTime
-
+        if (cookUnitId && cookTime) {
+            recipe.cookingTime.unit = Unit.get(cookUnitId)
+            if (recipe.cookingTime.unit.name == TIME_UNIT_HOURS) cookTime *= 60;
+            recipe.cookingTime.value = cookTime
+        }
         if (selectRecipeImagePath) {
             Image image = new Image(selectRecipeImagePath, "Some alt text")
             recipe.image = image
@@ -305,8 +309,8 @@ class RecipeCO {
 
         def temp = recipe.recipeCategories
         recipe.recipeCategories = []
-        temp*.delete()
-        categoryIds.eachWithIndex {Long categoryId, Integer index ->
+        temp*.delete(flush:true)
+        categoryIds?.eachWithIndex {Long categoryId, Integer index ->
             Category category = Category.get(categoryId)
             recipe.addToCategories(category)
         }
@@ -314,40 +318,54 @@ class RecipeCO {
         def temp0 = recipe.items
         recipe.items = []
         temp0*.delete()
-        serveWithItems.eachWithIndex {Long itemId, Integer index ->
+        serveWithItems?.eachWithIndex {Long itemId, Integer index ->
             Item item = Item.get(itemId)
             recipe.addToItems(item)
         }
 
         def temp1 = recipe.directions
         recipe.directions = []
-        temp1*.delete()
-        directions.eachWithIndex {String step, Integer index ->
+        temp1*.delete(flush:true)
+        directions?.eachWithIndex {String step, Integer index ->
             RecipeDirection recipeDirection = new RecipeDirection()
             recipeDirection.recipe = recipe
             recipeDirection.step = step
             recipe.addToDirections(recipeDirection)
+            recipe.s()
         }
+
 
         def temp2 = recipe.ingredients
         recipe.ingredients = []
-        temp2*.delete()
-        ingredientQuantities.eachWithIndex {BigDecimal amount, Integer index ->
-            MeasurableProduct product = MeasurableProduct.findByName(hiddenIngredientProductNames[index])
+        temp2*.delete(flush:true)
+
+        hiddenIngredientProductNames?.eachWithIndex {String productName, Integer index ->
+            Item product = Item.findByName(productName)
+            Unit unit = (ingredientUnitIds[index]) ? Unit.get(ingredientUnitIds[index]) : null
+            Quantity quantity = new Quantity(unit: unit, value: ingredientQuantities[index]).s()
+
             if (!product) {
-                product = new MeasurableProduct(name: hiddenIngredientProductNames[index], isVisible: false)
+                if (unit) {
+                    product = new MeasurableProduct(name: hiddenIngredientProductNames[index], isVisible: false)
+                } else {
+                    product = new Product(name: hiddenIngredientProductNames[index], isVisible: false)
+                }
                 product.s()
             }
-            Unit unit = Unit.get(ingredientUnitIds[index])
-            Quantity quantity = new Quantity(unit: unit, value: amount).s()
-            RecipeIngredient recipeIngredient = new RecipeIngredient(recipe: recipe, ingredient: product, quantity: quantity)
+
+            RecipeIngredient recipeIngredient = new RecipeIngredient()
+            recipeIngredient.recipe = recipe
+            recipeIngredient.ingredient= product
+            recipeIngredient.quantity= quantity
+
             recipe.addToIngredients(recipeIngredient)
+            recipe.s()
         }
 
         def temp3 = recipe.nutrients
         recipe.nutrients = []
-        temp3*.delete()
-        nutrientQuantities.eachWithIndex {def quantity, Integer index ->
+        temp3*.delete(flush:true)
+        nutrientQuantities?.eachWithIndex {def quantity, Integer index ->
             RecipeNutrient nutrient = new RecipeNutrient()
             nutrient.recipe = recipe
             nutrient.nutrient = Nutrient.get(nutrientIds[index])
@@ -360,27 +378,31 @@ class RecipeCO {
                 recipe.addToNutrients(nutrient)
             }
         }
+        return recipe
     }
 
-    public convertToRecipe() {
+    public Recipe convertToRecipe() {
         Recipe recipe = new Recipe()
         recipe.name = name
         recipe.shareWithCommunity = shareWithCommunity
         recipe.servings = makesServing
         recipe.difficulty = RecipeDifficulty."${difficulty}"
-
-        Quantity quantityPreparationTime = new Quantity()
-        quantityPreparationTime.unit = Unit.get(preparationUnitId)
-        if (quantityPreparationTime.unit.name == TIME_UNIT_HOURS) preparationTime *= 60;
-        quantityPreparationTime.value = preparationTime
-        quantityPreparationTime.s()
-
-        Quantity quantityCookTime = new Quantity()
-        quantityCookTime.unit = Unit.get(cookUnitId)
-        if (quantityCookTime.unit.name == TIME_UNIT_HOURS) cookTime *= 60;
-        quantityCookTime.value = cookTime
-        quantityCookTime.s()
-
+        Quantity quantityPreparationTime
+        if (preparationUnitId && preparationTime) {
+            quantityPreparationTime = new Quantity()
+            quantityPreparationTime.unit = Unit.get(preparationUnitId)
+            if (quantityPreparationTime.unit.name == TIME_UNIT_HOURS) preparationTime *= 60;
+            quantityPreparationTime.value = preparationTime
+            quantityPreparationTime.s()
+        }
+        Quantity quantityCookTime
+        if (cookUnitId && cookTime) {
+            quantityCookTime = new Quantity()
+            quantityCookTime.unit = Unit.get(cookUnitId)
+            if (quantityCookTime.unit.name == TIME_UNIT_HOURS) cookTime *= 60;
+            quantityCookTime.value = cookTime
+            quantityCookTime.s()
+        }
         recipe.preparationTime = quantityPreparationTime
         recipe.cookingTime = quantityCookTime
 
@@ -405,14 +427,17 @@ class RecipeCO {
         }
 
         ingredientQuantities.eachWithIndex {BigDecimal amount, Integer index ->
-            MeasurableProduct product = MeasurableProduct.findByName(hiddenIngredientProductNames[index])
-            if (!product) {
-                MeasurableProduct newProduct = new Product(name: 'hiddenIngredientProductNames[index]', isVisible: false)
-                newProduct.s()
-            }
-            product = MeasurableProduct.findByName(hiddenIngredientProductNames[index])
+            Item product = Item.findByName(hiddenIngredientProductNames[index])
             Unit unit = Unit.get(ingredientUnitIds[index])
             Quantity quantity = new Quantity(unit: unit, value: amount).s()
+            if (!product) {
+                if (quantity) {
+                    product = new MeasurableProduct(name: 'hiddenIngredientProductNames[index]', isVisible: false)
+                } else {
+                    product = new Product(name: 'hiddenIngredientProductNames[index]', isVisible: false)
+                }
+                product.s()
+            }
             recipe.addToIngredients(new RecipeIngredient(recipe: recipe, ingredient: product, quantity: quantity))
         }
         nutrientQuantities.eachWithIndex {def quantity, Integer index ->
@@ -429,5 +454,6 @@ class RecipeCO {
             }
         }
         recipe.s()
+        return recipe
     }
 }

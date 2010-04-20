@@ -14,5 +14,6 @@ class RecipeIngredient {
 
     static constraints = {
         ingredient(unique: 'recipe')
+        quantity(nullable: true, blank: true)
     }
 }
