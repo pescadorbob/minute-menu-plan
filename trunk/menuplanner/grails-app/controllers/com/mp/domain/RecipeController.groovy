@@ -49,6 +49,7 @@ class RecipeController {
             results = search?.results
             total = search?.total
         } else {
+            params.max=15
             results = Recipe.list(params)
             total = Recipe.count()
         }

@@ -25,6 +25,10 @@ class Recipe extends Item {
     static transients = ['categories', 'cookingTimeValue', 'totalTimeValue', 'prepTimeValue', 'categoriesString']
     static hasMany = [ingredients: RecipeIngredient, directions: RecipeDirection, recipeCategories: RecipeCategory, nutrients: RecipeNutrient, items: Item]
 
+    String getCategoriesString() {
+        return (categories ? categories*.name.join(", ") : '')
+    }
+
     String getCookingTimeValue() {
         if (cookingTime) {
             Long time = (cookingTime.value)?.toLong()
@@ -32,10 +36,6 @@ class Recipe extends Item {
         } else {
             return null
         }
-    }
-
-    String getCategoriesString() {
-        return (categories ? categories*.name.join(", ") : '')
     }
 
     String getPrepTimeValue() {

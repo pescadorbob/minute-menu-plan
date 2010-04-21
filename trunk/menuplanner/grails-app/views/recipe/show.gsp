@@ -27,7 +27,12 @@
                         <g:render template="/recipe/rating"/>
                     </div>
                     <div class="report-text">
-                        Prep - ${recipe?.preparationTime}. Cook - ${recipe?.cookingTime}.
+                        <g:if test="${recipe?.preparationTime}">
+                            Prep - ${recipe?.preparationTime}.
+                        </g:if>
+                        <g:if test="${recipe?.cookingTime}">
+                            Cook - ${recipe?.cookingTime}.
+                        </g:if>
                     </div>
                 </div>
                 <div class="month-menu-container-hdr">
@@ -46,23 +51,28 @@
                 <div style="float: left; width: 413px;">
                     <p>
                         <span id="displayDifficulty">
-                            Difficulty Level: ${recipe?.difficulty?.name}
+                            <g:if test="${recipe?.difficulty?.name}">
+                                Difficulty Level: ${recipe?.difficulty?.name}
+                            </g:if>
                         </span>
                     </p>
                     <p>
                         <span id="displayMakeServing">
-                            Servings: ${recipe?.servings}
+                            <g:if test="${recipe?.servings}">
+                                Servings: ${recipe?.servings}
+                            </g:if>
                         </span>
                     </p>
                     <br>
                     <p>
                         <strong>
-                            <span id="displayIngredients">
-                                ${recipe?.categoriesString} <br> 
-                                <g:each in="${recipe?.ingredients}">
-                                    ${it}<br>
-                                </g:each>
-                            </span>
+                            <g:if test="${recipe?.ingredients}">
+                                <span id="displayIngredients">
+                                    <g:each in="${recipe?.ingredients}">
+                                        ${it}<br>
+                                    </g:each>
+                                </span>
+                            </g:if>
                         </strong>
                 </div>
                 <div style="float: right;">
@@ -76,32 +86,43 @@
                 </div>
                 <p class="clr"/>
                 <span class="month-menu-content" id="displayDirections">
-                    <g:each in="${recipe?.directions}">
-                        ${it}<br>
-                    </g:each>
+                    <g:if test="${recipe?.directions}">
+                        <g:each in="${recipe?.directions}">
+                            ${it}<br>
+                        </g:each>
+                    </g:if>
                 </span>
                 <p>&nbsp;</p>
                 <p>
                     <span id="displayCategory">
-                        Categories:
-                        <g:each in="${recipe?.categories}" status="i" var="category">
-                            ${category}<g:if test="${( i < (recipe?.categories?.size()-1 ))}">,</g:if>
+                        <g:each in="${recipe?.categories}">
+                            Categories:
+                            <g:each in="${recipe?.categories}" status="i" var="category">
+                                ${category}<g:if test="${( i < (recipe?.categories?.size()-1 ))}">,</g:if>
+                            </g:each>
                         </g:each>
                     </span>
                 </p>
                 <br>
-                <p class="serve-link">Serve With<br/>
-                    <g:each in="${recipe?.items}" status="i" var="item">
-                        <a href="#" class="serve-link">${item}</a><g:if test="${( i < (recipe?.items?.size()-1 ))}">,</g:if>
-                    </g:each>
+                <p class="serve-link">
+                    <g:if test="${recipe?.items}">
+                        Serve With<br/>
+                        <g:each in="${recipe?.items}" status="i" var="item">
+                            <a href="#" class="serve-link">${item}</a>
+                            <g:if test="${( i < (recipe?.items?.size()-1 ))}">,</g:if>
+                        </g:each>
+                    </g:if>
                 </p>
                 <br>
-                <p>Nutritional Facts per serving: &nbsp;
-                <g:each in="${recipe?.nutrients}" status="i" var="nutrient">
-                    ${nutrient?.nutrient?.name}
-                    ${nutrient?.quantity}
-                    <g:if test="${( i < (recipe?.nutrients?.size()-1 ))}">,</g:if>
-                </g:each>
+                <p>
+                <g:if test="${recipe?.nutrients}">
+                    Nutritional Facts per serving: &nbsp;
+                    <g:each in="${recipe?.nutrients}" status="i" var="nutrient">
+                        ${nutrient?.nutrient?.name}
+                        ${nutrient?.quantity}
+                        <g:if test="${( i < (recipe?.nutrients?.size()-1 ))}">,</g:if>
+                    </g:each>
+                </g:if>
                 </p>
                 <div class="month-menu-list">
                     <g:each in="${(1..4)}">

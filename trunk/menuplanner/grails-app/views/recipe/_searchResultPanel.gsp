@@ -4,13 +4,18 @@
 <div class="browse-recipes-container-content1">
     <div class="min-height-container2">
         <g:each in="${(recipeList)}" var="recipe" status="i">
-            %{--<g:if test="${((i+1)%3)==1}"><div style="float: left;"></g:if>--}%
+        %{--<g:if test="${((i+1)%3)==1}"><div style="float: left;"></g:if>--}%
             <div class="youhave-selected-container2 recipeThumb">
                 <div class="browse-recipes-content-thmb">
                     <a href="">
                         <div class="selected-data">
                             <a href="${createLink(controller: 'recipe', action: 'show', id: recipe?.id)}">
-                                ${recipe?.name}
+                                <g:if test="${recipe?.name?.length()<10}">
+                                    ${recipe?.name}
+                                </g:if>
+                                <g:else>
+                                    ${recipe?.name?.substring(0,8)}...
+                                </g:else>
                             </a>
                             <br/>
                             <div style="height:85px; width:85px;">
@@ -36,12 +41,12 @@
                     </a>
                 </div>
             </div>
-            %{--<g:if test="${((i+1)%3)==0}"></div></g:if>--}%
+        %{--<g:if test="${((i+1)%3)==0}"></div></g:if>--}%
         </g:each>
         <div class="clr"></div>
         <div class="paginateButtons" style="margin:5px; border:0px;">
             <util:remotePaginate controller="recipe" action="search" total="${recipeTotal}" params="[query: query]"
-                                   max="15" offset="${params.offset}" update="rightContainer"/>
+                    max="15" offset="${params.offset}" update="rightContainer"/>
         </div>
     </div>
     <div>

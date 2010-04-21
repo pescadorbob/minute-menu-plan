@@ -5,41 +5,42 @@
     <title>Minute Menu Plan : Calendar</title>
 </head>
 <style type="text/css">
-      .ui-sortable-placeholder {
-        border: 1px dotted black;
-        visibility: visible !important;
-      }
+.ui-sortable-placeholder {
+    border: 1px dotted black;
+    visibility: visible !important;
+}
 
-      .ui-sortable-placeholder * {
-        visibility: hidden;
-      }
-
-      </style>
+.ui-sortable-placeholder * {
+    visibility: hidden;
+}
+</style>
 <body>
 <g:javascript library="ui.core"/>
 <g:javascript library="ui.sortable"/>
 <script type="text/javascript">
-  jQuery(function() {
-    jQuery(".menuContainer").sortable({
-//            update: function(event, ui) {
-//              updatePosition(1, jQuery(this).sortable('toArray'))
-//            },
-      tolerance: 'pointer',
-//      handle:".portlet-header",
-      helper: 'clone',
-      cursorAt: 'top',
-      revert: true,
-      scrollSensitivity: 40 ,
-      connectWith: '.menuContainer'
-    });
-  })
+    jQuery(function() {
+        jQuery(".menuContainer").sortable({
+            //            update: function(event, ui) {
+            //              updatePosition(1, jQuery(this).sortable('toArray'))
+            //            },
+            tolerance: 'pointer',
+            //      handle:".portlet-header",
+            helper: 'clone',
+            cursorAt: 'top',
+            revert: true,
+            scrollSensitivity: 40 ,
+            connectWith: '.menuContainer'
+        });
+    })
 </script>
 <div id="content-wrapper" class="clearfix">
     <!--  start left-panel -->
     <div id="left-panel">
         <!--  start left-panel -->
         <div id="wintermenu">
-            <div id="winterplan"><img src="${resource(dir: 'images', file: 'winter-menu-plan.gif')}"/></div>
+            <div id="winterplan">
+                <img src="${resource(dir: 'images', file: 'winter-menu-plan.gif')}"/>
+            </div>
             <div id="viewmenu">
                 <ul>
                     <li>VIEW: <a href="menuPlan.gsp#">Monthly</a></li>
@@ -88,15 +89,18 @@
                 <mp:mealItems week="${weeks[2]}" type="${MealType.DINNER}" image="week3.gif"/>
                 <mp:mealItems week="${weeks[3]}" type="${MealType.DINNER}" image="week4.gif"/>
 
-                <li class="divider"><img src="${resource(dir: 'images', file: 'divider.gif')}"/></li>
+                <li class="divider">
+                    <img src="${resource(dir: 'images', file: 'divider.gif')}"/>
+                </li>
                 <mp:mealItems week="${weeks[0]}" type="${MealType.BREAKFAST}" image="breakfast.gif"/>
                 <mp:mealItems week="${weeks[0]}" type="${MealType.LUNCH}" image="lunch.gif"/>
             </ul>
         </div>
     </div>
     <!--  end left-panel start right-panel -->
-    <g:render template="/menuPlan/search"/>
+    <g:render template="/menuPlan/search" model='[categoryList:categoryList]'/>
     <!--  end right-panel -->
 </div>
 </body>
+
 </html>

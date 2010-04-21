@@ -139,10 +139,11 @@
         jQuery('[value^=' + fieldName + ']').remove();
         var html = '<input type="hidden" name="q" value="' + fieldName + ':' + fieldValue + '" />';
         jQuery('#searchParams').append(html);
-
         jQuery('#' + fieldName + 'Row').show()
-        jQuery('#' + fieldName + 'Row td:eq(1)').html(jQuery(element).text())
-
+        if (element) {
+            jQuery('#' + fieldName + 'Row td:eq(1)').html(jQuery(element).text())
+        } else {
+        }
         document.getElementById('searchForm').onsubmit();
         return false;
     }
@@ -151,6 +152,6 @@
         if (fieldValue == '*(Select One)*') {
             fieldValue = '*';
         }
-        submitSearchForm(null,'categoriesString', fieldValue);
+        submitSearchForm(null, 'categoriesString', fieldValue);
     }
 </script>
