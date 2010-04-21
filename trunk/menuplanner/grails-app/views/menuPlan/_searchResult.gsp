@@ -7,12 +7,14 @@
     padding: 10px 3px;
     margin-top: 10px;
 }
+
 .paginateButtons a {
-    font-weight:bold;
-    font-size:11px;
+    font-weight: bold;
+    font-size: 11px;
     color: royalblue;
     margin: 0 3px;
 }
+
 .paginateButtons span {
     padding: 2px 3px;
 }
@@ -32,17 +34,18 @@
             params="[query: query]"
             max="4"
             offset="${params.offset}"
-            update="ratingbox"/>    
+            update="ratingbox"
+            maxsteps="5"/>
 </div>
 
 
 <script type="text/javascript">
 
     jQuery(document).ready(function() {
-        jQuery('.recipe-detail-thumb').hover(function(){
-            jQuery(this).css('backgroundColor','orange')
-        }, function(){
-            jQuery(this).css('backgroundColor','#329ca7')
+        jQuery('.recipe-detail-thumb').hover(function() {
+            jQuery(this).css('backgroundColor', 'orange')
+        }, function() {
+            jQuery(this).css('backgroundColor', '#329ca7')
         })
     })
 
