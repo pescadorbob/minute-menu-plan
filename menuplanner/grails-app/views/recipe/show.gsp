@@ -1,4 +1,5 @@
 <%@ page import="com.mp.domain.*" %>
+<%@ page import="com.mp.MenuConstants.*" %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Minute Menu Plan</title>
@@ -28,10 +29,24 @@
                     </div>
                     <div class="report-text">
                         <g:if test="${recipe?.preparationTime}">
-                            Prep - ${recipe?.preparationTime}.
+                            Prep -
+                            <g:if test="${recipe?.preparationTime?.unit?.name=='Minutes'}">
+                                ${recipe?.preparationTime}.
+                            </g:if>
+                            <g:else>
+                                ${(recipe?.preparationTime?.value) / 60}
+                                ${recipe?.preparationTime?.unit?.symbol}.
+                            </g:else>
                         </g:if>
                         <g:if test="${recipe?.cookingTime}">
-                            Cook - ${recipe?.cookingTime}.
+                            Cook -
+                            <g:if test="${recipe?.cookingTime?.unit?.name=='Minutes'}">
+                                ${recipe?.cookingTime}.
+                            </g:if>
+                            <g:else>
+                                ${(recipe?.cookingTime?.value) / 60}
+                                ${recipe?.cookingTime?.unit?.symbol}.
+                            </g:else>
                         </g:if>
                     </div>
                 </div>
@@ -115,14 +130,14 @@
                 </p>
                 <br>
                 <p>
-                <g:if test="${recipe?.nutrients}">
-                    Nutritional Facts per serving: &nbsp;
-                    <g:each in="${recipe?.nutrients}" status="i" var="nutrient">
-                        ${nutrient?.nutrient?.name}
-                        ${nutrient?.quantity}
-                        <g:if test="${( i < (recipe?.nutrients?.size()-1 ))}">,</g:if>
-                    </g:each>
-                </g:if>
+                    <g:if test="${recipe?.nutrients}">
+                        Nutritional Facts per serving: &nbsp;
+                        <g:each in="${recipe?.nutrients}" status="i" var="nutrient">
+                            ${nutrient?.nutrient?.name}
+                            ${nutrient?.quantity}
+                            <g:if test="${( i < (recipe?.nutrients?.size()-1 ))}">,</g:if>
+                        </g:each>
+                    </g:if>
                 </p>
                 <div class="month-menu-list">
                     <g:each in="${(1..4)}">

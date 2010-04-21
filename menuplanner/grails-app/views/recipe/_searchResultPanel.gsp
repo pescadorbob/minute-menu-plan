@@ -14,7 +14,7 @@
                                     ${recipe?.name}
                                 </g:if>
                                 <g:else>
-                                    ${recipe?.name?.substring(0,8)}...
+                                    ${recipe?.name?.substring(0, 8)}...
                                 </g:else>
                             </a>
                             <br/>
@@ -31,11 +31,30 @@
                                 <g:render template="/recipe/rating"/>
                             </div>
                             <em>
-                                ${recipe?.totalTime}<br/>
-                                ${recipe?.difficulty}</em><br/>
-                            %{--Round Cut Beef<br/>--}%
-                            %{--Broccoli<br/>--}%
-                            %{--Onions...--}%
+                                <g:if test="${recipe?.totalTime?.value<60}">
+                                    ${recipe?.totalTime}.
+                                </g:if>
+                                <g:else>
+                                    ${((recipe?.totalTime?.value) / 60).toInteger()} hrs.
+                                    <g:if test="${((recipe?.totalTime?.value?.toInteger()) % 60)!=0}">
+                                        ${(recipe?.totalTime?.value?.toInteger()) % 60} mins.
+                                    </g:if>
+                                </g:else>
+                                <br/>
+                                ${recipe?.difficulty}
+                            </em>
+                            <br/>
+                            
+                            <g:each in="${recipe?.ingredients?.ingredient}" status="index" var="product">
+                                <g:if test="${index < 3}">
+                                    <g:if test="${product?.toString()?.length()<10}">
+                                        ${product?.toString()}
+                                    </g:if>
+                                    <g:else>
+                                        ${product?.toString()?.substring(0, 8)}...<br/>
+                                    </g:else>
+                                </g:if>
+                            </g:each>
                         </div>
                         <div class="clr"></div>
                     </a>
@@ -53,3 +72,15 @@
         <img src="${resource(dir: 'images', file: 'left-container-img1.jpg')}" width="770" align="left">
     </div>
 </div>
+
+<script type="text/javascript">
+
+    jQuery(document).ready(function() {
+        jQuery('.recipeThumb').hover(function() {
+            jQuery(this).css('backgroundColor', '#eee')
+        }, function() {
+            jQuery(this).css('backgroundColor', '#ffffff')
+        })
+    })
+
+</script>

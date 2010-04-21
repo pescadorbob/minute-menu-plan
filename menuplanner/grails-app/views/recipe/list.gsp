@@ -28,5 +28,6 @@
 <div id="rightContainer" class="browse-recipes-container-right">
     <g:render template="/recipe/searchResultPanel" model="['recipeList':recipeList]"/>
 </div>
+
 </body>
 </html>

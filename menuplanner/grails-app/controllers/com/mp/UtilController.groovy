@@ -23,7 +23,11 @@ class UtilController {
     }
 
     def index = {
-        render "x:" + (NumberTools.longToString(120l))
+//        String.metaClass.trimLength = {Integer stringLength ->
+//            println "String length:  " + stringLength
+//        }
+        String test = "123456789 123456789 123456789 "
+        render test
     }
 
     def uploadRecipes = {

@@ -69,8 +69,8 @@ function reflectInPreviewPanel() {
     for (i = 0; i < jQuery('input[name="categoryIds"]').size() - 1; i++) {
         if (jQuery('#faceBookCategory p:eq(' + i + ')').html().length > 0) {
             myCategory += jQuery('#faceBookCategory p:eq(' + i + ')').html()
-            if(i<jQuery('input[name="categoryIds"]').size() - 2){
-                myCategory+=', '
+            if (i < jQuery('input[name="categoryIds"]').size() - 2) {
+                myCategory += ', '
             }
         }
     }
@@ -83,7 +83,7 @@ function reflectInPreviewPanel() {
     jQuery('#displayName').html(getPlainText('name'))
     var showPrep = ''
     if (getPlainText('preparationTime').length) {
-        showPrep = 'prep-' + getPlainText('preparationTime');
+        showPrep = 'prep- ' + getPlainText('preparationTime')
         if (jQuery('#preparationUnitId :selected').text() == 'Hours') {
             showPrep += 'hrs. '
         }
@@ -94,12 +94,12 @@ function reflectInPreviewPanel() {
     jQuery('#displayPrepTime').html(showPrep)
     var showCook = ''
     if (getPlainText('cookTime').length) {
-        showCook = 'cook-' + getPlainText('cookTime') + ' '
+        showCook = 'cook- ' + getPlainText('cookTime')
         if (jQuery('#cookUnitId :selected').text() == 'Hours') {
-            showCook += 'hrs. '
+            showCook += 'hrs.'
         }
         else {
-            showCook += 'mins. '
+            showCook += 'mins.'
         }
     }
     jQuery('#displayCookTime').html(showCook)
@@ -107,8 +107,8 @@ function reflectInPreviewPanel() {
     myDifficulty += jQuery('input[name=difficulty]').filter(':checked').next().text();
     jQuery('#displayDifficulty').html(myDifficulty)
     var myMakeServing = ''
-    if(getPlainText('makesServing').length>0){
-        myMakeServing+='Servings: ' + getPlainText('makesServing')
+    if (getPlainText('makesServing').length > 0) {
+        myMakeServing += 'Servings: ' + getPlainText('makesServing')
     }
     jQuery('#displayMakeServing').html(myMakeServing)
 
@@ -131,11 +131,11 @@ function reflectInPreviewPanel() {
         if (jQuery('#AddItemToolBox p:eq(' + i + ')').html().length > 0) {
             myServeWith += '<a class="serve-link" href="#">' +
                            jQuery('#AddItemToolBox p:eq(' + i + ')').html()
-            if(i<jQuery('input[name="serveWithItems"]').size() - 2){
-                myServeWith+='</a>, '
+            if (i < jQuery('input[name="serveWithItems"]').size() - 2) {
+                myServeWith += '</a>, '
             }
-            else{
-                myServeWith+='</a>'
+            else {
+                myServeWith += '</a>'
             }
         }
     }
@@ -150,8 +150,8 @@ function reflectInPreviewPanel() {
             myNutrients += getPlainTextFromHtml(jQuery('input[name="nutrientQuantities"]:eq(' + i + ')').attr('value')) +
                            ' ' + getPlainTextFromHtml(jQuery('input[name="nutrientNames"]:eq(' + i + ')').attr('value')) +
                            ' ' + getPlainTextFromHtml(jQuery('input[name="nutrientUnitSymbols"]:eq(' + i + ')').attr('value'))
-            if(i<jQuery('input[name="nutrientIds"]').size() - 2){
-                myServeWith+=', '
+            if (i < jQuery('input[name="nutrientIds"]').size() - 2) {
+                myServeWith += ', '
             }
         }
     }
@@ -174,6 +174,9 @@ function getPlainTextFromHtml(htmlText) {
         } else {
             returnText = htmlText
         }
+    }
+    if (returnText.length > 12) {
+        returnText = returnText.substring(0, 10) + '...'
     }
     return returnText;
 }
