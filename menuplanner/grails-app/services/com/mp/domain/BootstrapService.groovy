@@ -53,11 +53,6 @@ class BootstrapService {
             populateRecipeNutrient(recipe)
             recipe.s()
 
-            String imagePath='/home/neeraj/Desktop/recipeImages/'+ index +'.jpg'
-            Image image = new Image(imagePath, "Some alt text")
-            recipe.image = image
-            image.s()
-            recipe.s()
         }
     }
 
