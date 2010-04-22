@@ -62,8 +62,8 @@ class RecipeCO {
         } else {
             cookTime = recipe?.cookingTime?.value
         }
-        categoryIds = recipe?.categories*.id
-        directions = recipe?.directions*.step
+        categoryIds = recipe?.categories*.id as Set
+        directions = recipe?.directions
 
         ingredientQuantities = recipe?.ingredients*.quantity?.value
         ingredientUnitIds = recipe?.ingredients*.quantity?.unit?.id
@@ -92,9 +92,9 @@ class RecipeCO {
         id(nullable: true)
         name(blank: false, matches: /[a-zA-Z0-9\s\&]*/)
 
-        difficulty(blank: false, inList: RecipeDifficulty.list()*.name())
+        difficulty(blank: true, nullable: true)
         makesServing(nullable: true, blank: true)
-        selectRecipeImagePath(nullable: true)
+        selectRecipeImagePath(nullable: true, blank: true)
         selectRecipeImage(blank: true)
         preparationTime(nullable: true, blank: true)
         cookTime(nullable: true, blank: true)
@@ -133,33 +133,31 @@ class RecipeCO {
         recipe.difficulty = RecipeDifficulty."${difficulty}"
         recipe.preparationTime = makeTimeQuantity(preparationTime, preparationUnitId)
         recipe.cookingTime = makeTimeQuantity(cookTime, cookUnitId)
+
         attachImage(recipe, selectRecipeImagePath)
 
-        def temp = recipe.recipeCategories
+        def tempRecipeCategories = recipe.recipeCategories
         recipe.recipeCategories = []
-        temp*.delete(flush: true)
-        createCategories(recipe, categoryIds)
+        tempRecipeCategories*.delete(flush: true)
+        addCategoriesToRecipe(recipe, categoryIds)
 
-        def temp0 = recipe.items
-        recipe.items = []
-        temp0*.delete(flush: true)
-        createServeWith(recipe, serveWithItems)
-
-        def temp1 = recipe.directions
-        recipe.directions = []
-        temp1*.delete(flush: true)
-        createDirections(recipe, directions)
-
-
-        def temp2 = recipe.ingredients
+        def tempIngredients = recipe.ingredients
         recipe.ingredients = []
-        temp2*.delete(flush: true)
-        createIngredients(recipe, ingredientQuantities, ingredientUnitIds, hiddenIngredientProductNames)
+        tempIngredients*.delete(flush: true)
+        addIngredientsToRecipe(recipe, ingredientQuantities, ingredientUnitIds, hiddenIngredientProductNames)
 
-        def temp3 = recipe.nutrients
+        recipe.directions = []
+        addDirectionsToRecipe(recipe, directions)
+
+//        def tempServeWith = recipe.items
+//        recipe.items = []
+//        tempServeWith*.delete(flush: true)
+//        addServeWithToRecipe(recipe, serveWithItems)
+
+        def tempNutrients = recipe.nutrients
         recipe.nutrients = []
-        temp3*.delete(flush: true)
-        createNutrients(recipe, nutrientQuantities, nutrientIds)
+        tempNutrients*.delete(flush: true)
+        addNutrientsToRecipe(recipe, nutrientQuantities, nutrientIds)
 
         return recipe
     }
@@ -173,12 +171,14 @@ class RecipeCO {
         recipe.difficulty = RecipeDifficulty."${difficulty}"
         recipe.preparationTime = makeTimeQuantity(preparationTime, preparationUnitId)
         recipe.cookingTime = makeTimeQuantity(cookTime, cookUnitId)
+
         attachImage(recipe, selectRecipeImagePath)
 
-        createCategories(recipe, categoryIds)
-        createDirections(recipe, directions)
-        createIngredients(recipe, ingredientQuantities, ingredientUnitIds, hiddenIngredientProductNames)
-        createNutrients(recipe, nutrientQuantities, nutrientIds)
+        addCategoriesToRecipe(recipe, categoryIds)
+        addDirectionsToRecipe(recipe, directions)
+        addIngredientsToRecipe(recipe, ingredientQuantities, ingredientUnitIds, hiddenIngredientProductNames)
+        addServeWithToRecipe(recipe, serveWithItems)
+        addNutrientsToRecipe(recipe, nutrientQuantities, nutrientIds)
 
         return recipe
     }
@@ -209,12 +209,13 @@ class RecipeCO {
         }
     }
 
-    public boolean createIngredients(Recipe recipe, List<BigDecimal> amounts, List<Long> unitIds, List<String> productNames) {
+    public List<RecipeIngredient> recipeIngredientList(List<BigDecimal> amounts, List<Long> unitIds, List<String> productNames) {
+        List<RecipeIngredient> recipeIngredients = []
         productNames?.eachWithIndex {String productName, Integer index ->
+            RecipeIngredient recipeIngredient = new RecipeIngredient()
+            Quantity quantity = new Quantity()
             Item product = Item.findByName(productName)
             Unit unit = (unitIds[index]) ? Unit.get(unitIds[index]) : null
-            Quantity quantity = new Quantity(unit: unit, value: amounts[index]).s()
-
             if (!product) {
                 if (unit) {
                     product = new MeasurableProduct(name: productNames[index], isVisible: false)
@@ -223,58 +224,94 @@ class RecipeCO {
                 }
                 product.s()
             }
+            quantity.value = (amounts[index]) ? amounts[index] : null
+            quantity.unit = unit
+            quantity.s()
 
-            RecipeIngredient recipeIngredient = new RecipeIngredient()
-            recipeIngredient.recipe = recipe
             recipeIngredient.ingredient = product
             recipeIngredient.quantity = quantity
+            recipeIngredients.add(recipeIngredient)
+        }
+        return recipeIngredients
+    }
 
+    public boolean addIngredientsToRecipe(Recipe recipe, List<BigDecimal> amounts, List<Long> unitIds, List<String> productNames) {
+        List<RecipeIngredient> recipeIngredients = recipeIngredientList(amounts, unitIds, productNames)
+        recipeIngredients?.eachWithIndex {RecipeIngredient recipeIngredient, Integer index ->
+            recipeIngredient.recipe = recipe
             recipe.addToIngredients(recipeIngredient)
             recipe.s()
         }
         return true
     }
 
-    public boolean createDirections(Recipe recipe, List<String> directions) {
-        directions?.eachWithIndex {String step, Integer index ->
-            RecipeDirection recipeDirection = new RecipeDirection()
-            recipeDirection.recipe = recipe
-            recipeDirection.step = step
-            recipe.addToDirections(recipeDirection)
-            recipe.s()
-        }
+    public boolean addDirectionsToRecipe(Recipe recipe, List<String> directions) {
+        directions=directions.findAll{ it && it!="" }
+        recipe.directions = directions
+        recipe.s()
         return true
     }
 
-    public boolean createNutrients(Recipe recipe, def amounts, List<Long> nutrientIds) {
+    public List<RecipeNutrient> recipeNutrientList(def amounts, List<Long> nutrientIds) {
+        List<RecipeNutrient> recipeNutrientList = []
         amounts.eachWithIndex {def amount, Integer index ->
-            RecipeNutrient nutrient = new RecipeNutrient()
-            nutrient.recipe = recipe
-            nutrient.nutrient = Nutrient.get(nutrientIds[index])
             if (amount) {
-                Quantity recipeNutrientQuantity = new Quantity()
-                recipeNutrientQuantity.value = amount
-                recipeNutrientQuantity.unit = Nutrient.get(nutrientIds[index]).preferredUnit
-                recipeNutrientQuantity.s()
-                nutrient.quantity = recipeNutrientQuantity
-                recipe.addToNutrients(nutrient)
-                recipe.s()
+                RecipeNutrient recipeNutrient = new RecipeNutrient()
+                recipeNutrient.nutrient = Nutrient.get(nutrientIds[index])
+                Quantity quantity = new Quantity()
+                quantity.value = amount
+                quantity.unit = Nutrient.get(nutrientIds[index]).preferredUnit
+                quantity.s()
+                recipeNutrient.quantity = quantity
+                recipeNutrientList.add(recipeNutrient)
             }
         }
-        return true
+        return recipeNutrientList
     }
 
-    public boolean createServeWith(Recipe recipe, Set<Long> itemIds) {
-        itemIds.eachWithIndex {Long itemId, Integer index ->
-            recipe.addToItems(Item.get(itemId))
+    public boolean addNutrientsToRecipe(Recipe recipe, def amounts, List<Long> nutrientIds) {
+        List<RecipeNutrient> recipeNutrients = recipeNutrientList(amounts, nutrientIds)
+        recipeNutrients.eachWithIndex {RecipeNutrient nutrient, Integer index ->
+            nutrient.recipe = recipe
+            recipe.addToNutrients(nutrient)
             recipe.s()
         }
         return true
     }
 
-    public boolean createCategories(Recipe recipe, Set<Long> categoryIds) {
-        categoryIds.eachWithIndex {Long categoryId, Integer index ->
-            recipe.addToItems(Item.get(categoryId))
+    public List<Item> serveWithList(Set<Long> itemIds) {
+        List<Item> items = []
+        itemIds.each {Long itemId ->
+            Item item = Item.get(itemId)
+            items.add(item)
+        }
+        return items
+    }
+
+    public boolean addServeWithToRecipe(Recipe recipe, Set<Long> itemIds) {
+        List<Item> serveWith = serveWithList(itemIds)
+        serveWith.each {Item item ->
+            recipe.addToItems(item)
+            recipe.s()
+        }
+        return true
+    }
+
+    public List<RecipeCategory> recipeCategoryList(Set<Long> categoryIds) {
+        List<RecipeCategory> recipeCategories = []
+        categoryIds.each {Long categoryId ->
+            RecipeCategory category = new RecipeCategory()
+            category.category = Category.get(categoryId)
+            recipeCategories.add(category)
+        }
+        return recipeCategories
+    }
+
+    public boolean addCategoriesToRecipe(Recipe recipe, Set<Long> categoryIds) {
+        List<RecipeCategory> categories = recipeCategoryList(categoryIds)
+        categories.each {RecipeCategory category ->
+            category.recipe = recipe
+            recipe.addToRecipeCategories(category)
             recipe.s()
         }
         return true

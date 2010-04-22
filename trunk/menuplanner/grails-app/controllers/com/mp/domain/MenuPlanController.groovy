@@ -16,6 +16,9 @@ class MenuPlanController {
 
     def search = {
         List<Recipe> results = []
+        if(params?.q?.size()>0){
+
+        }
         String query = params.query ?: params.list("q")?.join(" ")
 
         Integer total
