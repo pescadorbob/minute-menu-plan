@@ -14,7 +14,7 @@ class Recipe extends Item {
     Quantity preparationTime
     Quantity cookingTime
     Set<RecipeCategory> recipeCategories = [] as Set
-    List<RecipeDirection> directions = []
+    List<String> directions = []
     List<RecipeIngredient> ingredients = []
 
     String cookingTimeValue
@@ -23,7 +23,7 @@ class Recipe extends Item {
     String categoriesString
 
     static transients = ['categories', 'cookingTimeValue', 'totalTimeValue', 'prepTimeValue', 'categoriesString']
-    static hasMany = [ingredients: RecipeIngredient, directions: RecipeDirection, recipeCategories: RecipeCategory, nutrients: RecipeNutrient, items: Item]
+    static hasMany = [ingredients: RecipeIngredient, directions: String, recipeCategories: RecipeCategory, nutrients: RecipeNutrient, items: Item]
 
     String getCategoriesString() {
         return (categories ? categories*.name.join(", ") : '')

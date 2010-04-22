@@ -52,6 +52,12 @@ class BootstrapService {
             recipe.directions = populateRecipeDirections(recipe)
             populateRecipeNutrient(recipe)
             recipe.s()
+
+            String imagePath='/home/neeraj/Desktop/recipeImages/'+ index +'.jpg'
+            Image image = new Image(imagePath, "Some alt text")
+            recipe.image = image
+            image.s()
+            recipe.s()
         }
     }
 
@@ -91,10 +97,10 @@ class BootstrapService {
         return (ingredients.unique {it.ingredient})
     }
 
-    public List<RecipeDirection> populateRecipeDirections(Recipe recipe) {
-        List<RecipeDirection> directions = []
+    public List<String> populateRecipeDirections(Recipe recipe) {
+        List<String> directions = []
         (1..5).each {Integer index ->
-            directions.add(new RecipeDirection(step: "for ${recipe.name} step-${index}", recipe: recipe))
+            directions.add("for "+ recipe.name + "step-" + index)
         }
         return directions
     }

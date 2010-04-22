@@ -143,12 +143,12 @@ class ExcelService {
 
     public boolean createIDirections(List<List<String>> directions, Recipe recipe) {
         try {
+            List<String> directionList = []
             directions.eachWithIndex {List<String> directionRow, Integer index ->
-                RecipeDirection recipeDirection = new RecipeDirection()
-                recipeDirection.step = directionRow.getAt(1)
-                recipe.addToDirections(recipeDirection)
-                recipe.s()
+                directionList.add(directionRow.getAt(1))
             }
+            recipe.directions=directionList
+            recipe.s()
         }
         catch (ex) {
             return false

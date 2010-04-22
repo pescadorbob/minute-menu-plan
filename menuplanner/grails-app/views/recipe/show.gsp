@@ -110,12 +110,13 @@
                 <p>&nbsp;</p>
                 <p>
                     <span id="displayCategory">
-                        <g:each in="${recipe?.categories}">
+                        <g:if test="${recipe?.categories}">
                             Categories:
-                            <g:each in="${recipe?.categories}" status="i" var="category">
-                                ${category}<g:if test="${( i < (recipe?.categories?.size()-1 ))}">,</g:if>
-                            </g:each>
-                        </g:each>
+                                <g:each in="${recipe?.categories}" status="i" var="category">
+                                    ${category}
+                                    <g:if test="${( i < (recipe?.categories?.size()-1 ))}">,</g:if>
+                                </g:each>
+                        </g:if>
                     </span>
                 </p>
                 <br>

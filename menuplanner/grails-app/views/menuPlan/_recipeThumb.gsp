@@ -6,10 +6,13 @@
                 ${recipe?.name}
             </g:if>
             <g:else>
-                ${recipe?.name?.substring(0,8)}...
+                ${recipe?.name?.substring(0, 8)}...
             </g:else>
         </h3>
-        <img src="${resource(dir: 'images', file: 'vegetarian.gif')}" class="imgbor"/>
+        <g:if test="${recipe.image}">
+            <img height="80" width="80" src="${createLink(controller: 'recipe', action: 'showImage', id: recipe?.id)}"/>
+        </g:if>
+        %{--<img src="${resource(dir: 'images', file: 'vegetarian.gif')}" class="imgbor"/>--}%
     </div>
     <div class="ratingbox-right">
         <div class="star-container">
@@ -20,7 +23,16 @@
             <img src="${resource(dir: 'images', file: 'star-full.gif')}" width="14" height="14"/>
         </div>
 
-        ${recipe?.totalTime}<br/>
+        <g:if test="${recipe?.totalTime?.value<60}">
+            ${recipe?.totalTime}.
+        </g:if>
+        <g:else>
+            ${((recipe?.totalTime?.value) / 60).toInteger()} hrs.
+            <g:if test="${((recipe?.totalTime?.value?.toInteger()) % 60)!=0}">
+                ${(recipe?.totalTime?.value?.toInteger()) % 60} mins.
+            </g:if>
+        </g:else>
+        <br/>
         ${recipe?.difficulty}<br/>
 
         <g:each in="${recipe?.ingredients?.ingredient}" status="i" var="product">
@@ -29,7 +41,7 @@
                     ${product?.toString()}
                 </g:if>
                 <g:else>
-                    ${product?.toString()?.substring(0,8)}...<br/>
+                    ${product?.toString()?.substring(0, 8)}...<br/>
                 </g:else>
             </g:if>
         </g:each>
