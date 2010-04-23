@@ -2,6 +2,7 @@ package com.mp.domain
 
 import jxl.*
 import static com.mp.MenuConstants.*
+import org.apache.commons.math.fraction.Fraction
 
 
 class ExcelService {
@@ -48,9 +49,6 @@ class ExcelService {
             String valueThree = sheet.getCell(2, position).contents.toString()
             String valueFour = sheet.getCell(3, position).contents.toString()
             if (valueTwo || valueThree || valueFour) {
-                if (valueTwo.contains('/')) {
-                    valueTwo = fractionToDecimal(valueTwo).join('.')
-                }
                 ingredients.add([valueOne, valueTwo, valueThree, valueFour])
             }
         }
@@ -75,8 +73,6 @@ class ExcelService {
             recipeLog.add("@: Error while Creating Recipe.")
         }
     }
-
-
 
     public Recipe makeRecipe(List<List<String>> recipe) {
         try {
@@ -158,7 +154,9 @@ class ExcelService {
 
     public boolean createIngredients(List<List<String>> ingredients, Recipe recipe) {
         try {
+            List<RecipeIngredient> recipeIngredients = []
             ingredients.eachWithIndex {List<String> ingredientRow, Integer i ->
+                println "Ingredients: " + ingredientRow
                 RecipeIngredient recipeIngredient = new RecipeIngredient()
                 Item item = Item.findByName(ingredientRow.getAt(3))
                 if (!item) {
@@ -169,7 +167,13 @@ class ExcelService {
                 recipeIngredient.ingredient = item
 
                 Quantity quantity = new Quantity()
-                quantity.value = ingredientRow.getAt(1).toBigDecimal()
+                if(ingredientRow.getAt(1) && ingredientRow.getAt(1).contains('.')){
+                    quantity.value = ingredientRow.getAt(1).toBigDecimal()
+                }else if(ingredientRow.getAt(1)){
+                    quantity.value = new Fraction(ingredientRow.getAt(1)).floatValue()
+                }else{
+                    quantity.value = null
+                }
                 Unit unit = Unit.findBySymbol(ingredientRow.getAt(2))
                 if (ingredientRow.getAt(2).trim()) {
                     if (!unit) {
@@ -184,6 +188,10 @@ class ExcelService {
                 quantity.unit = unit
                 quantity.s()
                 recipeIngredient.quantity = quantity
+                recipeIngredients.add(recipeIngredient)
+            }
+            recipeIngredients?.eachWithIndex {RecipeIngredient recipeIngredient, Integer index ->
+                recipeIngredient.recipe = recipe
                 recipe.addToIngredients(recipeIngredient)
                 recipe.s()
             }

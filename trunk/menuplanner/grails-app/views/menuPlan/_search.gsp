@@ -9,10 +9,9 @@
                     <g:formRemote
                             name="searchForm"
                             url="[controller:'menuPlan', action:'search']"
-                            update="ratingbox">
+                            update="searchResult">
 
                         <input name="q" type="text" class="inp" value=""/>
-                        %{--<input name="q" type="text" class="inp" value="Beef" onFocus="if (this.value == 'Beef')this.value = '';" onblur="if (this.value == '')this.value = 'Beef';"/>--}%
                         <span id="searchParams" style="display:none;"></span>
                         <span style="display:none;"><input type="submit"/></span>
 
@@ -78,29 +77,11 @@
                     </table>
 
                 </div>
-                <div id="ratingbox">
+                <div class="ratingbox" id="searchResult">
 
-                    <g:render template="/menuPlan/searchResult" model="[recipeList:recipeList, recipeTotal:recipeTotal, query:query]"/>
+                    <g:render template="/menuPlan/searchResultMenuPlan" model="[recipeList:recipeList, recipeTotal:recipeTotal, query:query]"/>
 
                 </div>
-
-                <!-- paging -->
-
-                <div id="pagination">                  
-                    %{--<ul>--}%
-                        %{--<li><img src="${resource(dir: 'images', file: 'first.gif')}" class="arrowbor"/></li>--}%
-                        %{--<li><img src="${resource(dir: 'images', file: 'prev.gif')}" class="arrowbor"/></li><li><a href="_search.gsp#">1</a></li>--}%
-                        %{--<li><a href="_search.gsp#">2</a></li>--}%
-                        %{--<li><a href="_search.gsp#">3</a></li>--}%
-                        %{--<li><a href="_search.gsp#">4</a></li>--}%
-                        %{--<li><a href="_search.gsp#">5</a></li>--}%
-                        %{--<li><a href="_search.gsp#"><img src="${resource(dir: 'images', file: 'next.gif')}" border="0" class="arrowbor"/></a></li>--}%
-                        %{--<li><a href="_search.gsp#"><img src="${resource(dir: 'images', file: 'last.gif')}" border="0" class="arrowbor"/></a></li>--}%
-                    %{--</ul>--}%
-                
-                </div>
-                <!--end paging-->
-
             </div>
             <!--  end search-left  start search-right-->
             <div id="search-right">

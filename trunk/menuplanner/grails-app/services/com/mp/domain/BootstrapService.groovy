@@ -15,7 +15,11 @@ class BootstrapService {
 
     public void populateQuantities(Integer count) {
         (1..count).each {Integer index ->
-            new Quantity(value: new Random().nextInt(10) + 1, unit: Unit.get(new Random().nextInt(Unit.count() - 4) + 3)).s()
+            Quantity quantity = new Quantity()
+            quantity.value= new Random().nextInt(10) + 1
+            quantity.unit= Unit.get(new Random().nextInt(Unit.count() - 4) + 3)
+            quantity.savedUnit= Unit.findByName(UNIT_GRAM)
+            quantity.s()
         }
     }
 
@@ -24,11 +28,7 @@ class BootstrapService {
             MeasurableProduct measurableProduct = new MeasurableProduct()
             measurableProduct.name = "Product-${index}"
             measurableProduct.preferredUnit = Unit.get(new Random().nextInt(Unit.count()) + 1)
-            //measurableProduct.possibleUnits= Unit.get(new Random().nextInt(Unit.count())+1)
             measurableProduct.s()
-//            def image = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/img13.jpg")).readBytes()
-//            ProductImage productImage = new ProductImage(productId: measurableProduct.id, image: image).s()
-
         }
     }
 
@@ -52,7 +52,6 @@ class BootstrapService {
             recipe.directions = populateRecipeDirections(recipe)
             populateRecipeNutrient(recipe)
             recipe.s()
-
         }
     }
 

@@ -34,7 +34,7 @@
             params="[query: query]"
             max="4"
             offset="${params.offset}"
-            update="ratingbox"
+            update="searchResult"
             maxsteps="5"/>
 </div>
 

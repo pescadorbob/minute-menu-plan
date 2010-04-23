@@ -16,7 +16,7 @@
                 url="[controller:'recipe', action:'search']"
                 update="rightContainer">
 
-            <g:render template="/recipe/searchPanel" model="['categoryList':categoryList]"/>
+            <g:render template="/recipe/search" model="['categoryList':categoryList]"/>
 
         </g:formRemote>
         <div>
@@ -26,7 +26,7 @@
 
 </div>
 <div id="rightContainer" class="browse-recipes-container-right">
-    <g:render template="/recipe/searchResultPanel" model="['recipeList':recipeList]"/>
+    <g:render template="/recipe/searchResultRecipe" model="['recipeList':recipeList]"/>
 </div>
 
 </body>

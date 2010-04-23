@@ -13,7 +13,7 @@
                             <td><strong>Ingredient</strong></td>
                         </tr>
                         <!-- Show Ingredients Here -->
-                        <g:each status="i" in="${recipeCO?.hiddenIngredientUnitNames}" var="X">
+                        <g:each status="i" in="${recipeCO?.hiddenIngredientProductNames}" var="X">
                             <g:render template="ingredientRowWithParams" model="[hiddenIngredientUnitNames:recipeCO?.hiddenIngredientUnitNames[i],hiddenIngredientProductNames:recipeCO.hiddenIngredientProductNames[i], ingredientQuantity:recipeCO.ingredientQuantities[i],ingredientUnitId:recipeCO.ingredientUnitIds[i],ingredientProductId:recipeCO.ingredientProductIds[i]]"/>
                         </g:each>
                     </table>
@@ -24,7 +24,7 @@
                     <img class="imagePointer" id="btnAddIngredient" src="${resource(dir: 'images', file: 'plus-add.jpg')}" hspace="4" align="left" border="0"/>
                     <span id="ingredientToBeAdded" style="display:block; float:left;padding-left:10px;">
                         <g:textField class="input2" id='optionIngredientQuantities' name="optionIngredientQuantities" value="" style="margin-right:5px;"/>
-                        <g:select class="select2" id='optionIngredientUnitIds' name="optionIngredientUnitIds" from="${metricUnits}" optionKey="id" style="width:105px;"/>
+                        <g:select class="select2" id='optionIngredientUnitIds' noSelection="['':'(No Unit)']" name="optionIngredientUnitIds" from="${metricUnits}" optionKey="id" style="width:105px;"/>
                         <div style="padding-top:2px; float:left;">
                             <mp:tagInput name="optionIngredientProductIds" controller="recipe" action="getMatchingItems" multiselect="false"/>
                         </div>

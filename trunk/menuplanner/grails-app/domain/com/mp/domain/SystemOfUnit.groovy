@@ -10,11 +10,17 @@ class SystemOfUnit {
         units(nullable: true)
     }
 
-    List<Unit> getTimeUnits(){
-        return ((units)? (units.findAll{it.metricType == MetricType.TIME} as List) : [])
+    List<Unit> getTimeUnits() {
+        return ((units) ? (units.findAll {it.metricType == MetricType.TIME} as List) : [])
     }
 
-    List<Unit> getMetricUnits(){
-        return ((units)? (units.findAll{it.metricType == MetricType.METRIC} as List) : [])
+    List<Unit> getMetricUnits() {
+        return ((units) ? (units.findAll {it.metricType == MetricType.METRIC} as List) : [])
+    }
+
+    List<Unit> getRecipeUnits() {
+        List<Unit> recipeUnits = []
+        recipeUnits = ((units) ? (units.findAll {it.metricType != MetricType.TIME} as List) : [])
+        return recipeUnits
     }
 }
