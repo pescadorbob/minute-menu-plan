@@ -34,7 +34,6 @@ class BootStrap {
 
         bootstrapMasterData()
         if (!GrailsUtil.environment != Environment.PRODUCTION) {
-//      if (false) {
             bootstrapService.populateCategory(10)
             println "Populated Categories"
             bootstrapService.populateQuantities(20)

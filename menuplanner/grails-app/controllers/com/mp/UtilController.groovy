@@ -23,9 +23,6 @@ class UtilController {
     }
 
     def index = {
-//        String.metaClass.trimLength = {Integer stringLength ->
-//            println "String length:  " + stringLength
-//        }
         String test = "123456789 123456789 123456789 "
         render test
     }
@@ -39,7 +36,7 @@ class UtilController {
         List<String> recipeLog = excelService.createLineItems(file.getInputStream())
         render(view: 'uploadResults', model: [result: recipeLog])
     }
-    
+
     def fractionTest = {
         Fraction f1 = new ProperFractionFormat().parse("3  1/2")
         Fraction f2 = new ProperFractionFormat().parse("7/2")

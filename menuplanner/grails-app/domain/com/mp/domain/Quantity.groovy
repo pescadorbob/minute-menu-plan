@@ -6,14 +6,16 @@ class Quantity {
 
     BigDecimal value
     Unit unit
+    Unit savedUnit
 
     String toString() {
-        return "${value} ${unit?.symbol}"
+        return "${value?:''} ${unit?.symbol?:''}"
     }
 
     static constraints = {
-        value(min: 0.0)
+        value(nullable:true, blank: true)
         unit(nullable: true, blank: true)
+        savedUnit(nullable: true, blank:true)
     }
 
     //TODO: Make it generic unit conversion method add(q1, q2).

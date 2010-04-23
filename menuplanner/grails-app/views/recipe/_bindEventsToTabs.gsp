@@ -49,10 +49,14 @@
             var quantity = jQuery('#optionIngredientQuantities').attr('value')
             var unitId = jQuery('#optionIngredientUnitIds').attr('value')
             var productId = jQuery('#AddIngredientToolBox input[name=optionIngredientProductIds][value!=""]').attr('value')
-            var unitName = jQuery('#optionIngredientUnitIds :selected').text()
+            var unitName = (unitId) ? jQuery('#optionIngredientUnitIds :selected').text() : ''
             var prodName = jQuery('#AddIngredientToolBox p').html()
 
-            if ((quantity.length > 0) && (unitId.length > 0) && (productId.length > 0) && !isNaN(quantity)) {
+            var intRegex = /^\d+$/;
+            var floatRegex = /^((\d+(\.\d *)?)|((\d*\.)?\d+))$/;
+            var fractionRegex = /^\d+(\s)*(\d*(\s)*\/(\s)*\d+(\s)*)*$/;
+
+            if ((prodName.length > 0) && (intRegex.test(quantity) || floatRegex.test(quantity)|| fractionRegex.test(quantity) || quantity == '')) {
                 AddIngredient(quantity, unitId, productId, unitName, prodName)
                 /* Reset Add Ingredient ToolBox.... */
                 jQuery('#optionIngredientQuantities').attr('value', '')

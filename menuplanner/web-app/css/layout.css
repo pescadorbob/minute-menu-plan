@@ -56,9 +56,9 @@
 #country-cate ul li a{ display:block;text-decoration:none; color:#007ad8; font-weight:normal; clear:both; padding:0px 0px; margin:0px; line-height:14px;}
 #country-cate ul li a:hover{ font-weight:bold;}
 
-#ratingbox{clear:both; font-size:11px; color:#fff;}
-#ratingbox ul li{clear:both; background-color:#329ca7; padding:5px; margin-top:11px; height:109px;}
-#ratingbox ul li h3{clear:both;padding:10px; padding:0px 5px 0px 0px; margin:0px; line-height:16px;   font-size:12px;}
+.ratingbox{clear:both; font-size:11px; color:#fff;}
+.ratingbox ul li{clear:both; background-color:#329ca7; padding:5px; margin-top:11px; height:109px;}
+.ratingbox ul li h3{clear:both;padding:10px; padding:0px 5px 0px 0px; margin:0px; line-height:16px;   font-size:12px;}
 .ratingbox-left{ float:left;width:110px;}
 .ratingbox-left img{ clear:both; padding:1px 0px 0px 1px;}
 .imgbor{ border:none; height:82px; width:99px; background:url(../images/ima-bg.gif) no-repeat top left;}

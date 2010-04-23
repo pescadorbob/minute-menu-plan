@@ -2,6 +2,7 @@ package com.mp.domain
 
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import static com.mp.MenuConstants.*
+import org.apache.commons.math.fraction.Fraction
 
 class RecipeService {
 
@@ -19,9 +20,9 @@ class RecipeCO {
     Boolean shareWithCommunity
     Integer makesServing
     Integer preparationTime
-    Integer preparationUnitId
+    Long preparationUnitId
     Integer cookTime
-    Integer cookUnitId
+    Long cookUnitId
     def selectRecipeImage
     def selectRecipeImagePath
 
@@ -31,7 +32,7 @@ class RecipeCO {
 
     Set<Long> serveWithItems = []
 
-    List<BigDecimal> ingredientQuantities = []
+    List<String> ingredientQuantities = []
     List<Long> ingredientUnitIds = []
     List<Long> ingredientProductIds = []
     List<String> hiddenIngredientUnitNames = []
@@ -95,7 +96,7 @@ class RecipeCO {
         difficulty(blank: true, nullable: true)
         makesServing(nullable: true, blank: true)
         selectRecipeImagePath(nullable: true, blank: true)
-        selectRecipeImage(blank: true)
+        selectRecipeImage(nullable: true, blank: true)
         preparationTime(nullable: true, blank: true)
         cookTime(nullable: true, blank: true)
 
@@ -105,19 +106,20 @@ class RecipeCO {
             }
         })
 
-        ingredientQuantities(validator: {val, obj ->
+        ingredientQuantities(nullable: true, blank: true)
+
+        hiddenIngredientProductNames(validator: {val, obj ->
+            List<String> tempProd = []
+            val.each { tempProd.add(it) }
             if (val.size() < 1) {
-                return 'recipeCO.ingredientQuantities.not.Amount.message'
+                return 'recipeCO.ingredient.not.Provided.message'
             }
-            if (val.size() != obj.ingredientUnitIds?.size()) {
+            if (val.size() != tempProd?.unique()?.size()) {
                 return 'recipeCO.ingredientProduct.Repeated.message'
             }
         })
-        ingredientProductIds(validator: {val, obj ->
-            if (val.size() != obj.ingredientProductIds?.unique()?.size()) {
-                return 'recipeCO.ingredientProduct.Repeated.message'
-            }
-        })
+
+
         directions(validator: {val, obj ->
             if ((val.size() < 1) || (val.any {!it})) {
                 return 'recipeCO.directions.not.valid.message'
@@ -193,12 +195,13 @@ class RecipeCO {
         recipe.s()
     }
 
-    public Quantity makeTimeQuantity(Integer minutes, Integer unitId) {
-        if (!(minutes && unitId)) {
+    public Quantity makeTimeQuantity(Integer minutes, Long unitId) {
+        if (!minutes) {
             return null
         }
         Quantity time = new Quantity()
         time.unit = Unit.get(unitId)
+        time.savedUnit = Unit.findByName(TIME_UNIT_MINUTES)
         if (time.unit.name == TIME_UNIT_HOURS) minutes *= 60;
         time.value = minutes
         time.s()
@@ -209,13 +212,15 @@ class RecipeCO {
         }
     }
 
-    public List<RecipeIngredient> recipeIngredientList(List<BigDecimal> amounts, List<Long> unitIds, List<String> productNames) {
+    public List<RecipeIngredient> recipeIngredientList(List<String> amounts, List<Long> unitIds, List<String> productNames) {
         List<RecipeIngredient> recipeIngredients = []
         productNames?.eachWithIndex {String productName, Integer index ->
             RecipeIngredient recipeIngredient = new RecipeIngredient()
             Quantity quantity = new Quantity()
             Item product = Item.findByName(productName)
             Unit unit = (unitIds[index]) ? Unit.get(unitIds[index]) : null
+            quantity.unit = unit
+            quantity.savedUnit = unit
             if (!product) {
                 if (unit) {
                     product = new MeasurableProduct(name: productNames[index], isVisible: false)
@@ -224,10 +229,18 @@ class RecipeCO {
                 }
                 product.s()
             }
-            quantity.value = (amounts[index]) ? amounts[index] : null
-            quantity.unit = unit
+            if (amounts[index] && amounts[index].contains('.')) {
+                quantity.value = amounts[index].toBigDecimal()
+            } else if (amounts[index]) {
+                quantity.value = new Fraction(amounts[index]).floatValue()
+            } else {
+                quantity.value = null
+            }
+            if (quantity?.unit?.systemOfUnits*.systemName?.contains(SYSTEM_OF_UNIT_USA)) {
+                //TODO: target unit is currently mocked
+                quantity = StandardConversion.convert(quantity)
+            }
             quantity.s()
-
             recipeIngredient.ingredient = product
             recipeIngredient.quantity = quantity
             recipeIngredients.add(recipeIngredient)
@@ -235,7 +248,7 @@ class RecipeCO {
         return recipeIngredients
     }
 
-    public boolean addIngredientsToRecipe(Recipe recipe, List<BigDecimal> amounts, List<Long> unitIds, List<String> productNames) {
+    public boolean addIngredientsToRecipe(Recipe recipe, List<String> amounts, List<Long> unitIds, List<String> productNames) {
         List<RecipeIngredient> recipeIngredients = recipeIngredientList(amounts, unitIds, productNames)
         recipeIngredients?.eachWithIndex {RecipeIngredient recipeIngredient, Integer index ->
             recipeIngredient.recipe = recipe
@@ -246,7 +259,7 @@ class RecipeCO {
     }
 
     public boolean addDirectionsToRecipe(Recipe recipe, List<String> directions) {
-        directions=directions.findAll{ it && it!="" }
+        directions = directions.findAll { it && it != "" }
         recipe.directions = directions
         recipe.s()
         return true

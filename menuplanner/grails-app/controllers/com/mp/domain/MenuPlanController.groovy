@@ -34,7 +34,7 @@ class MenuPlanController {
             total = Recipe.count()
         }
 
-        render(template: '/menuPlan/searchResult', model: [recipeList: results, recipeTotal: total, query: query])
+        render(template: '/menuPlan/searchResultMenuPlan', model: [recipeList: results, recipeTotal: total, query: query])
     }
     
 }
