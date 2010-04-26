@@ -15,24 +15,6 @@
 }
 </style>
 <body>
-<g:javascript library="ui.core"/>
-<g:javascript library="ui.sortable"/>
-<script type="text/javascript">
-    jQuery(function() {
-        jQuery(".menuContainer").sortable({
-            //            update: function(event, ui) {
-            //              updatePosition(1, jQuery(this).sortable('toArray'))
-            //            },
-            tolerance: 'pointer',
-            //      handle:".portlet-header",
-            helper: 'clone',
-            cursorAt: 'top',
-            revert: true,
-            scrollSensitivity: 40 ,
-            connectWith: '.menuContainer'
-        });
-    })
-</script>
 <div id="content-wrapper" class="clearfix">
     <!--  start left-panel -->
     <div id="left-panel">
