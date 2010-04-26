@@ -10,6 +10,7 @@ import org.apache.commons.math.fraction.FractionFormat
 import org.apache.lucene.document.NumberTools
 
 import org.springframework.web.multipart.commons.CommonsMultipartFile
+import java.math.MathContext
 
 class UtilController {
     ExcelService excelService
@@ -23,8 +24,9 @@ class UtilController {
     }
 
     def index = {
-        String test = "123456789 123456789 123456789 "
-        render test
+        String x = "101.2   "
+        render "y: " + (x.tokenize(".").last()?.toInteger() ==0)
+
     }
 
     def uploadRecipes = {

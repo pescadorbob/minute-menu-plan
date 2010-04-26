@@ -25,7 +25,11 @@ class BootStrap {
         }
 
         Fraction.metaClass.myFormatUsingProperFractionFormat = {->
-            new ProperFractionFormat().format(delegate, new StringBuffer(), new FieldPosition(0))
+            String f = new ProperFractionFormat().format(delegate, new StringBuffer(), new FieldPosition(0))?.toString()
+            if(f && f.endsWith('0 / 1')){
+                f = f.tokenize(" ").first()
+            }
+            return f
         }
 
         Fraction.metaClass.myFormatUsingFractionFormat = {->

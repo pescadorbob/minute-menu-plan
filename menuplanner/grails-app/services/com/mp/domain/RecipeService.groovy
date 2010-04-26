@@ -51,24 +51,35 @@ class RecipeCO {
         shareWithCommunity = recipe?.shareWithCommunity
         makesServing = recipe?.servings
 
+
         preparationUnitId = recipe?.preparationTime?.unit?.id
         if (recipe?.preparationTime?.unit?.name == TIME_UNIT_HOURS) {
-            preparationTime = recipe?.preparationTime?.value / 60
+            preparationTime = recipe?.preparationTime?.value?.toBigDecimal() / 60
         } else {
-            preparationTime = recipe?.preparationTime?.value
+            preparationTime = recipe?.preparationTime?.value?.toBigDecimal()
         }
         cookUnitId = recipe?.cookingTime?.unit?.id
         if (recipe?.cookingTime?.unit?.name == TIME_UNIT_HOURS) {
-            cookTime = recipe?.cookingTime?.value / 60
+            cookTime = recipe?.cookingTime?.value?.toBigDecimal() / 60
         } else {
-            cookTime = recipe?.cookingTime?.value
+            cookTime = recipe?.cookingTime?.value?.toBigDecimal()
         }
         categoryIds = recipe?.categories*.id as Set
         directions = recipe?.directions
 
-        ingredientQuantities = recipe?.ingredients*.quantity?.value
         ingredientUnitIds = recipe?.ingredients*.quantity?.unit?.id
         ingredientProductIds = recipe?.ingredients*.ingredient.id
+
+//        ingredientQuantities = recipe?.ingredients*.quantity?.value
+
+        recipe?.ingredients*.quantity?.value?.eachWithIndex {String val, Integer index ->
+            if(recipe?.ingredients?.getAt(index)?.quantity?.unit?.belongsToUsaSystem()){
+                Fraction fraction = new Fraction(val?.toBigDecimal())
+                ingredientQuantities.add(fraction.myFormatUsingProperFractionFormat())
+            }else{
+                ingredientQuantities.add(val)
+            }
+        }
 
         hiddenIngredientUnitNames = recipe?.ingredients*.quantity?.unit?.name
         hiddenIngredientProductNames = recipe.ingredients*.ingredient?.name
@@ -80,6 +91,7 @@ class RecipeCO {
         recipe.nutrients.each {RecipeNutrient recipeNutrient ->
             nutrientQuantities[recipeNutrient?.nutrient?.id?.toInteger() - 1] = recipeNutrient?.quantity?.value
         }
+
     } // parameterized constructor
 
 

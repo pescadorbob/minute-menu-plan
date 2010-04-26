@@ -16,7 +16,8 @@ class BootstrapService {
     public void populateQuantities(Integer count) {
         (1..count).each {Integer index ->
             Quantity quantity = new Quantity()
-            quantity.value= new Random().nextInt(10) + 1
+            Integer intVal= ((new Random().nextInt(10)+1) *10)
+            quantity.value= intVal.toBigDecimal().toString()
             quantity.unit= Unit.get(new Random().nextInt(Unit.count() - 4) + 3)
             quantity.savedUnit= Unit.findByName(UNIT_GRAM)
             quantity.s()
@@ -40,10 +41,10 @@ class BootstrapService {
             recipe.difficulty = [RecipeDifficulty.EASY, RecipeDifficulty.MEDIUM, RecipeDifficulty.HARD].get(new Random().nextInt(3))
             recipe.shareWithCommunity = false
             recipe.servings = new Random().nextInt(5) + 1
-            Quantity recipePreparationTime = new Quantity(value: (new Random().nextInt(15) + 1) * 10, unit: Unit.findByName(TIME_UNIT_MINUTES))
+            Quantity recipePreparationTime = new Quantity(value: ((new Random().nextInt(6)+1) *10).toBigDecimal().toString(), unit: Unit.findByName(TIME_UNIT_MINUTES))
             recipePreparationTime.s()
             recipe.preparationTime = recipePreparationTime
-            Quantity recipeCookTime = new Quantity(value: (new Random().nextInt(15) + 1) * 10, unit: Unit.findByName(TIME_UNIT_MINUTES))
+            Quantity recipeCookTime = new Quantity(value: ((new Random().nextInt(6)+1) *10).toBigDecimal().toString(), unit: Unit.findByName(TIME_UNIT_MINUTES))
             recipeCookTime.s()
             recipe.cookingTime = recipeCookTime
             recipe.s()
@@ -63,7 +64,7 @@ class BootstrapService {
             nutrient.nutrient = Nutrient.get(new Random().nextInt(Nutrient.count()) + 1)
 
             Quantity nutrientQuantity = new Quantity()
-            nutrientQuantity.value = new Random().nextInt(10) + 1
+            nutrientQuantity.value = (new Random().nextInt(500)+1).toBigDecimal().toString()
             nutrientQuantity.unit = nutrient.nutrient.preferredUnit
             nutrientQuantity.s()
             nutrient.quantity = nutrientQuantity
