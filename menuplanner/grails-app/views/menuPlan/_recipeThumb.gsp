@@ -12,7 +12,7 @@
         <g:if test="${recipe.image}">
             <img height="80" width="80" src="${createLink(controller: 'recipe', action: 'showImage', id: recipe?.id)}"/>
         </g:if>
-        %{--<img src="${resource(dir: 'images', file: 'vegetarian.gif')}" class="imgbor"/>--}%
+    %{--<img src="${resource(dir: 'images', file: 'vegetarian.gif')}" class="imgbor"/>--}%
     </div>
     <div class="ratingbox-right">
         <div class="star-container">
@@ -23,15 +23,17 @@
             <img src="${resource(dir: 'images', file: 'star-full.gif')}" width="14" height="14"/>
         </div>
 
-        <g:if test="${recipe?.totalTime?.value<60}">
-            ${recipe?.totalTime}.
-        </g:if>
-        <g:else>
-            ${((recipe?.totalTime?.value) / 60).toInteger()} hrs.
-            <g:if test="${((recipe?.totalTime?.value?.toInteger()) % 60)!=0}">
-                ${(recipe?.totalTime?.value?.toInteger()) % 60} mins.
-            </g:if>
-        </g:else>
+        %{--<g:if test="${recipe?.totalTime?.value}">--}%
+            %{--<g:if test="${recipe?.totalTime?.value<60}">--}%
+                ${recipe?.totalTime}.
+            %{--</g:if>--}%
+            %{--<g:else>--}%
+                %{--${((recipe?.totalTime?.value) / 60)?.toInteger()} hrs.--}%
+                %{--<g:if test="${((recipe?.totalTime?.value?.toInteger()) % 60)!=0}">--}%
+                    %{--${(recipe?.totalTime?.value?.toInteger()) % 60} mins.--}%
+                %{--</g:if>--}%
+            %{--</g:else>--}%
+        %{--</g:if>--}%
         <br/>
         ${recipe?.difficulty}<br/>
 
