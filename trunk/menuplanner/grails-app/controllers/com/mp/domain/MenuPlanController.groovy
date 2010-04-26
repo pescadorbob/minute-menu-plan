@@ -14,6 +14,16 @@ class MenuPlanController {
         render(view: 'show', model: [weeks: menuPlan.weeks, categoryList:categoryList, recipeList:recipeList, recipeTotal: Recipe.count()])
     }
 
+     def edit = {
+         Integer listSize = Recipe.count()
+         params.max = Math.min(params.max ? params.int('max') : 4, 150)
+         List<Category> categoryList = Category.list()
+         List<Recipe> recipeList = Recipe.list(params)
+
+        MenuPlan menuPlan = MenuPlan.get(params.long("id"))
+        render(view: 'edit', model: [weeks: menuPlan.weeks, categoryList:categoryList, recipeList:recipeList, recipeTotal: Recipe.count()])
+    }
+
     def search = {
         List<Recipe> results = []
         if(params?.q?.size()>0){
