@@ -49,8 +49,8 @@ class Recipe extends Item {
 
     String getTotalTimeValue() {
         if (totalTime) {
-            Long time = (totalTime?.value)?.toLong()
-            return NumberTools.longToString(time)
+            BigDecimal time = totalTime?.value?.toBigDecimal()
+            return time.toString()
         } else {
             return null
         }

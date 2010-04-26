@@ -31,20 +31,12 @@
                                 <g:render template="/recipe/rating"/>
                             </div>
                             <em>
-                                <g:if test="${recipe?.totalTime?.value<60}">
-                                    ${recipe?.totalTime}.
-                                </g:if>
-                                <g:else>
-                                    ${((recipe?.totalTime?.value) / 60).toInteger()} hrs.
-                                    <g:if test="${((recipe?.totalTime?.value?.toInteger()) % 60)!=0}">
-                                        ${(recipe?.totalTime?.value?.toInteger()) % 60} mins.
-                                    </g:if>
-                                </g:else>
+                                ${recipe?.totalTime}
                                 <br/>
                                 ${recipe?.difficulty}
                             </em>
                             <br/>
-                            
+
                             <g:each in="${recipe?.ingredients?.ingredient}" status="index" var="product">
                                 <g:if test="${index < 3}">
                                     <g:if test="${product?.toString()?.length()<10}">
