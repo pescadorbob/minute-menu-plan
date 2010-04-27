@@ -1,7 +1,7 @@
 <li class="recipe-detail-thumb">
 
     <div class="ratingbox-left">
-        <h3>
+        <h3 class="recipeName">
             <g:if test="${recipe?.name?.length()<10}">
                 ${recipe?.name}
             </g:if>

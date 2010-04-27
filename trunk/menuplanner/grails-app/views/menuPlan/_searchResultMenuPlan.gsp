@@ -20,7 +20,7 @@
 }
 </style>
 
-<ul>
+<ul class="resultContainer">
     <g:each in="${recipeList}" var="recipe">
         <g:render template="/menuPlan/recipeThumb" model="[recipe:recipe]"/>
     </g:each>
