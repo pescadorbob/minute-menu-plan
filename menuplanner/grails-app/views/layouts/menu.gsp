@@ -27,12 +27,14 @@
         <div id="navigation">
             <ul>
                 <li><a href="#" class="menuplan"><span>Menu&nbsp;Plans</span></a></li>
-                <li><a href="#" class="browse"><span>Browse&nbsp;Recipes</span></a></li>
-                <li><a href="#"><span>My&nbsp;Account</span></a></li>
-                <li><a href="#">Forums</a></li>
-                <li><a href="#">Conversions</a></li>
-                <li><a href="#">Help</a></li>
-                <li><a href="#"><span>Admin</span></a></li>
+                %{--<li><a href="#" class="browse"><span>Browse&nbsp;Recipes</span></a></li>--}%
+                <li><g:link controller="recipe" action="list" class="browse">Browse&nbsp;Recipes</g:link></li>
+                <li><g:link controller="recipe" action="create">Add New&nbsp;Recipe</g:link></li>
+                %{--<li><a href="#"><span>My&nbsp;Account</span></a></li>--}%
+                %{--<li><a href="#">Forums</a></li>--}%
+                %{--<li><a href="#">Conversions</a></li>--}%
+                %{--<li><a href="#">Help</a></li>--}%
+                %{--<li><a href="#"><span>Admin</span></a></li>--}%
             </ul>
         </div>
     </div>

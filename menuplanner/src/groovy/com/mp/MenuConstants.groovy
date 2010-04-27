@@ -13,7 +13,7 @@ class MenuConstants {
     public static final Double TIME_UNIT_HOURS_TO_MINUTES_CONVERSION_FACTOR = 60
 
     public static final String UNIT_DROP = "Drop"
-    public static final String UNIT_DROP_SYMBOL = ""
+    public static final String UNIT_DROP_SYMBOL = "drop"
     public static final Double UNIT_DROP_CONVERSION_FACTOR =0.05
 
     public static final String UNIT_TEA_SPOON = "Tea spoon"
@@ -29,7 +29,7 @@ class MenuConstants {
     public static final Double UNIT_FLUID_OUNCE_CONVERSION_FACTOR = 29.57
 
     public static final String UNIT_JIGGER = "Jigger"
-    public static final String UNIT_JIGGER_SYMBOL = ""
+    public static final String UNIT_JIGGER_SYMBOL = "shots"
     public static final Double UNIT_JIGGER_CONVERSION_FACTOR = 44.36
 
     public static final String UNIT_GILL = "gill"
@@ -45,7 +45,7 @@ class MenuConstants {
     public static final Double UNIT_PINT_CONVERSION_FACTOR = 473.18
 
     public static final String UNIT_FIFTH = "Fifth"
-    public static final String UNIT_FIFTH_SYMBOL = ""
+    public static final String UNIT_FIFTH_SYMBOL = "fifth"
     public static final Double UNIT_FIFTH_CONVERSION_FACTOR = 750
 
     public static final String UNIT_QUART = "Quart"
