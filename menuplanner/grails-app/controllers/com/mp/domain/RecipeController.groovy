@@ -130,7 +130,7 @@ class RecipeController {
 
     def show = {
         Recipe recipe = Recipe.findById(params.id)
-        render(view: 'show', model: [recipe: recipe])
+        render(view: 'showRecipe', model: [recipe: recipe])
     }
 
     def uploadImage = {
