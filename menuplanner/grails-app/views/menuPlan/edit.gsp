@@ -31,11 +31,29 @@
 <script type="text/javascript">
   jQuery(function() {
     jQuery(".menuContainer").sortable({
-      //            update: function(event, ui) {
-      //              updatePosition(1, jQuery(this).sortable('toArray'))
-      //            },
+      update: function(event, ui) {
+        console.debug(jQuery(ui.item).html());
+        if (jQuery("h3", jQuery(ui.item)).hasClass("recipeName")) {
+          var htmlString = " <div>" + jQuery("h3", jQuery(ui.item)).text() + "<img src='${resource(dir:'images',file:'delete.jpg')}' alt='' style='display:none' class='deleteImage'></div>"
+          jQuery(ui.item).remove()
+          jQuery(this).append(htmlString);
+          bindHoverAndClick();
+        }
+      },
+      opacity:0.6,
       tolerance: 'pointer',
-      //      handle:".portlet-header",
+      cursorAt: 'top',
+      revert: true,
+      scrollSensitivity: 40 ,
+      connectWith: '.menuContainer'
+    });
+
+    jQuery(".resultContainer").sortable({
+      remove:function(event,ui){
+        console.debug(jQuery(ui.helper))
+      },
+      opacity:0.6,
+      tolerance: 'pointer',
       helper: 'clone',
       cursorAt: 'top',
       revert: true,
@@ -43,16 +61,23 @@
       connectWith: '.menuContainer'
     });
 
+    bindHoverAndClick();
+
+  })
+  function bindHoverAndClick() {
+    jQuery(".menuContainer>div").unbind()
+    jQuery(".menuContainer>div .deleteImage").unbind()
+
     jQuery(".menuContainer>div").hover(function() {
       jQuery("img", jQuery(this)).css("display", "block");
     }, function() {
       jQuery("img", jQuery(this)).css("display", "none");
     })
 
-    jQuery(".menuContainer>div .deleteImage").click(function(){
+    jQuery(".menuContainer>div .deleteImage").click(function() {
       jQuery(this).parent().remove()
     })
-  })
+  }
 
 
 </script>
