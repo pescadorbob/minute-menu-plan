@@ -33,7 +33,7 @@
     jQuery(".menuContainer").sortable({
       update: function(event, ui) {
         if (jQuery("h3", jQuery(ui.item)).hasClass("recipeName")) {
-          var htmlString = " <div><span style='float:left'>" + jQuery("h3", jQuery(ui.item)).text() + "</span><img src='${resource(dir:'images',file:'delete.jpg')}' alt='' style='display:none;float:right' class='deleteImage'></div>"
+          var htmlString = " <div style='clear:both'><span style='float:left'>" + jQuery("h3", jQuery(ui.item)).text() + "</span><img src='${resource(dir:'images',file:'delete.jpg')}' alt='' style='display:none;padding-left:2px;' class='deleteImage'></div>"
           jQuery(ui.item).remove()
           jQuery(this).append(htmlString);
           bindHoverAndClick();
@@ -51,8 +51,8 @@
 
   })
   function bindHoverAndClick() {
-    jQuery(".menuContainer>div").unbind()
-    jQuery(".menuContainer>div .deleteImage").unbind()
+    jQuery(".menuContainer>div").unbind();
+    jQuery(".menuContainer>div .deleteImage").unbind();
 
     jQuery(".menuContainer>div").hover(function() {
       jQuery("img", jQuery(this)).css("display", "block");
@@ -61,7 +61,7 @@
     })
 
     jQuery(".menuContainer>div .deleteImage").click(function() {
-      jQuery(this).parent().remove()
+      jQuery(this).parent().remove();
     })
   }
 
