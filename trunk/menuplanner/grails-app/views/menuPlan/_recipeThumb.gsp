@@ -1,4 +1,4 @@
-<li class="recipe-detail-thumb">
+<li class="recipe-detail-thumb" id="draggableSearchItem_${index+1}">
 
     <div class="ratingbox-left">
         <h3 class="recipeName">

@@ -32,9 +32,8 @@
   jQuery(function() {
     jQuery(".menuContainer").sortable({
       update: function(event, ui) {
-        console.debug(jQuery(ui.item).html());
         if (jQuery("h3", jQuery(ui.item)).hasClass("recipeName")) {
-          var htmlString = " <div>" + jQuery("h3", jQuery(ui.item)).text() + "<img src='${resource(dir:'images',file:'delete.jpg')}' alt='' style='display:none' class='deleteImage'></div>"
+          var htmlString = " <div><span style='float:left'>" + jQuery("h3", jQuery(ui.item)).text() + "</span><img src='${resource(dir:'images',file:'delete.jpg')}' alt='' style='display:none;float:right' class='deleteImage'></div>"
           jQuery(ui.item).remove()
           jQuery(this).append(htmlString);
           bindHoverAndClick();
@@ -42,19 +41,6 @@
       },
       opacity:0.6,
       tolerance: 'pointer',
-      cursorAt: 'top',
-      revert: true,
-      scrollSensitivity: 40 ,
-      connectWith: '.menuContainer'
-    });
-
-    jQuery(".resultContainer").sortable({
-      remove:function(event,ui){
-        console.debug(jQuery(ui.helper))
-      },
-      opacity:0.6,
-      tolerance: 'pointer',
-      helper: 'clone',
       cursorAt: 'top',
       revert: true,
       scrollSensitivity: 40 ,

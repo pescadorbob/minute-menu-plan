@@ -21,8 +21,8 @@
 </style>
 
 <ul class="resultContainer">
-    <g:each in="${recipeList}" var="recipe">
-        <g:render template="/menuPlan/recipeThumb" model="[recipe:recipe]"/>
+    <g:each in="${recipeList}" var="recipe" status="index">
+        <g:render template="/menuPlan/recipeThumb" model="[recipe:recipe, index: index]"/>
     </g:each>
 </ul>
 
@@ -48,5 +48,27 @@
             jQuery(this).css('backgroundColor', '#329ca7')
         })
     })
+
+    jQuery(".resultContainer").sortable({
+      remove:function(event,ui){
+        var elemId=jQuery(ui.item).attr("id")
+        var elemNo= elemId.split("_")[1]
+        if(parseInt(elemNo)==1){
+          jQuery(this).prepend("<li id='"+elemId+"'>"+jQuery(ui.item).clone().html()+"</li>")
+        }else{
+          var prevElemNo=parseInt(elemNo)-1
+          jQuery("#draggableSearchItem_"+prevElemNo).after("<li id='"+elemId+"'>"+jQuery(ui.item).clone().html()+"</li>")
+        }
+      },
+      opacity:0.6,
+      tolerance: 'pointer',
+      helper: 'clone',
+      cursorAt: 'top',
+      revert: true,
+      scrollSensitivity: 40 ,
+      connectWith: '.menuContainer'
+    });
+
+
 
 </script>
