@@ -11,7 +11,7 @@ class MenuPlanController {
         List<Recipe> recipeList = Recipe.list(params)
 
         MenuPlan menuPlan = MenuPlan.get(params.long("id"))
-        render(view: 'show', model: [weeks: menuPlan.weeks, categoryList:categoryList, recipeList:recipeList, recipeTotal: Recipe.count()])
+        render(view: 'show', model: [menuPlan: menuPlan, categoryList:categoryList, recipeList:recipeList, recipeTotal: Recipe.count()])
     }
 
      def edit = {
@@ -21,7 +21,7 @@ class MenuPlanController {
          List<Recipe> recipeList = Recipe.list(params)
 
         MenuPlan menuPlan = MenuPlan.get(params.long("id"))
-        render(view: 'edit', model: [weeks: menuPlan.weeks, categoryList:categoryList, recipeList:recipeList, recipeTotal: Recipe.count()])
+        render(view: 'edit', model: [menuPlan: menuPlan, categoryList:categoryList, recipeList:recipeList, recipeTotal: Recipe.count()])
     }
 
     def search = {

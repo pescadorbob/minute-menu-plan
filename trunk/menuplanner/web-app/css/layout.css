@@ -102,7 +102,7 @@
 .bottom-shadow label{background:url(../images/round-right.gif) no-repeat bottom right;  height:32px;display:block;}
 #button{clear:both; height:40px; padding:10px;}
 #button ul li{ float:left; padding-right:10px;}
-.button{border:1px solid #ffa500; font-size:14px; color:#fff; line-height:35px; width:120px; height:35px; background:#ffa500; padding:2px 10px 3px 10px;}
+.button{border:1px solid #ffa500; text-decoration: none; font-size:14px; color:#fff; line-height:35px; width:120px; height:35px; background:#ffa500; padding:2px 10px 3px 10px;}
 .inpbox{border:1px solid #e2e2e2; font-size:12px; color:#323232;   padding:2px 3px 3px 10px;}
 
 #formElement{clear:both; padding-top:20px; color:#616a72;}

@@ -1,7 +1,7 @@
 <%@ page import="com.mp.domain.*" %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Minute Menu Plan</title>
+    <title>Edit</title>
     <meta name="layout" content="menuPlanner"/>
 </head>
 <body>
