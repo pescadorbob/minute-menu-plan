@@ -7,8 +7,8 @@
     <g:each in="${week.days}" var="day">
       <li class="menuContainer">
       <g:each in="${day.getMealByType(mealType)}" var="mealItem">
-        <div>
-            <span style='float:left'>${mealItem}</span><img src="${resource(dir:"images",file:"delete.jpg")}" alt="" style="display:none;float:right" class="deleteImage">
+        <div style="clear:both;">
+            <span style='float:left'>${mealItem}</span><img src="${resource(dir:"images",file:"delete.jpg")}" alt="" style="display:none;padding-left:2px;" class="deleteImage">
         </div>
       </g:each>
     </g:each>
