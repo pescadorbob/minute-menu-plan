@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="menu"/>
-    <title>Minute Menu Plan : Calendar</title>
+    <title>${menuPlan.name}</title>
 </head>
 <style type="text/css">
 .ui-sortable-placeholder {
@@ -66,16 +66,22 @@
         </div>
         <div class="week">
             <ul>
-                <mp:mealItems week="${weeks[0]}" type="${MealType.DINNER}" image="week1.gif"/>
-                <mp:mealItems week="${weeks[1]}" type="${MealType.DINNER}" image="week2.gif"/>
-                <mp:mealItems week="${weeks[2]}" type="${MealType.DINNER}" image="week3.gif"/>
-                <mp:mealItems week="${weeks[3]}" type="${MealType.DINNER}" image="week4.gif"/>
+                <mp:mealItems week="${menuPlan.weeks[0]}" type="${MealType.DINNER}" image="week1.gif"/>
+                <mp:mealItems week="${menuPlan.weeks[1]}" type="${MealType.DINNER}" image="week2.gif"/>
+                <mp:mealItems week="${menuPlan.weeks[2]}" type="${MealType.DINNER}" image="week3.gif"/>
+                <mp:mealItems week="${menuPlan.weeks[3]}" type="${MealType.DINNER}" image="week4.gif"/>
 
                 <li class="divider">
                     <img src="${resource(dir: 'images', file: 'divider.gif')}"/>
                 </li>
-                <mp:mealItems week="${weeks[0]}" type="${MealType.BREAKFAST}" image="breakfast.gif"/>
-                <mp:mealItems week="${weeks[0]}" type="${MealType.LUNCH}" image="lunch.gif"/>
+                <mp:mealItems week="${menuPlan.weeks[0]}" type="${MealType.BREAKFAST}" image="breakfast.gif"/>
+                <mp:mealItems week="${menuPlan.weeks[0]}" type="${MealType.LUNCH}" image="lunch.gif"/>
+            </ul>
+        </div>
+        <br/>
+        <div id="button">
+            <ul>
+                <li><g:link class="button" action="edit" id="${menuPlan.id}">Edit</g:link></li>
             </ul>
         </div>
     </div>
