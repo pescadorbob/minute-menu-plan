@@ -1,6 +1,7 @@
 <li class="recipe-detail-thumb" id="draggableSearchItem_${index+1}">
 
     <div class="ratingbox-left">
+        <input type="hidden" name="menuItemId" value="${recipe.id}"/>
         <h3 class="recipeName">
             <g:if test="${recipe?.name?.length()<10}">
                 ${recipe?.name}
