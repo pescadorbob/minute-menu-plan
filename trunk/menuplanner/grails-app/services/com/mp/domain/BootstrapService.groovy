@@ -16,10 +16,10 @@ class BootstrapService {
     public void populateQuantities(Integer count) {
         (1..count).each {Integer index ->
             Quantity quantity = new Quantity()
-            Integer intVal= ((new Random().nextInt(10)+1) *10)
-            quantity.value= intVal.toBigDecimal().toString()
-            quantity.unit= Unit.get(new Random().nextInt(Unit.count() - 4) + 3)
-            quantity.savedUnit= Unit.findByName(UNIT_GRAM)
+            Integer intVal = ((new Random().nextInt(10) + 1) * 10)
+            quantity.value = intVal.toBigDecimal().toString()
+            quantity.unit = Unit.get(new Random().nextInt(Unit.count() - 4) + 3)
+            quantity.savedUnit = Unit.findByName(UNIT_GRAM)
             quantity.s()
         }
     }
@@ -41,10 +41,10 @@ class BootstrapService {
             recipe.difficulty = [RecipeDifficulty.EASY, RecipeDifficulty.MEDIUM, RecipeDifficulty.HARD].get(new Random().nextInt(3))
             recipe.shareWithCommunity = false
             recipe.servings = new Random().nextInt(5) + 1
-            Quantity recipePreparationTime = new Quantity(value: ((new Random().nextInt(6)+1) *10).toBigDecimal().toString(), unit: Unit.findByName(TIME_UNIT_MINUTES))
+            Quantity recipePreparationTime = new Quantity(value: ((new Random().nextInt(6) + 1) * 10).toBigDecimal().toString(), unit: Unit.findByName(TIME_UNIT_MINUTES))
             recipePreparationTime.s()
             recipe.preparationTime = recipePreparationTime
-            Quantity recipeCookTime = new Quantity(value: ((new Random().nextInt(6)+1) *10).toBigDecimal().toString(), unit: Unit.findByName(TIME_UNIT_MINUTES))
+            Quantity recipeCookTime = new Quantity(value: ((new Random().nextInt(6) + 1) * 10).toBigDecimal().toString(), unit: Unit.findByName(TIME_UNIT_MINUTES))
             recipeCookTime.s()
             recipe.cookingTime = recipeCookTime
             recipe.s()
@@ -64,7 +64,7 @@ class BootstrapService {
             nutrient.nutrient = Nutrient.get(new Random().nextInt(Nutrient.count()) + 1)
 
             Quantity nutrientQuantity = new Quantity()
-            nutrientQuantity.value = (new Random().nextInt(500)+1).toBigDecimal().toString()
+            nutrientQuantity.value = (new Random().nextInt(500) + 1).toBigDecimal().toString()
             nutrientQuantity.unit = nutrient.nutrient.preferredUnit
             nutrientQuantity.s()
             nutrient.quantity = nutrientQuantity
@@ -95,7 +95,7 @@ class BootstrapService {
     public List<String> populateRecipeDirections(Recipe recipe) {
         List<String> directions = []
         (1..5).each {Integer index ->
-            directions.add("for "+ recipe.name + "step-" + index)
+            directions.add("for " + recipe.name + "step-" + index)
         }
         return directions
     }
@@ -110,8 +110,8 @@ class BootstrapService {
 
     public List<Week> populateWeeks(MenuPlan menuPlan) {
         List<Week> weeks = []
-        (1..4).each {Integer index ->
-            Week week = new Week(name: "Week-${index}", menuPlan: menuPlan)
+        4.times {
+            Week week = new Week(menuPlan: menuPlan)
             week.days = populateDays(week)
             weeks.add(week)
         }
@@ -120,8 +120,8 @@ class BootstrapService {
 
     public List<Day> populateDays(Week week) {
         List<Day> days = []
-        (['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']).each {String name ->
-            Day day = new Day(name: name, week: week)
+        7.times {
+            Day day = new Day(week: week)
             day.meals = populateMeals(day)
             days.add(day)
         }
@@ -131,7 +131,7 @@ class BootstrapService {
     public List<Meal> populateMeals(Day day) {
         List<Meal> meals = []
         (MealType.values()).eachWithIndex {MealType type, Integer index ->
-            Meal meal = new Meal(name: "Meal-${index + 1}", day: day, type: type)
+            Meal meal = new Meal(day: day, type: type)
             meal.items = populateMealItems(meal)
             meals.add(meal)
         }

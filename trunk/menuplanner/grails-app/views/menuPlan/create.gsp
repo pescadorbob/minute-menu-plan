@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="menu"/>
-    <title>Edit ${menuPlan.name}</title>
+    <title>Create MenuPlan</title>
 </head>
 
 <body>
@@ -117,7 +117,6 @@
             </ul>
         </div>
     <g:form action="saveAndUpdate" name="editMenuPlanForm">
-        <input type="hidden" name="id" value="${menuPlan.id}" />
     <div class="week">
             <ul>
                 <mp:mealItems week="${menuPlan.weeks[0]}" type="${MealType.DINNER}" image="week1.gif" weekIndex="0"/>
@@ -133,7 +132,7 @@
         <div id="button">
             <ul>
                 <li><g:submitButton class="button" name="update" value="Update"/></li>
-                <li><g:actionSubmit class="button" action="show" value="Cancel"/></li>
+                <li><g:actionSubmit class="button" action="create" value="Cancel"/></li>
             </ul>
         </div>
     </div>
