@@ -81,7 +81,9 @@
         <br/>
         <div id="button">
             <ul>
-                <li><g:link class="button" action="edit" id="${menuPlan.id}">Edit</g:link></li>
+                <li><g:link action="edit" id="${menuPlan.id}">
+                    <input type="button" class="button" value="Edit"/></g:link>
+                </li>
             </ul>
         </div>
     </div>
