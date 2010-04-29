@@ -33,10 +33,12 @@
         jQuery(".menuContainer").sortable({
             update: function(event, ui) {
                 if (jQuery("h3", jQuery(ui.item)).hasClass("recipeName")) {
-                    var htmlString = " <div style='clear:both'><span style='float:left'>" + jQuery("h3", jQuery(ui.item)).text() + "</span><img src='${resource(dir:'images',file:'delete.jpg')}' alt='' style='display:none;padding-left:2px;' class='deleteImage'></div>"
+                    var htmlString = " <div style='clear:both'><input type='hidden' value='"+ jQuery("input[name='menuItemId']",jQuery(ui.item)).val()+"' name='mealItems."+jQuery(this).attr("rel") +"'><span style='float:left'>" + jQuery("h3", jQuery(ui.item)).text() + "</span><img src='${resource(dir:'images',file:'delete.jpg')}' alt='' style='display:none;padding-left:2px;' class='deleteImage'></div>"
                     jQuery(ui.item).remove()
                     jQuery(this).append(htmlString);
                     bindHoverAndClick();
+                } else {
+                    jQuery(ui.item).find("input").attr("name","mealItems."+jQuery(this).attr("rel"))
                 }
             },
             opacity:0.6,
@@ -114,26 +116,29 @@
                 </li>
             </ul>
         </div>
-        <div class="week">
+    <g:form action="update" name="editMenuPlanForm">
+        <input type="hidden" name="menuPlanId" value="${menuPlan.id}" />
+    <div class="week">
             <ul>
-                <mp:mealItems week="${menuPlan.weeks[0]}" type="${MealType.DINNER}" image="week1.gif"/>
-                <mp:mealItems week="${menuPlan.weeks[1]}" type="${MealType.DINNER}" image="week2.gif"/>
-                <mp:mealItems week="${menuPlan.weeks[2]}" type="${MealType.DINNER}" image="week3.gif"/>
-                <mp:mealItems week="${menuPlan.weeks[3]}" type="${MealType.DINNER}" image="week4.gif"/>
+                <mp:mealItems week="${menuPlan.weeks[0]}" type="${MealType.DINNER}" image="week1.gif" weekIndex="0"/>
+                <mp:mealItems week="${menuPlan.weeks[1]}" type="${MealType.DINNER}" image="week2.gif" weekIndex="1"/>
+                <mp:mealItems week="${menuPlan.weeks[2]}" type="${MealType.DINNER}" image="week3.gif" weekIndex="2"/>
+                <mp:mealItems week="${menuPlan.weeks[3]}" type="${MealType.DINNER}" image="week4.gif" weekIndex="3"/>
 
                 <li class="divider"><img src="${resource(dir: 'images', file: 'divider.gif')}"/></li>
-                <mp:mealItems week="${menuPlan.weeks[0]}" type="${MealType.BREAKFAST}" image="breakfast.gif"/>
-                <mp:mealItems week="${menuPlan.weeks[0]}" type="${MealType.LUNCH}" image="lunch.gif"/>
+                <mp:mealItems week="${menuPlan.weeks[0]}" type="${MealType.BREAKFAST}" image="breakfast.gif" weekIndex="0"/>
+                <mp:mealItems week="${menuPlan.weeks[0]}" type="${MealType.LUNCH}" image="lunch.gif" weekIndex="0"/>
             </ul>
         </div>
         <div id="button">
             <ul>
-                <li><g:link class="button" action="show" id="${menuPlan.id}">Update</g:link></li>
-                <li><g:link class="button" action="show" id="${menuPlan.id}">Cancel</g:link></li>
+                <li><g:actionSubmit class="button" value="Update"/></li>
+                <li><g:actionSubmit class="button" value="Cancel"/></li>
             </ul>
         </div>
     </div>
-    <!--  end left-panel start right-panel -->
+   </g:form>
+<!--  end left-panel start right-panel -->
     <g:render template="/menuPlan/search"/>
     <!--  end right-panel -->
 </div>
