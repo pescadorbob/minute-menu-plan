@@ -131,7 +131,7 @@
         </div>
         <div id="button">
             <ul>
-                <li><g:submitButton class="button" name="update" value="Update"/></li>
+                <li><g:submitButton class="button" name="create" value="Create"/></li>
                 <li><g:actionSubmit class="button" action="create" value="Cancel"/></li>
             </ul>
         </div>
