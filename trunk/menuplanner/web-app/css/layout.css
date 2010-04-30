@@ -27,9 +27,9 @@
 /* hake ie6 */
 
 .week{font-size:11px;font-weight:bold;}
-.week ul li{margin:0px 0px 0px 0px; clear:both; height:69px;}
-.week ul li.divider{margin:0px 0px 0px 0px; clear:both; height:24px !important;}
-.week ul li ul{ padding:0px; margin:0px; list-style:none;}
+.week ul li{margin:0px 0px 0px 0px; clear:both;overflow:hidden;}
+.week ul li.divider{margin:0px 0px 0px 0px; clear:both; height:24px !important; position:relative;}
+.week ul li ul{ padding:0px; margin:0px; list-style:none; position:absolute;}
 .week ul li ul li{float:left;height:55px;border:#d5d4d4 1px solid;background:#fcfcfc url(../images/arrows.gif) no-repeat top right;color:#e67432;width:69px;margin-left:4px;padding:6px; clear:none;}
 .week ul li ul li.first{float:left;border:none;background:#b1bdc1;width:18px;margin:0px; height:69px; padding:0px; text-align:center; }
 /* end hake ie6 */
@@ -80,7 +80,7 @@
 
 .headbox{background:#2aa4b1 url(../images/head-left.gif) no-repeat top left; height:26px; display:block;font-weight:bold; color:#fff; margin-bottom:21px;}
 .headbox h3{ background:url(../images/head-right.gif) no-repeat top right; font-size:15px; padding-left:10px;  line-height:26px;}
- 
+
 #menu{clear:both; height:30px; padding-bottom:4px;  background: url(../images/bottom-border.gif) repeat-x bottom left;}
 #menu ul li{float:left; margin-right:1px; line-height:30px;font-size:13px;font-weight:bold;}
 #menu ul li a{float:left; text-decoration:none;color:#616a72;padding-left:10px;background:url(../images/left-close.gif) no-repeat bottom left; cursor:pointer;}
@@ -149,7 +149,7 @@
 
 #right-panel-product{float:right; width:775px;}
 
-.product{clear:both; font-size:11px;font-weight:bold; margin-top:0px; padding-top:20px; line-height:16px; } 
+.product{clear:both; font-size:11px;font-weight:bold; margin-top:0px; padding-top:20px; line-height:16px; }
 .product ul li{ float:left; width:230px; margin:0px 4px; padding:2px 0px; cursor:pointer;}
 .product ul li.bgcolor{ background:#efefef;}
 .product ul li ul li{ float:left;width:115px; display:block; margin:0 !important;}

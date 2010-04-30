@@ -10,6 +10,14 @@
 .menuContainer div:hover {
     cursor: move;
 }
+.myHover{
+  position:relative;
+  z-index:10000;
+  display:block;
+  background-color:red;
+  height:auto !important;
+  min-height:55px;
+}
 
 .menuContainer img:hover {
     cursor: pointer;
@@ -43,13 +51,21 @@
             },
             opacity:0.6,
             tolerance: 'pointer',
-            cursorAt: 'top',
+            helper:'clone',
+//            cursorAt: 'top',
             revert: true,
-            scrollSensitivity: 40 ,
+            scrollSensitivity: 40,
             connectWith: '.menuContainer'
         });
 
         bindHoverAndClick();
+      jQuery(".placeMyHover").hover(function(){
+              jQuery(this).addClass("myHover");
+            },function(){
+              jQuery(this).removeClass("myHover");
+
+            })
+
 
     })
     function bindHoverAndClick() {

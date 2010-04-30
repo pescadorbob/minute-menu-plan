@@ -5,7 +5,7 @@
         <img src="${resource(dir: 'images', file: image)}"/>
     </li>
     <g:each in="${week?.days}" var="day" status="index">
-      <li class="menuContainer" rel="${mealType}.week${weekIndex}.day${index}">
+      <li class="menuContainer placeMyHover" rel="${mealType}.week${weekIndex}.day${index}">
       <g:each in="${day.getMealByType(mealType)}" var="mealItem">
         <div style="clear:both;">
             <input type="hidden" name="mealItems.${mealType}.week${weekIndex}.day${index}" value="${mealItem.id}" />
