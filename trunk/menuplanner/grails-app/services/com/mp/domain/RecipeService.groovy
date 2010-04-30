@@ -67,22 +67,21 @@ class RecipeCO {
         categoryIds = recipe?.categories*.id as Set
         directions = recipe?.directions
 
-        ingredientUnitIds = recipe?.ingredients*.quantity?.unit?.id
+        hiddenIngredientProductNames = recipe.ingredients*.ingredient?.name
         ingredientProductIds = recipe?.ingredients*.ingredient.id
 
-//        ingredientQuantities = recipe?.ingredients*.quantity?.value
-
-        recipe?.ingredients*.quantity?.value?.eachWithIndex {String val, Integer index ->
-            if(recipe?.ingredients?.getAt(index)?.quantity?.unit?.belongsToUsaSystem()){
-                Fraction fraction = new Fraction(val?.toBigDecimal())
-                ingredientQuantities.add(fraction.myFormatUsingProperFractionFormat())
-            }else{
-                ingredientQuantities.add(val)
-            }
+        recipe?.ingredients*.quantity?.unit?.eachWithIndex {Unit unit, Integer index ->
+            ingredientUnitIds.add(unit?.id)
+            hiddenIngredientUnitNames.add(unit?.name)
         }
 
-        hiddenIngredientUnitNames = recipe?.ingredients*.quantity?.unit?.name
-        hiddenIngredientProductNames = recipe.ingredients*.ingredient?.name
+        recipe?.ingredients*.quantity?.value?.eachWithIndex {BigDecimal val, Integer index ->
+            if (recipe?.ingredients?.getAt(index)?.quantity?.unit?.belongsToUsaSystem()) {
+                ingredientQuantities.add(StandardConversion.getUsaString(val, recipe?.ingredients?.getAt(index)?.quantity?.unit))
+            } else {
+                ingredientQuantities.add(val.toString())
+            }
+        }
 
         nutrientIds = Nutrient.list()*.id
         Nutrient.count().times {
@@ -91,8 +90,7 @@ class RecipeCO {
         recipe.nutrients.each {RecipeNutrient recipeNutrient ->
             nutrientQuantities[recipeNutrient?.nutrient?.id?.toInteger() - 1] = recipeNutrient?.quantity?.value
         }
-
-    } // parameterized constructor
+    }   
 
 
     void setNutrientQuantities(def listOfNq) {
@@ -231,8 +229,13 @@ class RecipeCO {
             Quantity quantity = new Quantity()
             Item product = Item.findByName(productName)
             Unit unit = (unitIds[index]) ? Unit.get(unitIds[index]) : null
-            quantity.unit = unit
-            quantity.savedUnit = unit
+            if(amounts[index]){
+                if(amounts[index].contains('/')){
+                    quantity.value= new Fraction(amounts[index])?.floatValue()
+                }else{
+                    quantity.value=amounts[index].toBigDecimal()
+                }
+            }
             if (!product) {
                 if (unit) {
                     product = new MeasurableProduct(name: productNames[index], isVisible: false)
@@ -241,17 +244,14 @@ class RecipeCO {
                 }
                 product.s()
             }
-            if (amounts[index] && amounts[index].contains('.')) {
-                quantity.value = amounts[index].toBigDecimal()
-            } else if (amounts[index]) {
-                quantity.value = new Fraction(amounts[index]).floatValue()
-            } else {
-                quantity.value = null
+            if (unit?.belongsToUsaSystem() && amounts[index]) {
+                quantity = StandardConversion.getMetricQuantity(amounts[index].toBigDecimal(), unit)
+            }else if(unit?.belongsToMetricSystem() && amounts[index]){
+                quantity.value=amounts[index].toBigDecimal()
+                quantity.unit=unit
+                quantity.savedUnit=unit
             }
-            if (quantity?.unit?.systemOfUnits*.systemName?.contains(SYSTEM_OF_UNIT_USA)) {
-                //TODO: target unit is currently mocked
-                quantity = StandardConversion.convert(quantity)
-            }
+
             quantity.s()
             recipeIngredient.ingredient = product
             recipeIngredient.quantity = quantity
@@ -329,7 +329,7 @@ class RecipeCO {
             category.category = Category.get(categoryId)
             recipeCategories.add(category)
         }
-        return recipeCategories
+        return recipeCategories                 
     }
 
     public boolean addCategoriesToRecipe(Recipe recipe, Set<Long> categoryIds) {

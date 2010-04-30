@@ -80,11 +80,10 @@ class RecipeController {
     def edit = {
         if (params.id) {
             Recipe recipe = Recipe.get(params.id)
-            List<Unit> metricUnit = Unit.list().findAll {it.metricType != MetricType.TIME} as List
             RecipeCO recipeCO = new RecipeCO(recipe)
             SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
             List<Nutrient> nutrients = Nutrient.list()
-            render(view: 'edit', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits: metricUnit, nutrients: nutrients])
+            render(view: 'edit', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits: sys.getMetricUnits(), nutrients: nutrients])
         }
     }
 
@@ -123,9 +122,8 @@ class RecipeController {
 
     def create = {
         SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
-        List<Unit> metricUnit = Unit.list().findAll {it.metricType != MetricType.TIME} as List
         List<Nutrient> nutrients = Nutrient.list()
-        render(view: 'create', model: [timeUnits: sys.timeUnits, metricUnits: metricUnit, nutrients: nutrients])
+        render(view: 'create', model: [timeUnits: sys.timeUnits, metricUnits: sys.getMetricUnits(), nutrients: nutrients])
     }
 
     def show = {
@@ -166,4 +164,19 @@ class RecipeController {
             out.close()
         }
     }
+    def create_new = {
+        SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
+        List<Nutrient> nutrients = Nutrient.list()
+        render(view: 'create_new', model: [timeUnits: sys.timeUnits, metricUnits: sys.getMetricUnits(), nutrients: nutrients])
+    }
+    def edit_new = {
+        if (params.id) {
+            Recipe recipe = Recipe.get(params.id)
+            RecipeCO recipeCO = new RecipeCO(recipe)
+            SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
+            List<Nutrient> nutrients = Nutrient.list()
+            render(view: 'edit_new', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits: sys.getMetricUnits(), nutrients: nutrients])
+        }
+    }
+
 }
