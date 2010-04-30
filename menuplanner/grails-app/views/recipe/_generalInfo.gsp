@@ -59,7 +59,9 @@
         <div class="add-recipe-form5">
             <ul class="add-recipe-form-container">
                 <li class="add-recipe-form-input2">
-                    <div class="add-recipe-form-image-div"><strong>image</strong></div>
+                    <div class="add-recipe-form-image-div">
+                        <strong>image</strong>
+                    </div>
                     <div>
                         <input id="selectRecipeImage" size="1" name="selectRecipeImage" class="input3" type="file"/>
                         <img id="removeRecipeImage" src="${resource(dir: 'images', file: 'remove.jpg')}" alt="Remove" border="0" height="28px;" style="cursor:pointer"/>
