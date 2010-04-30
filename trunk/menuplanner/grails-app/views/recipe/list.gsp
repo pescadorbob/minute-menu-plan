@@ -1,33 +1,37 @@
 <%@ page import="com.mp.domain.*" %>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
-    <title>Minute Menu Plan</title>
-    <meta name="layout" content="menuPlanner"/>
+    <meta name="layout" content="menu"/>
+    <title>List Recipe</title>
 </head>
 <body>
+<div id="container">
+    <div id="wrapper" class="clearfix">
+        <div id="content-wrapper" class="clearfix">
+            <g:formRemote
+                    name="searchForm"
+                    url="[controller:'recipe', action:'search']"
+                    update="rightContainer">
 
-<div class="browse-recipes-container">
-    <div class="browse-recipes">
-        <div>
-            <img src="${resource(dir: 'images', file: 'quick-recipe-search-img1.jpg')}" width="216"/>
-        </div>
-        <g:formRemote
-                name="searchForm"
-                url="[controller:'recipe', action:'search']"
-                update="rightContainer">
+                <span id="searchParams" style="display:none;"></span>
+                <span style="display:none;"><input type="submit"/></span>
 
-            <g:render template="/recipe/search" model="['categoryList':categoryList]"/>
+                <g:render template="/recipe/search" model="['categoryList':categoryList]"/>
+            </g:formRemote>
 
-        </g:formRemote>
-        <div>
-            <img src="${resource(dir: 'images', file: 'add-rgt-img3.jpg')}" width="216">
+            <div id="right-panel-product">
+                <div class="top-shadow">
+                    <label>&nbsp;</label>
+                </div>
+                <div id="rightContainer" class="leftbox clearfix">
+                    <g:render template="/recipe/searchResultRecipe" model="['recipeList':recipeList]"/>
+                </div>
+                <div class="bottom-shadow">
+                    <label>&nbsp;</label>
+                </div>
+            </div>
         </div>
     </div>
-
 </div>
-<div id="rightContainer" class="browse-recipes-container-right">
-    <g:render template="/recipe/searchResultRecipe" model="['recipeList':recipeList]"/>
-</div>
-
 </body>
 </html>
