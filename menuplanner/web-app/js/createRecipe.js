@@ -129,7 +129,7 @@ function reflectInPreviewPanel() {
     var myServeWith = ''
     for (i = 0; i < jQuery('input[name="serveWithItems"]').size() - 1; i++) {
         if (jQuery('#AddItemToolBox p:eq(' + i + ')').html().length > 0) {
-            myServeWith += '<a class="serve-link" href="#">' +
+            myServeWith += '<a href="#">' +
                            jQuery('#AddItemToolBox p:eq(' + i + ')').html()
             if (i < jQuery('input[name="serveWithItems"]').size() - 2) {
                 myServeWith += '</a>, '

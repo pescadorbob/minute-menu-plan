@@ -56,7 +56,7 @@
             var floatRegex = /^((\d+(\.\d *)?)|((\d*\.)?\d+))$/;
             var fractionRegex = /^\d+(\s)*(\d*(\s)*\/(\s)*\d+(\s)*)*$/;
 
-            if ((prodName.length > 0) && (intRegex.test(quantity) || floatRegex.test(quantity)|| fractionRegex.test(quantity) || quantity == '')) {
+            if ((prodName.length > 0) && (intRegex.test(quantity) || fractionRegex.test(quantity) || quantity == '')) {
                 AddIngredient(quantity, unitId, productId, unitName, prodName)
                 /* Reset Add Ingredient ToolBox.... */
                 jQuery('#optionIngredientQuantities').attr('value', '')
