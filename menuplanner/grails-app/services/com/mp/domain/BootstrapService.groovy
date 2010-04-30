@@ -17,7 +17,7 @@ class BootstrapService {
         (1..count).each {Integer index ->
             Quantity quantity = new Quantity()
             Integer intVal = ((new Random().nextInt(10) + 1) * 10)
-            quantity.value = intVal.toBigDecimal().toString()
+            quantity.value = intVal.toBigDecimal()
             quantity.unit = Unit.get(new Random().nextInt(Unit.count() - 4) + 3)
             quantity.savedUnit = Unit.findByName(UNIT_GRAM)
             quantity.s()
@@ -41,13 +41,14 @@ class BootstrapService {
             recipe.difficulty = [RecipeDifficulty.EASY, RecipeDifficulty.MEDIUM, RecipeDifficulty.HARD].get(new Random().nextInt(3))
             recipe.shareWithCommunity = false
             recipe.servings = new Random().nextInt(5) + 1
-            Quantity recipePreparationTime = new Quantity(value: ((new Random().nextInt(6) + 1) * 10).toBigDecimal().toString(), unit: Unit.findByName(TIME_UNIT_MINUTES))
+            Quantity recipePreparationTime = new Quantity(value: ((new Random().nextInt(6) + 1) * 10), unit: Unit.findByName(TIME_UNIT_MINUTES))
             recipePreparationTime.s()
             recipe.preparationTime = recipePreparationTime
-            Quantity recipeCookTime = new Quantity(value: ((new Random().nextInt(6) + 1) * 10).toBigDecimal().toString(), unit: Unit.findByName(TIME_UNIT_MINUTES))
+            Quantity recipeCookTime = new Quantity(value: ((new Random().nextInt(6) + 1) * 10), unit: Unit.findByName(TIME_UNIT_MINUTES))
             recipeCookTime.s()
             recipe.cookingTime = recipeCookTime
             recipe.s()
+
             populateRecipeCategories(recipe)
             recipe.ingredients = populateRecipeIngredient(recipe)
             recipe.directions = populateRecipeDirections(recipe)
@@ -58,13 +59,14 @@ class BootstrapService {
 
     public List<RecipeNutrient> populateRecipeNutrient(Recipe recipe) {
         List<RecipeNutrient> nutrients = []
+        int nutrientCount = Nutrient.count()
         (1..new Random().nextInt(5)).each {Integer index ->
             RecipeNutrient nutrient = new RecipeNutrient()
             nutrient.recipe = recipe
-            nutrient.nutrient = Nutrient.get(new Random().nextInt(Nutrient.count()) + 1)
+            nutrient.nutrient = Nutrient.get(new Random().nextInt(nutrientCount) + 1)
 
             Quantity nutrientQuantity = new Quantity()
-            nutrientQuantity.value = (new Random().nextInt(500) + 1).toBigDecimal().toString()
+            nutrientQuantity.value = (new Random().nextInt(500) + 1)
             nutrientQuantity.unit = nutrient.nutrient.preferredUnit
             nutrientQuantity.s()
             nutrient.quantity = nutrientQuantity
@@ -86,7 +88,10 @@ class BootstrapService {
             RecipeIngredient ingredient = new RecipeIngredient()
             ingredient.recipe = recipe
             ingredient.ingredient = MeasurableProduct.get(new Random().nextInt(MeasurableProduct.count()) + 1)
-            ingredient.quantity = Quantity.get(new Random().nextInt(Quantity.count()) + 1)
+            Quantity quantity = StandardConversion.getMetricQuantity((new Random().nextInt(5)+1).toBigDecimal(),Unit.findByName(UNIT_FIFTH) )
+            quantity.s()
+
+            ingredient.quantity = quantity
             ingredients.add(ingredient)
         }
         return (ingredients.unique {it.ingredient})
