@@ -59,13 +59,21 @@
             jQuery("#draggableSearchItem_"+prevElemNo).after("<li id='"+elemId+"'>"+jQuery(ui.item).clone().html()+"</li>")
           }
         },
+        over:function(event,ui){
+          ui.helper=jQuery(ui.helper)
+                  .removeClass("recipe-detail-thumb")
+                  .css("width","50px")
+                  .css("height","10px")
+                  .html(jQuery("h3", jQuery(ui.helper)).text())
+        },
         opacity:0.6,
 //        tolerance: 'pointer',
-        helper: 'Chandan',
+        helper: 'clone',
         cursorAt: 'top',
         revert: true,
         scrollSensitivity: 40 ,
-        connectWith: '.menuContainer'
+        connectWith: '.menuContainer',
+        zIndex:10001
       });
       
     })
