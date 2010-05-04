@@ -8,7 +8,7 @@
 <body>
 <style type="text/css">
 .menuContainer div:hover {
-    cursor: move;
+    cursor: default;
 }
 .myHover{
   position:relative;
@@ -58,6 +58,12 @@
                 jQuery(this).removeClass("downArrow")               
               }
             },
+          over:function(event, ui) {
+                jQuery(this).css("background-color","#cccccc")
+          },
+          out:function(event, ui) {
+            jQuery(this).css("background-color","")
+          },
             opacity:0.6,
             tolerance: 'pointer',
             helper:'clone',
