@@ -20,13 +20,30 @@ class BootStrap {
             object
         }
 
+        Object.metaClass.trimLength = {Integer stringLength ->
+
+            String trimString = delegate?.toString()
+            String concatenateString = "..."
+            List separators = [".", " "]
+
+            if (stringLength && (trimString?.length() > stringLength)) {
+                trimString = trimString.substring(0, stringLength - concatenateString.length())
+                String separator = separators.findAll {trimString.contains(it)}?.min {trimString.lastIndexOf(it)}
+                if (separator) {
+                    trimString = trimString.substring(0, trimString.lastIndexOf(separator))
+                }
+                trimString += concatenateString
+            }
+            return trimString
+        }
+
         Fraction.metaClass.constructor << {String stringToParse ->
             new ProperFractionFormat().parse(stringToParse)
         }
 
         Fraction.metaClass.myFormatUsingProperFractionFormat = {->
             String f = new ProperFractionFormat().format(delegate, new StringBuffer(), new FieldPosition(0))?.toString()
-            if(f && f.endsWith('0 / 1')){
+            if (f && f.endsWith('0 / 1')) {
                 f = f.tokenize(" ").first()
             }
             return f

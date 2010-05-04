@@ -79,7 +79,7 @@ class RecipeCO {
             if (recipe?.ingredients?.getAt(index)?.quantity?.unit?.belongsToUsaSystem()) {
                 ingredientQuantities.add(StandardConversion.getUsaString(val, recipe?.ingredients?.getAt(index)?.quantity?.unit))
             } else {
-                ingredientQuantities.add(val? val.toString():'')
+                ingredientQuantities.add(val ? val.toString() : '')
             }
         }
 
@@ -90,7 +90,7 @@ class RecipeCO {
         recipe.nutrients.each {RecipeNutrient recipeNutrient ->
             nutrientQuantities[recipeNutrient?.nutrient?.id?.toInteger() - 1] = recipeNutrient?.quantity?.value
         }
-    }   
+    }
 
 
     void setNutrientQuantities(def listOfNq) {
@@ -142,7 +142,7 @@ class RecipeCO {
         recipe.name = name
         recipe.shareWithCommunity = shareWithCommunity
         recipe.servings = makesServing
-        if(difficulty){
+        if (difficulty) {
             recipe.difficulty = RecipeDifficulty."${difficulty}"
         }
         recipe.preparationTime = makeTimeQuantity(preparationTime, preparationUnitId)
@@ -163,10 +163,7 @@ class RecipeCO {
         recipe.directions = []
         addDirectionsToRecipe(recipe, directions)
 
-//        def tempServeWith = recipe.items
-//        recipe.items = []
-//        tempServeWith*.delete(flush: true)
-//        addServeWithToRecipe(recipe, serveWithItems)
+        addServeWithToRecipe(recipe, serveWithItems)
 
         def tempNutrients = recipe.nutrients
         recipe.nutrients = []
@@ -231,11 +228,11 @@ class RecipeCO {
             Quantity quantity = new Quantity()
             Item product = Item.findByName(productName)
             Unit unit = (unitIds[index]) ? Unit.get(unitIds[index]) : null
-            if(amounts[index]){
-                if(amounts[index].contains('/')){
-                    quantity.value= new Fraction(amounts[index])?.floatValue()
-                }else{
-                    quantity.value=amounts[index].toBigDecimal()
+            if (amounts[index]) {
+                if (amounts[index].contains('/')) {
+                    quantity.value = new Fraction(amounts[index])?.floatValue()
+                } else {
+                    quantity.value = amounts[index].toBigDecimal()
                 }
             }
             if (!product) {
@@ -248,10 +245,10 @@ class RecipeCO {
             }
             if (unit?.belongsToUsaSystem() && amounts[index]) {
                 quantity = StandardConversion.getMetricQuantity(amounts[index], unit)
-            }else if(unit?.belongsToMetricSystem() && amounts[index]){
-                quantity.value=amounts[index].toBigDecimal()
-                quantity.unit=unit
-                quantity.savedUnit=unit
+            } else if (unit?.belongsToMetricSystem() && amounts[index]) {
+                quantity.value = amounts[index].toBigDecimal()
+                quantity.unit = unit
+                quantity.savedUnit = unit
             }
 
             quantity.s()
@@ -316,11 +313,8 @@ class RecipeCO {
     }
 
     public boolean addServeWithToRecipe(Recipe recipe, Set<Long> itemIds) {
-        List<Item> serveWith = serveWithList(itemIds)
-        serveWith.each {Item item ->
-            recipe.addToItems(item)
-            recipe.s()
-        }
+        recipe.items = (serveWithItems) ? Item.getAll(serveWithItems as List) as Set : []
+        recipe.s()
         return true
     }
 
@@ -331,7 +325,7 @@ class RecipeCO {
             category.category = Category.get(categoryId)
             recipeCategories.add(category)
         }
-        return recipeCategories                 
+        return recipeCategories
     }
 
     public boolean addCategoriesToRecipe(Recipe recipe, Set<Long> categoryIds) {

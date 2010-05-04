@@ -28,14 +28,7 @@
                     <li class="center">
                         <ul>
                             <li>
-                                <a href="${createLink(controller: 'recipe', action: 'show', id: recipe?.id)}">
-                                    <g:if test="${recipe?.name?.length()<10}">
-                                        ${recipe?.name}
-                                    </g:if>
-                                    <g:else>
-                                        ${recipe?.name?.substring(0, 8)}...
-                                    </g:else>
-                                </a>
+                                <a href="${createLink(controller: 'recipe', action: 'show', id: recipe?.id)}">${recipe.trimLength(15)}</a>
                             </li>
                             <li>
                                 <g:if test="${recipe.image}">
@@ -56,17 +49,13 @@
                                 ${recipe?.totalTime}
                             </li>
                             <li>
-                                ${recipe?.difficulty}
+                                ${recipe?.difficulty}<br/>
+                                %{--${recipe?.categoriesString}--}%
                             </li>
                             <g:each in="${recipe?.ingredients?.ingredient}" status="index" var="product">
                                 <li>
                                     <g:if test="${index < 3}">
-                                        <g:if test="${product?.toString()?.length()<10}">
-                                            ${product?.toString()}
-                                        </g:if>
-                                        <g:else>
-                                            ${product?.toString()?.substring(0, 8)}...<br/>
-                                        </g:else>
+                                        ${product?.trimLength(15)}
                                     </g:if>
                                 </li>
                             </g:each>
