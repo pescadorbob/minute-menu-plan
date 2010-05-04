@@ -19,6 +19,10 @@
   min-height:55px;
 }
 
+.downArrow{
+  background:#FCFCFC url(${resource(dir:'images',file:'arrows.gif')}) no-repeat scroll right top
+}
+
 .menuContainer img:hover {
     cursor: pointer;
 }
@@ -48,6 +52,11 @@
                 } else {
                     jQuery(ui.item).find("input").attr("name","mealItems."+jQuery(this).attr("rel"))
                 }
+              if(jQuery(this).children().length>4){
+                jQuery(this).addClass("downArrow")
+              }else{
+                jQuery(this).removeClass("downArrow")               
+              }
             },
             opacity:0.6,
             tolerance: 'pointer',

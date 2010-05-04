@@ -30,7 +30,7 @@
 .week ul li{margin:0px 0px 0px 0px; clear:both;overflow:hidden;}
 .week ul li.divider{margin:0px 0px 0px 0px; clear:both; height:24px !important; position:relative;}
 .week ul li ul{ padding:0px; margin:0px; list-style:none; position:absolute;}
-.week ul li ul li{float:left;height:55px;border:#d5d4d4 1px solid;background:#fcfcfc url(../images/arrows.gif) no-repeat top right;color:#e67432;width:69px;margin-left:4px;padding:6px; clear:none;}
+.week ul li ul li{float:left;height:55px;border:#d5d4d4 1px solid;color:#e67432;width:69px;margin-left:4px;padding:6px; clear:none;}
 .week ul li ul li.first{float:left;border:none;background:#b1bdc1;width:18px;margin:0px; height:69px; padding:0px; text-align:center; }
 /* end hake ie6 */
 .week{font-size:11px;font-weight:bold;}
