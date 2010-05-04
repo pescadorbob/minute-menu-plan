@@ -2,10 +2,13 @@ package com.mp.domain
 
 import com.mp.domain.*
 import static com.mp.MenuConstants.*
+import org.springframework.web.multipart.commons.CommonsMultipartFile
+import org.codehaus.groovy.grails.commons.ApplicationHolder
 
 class BootstrapService {
 
     boolean transactional = true
+    def excelService
 
     public void populateCategory(Integer count) {
         (1..count).each {Integer index ->
@@ -35,6 +38,7 @@ class BootstrapService {
 
 
     public void populateRecipes(Integer count) {
+        /*
         (1..count).each {Integer index ->
             Recipe recipe = new Recipe()
             recipe.name = "Recipe${index}"
@@ -54,6 +58,13 @@ class BootstrapService {
             recipe.directions = populateRecipeDirections(recipe)
             populateRecipeNutrient(recipe)
             recipe.s()
+        }
+        */
+
+        File recipeExcelFile=new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeBulk.xls"))
+        List<String> recipeLog
+        recipeExcelFile.withInputStream {inputStream->
+            recipeLog = excelService.createLineItems(inputStream)
         }
     }
 
@@ -88,7 +99,7 @@ class BootstrapService {
             RecipeIngredient ingredient = new RecipeIngredient()
             ingredient.recipe = recipe
             ingredient.ingredient = MeasurableProduct.get(new Random().nextInt(MeasurableProduct.count()) + 1)
-            Quantity quantity = StandardConversion.getMetricQuantity((new Random().nextInt(5)+1).toBigDecimal(),Unit.findByName(UNIT_FIFTH) )
+            Quantity quantity = StandardConversion.getMetricQuantity((new Random().nextInt(5)+1).toString(),Unit.findByName(UNIT_FIFTH) )
             quantity.s()
 
             ingredient.quantity = quantity

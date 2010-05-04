@@ -9,11 +9,16 @@ class StandardConversion {
     Unit targetUnit
     Double conversionFactor
 
-    public static Quantity getMetricQuantity(BigDecimal amount, Unit displayUnit) {
+    public static Quantity getMetricQuantity(String amountFraction, Unit displayUnit) {
+        BigDecimal amount = new Fraction(amountFraction).floatValue()
         Quantity result = new Quantity()
-        result.value = new Fraction(amount?.toString())?.floatValue() * StandardConversion.findByTargetUnit(displayUnit)?.conversionFactor
-        result.savedUnit = StandardConversion.findByTargetUnit(displayUnit)?.sourceUnit
-        result.unit = displayUnit
+        if(displayUnit && amount){
+            result.savedUnit = StandardConversion.findByTargetUnit(displayUnit)?.sourceUnit
+            result.unit = displayUnit
+            result.value = amount * StandardConversion.findByTargetUnit(displayUnit)?.conversionFactor
+        }else if(amount){
+            result.value = amount
+        }
         return result
     }
 

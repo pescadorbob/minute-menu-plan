@@ -79,7 +79,7 @@ class RecipeCO {
             if (recipe?.ingredients?.getAt(index)?.quantity?.unit?.belongsToUsaSystem()) {
                 ingredientQuantities.add(StandardConversion.getUsaString(val, recipe?.ingredients?.getAt(index)?.quantity?.unit))
             } else {
-                ingredientQuantities.add(val.toString())
+                ingredientQuantities.add(val? val.toString():'')
             }
         }
 
@@ -142,7 +142,9 @@ class RecipeCO {
         recipe.name = name
         recipe.shareWithCommunity = shareWithCommunity
         recipe.servings = makesServing
-        recipe.difficulty = RecipeDifficulty."${difficulty}"
+        if(difficulty){
+            recipe.difficulty = RecipeDifficulty."${difficulty}"
+        }
         recipe.preparationTime = makeTimeQuantity(preparationTime, preparationUnitId)
         recipe.cookingTime = makeTimeQuantity(cookTime, cookUnitId)
 
@@ -245,7 +247,7 @@ class RecipeCO {
                 product.s()
             }
             if (unit?.belongsToUsaSystem() && amounts[index]) {
-                quantity = StandardConversion.getMetricQuantity(amounts[index].toBigDecimal(), unit)
+                quantity = StandardConversion.getMetricQuantity(amounts[index], unit)
             }else if(unit?.belongsToMetricSystem() && amounts[index]){
                 quantity.value=amounts[index].toBigDecimal()
                 quantity.unit=unit
