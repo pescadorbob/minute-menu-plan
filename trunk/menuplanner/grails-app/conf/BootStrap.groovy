@@ -2,11 +2,15 @@ import org.apache.commons.math.fraction.*
 import java.text.FieldPosition
 import grails.util.GrailsUtil
 import grails.util.Environment
+import org.codehaus.groovy.grails.commons.ApplicationHolder
 
 class BootStrap {
 
     def bootstrapService
     def masterDataBootStrapService
+    def excelService
+    def searchableService
+
     def init = {servletContext ->
 
         // Inject the helper s() method
@@ -61,12 +65,20 @@ class BootStrap {
             println "Populated Quantities"
             bootstrapService.populateMeasurableProduct(50)
             println "Populated Products"
-            bootstrapService.populateRecipes((GrailsUtil.isDevelopmentEnv()) ? 20 : 150)
+//            bootstrapService.populateRecipes((GrailsUtil.isDevelopmentEnv()) ? 20 : 150)
+            File recipeExcelFile=new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet.xls"))
+            List<String> recipeLog
+            recipeExcelFile.withInputStream {inputStream->
+                recipeLog = excelService.createLineItems(inputStream)
+            }
             println "Populated Recipes"
             bootstrapService.populateMenuPlans(4)
             println "Populated Menu Plans"
         }
 
+        Thread.start {
+            searchableService.index()
+        }
     }
     def destroy = {
     }

@@ -30,7 +30,7 @@
                         </tr>
                         <tr id="caloriesRow" style="display:none;">
                             <td width="80px;">
-                                <img onclick="removeSearchOption('calories')" id="caloriesRemove" src="${resource(dir: 'images', file: 'delete-icon.jpg')}" align="top" style="cursor:pointer;"/>
+                                <img onclick="removeSearchOption('caloriesString')" id="caloriesRemove" src="${resource(dir: 'images', file: 'delete-icon.jpg')}" align="top" style="cursor:pointer;"/>
                                 Calories:
                             </td>
                             <td>
@@ -95,9 +95,9 @@
                         <li>
                             Calories
                             <br/>
-                            <span id="category0to500" style="color:#007ce1; cursor:pointer;" onclick="submitSearchForm(this, 'calories', '[00000000000000 TO 000000000000dw]');">0-500</span><br/>
-                            <span id="category501to1000" style="color:#007ce1; cursor:pointer;" onclick="submitSearchForm(this, 'calories', '[000000000000dx TO 000000000000rs]');">501-1000</span><br/>
-                            <span id="category1001to" style="color:#007ce1; cursor:pointer;" onclick="submitSearchForm(this, 'calories', '[000000000000rt TO *]');">1000+</span>
+                            <span id="category0to500" style="color:#007ce1; cursor:pointer;" onclick="submitSearchForm(this, 'caloriesString', '[00000000000000 TO 000000000000dw]');">0-500</span><br/>
+                            <span id="category501to1000" style="color:#007ce1; cursor:pointer;" onclick="submitSearchForm(this, 'caloriesString', '[000000000000dx TO 000000000000rs]');">501-1000</span><br/>
+                            <span id="category1001to" style="color:#007ce1; cursor:pointer;" onclick="submitSearchForm(this, 'caloriesString', '[000000000000rt TO *]');">1000+</span>
                         </li>
                         <li>
                             Difficulty

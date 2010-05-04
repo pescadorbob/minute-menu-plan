@@ -61,11 +61,6 @@ class BootstrapService {
         }
         
 
-        File recipeExcelFile=new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet.xls"))
-        List<String> recipeLog
-        recipeExcelFile.withInputStream {inputStream->
-            recipeLog = excelService.createLineItems(inputStream)
-        }
     }
 
     public List<RecipeNutrient> populateRecipeNutrient(Recipe recipe) {
