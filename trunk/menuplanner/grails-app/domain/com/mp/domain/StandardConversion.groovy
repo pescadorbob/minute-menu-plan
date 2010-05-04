@@ -36,8 +36,12 @@ class StandardConversion {
                 result = new Fraction(metricValue).myFormatUsingProperFractionFormat()
             } else {
                 BigDecimal conversionFactor = StandardConversion.findByTargetUnit(unit)?.conversionFactor
+                if(conversionFactor){
                 metricValue = metricValue / conversionFactor
                 result = new Fraction(metricValue).myFormatUsingProperFractionFormat()
+                } else {
+                    result = ''
+                }
             }
             return result
         }
