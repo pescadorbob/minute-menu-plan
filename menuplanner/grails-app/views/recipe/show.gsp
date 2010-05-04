@@ -48,16 +48,10 @@
                                         </li>
                                     </g:if>
                                     <g:if test="${recipe?.directions}">
-                                        <li>
-                                            <g:each in="${recipe?.directions}" var="direction">
-                                                <span>${direction}</span>
-                                            </g:each>
-                                        </li>
+                                        <li>${recipe?.directions*.toString().join(" ")}</li>
                                     </g:if>
                                     <g:if test="${recipe?.categories}">
-                                        <li>
-                                            <span>Categories: ${recipe?.categories?.join(", ")}</span>
-                                        </li>
+                                        <li>Categories: ${recipe?.categories?.join(", ")}</li>
                                     </g:if>
                                     <g:if test="${recipe?.nutrients}">
                                         <li><span>Nutritional Facts per serving:</span>

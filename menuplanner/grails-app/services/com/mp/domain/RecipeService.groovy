@@ -225,32 +225,17 @@ class RecipeCO {
         List<RecipeIngredient> recipeIngredients = []
         productNames?.eachWithIndex {String productName, Integer index ->
             RecipeIngredient recipeIngredient = new RecipeIngredient()
-            Quantity quantity = new Quantity()
             Item product = Item.findByName(productName)
             Unit unit = (unitIds[index]) ? Unit.get(unitIds[index]) : null
-            if (amounts[index]) {
-                if (amounts[index].contains('/')) {
-                    quantity.value = new Fraction(amounts[index])?.floatValue()
-                } else {
-                    quantity.value = amounts[index].toBigDecimal()
-                }
-            }
+            Quantity quantity = StandardConversion.getMetricQuantity(amounts[index], unit)
+
             if (!product) {
                 if (unit) {
-                    product = new MeasurableProduct(name: productNames[index], isVisible: false)
+                    product = new MeasurableProduct(name: productNames[index], isVisible: false).s()
                 } else {
-                    product = new Product(name: productNames[index], isVisible: false)
+                    product = new Product(name: productNames[index], isVisible: false).s()
                 }
-                product.s()
             }
-            if (unit?.belongsToUsaSystem() && amounts[index]) {
-                quantity = StandardConversion.getMetricQuantity(amounts[index], unit)
-            } else if (unit?.belongsToMetricSystem() && amounts[index]) {
-                quantity.value = amounts[index].toBigDecimal()
-                quantity.unit = unit
-                quantity.savedUnit = unit
-            }
-
             quantity.s()
             recipeIngredient.ingredient = product
             recipeIngredient.quantity = quantity
@@ -282,9 +267,7 @@ class RecipeCO {
             if (amount) {
                 RecipeNutrient recipeNutrient = new RecipeNutrient()
                 recipeNutrient.nutrient = Nutrient.get(nutrientIds[index])
-                Quantity quantity = new Quantity()
-                quantity.value = amount
-                quantity.unit = Nutrient.get(nutrientIds[index]).preferredUnit
+                Quantity quantity = StandardConversion.getMetricQuantity(amount.toString(), Nutrient.get(nutrientIds[index]).preferredUnit) 
                 quantity.s()
                 recipeNutrient.quantity = quantity
                 recipeNutrientList.add(recipeNutrient)

@@ -75,6 +75,7 @@ class MasterDataBootStrapService {
         gram.s()
         Unit calories = new Unit(name: UNIT_CALORIES, symbol: UNIT_CALORIES_SYMBOL, definition: "This is definition for calories", metricType: MetricType.METRIC)
         calories.addToSystemOfUnits(systemOfUnitsMetric)
+        calories.addToSystemOfUnits(systemOfUnitsUsa)
         calories.s()
 
         new StandardConversion(sourceUnit: milliLitres, targetUnit: drop, conversionFactor: UNIT_DROP_CONVERSION_FACTOR).s()

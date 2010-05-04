@@ -1,6 +1,7 @@
 package com.mp.domain
 
 import org.apache.lucene.document.NumberTools
+import static com.mp.MenuConstants.*
 
 class Recipe extends Item {
 
@@ -21,12 +22,18 @@ class Recipe extends Item {
     String prepTimeValue
     String totalTimeValue
     String categoriesString
+    String caloriesString
 
-    static transients = ['categories', 'cookingTimeValue', 'totalTimeValue', 'prepTimeValue', 'categoriesString']
+    static transients = ['categories', 'cookingTimeValue', 'totalTimeValue', 'prepTimeValue', 'caloriesString', 'categoriesString']
     static hasMany = [ingredients: RecipeIngredient, directions: String, recipeCategories: RecipeCategory, nutrients: RecipeNutrient, items: Item]
 
     String getCategoriesString() {
         return (categories ? categories*.name.join(", ") : '')
+    }
+
+    String getCaloriesString() {
+       RecipeNutrient calories = nutrients?.find{it.nutrient.name == NUTRIENT_CALORIES}
+        return (calories?.quantity?.value) ? NumberTools.longToString(calories?.quantity?.value?.toLong()) : null
     }
 
     String getCookingTimeValue() {
