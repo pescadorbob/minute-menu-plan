@@ -67,7 +67,7 @@ class ExcelService {
             else {recipeLog.add("@: Error while Adding Directions for Recipe: ${recipeObj?.name}")}
             if (createIngredients(ingredients, recipeObj)) {recipeLog.add("Added Ingredients for Recipe: ${recipeObj?.name}")}
             else {recipeLog.add("@: Error while Adding Ingredients for Recipe: ${recipeObj?.name}")}
-            
+
         }
         else {
             recipeLog.add("@: Error while Creating Recipe.")
@@ -76,15 +76,15 @@ class ExcelService {
 
     public Recipe makeRecipe(List<List<String>> recipe) {
         try {
-        Recipe recipe1 = new Recipe()
-            recipe1.name = recipe[0].getAt(1)
+            Recipe recipeInstance = new Recipe()
+            recipeInstance.name = recipe[0].getAt(1)
 
-            recipe1.servings = null
+            recipeInstance.servings = null
             if (recipe[1].getAt(1)) {
-                recipe1.servings = recipe[1].getAt(1).toInteger()
+                recipeInstance.servings = recipe[1].getAt(1).toInteger()
             }
 
-            recipe1.preparationTime = null
+            recipeInstance.preparationTime = null
             if (recipe[2].getAt(1)) {
                 Quantity prep = new Quantity()
                 prep.value = recipe[2].getAt(1).toInteger()
@@ -96,10 +96,10 @@ class ExcelService {
                     prep.unit = Unit.findByName(TIME_UNIT_HOURS)
                 }
                 prep.s()
-                recipe1.preparationTime = prep
+                recipeInstance.preparationTime = prep
             }
 
-            recipe1.cookingTime = null
+            recipeInstance.cookingTime = null
             if (recipe[3].getAt(1)) {
                 Quantity cook = new Quantity()
                 cook.value = recipe[3].getAt(1).toInteger()
@@ -111,25 +111,25 @@ class ExcelService {
                     cook.unit = Unit.findByName(TIME_UNIT_HOURS)
                 }
                 cook.s()
-                recipe1.cookingTime = cook
+                recipeInstance.cookingTime = cook
             }
 
-            recipe1.difficulty = null
+            recipeInstance.difficulty = null
             if (recipe[4].getAt(1).toLowerCase() == 'easy') {
-                recipe1.difficulty = RecipeDifficulty.EASY
+                recipeInstance.difficulty = RecipeDifficulty.EASY
             }
             else if (recipe[4].getAt(1).toLowerCase() == 'medium') {
-                recipe1.difficulty = RecipeDifficulty.MEDIUM
+                recipeInstance.difficulty = RecipeDifficulty.MEDIUM
             }
             else if (recipe[4].getAt(1).toLowerCase() == 'hard') {
-                    recipe1.difficulty = RecipeDifficulty.HARD
+                    recipeInstance.difficulty = RecipeDifficulty.HARD
                 }
 
             if ((recipe[5].getAt(1).toLowerCase() == 'yes') || (recipe[5].getAt(1).toLowerCase() == 'no')) {
-                recipe1.shareWithCommunity = (recipe[5].getAt(1).toLowerCase() == 'yes')
+                recipeInstance.shareWithCommunity = (recipe[5].getAt(1).toLowerCase() == 'yes')
             }
-            recipe1.s()
-            return recipe1
+            recipeInstance.s()
+            return recipeInstance
         }
         catch (Exception e) {
             e.printStackTrace()
@@ -143,7 +143,7 @@ class ExcelService {
             directions.eachWithIndex {List<String> directionRow, Integer index ->
                 directionList.add(directionRow.getAt(1))
             }
-            recipe.directions=directionList
+            recipe.directions = directionList
             recipe.s()
         }
         catch (ex) {
@@ -156,7 +156,6 @@ class ExcelService {
         try {
             List<RecipeIngredient> recipeIngredients = []
             ingredients.eachWithIndex {List<String> ingredientRow, Integer i ->
-                println "Ingredients: " + ingredientRow
                 RecipeIngredient recipeIngredient = new RecipeIngredient()
                 Item item = Item.findByName(ingredientRow.getAt(3))
                 if (!item) {
@@ -165,27 +164,25 @@ class ExcelService {
                     item.s()
                 }
                 recipeIngredient.ingredient = item
-
                 Quantity quantity = new Quantity()
-                if(ingredientRow.getAt(1) && ingredientRow.getAt(1).contains('.')){
-                    quantity.value = ingredientRow.getAt(1).toBigDecimal()
-                }else if(ingredientRow.getAt(1)){
-                    quantity.value = new Fraction(ingredientRow.getAt(1)).floatValue()
-                }else{
-                    quantity.value = null
-                }
-                Unit unit = Unit.findBySymbol(ingredientRow.getAt(2))
-                if (ingredientRow.getAt(2).trim()) {
+
+                if (ingredientRow.getAt(1) && ingredientRow.getAt(2)) {  // if amount and unit both are Specified:
+
+                    Unit unit = Unit.findBySymbol(ingredientRow.getAt(2))
+
                     if (!unit) {
-                        unit = Unit.findByName(ingredientRow.getAt(2))
-                    }
-                    if (!unit) {
-                        unit = new Unit(name: "${ingredientRow.getAt(2)}", symbol: "${ingredientRow.getAt(2)}", definition: "This is definition for some", metricType: MetricType.METRIC)
+                        unit = new Unit(name: "${ingredientRow.getAt(2)}", symbol: "${ingredientRow.getAt(2)}", definition: "This is definition", metricType: MetricType.METRIC)
                         unit.addToSystemOfUnits(SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA))
                         unit.s()
+
+                        StandardConversion standardConversion = new StandardConversion()
+                        standardConversion.sourceUnit = Unit.findByName(UNIT_MILLI_LITRE)
+                        standardConversion.targetUnit = unit
+                        standardConversion.conversionFactor = 1.0
+                        standardConversion.s()
                     }
+                    quantity = StandardConversion.getMetricQuantity(ingredientRow.getAt(1), unit)
                 }
-                quantity.unit = unit
                 quantity.s()
                 recipeIngredient.quantity = quantity
                 recipeIngredients.add(recipeIngredient)
@@ -228,7 +225,7 @@ class ExcelService {
         return result
     }
 
-        List<String> decimalToFraction(String input) {
+    List<String> decimalToFraction(String input) {
         Integer res1, res2, res3 = 1;
         String[] myList = input.split("\\.");
         if (myList[0] == '') myList[0] = '0'
@@ -262,3 +259,4 @@ class ExcelService {
         }
     }
 }
+        

@@ -9,7 +9,7 @@ class RecipeIngredient {
     static belongsTo = [recipe: Recipe]
 
     String toString() {
-        return ("${quantity} ${ingredient}")
+        return ("${quantity ? quantity : ''} ${ingredient}")
     }
 
     static constraints = {

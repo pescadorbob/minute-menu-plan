@@ -14,20 +14,23 @@ class Quantity {
     static transients = ['fractionValue']
 
     String toString() {
-        if(unit.metricType==MetricType.TIME){
-            if(unit?.name==TIME_UNIT_HOURS){
-                value=value/60
+        if (unit?.metricType == MetricType.TIME) {
+            if (unit?.name == TIME_UNIT_HOURS) {
+                value = value / 60
             }
             return "${value ?: ''} ${unit?.symbol ?: ''}"
-        }else if(unit.belongsToUsaSystem()){
+        } else if (unit?.belongsToUsaSystem()) {
 
-            String truncatedValue = ''
-            truncatedValue = value?.toString()
+            String truncatedValue = value ? value.toString() : ''
 
             //TODO: Converted value should be displayed to the user
             //truncatedValue = StandardConversion.getUsaString(value, unit)
 
             return "${truncatedValue} ${unit?.symbol ?: ''}"
+        } else if (!value) {
+            return ""
+        } else if (value && !unit) {
+            return "${value}"
         }
     }
 
