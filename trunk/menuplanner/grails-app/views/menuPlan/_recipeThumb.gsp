@@ -2,14 +2,7 @@
 
     <div class="ratingbox-left">
         <input type="hidden" name="menuItemId" value="${recipe.id}"/>
-        <h3 class="recipeName">
-            <g:if test="${recipe?.name?.length()<10}">
-                ${recipe?.name}
-            </g:if>
-            <g:else>
-                ${recipe?.name?.substring(0, 8)}...
-            </g:else>
-        </h3>
+        <h3 class="recipeName">${recipe?.trimLength(15)}</h3>
         <g:if test="${recipe.image}">
             <img height="80" width="80" src="${createLink(controller: 'recipe', action: 'showImage', id: recipe?.id)}"/>
         </g:if>
@@ -32,12 +25,7 @@
 
         <g:each in="${recipe?.ingredients?.ingredient}" status="i" var="product">
             <g:if test="${i<3}">
-                <g:if test="${product?.toString()?.length()<10}">
-                    ${product?.toString()}
-                </g:if>
-                <g:else>
-                    ${product?.toString()?.substring(0, 8)}...<br/>
-                </g:else>
+                ${product?.trimLength(15)}
             </g:if>
         </g:each>
     </div>

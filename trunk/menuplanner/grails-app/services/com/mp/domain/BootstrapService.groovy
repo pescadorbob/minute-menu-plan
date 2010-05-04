@@ -38,7 +38,7 @@ class BootstrapService {
 
 
     public void populateRecipes(Integer count) {
-        /*
+
         (1..count).each {Integer index ->
             Recipe recipe = new Recipe()
             recipe.name = "Recipe${index}"
@@ -59,9 +59,9 @@ class BootstrapService {
             populateRecipeNutrient(recipe)
             recipe.s()
         }
-        */
+        
 
-        File recipeExcelFile=new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeBulk.xls"))
+        File recipeExcelFile=new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet.xls"))
         List<String> recipeLog
         recipeExcelFile.withInputStream {inputStream->
             recipeLog = excelService.createLineItems(inputStream)

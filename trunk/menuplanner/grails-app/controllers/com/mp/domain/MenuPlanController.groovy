@@ -15,6 +15,7 @@ class MenuPlanController {
     }
 
     def create = {
+        params.max = Math.min(params.max ? params.int('max') : 4, 150)
         MenuPlan menuPlan = new MenuPlan()
         4.times {
             Week week = new Week()
