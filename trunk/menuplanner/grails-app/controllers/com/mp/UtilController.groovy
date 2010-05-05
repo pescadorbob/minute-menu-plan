@@ -24,8 +24,8 @@ class UtilController {
     }
 
     def index = {
-        String x = "101.2   "
-        render "y: " + (x.tokenize(".").last()?.toInteger() ==0)
+        String x = "1"
+        render "y: " + new Fraction(x).floatValue()
 
     }
 

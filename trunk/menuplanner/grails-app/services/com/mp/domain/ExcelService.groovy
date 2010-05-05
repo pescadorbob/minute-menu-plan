@@ -169,15 +169,15 @@ class ExcelService {
                 if (ingredientRow.getAt(1) && ingredientRow.getAt(2)) {  // if amount and unit both are Specified:
 
                     Unit unit = Unit.findBySymbol(ingredientRow.getAt(2))
-
+                    if (!unit) { unit = Unit.findByName(ingredientRow.getAt(2)) }                       
                     if (!unit) {
                         unit = new Unit(name: "${ingredientRow.getAt(2)}", symbol: "${ingredientRow.getAt(2)}", definition: "This is definition", metricType: MetricType.METRIC)
                         unit.addToSystemOfUnits(SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA))
                         unit.s()
 
                         StandardConversion standardConversion = new StandardConversion()
-                        standardConversion.sourceUnit = Unit.findByName(UNIT_MILLI_LITRE)
-                        standardConversion.targetUnit = unit
+                        standardConversion.targetUnit = Unit.findByName(UNIT_MILLI_LITRE)
+                        standardConversion.sourceUnit = unit
                         standardConversion.conversionFactor = 1.0
                         standardConversion.s()
                     }
@@ -194,6 +194,7 @@ class ExcelService {
             }
         }
         catch (ex) {
+            ex.printStackTrace()
             return false
         }
         return true
