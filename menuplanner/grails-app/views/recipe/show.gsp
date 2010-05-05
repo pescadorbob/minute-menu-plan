@@ -66,6 +66,12 @@
                                 </ul>
                             </li>
                             <li style="text-align: right;">
+                                <g:if test="${recipe?.image}">
+                                    <img src="${createLink(controller: 'recipe', action: 'showImage', id: recipe?.id)}" width="160" height="160" align="top"/>
+                                </g:if>
+                                <g:else>
+                                    <img src="${resource(dir: 'images', file: 'no-img.gif')}" width="160" height="160" align="top"/>
+                                </g:else>
                                 <g:render template="/rating/rating"/><span>Rating</span><br/>
                                 <a href="#"><strong>test link</strong></a></li>
                         </ul>
