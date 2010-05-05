@@ -18,9 +18,9 @@ class StandardConversion {
                 result.unit = displayUnit
                 result.value = amount
             } else {
-                result.savedUnit = StandardConversion.findByTargetUnit(displayUnit)?.sourceUnit
+                result.savedUnit = StandardConversion.findBySourceUnit(displayUnit)?.targetUnit
                 result.unit = displayUnit
-                result.value = amount * StandardConversion.findByTargetUnit(displayUnit)?.conversionFactor
+                result.value = amount * StandardConversion.findBySourceUnit(displayUnit)?.conversionFactor
             }
         } else if (amount) {
             result.value = amount
@@ -29,16 +29,17 @@ class StandardConversion {
     }
 
     //TODO: Send an object of quantity
+
     public static String getUsaString(BigDecimal metricValue, Unit unit) {
         if (metricValue && unit) {
             String result
-            if (unit.belongsToUsaSystem()) {
+            if (unit.belongsToMetricSystem()) {
                 result = new Fraction(metricValue).myFormatUsingProperFractionFormat()
             } else {
-                BigDecimal conversionFactor = StandardConversion.findByTargetUnit(unit)?.conversionFactor
-                if(conversionFactor){
-                metricValue = metricValue / conversionFactor
-                result = new Fraction(metricValue).myFormatUsingProperFractionFormat()
+                BigDecimal conversionFactor = StandardConversion.findBySourceUnit(unit)?.conversionFactor
+                if (conversionFactor) {
+                    metricValue = metricValue / conversionFactor
+                    result = new Fraction(metricValue).myFormatUsingProperFractionFormat()
                 } else {
                     result = ''
                 }

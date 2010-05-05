@@ -14,23 +14,12 @@ class Quantity {
     static transients = ['fractionValue']
 
     String toString() {
-         if (unit?.metricType == MetricType.TIME) {
-            if (unit?.name == TIME_UNIT_HOURS) {
-                value = value / 60
-            }
-            return "${value ?: ''} ${unit?.symbol ?: ''}"
+        if (unit?.belongsToMetricSystem()) {
+            return "${value ? value : ''} ${unit ? unit?.symbol : ''}"
         } else {
-            String truncatedValue = StandardConversion.getUsaString(value, unit)
-            return "${truncatedValue} ${unit?.symbol ?: ''}"
-        }
-    }
-
-    String getFractionValue() {
-        if (value) {
-            Fraction fraction = new Fraction(value)
-            return fraction.myFormatUsingProperFractionFormat()
-        } else {
-            return ''
+            String amount = value?.toString()
+//            amount= StandardConversion.getUsaString(value, unit)
+            return "${amount ? amount : ''} ${unit ? unit?.symbol : ''}"
         }
     }
 
