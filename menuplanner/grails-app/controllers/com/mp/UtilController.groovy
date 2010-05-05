@@ -11,6 +11,7 @@ import org.apache.lucene.document.NumberTools
 
 import org.springframework.web.multipart.commons.CommonsMultipartFile
 import java.math.MathContext
+import org.codehaus.groovy.grails.commons.ApplicationHolder
 
 class UtilController {
     ExcelService excelService
@@ -125,5 +126,22 @@ class UtilController {
         render testStr + [' Converted To: '] + results
     }
 
+    def test1 = {
+        String tmpDirectory = config.imagesRootDir + "/recipes/"
+        File file = new File(tmpDirectory)
+        file.mkdirs()
+
+        String bootStrapDirectory = "/bootstrapData/recipeImages/"
+        String fileName = "xyz.txt"
+        File sourceImage = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath(bootStrapDirectory + fileName))
+
+        String targetImagePath = tmpDirectory + fileName
+        new File(targetImagePath).withOutputStream {out ->
+            out.write sourceImage.readBytes()
+        }
+
+        Image image = new Image(targetImagePath, "Some alternate text")
+        render sourceImage.exists()
+    }
 
 }

@@ -3,12 +3,14 @@ package com.mp.domain
 import jxl.*
 import static com.mp.MenuConstants.*
 import org.apache.commons.math.fraction.Fraction
-
+import org.codehaus.groovy.grails.commons.ApplicationHolder
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class ExcelService {
 
     boolean transactional = true
-
+    static config = ConfigurationHolder.config
+  
     public List<String> createLineItems(InputStream fileInputStream) {
         println "Creating line items.."
         WorkbookSettings workbookSettings
@@ -63,6 +65,7 @@ class ExcelService {
         if (recipeObj) {
 
             recipeLog.add("Created Recipe: ${recipeObj?.name}")
+            if(attachImageToRecipe(recipeObj)){recipeLog.add("Added Image for Recipe: ${recipeObj?.name}")}
             if (createIDirections(directions, recipeObj)) {recipeLog.add("Added Directions for Recipe: ${recipeObj?.name}")}
             else {recipeLog.add("@: Error while Adding Directions for Recipe: ${recipeObj?.name}")}
             if (createIngredients(ingredients, recipeObj)) {recipeLog.add("Added Ingredients for Recipe: ${recipeObj?.name}")}
@@ -87,14 +90,14 @@ class ExcelService {
             recipeInstance.preparationTime = null
             if (recipe[2].getAt(1)) {
                 Quantity prep = new Quantity()
-                prep.value = recipe[2].getAt(1).toInteger()
+                Unit unit = new Unit()
                 if (recipe[2].getAt(2).toLowerCase() == 'mins.') {
-                    prep.unit = Unit.findByName(TIME_UNIT_MINUTES)
+                    unit = Unit.findByName(TIME_UNIT_MINUTES)
                 }
                 else if (recipe[2].getAt(2).toLowerCase() == 'hrs.') {
-                    prep.value = recipe[2].getAt(1).toInteger() * 60
-                    prep.unit = Unit.findByName(TIME_UNIT_HOURS)
+                    unit = Unit.findByName(TIME_UNIT_HOURS)
                 }
+                prep = StandardConversion.getMetricQuantity(recipe[2].getAt(1), unit)
                 prep.s()
                 recipeInstance.preparationTime = prep
             }
@@ -102,14 +105,14 @@ class ExcelService {
             recipeInstance.cookingTime = null
             if (recipe[3].getAt(1)) {
                 Quantity cook = new Quantity()
-                cook.value = recipe[3].getAt(1).toInteger()
+                Unit unit = new Unit()
                 if (recipe[3].getAt(2).toLowerCase() == 'mins.') {
-                    cook.unit = Unit.findByName(TIME_UNIT_MINUTES)
+                    unit = Unit.findByName(TIME_UNIT_MINUTES)
                 }
                 else if (recipe[3].getAt(2).toLowerCase() == 'hrs.') {
-                    cook.value = recipe[3].getAt(1).toInteger() * 60
-                    cook.unit = Unit.findByName(TIME_UNIT_HOURS)
+                    unit = Unit.findByName(TIME_UNIT_HOURS)
                 }
+                cook = StandardConversion.getMetricQuantity(recipe[3].getAt(1), unit)
                 cook.s()
                 recipeInstance.cookingTime = cook
             }
@@ -134,6 +137,33 @@ class ExcelService {
         catch (Exception e) {
             e.printStackTrace()
             return null
+        }
+    }
+
+    public boolean attachImageToRecipe(Recipe recipe) {
+        try{
+            String tmpDirectory = config.imagesRootDir + "/recipes/"
+            File file = new File(tmpDirectory)
+            file.mkdirs()
+
+            String bootStrapDirectory = "/bootstrapData/recipeImages/"
+            String fileName = recipe?.name.trim() + '.jpg'
+            File sourceImage = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath(bootStrapDirectory + fileName))
+
+            if (sourceImage) {
+                String targetImagePath = tmpDirectory + fileName
+                new File(targetImagePath).withOutputStream {out ->
+                    out.write sourceImage.readBytes()
+                }
+
+                com.mp.domain.Image image = new com.mp.domain.Image(targetImagePath, "")
+                recipe.image = image
+                image.s()
+                recipe.s()
+                return true
+            }
+        }catch (ex){
+            return false
         }
     }
 
@@ -169,7 +199,7 @@ class ExcelService {
                 if (ingredientRow.getAt(1) && ingredientRow.getAt(2)) {  // if amount and unit both are Specified:
 
                     Unit unit = Unit.findBySymbol(ingredientRow.getAt(2))
-                    if (!unit) { unit = Unit.findByName(ingredientRow.getAt(2)) }                       
+                    if (!unit) { unit = Unit.findByName(ingredientRow.getAt(2)) }
                     if (!unit) {
                         unit = new Unit(name: "${ingredientRow.getAt(2)}", symbol: "${ingredientRow.getAt(2)}", definition: "This is definition", metricType: MetricType.METRIC)
                         unit.addToSystemOfUnits(SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA))

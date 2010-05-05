@@ -3,24 +3,30 @@ package com.mp.domain
 import org.apache.commons.math.fraction.Fraction
 import java.text.FieldPosition
 import org.apache.commons.math.fraction.ProperFractionFormat
+import static com.mp.MenuConstants.*
 
 class StandardConversion {
     Unit sourceUnit
     Unit targetUnit
     Double conversionFactor
 
+    public static Quantity getUsaQuantity(Quantity sourceQuantity) {
+        Quantity result = new Quantity()        
+        return result
+    }
     public static Quantity getMetricQuantity(String amountFraction, Unit displayUnit) {
         BigDecimal amount = new Fraction(amountFraction).floatValue()
         Quantity result = new Quantity()
         if (displayUnit && amount) {
-            if (displayUnit.belongsToMetricSystem()) {
+            StandardConversion standardConversion = StandardConversion.findBySourceUnit(displayUnit)
+            if (standardConversion) {
+                result.savedUnit = standardConversion?.targetUnit
+                result.unit = displayUnit
+                result.value = amount * standardConversion?.conversionFactor
+            } else {
                 result.savedUnit = displayUnit
                 result.unit = displayUnit
                 result.value = amount
-            } else {
-                result.savedUnit = StandardConversion.findBySourceUnit(displayUnit)?.targetUnit
-                result.unit = displayUnit
-                result.value = amount * StandardConversion.findBySourceUnit(displayUnit)?.conversionFactor
             }
         } else if (amount) {
             result.value = amount

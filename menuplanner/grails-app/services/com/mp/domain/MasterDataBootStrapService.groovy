@@ -25,6 +25,8 @@ class MasterDataBootStrapService {
         timeMinutes.addToSystemOfUnits(systemOfUnitsMetric)
         timeMinutes.addToSystemOfUnits(systemOfUnitsUsa)
         timeMinutes.s()
+
+
     }
 
     public void populateUnitsAndStandardConversions() {
@@ -78,6 +80,10 @@ class MasterDataBootStrapService {
         calories.addToSystemOfUnits(systemOfUnitsUsa)
         calories.s()
 
+        Unit timeMinutes =Unit.findByName(TIME_UNIT_MINUTES)
+        Unit timeHour =Unit.findByName(TIME_UNIT_HOURS)
+        new StandardConversion(sourceUnit: timeHour, targetUnit: timeMinutes, conversionFactor: TIME_UNIT_HOURS_TO_MINUTES_CONVERSION_FACTOR).s()
+        
         new StandardConversion(sourceUnit: drop, targetUnit: milliLitres, conversionFactor: UNIT_DROP_CONVERSION_FACTOR).s()
         new StandardConversion(sourceUnit: teaspoon, targetUnit: milliLitres, conversionFactor: UNIT_TEA_SPOON_CONVERSION_FACTOR).s()
         new StandardConversion(sourceUnit: tableSpoon, targetUnit: milliLitres, conversionFactor: UNIT_TABLE_SPOON_CONVERSION_FACTOR).s()
