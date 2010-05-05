@@ -46,6 +46,8 @@ class RecipeCO {
     RecipeCO(Recipe recipe) {
         id = recipe?.id
         name = recipe?.name
+        
+//        selectRecipeImagePath=recipe?.image?.path
 
         difficulty = recipe?.difficulty?.name()
         shareWithCommunity = recipe?.shareWithCommunity
