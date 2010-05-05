@@ -59,7 +59,7 @@
               }
             },
           over:function(event, ui) {
-                jQuery(this).css("background-color","#cccccc")
+                jQuery(this).css("background-color","#B1BDC1")
           },
           out:function(event, ui) {
             jQuery(this).css("background-color","")
