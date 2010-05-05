@@ -28,7 +28,7 @@
                     <li class="center">
                         <ul>
                             <li>
-                                <a href="${createLink(controller: 'recipe', action: 'show', id: recipe?.id)}">${recipe.trimLength(15)}</a>
+                                <a href="${createLink(controller: 'recipe', action: 'show', id: recipe?.id)}">${recipe.trimLength(13)}</a>
                             </li>
                             <li>
                                 <g:if test="${recipe.image}">

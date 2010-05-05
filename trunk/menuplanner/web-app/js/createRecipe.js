@@ -85,10 +85,10 @@ function reflectInPreviewPanel() {
     if (getPlainText('preparationTime').length) {
         showPrep = 'prep- ' + getPlainText('preparationTime')
         if (jQuery('#preparationUnitId :selected').text() == 'Hours') {
-            showPrep += 'hrs. '
+            showPrep += ' hrs '
         }
         else {
-            showPrep += 'mins. '
+            showPrep += ' mins '
         }
     }
     jQuery('#displayPrepTime').html(showPrep)
@@ -96,10 +96,10 @@ function reflectInPreviewPanel() {
     if (getPlainText('cookTime').length) {
         showCook = 'cook- ' + getPlainText('cookTime')
         if (jQuery('#cookUnitId :selected').text() == 'Hours') {
-            showCook += 'hrs.'
+            showCook += ' hrs'
         }
         else {
-            showCook += 'mins.'
+            showCook += ' mins'
         }
     }
     jQuery('#displayCookTime').html(showCook)
@@ -175,8 +175,8 @@ function getPlainTextFromHtml(htmlText) {
             returnText = htmlText
         }
     }
-    if (returnText.length > 12) {
-        returnText = returnText.substring(0, 10) + '...'
+    if (returnText.length > 10) {
+        returnText = returnText.substring(0, 8) + '...'
     }
     return returnText;
 }

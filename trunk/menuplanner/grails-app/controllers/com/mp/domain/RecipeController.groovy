@@ -6,7 +6,7 @@ import static com.mp.MenuConstants.*
 
 class RecipeController {
     static config = ConfigurationHolder.config
-    RecipeService recipeService
+    def recipeService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 

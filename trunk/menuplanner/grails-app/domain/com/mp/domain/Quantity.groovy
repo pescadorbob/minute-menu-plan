@@ -37,8 +37,8 @@ class Quantity {
         //Buggy code: Quick fix for hibernate expception during bootstrap
         //sum.unit = Unit.findByName(TIME_UNIT_MINUTES)
         sum.unit = q1.unit
-        sum.value = sum.value + ((q1.unit.id == sum.unit.id) ? q1.value : (q1.value * 60))
-        sum.value = sum.value + ((q2.unit.id == sum.unit.id) ? q2.value : (q2.value * 60))
+        sum.value = sum.value + ((q1.unit.id == sum.unit.id) ? q1.value : (q1.value * TIME_UNIT_HOURS_TO_MINUTES_CONVERSION_FACTOR))
+        sum.value = sum.value + ((q2.unit.id == sum.unit.id) ? q2.value : (q2.value * TIME_UNIT_HOURS_TO_MINUTES_CONVERSION_FACTOR))
         return sum
     }
 }

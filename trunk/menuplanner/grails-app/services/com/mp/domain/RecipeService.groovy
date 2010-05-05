@@ -46,7 +46,7 @@ class RecipeCO {
     RecipeCO(Recipe recipe) {
         id = recipe?.id
         name = recipe?.name
-        
+
 //        selectRecipeImagePath=recipe?.image?.path
 
         difficulty = recipe?.difficulty?.name()
@@ -211,10 +211,8 @@ class RecipeCO {
             return null
         }
         Quantity time = new Quantity()
-        time.unit = Unit.get(unitId)
-        time.savedUnit = Unit.findByName(TIME_UNIT_MINUTES)
-        if (time.unit.name == TIME_UNIT_HOURS) minutes *= 60;
-        time.value = minutes
+        Unit unit = Unit.get(unitId)
+        time = StandardConversion.getMetricQuantity(minutes.toString(), unit)
         time.s()
         if (time) {
             return time
@@ -269,7 +267,7 @@ class RecipeCO {
             if (amount) {
                 RecipeNutrient recipeNutrient = new RecipeNutrient()
                 recipeNutrient.nutrient = Nutrient.get(nutrientIds[index])
-                Quantity quantity = StandardConversion.getMetricQuantity(amount.toString(), Nutrient.get(nutrientIds[index]).preferredUnit) 
+                Quantity quantity = StandardConversion.getMetricQuantity(amount.toString(), Nutrient.get(nutrientIds[index]).preferredUnit)
                 quantity.s()
                 recipeNutrient.quantity = quantity
                 recipeNutrientList.add(recipeNutrient)

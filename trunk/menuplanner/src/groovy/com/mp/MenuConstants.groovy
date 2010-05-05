@@ -37,7 +37,7 @@ class MenuConstants {
     public static final Double UNIT_GILL_CONVERSION_FACTOR = 118.29
 
     public static final String UNIT_CUP = "Cup"
-    public static final String UNIT_CUP_SYMBOL = "C"
+    public static final String UNIT_CUP_SYMBOL = "c"
     public static final Double UNIT_CUP_CONVERSION_FACTOR = 236.59
 
     public static final String UNIT_PINT = "Pint"
