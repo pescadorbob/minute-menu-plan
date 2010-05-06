@@ -36,7 +36,7 @@ class StandardConversion {
     public static String getUsaQuantityString(Quantity sourceQuantity) {
         Float metricValue = sourceQuantity?.value
         Unit unit = sourceQuantity?.unit
-        String result
+        String result = ''
         if (metricValue && unit) {
             StandardConversion standardConversion
             StandardConversion.withNewSession {
@@ -51,9 +51,10 @@ class StandardConversion {
                     result = new Fraction(metricValue).myFormatUsingProperFractionFormat()
                 }
             }
-            return result
+        }else if(metricValue){
+            result = new Fraction(metricValue).myFormatUsingProperFractionFormat()
         }
-        return null
+        return result
     }
 
     static constraints = {

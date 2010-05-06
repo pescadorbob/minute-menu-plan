@@ -212,6 +212,8 @@ class ExcelService {
                         standardConversion.s()
                     }
                     quantity = StandardConversion.getMetricQuantity(ingredientRow.getAt(1), unit)
+                } else if(ingredientRow.getAt(1)) {
+                    quantity = StandardConversion.getMetricQuantity(ingredientRow.getAt(1), null)
                 }
                 quantity.s()
                 recipeIngredient.quantity = quantity
