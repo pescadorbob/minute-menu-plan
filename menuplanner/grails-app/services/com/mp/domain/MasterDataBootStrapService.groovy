@@ -66,6 +66,12 @@ class MasterDataBootStrapService {
         Unit pound = new Unit(name: UNIT_POUND, symbol: UNIT_POUND_SYMBOL, definition: "This is definition for Pound", metricType: MetricType.METRIC)
         pound.addToSystemOfUnits(systemOfUnitsUsa)
         pound.s()
+        Unit ounce_10_3_4 = new Unit(name: UNIT_10_3_4_OUNCE_CAN, symbol: UNIT_10_3_4_OUNCE_CAN_SYMBOL, definition: "This is definition for 10 3/4 ounce can", metricType: MetricType.METRIC)
+        ounce_10_3_4.addToSystemOfUnits(systemOfUnitsUsa)
+        ounce_10_3_4.s()
+        Unit ounce = new Unit(name: UNIT_OUNCE, symbol: UNIT_OUNCE_SYMBOL, definition: "This is definition for Ounce", metricType: MetricType.METRIC)
+        ounce.addToSystemOfUnits(systemOfUnitsUsa)
+        ounce.s()
 
 
         SystemOfUnit systemOfUnitsMetric = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_METRIC)
@@ -98,6 +104,8 @@ class MasterDataBootStrapService {
         new StandardConversion(sourceUnit: quart, targetUnit: milliLitres, conversionFactor: UNIT_QUART_CONVERSION_FACTOR).s()
         new StandardConversion(sourceUnit: gallon, targetUnit: milliLitres, conversionFactor: UNIT_GALLON_CONVERSION_FACTOR).s()
         new StandardConversion(sourceUnit: pound, targetUnit: gram, conversionFactor: UNIT_POUND_CONVERSION_FACTOR).s()
+        new StandardConversion(sourceUnit: ounce_10_3_4, targetUnit: gram, conversionFactor: UNIT_10_3_4_OUNCE_CAN_CONVERSION_FACTOR).s()
+        new StandardConversion(sourceUnit: ounce, targetUnit: gram, conversionFactor: UNIT_OUNCE_CONVERSION_FACTOR).s()
 
     }
 

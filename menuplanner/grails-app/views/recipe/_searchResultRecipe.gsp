@@ -6,7 +6,7 @@
             <li><g:link action="show" controller="recipe" id="${recipe?.id}">${recipe.name}</g:link></li>
             <li>
                 <ul>
-                    <li><img height="100" width="100" src="${createLink(controller: 'recipe', action: 'showImage', id: recipe?.id)}"/></li>
+                    <li><mp:recipeImage id="${recipe?.image?.id}" height="100" width="100"/></li>
                     <li>
                         <ul>
                             <li><g:render template="/rating/rating"/></li>

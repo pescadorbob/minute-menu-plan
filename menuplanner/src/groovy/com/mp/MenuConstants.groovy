@@ -57,8 +57,16 @@ class MenuConstants {
     public static final Double UNIT_GALLON_CONVERSION_FACTOR = 3785.41
 
     public static final String UNIT_POUND = "Pound"
-    public static final String UNIT_POUND_SYMBOL = "lbs."
+    public static final String UNIT_POUND_SYMBOL = "lb."
     public static final Double UNIT_POUND_CONVERSION_FACTOR = 453.59
+
+    public static final String UNIT_10_3_4_OUNCE_CAN = "10 3/4 Ounce can"
+    public static final String UNIT_10_3_4_OUNCE_CAN_SYMBOL = "10 3/4 oz. can"
+    public static final Double UNIT_10_3_4_OUNCE_CAN_CONVERSION_FACTOR = 304.757
+
+    public static final String UNIT_OUNCE = "Ounce"
+    public static final String UNIT_OUNCE_SYMBOL = "oz."
+    public static final Double UNIT_OUNCE_CONVERSION_FACTOR = 28.35
 
     public static final String UNIT_MILLI_LITRE = "Milli Litre"
     public static final String UNIT_MILLI_LITRE_SYMBOL = "mL"

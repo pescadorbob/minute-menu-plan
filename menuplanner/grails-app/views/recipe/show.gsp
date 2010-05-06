@@ -67,7 +67,7 @@
                             </li>
                             <li style="text-align: right;">
                                 <g:if test="${recipe?.image}">
-                                    <img src="${createLink(controller: 'recipe', action: 'showImage', id: recipe?.id)}" width="160" height="160" align="top"/>
+                                    <mp:recipeImage id="${recipe?.image?.id}" height="160" width="160"/>
                                 </g:if>
                                 <g:else>
                                     <img src="${resource(dir: 'images', file: 'no-img.gif')}" width="160" height="160" align="top"/>

@@ -37,16 +37,12 @@ class MenuplannerTagLib {
 
     }
 
-    def recipeImageById = {attrs ->
-        if (attrs['id']) {
-            out << "${g.createLink(controller: 'recipe', action: 'showImage', id: attrs['id'])} "
-        }
-    }
-
-    def recipeImageByPath = {attrs ->
-        if (attrs['selectRecipeImagePath']) {
-            out << "<img id='recipeImage'  border='0' width='195' src=" + '"' + "${g.createLink(controller: 'recipe', action: 'showImage', params:[selectRecipeImagePath: attrs['selectRecipeImagePath']])} " + '"' + "/>"
-        }
+    def recipeImage = {attrs ->
+        String height= attrs['height']
+        String width= attrs['width']
+        String id = attrs['id']
+        String clas = attrs['class']
+        out << "<img class='${clas}' height='${height}' width='${width}' src='" + createLink(controller: 'image', action: 'image', id: id) + "'/>"
     }
 
     def getSelectedCategoriesAsJSON={attrs->

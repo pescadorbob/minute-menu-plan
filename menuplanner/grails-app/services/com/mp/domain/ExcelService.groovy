@@ -201,6 +201,8 @@ class ExcelService {
                     Unit unit = Unit.findBySymbol(ingredientRow.getAt(2))
                     if (!unit) { unit = Unit.findByName(ingredientRow.getAt(2)) }
                     if (!unit) {
+                        println "Unknown unit: " + ingredientRow.getAt(2)
+                        /*
                         unit = new Unit(name: "${ingredientRow.getAt(2)}", symbol: "${ingredientRow.getAt(2)}", definition: "This is definition", metricType: MetricType.METRIC)
                         unit.addToSystemOfUnits(SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA))
                         unit.s()
@@ -210,6 +212,7 @@ class ExcelService {
                         standardConversion.sourceUnit = unit
                         standardConversion.conversionFactor = 1.0
                         standardConversion.s()
+                        */
                     }
                     quantity = StandardConversion.getMetricQuantity(ingredientRow.getAt(1), unit)
                 } else if(ingredientRow.getAt(1)) {
