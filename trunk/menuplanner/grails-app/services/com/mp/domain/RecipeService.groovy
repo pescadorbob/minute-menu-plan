@@ -13,7 +13,7 @@ class RecipeCO {
     static config = ConfigurationHolder.config
 
     RecipeCO() {} //constructor
-
+    Long imageId
     Long id
     String name
     String difficulty
@@ -45,6 +45,7 @@ class RecipeCO {
 
     RecipeCO(Recipe recipe) {
         id = recipe?.id
+        imageId = recipe?.image?.id
         name = recipe?.name
 
 //        selectRecipeImagePath=recipe?.image?.path
@@ -257,7 +258,7 @@ class RecipeCO {
             if (amount) {
                 RecipeNutrient recipeNutrient = new RecipeNutrient()
                 recipeNutrient.nutrient = Nutrient.get(nutrientIds[index])
-                Quantity quantity = StandardConversion.getMetricQuantity(amount.toString(), Nutrient.get(nutrientIds[index]).preferredUnit)
+                Quantity quantity = StandardConversion.getMetricQuantity(amount?.toInteger().toString(), Nutrient.get(nutrientIds[index]).preferredUnit)
                 quantity.s()
                 recipeNutrient.quantity = quantity
                 recipeNutrientList.add(recipeNutrient)

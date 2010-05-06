@@ -70,6 +70,9 @@
             </ul>
             <div class="clr">
                 <div id="myImageDiv">
+
+                    %{--<mp:recipeImage id="${recipeCO?.imageId}" height="171" width="195"/>--}%
+                    %{----}%
                     <g:if test="${recipeCO?.selectRecipeImagePath}">
                         <img id='recipeImage' border='0' width='195' height="171" src="${g.createLink(controller: 'recipe', action: 'showImage', params: [selectRecipeImagePath: recipeCO?.selectRecipeImagePath])}"/>
                     </g:if>

@@ -11,11 +11,11 @@ class StandardConversion {
     Double conversionFactor
 
     public static Quantity getMetricQuantity(String amountFraction, Unit displayUnit) {
+        Quantity result = new Quantity()
         Float amount
         if(amountFraction){
             amount = new Fraction(amountFraction)?.floatValue()
         }
-        Quantity result = new Quantity()
         if (displayUnit && amount) {
             StandardConversion standardConversion = StandardConversion.findBySourceUnit(displayUnit)
             if (standardConversion) {
