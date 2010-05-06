@@ -63,6 +63,9 @@ class MasterDataBootStrapService {
         Unit gallon = new Unit(name: UNIT_GALLON, symbol: UNIT_GALLON_SYMBOL, definition: "This is definition for Gallon", metricType: MetricType.METRIC)
         gallon.addToSystemOfUnits(systemOfUnitsUsa)
         gallon.s()
+        Unit pound = new Unit(name: UNIT_POUND, symbol: UNIT_POUND_SYMBOL, definition: "This is definition for Pound", metricType: MetricType.METRIC)
+        pound.addToSystemOfUnits(systemOfUnitsUsa)
+        pound.s()
 
 
         SystemOfUnit systemOfUnitsMetric = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_METRIC)
@@ -94,6 +97,7 @@ class MasterDataBootStrapService {
         new StandardConversion(sourceUnit: fifth, targetUnit: milliLitres, conversionFactor: UNIT_FIFTH_CONVERSION_FACTOR).s()
         new StandardConversion(sourceUnit: quart, targetUnit: milliLitres, conversionFactor: UNIT_QUART_CONVERSION_FACTOR).s()
         new StandardConversion(sourceUnit: gallon, targetUnit: milliLitres, conversionFactor: UNIT_GALLON_CONVERSION_FACTOR).s()
+        new StandardConversion(sourceUnit: pound, targetUnit: gram, conversionFactor: UNIT_POUND_CONVERSION_FACTOR).s()
 
     }
 

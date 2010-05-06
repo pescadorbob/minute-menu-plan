@@ -56,6 +56,9 @@ class MenuConstants {
     public static final String UNIT_GALLON_SYMBOL = "gal."
     public static final Double UNIT_GALLON_CONVERSION_FACTOR = 3785.41
 
+    public static final String UNIT_POUND = "Pound"
+    public static final String UNIT_POUND_SYMBOL = "lbs."
+    public static final Double UNIT_POUND_CONVERSION_FACTOR = 453.59
 
     public static final String UNIT_MILLI_LITRE = "Milli Litre"
     public static final String UNIT_MILLI_LITRE_SYMBOL = "mL"

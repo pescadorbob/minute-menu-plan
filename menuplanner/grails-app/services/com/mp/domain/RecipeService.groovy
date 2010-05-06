@@ -55,10 +55,10 @@ class RecipeCO {
 
 
         preparationUnitId = recipe?.preparationTime?.unit?.id
-        preparationTime = StandardConversion.getUsaQuantityString(recipe?.preparationTime)?.toInteger()
+        preparationTime = recipe?.preparationTime ? StandardConversion.getUsaQuantityString(recipe?.preparationTime)?.toInteger() : null
 
         cookUnitId = recipe?.cookingTime?.unit?.id
-        cookTime = StandardConversion.getUsaQuantityString(recipe?.cookingTime)?.toInteger()
+        cookTime = recipe?.cookingTime ? StandardConversion.getUsaQuantityString(recipe?.cookingTime)?.toInteger() : null
 
         categoryIds = recipe?.categories*.id as Set
         directions = recipe?.directions
@@ -72,12 +72,8 @@ class RecipeCO {
         }
 
         recipe?.ingredients*.quantity?.value?.eachWithIndex {Float val, Integer index ->
-            if (recipe?.ingredients?.getAt(index)?.quantity?.unit?.belongsToUsaSystem()) {
-                String usValue = StandardConversion.getUsaQuantityString(recipe?.ingredients?.getAt(index)?.quantity)
-                ingredientQuantities.add(usValue)
-            } else {
-                ingredientQuantities.add(val ? val.toString() : '')
-            }
+            String usValue = StandardConversion.getUsaQuantityString(recipe?.ingredients?.getAt(index)?.quantity)
+            ingredientQuantities.add(usValue)
         }
 
         nutrientIds = Nutrient.list()*.id

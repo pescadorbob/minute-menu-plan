@@ -11,15 +11,10 @@ class Quantity {
     Unit unit
     Unit savedUnit
 
-    static transients = ['fractionValue']
-
     String toString() {
-        if (unit && value) {
-            String amount = StandardConversion.getUsaQuantityString(this)
-            return "${amount ? amount : ''} ${unit ? unit?.symbol : ''}"
-        } else {
-            return "${value ? value : ''} ${unit ? unit?.symbol : ''}"
-        }
+        String amount
+        amount = StandardConversion.getUsaQuantityString(this)
+        return "${amount ? amount : ''} ${unit ? unit?.symbol : ''}"
     }
 
     static constraints = {
@@ -33,10 +28,10 @@ class Quantity {
     public static Quantity addTime(Quantity q1, Quantity q2) {
         Quantity sum = new Quantity()
         Float totalMinutes = 0.0
-        if(q1?.value){
+        if (q1?.value) {
             totalMinutes += q1?.value
         }
-        if(q2?.value){
+        if (q2?.value) {
             totalMinutes += q2?.value
         }
         sum.unit = q1.savedUnit
