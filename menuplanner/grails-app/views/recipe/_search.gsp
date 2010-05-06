@@ -14,7 +14,7 @@
                     <span id="categoriesStringDisplay" style="float:left; padding-left:5px;"></span>
                 </td>
             </tr>
-            <tr id="caloriesRow" style="display:none;">
+            <tr id="caloriesStringRow" style="display:none;">
                 <td width="80px;">
                     <img onclick="removeSearchOption('caloriesString')" id="caloriesRemove" src="${resource(dir: 'images', file: 'delete-icon.jpg')}" align="top" style="cursor:pointer;"/>
                     Calories:
