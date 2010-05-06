@@ -58,6 +58,11 @@
             var prevElemNo=parseInt(elemNo)-1
             jQuery("#draggableSearchItem_"+prevElemNo).after("<li id='"+elemId+"'>"+jQuery(ui.item).clone().html()+"</li>")
           }
+//            jQuery('.recipe-detail-thumb').hover(function() {
+//                jQuery(this).css('backgroundColor', 'orange')
+//            }, function() {
+//                jQuery(this).css('backgroundColor', '#329ca7')
+//            })
         },
         over:function(event,ui){
           ui.helper=jQuery(ui.helper)

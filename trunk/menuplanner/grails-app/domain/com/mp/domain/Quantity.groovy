@@ -14,12 +14,11 @@ class Quantity {
     static transients = ['fractionValue']
 
     String toString() {
-        if (unit?.belongsToMetricSystem()) {
-            return "${value ? value : ''} ${unit ? unit?.symbol : ''}"
+        if (unit && value) {
+            String amount = StandardConversion.getUsaString(value, unit)
+            return "${amount ? amount : ''} ${unit ? unit : ''}"
         } else {
-            String amount = value?.toString()
-            amount= StandardConversion.getUsaString(value, unit)
-            return "${amount ? amount : ''} ${unit ? unit?.symbol : ''}"
+            return "${value ? value : ''} ${unit ? unit?.symbol : ''}"
         }
     }
 
@@ -33,12 +32,15 @@ class Quantity {
 
     public static Quantity addTime(Quantity q1, Quantity q2) {
         Quantity sum = new Quantity()
-        sum.value = 0.00
-        //Buggy code: Quick fix for hibernate expception during bootstrap
-        //sum.unit = Unit.findByName(TIME_UNIT_MINUTES)
-        sum.unit = q1.unit
-        sum.value = sum.value + ((q1.unit.id == sum.unit.id) ? q1.value : (q1.value * TIME_UNIT_HOURS_TO_MINUTES_CONVERSION_FACTOR))
-        sum.value = sum.value + ((q2.unit.id == sum.unit.id) ? q2.value : (q2.value * TIME_UNIT_HOURS_TO_MINUTES_CONVERSION_FACTOR))
+        BigDecimal totalMinutes = 0.0
+        if(q1?.value){
+            totalMinutes += q1?.value
+        }
+        if(q2?.value){
+            totalMinutes += q2?.value
+        }
+        sum.unit = q1.savedUnit
+        sum.value = totalMinutes
         return sum
     }
 }

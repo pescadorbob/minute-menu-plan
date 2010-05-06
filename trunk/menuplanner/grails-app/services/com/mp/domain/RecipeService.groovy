@@ -55,17 +55,23 @@ class RecipeCO {
 
 
         preparationUnitId = recipe?.preparationTime?.unit?.id
-        if (recipe?.preparationTime?.unit?.name == TIME_UNIT_HOURS) {
-            preparationTime = recipe?.preparationTime?.value?.toBigDecimal() / 60
-        } else {
-            preparationTime = recipe?.preparationTime?.value?.toBigDecimal()
-        }
+
+        preparationTime = StandardConversion.getUsaString(recipe?.preparationTime?.value, recipe?.preparationTime?.unit)?.toInteger()
+
+//        if (recipe?.preparationTime?.unit?.name == TIME_UNIT_HOURS) {
+//            preparationTime = recipe?.preparationTime?.value?.toBigDecimal() / 60
+//        } else {
+//            preparationTime = recipe?.preparationTime?.value?.toBigDecimal()
+//        }
         cookUnitId = recipe?.cookingTime?.unit?.id
-        if (recipe?.cookingTime?.unit?.name == TIME_UNIT_HOURS) {
-            cookTime = recipe?.cookingTime?.value?.toBigDecimal() / 60
-        } else {
-            cookTime = recipe?.cookingTime?.value?.toBigDecimal()
-        }
+
+        cookTime = StandardConversion.getUsaString(recipe?.cookingTime?.value, recipe?.cookingTime?.unit)?.toInteger()
+        
+//        if (recipe?.cookingTime?.unit?.name == TIME_UNIT_HOURS) {
+//            cookTime = recipe?.cookingTime?.value?.toBigDecimal() / 60
+//        } else {
+//            cookTime = recipe?.cookingTime?.value?.toBigDecimal()
+//        }
         categoryIds = recipe?.categories*.id as Set
         directions = recipe?.directions
 
@@ -93,7 +99,6 @@ class RecipeCO {
             nutrientQuantities[recipeNutrient?.nutrient?.id?.toInteger() - 1] = recipeNutrient?.quantity?.value
         }
     }
-
 
     void setNutrientQuantities(def listOfNq) {
         [listOfNq].flatten().each {

@@ -39,18 +39,18 @@ class StandardConversion {
 
     public static String getUsaString(BigDecimal metricValue, Unit unit) {
         if (metricValue && unit) {
-            String result
-            if (unit.belongsToMetricSystem()) {
-                result = new Fraction(metricValue).myFormatUsingProperFractionFormat()
-            } else {
-                StandardConversion.withNewSession {
+            String result = ''
+            StandardConversion standardConversion
+            StandardConversion.withNewSession {
+                if (unit) {
+                    standardConversion = StandardConversion.findBySourceUnit(unit)
+                }
+                if (standardConversion) {
                     BigDecimal conversionFactor = StandardConversion.findBySourceUnit(unit)?.conversionFactor
-                    if (conversionFactor) {
-                        metricValue = metricValue / conversionFactor
-                        result = new Fraction(metricValue).myFormatUsingProperFractionFormat()
-                    } else {
-                        result = ''
-                    }
+                    metricValue = metricValue / conversionFactor
+                    result = new Fraction(metricValue).myFormatUsingProperFractionFormat()
+                } else {
+                    result = new Fraction(metricValue).myFormatUsingProperFractionFormat()
                 }
             }
             return result
@@ -58,6 +58,22 @@ class StandardConversion {
         return null
     }
 
+    public static String getFormatedTotalTimeString(BigDecimal minutes){
+        String result = ''
+        BigDecimal hrs = 0.0
+        BigDecimal mins = 0.0
+        if(minutes){
+            hrs = minutes / 60
+            mins = minutes % 60
+            if(hrs > 0){
+                result "${hrs} ${Unit.findByName(TIME_UNIT_HOURS)?.symbol}"
+            }
+            if(mins > 0){
+                result = result + " ${mins} ${Unit.findByName(TIME_UNIT_MINUTES)?.symbol}"
+            }
+        }
+        return result
+    }
     static constraints = {
     }
 }
