@@ -13,10 +13,9 @@
 .myHover{
   position:relative;
   z-index:10000;
-  display:block;
-  background-color:red;
   height:auto !important;
   min-height:55px;
+  background:#ffffff;
 }
 
 .downArrow{
@@ -59,7 +58,7 @@
               }
             },
           over:function(event, ui) {
-                jQuery(this).css("background-color","#B1BDC1")
+                jQuery(this).css("background-color","#EEEEEE")
           },
           out:function(event, ui) {
             jQuery(this).css("background-color","")
@@ -67,7 +66,7 @@
             opacity:0.6,
             tolerance: 'pointer',
             helper:'clone',
-//            cursorAt: 'top',
+            cursorAt: 'top',
             revert: true,
             scrollSensitivity: 40,
             connectWith: '.menuContainer'
