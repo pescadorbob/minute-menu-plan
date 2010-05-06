@@ -50,15 +50,15 @@
 #country-cate ul li a{ display:block;text-decoration:none; color:#007ad8; font-weight:normal; clear:both; padding:0px 0px; margin:0px; line-height:14px;}
 #country-cate ul li a:hover{ font-weight:bold;}
 
-.ratingbox{clear:both; font-size:11px; color:#fff;}
-.ratingbox ul li{clear:both; background-color:#329CA7; padding:5px; margin-top:11px; height:109px;}
-/*.ratingbox ul li{clear:both; background:url(../images/box.gif) no-repeat top left; padding:5px; margin-top:11px; height:109px;}*/
-.ratingbox ul li h3{clear:both;padding:10px; padding:0px 5px 0px 0px; margin:0px; line-height:16px;   font-size:12px;}
-.ratingbox-left{ float:left;width:110px;}
-.ratingbox-left img{ clear:both; padding:1px 0px 0px 1px;}
-.imgbor{ border:none; height:82px; width:99px; background:url(../images/ima-bg.gif) no-repeat top left;}
-.ratingbox-right{ float:right;width:90px;}
-.star-container{clear:both; height:20px; padding-top:5px;}
+.ratingbox{clear:both;font-size:11px; color:#fff; margin-top:11px;}
+.ratingbox ul li{ clear:both;cursor:pointer; width:205px;padding:5px;margin-bottom:11px; background:#329ca7;}
+.ratingbox ul li ul li{margin:0 !important; padding:0 !important; background:none  !important; }
+.ratingbox ul li ul li h3{padding:0px !important; margin:0px !important; line-height:20px; font-size:12px;}
+.ratingbox ul li ul li ul li{ clear:none; float:left; width:102px !important; padding:2px 0px !important;background:none  !important;}
+.ratingbox ul li ul li ul li ul li{ line-height:15px; padding-left:0px !important; clear:both; }
+.ratingbox ul li:hover{background:#ffa500; }
+
+.imgbor{ border:none; height:80px; width:80px; background:url(../images/ima-bg.gif) no-repeat top left;}
 
 #pagination{clear:both; font-size:12px; font-weight:bold; height:20px; padding-top:10px;}
 #pagination ul li{ float:left; padding:0px 3px;}
@@ -143,15 +143,13 @@
 
 .product{clear:both; font-size:11px;font-weight:bold; margin-top:0px; padding-top:20px; line-height:16px; }
 .product ul li{ float:left; width:230px; margin:0px 4px; padding:2px 0px; cursor:pointer;}
-.product ul li.bgcolor{ background:#efefef;}
-.product ul li ul li{ float:left;width:115px; display:block; margin:0 !important;}
+.product ul li:hover{ background:#eeeeee;}
+.product ul li ul li{display:block;margin:0 !important;width:220px; padding:5px;}
+.product ul li ul li a{color:#2aa4af; text-decoration:none; font-size:12px;   margin:auto;}
 .product ul li ul li.center{text-align:center;}
-.product ul li ul li ul li{ margin:0 !important; clear:both; padding:2px 0px !important; }
-.product ul li ul li ul li a{color:#2aa4af; text-decoration:none; font-size:12px;  width:96px; display:block; margin:auto;}
-.product ul li ul li ul{ margin:0 !important; padding:0px !important; list-style:none;}
+.product ul li ul li ul li{ margin:0 !important;float:left !important; width:110px !important; padding:2px 0px !important; }
+.product ul li ul li ul li ul li{ line-height:16px; padding:0px !important; clear:both; }
 .product ul li a:hover{ color:#fea501; }
-
-
 
 /* 30 April */
 .menuplannerTab tr{ height:30px;font-family:verdana,arial,helvetica,sans-serif; font-size:11px;}
@@ -182,4 +180,23 @@ span.errors {
     border-top: red 1px solid;
     border-left: red 1px solid;
     border-bottom: red 1px solid
+}
+.paginateButtons {
+    border: 0px;
+    color: #666;
+    font-size: 10px;
+    overflow: hidden;
+    padding: 10px 3px;
+    margin-top: 10px;
+}
+
+.paginateButtons a {
+    font-weight: bold;
+    font-size: 11px;
+    color: royalblue;
+    margin: 0 3px;
+}
+
+.paginateButtons span {
+    padding: 2px 3px;
 }
