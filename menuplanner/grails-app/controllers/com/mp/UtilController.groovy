@@ -12,6 +12,8 @@ import org.apache.lucene.document.NumberTools
 import org.springframework.web.multipart.commons.CommonsMultipartFile
 import java.math.MathContext
 import org.codehaus.groovy.grails.commons.ApplicationHolder
+import static com.mp.MenuConstants.*
+
 
 class UtilController {
     ExcelService excelService
@@ -25,8 +27,14 @@ class UtilController {
     }
 
     def index = {
-        String x = "1"
-        render "y: " + new Fraction(x).floatValue()
+        String x = "1/8"
+        Unit unit = Unit.findByName(UNIT_TEA_SPOON)
+        Quantity quantity = StandardConversion.getMetricQuantity(x,unit)
+        quantity.s()
+        String us = StandardConversion.getUsaQuantityString(quantity)
+
+        render "metric: " + quantity.value + "<br/>"
+        render "us: " + us
 
     }
 

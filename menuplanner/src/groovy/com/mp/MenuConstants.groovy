@@ -59,19 +59,15 @@ class MenuConstants {
 
     public static final String UNIT_MILLI_LITRE = "Milli Litre"
     public static final String UNIT_MILLI_LITRE_SYMBOL = "mL"
-    //public static final Double UNIT_MILLI_LITRE_CONVERSION_FACTOR =
 
     public static final String UNIT_MILLI_GRAM = "Milli Grams"
     public static final String UNIT_MILLI_GRAM_SYMBOL = "mg."
-    //public static final Double UNIT_MILLI_GRAM_CONVERSION_FACTOR = 
 
     public static final String UNIT_GRAM = "Grams"
     public static final String UNIT_GRAM_SYMBOL = "g."
-    //public static final Double UNIT_GRAM_CONVERSION_FACTOR =
 
     public static final String UNIT_CALORIES = "Calories"
     public static final String UNIT_CALORIES_SYMBOL = "cal."
-    //public static final Double UNIT_GRAM_CONVERSION_FACTOR =
 
 
     public static final String NUTRIENT_CALORIES = "Calories"

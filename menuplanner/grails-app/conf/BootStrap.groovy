@@ -65,8 +65,13 @@ class BootStrap {
             println "Populated Quantities"
             bootstrapService.populateMeasurableProduct(50)
             println "Populated Products"
+            File recipeExcelFile
+            if(GrailsUtil.isDevelopmentEnv()){
+                recipeExcelFile=new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet.xls"))
+            } else{
+                recipeExcelFile=new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet_Qa.xls"))
+            }
 //            bootstrapService.populateRecipes((GrailsUtil.isDevelopmentEnv()) ? 20 : 150)
-            File recipeExcelFile=new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet.xls"))
             List<String> recipeLog
             recipeExcelFile.withInputStream {inputStream->
                 recipeLog = excelService.createLineItems(inputStream)

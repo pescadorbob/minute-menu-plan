@@ -55,23 +55,11 @@ class RecipeCO {
 
 
         preparationUnitId = recipe?.preparationTime?.unit?.id
+        preparationTime = StandardConversion.getUsaQuantityString(recipe?.preparationTime)?.toInteger()
 
-        preparationTime = StandardConversion.getUsaString(recipe?.preparationTime?.value, recipe?.preparationTime?.unit)?.toInteger()
-
-//        if (recipe?.preparationTime?.unit?.name == TIME_UNIT_HOURS) {
-//            preparationTime = recipe?.preparationTime?.value?.toBigDecimal() / 60
-//        } else {
-//            preparationTime = recipe?.preparationTime?.value?.toBigDecimal()
-//        }
         cookUnitId = recipe?.cookingTime?.unit?.id
+        cookTime = StandardConversion.getUsaQuantityString(recipe?.cookingTime)?.toInteger()
 
-        cookTime = StandardConversion.getUsaString(recipe?.cookingTime?.value, recipe?.cookingTime?.unit)?.toInteger()
-        
-//        if (recipe?.cookingTime?.unit?.name == TIME_UNIT_HOURS) {
-//            cookTime = recipe?.cookingTime?.value?.toBigDecimal() / 60
-//        } else {
-//            cookTime = recipe?.cookingTime?.value?.toBigDecimal()
-//        }
         categoryIds = recipe?.categories*.id as Set
         directions = recipe?.directions
 
@@ -83,9 +71,10 @@ class RecipeCO {
             hiddenIngredientUnitNames.add(unit?.name)
         }
 
-        recipe?.ingredients*.quantity?.value?.eachWithIndex {BigDecimal val, Integer index ->
+        recipe?.ingredients*.quantity?.value?.eachWithIndex {Float val, Integer index ->
             if (recipe?.ingredients?.getAt(index)?.quantity?.unit?.belongsToUsaSystem()) {
-                ingredientQuantities.add(StandardConversion.getUsaString(val, recipe?.ingredients?.getAt(index)?.quantity?.unit))
+                String usValue = StandardConversion.getUsaQuantityString(recipe?.ingredients?.getAt(index)?.quantity)
+                ingredientQuantities.add(usValue)
             } else {
                 ingredientQuantities.add(val ? val.toString() : '')
             }
@@ -96,13 +85,13 @@ class RecipeCO {
             nutrientQuantities[it] = ""
         }
         recipe.nutrients.each {RecipeNutrient recipeNutrient ->
-            nutrientQuantities[recipeNutrient?.nutrient?.id?.toInteger() - 1] = recipeNutrient?.quantity?.value
+            nutrientQuantities[recipeNutrient?.nutrient?.id?.toInteger() - 1] = StandardConversion.getUsaQuantityString(recipeNutrient?.quantity).toInteger()
         }
     }
 
     void setNutrientQuantities(def listOfNq) {
         [listOfNq].flatten().each {
-            try {nutrientQuantities << new BigDecimal(it)} catch (ex) {nutrientQuantities << it}
+            try {nutrientQuantities << new Float(it)} catch (ex) {nutrientQuantities << it}
         }
     }
 
@@ -118,7 +107,7 @@ class RecipeCO {
         cookTime(nullable: true, blank: true)
 
         nutrientQuantities(validator: {val ->
-            if (val.findAll {!(it instanceof BigDecimal || it == "")}.size() > 0) {
+            if (val.findAll {!(it instanceof Float || it == "")}.size() > 0) {
                 return 'recipeCO.nutrientQuantities.matches.invalid.nutrientQuantities'
             }
         })
