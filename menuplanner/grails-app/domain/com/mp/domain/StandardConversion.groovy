@@ -11,9 +11,10 @@ class StandardConversion {
     Double conversionFactor
 
     public static Quantity getUsaQuantity(Quantity sourceQuantity) {
-        Quantity result = new Quantity()        
+        Quantity result = new Quantity()
         return result
     }
+
     public static Quantity getMetricQuantity(String amountFraction, Unit displayUnit) {
         BigDecimal amount = new Fraction(amountFraction).floatValue()
         Quantity result = new Quantity()
@@ -42,12 +43,14 @@ class StandardConversion {
             if (unit.belongsToMetricSystem()) {
                 result = new Fraction(metricValue).myFormatUsingProperFractionFormat()
             } else {
-                BigDecimal conversionFactor = StandardConversion.findBySourceUnit(unit)?.conversionFactor
-                if (conversionFactor) {
-                    metricValue = metricValue / conversionFactor
-                    result = new Fraction(metricValue).myFormatUsingProperFractionFormat()
-                } else {
-                    result = ''
+                StandardConversion.withNewSession {
+                    BigDecimal conversionFactor = StandardConversion.findBySourceUnit(unit)?.conversionFactor
+                    if (conversionFactor) {
+                        metricValue = metricValue / conversionFactor
+                        result = new Fraction(metricValue).myFormatUsingProperFractionFormat()
+                    } else {
+                        result = ''
+                    }
                 }
             }
             return result
