@@ -7,7 +7,7 @@ import org.apache.commons.math.fraction.Fraction
 
 class Quantity {
 
-    BigDecimal value
+    Float value
     Unit unit
     Unit savedUnit
 
@@ -15,8 +15,8 @@ class Quantity {
 
     String toString() {
         if (unit && value) {
-            String amount = StandardConversion.getUsaString(value, unit)
-            return "${amount ? amount : ''} ${unit ? unit : ''}"
+            String amount = StandardConversion.getUsaQuantityString(this)
+            return "${amount ? amount : ''} ${unit ? unit?.symbol : ''}"
         } else {
             return "${value ? value : ''} ${unit ? unit?.symbol : ''}"
         }
@@ -32,7 +32,7 @@ class Quantity {
 
     public static Quantity addTime(Quantity q1, Quantity q2) {
         Quantity sum = new Quantity()
-        BigDecimal totalMinutes = 0.0
+        Float totalMinutes = 0.0
         if(q1?.value){
             totalMinutes += q1?.value
         }

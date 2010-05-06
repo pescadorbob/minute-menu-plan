@@ -20,7 +20,7 @@ class BootstrapService {
         (1..count).each {Integer index ->
             Quantity quantity = new Quantity()
             Integer intVal = ((new Random().nextInt(10) + 1) * 10)
-            quantity.value = intVal.toBigDecimal()
+            quantity.value = intVal.toFloat()
             quantity.unit = Unit.get(new Random().nextInt(Unit.count() - 4) + 3)
             quantity.savedUnit = Unit.findByName(UNIT_GRAM)
             quantity.s()

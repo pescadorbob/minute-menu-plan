@@ -145,9 +145,11 @@
     }
     function submitSearchFormBySelect() {
         var fieldValue = '*' + jQuery('[name=qSelect] :selected').text() + '*';
+        var fieldName = 'categoriesString'
         if (fieldValue == '*(Select One)*') {
+            fieldName = 'name'
             fieldValue = '*';
         }
-        submitSearchForm(null, 'categoriesString', fieldValue);
+        submitSearchForm(null, fieldName, fieldValue);
     }
 </script>

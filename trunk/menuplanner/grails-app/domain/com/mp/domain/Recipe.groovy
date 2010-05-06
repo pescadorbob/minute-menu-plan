@@ -56,7 +56,7 @@ class Recipe extends Item {
 
     String getTotalTimeValue() {
         if (totalTime) {
-            BigDecimal time = totalTime?.value?.toBigDecimal()
+            Float time = totalTime?.value?.toFloat()
             return time.toString()
         } else {
             return null
