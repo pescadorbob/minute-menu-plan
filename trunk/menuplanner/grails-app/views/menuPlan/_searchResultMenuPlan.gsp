@@ -1,24 +1,72 @@
-<style type="text/css">
-.paginateButtons {
-    border: 0px;
-    color: #666;
-    font-size: 10px;
-    overflow: hidden;
-    padding: 10px 3px;
-    margin-top: 10px;
-}
 
-.paginateButtons a {
-    font-weight: bold;
-    font-size: 11px;
-    color: royalblue;
-    margin: 0 3px;
-}
 
-.paginateButtons span {
-    padding: 2px 3px;
-}
-</style>
+<div class="ratingbox">
+                <ul>
+                <li class="clearfix">
+                <ul>
+                  <li><h3>Beef&nbsp;with&nbsp;Broccoli</h3>
+
+                   <ul>
+                    <li><img src="images/no-img.gif" class="imgbor"/></li>
+                    <li><ul>
+                        <li><g:render template="/rating/rating"/></li>
+                          <li>3 hrs.</li>
+                          <li>Easy</li>
+                          <li>Product-...</li>
+                        </ul></li>
+                  </ul>
+                  </li>
+                </ul>
+              </li>
+              <li class="clearfix">
+                <ul>
+                  <li><h3>Beef&nbsp;with&nbsp;Broccoli</h3>
+
+                   <ul>
+                    <li><img src="images/no-img.gif" class="imgbor"/></li>
+                    <li><ul>
+                          <li><img src="images/star-dark.gif" /> <img src="images/star-dark.gif" /> <img src="images/star-dark.gif" /> <img src="images/star-dark.gif" /> <img src="images/star-light.gif" width="13" height="12" /></li>
+                          <li>3 hrs.</li>
+                          <li>Easy</li>
+                          <li>Product-...</li>
+                        </ul></li>
+                  </ul>
+                  </li>
+                </ul>
+              </li> <li class="clearfix">
+                <ul>
+                  <li><h3>Beef&nbsp;with&nbsp;Broccoli</h3>
+
+                   <ul>
+                    <li><img src="images/no-img.gif" class="imgbor"/></li>
+                    <li><ul>
+                          <li><img src="images/star-dark.gif" /> <img src="images/star-dark.gif" /> <img src="images/star-dark.gif" /> <img src="images/star-dark.gif" /> <img src="images/star-light.gif" width="13" height="12" /></li>
+                          <li>3 hrs.</li>
+                          <li>Easy</li>
+                          <li>Product-...</li>
+                        </ul></li>
+                  </ul>
+                  </li>
+                </ul>
+              </li>
+               <li class="clearfix">
+                <ul>
+                  <li><h3>Beef&nbsp;with&nbsp;Broccoli</h3>
+
+                   <ul>
+                    <li><img src="images/no-img.gif" class="imgbor"/></li>
+                    <li><ul>
+                          <li><img src="images/star-dark.gif" /> <img src="images/star-dark.gif" /> <img src="images/star-dark.gif" /> <img src="images/star-dark.gif" /> <img src="images/star-light.gif" width="13" height="12" /></li>
+                          <li>3 hrs.</li>
+                          <li>Easy</li>
+                          <li>Product-...</li>
+                        </ul></li>
+                  </ul>
+                  </li>
+                </ul>
+              </li>
+                </ul>
+              </div>
 
 <ul class="resultContainer">
     <g:each in="${recipeList}" var="recipe" status="index">
