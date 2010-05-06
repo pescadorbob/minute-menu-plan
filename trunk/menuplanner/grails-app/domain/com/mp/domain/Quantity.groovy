@@ -18,7 +18,7 @@ class Quantity {
             return "${value ? value : ''} ${unit ? unit?.symbol : ''}"
         } else {
             String amount = value?.toString()
-//            amount= StandardConversion.getUsaString(value, unit)
+            amount= StandardConversion.getUsaString(value, unit)
             return "${amount ? amount : ''} ${unit ? unit?.symbol : ''}"
         }
     }
