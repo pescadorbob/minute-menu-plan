@@ -1,5 +1,10 @@
-<img height="12" width="13" src="${resource(dir: 'images', file: 'star-dark.gif')}"/>
-<img height="12" width="13" src="${resource(dir: 'images', file: 'star-dark.gif')}"/>
-<img height="12" width="13" src="${resource(dir: 'images', file: 'star-dark.gif')}"/>
-<img height="12" width="13" src="${resource(dir: 'images', file: 'star-dark.gif')}"/>
-<img height="12" width="13" src="${resource(dir: 'images', file: 'star-light.gif')}"/>
+<img src="${resource(dir: 'images', file: 'star-light.gif')}"/>
+<img src="${resource(dir: 'images', file: 'star-light.gif')}"/>
+<img src="${resource(dir: 'images', file: 'star-light.gif')}"/>
+<img src="${resource(dir: 'images', file: 'star-light.gif')}"/>
+<img src="${resource(dir: 'images', file: 'star-light.gif')}"/>
+%{--<img src="${resource(dir: 'images', file: 'star.gif')}"/>--}%
+%{--<img src="${resource(dir: 'images', file: 'star.gif')}"/>--}%
+%{--<img src="${resource(dir: 'images', file: 'star.gif')}"/>--}%
+%{--<img src="${resource(dir: 'images', file: 'star-half.gif')}"/>--}%
+%{--<img src="${resource(dir: 'images', file: 'star-full.gif')}"/>--}%
