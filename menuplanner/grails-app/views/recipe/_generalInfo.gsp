@@ -13,7 +13,9 @@
                     <li>
                         <label>Categories</label>
                         <span>
-                            <g:select class="inpbox" name="categoryIds" from="${categories}" optionKey="id" value="" onchange="checkCategory()" noSelection="['': '(Select One)']"/> <br/><br/>
+                            <g:select class="inpbox" name="categoryIds" from="${categories}" optionKey="id"
+                                    value="${(recipeCO.categoryIds?.size() >1)?recipeCO.categoryIds.first() : null }" 
+                                    onchange="checkCategory()" noSelection="['': '(Select One)']"/> <br/><br/>
                             <g:select class="inpbox" name="categoryIds" from="${categories}" optionKey="id" value="" onchange="checkCategory()" noSelection="['': '(Select One)']"/> <br/><br/>
                             <g:select class="inpbox" name="categoryIds" from="${categories}" optionKey="id" value="" onchange="checkCategory()" noSelection="['': '(Select One)']"/> <br/><br/>
                             %{--<mp:tagInput name="categoryIds" class="textareaInput" controller="recipe" action="getMatchingCategories"--}%

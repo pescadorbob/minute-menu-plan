@@ -67,7 +67,7 @@ class BootStrap {
             println "Populated Products"
             File recipeExcelFile
             if(GrailsUtil.isDevelopmentEnv()){
-                recipeExcelFile=new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet_test.xls"))
+                recipeExcelFile=new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet.xls"))
             } else{
                 recipeExcelFile=new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet_Qa.xls"))
             }
