@@ -28,7 +28,7 @@
                                 <span id="categoriesStringDisplay" style="float:left; padding-left:5px;"></span>
                             </td>
                         </tr>
-                        <tr id="caloriesRow" style="display:none;">
+                        <tr id="caloriesStringRow" style="display:none;">
                             <td width="80px;">
                                 <img onclick="removeSearchOption('caloriesString')" id="caloriesRemove" src="${resource(dir: 'images', file: 'delete-icon.jpg')}" align="top" style="cursor:pointer;"/>
                                 Calories:
@@ -138,31 +138,4 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-
-    function removeSearchOption(fieldName) {
-        jQuery('#' + fieldName + 'Row').hide();
-        jQuery('[value^=' + fieldName + ']').remove();
-                document.getElementById('searchForm').onsubmit();
-    }
-
-    function submitSearchForm(element, fieldName, fieldValue) {
-        jQuery('[value^=' + fieldName + ']').remove();
-        var html = '<input type="hidden" name="q" value="' + fieldName + ':' + fieldValue + '" />';
-        jQuery('#searchParams').append(html);
-        jQuery('#' + fieldName + 'Row').show()
-        if (element) {
-            jQuery('#' + fieldName + 'Row td:eq(1)').html(jQuery(element).text())
-        } else {
-        }
-                document.getElementById('searchForm').onsubmit();
-        return false;
-    }
-    function submitSearchFormBySelect() {
-        var fieldValue = '*' + jQuery('[name=qSelect] :selected').text() + '*';
-        if (fieldValue == '*(Select One)*') {
-            fieldValue = '*';
-        }
-        submitSearchForm(null, 'categoriesString', fieldValue);
-    }
-</script>
+<g:render template="/menuPlan/searchJquery"/>
