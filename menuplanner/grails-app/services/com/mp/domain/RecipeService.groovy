@@ -36,6 +36,7 @@ class RecipeCO {
     List<Long> ingredientUnitIds = []
     List<Long> ingredientProductIds = []
     List<String> hiddenIngredientUnitNames = []
+    List<String> hiddenIngredientUnitSymbols = []
     List<String> hiddenIngredientProductNames = []
 
     List<String> directions = []
@@ -70,6 +71,7 @@ class RecipeCO {
         recipe?.ingredients*.quantity?.unit?.eachWithIndex {Unit unit, Integer index ->
             ingredientUnitIds.add(unit?.id)
             hiddenIngredientUnitNames.add(unit?.name)
+            hiddenIngredientUnitSymbols.add(unit?.symbol)
         }
 
         recipe?.ingredients*.quantity?.value?.eachWithIndex {Float val, Integer index ->
@@ -293,11 +295,14 @@ class RecipeCO {
     }
 
     public List<RecipeCategory> recipeCategoryList(Set<Long> categoryIds) {
+        
         List<RecipeCategory> recipeCategories = []
         categoryIds.each {Long categoryId ->
-            RecipeCategory category = new RecipeCategory()
-            category.category = Category.get(categoryId)
-            recipeCategories.add(category)
+            if(categoryId){
+                RecipeCategory category = new RecipeCategory()
+                category.category = Category.get(categoryId)
+                recipeCategories.add(category)
+            }
         }
         return recipeCategories
     }

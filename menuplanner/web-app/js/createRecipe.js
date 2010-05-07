@@ -1,10 +1,11 @@
-function AddIngredient(quantity, unitId, productId, unitName, prodName) {
+function AddIngredient(quantity, unitId, productId, unitName, prodName, unitSymbol) {
     var addIngredient = sampleIngredientRowHTML;
     jQuery('#tableIngredients tbody').append(addIngredient)
     jQuery('.ingredientRowNew .Q').val(quantity);
     jQuery('.ingredientRowNew .U').val(unitId);
     jQuery('.ingredientRowNew .P').val(productId);
     jQuery('.ingredientRowNew .UN').val(unitName);
+    jQuery('.ingredientRowNew .US').val(unitSymbol);
     jQuery('.ingredientRowNew .PN').val(prodName);
     jQuery('.ingredientRowNew .quantity').html(quantity)
     jQuery('.ingredientRowNew .unit').html(unitName)
@@ -116,7 +117,8 @@ function reflectInPreviewPanel() {
     jQuery('#displayIngredients').html('')
     for (i = 1; i < jQuery('input[name="ingredientQuantities"]').size(); i++) {
         var myIngredients = jQuery('input[name="ingredientQuantities"]:eq(' + i + ')').attr('value') +
-                            ' ' + jQuery('input[name="hiddenIngredientUnitNames"]:eq(' + i + ')').attr('value') +
+//                            ' ' + jQuery('input[name="hiddenIngredientUnitNames"]:eq(' + i + ')').attr('value') +
+                            ' ' + jQuery('input[name="hiddenIngredientUnitSymbols"]:eq(' + i + ')').attr('value') +
                             ' ' + jQuery('input[name="hiddenIngredientProductNames"]:eq(' + i + ')').attr('value') + '<br>'
         jQuery('#displayIngredients').append(myIngredients)
     }

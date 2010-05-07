@@ -50,6 +50,14 @@
             var unitId = jQuery('#optionIngredientUnitIds').attr('value')
             var productId = jQuery('#AddIngredientToolBox input[name=optionIngredientProductIds][value!=""]').attr('value')
             var unitName = (unitId) ? jQuery('#optionIngredientUnitIds :selected').text() : ''
+            var unitSymbol = ''
+            if(unitId){
+                jQuery.each(jQuery('#unitTable td:contains('+ unitName +')'), function() {
+                    if (jQuery(this).html() == unitName) {
+                        unitSymbol = jQuery(this).next().html()
+                    }
+                });
+            }
             var prodName = jQuery('#AddIngredientToolBox p').html()
 
             var intRegex = /^\d+$/;
@@ -57,7 +65,7 @@
             var fractionRegex = /^\d+(\s)*(\d*(\s)*\/(\s)*\d+(\s)*)*$/;
 
             if ((prodName.length > 0) && (intRegex.test(quantity) || fractionRegex.test(quantity) || quantity == '')) {
-                AddIngredient(quantity, unitId, productId, unitName, prodName)
+                AddIngredient(quantity, unitId, productId, unitName, prodName, unitSymbol)
                 /* Reset Add Ingredient ToolBox.... */
                 jQuery('#optionIngredientQuantities').attr('value', '')
                 jQuery('#optionIngredientUnitIds').attr('value', '1')
@@ -91,6 +99,6 @@
         });
         jQuery('#preview').click()
     })
-     function checkCategory(){
+    function checkCategory() {
     }
 </script>

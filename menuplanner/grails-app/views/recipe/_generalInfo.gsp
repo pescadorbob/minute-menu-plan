@@ -13,9 +13,9 @@
                     <li>
                         <label>Categories</label>
                         <span>
-                            <g:select class="inpbox" name="categoryIds" from="${categories}" optionKey="id" value="" onchange="checkCategory()" noSelection="[' ': '(Select One)']"/> <br/>
-                            <g:select class="inpbox" name="categoryIds" from="${categories}" optionKey="id" value="" onchange="checkCategory()" noSelection="[' ': '(Select One)']"/> <br/>
-                            <g:select class="inpbox" name="categoryIds" from="${categories}" optionKey="id" value="" onchange="checkCategory()" noSelection="[' ': '(Select One)']"/> <br/><br/>
+                            <g:select class="inpbox" name="categoryIds" from="${categories}" optionKey="id" value="" onchange="checkCategory()" noSelection="['': '(Select One)']"/> <br/><br/>
+                            <g:select class="inpbox" name="categoryIds" from="${categories}" optionKey="id" value="" onchange="checkCategory()" noSelection="['': '(Select One)']"/> <br/><br/>
+                            <g:select class="inpbox" name="categoryIds" from="${categories}" optionKey="id" value="" onchange="checkCategory()" noSelection="['': '(Select One)']"/> <br/><br/>
                             %{--<mp:tagInput name="categoryIds" class="textareaInput" controller="recipe" action="getMatchingCategories"--}%
                                     %{--prePopulated="${categories}"/>--}%
                             %{--<input name="" type="text" class="inpbox"/>--}%
@@ -75,7 +75,7 @@
                </table>
                </li>
             <li>
-                <div id="myImageDiv">
+                <div id="myImageDiv" style="text-align:right;">
                     <g:if test="${recipeCO?.selectRecipeImagePath}">
                         <img id='recipeImage' border='0' width='195' height="171" src="${g.createLink(controller: 'recipe', action: 'showImage', params: [selectRecipeImagePath: recipeCO?.selectRecipeImagePath])}"/>
                     </g:if>
