@@ -13,6 +13,7 @@
         </div>
       </g:each>
     </g:each>
+      <div class="farji" style="display:none; clear:both;"> </div>
       </li>
   </ul>
 </li>
