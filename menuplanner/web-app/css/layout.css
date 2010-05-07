@@ -189,11 +189,15 @@ input.errors {
     border-bottom: red 1px solid
 }
 
-span.errors {
+div.errors {
     border-right: red 1px solid;
     border-top: red 1px solid;
     border-left: red 1px solid;
-    border-bottom: red 1px solid
+    border-bottom: red 1px solid;
+    font-family:sans-serif;
+    font-size:smaller;
+    color:red;
+    padding:10px;
 }
 .paginateButtons {
     border: 0px;

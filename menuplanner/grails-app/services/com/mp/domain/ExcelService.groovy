@@ -172,7 +172,7 @@ class ExcelService {
 
     public boolean createCategories(String categories, Recipe recipe) {
         try {
-            List<String> categoryList = categories?.tokenize(',')
+            Set<String> categoryList = categories?.tokenize(',') as Set
             categoryList.each {String categoryName ->
                 Category category = Category.findByName(categoryName)
                 if (category) {

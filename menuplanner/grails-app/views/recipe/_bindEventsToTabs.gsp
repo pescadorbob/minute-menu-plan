@@ -4,37 +4,37 @@
 
     jQuery(document).ready(function() {
         jQuery('#tabGeneralInfo').click(function() {
-            jQuery('.left-container2').css('display', 'none');
-            jQuery('.tabs').removeClass('active');
-            jQuery('#tabGeneralInfo').addClass('active');
+            jQuery('.tabPanel').css('display', 'none');
+            jQuery('.tabs').removeClass('current');
+            jQuery('#tabGeneralInfo').addClass('current');
             jQuery('#panelGeneralInfo').show()
         })
         jQuery('#tabIngredients').click(function() {
-            jQuery('.left-container2').css('display', 'none');
-            jQuery('.tabs').removeClass('active');
-            jQuery('#tabIngredients').addClass('active');
+            jQuery('.tabPanel').css('display', 'none');
+            jQuery('.tabs').removeClass('current');
+            jQuery('#tabIngredients').addClass('current');
             jQuery('#panelIngredients').show()
             bindEventsFor("tableIngredients", "ingredientRow");
             bindEventsFor("tableDirections", "directionRow")
         })
         jQuery('#tabCookingSteps').click(function() {
-            jQuery('.left-container2').css('display', 'none');
-            jQuery('.tabs').removeClass('active');
-            jQuery('#tabCookingSteps').addClass('active');
+            jQuery('.tabPanel').css('display', 'none');
+            jQuery('.tabs').removeClass('current');
+            jQuery('#tabCookingSteps').addClass('current');
             jQuery('#panelCookingSteps').show()
             bindEventsFor("tableIngredients", "ingredientRow");
             bindEventsFor("tableDirections", "directionRow")
         })
         jQuery('#tabServeWith').click(function() {
-            jQuery('.left-container2').css('display', 'none');
-            jQuery('.tabs').removeClass('active');
-            jQuery('#tabServeWith').addClass('active');
+            jQuery('.tabPanel').css('display', 'none');
+            jQuery('.tabs').removeClass('current');
+            jQuery('#tabServeWith').addClass('current');
             jQuery('#panelServeWith').show()
         })
         jQuery('#tabNutritionFacts').click(function() {
-            jQuery('.left-container2').css('display', 'none');
-            jQuery('.tabs').removeClass('active');
-            jQuery('#tabNutritionFacts').addClass('active');
+            jQuery('.tabPanel').css('display', 'none');
+            jQuery('.tabs').removeClass('current');
+            jQuery('#tabNutritionFacts').addClass('current');
             jQuery('#panelNutritionFacts').show()
         })
         /* REMOVE IMAGE: function to be executed when removeRecipeImage is Clicked... */
@@ -91,5 +91,6 @@
         });
         jQuery('#preview').click()
     })
-
+     function checkCategory(){
+    }
 </script>
