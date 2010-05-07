@@ -64,6 +64,11 @@
                            <img id="removeRecipeImage" src="${resource(dir: 'images', file: '].gif')}" align="absmiddle" alt="Remove" style="cursor:pointer"/>
                        </td>
                    </tr>
+                   <tr>
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                   </tr>
                </table>
                </li>
             <li>

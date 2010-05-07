@@ -24,6 +24,23 @@ class Recipe extends Item {
     String categoriesString
     String caloriesString
 
+    public void validateTimings(){
+        if(!preparationTime){
+             preparationTime = new Quantity(value: 10, unit: Unit.findByName(TIME_UNIT_MINUTES), savedUnit: Unit.findByName(TIME_UNIT_MINUTES)).s()
+        }
+        if(!cookingTime){
+             cookingTime = new Quantity(value: 10, unit: Unit.findByName(TIME_UNIT_MINUTES), savedUnit: Unit.findByName(TIME_UNIT_MINUTES)).s()
+        }
+    }
+
+    def beforeInsert = {
+         validateTimings()
+    }
+
+    def beforeUpdate = {
+        validateTimings()
+    }
+
     static transients = ['categories', 'cookingTimeValue', 'totalTimeValue', 'prepTimeValue', 'caloriesString', 'categoriesString']
     static hasMany = [ingredients: RecipeIngredient, directions: String, recipeCategories: RecipeCategory, nutrients: RecipeNutrient, items: Item]
 

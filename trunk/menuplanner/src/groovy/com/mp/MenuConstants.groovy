@@ -60,9 +60,37 @@ class MenuConstants {
     public static final String UNIT_POUND_SYMBOL = "lb."
     public static final Double UNIT_POUND_CONVERSION_FACTOR = 453.59
 
+    public static final String UNIT_CAN = "Can"
+    public static final String UNIT_CAN_SYMBOL = "can"
+    public static final Double UNIT_CAN_CONVERSION_FACTOR = 306.62
+
+    public static final String UNIT_8_CAN = "8 Can"
+    public static final String UNIT_8_CAN_SYMBOL = "8 can"
+    public static final Double UNIT_8_CAN_CONVERSION_FACTOR = 306.62 * 8
+
     public static final String UNIT_10_3_4_OUNCE_CAN = "10 3/4 Ounce can"
     public static final String UNIT_10_3_4_OUNCE_CAN_SYMBOL = "10 3/4 oz. can"
     public static final Double UNIT_10_3_4_OUNCE_CAN_CONVERSION_FACTOR = 304.757
+
+    public static final String UNIT_6_OUNCE_CAN = "6 Ounce can"
+    public static final String UNIT_6_OUNCE_CAN_SYMBOL = "6 oz. can"
+    public static final Double UNIT_6_OUNCE_CAN_CONVERSION_FACTOR = 170.097
+
+    public static final String UNIT_8_OUNCE_CAN = "8 Ounce can"
+    public static final String UNIT_8_OUNCE_CAN_SYMBOL = "8 oz. can"
+    public static final Double UNIT_8_OUNCE_CAN_CONVERSION_FACTOR = 226.796
+
+    public static final String UNIT_10_OUNCE_PACKAGE = "10 Ounce package"
+    public static final String UNIT_10_OUNCE_PACKAGE_SYMBOL = "10 oz. package"
+    public static final Double UNIT_10_OUNCE_PACKAGE_CONVERSION_FACTOR = 283.495
+
+    public static final String UNIT_16_OUNCE_CAN = "16 Ounce can"
+    public static final String UNIT_16_OUNCE_CAN_SYMBOL = "16 oz. can"
+    public static final Double UNIT_16_OUNCE_CAN_CONVERSION_FACTOR = 453.592
+
+    public static final String UNIT_20_OUNCE_PACKAGE = "20 Ounce package"
+    public static final String UNIT_20_OUNCE_PACKAGE_SYMBOL = "20 oz. package"
+    public static final Double UNIT_20_OUNCE_PACKAGE_CONVERSION_FACTOR = 566.99
 
     public static final String UNIT_OUNCE = "Ounce"
     public static final String UNIT_OUNCE_SYMBOL = "oz."

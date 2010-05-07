@@ -38,25 +38,25 @@ class ExcelService {
         List<List<String>> directions = []
         List<List<String>> ingredients = []
         (0..6).eachWithIndex {Integer position, Integer index ->
-            String valueOne = sheet.getCell(0, position).contents.toString()
-            String valueTwo = sheet.getCell(1, position).contents.toString()
-            String valueThree = sheet.getCell(2, position).contents.toString()
+            String valueOne = sheet.getCell(0, position).contents.toString().trim()
+            String valueTwo = sheet.getCell(1, position).contents.toString().trim()
+            String valueThree = sheet.getCell(2, position).contents.toString().trim()
             if (valueOne) {
                 recipe.add([valueOne, valueTwo, valueThree])
             }
         }
         (10..19).eachWithIndex {Integer position, Integer index ->
-            String valueOne = sheet.getCell(0, position).contents.toString()
-            String valueTwo = sheet.getCell(1, position).contents.toString()
-            String valueThree = sheet.getCell(2, position).contents.toString()
-            String valueFour = sheet.getCell(3, position).contents.toString()
+            String valueOne = sheet.getCell(0, position).contents.toString().trim()
+            String valueTwo = sheet.getCell(1, position).contents.toString().trim()
+            String valueThree = sheet.getCell(2, position).contents.toString().trim()
+            String valueFour = sheet.getCell(3, position).contents.toString().trim()
             if (valueTwo || valueThree || valueFour) {
                 ingredients.add([valueOne, valueTwo, valueThree, valueFour])
             }
         }
         (22..31).eachWithIndex {Integer position, Integer index ->
-            String valueOne = sheet.getCell(0, position).contents.toString()
-            String valueTwo = sheet.getCell(1, position).contents.toString()
+            String valueOne = sheet.getCell(0, position).contents.toString().trim()
+            String valueTwo = sheet.getCell(1, position).contents.toString().trim()
             if (valueTwo) {
                 directions.add([valueOne, valueTwo])
             }

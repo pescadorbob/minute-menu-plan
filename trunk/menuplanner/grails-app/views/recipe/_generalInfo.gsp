@@ -12,8 +12,8 @@
                 <li class=add-recipe-form-content><strong>Categories</strong></li>
                 <li class=add-recipe-form-input>
                     <span id="faceBookCategory" class="${hasErrors(bean: recipeCO, field: 'categoryIds', 'errors')}" style="display:block; clear:both;">
-                        <mp:tagInput name="categoryIds" controller="recipe" action="getMatchingCategories"
-                                prePopulated="${categories}"/>
+                        %{--<mp:tagInput name="categoryIds" controller="recipe" action="getMatchingCategories"--}%
+                                %{--prePopulated="${categories}"/>--}%
                     </span>
                     %{--${mp.getSelectedCategoriesAsJSON(prePopulated:recipeCO?.categoryIds)}--}%
                 </li>
@@ -70,14 +70,11 @@
             </ul>
             <div class="clr">
                 <div id="myImageDiv">
-
-                    %{--<mp:recipeImage id="${recipeCO?.imageId}" height="171" width="195"/>--}%
-                    %{----}%
                     <g:if test="${recipeCO?.selectRecipeImagePath}">
                         <img id='recipeImage' border='0' width='195' height="171" src="${g.createLink(controller: 'recipe', action: 'showImage', params: [selectRecipeImagePath: recipeCO?.selectRecipeImagePath])}"/>
                     </g:if>
-                    <g:elseif test="${recipeCO?.id}">
-                        <img id='recipeImage' border='0' width='195' height="171" src="${g.createLink(controller: 'recipe', action: 'showImage', id: recipeCO?.id)}"/>
+                    <g:elseif test="${recipeCO?.imageId}">
+                        <mp:recipeImage id="${recipeCO?.imageId}" height="171" width="195"/>
                     </g:elseif>
                 </div>
                 <input type="hidden" name="selectRecipeImagePath" id="selectRecipeImagePath" value="${recipeCO?.selectRecipeImagePath}"/>

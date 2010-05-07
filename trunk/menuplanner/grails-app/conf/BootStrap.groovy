@@ -59,15 +59,15 @@ class BootStrap {
 
         bootstrapMasterData()
         if (!GrailsUtil.environment != Environment.PRODUCTION) {
-            bootstrapService.populateCategory(10)
+            bootstrapService.populateCategory()
             println "Populated Categories"
             bootstrapService.populateQuantities(20)
             println "Populated Quantities"
-            bootstrapService.populateMeasurableProduct(50)
+            bootstrapService.populateMeasurableProduct()
             println "Populated Products"
             File recipeExcelFile
             if(GrailsUtil.isDevelopmentEnv()){
-                recipeExcelFile=new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet.xls"))
+                recipeExcelFile=new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet_test.xls"))
             } else{
                 recipeExcelFile=new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet_Qa.xls"))
             }

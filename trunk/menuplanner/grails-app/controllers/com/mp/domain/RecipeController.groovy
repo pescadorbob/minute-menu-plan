@@ -79,7 +79,7 @@ class RecipeController {
 
     def edit = {
         if (params.id) {
-            Recipe recipe = Recipe.get(params.id)
+            Recipe recipe = Recipe.get(params.long('id'))
             RecipeCO recipeCO = new RecipeCO(recipe)
             SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
             List<Nutrient> nutrients = Nutrient.list()

@@ -72,8 +72,7 @@
                                 <g:else>
                                     <img src="${resource(dir: 'images', file: 'no-img.gif')}" width="160" height="160" align="top"/>
                                 </g:else>
-                                <g:render template="/rating/rating"/><span>Rating</span><br/>
-                                <a href="#"><strong>test link</strong></a></li>
+                            </li>
                         </ul>
                     </div>
                 </div>
