@@ -129,7 +129,7 @@ class RecipeController {
     }
 
     def show = {
-        Recipe recipe = Recipe.findById(params.id)
+        Recipe recipe = Recipe.findById(params?.id)
         render(view: 'show', model: [recipe: recipe])
     }
 

@@ -8,6 +8,7 @@
         </span>
         <span class="hiddenTextIngredient">
             <input class='UN' type="hidden" name="hiddenIngredientUnitNames" value=""/>
+            <input class='US' type="hidden" name="hiddenIngredientUnitSymbols" value=""/>
             <input class='PN' type="hidden" name="hiddenIngredientProductNames" value=""/>
         </span>
     </td>

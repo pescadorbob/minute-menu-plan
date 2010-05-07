@@ -4,6 +4,7 @@
         <span class="optionImages">
             <input class='Q' type="hidden" value="${ingredientQuantity}" name="ingredientQuantities"/>
             <input class='U' type="hidden" value="${ingredientUnitId}" name="ingredientUnitIds"/>
+            <input class='US' type="hidden" value="${hiddenIngredientUnitSymbol}" name="hiddenIngredientUnitSymbols"/>
             <input class='P' type="hidden" value="${ingredientProductId}" name="ingredientProductIds"/>
         </span>
         <span class="hiddenTextIngredient">

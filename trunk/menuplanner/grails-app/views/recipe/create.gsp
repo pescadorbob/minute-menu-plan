@@ -33,7 +33,7 @@
                 </div>
 
                 <g:uploadForm name="formCreateRecipe" controller="recipe" action="save">
-
+                                                                                         
                     <g:render template="/recipe/generalInfo" model="[recipeCO: recipeCO, timeUnits: timeUnits]"/>
                     <g:render template="/recipe/ingredients" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
                     <g:render template="/recipe/cookingSteps" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>

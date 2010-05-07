@@ -1,6 +1,14 @@
 <div class="tabPanel leftbox clearfix" id=panelIngredients style="display:none;">
     <div class="formElement">
         <div class="showIngredientsHere" style="">
+            <table id="unitTable" style="display:none;">
+            <g:each in="${metricUnits}">
+                <tr>
+                    <td>${it?.name}</td>
+                    <td>${it?.symbol}</td>
+                </tr>
+            </g:each>
+            </table>
             <table id="tableIngredients" cellspacing="0px" cellpadding="0px" width="100%" class="menuplannerTab">
                 <tr id="tableIngredientsHeader" class="mnuTableHeader">
                     <td width="24">&nbsp;</td>
@@ -12,7 +20,7 @@
                 </tr>
                 <!-- Show Ingredients Here -->
                 <g:each status="i" in="${recipeCO?.hiddenIngredientProductNames}" var="X">
-                    <g:render template="ingredientRowWithParams" model="[hiddenIngredientUnitNames:recipeCO?.hiddenIngredientUnitNames[i],hiddenIngredientProductNames:recipeCO.hiddenIngredientProductNames[i], ingredientQuantity:recipeCO.ingredientQuantities[i],ingredientUnitId:recipeCO.ingredientUnitIds[i],ingredientProductId:recipeCO.ingredientProductIds[i]]"/>
+                    <g:render template="ingredientRowWithParams" model="[hiddenIngredientUnitNames:recipeCO?.hiddenIngredientUnitNames[i],hiddenIngredientProductNames:recipeCO.hiddenIngredientProductNames[i], ingredientQuantity:recipeCO.ingredientQuantities[i],ingredientUnitId:recipeCO.ingredientUnitIds[i],ingredientProductId:recipeCO.ingredientProductIds[i], hiddenIngredientUnitSymbol:recipeCO?.hiddenIngredientUnitSymbols[i]]"/>
                 </g:each>
             </table>
         </div>

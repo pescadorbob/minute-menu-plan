@@ -11,7 +11,7 @@ class BootstrapService {
     def excelService
 
     public void populateCategory() {
-        List<String>categories = ['Breakfast', 'lunch', 'Dinner', 'Other']
+        List<String>categories = ['Breakfast', 'lunch', 'Dinner']
         categories.each {String category ->
             new Category(name: "${category}").s()
         }
