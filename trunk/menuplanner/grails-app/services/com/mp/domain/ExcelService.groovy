@@ -10,7 +10,7 @@ class ExcelService {
 
     boolean transactional = true
     static config = ConfigurationHolder.config
-  
+
     public List<String> createLineItems(InputStream fileInputStream) {
         println "Creating line items.."
         WorkbookSettings workbookSettings
@@ -37,7 +37,8 @@ class ExcelService {
         List<List<String>> recipe = []
         List<List<String>> directions = []
         List<List<String>> ingredients = []
-        (0..6).eachWithIndex {Integer position, Integer index ->
+        String categories = []
+        (0..5).eachWithIndex {Integer position, Integer index ->
             String valueOne = sheet.getCell(0, position).contents.toString().trim()
             String valueTwo = sheet.getCell(1, position).contents.toString().trim()
             String valueThree = sheet.getCell(2, position).contents.toString().trim()
@@ -45,6 +46,7 @@ class ExcelService {
                 recipe.add([valueOne, valueTwo, valueThree])
             }
         }
+        categories = sheet.getCell(1, 6).contents.toString().trim()
         (10..19).eachWithIndex {Integer position, Integer index ->
             String valueOne = sheet.getCell(0, position).contents.toString().trim()
             String valueTwo = sheet.getCell(1, position).contents.toString().trim()
@@ -65,8 +67,9 @@ class ExcelService {
         if (recipeObj) {
 
             recipeLog.add("Created Recipe: ${recipeObj?.name}")
-            if(attachImageToRecipe(recipeObj)){recipeLog.add("Added Image for Recipe: ${recipeObj?.name}")}
-            if (createIDirections(directions, recipeObj)) {recipeLog.add("Added Directions for Recipe: ${recipeObj?.name}")}
+            if (attachImageToRecipe(recipeObj)) {recipeLog.add("Added Image for Recipe: ${recipeObj?.name}")}
+            if (createCategories(categories, recipeObj)) {recipeLog.add("Added Categories for Recipe: ${recipeObj?.name}")}
+            if (createDirections(directions, recipeObj)) {recipeLog.add("Added Directions for Recipe: ${recipeObj?.name}")}
             else {recipeLog.add("@: Error while Adding Directions for Recipe: ${recipeObj?.name}")}
             if (createIngredients(ingredients, recipeObj)) {recipeLog.add("Added Ingredients for Recipe: ${recipeObj?.name}")}
             else {recipeLog.add("@: Error while Adding Ingredients for Recipe: ${recipeObj?.name}")}
@@ -141,7 +144,7 @@ class ExcelService {
     }
 
     public boolean attachImageToRecipe(Recipe recipe) {
-        try{
+        try {
             String tmpDirectory = config.imagesRootDir + "/recipes/"
             File file = new File(tmpDirectory)
             file.mkdirs()
@@ -162,12 +165,32 @@ class ExcelService {
                 recipe.s()
                 return true
             }
-        }catch (ex){
+        } catch (ex) {
             return false
         }
     }
 
-    public boolean createIDirections(List<List<String>> directions, Recipe recipe) {
+    public boolean createCategories(String categories, Recipe recipe) {
+        try {
+            List<String> categoryList = categories?.tokenize(',')
+            categoryList.each {String categoryName ->
+                Category category = Category.findByName(categoryName)
+                if (category) {
+                    RecipeCategory recipeCategory = new RecipeCategory()
+                    recipeCategory.recipe = recipe
+                    recipeCategory.category = category
+                    recipe.addToRecipeCategories(recipeCategory)
+                    recipe.s()
+                }
+            }
+        }
+        catch (ex) {
+            return false
+        }
+        return true
+    }
+
+    public boolean createDirections(List<List<String>> directions, Recipe recipe) {
         try {
             List<String> directionList = []
             directions.eachWithIndex {List<String> directionRow, Integer index ->
@@ -215,7 +238,7 @@ class ExcelService {
                         */
                     }
                     quantity = StandardConversion.getMetricQuantity(ingredientRow.getAt(1), unit)
-                } else if(ingredientRow.getAt(1)) {
+                } else if (ingredientRow.getAt(1)) {
                     quantity = StandardConversion.getMetricQuantity(ingredientRow.getAt(1), null)
                 }
                 quantity.s()
@@ -294,5 +317,6 @@ class ExcelService {
             n = reminder;
         }
     }
+
 }
         
