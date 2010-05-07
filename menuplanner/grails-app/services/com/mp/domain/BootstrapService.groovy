@@ -10,9 +10,10 @@ class BootstrapService {
     boolean transactional = true
     def excelService
 
-    public void populateCategory(Integer count) {
-        (1..count).each {Integer index ->
-            new Category(name: "Category-${index}").s()
+    public void populateCategory() {
+        List<String>categories = ['Breakfast', 'lunch', 'Dinner']
+        categories.each {String category ->
+            new Category(name: "${category}").s()
         }
     }
 
@@ -27,10 +28,11 @@ class BootstrapService {
         }
     }
 
-    public void populateMeasurableProduct(Integer count) {
-        (1..count).each {Integer index ->
+    public void populateMeasurableProduct() {
+        List<String> products = ['Soda', 'Beverage', 'Wheat Bread', 'Butter', 'honey', 'Ranch Dressing', 'Fry Sauce', 'Rice', 'Syrup', 'Whipped Cream', 'eggs', 'Toast', 'yogurt']
+        products.each {String product ->
             MeasurableProduct measurableProduct = new MeasurableProduct()
-            measurableProduct.name = "Product-${index}"
+            measurableProduct.name = "${product}"
             measurableProduct.preferredUnit = Unit.get(new Random().nextInt(Unit.count()) + 1)
             measurableProduct.s()
         }
