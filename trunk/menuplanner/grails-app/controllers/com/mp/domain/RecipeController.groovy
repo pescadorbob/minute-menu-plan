@@ -83,7 +83,8 @@ class RecipeController {
             RecipeCO recipeCO = new RecipeCO(recipe)
             SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
             List<Nutrient> nutrients = Nutrient.list()
-            render(view: 'edit', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits: sys.getMetricUnits(), nutrients: nutrients])
+            List<Category> categories =Category.list()
+            render(view: 'edit', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits: sys.getMetricUnits(), nutrients: nutrients, categories:categories])
         }
     }
 
@@ -123,7 +124,8 @@ class RecipeController {
     def create = {
         SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
         List<Nutrient> nutrients = Nutrient.list()
-        render(view: 'create', model: [timeUnits: sys.timeUnits, metricUnits: sys.getMetricUnits(), nutrients: nutrients])
+        List<Category> categories = Category.list()
+        render(view: 'create', model: [timeUnits: sys.timeUnits, metricUnits: sys.getMetricUnits(), nutrients: nutrients, categories:categories])
     }
 
     def show = {
@@ -164,19 +166,4 @@ class RecipeController {
             out.close()
         }
     }
-    def create_new = {
-        SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
-        List<Nutrient> nutrients = Nutrient.list()
-        render(view: 'create_new', model: [timeUnits: sys.timeUnits, metricUnits: sys.getMetricUnits(), nutrients: nutrients])
-    }
-    def edit_new = {
-        if (params.id) {
-            Recipe recipe = Recipe.get(params.id)
-            RecipeCO recipeCO = new RecipeCO(recipe)
-            SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
-            List<Nutrient> nutrients = Nutrient.list()
-            render(view: 'edit_new', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits: sys.getMetricUnits(), nutrients: nutrients])
-        }
-    }
-
 }
