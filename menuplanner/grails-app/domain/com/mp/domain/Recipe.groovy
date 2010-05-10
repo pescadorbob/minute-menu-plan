@@ -26,10 +26,10 @@ class Recipe extends Item {
 
     public void validateTimings(){
         if(!preparationTime){
-             preparationTime = new Quantity(value: 10, unit: Unit.findByName(TIME_UNIT_MINUTES), savedUnit: Unit.findByName(TIME_UNIT_MINUTES)).s()
+             preparationTime = new Quantity(value: 1, unit: Unit.findByName(TIME_UNIT_MINUTES), savedUnit: Unit.findByName(TIME_UNIT_MINUTES)).s()
         }
         if(!cookingTime){
-             cookingTime = new Quantity(value: 10, unit: Unit.findByName(TIME_UNIT_MINUTES), savedUnit: Unit.findByName(TIME_UNIT_MINUTES)).s()
+             cookingTime = new Quantity(value: 0, unit: Unit.findByName(TIME_UNIT_MINUTES), savedUnit: Unit.findByName(TIME_UNIT_MINUTES)).s()
         }
     }
 
