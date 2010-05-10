@@ -34,7 +34,8 @@
                             <g:select class="inpbox" id='optionIngredientUnitIds' noSelection="['':'(No Unit)']" name="optionIngredientUnitIds" from="${metricUnits}" optionKey="id" style="width:105px;"/>
                         </div>
                         <div style="padding-top:2px; float:left; padding-left:5px;">
-                            <mp:tagInput name="optionIngredientProductIds" controller="recipe" action="getMatchingItems" multiselect="false"/>
+                            <input class="inpbox" id="optionIngredientProductIds" name="optionIngredientProductIds" value=""/>
+                            %{--<mp:tagInput name="optionIngredientProductIds" controller="recipe" action="getMatchingItems" multiselect="false"/>--}%
                         </div>
                     </span>
                 </span>
@@ -42,3 +43,16 @@
         </ul>
     </div>
 </div>
+
+<script type="text/javascript">
+    $("#optionIngredientProductIds").autocomplete("${createLink(action: 'getMatchingItems', controller: 'recipe')}", {
+            width: 300,
+            multiple: false,
+            matchContains: true,
+        });
+
+    $("#optionIngredientProductIds").result(function(event, data, formatted) {
+        jQuery(this).val(data[0]);
+    })
+
+</script>

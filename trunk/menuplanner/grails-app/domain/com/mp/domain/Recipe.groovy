@@ -57,7 +57,7 @@ class Recipe extends Item {
 
     String getCookingTimeValue() {
         if (cookingTime) {
-            Long time = (cookingTime.value)?.toLong()
+            Long time = (cookingTime?.value) ? (cookingTime?.value)?.toLong() : 0l
             return NumberTools.longToString(time)
         } else {
             return null
@@ -66,7 +66,7 @@ class Recipe extends Item {
 
     String getPrepTimeValue() {
         if (preparationTime) {
-            Long time = (preparationTime?.value)?.toLong()
+            Long time = (preparationTime?.value) ? (preparationTime?.value)?.toLong() : 0l
             return NumberTools.longToString(time)
         } else {
             return null
@@ -75,8 +75,8 @@ class Recipe extends Item {
 
     String getTotalTimeValue() {
         if (totalTime) {
-            Float time = totalTime?.value?.toFloat()
-            return time.toString()
+            Long time = (totalTime?.value) ? (totalTime?.value)?.toLong() : 0l
+            return NumberTools.longToString(time)
         } else {
             return null
         }

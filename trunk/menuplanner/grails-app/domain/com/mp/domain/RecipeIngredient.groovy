@@ -16,4 +16,8 @@ class RecipeIngredient {
         ingredient(unique: 'recipe')
         quantity(nullable: true, blank: true)
     }
+
+    static mapping = {
+        cascade: 'all, delete-orphan'
+    }
 }

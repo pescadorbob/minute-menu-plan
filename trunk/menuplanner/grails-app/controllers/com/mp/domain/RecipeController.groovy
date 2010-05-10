@@ -25,9 +25,14 @@ class RecipeController {
         render(categoriesJson as JSON)
     }
     def getMatchingItems = {
-        List<Item> items = Item.findAllByNameIlike("%${params.query}%")
-        List itemsJson = items.collect { [id: it.id, name: it.name] }
-        render(itemsJson as JSON)
+        List<Item> items = Item.findAllByNameIlike("%${params.q}%")
+        String itemsJson = ''
+        println "x: ${items}"
+        items.each {
+          itemsJson +=  it.name+"|"+ it.id + "\n"
+          }
+        println "xxx : ${itemsJson}"
+        render(itemsJson)
     }
 
     def list = {
@@ -89,7 +94,9 @@ class RecipeController {
     }
 
     def update = {RecipeCO recipeCO ->
+        println "Updating..."
         if (recipeCO.validate()) {
+            println "Validated..."
             recipeCO.updateRecipe()
             redirect(action: 'show', id: recipeCO?.id)
         } else {
