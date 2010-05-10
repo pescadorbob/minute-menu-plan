@@ -89,6 +89,7 @@ class RecipeController {
             SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
             List<Nutrient> nutrients = Nutrient.list()
             List<Category> categories =Category.list()
+            println "x : " + recipeCO.serveWithItems
             render(view: 'edit', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits: sys.getMetricUnits(), nutrients: nutrients, categories:categories])
         }
     }
