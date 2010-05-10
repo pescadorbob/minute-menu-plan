@@ -3,6 +3,7 @@ import java.text.FieldPosition
 import grails.util.GrailsUtil
 import grails.util.Environment
 import org.codehaus.groovy.grails.commons.ApplicationHolder
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class BootStrap {
 
@@ -10,6 +11,7 @@ class BootStrap {
     def masterDataBootStrapService
     def excelService
     def searchableService
+    static config = ConfigurationHolder.config
 
     def init = {servletContext ->
          config.bootstrapMode = true
