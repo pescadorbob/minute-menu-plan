@@ -11,12 +11,13 @@ class StandardConversion {
     Double conversionFactor
 
     public static Quantity getMetricQuantity(String amountFraction, Unit displayUnit) {
+        println "Amount fraction : " + amountFraction
         Quantity result = new Quantity()
         Float amount
-        if(amountFraction){
+        if(amountFraction != null){
             amount = new Fraction(amountFraction)?.floatValue()
         }
-        if (displayUnit && amount) {
+        if (displayUnit && (amount != null)) {
             StandardConversion standardConversion = StandardConversion.findBySourceUnit(displayUnit)
             if (standardConversion) {
                 result.savedUnit = standardConversion?.targetUnit
@@ -27,7 +28,7 @@ class StandardConversion {
                 result.unit = displayUnit
                 result.value = amount
             }
-        } else if (amount) {
+        } else if (amount != null) {
             result.value = amount
         }
         return result
@@ -36,8 +37,8 @@ class StandardConversion {
     public static String getUsaQuantityString(Quantity sourceQuantity) {
         Float metricValue = sourceQuantity?.value
         Unit unit = sourceQuantity?.unit
-        String result = ''
-        if (metricValue && unit) {
+        String result
+        if ((metricValue != null) && unit) {
             StandardConversion standardConversion
             StandardConversion.withNewSession {
                 if (unit) {
@@ -51,7 +52,7 @@ class StandardConversion {
                     result = new Fraction(metricValue).myFormatUsingProperFractionFormat()
                 }
             }
-        }else if(metricValue){
+        }else if((metricValue != null)){
             result = new Fraction(metricValue).myFormatUsingProperFractionFormat()
         }
         return result

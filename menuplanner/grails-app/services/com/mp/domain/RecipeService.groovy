@@ -33,8 +33,8 @@ class RecipeCO {
     Set<Long> serveWithItems = []
 
     List<String> ingredientQuantities = []
-    List<Long> ingredientUnitIds = []
-    List<Long> ingredientProductIds = []
+    List<String> ingredientUnitIds = []
+    List<String> ingredientProductIds = []
     List<String> hiddenIngredientUnitNames = []
     List<String> hiddenIngredientUnitSymbols = []
     List<String> hiddenIngredientProductNames = []
@@ -66,7 +66,7 @@ class RecipeCO {
         directions = recipe?.directions
 
         hiddenIngredientProductNames = recipe.ingredients*.ingredient?.name
-        ingredientProductIds = recipe?.ingredients*.ingredient.id
+        ingredientProductIds = recipe?.ingredients*.ingredient?.id
 
         recipe?.ingredients*.quantity?.unit?.eachWithIndex {Unit unit, Integer index ->
             ingredientUnitIds.add(unit?.id)
@@ -144,7 +144,6 @@ class RecipeCO {
         recipe.cookingTime = makeTimeQuantity(cookTime, cookUnitId)
 
         attachImage(recipe, selectRecipeImagePath)
-
         def tempRecipeCategories = recipe.recipeCategories
         recipe.recipeCategories = []
         tempRecipeCategories*.delete(flush: true)
@@ -200,7 +199,7 @@ class RecipeCO {
     }
 
     public Quantity makeTimeQuantity(Integer minutes, Long unitId) {
-        if (!minutes) {
+        if (minutes == null) {
             return null
         }
         Quantity time = new Quantity()
@@ -224,11 +223,12 @@ class RecipeCO {
 
             if (!product) {
                 if (unit) {
-                    product = new MeasurableProduct(name: productNames[index], isVisible: false).s()
+                    product = new MeasurableProduct(name: productNames[index], isVisible: false, preferredUnit: unit).s()
                 } else {
                     product = new Product(name: productNames[index], isVisible: false).s()
                 }
             }
+
             quantity.s()
             recipeIngredient.ingredient = product
             recipeIngredient.quantity = quantity
@@ -242,8 +242,8 @@ class RecipeCO {
         recipeIngredients?.eachWithIndex {RecipeIngredient recipeIngredient, Integer index ->
             recipeIngredient.recipe = recipe
             recipe.addToIngredients(recipeIngredient)
-            recipe.s()
         }
+        recipe.s()
         return true
     }
 

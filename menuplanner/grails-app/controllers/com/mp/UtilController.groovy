@@ -27,14 +27,8 @@ class UtilController {
     }
 
     def index = {
-        String x = "1/8"
-        Unit unit = Unit.findByName(UNIT_TEA_SPOON)
-        Quantity quantity = StandardConversion.getMetricQuantity(x,unit)
-        quantity.s()
-        String us = StandardConversion.getUsaQuantityString(quantity)
-
-        render "metric: " + quantity.value + "<br/>"
-        render "us: " + us
+        Long l = 0l
+        render "metric: " + NumberTools.longToString(l)
 
     }
 

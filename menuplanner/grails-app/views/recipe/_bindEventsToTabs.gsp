@@ -58,7 +58,7 @@
                     }
                 });
             }
-            var prodName = jQuery('#AddIngredientToolBox p').html()
+            var prodName = jQuery('#optionIngredientProductIds').val()
 
             var intRegex = /^\d+$/;
             var floatRegex = /^((\d+(\.\d *)?)|((\d*\.)?\d+))$/;
