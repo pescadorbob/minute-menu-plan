@@ -112,18 +112,14 @@ class RecipeController {
     def save = {RecipeCO recipeCO ->
         if (recipeCO.validate()) {
             Recipe recipe = recipeCO.convertToRecipe()
-            redirect(action: 'show', id: recipe.id)
+            redirect(action: 'show', id: recipe?.id)
         } else {
             println recipeCO.errors.allErrors.each {
                 println it
             }
             SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
             List<Nutrient> nutrients = Nutrient.list()
-            List<Category> categories = []
-            if (recipeCO?.categoryIds) {
-                categories = Category.getAll(recipeCO?.categoryIds.flatten() as List)
-            }
-
+            List<Category> categories = Category.list()
             render(view: 'create', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits: sys.metricUnits, nutrients: nutrients, categories: categories])
         }
     }
