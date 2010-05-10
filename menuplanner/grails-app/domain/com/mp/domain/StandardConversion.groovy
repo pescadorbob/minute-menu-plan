@@ -11,7 +11,6 @@ class StandardConversion {
     Double conversionFactor
 
     public static Quantity getMetricQuantity(String amountFraction, Unit displayUnit) {
-        println "Amount fraction : " + amountFraction
         Quantity result = new Quantity()
         Float amount
         if(amountFraction != null){
