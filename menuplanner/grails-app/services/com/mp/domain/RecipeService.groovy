@@ -30,7 +30,7 @@ class RecipeCO {
     Set<Long> categoryIds = []
     Set<String> categoryNames = []
 
-    Set<Long> serveWithItems = []
+    Set<String> serveWithItems = []
 
     List<String> ingredientQuantities = []
     List<String> ingredientUnitIds = []
@@ -54,6 +54,7 @@ class RecipeCO {
         difficulty = recipe?.difficulty?.name()
         shareWithCommunity = recipe?.shareWithCommunity
         makesServing = recipe?.servings
+        serveWithItems = (recipe?.items)? (recipe?.items*.name) : [] 
 
 
         preparationUnitId = recipe?.preparationTime?.unit?.id
@@ -288,8 +289,15 @@ class RecipeCO {
         return items
     }
 
-    public boolean addServeWithToRecipe(Recipe recipe, Set<Long> itemIds) {
-        recipe.items = (serveWithItems) ? Item.getAll(serveWithItems as List) as Set : []
+    public boolean addServeWithToRecipe(Recipe recipe, Set<String> itemIds) {
+        Set<Item> items = []
+        itemIds.each{String itemName ->
+            if(itemName){
+                Item item = Item.countByName(itemName) ? Item.findByName(itemName) : new Product(name: itemName).s()
+                items.add(item)
+            }
+        }
+        recipe.items = items
         recipe.s()
         return true
     }
