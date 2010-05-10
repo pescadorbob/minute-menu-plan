@@ -12,7 +12,7 @@ class BootStrap {
     def searchableService
 
     def init = {servletContext ->
-
+         config.bootstrapMode = true
         // Inject the helper s() method
         Object.metaClass.s = {
             def object = delegate.save(flush: true)
@@ -84,6 +84,7 @@ class BootStrap {
         Thread.start {
             searchableService.index()
         }
+        config.bootstrapMode = false
     }
     def destroy = {
     }

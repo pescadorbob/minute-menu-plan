@@ -2,10 +2,12 @@ package com.mp.domain
 
 import org.apache.lucene.document.NumberTools
 import static com.mp.MenuConstants.*
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class Recipe extends Item {
 
     static searchable = true
+    static config = ConfigurationHolder.config
 
     RecipeDifficulty difficulty
     Boolean shareWithCommunity = false
@@ -26,10 +28,10 @@ class Recipe extends Item {
 
     public void validateTimings(){
         if(!preparationTime){
-             preparationTime = new Quantity(value: 1, unit: Unit.findByName(TIME_UNIT_MINUTES), savedUnit: Unit.findByName(TIME_UNIT_MINUTES)).s()
+             preparationTime = new Quantity(value: (config.bootstrapMode? 10 : 1), unit: Unit.findByName(TIME_UNIT_MINUTES), savedUnit: Unit.findByName(TIME_UNIT_MINUTES)).s()
         }
         if(!cookingTime){
-             cookingTime = new Quantity(value: 0, unit: Unit.findByName(TIME_UNIT_MINUTES), savedUnit: Unit.findByName(TIME_UNIT_MINUTES)).s()
+             cookingTime = new Quantity(value:  (config.bootstrapMode? 10 : 0), unit: Unit.findByName(TIME_UNIT_MINUTES), savedUnit: Unit.findByName(TIME_UNIT_MINUTES)).s()
         }
     }
 
