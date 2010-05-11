@@ -41,7 +41,7 @@
                     <span id="showNutrients"></span>
                 </li>
                 <li>
-                    <strong>By - <a href="#">Cheryl - Bakersfield, CA</a></strong>
+                    <strong> <a href="#"></a></strong>
                 </li>
             </ul>
         </div>
