@@ -227,7 +227,7 @@ class RecipeCO {
             RecipeIngredient recipeIngredient = new RecipeIngredient()
             Item product = Item.findByName(productName)
             Unit unit = (unitIds[index]) ? Unit?.get(unitIds[index]?.toLong()) : null
-            Quantity quantity = StandardConversion.getMetricQuantity(amounts[index]?.toLong() ? amounts[index] : null, unit)
+            Quantity quantity = StandardConversion.getMetricQuantity(amounts?.getAt(index) ? amounts[index] : null, unit)
 
             if (!product) {
                 if (unit) {
