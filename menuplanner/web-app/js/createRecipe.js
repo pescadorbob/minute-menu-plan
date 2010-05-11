@@ -67,14 +67,17 @@ function colorRowAlternate() {
 }
 function reflectInPreviewPanel() {
     var myCategory = ''
-    for (i = 0; i < jQuery('input[name="categoryIds"]').size() - 1; i++) {
-        if (jQuery('#faceBookCategory p:eq(' + i + ')').html().length > 0) {
-            myCategory += jQuery('#faceBookCategory p:eq(' + i + ')').html()
-            if (i < jQuery('input[name="categoryIds"]').size() - 2) {
-                myCategory += ', '
+    var myCategoryList = []
+    jQuery.each(jQuery('select[name=categoryIds][value!=""]'), function(indx, elem) {
+        var myCategoryId = jQuery(this).val()
+        jQuery.each(jQuery('#categoryTable td:contains(' + myCategoryId + ')'), function() {
+            if (jQuery(this).html() == myCategoryId) {
+                myCategoryList.push(jQuery(this).next().html())
             }
-        }
-    }
+        });
+    })
+    //    myCategoryList
+    myCategory = myCategoryList.join(', ')
     if (myCategory.length > 0) {
         myCategory = 'Categories: ' + myCategory
     }
@@ -117,7 +120,7 @@ function reflectInPreviewPanel() {
     jQuery('#displayIngredients').html('')
     for (i = 1; i < jQuery('input[name="ingredientQuantities"]').size(); i++) {
         var myIngredients = jQuery('input[name="ingredientQuantities"]:eq(' + i + ')').attr('value') +
-//                            ' ' + jQuery('input[name="hiddenIngredientUnitNames"]:eq(' + i + ')').attr('value') +
+            //                            ' ' + jQuery('input[name="hiddenIngredientUnitNames"]:eq(' + i + ')').attr('value') +
                             ' ' + jQuery('input[name="hiddenIngredientUnitSymbols"]:eq(' + i + ')').attr('value') +
                             ' ' + jQuery('input[name="hiddenIngredientProductNames"]:eq(' + i + ')').attr('value') + '<br>'
         jQuery('#displayIngredients').append(myIngredients)
@@ -129,18 +132,11 @@ function reflectInPreviewPanel() {
     jQuery('#showPreviewRecipeImage').attr('src', jQuery('#recipeImage').attr('src'))
 
     var myServeWith = ''
-    for (i = 0; i < jQuery('input[name="serveWithItems"]').size() - 1; i++) {
-        if (jQuery('#AddItemToolBox p:eq(' + i + ')').html().length > 0) {
-            myServeWith += '<a href="#">' +
-                           jQuery('#AddItemToolBox p:eq(' + i + ')').html()
-            if (i < jQuery('input[name="serveWithItems"]').size() - 2) {
-                myServeWith += '</a>, '
-            }
-            else {
-                myServeWith += '</a>'
-            }
-        }
-    }
+    var myServeWithList = []
+    jQuery.each(jQuery('input[name^="serveWithItems"][value!=""]'), function() {
+            myServeWithList.push(jQuery(this).attr('value'))
+    })
+    myServeWith = myServeWithList.join(', ')
     if (myServeWith.length > 0) {
         myServeWith = 'Serve with:<br/>' + myServeWith
     }

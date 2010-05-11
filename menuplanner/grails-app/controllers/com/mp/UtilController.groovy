@@ -27,7 +27,7 @@ class UtilController {
     }
 
     def index = {
-        Long l = 0l
+        Long l = 30l
         render "metric: " + NumberTools.longToString(l)
 
     }

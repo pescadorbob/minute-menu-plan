@@ -1,5 +1,13 @@
 <%@ page import="com.mp.domain.RecipeDifficulty" %>
 <div class="tabPanel leftbox clearfix" id=panelGeneralInfo>
+    <table id="categoryTable" style="display:none;">
+        <g:each in="${categories}">
+            <tr>
+                <td>${it?.id}</td>
+                <td>${it?.name}</td>
+            </tr>
+        </g:each>
+    </table>
     <div class="formElement">
         <ul>
             <li>
@@ -13,12 +21,11 @@
                     <li>
                         <label>Categories</label>
                         <span>
-                            <g:select class="inpbox" name="categoryIds" from="${categories}" value="${recipeCO?.categoryIds?.toList()?.first()}"
-                                  optionKey="id"  onchange="checkCategory()" noSelection="['': '(Select One)']"/> <br/><br/>
+                            <g:select class="inpbox" name="categoryIds" from="${categories}" value="${recipeCO?.categoryIds?.toList()?.first()}" optionKey="id" onchange="checkCategory()" noSelection="['': '(Select One)']"/> <br/><br/>
                             <g:select class="inpbox" optionKey="id" name="categoryIds" from="${categories}" value="${(recipeCO?.categoryIds?.size() > 1)? recipeCO?.categoryIds?.toList()[1] :null}" onchange="checkCategory()" noSelection="['': '(Select One)']"/> <br/><br/>
                             <g:select class="inpbox" optionKey="id" name="categoryIds" from="${categories}" value="${(recipeCO?.categoryIds?.size() > 2)? recipeCO?.categoryIds?.toList()[2] :null}" onchange="checkCategory()" noSelection="['': '(Select One)']"/> <br/><br/>
                             %{--<mp:tagInput name="categoryIds" class="textareaInput" controller="recipe" action="getMatchingCategories"--}%
-                                    %{--prePopulated="${categories}"/>--}%
+                            %{--prePopulated="${categories}"/>--}%
                             %{--<input name="" type="text" class="inpbox"/>--}%
                         </span>
                     </li>
@@ -57,24 +64,24 @@
                 </ul>
             </li>
             <li class="browsebox">
-               <table width="85%" align="right">
-                   <tr>
-                       <td>Image</td>
-                       <td>
-                           <input id="selectRecipeImage" name="selectRecipeImage" class="input3" type="file"/>
-                       </td>
-                       <td>
-                           %{--<img src="${resource(dir: 'images', file: 'browse-img.gif')}" align="absmiddle"/>--}%
-                           <img id="removeRecipeImage" src="${resource(dir: 'images', file: '].gif')}" align="absmiddle" alt="Remove" style="cursor:pointer"/>
-                       </td>
-                   </tr>
-                   <tr>
-                       <td></td>
-                       <td></td>
-                       <td></td>
-                   </tr>
-               </table>
-               </li>
+                <table width="85%" align="right">
+                    <tr>
+                        <td>Image</td>
+                        <td>
+                            <input id="selectRecipeImage" name="selectRecipeImage" class="input3" type="file"/>
+                        </td>
+                        <td>
+                            %{--<img src="${resource(dir: 'images', file: 'browse-img.gif')}" align="absmiddle"/>--}%
+                            <img id="removeRecipeImage" src="${resource(dir: 'images', file: '].gif')}" align="absmiddle" alt="Remove" style="cursor:pointer"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </li>
             <li>
                 <div id="myImageDiv" style="text-align:right;">
                     <g:if test="${recipeCO?.selectRecipeImagePath}">
