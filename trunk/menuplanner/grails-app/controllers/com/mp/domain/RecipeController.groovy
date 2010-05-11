@@ -3,6 +3,7 @@ package com.mp.domain
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import grails.converters.JSON
 import static com.mp.MenuConstants.*
+import org.codehaus.groovy.grails.commons.ApplicationHolder
 
 class RecipeController {
     static config = ConfigurationHolder.config
@@ -29,8 +30,8 @@ class RecipeController {
         String itemsJson = ''
         println "x: ${items}"
         items.each {
-          itemsJson +=  it.name+"|"+ it.id + "\n"
-          }
+            itemsJson += it.name + "|" + it.id + "\n"
+        }
         println "xxx : ${itemsJson}"
         render(itemsJson)
     }
@@ -88,9 +89,9 @@ class RecipeController {
             RecipeCO recipeCO = new RecipeCO(recipe)
             SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
             List<Nutrient> nutrients = Nutrient.list()
-            List<Category> categories =Category.list()
+            List<Category> categories = Category.list()
             println "x : " + recipeCO.serveWithItems
-            render(view: 'edit', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits: sys.getMetricUnits(), nutrients: nutrients, categories:categories])
+            render(view: 'edit', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits: sys.getMetricUnits(), nutrients: nutrients, categories: categories])
         }
     }
 
@@ -129,7 +130,7 @@ class RecipeController {
         SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
         List<Nutrient> nutrients = Nutrient.list()
         List<Category> categories = Category.list()
-        render(view: 'create', model: [timeUnits: sys.timeUnits, metricUnits: sys.getMetricUnits(), nutrients: nutrients, categories:categories])
+        render(view: 'create', model: [timeUnits: sys.timeUnits, metricUnits: sys.getMetricUnits(), nutrients: nutrients, categories: categories])
     }
 
     def show = {
@@ -152,6 +153,7 @@ class RecipeController {
 
     def showImage = {
         Image image
+        byte[] fileContent
         if (params.selectRecipeImagePath) {
             image = new Image(params.selectRecipeImagePath, "Some alt Text")
         }
@@ -159,7 +161,7 @@ class RecipeController {
             image = Recipe.get(params.id.toLong()).image
         }
         if (image) {
-            byte[] fileContent = image.readFile()
+            fileContent = image.readFile()
             String fileName = image.actualName + "." + image.extension
             response.setContentLength(fileContent.size())
             response.setHeader("Content-disposition", "attachment; filename=" + fileName)

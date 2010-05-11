@@ -23,7 +23,7 @@
                     <h3>Edit Recipe</h3>
                 </div>
                 <g:hasErrors bean="${recipeCO}">
-                    <div class="errors">
+                    <div class="errors" style="">
                         <g:renderErrors bean="${recipeCO}"/>
                     </div>
                 </g:hasErrors>
