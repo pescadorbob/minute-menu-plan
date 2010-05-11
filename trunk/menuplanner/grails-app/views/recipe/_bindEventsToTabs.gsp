@@ -66,8 +66,8 @@
                 AddIngredient(quantity, unitId, productId, unitName, prodName, unitSymbol)
                 /* Reset Add Ingredient ToolBox.... */
                 jQuery('#optionIngredientQuantities').attr('value', '')
-                jQuery('#optionIngredientUnitIds').attr('value', '1')
-                jQuery('#AddIngredientToolBox .token-input-delete-token-facebook').click()
+                jQuery('#optionIngredientUnitIds').val(1)
+                jQuery('#optionIngredientProductIds').val('')
             }
             bindEventsFor("tableIngredients", "ingredientRow");
         })
