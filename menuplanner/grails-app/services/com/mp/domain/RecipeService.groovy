@@ -54,7 +54,7 @@ class RecipeCO {
         difficulty = recipe?.difficulty?.name()
         shareWithCommunity = recipe?.shareWithCommunity
         makesServing = recipe?.servings
-        serveWithItems = (recipe?.items)? (recipe?.items*.name) : [] 
+        serveWithItems = (recipe?.items) ? (recipe?.items*.name) : []
 
 
         preparationUnitId = recipe?.preparationTime?.unit?.id
@@ -165,6 +165,8 @@ class RecipeCO {
         tempNutrients*.delete(flush: true)
         addNutrientsToRecipe(recipe, nutrientQuantities, nutrientIds)
 
+        recipe.s()
+
         return recipe
     }
 
@@ -186,17 +188,22 @@ class RecipeCO {
         addServeWithToRecipe(recipe, serveWithItems)
         addNutrientsToRecipe(recipe, nutrientQuantities, nutrientIds)
 
+        recipe.s()
+
         return recipe
     }
 
     public boolean attachImage(Recipe recipe, def imagePath) {
         if (!imagePath) {
+            if (recipe?.image) {
+                recipe.image.delete()
+            }
+            recipe.image = null
             return false
         }
         Image image = new Image(imagePath, "Some alt text")
         recipe.image = image
         image.s()
-        recipe.s()
     }
 
     public Quantity makeTimeQuantity(Integer minutes, Long unitId) {
@@ -214,13 +221,13 @@ class RecipeCO {
         }
     }
 
-    public List<RecipeIngredient> recipeIngredientList(List<String> amounts, List<Long> unitIds, List<String> productNames) {
+    public List<RecipeIngredient> recipeIngredientList(List<String> amounts, List<String> unitIds, List<String> productNames) {
         List<RecipeIngredient> recipeIngredients = []
         productNames?.eachWithIndex {String productName, Integer index ->
             RecipeIngredient recipeIngredient = new RecipeIngredient()
             Item product = Item.findByName(productName)
-            Unit unit = (unitIds[index]) ? Unit.get(unitIds[index]) : null
-            Quantity quantity = StandardConversion.getMetricQuantity(amounts[index]?amounts[index]:null, unit)
+            Unit unit = (unitIds[index]) ? Unit?.get(unitIds[index]?.toLong()) : null
+            Quantity quantity = StandardConversion.getMetricQuantity(amounts[index]?.toLong() ? amounts[index] : null, unit)
 
             if (!product) {
                 if (unit) {
@@ -238,20 +245,18 @@ class RecipeCO {
         return recipeIngredients
     }
 
-    public boolean addIngredientsToRecipe(Recipe recipe, List<String> amounts, List<Long> unitIds, List<String> productNames) {
+    public boolean addIngredientsToRecipe(Recipe recipe, List<String> amounts, List<String> unitIds, List<String> productNames) {
         List<RecipeIngredient> recipeIngredients = recipeIngredientList(amounts, unitIds, productNames)
         recipeIngredients?.eachWithIndex {RecipeIngredient recipeIngredient, Integer index ->
             recipeIngredient.recipe = recipe
             recipe.addToIngredients(recipeIngredient)
         }
-        recipe.s()
         return true
     }
 
     public boolean addDirectionsToRecipe(Recipe recipe, List<String> directions) {
         directions = directions.findAll { it && it != "" }
         recipe.directions = directions
-        recipe.s()
         return true
     }
 
@@ -261,7 +266,7 @@ class RecipeCO {
             if (amount) {
                 RecipeNutrient recipeNutrient = new RecipeNutrient()
                 recipeNutrient.nutrient = Nutrient.get(nutrientIds[index])
-                Quantity quantity = StandardConversion.getMetricQuantity(amount?.toInteger().toString(), Nutrient.get(nutrientIds[index]).preferredUnit)
+                Quantity quantity = StandardConversion.getMetricQuantity(amount?.toInteger()?.toString(), Nutrient.get(nutrientIds[index]).preferredUnit)
                 quantity.s()
                 recipeNutrient.quantity = quantity
                 recipeNutrientList.add(recipeNutrient)
@@ -275,7 +280,6 @@ class RecipeCO {
         recipeNutrients.eachWithIndex {RecipeNutrient nutrient, Integer index ->
             nutrient.recipe = recipe
             recipe.addToNutrients(nutrient)
-            recipe.s()
         }
         return true
     }
@@ -291,22 +295,21 @@ class RecipeCO {
 
     public boolean addServeWithToRecipe(Recipe recipe, Set<String> itemIds) {
         Set<Item> items = []
-        itemIds.each{String itemName ->
-            if(itemName){
+        itemIds.each {String itemName ->
+            if (itemName) {
                 Item item = Item.countByName(itemName) ? Item.findByName(itemName) : new Product(name: itemName).s()
                 items.add(item)
             }
         }
         recipe.items = items
-        recipe.s()
         return true
     }
 
     public List<RecipeCategory> recipeCategoryList(Set<Long> categoryIds) {
-        
+
         List<RecipeCategory> recipeCategories = []
         categoryIds.each {Long categoryId ->
-            if(categoryId){
+            if (categoryId) {
                 RecipeCategory category = new RecipeCategory()
                 category.category = Category.get(categoryId)
                 recipeCategories.add(category)
@@ -320,7 +323,6 @@ class RecipeCO {
         categories.each {RecipeCategory category ->
             category.recipe = recipe
             recipe.addToRecipeCategories(category)
-            recipe.s()
         }
         return true
     }

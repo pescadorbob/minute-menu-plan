@@ -6,7 +6,6 @@
 </head>
 <body>
 
-
 <table id="sampleIngredientRow" style="display:none;">
     <g:render template="ingredientRow"/>
 </table>
@@ -22,6 +21,11 @@
             <div id="left-panel">
                 <!--  start left-panel -->
                 <div class="headbox"><h3>Add Recipe</h3></div>
+                <g:hasErrors bean="${recipeCO}">
+                    <div class="errors" style="">
+                        <g:renderErrors bean="${recipeCO}"/>
+                    </div>
+                </g:hasErrors>
                 <div id="menu">
                     <ul>
                         <li><a class="tabs current" id="tabGeneralInfo" style="${mp.checkGeneralInfoTabError(bean: recipeCO, fields: ['name', 'makesServing', 'preparationTime', 'cookTime', 'difficulty', 'categoryIds'])}"><span>General&nbsp;Info</span></a></li>
@@ -33,7 +37,7 @@
                 </div>
 
                 <g:uploadForm name="formCreateRecipe" controller="recipe" action="save">
-                                                                                         
+
                     <g:render template="/recipe/generalInfo" model="[recipeCO: recipeCO, timeUnits: timeUnits]"/>
                     <g:render template="/recipe/ingredients" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
                     <g:render template="/recipe/cookingSteps" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
@@ -45,9 +49,9 @@
                     </div>
                     <div id="button">
                         <ul>
-                            <li> <g:submitButton name="btnSave" class="button" value="Save Recipe" style="cursor:pointer;"/> </li>
-                            <li> <input type="button" name="preview" class="button" id="preview" value="Preview" style="cursor:pointer;"/> </li>
-                            <li> <input type="button" name="delete" class="button" id="delete" value="Delete" style="cursor:pointer;"/> </li>
+                            <li><g:submitButton name="btnSave" class="button" value="Save Recipe" style="cursor:pointer;"/></li>
+                            <li><input type="button" name="preview" class="button" id="preview" value="Preview" style="cursor:pointer;"/></li>
+                            <li><input type="button" name="delete" class="button" id="delete" value="Delete" style="cursor:pointer;"/></li>
                         </ul>
                     </div>
 

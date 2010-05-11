@@ -39,9 +39,7 @@
         })
         /* REMOVE IMAGE: function to be executed when removeRecipeImage is Clicked... */
         jQuery('#removeRecipeImage').click(function() {
-            //            jQuery('#selectRecipeImage').attr('value', '')
-            jQuery('#recipeImage').attr('src', '')
-            jQuery('#recipeImage').css('visibility', 'hidden')
+            jQuery('#recipeImage').attr('src', '${resource(dir: 'images', file: 'no-img.gif')}')
             jQuery('#selectRecipeImagePath').val("");
         })
         /* ADD INGREDIENT:  function to be executed when btnAddIngredient is Clicked... */

@@ -22,7 +22,7 @@ class ExcelService {
         workbook = Workbook.getWorkbook(fileInputStream, workbookSettings);
 
         workbook?.sheets?.eachWithIndex {Sheet sheet, Integer index ->
-            println "**************************************** Sheet:${index} " + sheet.name + "****************************************"
+            println "**************************************** Sheet:${index} " + sheet.name + " ****************************************"
             if (index > 0) {
                 recipeLog.add("SHEET ${index + 1}: ${sheet.name}")
                 createRecipe(sheet, recipeLog);
@@ -63,24 +63,10 @@ class ExcelService {
                 directions.add([valueOne, valueTwo])
             }
         }
-        Recipe recipeObj = makeRecipe(recipe)
-        if (recipeObj) {
-
-            recipeLog.add("Created Recipe: ${recipeObj?.name}")
-            if (attachImageToRecipe(recipeObj)) {recipeLog.add("Added Image for Recipe: ${recipeObj?.name}")}
-            if (createCategories(categories, recipeObj)) {recipeLog.add("Added Categories for Recipe: ${recipeObj?.name}")}
-            if (createDirections(directions, recipeObj)) {recipeLog.add("Added Directions for Recipe: ${recipeObj?.name}")}
-            else {recipeLog.add("@: Error while Adding Directions for Recipe: ${recipeObj?.name}")}
-            if (createIngredients(ingredients, recipeObj)) {recipeLog.add("Added Ingredients for Recipe: ${recipeObj?.name}")}
-            else {recipeLog.add("@: Error while Adding Ingredients for Recipe: ${recipeObj?.name}")}
-
-        }
-        else {
-            recipeLog.add("@: Error while Creating Recipe.")
-        }
+        Recipe recipeObj = makeRecipe(recipe, directions, ingredients, categories)
     }
 
-    public Recipe makeRecipe(List<List<String>> recipe) {
+    public Recipe makeRecipe(List<List<String>> recipe, List<List<String>> directions, List<List<String>> ingredients, String categories) {
         try {
             Recipe recipeInstance = new Recipe()
             recipeInstance.name = recipe[0].getAt(1)
@@ -130,10 +116,15 @@ class ExcelService {
             else if (recipe[4].getAt(1).toLowerCase() == 'hard') {
                     recipeInstance.difficulty = RecipeDifficulty.HARD
                 }
-
             if ((recipe[5].getAt(1).toLowerCase() == 'yes') || (recipe[5].getAt(1).toLowerCase() == 'no')) {
                 recipeInstance.shareWithCommunity = (recipe[5].getAt(1).toLowerCase() == 'yes')
             }
+
+            attachImageToRecipe(recipeInstance)
+            createCategories(categories, recipeInstance)
+            createDirections(directions, recipeInstance)
+            createIngredients(ingredients, recipeInstance)
+
             recipeInstance.s()
             return recipeInstance
         }
@@ -162,7 +153,6 @@ class ExcelService {
                 com.mp.domain.Image image = new com.mp.domain.Image(targetImagePath, "")
                 recipe.image = image
                 image.s()
-                recipe.s()
                 return true
             }
         } catch (ex) {
@@ -180,7 +170,6 @@ class ExcelService {
                     recipeCategory.recipe = recipe
                     recipeCategory.category = category
                     recipe.addToRecipeCategories(recipeCategory)
-                    recipe.s()
                 }
             }
         }
@@ -197,7 +186,6 @@ class ExcelService {
                 directionList.add(directionRow.getAt(1))
             }
             recipe.directions = directionList
-            recipe.s()
         }
         catch (ex) {
             return false
@@ -238,7 +226,7 @@ class ExcelService {
                         */
                     }
                     quantity = StandardConversion.getMetricQuantity(ingredientRow.getAt(1), unit)
-                } else if (ingredientRow.getAt(1)) {
+                } else if (ingredientRow.getAt(1)) {  // only Amount is specified:
                     quantity = StandardConversion.getMetricQuantity(ingredientRow.getAt(1), null)
                 }
                 quantity.s()
@@ -248,7 +236,6 @@ class ExcelService {
             recipeIngredients?.eachWithIndex {RecipeIngredient recipeIngredient, Integer index ->
                 recipeIngredient.recipe = recipe
                 recipe.addToIngredients(recipeIngredient)
-                recipe.s()
             }
         }
         catch (ex) {

@@ -108,7 +108,8 @@ function reflectInPreviewPanel() {
     }
     jQuery('#displayCookTime').html(showCook)
     var myDifficulty = 'Difficulty Level: '
-    myDifficulty += jQuery('input[name=difficulty]').filter(':checked').next().text();
+    myDifficulty += jQuery('input[name=difficulty]').filter(':checked').val().substr(0,1);
+    myDifficulty += jQuery('input[name=difficulty]').filter(':checked').val().toLowerCase().substr(1);
     jQuery('#displayDifficulty').html(myDifficulty)
     var myMakeServing = ''
     if (getPlainText('makesServing').length > 0) {
