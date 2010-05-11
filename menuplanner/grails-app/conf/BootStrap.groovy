@@ -73,13 +73,13 @@ class BootStrap {
             } else{
                 recipeExcelFile=new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet_Qa.xls"))
             }
-            bootstrapService.populateRecipes((GrailsUtil.isDevelopmentEnv()) ? 20 : 150)
+//            bootstrapService.populateRecipes((GrailsUtil.isDevelopmentEnv()) ? 20 : 150)
             List<String> recipeLog
             recipeExcelFile.withInputStream {inputStream->
                 recipeLog = excelService.createLineItems(inputStream)
             }
             println "Populated Recipes"
-            bootstrapService.populateMenuPlans(1)
+            bootstrapService.populateMenuPlans(4)
             println "Populated Menu Plans"
         }
 
