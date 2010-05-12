@@ -72,13 +72,17 @@ class MenuPlanController {
     }
 
     def search = {
-        List<Recipe> results = []
-        if (params?.q?.size() > 0) {
-
+        List<String>allQueries = []
+        params?.list("q")?.eachWithIndex {String myQ, Integer index ->
+            allQueries.push(myQ)
+            if (!(myQ.contains(':'))) {
+                allQueries[index] = myQ += '*'
+            }
         }
-        String query = params.query ?: params.list("q")?.join(" ")
-
+        List<Recipe> results = []
+        String query = allQueries?.join(" ")
         Integer total
+
         if (query && (query != 'null')) {
             def search = Recipe.search([reload: true, max: 4, offset: params.offset ?: 0]) {
                 must(queryString(query))
