@@ -45,7 +45,7 @@ class RecipeController {
     }
 
     def search = {
-        List<String>allQueries = []
+        List<String> allQueries = []
         params?.list("q")?.eachWithIndex {String myQ, Integer index ->
             allQueries.push(myQ)
             if (!(myQ.contains(':'))) {
@@ -89,6 +89,13 @@ class RecipeController {
         }
     }
 
+    def create = {
+        SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
+        List<Nutrient> nutrients = Nutrient.list()
+        List<Category> categories = Category.list()
+        render(view: 'create', model: [timeUnits: sys.timeUnits, metricUnits: sys.getMetricUnits(), nutrients: nutrients, categories: categories])
+    }
+
     def edit = {
         if (params.id) {
             Recipe recipe = Recipe.get(params.long('id'))
@@ -96,7 +103,6 @@ class RecipeController {
             SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
             List<Nutrient> nutrients = Nutrient.list()
             List<Category> categories = Category.list()
-            println "x : " + recipeCO.serveWithItems
             render(view: 'edit', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits: sys.getMetricUnits(), nutrients: nutrients, categories: categories])
         }
     }
@@ -104,7 +110,6 @@ class RecipeController {
     def update = {RecipeCO recipeCO ->
         println "Updating..."
         if (recipeCO.validate()) {
-            println "Validated..."
             recipeCO.updateRecipe()
             redirect(action: 'show', id: recipeCO?.id)
         } else {
@@ -113,7 +118,8 @@ class RecipeController {
             }
             SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
             List<Nutrient> nutrients = Nutrient.list()
-            render(view: 'edit', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits: sys.metricUnits, nutrients: nutrients])
+            List<Category> categories = Category.list()
+            render(view: 'edit', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits: sys.getMetricUnits(), nutrients: nutrients, categories: categories])
         }
     }
 
@@ -132,25 +138,18 @@ class RecipeController {
         }
     }
 
-    def create = {
-        SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
-        List<Nutrient> nutrients = Nutrient.list()
-        List<Category> categories = Category.list()
-        render(view: 'create', model: [timeUnits: sys.timeUnits, metricUnits: sys.getMetricUnits(), nutrients: nutrients, categories: categories])
-    }
-
     def show = {
         Recipe recipe = Recipe.findById(params?.id)
         render(view: 'show', model: [recipe: recipe])
     }
 
     def uploadImage = {
-        String relativePath = "/recipes"
+        String relativePath = "/tempRecipe"
         def fileContents = params.Filedata.bytes
         String filePath = config.imagesRootDir + relativePath
         File file = new File(filePath)
         file.mkdirs()
-        File actualFile = new File(file, params.Filedata.originalFilename)
+        File actualFile = new File(file, 'Img_' + System.currentTimeMillis()?.toString() + '.' + params.Filename.tokenize('.').tail().join('.'))
         actualFile.withOutputStream {out ->
             out.write fileContents
         }
@@ -158,24 +157,20 @@ class RecipeController {
     }
 
     def showImage = {
-        Image image
-        byte[] fileContent
+        File img
         if (params.selectRecipeImagePath) {
-            image = new Image(params.selectRecipeImagePath, "Some alt Text")
+            img = new File(params.selectRecipeImagePath)
         }
-        if (params.id) {
-            image = Recipe.get(params.id.toLong()).image
+        if (!img) {
+            img = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/images/no-img.gif"))
         }
-        if (image) {
-            fileContent = image.readFile()
-            String fileName = image.actualName + "." + image.extension
-            response.setContentLength(fileContent.size())
-            response.setHeader("Content-disposition", "attachment; filename=" + fileName)
-            response.setContentType("image/${image.extension}")
-            OutputStream out = response.getOutputStream()
-            out.write(fileContent)
-            out.flush()
-            out.close()
-        }
+        byte[] fileContent = img.readBytes()
+        response.setContentLength(fileContent.size())
+        response.setContentType("image/${img.name.tokenize('.').tail().join('.')}")
+        OutputStream out = response.getOutputStream()
+        out.write(fileContent)
+        out.flush()
+        out.close()
+
     }
 }
