@@ -12,10 +12,21 @@
 }
 .myHover{
   position:relative;
-  z-index:10000;
+  z-index:800;
   height:auto !important;
   min-height:55px;
   background:#ffffff;
+}
+.menuContainer .ui-state-highlight{
+  height:10px !important;
+  width:40px !important;
+  border: 1px dotted black !important;
+  visibility: visible !important;
+}
+
+.resultContainer .ui-state-highlight{
+  border: 1px dotted black !important;
+  visibility: visible !important;
 }
 
 .downArrow{
@@ -44,7 +55,7 @@
         jQuery(".menuContainer").sortable({
             update: function(event, ui) {
                 if (jQuery("h3", jQuery(ui.item)).hasClass("recipeName")) {
-                    var htmlString = " <div style='clear:both'><input type='hidden' value='"+ jQuery("input[name='menuItemId']",jQuery(ui.item)).val()+"' name='mealItems."+jQuery(this).attr("rel") +"'><span style='float:left'>" + jQuery("h3", jQuery(ui.item)).text() + "</span><img src='${resource(dir:'images',file:'delete.jpg')}' alt='' style='display:none;padding-left:2px;' class='deleteImage'></div>"
+                    var htmlString = "<div style='clear:both'><input type='hidden' value='"+ jQuery("input[name='menuItemId']",jQuery(ui.item)).val()+"' name='mealItems."+jQuery(this).attr("rel") +"'><span style='float:left'>" + jQuery("h3", jQuery(ui.item)).text() + "</span><img src='${resource(dir:'images',file:'delete.jpg')}' alt='' style='display:none;padding-left:2px;' class='deleteImage'></div>"
                     jQuery(ui.item).remove();
                     jQuery(this).append(htmlString);
                     bindHoverAndClick();
@@ -58,18 +69,28 @@
               }
             },
           over:function(event, ui) {
+              jQuery(ui.sender).css("overflow","visible")
+              jQuery(this).css("overflow","visible")
+              jQuery(this).addClass("myHover")
                 jQuery(this).css("background-color","#EEEEEE")
           },
           out:function(event, ui) {
+            jQuery(this).removeClass("myHover")
+            jQuery(this).css("overflow","hidden")
             jQuery(this).css("background-color","")
+          },
+          stop:function(event,ui){
+            jQuery(".menuContainer").css("overflow","hidden")
           },
             opacity:0.6,
             tolerance: 'pointer',
             helper:'clone',
-//            cursorAt: 'top',
+            cursorAt: 'top',
             revert: true,
             scrollSensitivity: 40,
-            connectWith: '.menuContainer'
+            connectWith: '.menuContainer',
+            forcePlaceholderSize:true,
+            placeholder:"ui-state-highlight"
         });
 
         bindHoverAndClick();
