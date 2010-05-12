@@ -73,13 +73,15 @@
                         .html(jQuery("h3", jQuery(ui.helper)).text())
             },
             opacity:0.6,
-            //        tolerance: 'pointer',
+            tolerance: 'pointer',
             helper: 'clone',
             cursorAt: 'top',
             revert: true,
             scrollSensitivity: 40 ,
             connectWith: '.menuContainer',
-            zIndex:10001
+            zIndex:10001,
+            forcePlaceholderSize:true,
+            placeholder:"ui-state-highlight"
         });
 
     })

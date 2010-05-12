@@ -5,11 +5,11 @@
         <img src="${resource(dir: 'images', file: image)}"/>
     </li>
     <g:each in="${week?.days}" var="day" status="index">
-      <li style="overflow: hidden;" class="menuContainer placeMyHover" rel="${mealType}.week${weekIndex}.day${index}">
+      <li  class="menuContainer placeMyHover" rel="${mealType}.week${weekIndex}.day${index}">
       <g:each in="${day.getMealByType(mealType)}" var="mealItem">
-        <div style="clear:both;">
+        <div>
             <input type="hidden" name="mealItems.${mealType}.week${weekIndex}.day${index}" value="${mealItem.id}" />
-            <span style='float:left'>${mealItem}</span><img src="${resource(dir:"images",file:"delete.jpg")}" alt="" style="display:none;padding-left:2px;" class="deleteImage">
+          <img src="${resource(dir:"images",file:"delete.jpg")}" alt="" align="left" style="display:none;" class="deleteImage"><span>${mealItem}</span>
         </div>
       </g:each>
     </g:each>
