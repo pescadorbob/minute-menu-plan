@@ -20,7 +20,6 @@
                             value="${(recipeCO?.serveWithItems?.size() > 1)? recipeCO?.serveWithItems?.toList()[1] : null}"/><br/><br/>
                     <input class="inpbox" id="serveWithItems3" name="serveWithItems"
                             value="${(recipeCO?.serveWithItems?.size() > 2)? recipeCO?.serveWithItems?.toList()[2] : null}"/>
-                        %{--<mp:tagInput name="serveWithItems" controller="recipe" action="getMatchingItems"/>--}%
                     </span>
 
                 </span>
