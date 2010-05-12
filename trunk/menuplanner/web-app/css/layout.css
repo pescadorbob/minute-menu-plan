@@ -159,11 +159,11 @@
 .product ul li{ float:left; width:230px; margin:0px 4px; padding:2px 0px; cursor:pointer;}
 .product ul li:hover{ background:#eeeeee;}
 .product ul li ul li{display:block;margin:0 !important;width:220px; padding:5px;}
-.product ul li ul li a{color:#2aa4af; text-decoration:none; font-size:12px;   margin:auto;}
+.product ul li ul li strong{color:#2aa4af; text-decoration:none; font-size:12px;   margin:auto;}
 .product ul li ul li.center{text-align:center;}
 .product ul li ul li ul li{ margin:0 !important;float:left !important; width:110px !important; padding:2px 0px !important; }
 .product ul li ul li ul li ul li{ line-height:16px; padding:0px !important; clear:both; }
-.product ul li a:hover{ color:#fea501; }
+.product ul li ul li strong:hover{ color:#fea501; }
 
 /* 30 April */
 .menuplannerTab tr{ height:30px;font-family:verdana,arial,helvetica,sans-serif; font-size:11px;}

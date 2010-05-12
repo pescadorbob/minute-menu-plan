@@ -1,9 +1,9 @@
 <div class="product clearfix">
 <ul>
 <g:each in="${recipeList}" var="recipe" status="index">
-    <li>
+    <li onclick="location.href='${createLink(controller:'recipe', action:'show', id:recipe?.id)}'">
         <ul>
-            <li><g:link action="show" controller="recipe" id="${recipe?.id}">${recipe.name}</g:link></li>
+            <li><strong>${recipe.name}</strong></li>
             <li>
                 <ul>
                     <li><mp:recipeImage id="${recipe?.image?.id}" height="100" width="100"/></li>
