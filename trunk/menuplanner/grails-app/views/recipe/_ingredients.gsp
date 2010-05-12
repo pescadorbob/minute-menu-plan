@@ -35,7 +35,6 @@
                         </div>
                         <div style="padding-top:2px; float:left; padding-left:5px;">
                             <input class="inpbox" id="optionIngredientProductIds" name="optionIngredientProductIds" value=""/>
-                            %{--<mp:tagInput name="optionIngredientProductIds" controller="recipe" action="getMatchingItems" multiselect="false"/>--}%
                         </div>
                     </span>
                 </span>

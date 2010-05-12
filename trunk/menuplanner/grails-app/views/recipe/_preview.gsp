@@ -21,6 +21,7 @@
             <ul>
                 <li>
                     <span id="displayDifficulty"></span>
+                    <img id="displayRecipeImage" src="" width="80" height="80">
                 </li>
                 <li>
                     <span id="displayMakeServing"></span>
