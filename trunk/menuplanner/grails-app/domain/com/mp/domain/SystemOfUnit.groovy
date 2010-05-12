@@ -18,6 +18,10 @@ class SystemOfUnit {
         return ((units) ? (units.findAll {it.metricType == MetricType.METRIC} as List) : [])
     }
 
+    List<Unit> getSortedMetricUnits() {
+        return ((units) ? (units.findAll {it.metricType == MetricType.METRIC} as List) : [])
+    }
+
     List<Unit> getRecipeUnits() {
         List<Unit> recipeUnits = []
         recipeUnits = ((units) ? (units.findAll {it.metricType != MetricType.TIME} as List) : [])

@@ -16,7 +16,7 @@ import static com.mp.MenuConstants.*
 
 
 class UtilController {
-    ExcelService excelService
+    def excelService
 
     static config = ConfigurationHolder.config
 
@@ -27,8 +27,19 @@ class UtilController {
     }
 
     def index = {
-        Long l = 30l
-        render "metric: " + NumberTools.longToString(l)
+
+        SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
+        List<Unit> metricUnits = sys.getMetricUnits()
+        render(metricUnits*.symbol + '<br/><br/>')
+
+
+        List<Unit> units = StandardConversion?.list()*.sourceUnit
+
+        render(StandardConversion.listOrderByConversionFactor()?.findAll{it.sourceUnit.metricType == MetricType.METRIC}*.sourceUnit)
+//        render ((metricUnits?.collect {it.name}).sort()) // {it.name})
+
+//        Long l = 30l
+//        render "metric: " + NumberTools.longToString(l)
 
     }
 

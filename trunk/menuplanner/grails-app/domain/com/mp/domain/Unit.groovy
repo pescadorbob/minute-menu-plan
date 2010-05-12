@@ -13,6 +13,10 @@ class Unit extends Metric{
         tablePerHierarchy false
     }
 
+    public static List<Unit> getSortedMetricUnits(){
+        return (StandardConversion.listOrderByConversionFactor()?.findAll{it.sourceUnit.metricType == MetricType.METRIC}*.sourceUnit)
+    }
+
     Boolean belongsToMetricSystem(){
         return (systemOfUnits? (systemOfUnits.any{it.systemName == SYSTEM_OF_UNIT_METRIC}) : false)
     }
