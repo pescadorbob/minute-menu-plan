@@ -6,7 +6,9 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class Recipe extends Item {
 
-    static searchable = true
+    static searchable = {
+        ingredients component: true
+    }
     static config = ConfigurationHolder.config
 
     RecipeDifficulty difficulty
@@ -26,17 +28,17 @@ class Recipe extends Item {
     String categoriesString
     String caloriesString
 
-    public void validateTimings(){
-        if(!preparationTime){
-             preparationTime = new Quantity(value: (config.bootstrapMode? 10 : 1), unit: Unit.findByName(TIME_UNIT_MINUTES), savedUnit: Unit.findByName(TIME_UNIT_MINUTES)).s()
+    public void validateTimings() {
+        if (!preparationTime) {
+            preparationTime = new Quantity(value: (config.bootstrapMode ? 10 : 1), unit: Unit.findByName(TIME_UNIT_MINUTES), savedUnit: Unit.findByName(TIME_UNIT_MINUTES)).s()
         }
-        if(!cookingTime){
-             cookingTime = new Quantity(value:  (config.bootstrapMode? 10 : 0), unit: Unit.findByName(TIME_UNIT_MINUTES), savedUnit: Unit.findByName(TIME_UNIT_MINUTES)).s()
+        if (!cookingTime) {
+            cookingTime = new Quantity(value: (config.bootstrapMode ? 10 : 0), unit: Unit.findByName(TIME_UNIT_MINUTES), savedUnit: Unit.findByName(TIME_UNIT_MINUTES)).s()
         }
     }
 
     def beforeInsert = {
-         validateTimings()
+        validateTimings()
     }
 
     def beforeUpdate = {
@@ -51,7 +53,7 @@ class Recipe extends Item {
     }
 
     String getCaloriesString() {
-       RecipeNutrient calories = nutrients?.find{it.nutrient.name == NUTRIENT_CALORIES}
+        RecipeNutrient calories = nutrients?.find {it.nutrient.name == NUTRIENT_CALORIES}
         return (calories?.quantity?.value) ? NumberTools.longToString(calories?.quantity?.value?.toLong()) : null
     }
 
@@ -87,10 +89,10 @@ class Recipe extends Item {
     }
 
     def getTotalTime() {
-        if(cookingTime && preparationTime){
-        Quantity sum = Quantity.addTime(cookingTime, preparationTime)
-        return sum
-        } else if(cookingTime){
+        if (cookingTime && preparationTime) {
+            Quantity sum = Quantity.addTime(cookingTime, preparationTime)
+            return sum
+        } else if (cookingTime) {
             return cookingTime
         } else {
             return preparationTime
@@ -112,7 +114,7 @@ class Recipe extends Item {
     }
 
     static constraints = {
-        name(nullabe:false, blank:false)
+        name(nullabe: false, blank: false)
         preparationTime(nullable: true, blank: true)
         cookingTime(nullable: true, blank: true)
         difficulty(nullable: true, blank: true)

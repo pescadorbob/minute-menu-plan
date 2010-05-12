@@ -1,6 +1,7 @@
 package com.mp.domain
 
 class Product extends Item{
+    static searchable = true
 
     Boolean isVisible = false
 

@@ -20,10 +20,10 @@
     }
     function submitSearchFormBySelect() {
         var fieldValue = '*' + jQuery('[name=qSelect] :selected').text() + '*';
-        var fieldName = 'categoriesString'
+        var fieldName = 'categoriesString';
         if (fieldValue == '*(Select One)*') {
             jQuery('[value^=categoriesString]').remove();
-            fieldName = 'name'
+            fieldName = 'name';
             fieldValue = '*';
         }
         submitSearchForm(null, fieldName, fieldValue);
