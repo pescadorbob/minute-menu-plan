@@ -129,15 +129,15 @@ class UtilController {
     }
 
     def test1 = {
-        String tmpDirectory = config.imagesRootDir + "/recipes/"
-        File file = new File(tmpDirectory)
+        String recipeImageDirectory = config.imagesRootDir + "/recipes/"
+        File file = new File(recipeImageDirectory)
         file.mkdirs()
 
         String bootStrapDirectory = "/bootstrapData/recipeImages/"
         String fileName = "xyz.txt"
         File sourceImage = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath(bootStrapDirectory + fileName))
 
-        String targetImagePath = tmpDirectory + fileName
+        String targetImagePath = recipeImageDirectory + fileName
         new File(targetImagePath).withOutputStream {out ->
             out.write sourceImage.readBytes()
         }

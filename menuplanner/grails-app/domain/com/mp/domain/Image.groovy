@@ -14,11 +14,11 @@ class Image {
 
 
     static constraints = {
-        storedName(unique: 'path')
+//        storedName(unique: 'path')
     }
 
-    public static Image createFile(Long id, String relativePath, String fileName, byte[] fileContents,String altText) {
-        String filePath = config.imagesRootDir  + relativePath
+    public static Image createFile(Long id, String relativePath, String fileName, byte[] fileContents, String altText) {
+        String filePath = config.imagesRootDir + relativePath
         File file = new File(filePath)
         file.mkdirs()
         File actualFile = new File(file, id.toString())
@@ -26,12 +26,12 @@ class Image {
             out.write fileContents
         }
         Image image = Image.findByStoredNameAndPath(id.toString(), filePath)
-        if(!image){image = new Image()}
+        if (!image) {image = new Image()}
         image.storedName = id.toString()
         image.actualName = fileName.tokenize('.').first()
         image.extension = fileName.tokenize('.').tail().join('.')
         image.path = filePath
-        image.altText = (altText)? altText: image.actualName
+        image.altText = (altText) ? altText : image.actualName
         image.s()
         return image
     }
@@ -43,16 +43,15 @@ class Image {
         return actualFile.readBytes()
     }
 
-    public Image(){}
+    public Image() {}
 
-    public Image(String selectRecipeImagePath, String altText="Some alt text"){
-        File file=new File(selectRecipeImagePath)
-        String filePath = config.imagesRootDir  + "/recipes"
-        String fileName=file.name
-        storedName = fileName
-        actualName = fileName.tokenize('.').first()
-        extension = fileName.tokenize('.').tail().join('.')
-        path = filePath
-        this.altText =altText
+    public Image(String recipeImagePath, String recipeId, String altText = "Some alt text") {
+        File imageFile = new File(recipeImagePath)
+        storedName = recipeId + '.' +imageFile.name.tokenize('.').tail().join('.')
+        actualName = imageFile.name.tokenize('.').first()
+        extension = imageFile.name.tokenize('.').tail().join('.')
+        String actualDirectory = config.imagesRootDir  + "/recipes/" + recipeId + "/"
+        path = actualDirectory
+        this.altText = altText
     }
 }

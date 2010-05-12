@@ -3,6 +3,7 @@ package com.mp.domain
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import static com.mp.MenuConstants.*
 import org.apache.commons.math.fraction.Fraction
+import org.codehaus.groovy.grails.commons.ApplicationHolder
 
 class RecipeService {
 
@@ -49,7 +50,11 @@ class RecipeCO {
         imageId = recipe?.image?.id
         name = recipe?.name
 
-//        selectRecipeImagePath=recipe?.image?.path
+        if(recipe?.image){
+            selectRecipeImagePath = recipe?.image?.path + recipe?.image?.storedName
+        } else{
+            selectRecipeImagePath = ''            
+        }
 
         difficulty = recipe?.difficulty?.name()
         shareWithCommunity = recipe?.shareWithCommunity
@@ -144,7 +149,6 @@ class RecipeCO {
         recipe.preparationTime = makeTimeQuantity(preparationTime, preparationUnitId)
         recipe.cookingTime = makeTimeQuantity(cookTime, cookUnitId)
 
-        attachImage(recipe, selectRecipeImagePath)
         def tempRecipeCategories = recipe.recipeCategories
         recipe.recipeCategories = []
         tempRecipeCategories*.delete(flush: true)
@@ -166,6 +170,8 @@ class RecipeCO {
         addNutrientsToRecipe(recipe, nutrientQuantities, nutrientIds)
 
         recipe.s()
+        attachImage(recipe, selectRecipeImagePath)
+        recipe.s()
 
         return recipe
     }
@@ -180,7 +186,6 @@ class RecipeCO {
         recipe.preparationTime = makeTimeQuantity(preparationTime, preparationUnitId)
         recipe.cookingTime = makeTimeQuantity(cookTime, cookUnitId)
 
-        attachImage(recipe, selectRecipeImagePath)
 
         addCategoriesToRecipe(recipe, categoryIds)
         addDirectionsToRecipe(recipe, directions)
@@ -189,21 +194,35 @@ class RecipeCO {
         addNutrientsToRecipe(recipe, nutrientQuantities, nutrientIds)
 
         recipe.s()
+        attachImage(recipe, selectRecipeImagePath)
+        recipe.s()
 
         return recipe
     }
 
     public boolean attachImage(Recipe recipe, def imagePath) {
         if (!imagePath) {
-            if (recipe?.image) {
-                recipe.image.delete()
-            }
+            Image image = recipe?.image
             recipe.image = null
+            image?.delete(flush:true)
             return false
+        } else {
+            File sourceImage = new File(imagePath)
+            if (sourceImage) {
+                String recipeImageDirectory = config.imagesRootDir + "/recipes/" + recipe?.id + '/'
+                File file = new File(recipeImageDirectory)
+                file.mkdirs()
+                String targetImagePath = recipeImageDirectory + recipe?.id + '.' + sourceImage.name.tokenize('.').tail().join('.')
+                if(!(imagePath==targetImagePath)){
+                    new File(targetImagePath).withOutputStream {out ->
+                        out.write sourceImage.readBytes()
+                    }
+                    com.mp.domain.Image image = new com.mp.domain.Image(imagePath, recipe?.id?.toString(), "")
+                    recipe.image = image
+                    image.s()
+                }
+            }
         }
-        Image image = new Image(imagePath, "Some alt text")
-        recipe.image = image
-        image.s()
     }
 
     public Quantity makeTimeQuantity(Integer minutes, Long unitId) {

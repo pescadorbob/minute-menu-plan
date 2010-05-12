@@ -10,7 +10,7 @@ def grailsApplication
 
     def image = {
         Image image
-        if(params.id){
+        if(params?.id){
             image = Image.get(params.id)
         }
         byte[] fileContent
@@ -29,4 +29,5 @@ def grailsApplication
         out.flush()
         out.close()
     }
+    
 }

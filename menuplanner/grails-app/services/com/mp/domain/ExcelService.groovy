@@ -120,12 +120,12 @@ class ExcelService {
                 recipeInstance.shareWithCommunity = (recipe[5].getAt(1).toLowerCase() == 'yes')
             }
 
-            attachImageToRecipe(recipeInstance)
             createCategories(categories, recipeInstance)
             createDirections(directions, recipeInstance)
             createIngredients(ingredients, recipeInstance)
 
             recipeInstance.s()
+            attachImageToRecipe(recipeInstance)
             return recipeInstance
         }
         catch (Exception e) {
@@ -136,23 +136,22 @@ class ExcelService {
 
     public boolean attachImageToRecipe(Recipe recipe) {
         try {
-            String tmpDirectory = config.imagesRootDir + "/recipes/"
-            File file = new File(tmpDirectory)
-            file.mkdirs()
-
             String bootStrapDirectory = "/bootstrapData/recipeImages/"
             String fileName = recipe?.name.trim() + '.jpg'
             File sourceImage = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath(bootStrapDirectory + fileName))
 
             if (sourceImage) {
-                String targetImagePath = tmpDirectory + fileName
+                String recipeImageDirectory = config.imagesRootDir + "/recipes/" + recipe?.id + '/'
+                File file = new File(recipeImageDirectory)
+                file.mkdirs()
+                String targetImagePath = recipeImageDirectory + recipe?.id + '.' + sourceImage?.name?.tokenize('.')?.tail()?.join('.')
                 new File(targetImagePath).withOutputStream {out ->
                     out.write sourceImage.readBytes()
                 }
-
-                com.mp.domain.Image image = new com.mp.domain.Image(targetImagePath, "")
+                com.mp.domain.Image image = new com.mp.domain.Image(bootStrapDirectory + fileName, recipe?.id?.toString(), "")
                 recipe.image = image
                 image.s()
+                recipe.s()
                 return true
             }
         } catch (ex) {

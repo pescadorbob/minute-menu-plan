@@ -81,12 +81,7 @@
             </li>
             <li>
                 <div id="myImageDiv" style="text-align:right;">
-                    <g:if test="${recipeCO?.selectRecipeImagePath}">
                         <img id='recipeImage' border='0' width='195' height="171" src="${g.createLink(controller: 'recipe', action: 'showImage', params: [selectRecipeImagePath: recipeCO?.selectRecipeImagePath])}"/>
-                    </g:if>
-                    <g:elseif test="${recipeCO?.id}">
-                        <img id='recipeImage' border='0' width='195' height="171" src="${g.createLink(controller: 'recipe', action: 'showImage', id: recipeCO?.id)}"/>
-                    </g:elseif>
                 </div>
                 <input type="hidden" name="selectRecipeImagePath" id="selectRecipeImagePath" value="${recipeCO?.selectRecipeImagePath}"/>
             </li>
