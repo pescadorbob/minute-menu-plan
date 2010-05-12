@@ -66,6 +66,9 @@ function colorRowAlternate() {
     jQuery('#tableDirections .directionRow:even').css('backgroundColor', '#fff')
 }
 function reflectInPreviewPanel() {
+
+    jQuery('#displayRecipeImage').attr('src',jQuery('#recipeImage').attr('src'))
+
     var myCategory = ''
     var myCategoryList = []
     jQuery.each(jQuery('select[name=categoryIds][value!=""]'), function(indx, elem) {
@@ -76,14 +79,11 @@ function reflectInPreviewPanel() {
             }
         });
     })
-    //    myCategoryList
     myCategory = myCategoryList.join(', ')
     if (myCategory.length > 0) {
         myCategory = 'Categories: ' + myCategory
     }
     jQuery('#displayCategory').html(myCategory)
-
-
     jQuery('#displayName').html(getPlainText('name'))
     var showPrep = ''
     if (getPlainText('preparationTime').length) {
