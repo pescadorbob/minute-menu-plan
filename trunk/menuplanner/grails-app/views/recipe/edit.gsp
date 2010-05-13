@@ -38,7 +38,7 @@
                     </ul>
                 </div>
 
-                <g:form name="formCreateRecipe" controller="recipe" action="update" enctype="multipart/form-data">
+                <g:uploadForm name="formCreateRecipe" controller="recipe" action="update">
                     <g:hiddenField name='id' value='${recipeCO.id}'/>
                     <g:render template="/recipe/generalInfo" model="[recipeCO: recipeCO, timeUnits: timeUnits]"/>
                     <g:render template="/recipe/ingredients" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
@@ -57,7 +57,7 @@
                         </ul>
                     </div>
 
-                </g:form>
+                </g:uploadForm>
 
             </div>
             <g:render template="/recipe/preview"/>
