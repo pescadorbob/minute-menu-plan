@@ -26,6 +26,5 @@ class User {
         password(nullable: true, blank: true)
         joiningDate(nullable: true, blank: true)
         status(nullable: true, blank: true)
-        introduction(max:1000)
     }
 }
