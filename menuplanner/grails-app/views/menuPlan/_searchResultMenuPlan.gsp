@@ -75,7 +75,7 @@
             opacity:0.6,
             tolerance: 'pointer',
             helper: 'clone',
-            cursorAt: 'top',
+            cursorAt: {top: 15,left: 5}, 
             revert: true,
             scrollSensitivity: 40 ,
             connectWith: '.menuContainer',
