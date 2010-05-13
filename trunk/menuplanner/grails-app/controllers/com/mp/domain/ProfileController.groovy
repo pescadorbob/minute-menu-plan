@@ -21,4 +21,8 @@ class ProfileController {
             render(view: 'create', model: [profileCO: profileCO])
         }
     }
+    def show={
+        User user = User.get(params.id)
+        render(view:'show', model:[user:user])
+    }
 }

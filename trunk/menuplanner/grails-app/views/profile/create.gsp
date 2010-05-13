@@ -47,29 +47,29 @@
                         <ul>
                             <li><span><strong>Username :</strong></span>
                                 <label>
-                                    <input name = "userName" type="text" class="inpbox" value="bhaggarty332@somemail.com"/>
+                                    <input name = "userName" type="text" class="inpbox" value="${profileCO?.userName}"/>
                                 </label>
                             </li>
                             <li><span><strong>Name :</strong></span>
                                 <label>
-                                    <input name="name" type="text" class="inpbox" value="Barbara Haggarty"/>
+                                    <input name="name" type="text" class="inpbox" value="${profileCO?.name}"/>
                                     &nbsp; Public name displayed on recipes
                                 </label>
                             </li>
                             <li><span><strong>City :</strong></span>
                                 <label>
-                                    <input name="city" type="text" class="inpbox" value="Nova Scotia, Ca"/>
+                                    <input name="city" type="text" class="inpbox" value="${profileCO?.city}"/>
                                     &nbsp; City displayed on recipes</label>
                             </li>
                             <li><span><strong>Mouths to Feed :</strong></span>
 
                                 <label>
-                                    <input name="mouthsToFeed" type="text" class="inpbox" value="6"/>
+                                    <input name="mouthsToFeed" type="text" class="inpbox" value="${profileCO?.mouthsToFeed}"/>
                                 </label>
                             </li>
                             <li><span><strong>Something about yourself :</strong></span>
                                 <label>
-                                    <textarea name="introduction" cols="20" rows="4" class="txtarea">Some text A second line of text</textarea>
+                                    <g:textArea name="introduction" value="" class="txtarea" rows="4" cols="20"/>
                                     &nbsp; Public</label>
                             </li>
                             %{--<li><span>&nbsp;</span>--}%
