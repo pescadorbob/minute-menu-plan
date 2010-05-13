@@ -79,8 +79,8 @@ class BootStrap {
                 recipeLog = excelService.createLineItems(inputStream)
             }
             println "Populated Recipes"
-//            bootstrapService.populateMenuPlans(4)
-//            println "Populated Menu Plans"
+            bootstrapService.populateMenuPlans(4)
+            println "Populated Menu Plans"
         }
 
         Thread.start {

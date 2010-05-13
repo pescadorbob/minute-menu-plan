@@ -3,9 +3,9 @@ package com.mp.domain
 class User {
 
     String name
-    String username
+    String userName
     Image image
-    Integer mouthsToFeded
+    Integer mouthsToFeed
     String introduction
     String city
     Date joiningDate
@@ -21,6 +21,11 @@ class User {
     static hasMany = [favourites: Recipe, contributions: Recipe]
 
     static constraints = {
-        username(email: true, unique: true)
+        userName(email: true, unique: true)
+        image(nullable: true, blank: true)
+        password(nullable: true, blank: true)
+        joiningDate(nullable: true, blank: true)
+        status(nullable: true, blank: true)
+        introduction(max:1000)
     }
 }
