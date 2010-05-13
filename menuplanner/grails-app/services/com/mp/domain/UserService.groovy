@@ -46,15 +46,6 @@ class UserCO {
         user.city = city
         user.type = UserType.User
         user.s()
-        VerificationToken verificationToken = new VerificationToken()
-        verificationToken.user = user
-        verificationToken.s()
-
-        asynchronousMailService.sendAsynchronousMail {
-            to user?.userName
-            subject 'Created Your Profile on Menuplanner.'
-            html '<body>' + 'To verify click on this link : ' + verificationToken?.token + '</body>'
-        }
         return user
     }
 }
