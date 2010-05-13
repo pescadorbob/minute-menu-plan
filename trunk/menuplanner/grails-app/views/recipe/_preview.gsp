@@ -17,36 +17,27 @@
     </div>
 
     <div class="leftbox clearfix">
-        <img id="displayRecipeImage" src="" width="80" height="80" align="right" style="float:right">
+        %{--<img id="displayRecipeImage" src="" width="80" height="80" align="right" style="float:right">--}%
         <div id="rightElement">
-
+            <p>
+            <div style="float:right; width:150px;">
+                <img id="displayRecipeImage" src="" width="150" height="150"/>
+            </div>
+            <p>
+                <span id="displayDifficulty"></span>
+            </p>
+            <p>
+                <span id="displayMakeServing"></span>
+            </p>
+            <p>&nbsp;</p>
+            <p><strong><span id="displayIngredients"></span></strong></p>
             <ul>
-                <li id="displayDifficulty">
-                   
-
-                </li>
-                <li>
-                    <span id="displayMakeServing"></span>
-                </li>
-                <li>
-                    <span id="displayIngredients" style="font-weight:bold;"></span>
-                </li>
-                <li>
-                    <span id="displayDirections"></span>
-                </li>
-                <li>
-                    <span id="displayCategory"></span>
-                </li>
-                <li>
-                    <span id="displayServeWith"></span>
-                </li>
-                <li>
-                    <span id="showNutrients"></span>
-                </li>
-                <li>
-                    <strong> <a href="#"></a></strong>
-                </li>
+                <li><span id="displayDirections"></span></li>
             </ul>
+            <p><span id="displayCategory"></span></p>
+            <p><span id="displayServeWith"></span></p>
+            <p><span id="showNutrients"></span></p>
+            <p><strong><a href="#"></a></strong> </p>
         </div>
     </div>
     <div class="bottom-shadow">
