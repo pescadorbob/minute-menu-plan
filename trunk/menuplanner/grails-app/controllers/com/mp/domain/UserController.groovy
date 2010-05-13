@@ -3,6 +3,7 @@ package com.mp.domain
 class UserController {
 
     def userService
+    def asynchronousMailService
 
     def index = {
         render(view: 'create')
@@ -13,6 +14,16 @@ class UserController {
     def save = {UserCO userCO->
         if (userCO.validate()) {
             User user = userCO.convertToUser()
+            VerificationToken verificationToken = new VerificationToken()
+            verificationToken.user = user
+            verificationToken.s()
+
+            asynchronousMailService.sendAsynchronousMail {
+                to user?.userName
+                subject "Email verification for Minute Menu Plan"
+                html g.render(template: '/user/accountVerification', model: [user: user, token: verificationToken.token])
+            }
+
             redirect(action: 'show', id: user?.id)
         } else {
             println userCO.errors.allErrors.each {
