@@ -17,11 +17,13 @@
     </div>
 
     <div class="leftbox clearfix">
+        <img id="displayRecipeImage" src="" width="80" height="80" align="right" style="float:right">
         <div id="rightElement">
+
             <ul>
-                <li>
-                    <span id="displayDifficulty"></span>
-                    <img id="displayRecipeImage" src="" width="80" height="80">
+                <li id="displayDifficulty">
+                   
+
                 </li>
                 <li>
                     <span id="displayMakeServing"></span>

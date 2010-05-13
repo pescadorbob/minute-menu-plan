@@ -36,7 +36,7 @@ class Image {
         return image
     }
 
-    public readFile() {
+    public byte[] readFile() {
         String filePath = path
         File file = new File(filePath)
         File actualFile = new File(file, storedName)

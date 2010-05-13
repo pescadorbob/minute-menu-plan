@@ -8,7 +8,7 @@
                         <h3 class="recipeName"><g:link action="show" controller="recipe" id="${recipe?.id}">${recipe.name}</g:link></h3></li>
                     <li>
                         <ul>
-                            <li><img class="imgbor" src="${createLink(controller: 'recipe', action: 'showImage', id: recipe?.id)}"/></li>
+                            <li><img class="imgbor" src="${createLink(controller: 'image', action: 'image', id: recipe?.image?.id)}"/></li>
                             <li>
                                 <ul>
                                     <li><g:render template="/rating/rating"/></li>

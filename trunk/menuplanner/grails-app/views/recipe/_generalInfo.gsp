@@ -81,7 +81,7 @@
             </li>
             <li>
                 <div id="myImageDiv" style="text-align:right;">
-                        <img id='recipeImage' border='0' width='195' height="171" src="${g.createLink(controller: 'recipe', action: 'showImage', params: [selectRecipeImagePath: recipeCO?.selectRecipeImagePath])}"/>
+                        <img id='recipeImage' border='0' width='200' height="200" src="${g.createLink(controller: 'image', action: 'imageByPath', params: [imagePath: recipeCO?.selectRecipeImagePath])}"/>
                 </div>
                 <input type="hidden" name="selectRecipeImagePath" id="selectRecipeImagePath" value="${recipeCO?.selectRecipeImagePath}"/>
             </li>
