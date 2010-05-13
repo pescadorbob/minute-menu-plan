@@ -19,7 +19,7 @@ class UtilController {
     def excelService
     def userService
     def asynchronousMailService
-    
+
     static config = ConfigurationHolder.config
 
     def deleteAllRecipes = {
@@ -31,7 +31,7 @@ class UtilController {
     def index = {
 
         asynchronousMailService.sendAsynchronousMail {
-            to 'niraj@intelligrape.com'
+            to 'aman@intelligrape.com'
             subject 'created your profile! grails.'
             html '<body><u>XYZ</u></body>'
         }

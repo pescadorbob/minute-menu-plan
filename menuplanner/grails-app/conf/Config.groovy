@@ -44,33 +44,46 @@ grails.logging.jul.usebridge = true
 grails.spring.bean.packages = []
 imagesRootDir = System.getProperty("java.io.tmpdir") + "/mpImages"
 // set per-environment serverURL stem for creating absolute links
-environments {
-    production {
-        mail {
-            host = "www.menuplanner.com"
-            port = 25
-        }
-        grails.mail.default.from = '"MinuteMenu" <minutemenu@menuplanner.com>'
-        grails.serverURL = "http://www.changeme.com"
+grails{
+    mail {
+        host = "smtp.gmail.com"
+        port = 465
+        username = "qa.menuplanner@gmail.com"
+        password = "minutemenu"
+        props = ["mail.smtp.auth": "true",
+                "mail.smtp.socketFactory.port": "465",
+                "mail.smtp.socketFactory.class": "javax.net.ssl.SSLSocketFactory",
+                "mail.smtp.socketFactory.fallback": "false"]
     }
-    development {
-        mail {
-            host = "qa.menuplanner.intelligrape.net"
-            port = 25
-        }
-        grails.mail.default.from = '"MinuteMenu" <qa@qa.menuplanner.intelligrape.net>'
-        grails.serverURL = "http://localhost:8080/${appName}"
-    }
-    test {
-        mail {
-            host = "dev.menuplanner.intelligrape.net"
-            port = 25
-        }
-        grails.mail.default.from = '"MinuteMenu" <qa@dev.menuplanner.intelligrape.net>'
-        grails.serverURL = "http://localhost:8080/${appName}"
-    }
-
 }
+
+//environments {
+//    production {
+//        mail {
+//            host = "www.menuplanner.com"
+//            port = 25
+//        }
+//        grails.mail.default.from = '"MinuteMenu" <minutemenu@menuplanner.com>'
+//        grails.serverURL = "http://www.changeme.com"
+//    }
+//    development {
+//        mail {
+//            host = "dev.menuplanner.intelligrape.net"
+//            port = 25
+//        }
+//        grails.mail.default.from = '"MinuteMenu" <dev@dev.menuplanner.intelligrape.net>'
+//        grails.serverURL = "http://localhost:8080/${appName}"
+//    }
+//    test {
+//        mail {
+//            host = "qa.menuplanner.intelligrape.net"
+//            port = 25
+//        }
+//        grails.mail.default.from = '"MinuteMenu" <qa@qa.menuplanner.intelligrape.net>'
+//        grails.serverURL = "http://localhost:8080/${appName}"
+//    }
+//
+//}
 
 // log4j configuration
 log4j = {

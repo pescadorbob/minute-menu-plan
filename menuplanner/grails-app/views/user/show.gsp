@@ -45,31 +45,19 @@
 
                     <ul>
                         <li><span><strong>Username :</strong></span>
-                            <label>
-                                ${user?.userName}
-                            </label>
+                            <label>${user?.userName}</label>
                         </li>
                         <li><span><strong>Name :</strong></span>
-                            <label>
-                                ${user?.name}
-                                &nbsp; Public name displayed on recipes
-                            </label>
+                            <label>${user?.name}</label>
                         </li>
                         <li><span><strong>City :</strong></span>
-                            <label>
-                                ${user?.city}
-                                &nbsp; City displayed on recipes</label>
+                            <label>${user?.city}</label>
                         </li>
                         <li><span><strong>Mouths to Feed :</strong></span>
-
-                            <label>
-                                ${user?.mouthsToFeed}
-                            </label>
+                            <label>${user?.mouthsToFeed}</label>
                         </li>
                         <li><span><strong>Something about yourself :</strong></span>
-                            <label>
-                                ${user?.introduction}
-                            </label>
+                            <label>${user?.introduction}</label>
                         </li>
                         %{--<li><span>&nbsp;</span>--}%
                         %{--<label>--}%
