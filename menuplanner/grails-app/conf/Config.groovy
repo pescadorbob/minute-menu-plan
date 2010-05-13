@@ -57,33 +57,33 @@ grails{
     }
 }
 
-//environments {
-//    production {
+environments {
+    production {
 //        mail {
 //            host = "www.menuplanner.com"
 //            port = 25
 //        }
 //        grails.mail.default.from = '"MinuteMenu" <minutemenu@menuplanner.com>'
-//        grails.serverURL = "http://www.changeme.com"
-//    }
-//    development {
+        grails.serverURL = "http://www.changeme.com"
+    }
+    development {
 //        mail {
 //            host = "dev.menuplanner.intelligrape.net"
 //            port = 25
 //        }
 //        grails.mail.default.from = '"MinuteMenu" <dev@dev.menuplanner.intelligrape.net>'
-//        grails.serverURL = "http://localhost:8080/${appName}"
-//    }
-//    test {
+        grails.serverURL = "http://localhost:8080/${appName}"
+    }
+    test {
 //        mail {
 //            host = "qa.menuplanner.intelligrape.net"
 //            port = 25
 //        }
 //        grails.mail.default.from = '"MinuteMenu" <qa@qa.menuplanner.intelligrape.net>'
-//        grails.serverURL = "http://localhost:8080/${appName}"
-//    }
-//
-//}
+        grails.serverURL = "http://qa.menuplanner.intelligrape.net"
+    }
+
+}
 
 // log4j configuration
 log4j = {
