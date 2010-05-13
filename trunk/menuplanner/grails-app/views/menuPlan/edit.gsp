@@ -55,7 +55,7 @@
         jQuery(".menuContainer").sortable({
             update: function(event, ui) {
                 if (jQuery("h3", jQuery(ui.item)).hasClass("recipeName")) {
-                    var htmlString = "<div style='clear:both'><input type='hidden' value='"+ jQuery("input[name='menuItemId']",jQuery(ui.item)).val()+"' name='mealItems."+jQuery(this).attr("rel") +"'><span style='float:left'>" + jQuery("h3", jQuery(ui.item)).text() + "</span><img src='${resource(dir:'images',file:'delete.jpg')}' alt='' style='display:none;padding-left:2px;' class='deleteImage'></div>"
+                    var htmlString = "<div style='clear:both'><input type='hidden' value='"+ jQuery("input[name='menuItemId']",jQuery(ui.item)).val()+"' name='mealItems."+jQuery(this).attr("rel") +"'> <img src='${resource(dir:'images',file:'delete.jpg')}' alt='' style='display:none;' align='left' class='deleteImage'><span>" + jQuery("h3", jQuery(ui.item)).text() + "</span></div>"
                     jQuery(ui.item).remove();
                     jQuery(this).append(htmlString);
                     bindHoverAndClick();
@@ -85,7 +85,7 @@
             opacity:0.6,
             tolerance: 'pointer',
             helper:'clone',
-            cursorAt: 'top',
+            cursorAt: {top: 15,left: 5}, 
             revert: true,
             scrollSensitivity: 40,
             connectWith: '.menuContainer',
