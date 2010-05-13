@@ -155,22 +155,4 @@ class RecipeController {
         }
         render actualFile.absolutePath as String
     }
-
-    def showImage = {
-        File img
-        if (params.selectRecipeImagePath) {
-            img = new File(params.selectRecipeImagePath)
-        }
-        if (!img) {
-            img = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/images/no-img.gif"))
-        }
-        byte[] fileContent = img.readBytes()
-        response.setContentLength(fileContent.size())
-        response.setContentType("image/${img.name.tokenize('.').tail().join('.')}")
-        OutputStream out = response.getOutputStream()
-        out.write(fileContent)
-        out.flush()
-        out.close()
-
-    }
 }

@@ -11,10 +11,6 @@ public enum MetricType {
         this.name = name
     }
 
-    public static List<MetricType> list(){
-        return [UNIT,TIME,METRIC]
-    }
-
     String toString(){
         return name
     }

@@ -29,5 +29,20 @@ def grailsApplication
         out.flush()
         out.close()
     }
-    
+    def imageByPath = {
+        File imageFile
+        if (params.imagePath) {
+            imageFile = new File(params.imagePath)
+        }
+        if (!imageFile) {
+            imageFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/images/no-img.gif"))
+        }
+        byte[] fileContent = imageFile.readBytes()
+        response.setContentLength(fileContent.size())
+        response.setContentType("image/${imageFile.name.tokenize('.').tail().join('.')}")
+        OutputStream out = response.getOutputStream()
+        out.write(fileContent)
+        out.flush()
+        out.close()
+    }
 }

@@ -71,7 +71,7 @@ class RecipeCO {
         categoryIds = recipe?.categories*.id as Set
         directions = recipe?.directions
 
-        hiddenIngredientProductNames = recipe.ingredients*.ingredient?.name
+        hiddenIngredientProductNames = recipe?.ingredients*.ingredient?.name
         ingredientProductIds = recipe?.ingredients*.ingredient?.id
 
         recipe?.ingredients*.quantity?.unit?.eachWithIndex {Unit unit, Integer index ->
@@ -89,8 +89,8 @@ class RecipeCO {
         Nutrient.count().times {
             nutrientQuantities[it] = ""
         }
-        recipe.nutrients.each {RecipeNutrient recipeNutrient ->
-            nutrientQuantities[recipeNutrient?.nutrient?.id?.toInteger() - 1] = StandardConversion.getUsaQuantityString(recipeNutrient?.quantity).toInteger()
+        recipe?.nutrients.each {RecipeNutrient recipeNutrient ->
+            nutrientQuantities[recipeNutrient?.nutrient?.id?.toInteger() - 1] = StandardConversion.getUsaQuantityString(recipeNutrient?.quantity)?.toInteger()
         }
     }
 
@@ -214,6 +214,11 @@ class RecipeCO {
                 file.mkdirs()
                 String targetImagePath = recipeImageDirectory + recipe?.id + '.' + sourceImage.name.tokenize('.').tail().join('.')
                 if(!(imagePath==targetImagePath)){
+
+                    Image tempImage = recipe?.image
+                    recipe.image = null
+                    tempImage?.delete(flush:true)
+                    
                     new File(targetImagePath).withOutputStream {out ->
                         out.write sourceImage.readBytes()
                     }
