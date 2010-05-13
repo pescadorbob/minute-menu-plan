@@ -128,7 +128,7 @@ function reflectInPreviewPanel() {
     }
     jQuery('#displayDirections').html('')
     for (i = 1; i < jQuery('input[name="directions"]').size(); i++) {
-        jQuery('#displayDirections').append(jQuery('input[name="directions"]:eq(' + i + ')').attr('value') + '<br>')
+        jQuery('#displayDirections').append(jQuery('input[name="directions"]:eq(' + i + ')').attr('value') + ' ')
     }
     jQuery('#showPreviewRecipeImage').attr('src', jQuery('#recipeImage').attr('src'))
 

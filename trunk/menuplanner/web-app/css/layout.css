@@ -79,7 +79,7 @@
 .top-shadow label{background:url(../images/top-right.png) no-repeat bottom right;height:9px;display:block;}
 .bottom-shadow{background:url(../images/round-left.png) no-repeat bottom left;padding-left:20px;clear:both;display:block;height:32px;}
 .bottom-shadow label{background:url(../images/round-right.png) no-repeat bottom right;height:32px;display:block;}
-#button{clear:both;height:40px;padding:10px;}
+#button{clear:both;height:40px;padding:20px 10px;}
 #button ul li{float:left;padding-right:10px;}
 .button{border:1px solid #ffa500;text-decoration: none;font-size:14px;color:#fff;line-height:35px;width:120px;height:35px;background:#ffa500;padding:2px 10px 3px 10px;}
 .inpbox{border:1px solid #e2e2e2;font-size:12px;color:#323232;padding:2px 3px 3px 10px;}
@@ -147,7 +147,7 @@ div.errors{border:red 1px solid;font-size:smaller;color:red;padding:10px;}
 #rightpanel{float:right;width:77%;margin-top:10px;color:#616A72;font-size:12px;}
 #rightpanel ul li{clear:both;padding:10px;}
 #rightpanel ul li span{float:left;width:160px;text-align:right;padding-right:15px;}
-#rightpanel ul li label{float:left;width:350px;}
+#rightpanel ul li label{float:left;width:450px;}
 #right-link{clear:both;color:#292e2e;margin-top:30px;padding-left:175px;}
 #right-link h3{line-height:18px;font-size:15px;color:#e67432;font-weight:bold;padding-top:9px;}
 #right-link ul li{clear:both;margin-top:0px;padding:5px 0px 5px 0px;}
