@@ -94,9 +94,9 @@
                     %{--</ul>--}%
                     %{--</div>--}%
 
-                    <div id="button">
-                        <g:submitButton name="btnEdit" class="button" value="Edit Profile" style="cursor:pointer;"/>
-                    </div>
+                </div>
+                <div id="button">
+                    <g:submitButton name="btnEdit" class="button" value="Edit Profile" style="cursor:pointer;"/>
                 </div>
             </div>
             <div class="bottom-shadow">
