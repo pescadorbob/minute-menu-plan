@@ -220,3 +220,22 @@ div.errors {
 .paginateButtons span {
     padding: 2px 3px;
 }
+/* start admin profile page start leftpanel  */
+#leftpanel{float:left;width:22%;color:#292e2e;font-size:12px;margin-top:10px;line-height:16px;}
+#leftpanel h3{line-height:18px;font-size:15px;color:#e67432;font-weight:bold;padding-top:9px;}
+#leftpanel ul li{clear:both;margin-top:0px;padding:5px 0px 5px 0px;}
+#leftpanel ul li a{display:block;text-decoration:underline;color:#007ad8;display:inline;clear:both;padding-right:5px;}
+#leftpanel ul li a:hover{text-decoration:none;}
+#photo{border:2px solid #d6d4d5;width:190px;}
+/* end leftpanel start rightpanel  */
+#rightpanel{float:right;width:77%;margin-top:10px;color:#616A72;font-size:12px;}
+#rightpanel ul li{clear:both;padding:10px;}
+#rightpanel ul li span{float:left;width:160px;text-align:right;padding-right:15px;}
+#rightpanel ul li label{float:left;width:350px;}
+#right-link{clear:both;color:#292e2e;margin-top:30px;padding-left:175px;}
+#right-link h3{line-height:18px;font-size:15px;color:#e67432;font-weight:bold;padding-top:9px;}
+#right-link ul li{clear:both;margin-top:0px;padding:5px 0px 5px 0px;}
+#right-link ul li a{display:block;text-decoration:underline;color:#007ad8;display:inline;clear:both;padding-right:5px;}
+#right-link ul li a:hover{text-decoration:none;}
+.txtarea{border:1px solid #e2e2e2;font-size:12px;color:#323232;font-family:Arial, Helvetica, sans-serif;padding:2px 3px 3px 10px;}
+/* end rightpanel end admin profile page */
