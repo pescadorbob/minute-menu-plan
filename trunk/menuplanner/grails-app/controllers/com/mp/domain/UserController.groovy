@@ -19,7 +19,7 @@ class UserController {
             verificationToken.s()
 
             asynchronousMailService.sendAsynchronousMail {
-                to user?.userName
+                to user?.email
                 subject "Email verification for Minute Menu Plan"
                 html g.render(template: '/user/accountVerification', model: [user: user, token: verificationToken.token])
             }
@@ -39,9 +39,9 @@ class UserController {
             token.user.status = AccountStatus.ACTIVE
             token.user.s()
             token.delete(flush: true)
-            render "Activated"
+            render "Thanks for confirming your email address. Your account is now active"
         } else {
-            render "Invalid link/already active"
+            render "You have either opened an invalid link or your account has already been actived"
         }
     }
     def show={

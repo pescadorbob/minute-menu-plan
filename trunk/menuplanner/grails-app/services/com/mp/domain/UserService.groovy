@@ -1,7 +1,5 @@
 package com.mp.domain
 
-import ru.perm.kefir.asynchronousmail.AsynchronousMailService
-
 class UserService {
 
     boolean transactional = true
@@ -14,7 +12,7 @@ class UserCO {
 
     String id
     String name
-    String userName
+    String email
     Integer mouthsToFeed
     String introduction
     String city
@@ -22,7 +20,7 @@ class UserCO {
     UserCO(User user) {
         id = user?.id?.toString()
         name = user?.name
-        userName = user?.userName
+        email = user?.email
         mouthsToFeed = user?.mouthsToFeed
         introduction = user?.introduction
         city = user?.city
@@ -31,7 +29,7 @@ class UserCO {
     static constraints = {
         id(nullable: true)
         name(blank: false, matches: /[a-zA-Z0-9\s\&]*/)
-        userName(blank: false, nullable: false, email: true)
+        email(blank: false, nullable: false, email: true)
         mouthsToFeed(nullable: true, blank: true)
         introduction(nullable: true, blank: true)
         city(nullable: true, blank: true)
@@ -40,7 +38,7 @@ class UserCO {
     public User convertToUser() {
         User user = new User()
         user.name = name
-        user.userName = userName
+        user.email = email
         user.mouthsToFeed = mouthsToFeed
         user.introduction = introduction
         user.city = city
