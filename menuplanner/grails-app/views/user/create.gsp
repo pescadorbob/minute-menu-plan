@@ -45,9 +45,9 @@
                     <div id="rightpanel">
 
                         <ul>
-                            <li><span><strong>Username :</strong></span>
+                            <li><span><strong>Email :</strong></span>
                                 <label>
-                                    <input name="userName" type="text" class="inpbox" value="${userCO?.userName}"/>
+                                    <input name="email" type="text" class="inpbox" value="${userCO?.email}"/>
                                 </label>
                             </li>
                             <li><span><strong>Name :</strong></span>

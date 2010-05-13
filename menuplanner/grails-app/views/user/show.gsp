@@ -44,8 +44,8 @@
                 <div id="rightpanel">
 
                     <ul>
-                        <li><span><strong>Username :</strong></span>
-                            <label>${user?.userName}</label>
+                        <li><span><strong>Email :</strong></span>
+                            <label>${user?.email}</label>
                         </li>
                         <li><span><strong>Name :</strong></span>
                             <label>${user?.name}</label>
