@@ -76,10 +76,10 @@ class BootStrap {
 //            bootstrapService.populateRecipes((GrailsUtil.isDevelopmentEnv()) ? 20 : 150)
             List<String> recipeLog
             recipeExcelFile.withInputStream {inputStream->
-                recipeLog = excelService.createLineItems(inputStream)
+//                recipeLog = excelService.createLineItems(inputStream)
             }
             println "Populated Recipes"
-            bootstrapService.populateMenuPlans(4)
+//            bootstrapService.populateMenuPlans(4)
             println "Populated Menu Plans"
         }
 

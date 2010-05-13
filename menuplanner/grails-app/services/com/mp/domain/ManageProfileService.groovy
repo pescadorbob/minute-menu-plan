@@ -40,7 +40,9 @@ class ProfileCO{
        user.city=city
        user.type=UserType.User
        user.s()
+       VerificationToken verificationToken = new VerificationToken()
+       verificationToken.user=user
+       verificationToken.s()
        return user
    }
-
 }
