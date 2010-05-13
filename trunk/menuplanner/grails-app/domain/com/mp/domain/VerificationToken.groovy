@@ -2,7 +2,7 @@ package com.mp.domain
 
 class VerificationToken {
 
-    String token
+    String token = UUID.randomUUID().toString()
     User user
 
 }
