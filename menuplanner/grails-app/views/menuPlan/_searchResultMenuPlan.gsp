@@ -1,7 +1,7 @@
 <div class="ratingbox">
     <ul class="resultContainer">
         <g:each in="${recipeList}" var="recipe" status="index">
-            <li class="clearfix" id="draggableSearchItem_${index + 1}">
+            <li class="clearfix draggableItem" id="draggableSearchItem_${index + 1}">
                 <ul>
                     <li>
                         <input type="hidden" name="menuItemId" value="${recipe.id}"/>
@@ -57,20 +57,38 @@
 
         jQuery(".resultContainer").sortable({
             remove:function(event, ui) {
-                var elemId = jQuery(ui.item).attr("id")
-                var elemNo = elemId.split("_")[1]
-                if (parseInt(elemNo) == 1) {
-                    jQuery(this).prepend("<li class='clearfix' id='" + elemId + "'>" + jQuery(ui.item).clone().html() + "</li>")
-                } else {
-                    var prevElemNo = parseInt(elemNo) - 1
-                    jQuery("#draggableSearchItem_" + prevElemNo).after("<li class='clearfix' id='" + elemId + "'>" + jQuery(ui.item).clone().html() + "</li>")
-                }
+//                var elemId = jQuery(ui.item).attr("id")
+//                var elemNo = elemId.split("_")[1]
+//                if (parseInt(elemNo) == 1) {
+//                    jQuery(this).prepend("<li class='clearfix' id='" + elemId + "'>" + jQuery(ui.item).clone().html() + "</li>")
+//                } else {
+//                    var prevElemNo = parseInt(elemNo) - 1
+//                    jQuery("#draggableSearchItem_" + prevElemNo).after("<li class='clearfix' id='" + elemId + "'>" + jQuery(ui.item).clone().html() + "</li>")
+//                }
             },
             over:function(event, ui) {
+              if(jQuery(ui.helper).hasClass('draggableItem')){
                 ui.helper = jQuery(ui.helper)
                         .css("width", "auto")
                         .css("height", "auto")
+                        .removeClass('draggableItem')
                         .html(jQuery("h3", jQuery(ui.helper)).text())
+              }
+            },
+            start:function(event,ui){
+                var elemId = jQuery(ui.item).attr("id")
+                var elemNo = elemId.split("_")[1]
+                if (parseInt(elemNo) == 1) {
+                    jQuery(this).prepend(jQuery(ui.item).clone().css("opacity",1).show())
+                } else {
+                    var prevElemNo = parseInt(elemNo) - 1
+                    jQuery("#draggableSearchItem_" + prevElemNo).after(jQuery(ui.item).clone().css("opacity",1).show())
+                }
+//               jQuery(this).append(jQuery(ui.helper).clone())
+            },
+            update:function(event,ui){
+//              jQuery(ui.sender).sortable('cancel')
+              jQuery(ui.item).remove()
             },
             opacity:0.6,
             tolerance: 'pointer',
