@@ -96,7 +96,9 @@
 
                 </div>
                 <div id="button">
-                    <g:submitButton name="btnEdit" class="button" action="edit" value="Edit Profile" style="cursor:pointer;"/>
+                    <a href="${createLink(controller:'user', action:'edit', id:user?.id)}">
+                        <input type="button" name="btnEdit" class="button" value="Edit Profile"/>
+                    </a>
                 </div>
             </div>
             <div class="bottom-shadow">
