@@ -25,8 +25,9 @@ class User {
         email(email: true, unique: true)
         image(nullable: true, blank: true)
         password(nullable: true, blank: true)
+        mouthsToFeed(nullable:true, blank:true)
         joiningDate(nullable: true, blank: true)
         status(nullable: true, blank: true)
-        introduction(nullable: true)
+        introduction(nullable: true, maxSize:1000)
     }
 }

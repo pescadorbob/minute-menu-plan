@@ -92,7 +92,7 @@
             'width': 130,
             onComplete: function(event, queId, fileObj, response, data) {
                 jQuery('#selectRecipeImagePath').val(response);
-                jQuery('#myImageDiv').html('<img id="recipeImage" border="0" width="195" src="${createLink(action:'imageByPath', controller:'image')}?imagePath=' + response + '"/>')
+                jQuery('#myImageDiv').html('<img id="recipeImage" border="0" height="200" width="200" src="${createLink(action:'imageByPath', controller:'image')}?imagePath=' + response + '"/>')
             }
         });
         jQuery('#preview').click()
