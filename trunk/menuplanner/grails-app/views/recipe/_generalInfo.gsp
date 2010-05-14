@@ -61,27 +61,11 @@
                 </ul>
             </li>
             <li class="browsebox">
-                <table width="85%" align="right">
-                    <tr>
-                        <td>Image</td>
-                        <td>
-                            <input id="selectRecipeImage" name="selectRecipeImage" class="input3" type="file"/>
-                        </td>
-                        <td>
-                            %{--<img src="${resource(dir: 'images', file: 'browse-img.gif')}" align="absmiddle"/>--}%
-                            <img id="removeRecipeImage" src="${resource(dir: 'images', file: '].gif')}" align="absmiddle" alt="Remove" style="cursor:pointer"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
+                <g:render template="/recipe/imageUpload" model="[selectorName:'selectRecipeImage']"/>
             </li>
             <li>
                 <div id="myImageDiv" style="text-align:right;">
-                        <img id='recipeImage' border='0' width='200' height="200" src="${g.createLink(controller: 'image', action: 'imageByPath', params: [imagePath: recipeCO?.selectRecipeImagePath])}"/>
+                    <img id='recipeImage' border='0' width='200' height="200" src="${g.createLink(controller: 'image', action: 'imageByPath', params: [imagePath: recipeCO?.selectRecipeImagePath, noImage:'no-img.gif'])}"/>
                 </div>
                 <input type="hidden" name="selectRecipeImagePath" id="selectRecipeImagePath" value="${recipeCO?.selectRecipeImagePath}"/>
             </li>

@@ -11,7 +11,7 @@ After activation you may login to <g:link action="list" controller="recipe" abso
 using the following username and password:<br/><br/>
 
 Username: ${user.email}<br/>
-Password: ${user.password}<br/><br/>
+Password: ${password}<br/><br/>
 
 -- Admin
 

@@ -13,7 +13,6 @@
     <g:setProvider library="jquery" />
     <script type="text/javascript" src="${resource(dir: 'jquery.uploadify-v2.1.0', file: 'swfobject.js')}"></script>
     <script type="text/javascript" src="${resource(dir: 'jquery.uploadify-v2.1.0', file: 'jquery.uploadify.v2.1.0.min.js')}"></script>
-    <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.taginput.js')}"></script>
     <script type="text/javascript" src="${resource(dir: 'js', file: 'createRecipe.js')}"></script>
     <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.autocomplete.min.js')}"></script>
     <g:layoutHead/>
