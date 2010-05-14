@@ -25,8 +25,8 @@
 }
 
 .resultContainer .ui-state-highlight{
-  border: 1px dotted black !important;
-  visibility: visible !important;
+  /*border: 1px dotted black !important;*/
+  display:none;
 }
 
 .downArrow{
