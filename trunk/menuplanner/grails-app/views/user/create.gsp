@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="menu"/>
-    <title>Add Recipe</title>
+    <title>Add User</title>
 </head>
 <body>
 
@@ -12,7 +12,12 @@
             <div class="headbox">
                 <h3>Admin Profile  Edit / Add</h3>
             </div>
-
+            <g:hasErrors bean="${userCO}">
+                <div class="errors" style="">
+                    <g:renderErrors bean="${userCO}"/>
+                </div>
+            </g:hasErrors>
+          
             <div class="top-shadow">
                 <label>&nbsp;</label>
             </div>
@@ -22,54 +27,63 @@
                         <div id="photo">
                             <img src="${resource(dir: 'images', file: 'photo-pic.png')}" alt="Photo"/>
                         </div>
-                        %{--<ul>--}%
-                        %{--<li><a href="#">Upload New Photo</a> <a href="#">Remove Photo</a></li>--}%
-
+                        <ul>
+                        <li><a href="#">Upload New Photo</a> <a href="#">Remove Photo</a></li>
                         %{--<li>Member since March 2010</li>--}%
                         %{--<li>--}%
                         %{--<h3>Contributed Recipes</h3>--}%
                         %{--</li>--}%
                         %{--<li><a href="#">Beef & broccoll</a></li>--}%
                         %{--<li><a href="#">Lamb Curry</a></li>--}%
-
                         %{--<li><a href="#">Turkey Pie</a></li>--}%
                         %{--<li>--}%
                         %{--<h3>Favorites</h3>--}%
                         %{--</li>--}%
                         %{--<li><a href="#">Beef & broccoll</a> <a href="#">remove</a></li>--}%
                         %{--<li><a href="#">Lamb Curry</a> <a href="#">remove</a></li>--}%
-
                         %{--<li><a href="#">Turkey Pie</a> <a href="#">remove</a></li>--}%
-                        %{--</ul>--}%
+                        </ul>
                     </div>
                     <div id="rightpanel">
 
                         <ul>
                             <li><span><strong>Email :</strong></span>
                                 <label>
-                                    <input name="email" type="text" class="inpbox" value="${userCO?.email}"/>
+                                    <input name="email" type="text" class="inpbox ${hasErrors(bean:userCO,field:'email', 'errors')}" value="${userCO?.email}"/>
+                                </label>
+                            </li>
+                            <li><span><strong>Password :</strong></span>
+                                <label>
+                                    <input name="password" type="password" class="inpbox  ${hasErrors(bean:userCO,field:'password', 'errors')}" value="${userCO?.password}"/>
+                                    &nbsp; Minimum 4 characters
+                                </label>
+                            </li>
+                            <li><span><strong>Confirm Password :</strong></span>
+                                <label>
+                                    <input name="confirmPassword" type="password" class="inpbox  ${hasErrors(bean:userCO,field:'confirmPassword', 'errors')}" value="${userCO?.confirmPassword}"/>
+                                    &nbsp; Same as password
                                 </label>
                             </li>
                             <li><span><strong>Name :</strong></span>
                                 <label>
-                                    <input name="name" type="text" class="inpbox" value="${userCO?.name}"/>
+                                    <input name="name" type="text" class="inpbox  ${hasErrors(bean:userCO,field:'name', 'errors')}" value="${userCO?.name}"/>
                                     &nbsp; Public name displayed on recipes
                                 </label>
                             </li>
                             <li><span><strong>City :</strong></span>
                                 <label>
-                                    <input name="city" type="text" class="inpbox" value="${userCO?.city}"/>
+                                    <input name="city" type="text" class="inpbox  ${hasErrors(bean:userCO,field:'city', 'errors')}" value="${userCO?.city}"/>
                                     &nbsp; City displayed on recipes</label>
                             </li>
                             <li><span><strong>Mouths to Feed :</strong></span>
 
                                 <label>
-                                    <input name="mouthsToFeed" type="text" class="inpbox" value="${userCO?.mouthsToFeed}"/>
+                                    <input name="mouthsToFeed" type="text" class="inpbox  ${hasErrors(bean:userCO,field:'mouthsToFeed', 'errors')}" value="${userCO?.mouthsToFeed}"/>
                                 </label>
                             </li>
                             <li><span><strong>Something about yourself :</strong></span>
                                 <label>
-                                    <g:textArea name="introduction" value="" class="txtarea" rows="4" cols="20"/>
+                                    <g:textArea name="introduction" value="${userCO?.introduction}" class="txtarea  ${hasErrors(bean:userCO,field:'introduction', 'errors')}" rows="4" cols="22"/>
                                     &nbsp; Public</label>
                             </li>
                             %{--<li><span>&nbsp;</span>--}%
