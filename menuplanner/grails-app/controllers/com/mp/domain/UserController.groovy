@@ -1,7 +1,10 @@
 package com.mp.domain
 
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
+
 class UserController {
 
+    static config = ConfigurationHolder.config
     def userService
     def asynchronousMailService
 
@@ -21,7 +24,7 @@ class UserController {
             asynchronousMailService.sendAsynchronousMail {
                 to user?.email
                 subject "Email verification for Minute Menu Plan"
-                html g.render(template: '/user/accountVerification', model: [user: user, token: verificationToken.token])
+                html g.render(template: '/user/accountVerification', model: [user: user, password: userCO.password, token: verificationToken.token])
             }
 
             redirect(action: 'show', id: user?.id)
@@ -34,18 +37,31 @@ class UserController {
     }
 
     def verify = {
-        VerificationToken token = VerificationToken.findByToken(params.token)
+        VerificationToken token = VerificationToken.findByToken(params?.token)
         if(token){
             token.user.status = AccountStatus.ACTIVE
             token.user.s()
             token.delete(flush: true)
-            render "Thanks for confirming your email address. Your account is now active"
+            flash.message = g.message(code:'valid.User.Account.Verification')
         } else {
-            render "You have either opened an invalid link or your account has already been actived"
+            flash.message = g.message(code:'invalid.User.Account.Verification')
         }
+        render(view: 'verify')
     }
     def show={
         User user = User.get(params.id)
         render(view:'show', model:[user:user])
+    }
+    def uploadImage = {
+        String relativePath = "/tempUser"
+        def fileContents = params.Filedata.bytes
+        String filePath = config.imagesRootDir + relativePath
+        File file = new File(filePath)
+        file.mkdirs()
+        File actualFile = new File(file, 'Img_' + System.currentTimeMillis()?.toString() + '.' + params.Filename.tokenize('.').tail().join('.'))
+        actualFile.withOutputStream {out ->
+            out.write fileContents
+        }
+        render actualFile.absolutePath as String
     }
 }

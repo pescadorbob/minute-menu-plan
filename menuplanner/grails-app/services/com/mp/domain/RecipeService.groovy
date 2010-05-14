@@ -222,7 +222,7 @@ class RecipeCO {
                     new File(targetImagePath).withOutputStream {out ->
                         out.write sourceImage.readBytes()
                     }
-                    com.mp.domain.Image image = new com.mp.domain.Image(imagePath, recipe?.id?.toString(), "")
+                    com.mp.domain.Image image = new com.mp.domain.Image(imagePath, recipeImageDirectory, recipe?.id?.toString(), "")
                     recipe.image = image
                     image.s()
                 }

@@ -6,7 +6,7 @@
             <li><strong>${recipe.name}</strong></li>
             <li>
                 <ul>
-                    <li><mp:recipeImage id="${recipe?.image?.id}" height="100" width="100"/></li>
+                    <li><mp:recipeImage id="${recipe?.image?.id}" noImage="no-img.gif" height="100" width="100"/></li>
                     <li>
                         <ul>
                             <li><g:render template="/rating/rating"/></li>

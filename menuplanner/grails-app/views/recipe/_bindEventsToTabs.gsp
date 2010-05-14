@@ -37,11 +37,6 @@
             jQuery('#tabNutritionFacts').addClass('current');
             jQuery('#panelNutritionFacts').show()
         })
-        /* REMOVE IMAGE: function to be executed when removeRecipeImage is Clicked... */
-        jQuery('#removeRecipeImage').click(function() {
-            jQuery('#recipeImage').attr('src', '${resource(dir: 'images', file: 'no-img.gif')}')
-            jQuery('#selectRecipeImagePath').val("");
-        })
         /* ADD INGREDIENT:  function to be executed when btnAddIngredient is Clicked... */
         jQuery('#btnAddIngredient').click(function() {
             var quantity = jQuery('#optionIngredientQuantities').attr('value')
@@ -84,6 +79,11 @@
         jQuery('#preview').click(function() {
             reflectInPreviewPanel()
         })
+        /* REMOVE IMAGE: function to be executed when removeRecipeImage is Clicked... */
+        jQuery('#removeRecipeImage').click(function() {
+            jQuery('#recipeImage').attr('src', '${resource(dir: 'images', file: 'no-img.gif')}')
+            jQuery('#selectRecipeImagePath').val("");
+        })
         jQuery('#selectRecipeImage').uploadify({
             'uploader': "${resource(dir:'jquery.uploadify-v2.1.0', file:'uploadify.swf')}",
             'script': "${createLink(controller:'recipe', action:'uploadImage')}",
@@ -92,7 +92,7 @@
             'width': 130,
             onComplete: function(event, queId, fileObj, response, data) {
                 jQuery('#selectRecipeImagePath').val(response);
-                jQuery('#myImageDiv').html('<img id="recipeImage" border="0" height="200" width="200" src="${createLink(action:'imageByPath', controller:'image')}?imagePath=' + response + '"/>')
+                jQuery('#myImageDiv').html('<img id="recipeImage" border="0" height="200" width="200" src="${createLink(action:'imageByPath', controller:'image')}?imagePath=' + response + '&noImage=no-img.gif"/>')
             }
         });
         jQuery('#preview').click()

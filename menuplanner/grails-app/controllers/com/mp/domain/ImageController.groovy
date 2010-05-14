@@ -18,9 +18,10 @@ def grailsApplication
         if (image) {
             fileContent = image.readFile()
         } else{
-            File noImageFile =new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/images/no-img.gif"))
+            File noImageFile =new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/images/${params?.noImage}"))
+//            File noImageFile =new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/images/no-img.gif"))${params.noImage}
             fileContent = noImageFile.readBytes()
-            extension = 'gif'
+            extension = noImageFile?.name?.tokenize('.')?.tail()?.join('.')
         }
         response.setContentLength(fileContent.size())
         response.setContentType("image/${extension}")
@@ -35,9 +36,9 @@ def grailsApplication
             imageFile = new File(params.imagePath)
         }
         if (!imageFile) {
-            imageFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/images/no-img.gif"))
+            imageFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/images/${params.noImage}"))
         }
-        byte[] fileContent = imageFile.readBytes()
+        byte[] fileContent = imageFile?.readBytes()
         response.setContentLength(fileContent.size())
         response.setContentType("image/${imageFile.name.tokenize('.').tail().join('.')}")
         OutputStream out = response.getOutputStream()

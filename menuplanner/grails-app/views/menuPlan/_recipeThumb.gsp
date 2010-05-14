@@ -2,7 +2,7 @@
     <div class="ratingbox-left">
         <input type="hidden" name="menuItemId" value="${recipe.id}"/>
         <h3 class="recipeName">${recipe?.trimLength(15)}</h3>
-        <mp:recipeImage id="${recipe?.image?.id}" height="80" width="80"/>
+        <mp:recipeImage id="${recipe?.image?.id}" noImage="no-img.gif" height="80" width="80"/>
     </div>
     <div class="ratingbox-right">
         <div class="star-container">

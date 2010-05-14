@@ -148,7 +148,7 @@ class ExcelService {
                 new File(targetImagePath).withOutputStream {out ->
                     out.write sourceImage.readBytes()
                 }
-                com.mp.domain.Image image = new com.mp.domain.Image(bootStrapDirectory + fileName, recipe?.id?.toString(), "")
+                com.mp.domain.Image image = new com.mp.domain.Image(bootStrapDirectory + fileName, recipeImageDirectory, recipe?.id?.toString(), "")
                 recipe.image = image
                 image.s()
                 recipe.s()

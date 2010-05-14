@@ -45,13 +45,12 @@ class Image {
 
     public Image() {}
 
-    public Image(String recipeImagePath, String recipeId, String altText = "Some alt text") {
+    public Image(String recipeImagePath, String targetPath, String recipeId, String altText = "Some alt text") {
         File imageFile = new File(recipeImagePath)
         storedName = recipeId + '.' +imageFile.name.tokenize('.').tail().join('.')
         actualName = imageFile.name.tokenize('.').first()
         extension = imageFile.name.tokenize('.').tail().join('.')
-        String actualDirectory = config.imagesRootDir  + "/recipes/" + recipeId + "/"
-        path = actualDirectory
+        path = targetPath
         this.altText = altText
     }
 }

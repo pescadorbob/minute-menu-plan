@@ -26,8 +26,9 @@ class MenuplannerTagLib {
         String height= attrs['height']
         String width= attrs['width']
         String id = attrs['id']
+        String noImage = attrs['noImage']
         String clas = attrs['class']
-        out << "<img class='${clas}' height='${height}' width='${width}' src='" + createLink(controller: 'image', action: 'image', id: id) + "'/>"
+        out << "<img class='${clas}' height='${height}' width='${width}' src='" + createLink(controller: 'image', action: 'image', params:[id: id, noImage: noImage]) + "'/>"
     }
 
     def getSelectedCategoriesAsJSON={attrs->
