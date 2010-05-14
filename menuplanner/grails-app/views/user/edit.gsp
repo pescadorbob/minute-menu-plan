@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="menu"/>
-    <title>Add User</title>
+    <title>Edit User</title>
 </head>
 <body>
 
@@ -10,23 +10,26 @@
     <div id="wrapper" class="clearfix">
         <div id="content-wrapper" class="clearfix">
             <div class="headbox">
-                <h3>Admin Profile  Add</h3>
+                <h3>Admin Profile  Edit</h3>
             </div>
             <g:hasErrors bean="${userCO}">
                 <div class="errors" style="">
                     <g:renderErrors bean="${userCO}"/>
                 </div>
             </g:hasErrors>
-          
+
             <div class="top-shadow">
                 <label>&nbsp;</label>
             </div>
             <div class="leftbox clearfix">
-                <g:uploadForm name="formCreateUser" controller="user" action="save">
+                <g:uploadForm name="formUpdateUser" controller="user" action="update">
+
+                    <g:hiddenField name='id' value='${userCO?.id}'/>
+                    
                     <g:render template="/user/imageSection" model="[userCO:userCO]"/>
                     <g:render template="/user/userDetail" model="[userCO:userCO]"/>
                     <div id="button">
-                        <g:submitButton name="btnUpdate" class="button" value="Create User"/>
+                        <g:submitButton name="btnUpdate" class="button" value="Update User"/>
                         <input class="button" type="button" name="cancel" id="cancel" value="Cancel"/>
                     </div>
                 </g:uploadForm>
@@ -38,5 +41,11 @@
     </div>
 </div>
 <g:render template="/user/userJquery"/>
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        jQuery('.passwordSection').hide()
+        jQuery('#btnChangePassword').show()
+    })
+</script>
 </body>
 </html>

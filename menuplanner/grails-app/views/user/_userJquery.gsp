@@ -18,4 +18,10 @@
             }
         });
     })
+    function ChangePassword(){
+        jQuery('.passwordSection').show()
+        jQuery('input[name="password"]').val('')
+        jQuery('input[name="confirmPassword"]').val('')        
+        jQuery('#btnChangePassword').hide()
+    }
 </script>

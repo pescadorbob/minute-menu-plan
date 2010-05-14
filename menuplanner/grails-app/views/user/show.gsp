@@ -96,7 +96,7 @@
 
                 </div>
                 <div id="button">
-                    <g:submitButton name="btnEdit" class="button" value="Edit Profile" style="cursor:pointer;"/>
+                    <g:submitButton name="btnEdit" class="button" action="edit" value="Edit Profile" style="cursor:pointer;"/>
                 </div>
             </div>
             <div class="bottom-shadow">
