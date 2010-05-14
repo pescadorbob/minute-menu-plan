@@ -3,36 +3,39 @@
     <ul>
         <li><span><strong>Email :</strong></span>
             <label>
-                <input name="email" type="text" class="inpbox ${hasErrors(bean:userCO,field:'email', 'errors')}" value="${userCO?.email}"/>
+                <input name="email" type="text" class="inpbox ${hasErrors(bean: userCO, field: 'email', 'errors')}" value="${userCO?.email}"/>
+                <input class="passwordSection" type="button" id="btnChangePassword" name="changePassword" value="Change Password" onclick="ChangePassword()" style="display:none;"/>
             </label>
         </li>
-        <li><span><strong>Password :</strong></span>
+        <li class="passwordSection">
+            <span><strong>Password :</strong></span>
             <label>
-                <input name="password" type="password" class="inpbox  ${hasErrors(bean:userCO,field:'password', 'errors')}" value="${userCO?.password}"/>
+                <input name="password" type="password" class="inpbox  ${hasErrors(bean: userCO, field: 'password', 'errors')}" value="${userCO?.password}"/>
                 &nbsp; Minimum 4 characters
             </label>
         </li>
-        <li><span><strong>Confirm Password :</strong></span>
+        <li class="passwordSection">
+            <span><strong>Confirm Password :</strong></span>
             <label>
-                <input name="confirmPassword" type="password" class="inpbox  ${hasErrors(bean:userCO,field:'confirmPassword', 'errors')}" value="${userCO?.confirmPassword}"/>
+                <input name="confirmPassword" type="password" class="inpbox  ${hasErrors(bean: userCO, field: 'confirmPassword', 'errors')}" value="${userCO?.confirmPassword}"/>
                 &nbsp; Same as password
             </label>
         </li>
         <li><span><strong>Name :</strong></span>
             <label>
-                <input name="name" type="text" class="inpbox  ${hasErrors(bean:userCO,field:'name', 'errors')}" value="${userCO?.name}"/>
+                <input name="name" type="text" class="inpbox  ${hasErrors(bean: userCO, field: 'name', 'errors')}" value="${userCO?.name}"/>
                 &nbsp; Public name displayed on recipes
             </label>
         </li>
         <li><span><strong>City :</strong></span>
             <label>
-                <input name="city" type="text" class="inpbox  ${hasErrors(bean:userCO,field:'city', 'errors')}" value="${userCO?.city}"/>
+                <input name="city" type="text" class="inpbox  ${hasErrors(bean: userCO, field: 'city', 'errors')}" value="${userCO?.city}"/>
                 &nbsp; City displayed on recipes</label>
         </li>
         <li><span><strong>Mouths to Feed :</strong></span>
 
             <label>
-                <input name="mouthsToFeed" type="text" class="inpbox  ${hasErrors(bean:userCO,field:'mouthsToFeed', 'errors')}" value="${userCO?.mouthsToFeed}"/>
+                <input name="mouthsToFeed" type="text" class="inpbox  ${hasErrors(bean: userCO, field: 'mouthsToFeed', 'errors')}" value="${userCO?.mouthsToFeed}"/>
             </label>
         </li>
         <li><span><strong>Something about yourself :</strong></span>

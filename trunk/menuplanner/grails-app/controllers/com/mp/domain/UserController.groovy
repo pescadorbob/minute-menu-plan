@@ -11,8 +11,26 @@ class UserController {
     def index = {
         render(view: 'create')
     }
+    def edit = {
+        if (params.id) {
+            User user = User.get(params.long('id'))
+            UserCO userCO = new UserCO(user)
+            render(view: 'edit', model: [userCO: userCO])
+        }
+    }
     def create = {
         render(view: 'create')
+    }
+    def update = {UserCO userCO ->
+        if (userCO.validate()) {
+            userCO.updateUser()
+            redirect(action: 'show', id: userCO?.id)
+        } else {
+            println userCO.errors.allErrors.each {
+                println it
+            }
+            render(view: 'edit', model: [userCO: userCO])
+        }
     }
     def save = {UserCO userCO->
         if (userCO.validate()) {

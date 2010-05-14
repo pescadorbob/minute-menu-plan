@@ -17,6 +17,7 @@ class UserCO {
     def selectUserImagePath
     String name
     String password
+    String confirmPassWord
     String confirmPassword
     String email
     Integer mouthsToFeed
@@ -29,6 +30,8 @@ class UserCO {
         email = user?.email
         mouthsToFeed = user?.mouthsToFeed
         introduction = user?.introduction
+        password = user?.password
+        confirmPassword = user?.password
         city = user?.city
         if (user?.image) {
             selectUserImagePath = user?.image?.path + user?.image?.storedName
@@ -52,14 +55,32 @@ class UserCO {
 
     public User convertToUser() {
         User user = new User()
-        user.name = name
-        user.email = email
-        user.mouthsToFeed = mouthsToFeed
-        user.introduction = introduction
-        user.city = city
-        user.type = UserType.User
-        user.password=password.encodeAsBase64()
-        println "selectUserImagePath: ${selectUserImagePath}"
+        user?.name = name
+        user?.email = email
+        user?.mouthsToFeed = mouthsToFeed
+        user?.introduction = introduction
+        user?.city = city
+        user?.type = UserType.User
+        user?.password = password.encodeAsBase64()
+        user?.s()
+        attachImage(user, selectUserImagePath)
+        user?.s()
+        return user
+    }
+
+    public User updateUser() {
+        User user = User.get(id)
+        user?.name = name
+        user?.email = email
+        user?.mouthsToFeed = mouthsToFeed
+        user?.introduction = introduction
+        user?.city = city
+        user?.type = UserType.User
+
+        if (user?.password != password) {
+            user.password = password.encodeAsBase64()
+        }
+
         user.s()
         attachImage(user, selectUserImagePath)
         user.s()
