@@ -27,7 +27,6 @@
                         <g:renderErrors bean="${recipeCO}"/>
                     </div>
                 </g:hasErrors>
-
                 <div id="menu">
                     <ul>
                         <li><a class="tabs current" id="tabGeneralInfo" style="${mp.checkGeneralInfoTabError(bean: recipeCO, fields: ['name', 'makesServing', 'preparationTime', 'cookTime', 'difficulty', 'categoryIds'])}"><span>General&nbsp;Info</span></a></li>
