@@ -9,7 +9,7 @@ class RecipeController {
     static config = ConfigurationHolder.config
     def recipeService
 
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    static allowedMethods = [save: "POST", update: "POST"]
 
     def index = {
         redirect(action: "list", params: params)
@@ -49,7 +49,7 @@ class RecipeController {
         params?.list("q")?.eachWithIndex {String myQ, Integer index ->
             allQueries.push(myQ)
             if (!(myQ.contains(':'))) {
-                allQueries[index] = myQ += '*'
+                allQueries[index] = '*' + myQ + '*'
             }
         }
         List<Recipe> results = []

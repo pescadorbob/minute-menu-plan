@@ -50,9 +50,17 @@
                     </div>
                     <div id="button">
                         <ul>
-                            <li><g:submitButton name="btnSave" class="button" value="Save Recipe" style="cursor:pointer;"/></li>
-                            <li><input type="button" name="preview" class="button" id="preview" value="Preview" style="cursor:pointer;"/></li>
-                            <li><input type="button" name="delete" class="button" id="delete" value="Delete" style="cursor:pointer;"/></li>
+                            <li>
+                                <g:submitButton name="btnSave" class="button" value="Save Recipe" style="cursor:pointer;"/>
+                            </li>
+                            <li>
+                                <input type="button" name="preview" class="button" id="preview" value="Preview"/>
+                            </li>
+                            <li>
+                                <a href="${createLink(controller: 'recipe', action: 'list')}">
+                                    <input type="button" name="cancel" class="button" id="cancel" value="Cancel"/>
+                                </a>
+                            </li>
                         </ul>
                     </div>
 

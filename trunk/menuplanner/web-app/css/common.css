@@ -1,4 +1,4 @@
-body{margin:21px 0px; background:#bee2e0 url(../images/bg.gif) repeat-x top left; font-family:Arial, Helvetica, sans-serif;}
+body{margin:21px 0px; background:#bee2e0 url(../images/bg.gif) repeat-x top left;font-family:Myriad pro,Palatino,Arial;}
 h1, h2, h3, h4, h5, h6, form, p, ul{padding:0px; margin:0px; list-style:none;}
 .clearfix:after {content: ".";	display: block;	clear: both;	visibility: hidden;	line-height: 0;	height: 0;} 
 .clearfix {	display: inline-block;}
@@ -22,7 +22,7 @@ html[xmlns] .clearfix {display: block;}
 #navigation li:first-child{float:left; padding-left:0px;}
 /* end header menu  and start wrapper*/
 #wrapper{background:url(../images/wrapper-bg.gif) repeat-y top center;}
-#content-wrapper{ margin:auto; width:1004px; padding-top:23px; background:url(../images/content-wrapper-bg.gif) no-repeat top center;}
+#content-wrapper{ margin:auto; width:1005px; padding-top:23px; background:url(../images/content-wrapper-bg.gif) no-repeat top center;}
 #left-panel{ float:left; width:629px;}
 #right-panel{ float:right; width:355px;}
 /* end wrapper start footer */

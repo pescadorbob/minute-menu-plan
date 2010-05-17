@@ -4,6 +4,7 @@ import grails.util.GrailsUtil
 import grails.util.Environment
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import com.mp.domain.*
 
 class BootStrap {
 
@@ -14,7 +15,7 @@ class BootStrap {
     static config = ConfigurationHolder.config
 
     def init = {servletContext ->
-         config.bootstrapMode = true
+        config.bootstrapMode = true
         // Inject the helper s() method
         Object.metaClass.s = {
             def object = delegate.save(flush: true)
@@ -61,6 +62,8 @@ class BootStrap {
 
         bootstrapMasterData()
         if (!GrailsUtil.environment != Environment.PRODUCTION) {
+            bootstrapService.populateUsers(10)
+            println "Populated Users"
             bootstrapService.populateCategory()
             println "Populated Categories"
             bootstrapService.populateQuantities(20)
@@ -68,14 +71,14 @@ class BootStrap {
             bootstrapService.populateMeasurableProduct()
             println "Populated Products"
             File recipeExcelFile
-            if(!GrailsUtil.isDevelopmentEnv()){
-                recipeExcelFile=new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet.xls"))
-            } else{
-                recipeExcelFile=new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet_test.xls"))
+            if (!GrailsUtil.isDevelopmentEnv()) {
+                recipeExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet.xls"))
+            } else {
+                recipeExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet_test.xls"))
             }
 //            bootstrapService.populateRecipes((GrailsUtil.isDevelopmentEnv()) ? 20 : 150)
             List<String> recipeLog
-            recipeExcelFile.withInputStream {inputStream->
+            recipeExcelFile.withInputStream {inputStream ->
                 recipeLog = excelService.createLineItems(inputStream)
             }
             println "Populated Recipes"
@@ -92,9 +95,11 @@ class BootStrap {
     }
 
     private void bootstrapMasterData() {
-        masterDataBootStrapService.populateSystemOfUnits()
-        masterDataBootStrapService.populateTimeUnits()
-        masterDataBootStrapService.populateUnitsAndStandardConversions()
-        masterDataBootStrapService.populateNutrients()
+        if (!SystemOfUnit.count()) {
+            masterDataBootStrapService.populateSystemOfUnits()
+            masterDataBootStrapService.populateTimeUnits()
+            masterDataBootStrapService.populateUnitsAndStandardConversions()
+            masterDataBootStrapService.populateNutrients()
+        }
     }
 }

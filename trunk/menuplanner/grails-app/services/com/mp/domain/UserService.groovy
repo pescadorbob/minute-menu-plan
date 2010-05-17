@@ -13,24 +13,25 @@ class UserCO {
     def asynchronousMailService
     static config = ConfigurationHolder.config
 
-    String id
-    def selectUserImagePath
-    String name
+    String email
     String password
     String confirmPassword
-    String email
+    String name
     Integer mouthsToFeed
-    String introduction
     String city
+    String introduction
+
+    String id
+    def selectUserImagePath
 
     UserCO(User user) {
         id = user?.id?.toString()
-        name = user?.name
         email = user?.email
-        mouthsToFeed = user?.mouthsToFeed
-        introduction = user?.introduction
         password = user?.password
         confirmPassword = user?.password
+        name = user?.name
+        mouthsToFeed = user?.mouthsToFeed
+        introduction = user?.introduction
         city = user?.city
         if (user?.image) {
             selectUserImagePath = user?.image?.path + user?.image?.storedName
@@ -41,12 +42,12 @@ class UserCO {
 
     static constraints = {
         id(nullable: true)
-        name(blank: false, matches: /[a-zA-Z0-9\s\&]*/)
+        email(blank: false, nullable: false, email: true)
         password(nullable: false, blank: false, minSize: 4)
         confirmPassword(nullable: false, blank: false, validator: {val, obj ->
             obj.properties['password'] == val
         })
-        email(blank: false, nullable: false, email: true)
+        name(nullable:false, blank: false, matches: /[a-zA-Z0-9\s\&]*/)
         mouthsToFeed(nullable: false, matches: /[0-9]*/)
         introduction(nullable: true, blank: true)
         city(nullable: false, blank: false)
