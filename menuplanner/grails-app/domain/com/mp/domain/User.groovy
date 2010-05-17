@@ -16,7 +16,6 @@ class User {
     def beforeInsert = {
         joiningDate = new Date()
         status = AccountStatus.AWAITING_EMAIL_CONFIRMATION
-        password = "menu123"
     }
 
     static hasMany = [favourites: Recipe, contributions: Recipe]

@@ -44,6 +44,8 @@
 <script type="text/javascript">
     jQuery(document).ready(function() {
         jQuery('.passwordSection').hide()
+        jQuery('input[name="email"]').hide()
+        jQuery('#displayEmailAsLabel').html(jQuery('input[name="email"]').val())
         jQuery('#btnChangePassword').show()
     })
 </script>

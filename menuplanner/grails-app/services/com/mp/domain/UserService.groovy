@@ -17,7 +17,6 @@ class UserCO {
     def selectUserImagePath
     String name
     String password
-    String confirmPassWord
     String confirmPassword
     String email
     Integer mouthsToFeed

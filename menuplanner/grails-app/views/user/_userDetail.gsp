@@ -1,8 +1,9 @@
 <div id="rightpanel">
 
     <ul>
-        <li><span><strong>Email :</strong></span>
+        <li><span><strong>Email : </strong></span>
             <label>
+                <span id = "displayEmailAsLabel" style="text-align: left;font-weight: bold;width: 180px;"></span>
                 <input name="email" type="text" class="inpbox ${hasErrors(bean: userCO, field: 'email', 'errors')}" value="${userCO?.email}"/>
                 <input class="passwordSection" type="button" id="btnChangePassword" name="changePassword" value="Change Password" onclick="ChangePassword()" style="display:none;"/>
             </label>
