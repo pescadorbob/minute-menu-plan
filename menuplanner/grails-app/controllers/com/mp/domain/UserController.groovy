@@ -11,6 +11,15 @@ class UserController {
     def index = {
         render(view: 'create')
     }
+    def list = {
+        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        String name = params.searchName
+        List<User> userList = (name) ? User.findAllByNameIlike("%${name}%", params): User.list(params)
+        Integer total = (name) ? User.countByNameIlike("%${name}%") : User.count()
+        render(view: 'list', model: [userList:userList, total:total])
+    }
+
+
     def edit = {
         if (params.id) {
             User user = User.get(params.long('id'))

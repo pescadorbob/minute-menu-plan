@@ -10,8 +10,23 @@ class BootstrapService {
     boolean transactional = true
     def excelService
 
+    public void populateUsers(Integer count) {
+        (1..count).each {Integer index ->
+            User user = new User()
+            Integer intVal = ((new Random().nextInt(10) + 1) * 10)
+            user.email = 'user' + index + '@gmail.com'
+            user.name = 'user' + index
+            user.password = user.name
+            user.city = 'city' + index
+            user.mouthsToFeed = intVal
+            user.type = UserType.User
+            user.introduction = 'about ' + user.name
+            user.s()
+        }
+    }
+
     public void populateCategory() {
-        List<String>categories = ['Breakfast', 'Lunch', 'Dinner']
+        List<String> categories = ['Breakfast', 'Lunch', 'Dinner']
         categories.each {String category ->
             new Category(name: "${category}").s()
         }
@@ -61,7 +76,7 @@ class BootstrapService {
             populateRecipeNutrient(recipe)
             recipe.s()
         }
-        
+
 
     }
 
@@ -96,7 +111,7 @@ class BootstrapService {
             RecipeIngredient ingredient = new RecipeIngredient()
             ingredient.recipe = recipe
             ingredient.ingredient = MeasurableProduct.get(new Random().nextInt(MeasurableProduct.count()) + 1)
-            Quantity quantity = StandardConversion.getMetricQuantity((new Random().nextInt(5)+1).toString(),Unit.findByName(UNIT_FIFTH) )
+            Quantity quantity = StandardConversion.getMetricQuantity((new Random().nextInt(5) + 1).toString(), Unit.findByName(UNIT_FIFTH))
             quantity.s()
 
             ingredient.quantity = quantity

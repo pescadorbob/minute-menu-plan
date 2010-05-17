@@ -14,7 +14,7 @@
             </div>
             <g:hasErrors bean="${userCO}">
                 <div class="errors" style="">
-                    <g:renderErrors bean="${userCO}"/>
+                    <g:renderErrors bean="${userCO}" as="list"/>
                 </div>
             </g:hasErrors>
 
@@ -44,8 +44,8 @@
 <script type="text/javascript">
     jQuery(document).ready(function() {
         jQuery('.passwordSection').hide()
-        jQuery('input[name="email"]').hide()
         jQuery('#displayEmailAsLabel').html(jQuery('input[name="email"]').val())
+        jQuery('input[name="email"]').hide()
         jQuery('#btnChangePassword').show()
     })
 </script>

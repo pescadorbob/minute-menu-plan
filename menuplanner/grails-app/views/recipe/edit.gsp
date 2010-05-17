@@ -50,9 +50,22 @@
                     </div>
                     <div id="button">
                         <ul>
-                            <li><g:submitButton name="btnUpdate" class="button" value="Update Recipe" style="cursor:pointer;"/></li>
-                            <li><input class="button" type="button" name="preview" id="preview" value="Preview" style="cursor:pointer;"/></li>
-                            <li><input class="button" type="button" name="delete" id="delete" value="Delete" style="cursor:pointer;"/></li>
+                            <li>
+                                <g:submitButton name="btnUpdate" class="button" value="Update Recipe" style="cursor:pointer;"/>
+                            </li>
+                            <li>
+                                <input class="button" type="button" name="preview" id="preview" value="Preview"/>
+                            </li>
+                            %{--<li>--}%
+                                %{--<a href="${createLink(controller: 'recipe', action: 'delete', id:recipeCO?.id)}">--}%
+                                    %{--<input class="button" type="button" name="delete" id="delete" value="Delete"/>--}%
+                                %{--</a>--}%
+                            %{--</li>--}%
+                            <li>
+                                <a href="${createLink(controller: 'recipe', action: 'show', id:recipeCO?.id)}">
+                                    <input class="button" type="button" name="cancel" id="cancel" value="Cancel"/>
+                                </a>
+                            </li>
                         </ul>
                     </div>
 

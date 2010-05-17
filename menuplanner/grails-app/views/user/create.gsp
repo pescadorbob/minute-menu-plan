@@ -14,7 +14,7 @@
             </div>
             <g:hasErrors bean="${userCO}">
                 <div class="errors" style="">
-                    <g:renderErrors bean="${userCO}"/>
+                    <g:renderErrors bean="${userCO}" as="list"/>
                 </div>
             </g:hasErrors>
           
