@@ -1,152 +1,34 @@
 <%@ page import="com.mp.domain.MealType" %>
 <html>
 <head>
-    <meta name="layout" content="menu"/>
-    <title>Edit ${menuPlan.name}</title>
+  <meta name="layout" content="menu"/>
+  <title>Edit ${menuPlan.name}</title>
+  <g:javascript library="ui.core"/>
+  <g:javascript library="ui.sortable"/>
+  <g:javascript src="menuPlan.js"/>
+  <script type="text/javascript">
+    setCrossImagePath("${resource(dir:'images',file:'delete.jpg')}")
+  </script>
+
 </head>
 
 <body>
-<style type="text/css">
-.menuContainer div:hover {
-    cursor: default;
-}
-.myHover{
-  position:relative;
-  z-index:800;
-  height:auto !important;
-  min-height:55px;
-  background:#ffffff;
-}
-.menuContainer .ui-state-highlight{
-  height:10px !important;
-  width:40px !important;
-  border: 1px dotted black !important;
-  visibility: visible !important;
-}
-
-.resultContainer .ui-state-highlight{
-  /*border: 1px dotted black !important;*/
-  display:none;
-}
-
-.downArrow{
-  background:#FCFCFC url(${resource(dir:'images',file:'arrows.gif')}) no-repeat scroll right top
-}
-
-.menuContainer img:hover {
-    cursor: pointer;
-}
-
-.ui-sortable-placeholder {
-    border: 1px dotted black;
-    visibility: visible !important;
-}
-
-.ui-sortable-placeholder * {
-    visibility: hidden;
-}
-
-
-</style>
-<g:javascript library="ui.core"/>
-<g:javascript library="ui.sortable"/>
-<script type="text/javascript">
-    jQuery(function() {
-        jQuery(".menuContainer").sortable({
-            update: function(event, ui) {
-                if (jQuery("h3", jQuery(ui.item)).hasClass("recipeName")) {
-                    var htmlString = "<div style='clear:both'><input type='hidden' value='"+ jQuery("input[name='menuItemId']",jQuery(ui.item)).val()+"' name='mealItems."+jQuery(this).attr("rel") +"'> <img src='${resource(dir:'images',file:'delete.jpg')}' alt='' style='display:none;' align='left' class='deleteImage'><span>" + jQuery("h3", jQuery(ui.item)).text() + "</span></div>"
-                    jQuery(ui.item).remove();
-                    jQuery(this).append(htmlString);
-                    bindHoverAndClick();
-                } else {
-                    jQuery(ui.item).find("input").attr("name","mealItems."+jQuery(this).attr("rel"))
-                }
-              if(jQuery(this).children().length>4){
-                jQuery(this).addClass("downArrow")
-              }else{
-                jQuery(this).removeClass("downArrow")               
-              }
-            },
-          over:function(event, ui) {
-              jQuery(ui.sender).css("overflow","visible")
-              jQuery(this).css("overflow","visible")
-              jQuery(this).addClass("myHover")
-                jQuery(this).css("background-color","#EEEEEE")
-          },
-          out:function(event, ui) {
-            jQuery(this).removeClass("myHover")
-            jQuery(this).css("overflow","hidden")
-            jQuery(this).css("background-color","")
-          },
-          stop:function(event,ui){
-            jQuery(".menuContainer").css("overflow","hidden")
-          },
-            opacity:0.6,
-            tolerance: 'pointer',
-            helper:'clone',
-            cursorAt: {top: 15,left: 5}, 
-            revert: true,
-            scrollSensitivity: 40,
-            connectWith: '.menuContainer',
-            forcePlaceholderSize:true,
-            placeholder:"ui-state-highlight"
-        });
-
-        bindHoverAndClick();
-      jQuery(".placeMyHover").hover(function(){
-              jQuery(this).addClass("myHover");
-            },function(){
-              jQuery(this).removeClass("myHover");
-
-            })
-
-
-    })
-    function bindHoverAndClick() {
-        jQuery(".menuContainer>div").unbind();
-        jQuery(".menuContainer>div .deleteImage").unbind();
-
-        jQuery(".menuContainer>div").hover(function() {
-            jQuery("img", jQuery(this)).css("display", "block");
-        }, function() {
-            jQuery("img", jQuery(this)).css("display", "none");
-        })
-
-        jQuery(".menuContainer>div .deleteImage").click(function() {
-            jQuery(this).parent().remove();
-        })
-    }
-
-
-</script>
 <div id="content-wrapper" class="clearfix">
-    <div id="left-panel">
-    <g:render template="/menuPlan/actions"/>
-    <g:render template="/menuPlan/quickFills"/>
-    <g:form action="saveAndUpdate" name="editMenuPlanForm">
-        <input type="hidden" name="id" value="${menuPlan.id}" />
-    <div class="week">
-            <ul>
-                <mp:mealItems week="${menuPlan.weeks[0]}" type="${MealType.DINNER}" image="week1.gif" weekIndex="0"/>
-                <mp:mealItems week="${menuPlan.weeks[1]}" type="${MealType.DINNER}" image="week2.gif" weekIndex="1"/>
-                <mp:mealItems week="${menuPlan.weeks[2]}" type="${MealType.DINNER}" image="week3.gif" weekIndex="2"/>
-                <mp:mealItems week="${menuPlan.weeks[3]}" type="${MealType.DINNER}" image="week4.gif" weekIndex="3"/>
-
-                <li class="divider"><img src="${resource(dir: 'images', file: 'divider.gif')}"/></li>
-                <mp:mealItems week="${menuPlan.weeks[0]}" type="${MealType.BREAKFAST}" image="breakfast.gif" weekIndex="0"/>
-                <mp:mealItems week="${menuPlan.weeks[0]}" type="${MealType.LUNCH}" image="lunch.gif" weekIndex="0"/>
-            </ul>
-        </div>
-        <div id="button">
-            <ul>
-                <li><g:submitButton class="button" name="update" value="Update"/></li>
-                <li><g:actionSubmit class="button" action="show" value="Cancel"/></li>
-            </ul>
-        </div>
+<div id="left-panel">
+  <g:render template="/menuPlan/actions"/>
+  <g:render template="/menuPlan/quickFills"/>
+  <g:form action="saveAndUpdate" name="editMenuPlanForm">
+    <input type="hidden" name="id" value="${menuPlan.id}"/>
+    <g:render template="weeklyMeals"/>
+    <div id="button">
+      <ul>
+        <li><g:submitButton class="button" name="update" value="Update"/></li>
+        <li><g:actionSubmit class="button" action="show" value="Cancel"/></li>
+      </ul>
     </div>
-   </g:form>
-    <g:render template="/menuPlan/search"/>
+    </div>
+  </g:form>
+  <g:render template="/menuPlan/search"/>
 </div>
 </body>
 </html>
