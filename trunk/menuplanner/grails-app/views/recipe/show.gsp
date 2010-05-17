@@ -4,9 +4,22 @@
 <head>
     <title>${recipe?.name}</title>
     <meta name="layout" content="menu"/>
+  <g:javascript src="jquery.printElement.min.js"/>
+  <script type="text/javascript">
+    jQuery(function(){
+      jQuery("#printButton").click(function(){
+        printElem({ pageTitle: '${recipe?.name}' });
+        return false;
+      });
+
+    });
+    function printElem(options){
+      jQuery(".printMe:first").printElement(options);
+    }
+  </script>
 </head>
 <body>
-<div class="clearfix" id="content-wrapper">
+<div class="clearfix printMe" id="content-wrapper">
     <!--  start left-panel -->
     <div id="left-panel">
         <!--  start left-panel -->
@@ -22,7 +35,7 @@
                     <img src="${resource(dir: 'images', file: 'edit.gif')}"/>
                     <g:link action="edit" id="${recipe?.id}">Edit</g:link>
                 </span>
-                <span><img src="${resource(dir: 'images', file: 'printer.gif')}"/><a href="#">Print</a></span>
+                <span><img src="${resource(dir: 'images', file: 'printer.gif')}"/><a href="#" id="printButton">Print</a></span>
                 </div>
 
                 </div>
