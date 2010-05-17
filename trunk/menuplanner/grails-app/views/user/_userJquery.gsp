@@ -2,7 +2,7 @@
     jQuery(document).ready(function() {
         /* REMOVE IMAGE: function to be executed when removeRecipeImage is Clicked... */
         jQuery('#removeRecipeImage').click(function() {
-            jQuery('#userImage').attr('src', '${resource(dir: 'images', file: 'photo-pic.png')}')
+            jQuery('#userImage').attr('src', '${resource(dir: 'images', file: 'no-img.gif')}')
             jQuery('#selectUserImagePath').val("");
         })
         /* jQuery for Image Upload. */
@@ -14,7 +14,7 @@
             'width': 130,
             onComplete: function(event, queId, fileObj, response, data) {
                 jQuery('#selectUserImagePath').val(response);
-                jQuery('#photo').html('<img id="userImage" border="0" height="180" width="180" src="${createLink(action:'imageByPath', controller:'image')}?imagePath=' + response + '&noImage=photo-pic.png"/>')
+                jQuery('#photo').html('<img id="userImage" border="0" height="180" width="180" src="${createLink(action:'imageByPath', controller:'image')}?imagePath=' + response + '&noImage=no-img.gif"/>')
             }
         });
     })

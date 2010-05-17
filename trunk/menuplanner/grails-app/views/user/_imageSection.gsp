@@ -1,6 +1,6 @@
 <div id="leftpanel">
     <div id="photo">
-      <img id='userImage' border='0' width='180' height="180" src="${g.createLink(controller: 'image', action: 'imageByPath', params: [imagePath: userCO?.selectUserImagePath, noImage:'photo-pic.png'])}"/>
+      <img id='userImage' border='0' width='180' height="180" src="${g.createLink(controller: 'image', action: 'imageByPath', params: [imagePath: userCO?.selectUserImagePath, noImage:'no-img.gif'])}"/>
     </div>
     <input type="hidden" name="selectUserImagePath" id="selectUserImagePath" value="${userCO?.selectUserImagePath}"/>
 

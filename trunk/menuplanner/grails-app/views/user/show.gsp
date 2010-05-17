@@ -19,7 +19,7 @@
             <div class="leftbox clearfix">
                 <div id="leftpanel">
                     <div id="photo">
-                        <mp:recipeImage id="${user?.image?.id}" noImage="photo-pic.png" height="150" width="150"/>
+                        <mp:recipeImage id="${user?.image?.id}" noImage="no-img.gif" height="150" width="150"/>
                     </div>
                     %{--<ul>--}%
                     %{--<li><a href="#">Upload New Photo</a> <a href="#">Remove Photo</a></li>--}%

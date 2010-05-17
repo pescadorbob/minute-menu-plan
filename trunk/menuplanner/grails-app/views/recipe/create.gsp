@@ -13,16 +13,21 @@
     <g:render template="directionRow"/>
 </table>
 
-
 <div id="container">
     <div id="wrapper" class="clearfix">
-
         <div id="content-wrapper" class="clearfix">
             <!--  start left-panel -->
             <div id="left-panel">
                 <!--  start left-panel -->
-                <div class="headbox"><h3>Add Recipe</h3></div>
-.                <div id="menu">
+                <div class="headbox">
+                    <h3>Add Recipe</h3>
+                </div>
+                <g:hasErrors bean="${recipeCO}">
+                    <div class="errors" style="">
+                        <g:renderErrors bean="${recipeCO}"/>
+                    </div>
+                </g:hasErrors>
+                <div id="menu">
                     <ul>
                         <li><a class="tabs current" id="tabGeneralInfo" style="${mp.checkGeneralInfoTabError(bean: recipeCO, fields: ['name', 'makesServing', 'preparationTime', 'cookTime', 'difficulty', 'categoryIds'])}"><span>General&nbsp;Info</span></a></li>
                         <li><a class="tabs" id="tabIngredients" style="${hasErrors(bean: recipeCO, field: 'hiddenIngredientProductNames', 'color:red;')}"><span>Ingredients</span></a></li>
