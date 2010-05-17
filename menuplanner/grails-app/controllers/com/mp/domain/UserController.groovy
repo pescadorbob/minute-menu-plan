@@ -9,8 +9,9 @@ class UserController {
     def asynchronousMailService
 
     def index = {
-        render(view: 'create')
+        redirect(action: 'list')
     }
+
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         String name = params.searchName
