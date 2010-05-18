@@ -1,6 +1,11 @@
 <div id="wintermenu">
     <div id="winterplan">
-        <img src="${resource(dir: 'images', file: 'winter-menu-plan.gif')}"/>
+        <g:if test="${params.action=='show'}">
+          ${menuPlan?.name}
+        </g:if>
+        <g:else>
+            <input type="text" name="menuPlan.name"  value="${menuPlan?.name}">
+        </g:else>
     </div>
     <div id="viewmenu">
         %{--<ul>--}%

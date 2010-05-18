@@ -1,8 +1,8 @@
-<img src="${resource(dir: 'images', file: 'star-light.gif')}"/>
-<img src="${resource(dir: 'images', file: 'star-light.gif')}"/>
-<img src="${resource(dir: 'images', file: 'star-light.gif')}"/>
-<img src="${resource(dir: 'images', file: 'star-light.gif')}"/>
-<img src="${resource(dir: 'images', file: 'star-light.gif')}"/>
+<img src="${resource(dir: 'images', file: 'star-light.png')}"/>
+<img src="${resource(dir: 'images', file: 'star-light.png')}"/>
+<img src="${resource(dir: 'images', file: 'star-light.png')}"/>
+<img src="${resource(dir: 'images', file: 'star-light.png')}"/>
+<img src="${resource(dir: 'images', file: 'star-light.png')}"/>
 %{--<img src="${resource(dir: 'images', file: 'star.gif')}"/>--}%
 %{--<img src="${resource(dir: 'images', file: 'star.gif')}"/>--}%
 %{--<img src="${resource(dir: 'images', file: 'star.gif')}"/>--}%
