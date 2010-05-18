@@ -21,10 +21,10 @@
                     <div id="photo">
                         <mp:recipeImage id="${user?.image?.id}" noImage="no-img.gif" height="150" width="150"/>
                     </div>
-                    %{--<ul>--}%
+                    <ul>
                     %{--<li><a href="#">Upload New Photo</a> <a href="#">Remove Photo</a></li>--}%
 
-                    %{--<li>Member since March 2010</li>--}%
+                    <li>Member since ${user?.joiningDate?.format('MMMM yyyy')}</li>
                     %{--<li>--}%
                     %{--<h3>Contributed Recipes</h3>--}%
                     %{--</li>--}%
@@ -39,7 +39,7 @@
                     %{--<li><a href="#">Lamb Curry</a> <a href="#">remove</a></li>--}%
 
                     %{--<li><a href="#">Turkey Pie</a> <a href="#">remove</a></li>--}%
-                    %{--</ul>--}%
+                    </ul>
                 </div>
                 <div id="rightpanel">
 

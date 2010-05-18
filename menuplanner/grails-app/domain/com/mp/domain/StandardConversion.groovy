@@ -13,7 +13,7 @@ class StandardConversion {
     public static Quantity getMetricQuantity(String amountFraction, Unit displayUnit) {
         Quantity result = new Quantity()
         Float amount
-        if(amountFraction != null){
+        if (amountFraction != null) {
             amount = new Fraction(amountFraction)?.floatValue()
         }
         if (displayUnit && (amount != null)) {
@@ -51,10 +51,21 @@ class StandardConversion {
                     result = new Fraction(metricValue).myFormatUsingProperFractionFormat()
                 }
             }
-        }else if((metricValue != null)){
+        } else if ((metricValue != null)) {
             result = new Fraction(metricValue).myFormatUsingProperFractionFormat()
         }
         return result
+    }
+
+    public static getTargetUnit(Unit unit){
+        Unit targetUnit = new Unit()
+        if(unit){
+            targetUnit = StandardConversion.findBySourceUnit(unit)?.targetUnit
+            if(!targetUnit){
+                targetUnit = unit
+            }
+        }
+        return targetUnit
     }
 
     static constraints = {

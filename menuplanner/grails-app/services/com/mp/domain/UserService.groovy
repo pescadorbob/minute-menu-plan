@@ -5,7 +5,19 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 class UserService {
 
     boolean transactional = true
+    public boolean changeStatus(Long userId) {
+        User user = User.findById(userId)
+        if(user){
+            if(user.status==AccountStatus.ACTIVE){
+                user.status=AccountStatus.INACTIVE
+            } else{
+                user.status=AccountStatus.ACTIVE
+            }
+            return (user.s())
 
+        }
+        return false
+    }
 }
 
 class UserCO {
@@ -20,6 +32,7 @@ class UserCO {
     Integer mouthsToFeed
     String city
     String introduction
+    Date joiningDate
 
     String id
     def selectUserImagePath
@@ -33,6 +46,7 @@ class UserCO {
         mouthsToFeed = user?.mouthsToFeed
         introduction = user?.introduction
         city = user?.city
+        joiningDate=user?.joiningDate
         if (user?.image) {
             selectUserImagePath = user?.image?.path + user?.image?.storedName
         } else {
