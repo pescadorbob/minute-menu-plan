@@ -15,9 +15,9 @@
 <body>
 <div id="content-wrapper" class="clearfix">
 <div id="left-panel">
-  <g:render template="/menuPlan/actions"/>
-  <g:render template="/menuPlan/quickFills"/>
   <g:form action="saveAndUpdate" name="editMenuPlanForm">
+    <g:render template="/menuPlan/actions"/>
+    <g:render template="/menuPlan/quickFills"/>
     <input type="hidden" name="id" value="${menuPlan.id}"/>
     <g:render template="weeklyMeals"/>
     <div id="button">

@@ -44,6 +44,7 @@ class MenuPlanController {
         MenuPlan menuPlan
         if (params.id) {
             menuPlan = MenuPlan.get(params.id)
+            menuPlan.name=params.menuPlan.name
             List<Week> weeks = menuPlan.weeks
             menuPlan.weeks = []
             weeks*.delete(flush: true)
