@@ -104,7 +104,8 @@ class MenuConstants {
 
     public static final String UNIT_GRAM = "Grams"
     public static final String UNIT_GRAM_SYMBOL = "g."
-
+    public static final Double UNIT_GRAM_CONVERSION_FACTOR = 1000.0
+    
     public static final String UNIT_CALORIES = "Calories"
     public static final String UNIT_CALORIES_SYMBOL = "cal."
 

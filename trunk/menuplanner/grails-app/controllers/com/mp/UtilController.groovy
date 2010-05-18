@@ -29,13 +29,32 @@ class UtilController {
     }
 
     def index = {
+        Unit unit1= Unit.findByName(UNIT_GRAM)
+        Unit unit2= Unit.findByName(UNIT_MILLI_GRAM)
+//        Unit unit1= Unit.findByName(UNIT_TEA_SPOON)
+//        Unit unit2= Unit.findByName(UNIT_TEA_SPOON)
+        String val1 = '1/2'
+        String val2 = '1'
 
-        asynchronousMailService.sendAsynchronousMail {
-            to 'aman@intelligrape.com'
-            subject 'created your profile! grails.'
-            html '<body><u>XYZ</u></body>'
-        }
+        Quantity q1 = StandardConversion.getMetricQuantity(val1, unit1)
+        Quantity q2 = StandardConversion.getMetricQuantity(val2, unit2)
 
+        Quantity q = addQuantities(val1, unit1, val2, unit2)
+
+        render "Q1: ${q1.toString()} <br/>"
+        render "Q2: ${q2.toString()} <br/>"
+        render "SUM: value and saved unit: ${new Fraction(q.value)?.floatValue()} ${q.savedUnit.symbol}<br/>"
+
+        String qUsa = StandardConversion.getUsaQuantityString(q)
+        render "SUM: qUsa and unit: ${qUsa} ${q.unit.symbol}<br/>"
+
+
+//        asynchronousMailService.sendAsynchronousMail {
+//            to 'aman@intelligrape.com'
+//            subject 'created your profile! grails.'
+//            html '<body><u>XYZ</u></body>'
+//        }
+//
 //        Long l = 30l
 //        render "metric: " + NumberTools.longToString(l)
 
@@ -153,6 +172,29 @@ class UtilController {
 
         Image image = new Image(targetImagePath, "Some alternate text")
         render sourceImage.exists()
+    }
+
+    public static Quantity addQuantities(String usVal1, Unit displayUnit1, String usVal2, Unit displayUnit2) {
+        Quantity resultantQuantity = new Quantity()
+        Quantity q1 = StandardConversion.getMetricQuantity(usVal1, displayUnit1)
+        Quantity q2 = StandardConversion.getMetricQuantity(usVal2, displayUnit2)
+
+            String val1 = StandardConversion.getUsaQuantityString(q1)
+            Unit unit1 = q1.unit
+            String val2 = StandardConversion.getUsaQuantityString(q2)
+            Unit unit2 = q2.unit
+            if(q1?.savedUnit==q2?.savedUnit){
+                Unit displayUnit = unit1
+                if (StandardConversion.findBySourceUnit(unit1)?.conversionFactor > StandardConversion.findBySourceUnit(unit2)?.conversionFactor) {
+                    displayUnit = unit2
+                }
+                Quantity metricQ1 = StandardConversion.getMetricQuantity(val1, unit1)
+                Quantity metricQ2 = StandardConversion.getMetricQuantity(val2, unit2)
+                resultantQuantity.value = metricQ1?.value + metricQ2?.value
+                resultantQuantity.unit = displayUnit
+                resultantQuantity.savedUnit = q1?.savedUnit
+            }
+        return resultantQuantity
     }
 
 }

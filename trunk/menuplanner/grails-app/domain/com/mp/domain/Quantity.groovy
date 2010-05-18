@@ -38,4 +38,5 @@ class Quantity {
         sum.value = totalMinutes
         return sum
     }
+
 }

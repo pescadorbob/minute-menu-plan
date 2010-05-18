@@ -6,9 +6,11 @@
 
     <g:render template="/recipe/imageUpload" model="[selectorName:'selectUserImage']"/>
 
-    %{--<ul>--}%
+    <ul>
     %{--<li><a href="#">Upload New Photo</a> <a href="#">Remove Photo</a></li>--}%
-    %{--<li>Member since March 2010</li>--}%
+    <g:if test="${userCO?.joiningDate}">
+        <li>Member since ${userCO?.joiningDate?.format('MMMM yyyy')}</li>
+    </g:if>
     %{--<li>--}%
     %{--<h3>Contributed Recipes</h3>--}%
     %{--</li>--}%
@@ -21,5 +23,5 @@
     %{--<li><a href="#">Beef & broccoll</a> <a href="#">remove</a></li>--}%
     %{--<li><a href="#">Lamb Curry</a> <a href="#">remove</a></li>--}%
     %{--<li><a href="#">Turkey Pie</a> <a href="#">remove</a></li>--}%
-    %{--</ul>--}%
+    </ul>
 </div>

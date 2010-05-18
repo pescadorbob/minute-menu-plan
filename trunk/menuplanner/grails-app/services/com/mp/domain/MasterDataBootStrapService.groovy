@@ -135,6 +135,9 @@ class MasterDataBootStrapService {
         new StandardConversion(sourceUnit: ounce_20, targetUnit: milliGram, conversionFactor: UNIT_20_OUNCE_PACKAGE_CONVERSION_FACTOR).s()
         new StandardConversion(sourceUnit: ounce, targetUnit: milliGram, conversionFactor: UNIT_OUNCE_CONVERSION_FACTOR).s()
 
+        new StandardConversion(sourceUnit: gram, targetUnit: milliGram, conversionFactor: UNIT_GRAM_CONVERSION_FACTOR).s()
+
+
     }
 
     public void populateNutrients() {

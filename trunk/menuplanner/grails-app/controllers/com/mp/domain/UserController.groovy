@@ -12,12 +12,37 @@ class UserController {
         redirect(action: 'list')
     }
 
+    def changeStatus = {
+            render "" + userService.changeStatus(params?.id?.toLong())
+    }
+
     def list = {
+
+
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         String name = params.searchName
-        List<User> userList = (name) ? User.findAllByNameIlike("%${name}%", params): User.list(params)
-        Integer total = (name) ? User.countByNameIlike("%${name}%") : User.count()
-        render(view: 'list', model: [userList:userList, total:total])
+
+        def userList
+        Integer total
+        if (name || params.hideEnabled || params.hideDisabled) {
+            userList = User.createCriteria().list(max: params.max, offset: 0) {
+                if(name){
+                    ilike('name', "%${name}%")
+                }
+                if(params.hideEnabled){
+                    ne('status',AccountStatus.ACTIVE)
+                }
+                if(params.hideDisabled){
+                    ne('status',AccountStatus.INACTIVE)
+                }
+            }
+            total = userList.getTotalCount()
+        } else {
+            userList = User.list(params)
+            total= User.count()
+        }
+
+        render(view: 'list', model: [userList: userList, total: total, searchName: name, hideEnabled:params.hideEnabled, hideDisabled:params.hideDisabled])
     }
 
 
@@ -42,7 +67,7 @@ class UserController {
             render(view: 'edit', model: [userCO: userCO])
         }
     }
-    def save = {UserCO userCO->
+    def save = {UserCO userCO ->
         if (userCO.validate()) {
             User user = userCO.convertToUser()
             VerificationToken verificationToken = new VerificationToken()
@@ -66,19 +91,19 @@ class UserController {
 
     def verify = {
         VerificationToken token = VerificationToken.findByToken(params?.token)
-        if(token){
+        if (token) {
             token.user.status = AccountStatus.ACTIVE
             token.user.s()
             token.delete(flush: true)
-            flash.message = g.message(code:'valid.User.Account.Verification')
+            flash.message = g.message(code: 'valid.User.Account.Verification')
         } else {
-            flash.message = g.message(code:'invalid.User.Account.Verification')
+            flash.message = g.message(code: 'invalid.User.Account.Verification')
         }
         render(view: 'verify')
     }
-    def show={
+    def show = {
         User user = User.get(params.id)
-        render(view:'show', model:[user:user])
+        render(view: 'show', model: [user: user])
     }
     def uploadImage = {
         String relativePath = "/tempUser"

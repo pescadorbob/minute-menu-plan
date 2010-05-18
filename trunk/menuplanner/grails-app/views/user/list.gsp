@@ -16,47 +16,51 @@
             <div class="top-shadow">
                 <label>&nbsp;</label>
             </div>
-            <div class="leftbox clearfix">
-                <div id="adduser">
-                    <g:form controller="user" action="list"
-                            name="searchForm">
+            <g:form controller="user" action="list" name="searchForm">
+                <div class="leftbox clearfix">
+
+                    <div id="adduser">
 
                         <ul>
                             <li>
                                 <span><strong>Accounts :</strong></span>
                                 <label>
                                     <a href="${createLink(controller: 'user', action: 'create')}">
-                                        <input type="button" value="Add User" class="button"/>
+                                        <input type="button" value="Add User" class=""/>
                                     </a>
                                 </label>
                             </li>
                             <li>
                                 <span><strong>Filter Name :</strong></span>
-                                <label>
-                                    <input name="searchName" type="text" class="inpbox" value="${params.searchName}"/>
-                                    &nbsp;
-                                    <input name="" type="checkbox" value=""/>
-
-                                    hide Enabled
-                                    &nbsp; &nbsp; <input name="" type="checkbox" value=""/>
-                                    hide disabled   &nbsp;  &nbsp; &nbsp; Flagged :
-                                    <input type="text" class="inpbox" style="width:50px;">
-                                </label>
+                                %{--<label>--}%
+                                <input name="searchName" type="text" class="inpbox" value="${searchName}"/>
+                                &nbsp;
+                                <g:checkBox name="hideEnabled" value="${hideEnabled}" onClick="hideEnabledUsers()"/>
+                                %{--<input name="hideEnabled" type="checkbox" value="${hideEnabled}"/>--}%
+                                hide Enabled
+                                &nbsp; &nbsp;
+                                <g:checkBox name="hideDisabled" value="${hideDisabled}" onClick="hideDisabledUsers()"/>
+                                hide disabled   &nbsp;  &nbsp; &nbsp; Flagged :
+                                <input type="text" class="inpbox" style="width:50px;">
+                                %{--</label>--}%
                             </li>
                         </ul>
 
                         <g:submitButton name="submit" value="Submit" style="display:none;"/>
-                    </g:form>
 
+                    </div>
+
+                    <div id="userlist" class="clearfix">
+                        <g:render template="/user/usersResult" mode="[userLise:userList]"/>
+                    </div>
+                    <div id="pagination">
+                        <g:paginate controller="user" action="list" total="${total}"/>
+                    </div>
                 </div>
 
-                <div id="userlist" class="clearfix">
-                    <g:render template="/user/usersResult" mode="[userLise:userList]"/>
-                </div>
-                <div id="pagination">
-                    <g:paginate controller="user" action="list" total="${total}"/>
-                </div>
-            </div>
+
+            </g:form>
+
 
             <div class="bottom-shadow">
                 <label>&nbsp;</label>
@@ -64,5 +68,17 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    function hideEnabledUsers(){
+        jQuery('input[name="submit"]').click();
+        return false;
+    }
+    function hideDisabledUsers(){
+        jQuery('input[name="submit"]').click();
+        return false;
+    }
+</script>
+
 </body>
 </html>
