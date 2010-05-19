@@ -19,9 +19,10 @@ class BootstrapService {
             user.password = user.name
             user.city = 'city' + index
             user.mouthsToFeed = intVal
-            user.type = UserType.User
+            List<UserType> roles = [UserType.User]
+            user.type = roles
             user.introduction = 'about ' + user.name
-            user.isEnabled=true
+            user.isEnabled = true
             user.s()
         }
     }

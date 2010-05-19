@@ -22,9 +22,18 @@
                         <mp:recipeImage id="${user?.image?.id}" noImage="no-img.gif" height="150" width="150"/>
                     </div>
                     <ul>
-                    %{--<li><a href="#">Upload New Photo</a> <a href="#">Remove Photo</a></li>--}%
+                        %{--<li><a href="#">Upload New Photo</a> <a href="#">Remove Photo</a></li>--}%
 
-                    <li>Member since ${user?.joiningDate?.format('MMMM yyyy')}</li>
+                        <li>Member since ${user?.joiningDate?.format('MMMM yyyy')}</li>
+
+                        <li></li>
+                        <li></li>
+
+                        <g:each in="${user?.type}" var="role">
+                            <li>
+                                <strong>${role}</strong>
+                            </li>
+                        </g:each>
                     %{--<li>--}%
                     %{--<h3>Contributed Recipes</h3>--}%
                     %{--</li>--}%
@@ -96,7 +105,7 @@
 
                 </div>
                 <div id="button">
-                    <a href="${createLink(controller:'user', action:'edit', id:user?.id)}">
+                    <a href="${createLink(controller: 'user', action: 'edit', id: user?.id)}">
                         <input type="button" name="btnEdit" class="button" value="Edit Profile"/>
                     </a>
                 </div>

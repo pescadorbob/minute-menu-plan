@@ -63,7 +63,7 @@
 
 #rightpanel ul li label {
     float: left;
-    width: 450px;
+    width: auto;
 }
 
 #right-link {

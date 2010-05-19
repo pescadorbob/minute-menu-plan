@@ -1,3 +1,4 @@
+<%@ page import="com.mp.domain.UserType" %>
 <div id="leftpanel">
     <div id="photo">
       <img id='userImage' border='0' width='180' height="180" src="${g.createLink(controller: 'image', action: 'imageByPath', params: [imagePath: userCO?.selectUserImagePath, noImage:'no-img.gif'])}"/>
@@ -7,10 +8,18 @@
     <g:render template="/recipe/imageUpload" model="[selectorName:'selectUserImage']"/>
 
     <ul>
-    %{--<li><a href="#">Upload New Photo</a> <a href="#">Remove Photo</a></li>--}%
     <g:if test="${userCO?.joiningDate}">
         <li>Member since ${userCO?.joiningDate?.format('MMMM yyyy')}</li>
     </g:if>
+
+    <li></li>
+    <li></li>
+
+    <g:each in="${UserType?.list()}" var="role">
+        <li>
+            <input type="checkbox" name="type" ${userCO?.type?.contains(role.name()) ? 'checked="checked"':''} value="${role.name()}"/>${role.name}
+        </li>
+    </g:each>
     %{--<li>--}%
     %{--<h3>Contributed Recipes</h3>--}%
     %{--</li>--}%

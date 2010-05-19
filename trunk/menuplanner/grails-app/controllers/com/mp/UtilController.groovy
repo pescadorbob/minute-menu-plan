@@ -29,10 +29,22 @@ class UtilController {
     }
 
     def index = {
+
+        List<UserType>userRoles=UserType.list()*.name
+
+        List<UserType> x =[]
+
+        userRoles?.each{
+            println "********** role: ${it}"
+            x.add(UserType."${it}")
+        }
+
+        println x
+        
+
+        /*
         Unit unit1= Unit.findByName(UNIT_GRAM)
         Unit unit2= Unit.findByName(UNIT_MILLI_GRAM)
-//        Unit unit1= Unit.findByName(UNIT_TEA_SPOON)
-//        Unit unit2= Unit.findByName(UNIT_TEA_SPOON)
         String val1 = '1/2'
         String val2 = '1'
 
@@ -47,7 +59,7 @@ class UtilController {
 
         String qUsa = StandardConversion.getUsaQuantityString(q)
         render "SUM: qUsa and unit: ${qUsa} ${q.unit.symbol}<br/>"
-
+          */
 
 //        asynchronousMailService.sendAsynchronousMail {
 //            to 'aman@intelligrape.com'

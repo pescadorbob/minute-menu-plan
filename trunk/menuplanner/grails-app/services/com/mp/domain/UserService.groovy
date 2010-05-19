@@ -28,6 +28,7 @@ class UserCO {
     String city
     String introduction
     Date joiningDate
+    List<String> type
 
     String id
     def selectUserImagePath
@@ -42,6 +43,9 @@ class UserCO {
         introduction = user?.introduction
         city = user?.city
         joiningDate = user?.joiningDate
+
+        type = user?.type*.name()
+        
         if (user?.image) {
             selectUserImagePath = user?.image?.path + user?.image?.storedName
         } else {
@@ -60,17 +64,34 @@ class UserCO {
         mouthsToFeed(nullable: false, matches: /[0-9]*/)
         introduction(nullable: true, blank: true)
         city(nullable: false, blank: false)
+        type(nullable:false, blank:false)
     }
 
-    public User convertToUser() {
-        User user = new User()
+    public boolean createUser(User user){
         user?.name = name
         user?.email = email
         user?.mouthsToFeed = mouthsToFeed
         user?.introduction = introduction
         user?.city = city
-        user?.type = UserType.User
-        user?.password = password.encodeAsBase64()
+        if (user?.password != password) {
+            user.password = password.encodeAsBase64()
+        }
+        return true
+    }
+
+    public boolean setRoles(User user){
+        List<UserType> userRoles = []
+        type?.each{String role->
+            userRoles.add(UserType."${role}")
+        }
+        user?.type = userRoles
+        return true
+    }
+
+    public User convertToUser() {
+        User user = new User()
+        createUser(user)
+        setRoles(user)
         user?.s()
         attachImage(user, selectUserImagePath)
         user?.s()
@@ -78,18 +99,9 @@ class UserCO {
     }
 
     public User updateUser() {
-        User user = User.get(id)
-        user?.name = name
-        user?.email = email
-        user?.mouthsToFeed = mouthsToFeed
-        user?.introduction = introduction
-        user?.city = city
-        user?.type = UserType.User
-
-        if (user?.password != password) {
-            user.password = password.encodeAsBase64()
-        }
-
+        User user = User.get(id?.toLong())
+        createUser(user)
+        setRoles(user)
         user.s()
         attachImage(user, selectUserImagePath)
         user.s()

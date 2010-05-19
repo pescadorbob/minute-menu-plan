@@ -1,3 +1,4 @@
+<%@ page import="com.mp.domain.UserType" %>
 <div id="rightpanel">
 
     <ul>
@@ -44,6 +45,7 @@
                 <g:textArea name="introduction" value="${userCO?.introduction}" class="txtarea  ${hasErrors(bean:userCO,field:'introduction', 'errors')}" rows="4" cols="22"/>
                 &nbsp; Public</label>
         </li>
+
         %{--<li><span>&nbsp;</span>--}%
         %{--<label>--}%
         %{--<input name="" type="checkbox" value=""/>--}%
