@@ -5,7 +5,7 @@
             <li>Name</li>
             <li class="email">Email</li>
             <li>Last Login</li>
-            <li>Enabled</li>
+            <li>Active</li>
             <li>Flagged</li>
             <li>&nbsp;</li>
             <li>&nbsp;</li>
