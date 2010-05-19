@@ -26,7 +26,7 @@
                                 <span><strong>Accounts :</strong></span>
                                 <label>
                                     <a href="${createLink(controller: 'user', action: 'create')}">
-                                        <input type="button" value="Add User" class=""/>
+                                        <input type="button" value="Add User" class="pointer"/>
                                     </a>
                                 </label>
                             </li>
@@ -37,10 +37,10 @@
                                 &nbsp;
                                 <g:checkBox name="hideEnabled" value="${hideEnabled}" onClick="hideEnabledUsers()"/>
                                 %{--<input name="hideEnabled" type="checkbox" value="${hideEnabled}"/>--}%
-                                hide Active
+                                hide Enabled
                                 &nbsp; &nbsp;
                                 <g:checkBox name="hideDisabled" value="${hideDisabled}" onClick="hideDisabledUsers()"/>
-                                hide Inactive   &nbsp;  &nbsp; &nbsp; Flagged :
+                                hide Disabled   &nbsp;  &nbsp; &nbsp; Flagged :
                                 <input type="text" class="inpboxSmall">
                                 %{--</label>--}%
                             </li>

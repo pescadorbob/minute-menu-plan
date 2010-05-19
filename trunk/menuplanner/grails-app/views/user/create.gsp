@@ -27,7 +27,7 @@
                     <g:render template="/user/userDetail" model="[userCO:userCO]"/>
                     <div id="button">
                         <g:submitButton name="btnUpdate" class="button" value="Create User"/>
-                        <input class="button" type="button" name="cancel" id="cancel" value="Cancel"/>
+                        <input class="button pointer" type="button" name="cancel" id="cancel" value="Cancel"/>
                     </div>
                 </g:uploadForm>
             </div>

@@ -58,7 +58,7 @@
                             </li>
                             <li>
                                 <a href="${createLink(controller: 'recipe', action: 'list')}">
-                                    <input type="button" name="cancel" class="button" id="cancel" value="Cancel"/>
+                                    <input type="button pointer" name="cancel" class="button" id="cancel" value="Cancel"/>
                                 </a>
                             </li>
                         </ul>

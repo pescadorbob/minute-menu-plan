@@ -9,13 +9,13 @@
         <h2>You have Selected</h2>
         <table id="tableOption" style="border:0px; font-size:12px;">
             <tr id="categoriesStringRow" style="display:none;">
-                <td width="80px;"></td>
+                <td width="100px;"></td>
                 <td>
                     <span class="searchOptionTexts" id="categoriesStringDisplay"></span>
                 </td>
             </tr>
             <tr id="caloriesStringRow" style="display:none;">
-                <td width="80px;">
+                <td width="100px;">
                     <img onclick="removeSearchOption('caloriesString')" id="caloriesRemove" src="${resource(dir: 'images', file: 'delete-icon.jpg')}" align="top" style="cursor:pointer;"/>
                     Calories:
                 </td>
@@ -24,7 +24,7 @@
                 </td>
             </tr>
             <tr id="difficultyRow" style="display:none;">
-                <td width="80px;">
+                <td width="100px;">
                     <img onclick="removeSearchOption('difficulty')" id="difficultyRemove" src="${resource(dir: 'images', file: 'delete-icon.jpg')}" align="top" style="cursor:pointer;"/>
                     Difficulty:
                 </td>
@@ -33,7 +33,7 @@
                 </td>
             </tr>
             <tr id="prepTimeValueRow" style="display:none;">
-                <td width="80px;">
+                <td width="100px;">
                     <img onclick="removeSearchOption('prepTimeValue')" id="prepTimeRemove" src="${resource(dir: 'images', file: 'delete-icon.jpg')}" align="top" style="cursor:pointer;"/>
                     Prep Time:
                 </td>
@@ -42,7 +42,7 @@
                 </td>
             </tr>
             <tr id="cookingTimeValueRow" style="display:none;">
-                <td width="80px;">
+                <td width="100px;">
                     <img onclick="removeSearchOption('cookingTimeValue')" id="cookingTimeRemove" src="${resource(dir: 'images', file: 'delete-icon.jpg')}" align="top" style="cursor:pointer;"/>
                     Cook Time:
                 </td>
@@ -51,7 +51,7 @@
                 </td>
             </tr>
             <tr id="totalTimeValueRow" style="display:none;">
-                <td width="80px;">
+                <td width="100px;">
                     <img onclick="removeSearchOption('totalTimeValue')" id="totalTimeRemove" src="${resource(dir: 'images', file: 'delete-icon.jpg')}" align="top" style="cursor:pointer;"/>
                     Total Time:
                 </td>

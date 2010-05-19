@@ -22,8 +22,8 @@
     <g:render template="weeklyMeals"/>
     <div id="button">
       <ul>
-        <li><g:submitButton class="button" name="update" value="Update"/></li>
-        <li><g:actionSubmit class="button" action="show" value="Cancel"/></li>
+        <li><g:submitButton class="button pointer" name="update" value="Update"/></li>
+        <li><g:actionSubmit class="button pointer" action="show" value="Cancel"/></li>
       </ul>
     </div>
     </div>

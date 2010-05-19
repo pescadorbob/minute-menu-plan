@@ -11,11 +11,16 @@ class User {
     Date joiningDate
     UserType type
     String password
-    AccountStatus status
+    Boolean isEnabled = true
+
+    static transients = ['isEnabledString']
+
+    String getIsEnabledString(){
+        return (isEnabled ? 'Enabled' : 'Disabled' )
+    }
 
     def beforeInsert = {
         joiningDate = new Date()
-        status = AccountStatus.AWAITING_EMAIL_CONFIRMATION
     }
 
     static hasMany = [favourites: Recipe, contributions: Recipe]
@@ -26,7 +31,6 @@ class User {
         password(nullable: true, blank: true)
         mouthsToFeed(nullable:true, blank:true)
         joiningDate(nullable: true, blank: true)
-        status(nullable: true, blank: true)
         introduction(nullable: true, maxSize:1000)
     }
 }
