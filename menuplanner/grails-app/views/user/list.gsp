@@ -37,10 +37,10 @@
                                 &nbsp;
                                 <g:checkBox name="hideEnabled" value="${hideEnabled}" onClick="hideEnabledUsers()"/>
                                 %{--<input name="hideEnabled" type="checkbox" value="${hideEnabled}"/>--}%
-                                hide Enabled
+                                hide Active
                                 &nbsp; &nbsp;
                                 <g:checkBox name="hideDisabled" value="${hideDisabled}" onClick="hideDisabledUsers()"/>
-                                hide disabled   &nbsp;  &nbsp; &nbsp; Flagged :
+                                hide Inactive   &nbsp;  &nbsp; &nbsp; Flagged :
                                 <input type="text" class="inpbox" style="width:50px;">
                                 %{--</label>--}%
                             </li>
