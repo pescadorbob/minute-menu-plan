@@ -30,10 +30,10 @@ class UserController {
                     ilike('name', "%${name}%")
                 }
                 if(params.userStatus=='enabled'){
-                    ne('isEnabled',true)
+                    eq('isEnabled',true)
                 }
                 if(params.userStatus=='disabled'){
-                    ne('isEnabled',false)
+                    eq('isEnabled',false)
                 }
             }
             total = userList.getTotalCount()
