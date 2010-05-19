@@ -23,7 +23,7 @@
                     <h3>Add Recipe</h3>
                 </div>
                 <g:hasErrors bean="${recipeCO}">
-                    <div class="errors" style="">
+                    <div class="errors">
                         <g:renderErrors bean="${recipeCO}"/>
                     </div>
                 </g:hasErrors>
@@ -51,7 +51,7 @@
                     <div id="button">
                         <ul>
                             <li>
-                                <g:submitButton name="btnSave" class="button" value="Save Recipe" style="cursor:pointer;"/>
+                                <g:submitButton name="btnSave" class="button pointer" value="Save Recipe"/>
                             </li>
                             <li>
                                 <input type="button" name="preview" class="button" id="preview" value="Preview"/>

@@ -3,7 +3,7 @@
     <ul>
         <li><span><strong>Email : </strong></span>
             <label>
-                <span id = "displayEmailAsLabel" style="text-align: left;font-weight: bold;width: 180px;"></span>
+                <span id = "displayEmailAsLabel"></span>
                 <input name="email" type="text" class="inpbox ${hasErrors(bean: userCO, field: 'email', 'errors')}" value="${userCO?.email}"/>
                 <input class="passwordSection" type="button" id="btnChangePassword" name="changePassword" value="Change Password" onclick="ChangePassword()" style="display:none;"/>
             </label>
@@ -57,7 +57,7 @@
         %{--</li>--}%
         %{--<li><span>&nbsp;</span>--}%
         %{--<label><strong>Last day of subscription</strong> &nbsp;--}%
-        %{--<input type="text" class="inpbox" style="width:70px;" value="2 / 2 / 2010"/>--}%
+        %{--<input type="text" class="inpboxSmall" value="2 / 2 / 2010"/>--}%
         %{--&nbsp;--}%
         %{--<img src="${resource(dir: 'images', file: 'calendar.png')}" alt="Calendar " align="absmiddle"/>--}%
         %{--</label>--}%

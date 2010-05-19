@@ -12,8 +12,7 @@
         <ul class="ingredients">
             <li class="liForToolBoxes">
                 <span id="AddItemToolBox" class="toolBoxes" style="width:545px;">
-                    %{--<img id="btnAddItem" src="${resource(dir: 'images', file: 'plus-add.jpg')}" hspace="4" align="left" border="0" style="cursor:pointer; margin:0px;"/>--}%
-                    <span id="itemToBeAdded" style="display:block; float:left;padding-left:42px;">
+                    <span id="itemToBeAdded">
                     <input class="inpbox" id="serveWithItems1" name="serveWithItems"
                             value="${(recipeCO?.serveWithItems)? recipeCO?.serveWithItems?.toList()?.first() : null}"/><br/><br/>
                     <input class="inpbox" id="serveWithItems2" name="serveWithItems"

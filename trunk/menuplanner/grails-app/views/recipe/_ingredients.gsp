@@ -1,6 +1,6 @@
 <div class="tabPanel leftbox clearfix" id=panelIngredients style="display:none;">
     <div class="formElement">
-        <div class="showIngredientsHere" style="">
+        <div class="showIngredientsHere">
             <table id="unitTable" style="display:none;">
             <g:each in="${metricUnits}">
                 <tr>
@@ -19,8 +19,9 @@
                     <td><strong>Ingredient</strong></td>
                 </tr>
                 <!-- Show Ingredients Here -->
-                <g:each status="i" in="${recipeCO?.hiddenIngredientProductNames}" var="X">
-                    <g:render template="ingredientRowWithParams" model="[hiddenIngredientUnitNames:recipeCO?.hiddenIngredientUnitNames[i],hiddenIngredientProductNames:recipeCO.hiddenIngredientProductNames[i], ingredientQuantity:recipeCO.ingredientQuantities[i],ingredientUnitId:recipeCO.ingredientUnitIds[i],ingredientProductId:recipeCO.ingredientProductIds[i], hiddenIngredientUnitSymbol:recipeCO?.hiddenIngredientUnitSymbols[i]]"/>
+                <g:each status="i" in="${recipeCO?.hiddenIngredientProductNames}" var="x">
+                    <g:render template="ingredientRowWithParams"
+                            model="[hiddenIngredientUnitNames:recipeCO?.hiddenIngredientUnitNames[i],hiddenIngredientProductNames:recipeCO.hiddenIngredientProductNames[i], ingredientQuantity:recipeCO.ingredientQuantities[i],ingredientUnitId:recipeCO.ingredientUnitIds[i],ingredientProductId:recipeCO.ingredientProductIds[i], hiddenIngredientUnitSymbol:recipeCO?.hiddenIngredientUnitSymbols[i]]"/>
                 </g:each>
             </table>
         </div>
@@ -28,9 +29,9 @@
             <li class="liForToolBoxes">
                 <span id="AddIngredientToolBox" class="toolBoxes" style="width:400px;">
                     <img class="imagePointer" id="btnAddIngredient" src="${resource(dir: 'images', file: 'plus-add.jpg')}" hspace="4" align="left" border="0"/>
-                    <span id="ingredientToBeAdded" style="display:block; float:left;padding-left:10px;">
+                    <span id="ingredientToBeAdded">
                         <div style="float:left;">
-                            <g:textField class="inpbox" id='optionIngredientQuantities' name="optionIngredientQuantities" value="" style="width:50px;"/>
+                            <g:textField class="inpboxSmall" id='optionIngredientQuantities' name="optionIngredientQuantities" value=""/>
                             <g:select class="inpbox" id='optionIngredientUnitIds' noSelection="['':'(No Unit)']" name="optionIngredientUnitIds" from="${metricUnits}" optionKey="id" style="width:105px;"/>
                         </div>
                         <div style="padding-top:2px; float:left; padding-left:5px;">

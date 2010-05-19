@@ -29,14 +29,14 @@
                     <li>
                         <label>Prep Time</label>
                         <span>
-                            <g:textField class="inpbox ${hasErrors(bean:recipeCO,field:'preparationTime', 'errors')}" name="preparationTime" value="${recipeCO?.preparationTime}" style="width:50px;"/>
+                            <g:textField class="inpboxSmall ${hasErrors(bean:recipeCO,field:'preparationTime', 'errors')}" name="preparationTime" value="${recipeCO?.preparationTime}"/>
                             <g:select class="inpbox" name="preparationUnitId" from="${timeUnits}" optionKey="id" value="${recipeCO?.preparationUnitId}"/>
                         </span>
                     </li>
                     <li>
                         <label>Cook Time</label>
                         <span>
-                            <g:textField class="inpbox ${hasErrors(bean:recipeCO,field:'cookTime', 'errors')}" name="cookTime" value="${recipeCO?.cookTime}" style="width:50px;"/>
+                            <g:textField class="inpboxSmall ${hasErrors(bean:recipeCO,field:'cookTime', 'errors')}" name="cookTime" value="${recipeCO?.cookTime}"/>
                             <g:select class="inpbox" name="cookUnitId" from="${timeUnits}" optionKey="id" value="${recipeCO?.cookUnitId}"/>
                         </span>
                     </li>
@@ -52,7 +52,7 @@
                     <li>
                         <label>Makes</label>
                         <span>
-                            <g:textField class="inpbox ${hasErrors(bean:recipeCO,field:'makesServing', 'errors')}" name="makesServing" value="${recipeCO?.makesServing}" style="width:50px;"/>
+                            <g:textField class="inpboxSmall ${hasErrors(bean:recipeCO,field:'makesServing', 'errors')}" name="makesServing" value="${recipeCO?.makesServing}"/>
                             Servings <br/>
                             <g:checkBox name="shareWithCommunity" value="${recipeCO?.shareWithCommunity}"/>
                             Share with community

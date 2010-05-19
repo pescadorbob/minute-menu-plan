@@ -25,7 +25,7 @@
                         <tr id="categoriesStringRow" style="display:none;">
                             <td width="80px;"></td>
                             <td>
-                                <span id="categoriesStringDisplay" style="float:left; padding-left:5px;"></span>
+                                <span id="categoriesStringDisplay" class="searchOptionTexts"></span>
                             </td>
                         </tr>
                         <tr id="caloriesStringRow" style="display:none;">
@@ -34,7 +34,7 @@
                                 Calories:
                             </td>
                             <td>
-                                <span id="nutrientsDisplay" style="float:left; padding-left:5px;"></span>
+                                <span id="nutrientsDisplay" class="searchOptionTexts"></span>
                             </td>
                         </tr>
                         <tr id="difficultyRow" style="display:none;">
@@ -43,7 +43,7 @@
                                 Difficulty:
                             </td>
                             <td>
-                                <span id="difficultyDisplay" style="float:left; padding-left:5px;"></span>
+                                <span id="difficultyDisplay" class="searchOptionTexts"></span>
                             </td>
                         </tr>
                         <tr id="prepTimeValueRow" style="display:none;">
@@ -52,7 +52,7 @@
                                 Prep Time:
                             </td>
                             <td>
-                                <span id="prepTimeDisplay" style="float:left; padding-left:5px;"></span>
+                                <span id="prepTimeDisplay" class="searchOptionTexts"></span>
                             </td>
                         </tr>
                         <tr id="cookingTimeValueRow" style="display:none;">
@@ -61,7 +61,7 @@
                                 Cook Time:
                             </td>
                             <td>
-                                <span id="cookingTimeDisplay" style="float:left; padding-left:5px;"></span>
+                                <span id="cookingTimeDisplay" class="searchOptionTexts"></span>
                             </td>
                         </tr>
                         <tr id="totalTimeValueRow" style="display:none;">
@@ -70,7 +70,7 @@
                                 Total Time:
                             </td>
                             <td>
-                                <span id="totalTimeDisplay" style="float:left; padding-left:5px;"></span>
+                                <span id="totalTimeDisplay" class="searchOptionTexts"></span>
                             </td>
                         </tr>
 
@@ -95,40 +95,40 @@
                         <li>
                             Calories
                             <br/>
-                            <span id="category0to500" style="color:#007ce1; cursor:pointer;" onclick="submitSearchForm(this, 'caloriesString', '[00000000000000 TO 000000000000dw]');">0-500</span><br/>
-                            <span id="category501to1000" style="color:#007ce1; cursor:pointer;" onclick="submitSearchForm(this, 'caloriesString', '[000000000000dx TO 000000000000rs]');">501-1000</span><br/>
-                            <span id="category1001to" style="color:#007ce1; cursor:pointer;" onclick="submitSearchForm(this, 'caloriesString', '[000000000000rt TO *]');">1000+</span>
+                            <span id="category0to500" class="pointer" onclick="submitSearchForm(this, 'caloriesString', '[00000000000000 TO 000000000000dw]');">0-500</span><br/>
+                            <span id="category501to1000" class="pointer" onclick="submitSearchForm(this, 'caloriesString', '[000000000000dx TO 000000000000rs]');">501-1000</span><br/>
+                            <span id="category1001to" class="pointer" onclick="submitSearchForm(this, 'caloriesString', '[000000000000rt TO *]');">1000+</span>
                         </li>
                         <li>
                             Difficulty
                             <br/>
-                            <span id="difficultyEasy" style="color:#007ce1; cursor:pointer;" onclick="submitSearchForm(this, 'difficulty', 'EASY');">Easy</span><br/>
-                            <span id="difficultyMedium" style="color:#007ce1; cursor:pointer;" onclick="submitSearchForm(this, 'difficulty', 'MEDIUM');">Medium</span><br/>
-                            <span id="difficultyHard" style="color:#007ce1; cursor:pointer;" onclick="submitSearchForm(this, 'difficulty', 'HARD');">Hard</span>
+                            <span id="difficultyEasy" class="pointer" onclick="submitSearchForm(this, 'difficulty', 'EASY');">Easy</span><br/>
+                            <span id="difficultyMedium" class="pointer" onclick="submitSearchForm(this, 'difficulty', 'MEDIUM');">Medium</span><br/>
+                            <span id="difficultyHard" class="pointer" onclick="submitSearchForm(this, 'difficulty', 'HARD');">Hard</span>
                         </li>
                         <li>
                             Prep Time
                             <br/>
-                            <span id="prepTime0to30" style="color:#007ce1; cursor:pointer;" onclick="submitSearchForm(this, 'prepTimeValue', '[00000000000000 TO 0000000000000u]');">0-30 min.</span><br/>
-                            <span id="prepTime31to60" style="color:#007ce1; cursor:pointer;" onclick="submitSearchForm(this, 'prepTimeValue', '[0000000000000u TO 0000000000001o]');">31-60 min.</span><br/>
-                            <span id="prepTime61to120" style="color:#007ce1; cursor:pointer;" onclick="submitSearchForm(this, 'prepTimeValue', '[0000000000001o TO 0000000000003c]');">1-2 hrs.</span><br/>
-                            <span id="prepTime121to" style="color:#007ce1; cursor:pointer;" onclick="submitSearchForm(this, 'prepTimeValue', '[0000000000003d TO *]');">2+ hrs.</span>
+                            <span id="prepTime0to30" class="pointer" onclick="submitSearchForm(this, 'prepTimeValue', '[00000000000000 TO 0000000000000u]');">0-30 min.</span><br/>
+                            <span id="prepTime31to60" class="pointer" onclick="submitSearchForm(this, 'prepTimeValue', '[0000000000000u TO 0000000000001o]');">31-60 min.</span><br/>
+                            <span id="prepTime61to120" class="pointer" onclick="submitSearchForm(this, 'prepTimeValue', '[0000000000001o TO 0000000000003c]');">1-2 hrs.</span><br/>
+                            <span id="prepTime121to" class="pointer" onclick="submitSearchForm(this, 'prepTimeValue', '[0000000000003d TO *]');">2+ hrs.</span>
                         </li>
                         <li>
                             Cook Time
                             <br/>
-                            <span id="cookTime0to30" style="color:#007ce1; cursor:pointer;" onclick="submitSearchForm(this, 'cookingTimeValue', '[00000000000000 TO 0000000000000u]');">0-30 min.</span><br/>
-                            <span id="cookTime31to60" style="color:#007ce1; cursor:pointer;" onclick="submitSearchForm(this, 'cookingTimeValue', '[0000000000000v TO 0000000000001o]');">31-60 min.</span><br/>
-                            <span id="cookTime61to120" style="color:#007ce1; cursor:pointer;" onclick="submitSearchForm(this, 'cookingTimeValue', '[0000000000001o TO 0000000000003c]');">1-2 hrs.</span><br/>
-                            <span id="cookTime121to" style="color:#007ce1; cursor:pointer;" onclick="submitSearchForm(this, 'cookingTimeValue', '[0000000000003d TO *]');">2+ hrs.</span>
+                            <span id="cookTime0to30" class="pointer" onclick="submitSearchForm(this, 'cookingTimeValue', '[00000000000000 TO 0000000000000u]');">0-30 min.</span><br/>
+                            <span id="cookTime31to60" class="pointer" onclick="submitSearchForm(this, 'cookingTimeValue', '[0000000000000v TO 0000000000001o]');">31-60 min.</span><br/>
+                            <span id="cookTime61to120" class="pointer" onclick="submitSearchForm(this, 'cookingTimeValue', '[0000000000001o TO 0000000000003c]');">1-2 hrs.</span><br/>
+                            <span id="cookTime121to" class="pointer" onclick="submitSearchForm(this, 'cookingTimeValue', '[0000000000003d TO *]');">2+ hrs.</span>
                         </li>
                         <li>
                             Total Time
                             <br/>
-                            <span id="totalTime0to30" style="color:#007ce1; cursor:pointer;" onclick="submitSearchForm(this, 'totalTimeValue', '[00000000000000 TO 0000000000000u]');">0-30 min.</span><br/>
-                            <span id="totalTime31to60" style="color:#007ce1; cursor:pointer;" onclick="submitSearchForm(this, 'totalTimeValue', '[0000000000000u TO 0000000000001o]');">31-60 min.</span><br/>
-                            <span id="totalTime61to120" style="color:#007ce1; cursor:pointer;" onclick="submitSearchForm(this, 'totalTimeValue', '[0000000000001o TO 0000000000003c]');">1-2 hrs.</span><br/>
-                            <span id="totalTime121to" style="color:#007ce1; cursor:pointer;" onclick="submitSearchForm(this, 'totalTimeValue', '[0000000000003d TO *]');">2+ hrs.</span>
+                            <span id="totalTime0to30" class="pointer" onclick="submitSearchForm(this, 'totalTimeValue', '[00000000000000 TO 0000000000000u]');">0-30 min.</span><br/>
+                            <span id="totalTime31to60" class="pointer" onclick="submitSearchForm(this, 'totalTimeValue', '[0000000000000u TO 0000000000001o]');">31-60 min.</span><br/>
+                            <span id="totalTime61to120" class="pointer" onclick="submitSearchForm(this, 'totalTimeValue', '[0000000000001o TO 0000000000003c]');">1-2 hrs.</span><br/>
+                            <span id="totalTime121to" class="pointer" onclick="submitSearchForm(this, 'totalTimeValue', '[0000000000003d TO *]');">2+ hrs.</span>
                         </li>
                     </ul>
                 </div>

@@ -26,7 +26,7 @@
     </g:if>
 </g:each>
 </div>
-<div class="paginateButtons" style="margin:5px; border:0px;">
+<div class="paginateButtons">
     <util:remotePaginate controller="recipe" action="search" total="${recipeTotal}" params="[query: query]"
             max="15" offset="${params.offset}" update="rightContainer"/>
 </div>
