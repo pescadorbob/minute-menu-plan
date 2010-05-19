@@ -32,17 +32,18 @@
                             </li>
                             <li>
                                 <span><strong>Filter Name :</strong></span>
-                                %{--<label>--}%
                                 <input name="searchName" type="text" class="inpbox" value="${searchName}"/>
                                 &nbsp;
-                                <g:checkBox name="hideEnabled" value="${hideEnabled}" onClick="hideEnabledUsers()"/>
-                                %{--<input name="hideEnabled" type="checkbox" value="${hideEnabled}"/>--}%
-                                hide Enabled
-                                &nbsp; &nbsp;
-                                <g:checkBox name="hideDisabled" value="${hideDisabled}" onClick="hideDisabledUsers()"/>
-                                hide Disabled   &nbsp;  &nbsp; &nbsp; Flagged :
+                                %{--<g:checkBox name="hideEnabled" value="${hideEnabled}" onClick="hideEnabledUsers()"/>--}%
+                                %{--hide Enabled--}%
+                                %{--&nbsp; &nbsp;--}%
+                                %{--<g:checkBox name="hideDisabled" value="${hideDisabled}" onClick="hideDisabledUsers()"/>--}%
+                                %{--hide Disabled   --}%
+                                <input type="radio" name="userStatus" ${(userStatus == 'all') ? 'checked="checked"' : ''} value="all" onClick="usersByStatus()"/> Show All
+                                <input type="radio" name="userStatus" ${(userStatus == 'enabled') ? 'checked="checked"' : ''} value="enabled" onClick="usersByStatus()"/> Hide Enabled
+                                <input type="radio" name="userStatus" ${(userStatus == 'disabled') ? 'checked="checked"' : ''} value="disabled" onClick="usersByStatus()"/> Hide Disabled
+                            &nbsp;  &nbsp; &nbsp; Flagged :
                                 <input type="text" class="inpboxSmall">
-                                %{--</label>--}%
                             </li>
                         </ul>
 
@@ -58,7 +59,6 @@
                     </div>
                 </div>
 
-
             </g:form>
 
 
@@ -70,11 +70,7 @@
 </div>
 
 <script type="text/javascript">
-    function hideEnabledUsers(){
-        jQuery('input[name="submit"]').click();
-        return false;
-    }
-    function hideDisabledUsers(){
+    function usersByStatus() {
         jQuery('input[name="submit"]').click();
         return false;
     }

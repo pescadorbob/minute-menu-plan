@@ -5,13 +5,13 @@ class MenuPlanController {
     def index = { }
 
     def show = {
-        Integer listSize = Recipe.count()
+        Integer listSize = Item.count()
         params.max = Math.min(params.max ? params.int('max') : 4, 150)
         List<Category> categoryList = Category.list()
-        List<Recipe> recipeList = Recipe.list(params)
+        List<Item> itemList = Item.list(params)
 
         MenuPlan menuPlan = MenuPlan.get(params.long("id"))
-        render(view: 'show', model: [menuPlan: menuPlan, categoryList: categoryList, recipeList: recipeList, recipeTotal: Recipe.count()])
+        render(view: 'show', model: [menuPlan: menuPlan, categoryList: categoryList, itemList: itemList, itemTotal: Item.count()])
     }
 
     def create = {
@@ -26,18 +26,18 @@ class MenuPlanController {
             menuPlan.addToWeeks(week)
         }
         List<Category> categoryList = Category.list()
-        List<Recipe> recipeList = Recipe.list(params)
-        render(view: 'create', model: [menuPlan: menuPlan, categoryList: categoryList, recipeList: recipeList, recipeTotal: Recipe.count()])
+        List<Item> itemList = Item.list(params)
+        render(view: 'create', model: [menuPlan: menuPlan, categoryList: categoryList, itemList: itemList, itemTotal: Item.count()])
     }
 
     def edit = {
-        Integer listSize = Recipe.count()
+        Integer listSize = Item.count()
         params.max = Math.min(params.max ? params.int('max') : 4, 150)
         List<Category> categoryList = Category.list()
-        List<Recipe> recipeList = Recipe.list(params)
+        List<Item> itemList = Item.list(params)
 
         MenuPlan menuPlan = MenuPlan.get(params.long("id"))
-        render(view: 'edit', model: [menuPlan: menuPlan, categoryList: categoryList, recipeList: recipeList, recipeTotal: Recipe.count()])
+        render(view: 'edit', model: [menuPlan: menuPlan, categoryList: categoryList, itemList: itemList, itemTotal: Item.count()])
     }
 
     def saveAndUpdate = {
@@ -85,18 +85,18 @@ class MenuPlanController {
         Integer total
 
         if (query && (query != 'null')) {
-            def search = Recipe.search([reload: true, max: 4, offset: params.offset ?: 0]) {
+            def search = Item.search([reload: true, max: 4, offset: params.offset ?: 0]) {
                 must(queryString(query))
             }
             results = search?.results
             total = search?.total
         } else {
             params.max = 4
-            results = Recipe.list(params)
-            total = Recipe.count()
+            results = Item.list(params)
+            total = Item.count()
         }
 
-        render(template: '/menuPlan/searchResultMenuPlan', model: [recipeList: results, recipeTotal: total, query: query])
+        render(template: '/menuPlan/searchResultMenuPlan', model: [itemList: results, itemTotal: total, query: query])
     }
 
 }
