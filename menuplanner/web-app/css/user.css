@@ -114,6 +114,7 @@
 #adduser ul li{clear:both;padding:10px;}
 #adduser ul li span{float:left;width:160px;text-align:right;padding-right:15px;}
 #adduser ul li label{float:left;width:570px;}
+#displayEmailAsLabel{text-align: left;font-weight: bold;width: 180px;}
 /* end adduser
 
 /* start userlist  */

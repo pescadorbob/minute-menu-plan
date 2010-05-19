@@ -25,7 +25,7 @@
         <!--  start left-panel -->
         <div id="right-head">
             <div id="leftpart">
-                <label style="">${recipe?.name}</label>
+                <label>${recipe?.name}</label>
                 <g:render template="/rating/rating"/>
                 <g:if test="${recipe?.preparationTime}">Prep - ${recipe?.preparationTime}</g:if>
                 <g:if test="${recipe?.cookingTime}">Cook - ${recipe?.cookingTime}</g:if>

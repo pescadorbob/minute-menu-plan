@@ -18,8 +18,8 @@
             <li class="liForToolBoxes">
                 <span id="AddDirectionToolBox" class="toolBoxes">
                     <img class="imagePointer" id="btnAddDirection" src="${resource(dir: 'images', file: 'plus-add.jpg')}" hspace="4" align="left" border="0"/>
-                    <span id="directionToBeAdded" style="display:block; float:left;padding-left:10px;">
-                        <g:textArea class="inpbox" id="optionDirections" name="optionDirections" value="" rows="5" style="width:420px;"/>
+                    <span id="directionToBeAdded">
+                        <g:textArea class="inpbox" id="optionDirections" name="optionDirections" value="" cols="56" rows="5"/>
                     </span>
                 </span>
             </li>

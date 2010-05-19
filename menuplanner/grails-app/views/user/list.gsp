@@ -41,7 +41,7 @@
                                 &nbsp; &nbsp;
                                 <g:checkBox name="hideDisabled" value="${hideDisabled}" onClick="hideDisabledUsers()"/>
                                 hide Inactive   &nbsp;  &nbsp; &nbsp; Flagged :
-                                <input type="text" class="inpbox" style="width:50px;">
+                                <input type="text" class="inpboxSmall">
                                 %{--</label>--}%
                             </li>
                         </ul>

@@ -6,7 +6,7 @@
         </td>
         <td>
             %{--<img src="${resource(dir: 'images', file: 'browse-img.gif')}" align="absmiddle"/>--}%
-            <img id="removeRecipeImage" src="${resource(dir: 'images', file: '].gif')}" align="absmiddle" alt="Remove" style="cursor:pointer"/>
+            <img id="removeRecipeImage" src="${resource(dir: 'images', file: '].gif')}" align="absmiddle" alt="Remove"/>
         </td>
     </tr>
     <tr>

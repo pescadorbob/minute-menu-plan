@@ -18,7 +18,7 @@
                             <input type="hidden" value="${nutrient?.preferredUnit?.symbol}" name="nutrientUnitSymbols"/>
                         </td>
                         <td>
-                            <input style="width:50px;" class="inpbox" type="text" name="nutrientQuantities" value="${((recipeCO) ? recipeCO.nutrientQuantities[i] : '')}"/>
+                            <input class="inpboxSmall" type="text" name="nutrientQuantities" value="${((recipeCO) ? recipeCO.nutrientQuantities[i] : '')}"/>
                         </td>
                         <td>
                             ${nutrient?.preferredUnit?.symbol}  ${nutrient?.name}

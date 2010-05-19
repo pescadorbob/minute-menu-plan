@@ -72,7 +72,7 @@
                         %{--</li>--}%
                         %{--<li><span>&nbsp;</span>--}%
                         %{--<label><strong>Last day of subscription</strong> &nbsp;--}%
-                        %{--<input type="text" class="inpbox" style="width:70px;" value="2 / 2 / 2010"/>--}%
+                        %{--<input type="text" class="inpboxSmall" value="2 / 2 / 2010"/>--}%
                         %{--&nbsp;--}%
                         %{--<img src="${resource(dir: 'images', file: 'calendar.png')}" alt="Calendar " align="absmiddle"/>--}%
                         %{--</label>--}%
