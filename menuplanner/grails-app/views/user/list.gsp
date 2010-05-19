@@ -33,16 +33,11 @@
                             <li>
                                 <span><strong>Filter Name :</strong></span>
                                 <input name="searchName" type="text" class="inpbox" value="${searchName}"/>
-                                &nbsp;
-                                %{--<g:checkBox name="hideEnabled" value="${hideEnabled}" onClick="hideEnabledUsers()"/>--}%
-                                %{--hide Enabled--}%
-                                %{--&nbsp; &nbsp;--}%
-                                %{--<g:checkBox name="hideDisabled" value="${hideDisabled}" onClick="hideDisabledUsers()"/>--}%
-                                %{--hide Disabled   --}%
-                                <input type="radio" name="userStatus" ${(userStatus == 'all') ? 'checked="checked"' : ''} value="all" onClick="usersByStatus()"/> Show All
-                                <input type="radio" name="userStatus" ${(userStatus == 'enabled') ? 'checked="checked"' : ''} value="enabled" onClick="usersByStatus()"/> Hide Enabled
-                                <input type="radio" name="userStatus" ${(userStatus == 'disabled') ? 'checked="checked"' : ''} value="disabled" onClick="usersByStatus()"/> Hide Disabled
-                            &nbsp;  &nbsp; &nbsp; Flagged :
+                                &nbsp;&nbsp;&nbsp;&nbsp;Show&nbsp;
+                                    <input type="radio" name="userStatus" ${(userStatus == 'all') ? 'checked="checked"' : ''} value="all" onClick="usersByStatus()"/> All
+                                    <input type="radio" name="userStatus" ${(userStatus == 'enabled') ? 'checked="checked"' : ''} value="enabled" onClick="usersByStatus()"/> Enabled
+                                    <input type="radio" name="userStatus" ${(userStatus == 'disabled') ? 'checked="checked"' : ''} value="disabled" onClick="usersByStatus()"/> Disabled
+                                &nbsp;  &nbsp; &nbsp; Flagged :
                                 <input type="text" class="inpboxSmall">
                             </li>
                         </ul>
