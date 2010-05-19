@@ -5,7 +5,7 @@
             <li>Name</li>
             <li class="email">Email</li>
             <li>Last Login</li>
-            <li>Active</li>
+            <li>Enabled</li>
             <li>Flagged</li>
             <li>&nbsp;</li>
             <li>&nbsp;</li>
@@ -24,11 +24,11 @@
                 %{--<li>Enabled</li>--}%
                 %{--<li>0 Flags</li>--}%
                 <li>To Be Implemented</li>
-                <li id="status${user?.id}">${user?.status}</li>
+                <li id="status${user?.id}">${user?.isEnabledString}</li>
                 <li>To Be Implemented</li>
                 <li><g:link controller="user" action="edit" params="[id:user?.id]">Edit</g:link></li>
                 <li><g:remoteLink controller="user" action="changeStatus" onSuccess="invertStatus('${user?.id}');" name="changeStatus${user?.id}"
-                        id="${user?.id}">${(user?.status == AccountStatus.ACTIVE) ? 'Deactivate' : 'Activate'}</g:remoteLink></li>
+                        id="${user?.id}">${(user?.isEnabledString == 'Enabled') ? 'Disable' : 'Enabled'}</g:remoteLink></li>
             </ul>
         </li>
     </g:each>
@@ -50,12 +50,12 @@
     function invertStatus(id) {
         var link = jQuery("a[name=changeStatus" + id + "]");
         var text = jQuery(link).text();
-        if (text == 'Activate') {
-            jQuery(link).text('Deactivate');
-            jQuery('#status' + id).text('Active');
+        if (text == 'Enable') {
+            jQuery(link).text('Disable');
+            jQuery('#status' + id).text('Enabled');
         } else {
-            jQuery(link).text('Activate');
-            jQuery('#status' + id).text('Inactive');
+            jQuery(link).text('Enable');
+            jQuery('#status' + id).text('Disabled');
         }
     }
 </script>

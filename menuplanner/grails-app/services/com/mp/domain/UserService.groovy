@@ -5,18 +5,13 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 class UserService {
 
     boolean transactional = true
+
     public boolean changeStatus(Long userId) {
         User user = User.findById(userId)
-        if(user){
-            if(user.status==AccountStatus.ACTIVE){
-                user.status=AccountStatus.INACTIVE
-            } else{
-                user.status=AccountStatus.ACTIVE
-            }
-            return (user.s())
-
+        if (user) {
+            (user.isEnabled = !(user.isEnabled))
+            return true
         }
-        return false
     }
 }
 
@@ -46,7 +41,7 @@ class UserCO {
         mouthsToFeed = user?.mouthsToFeed
         introduction = user?.introduction
         city = user?.city
-        joiningDate=user?.joiningDate
+        joiningDate = user?.joiningDate
         if (user?.image) {
             selectUserImagePath = user?.image?.path + user?.image?.storedName
         } else {
@@ -61,7 +56,7 @@ class UserCO {
         confirmPassword(nullable: false, blank: false, validator: {val, obj ->
             obj.properties['password'] == val
         })
-        name(nullable:false, blank: false, matches: /[a-zA-Z0-9\s\&]*/)
+        name(nullable: false, blank: false, matches: /[a-zA-Z0-9\s\&]*/)
         mouthsToFeed(nullable: false, matches: /[0-9]*/)
         introduction(nullable: true, blank: true)
         city(nullable: false, blank: false)

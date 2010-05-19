@@ -21,7 +21,7 @@ class BootstrapService {
             user.mouthsToFeed = intVal
             user.type = UserType.User
             user.introduction = 'about ' + user.name
-            user.status=AccountStatus.ACTIVE
+            user.isEnabled=true
             user.s()
         }
     }

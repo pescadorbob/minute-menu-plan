@@ -63,7 +63,7 @@
                             %{--</li>--}%
                             <li>
                                 <a href="${createLink(controller: 'recipe', action: 'show', id:recipeCO?.id)}">
-                                    <input class="button" type="button" name="cancel" id="cancel" value="Cancel"/>
+                                    <input class="button pointer" type="button" name="cancel" id="cancel" value="Cancel"/>
                                 </a>
                             </li>
                         </ul>
