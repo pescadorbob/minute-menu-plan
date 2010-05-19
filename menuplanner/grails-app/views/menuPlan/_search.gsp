@@ -79,7 +79,7 @@
                 </div>
                 <div class="ratingbox" id="searchResult">
 
-                    <g:render template="/menuPlan/searchResultMenuPlan" model="[recipeList:recipeList, recipeTotal:recipeTotal, query:query]"/>
+                    <g:render template="/menuPlan/searchResultMenuPlan" model="[itemList:itemList, itemTotal:itemTotal, query:query]"/>
 
                 </div>
             </div>

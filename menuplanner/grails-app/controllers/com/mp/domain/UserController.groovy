@@ -24,25 +24,26 @@ class UserController {
 
         def userList
         Integer total
-        if (name || params.hideEnabled || params.hideDisabled) {
+        if (name || params?.userStatus) {
             userList = User.createCriteria().list(max: params.max, offset: 0) {
                 if(name){
                     ilike('name', "%${name}%")
                 }
-                if(params.hideEnabled){
+                if(params.userStatus=='enabled'){
                     ne('isEnabled',true)
                 }
-                if(params.hideDisabled){
+                if(params.userStatus=='disabled'){
                     ne('isEnabled',false)
                 }
             }
             total = userList.getTotalCount()
         } else {
+            params.userStatus='all'
             userList = User.list(params)
             total= User.count()
         }
 
-        render(view: 'list', model: [userList: userList, total: total, searchName: name, hideEnabled:params.hideEnabled, hideDisabled:params.hideDisabled])
+        render(view: 'list', model: [userList: userList, total: total, searchName: name, userStatus:params.userStatus])
     }
 
 

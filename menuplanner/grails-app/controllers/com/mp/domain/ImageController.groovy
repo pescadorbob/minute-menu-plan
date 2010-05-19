@@ -19,7 +19,6 @@ def grailsApplication
             fileContent = image.readFile()
         } else{
             File noImageFile =new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/images/${params?.noImage}"))
-//            File noImageFile =new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/images/no-img.gif"))${params.noImage}
             fileContent = noImageFile.readBytes()
             extension = noImageFile?.name?.tokenize('.')?.tail()?.join('.')
         }

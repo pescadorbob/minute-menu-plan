@@ -1,28 +1,39 @@
+<%@ page import="com.mp.domain.Recipe" %>
 <div class="ratingbox">
     <ul class="resultContainer">
-        <g:each in="${recipeList}" var="recipe" status="index">
+        <g:each in="${itemList}" var="item" status="index">
             <li class="clearfix draggableItem" id="draggableSearchItem_${index + 1}">
                 <ul>
-                    <li>
-                        <input type="hidden" name="menuItemId" value="${recipe.id}"/>
-                        <h3 class="recipeName"><g:link action="show" controller="recipe" id="${recipe?.id}">${recipe.name}</g:link></h3></li>
+                    <input type="hidden" name="menuItemId" value="${item.id}"/>
+                    <g:if test="${item?.instanceOf(Recipe)}">
+                        <li><h3 class="recipeName"><a href="${createLink(action: 'show', controller: 'recipe', id: item?.id)}">${item.name}</a></h3></li>
+                    </g:if>
+                    <g:else>
+                        <li><h3 class="recipeName">${item.name}</h3></li>
+                    </g:else>
                     <li>
                         <ul>
-                            <li><img class="imgbor" src="${createLink(controller: 'image', action: 'image', id: recipe?.image?.id)}"/></li>
-                            <li>
-                                <ul>
-                                    <li><g:render template="/rating/rating"/></li>
-                                    <g:if test="${recipe?.totalTime}">
-                                        <li>${recipe?.totalTime}</li>
-                                    </g:if>
-                                    <g:if test="${recipe?.difficulty}">
-                                        <li>${recipe?.difficulty}</li>
-                                    </g:if>
-                                    <g:each in="${recipe?.ingredients?.ingredient}" var="product" status="i">
-                                        <g:if test="${(i<3)}"><li>${product}</li></g:if>
-                                    </g:each>
-                                </ul>
-                            </li>
+                            <g:if test="${item.instanceOf(Recipe)}">
+                                <li><img class="imgbor" src="${createLink(controller: 'image', action: 'image', id: item?.image?.id)}"/></li>
+                                <li>
+                                    <ul>
+                                        <li><g:render template="/rating/rating"/></li>
+                                        <g:if test="${item?.totalTime}">
+                                            <li>${item?.totalTime}</li>
+                                        </g:if>
+                                        <g:if test="${item?.difficulty}">
+                                            <li>${item?.difficulty}</li>
+                                        </g:if>
+                                        <g:each in="${item?.ingredients?.ingredient}" var="product" status="i">
+                                            <g:if test="${(i<3)}"><li>${product}</li></g:if>
+                                        </g:each>
+                                    </ul>
+                                </li>
+                            </g:if>
+                            <g:else>
+                                <li><img class="imgbor" src="${createLink(controller: 'image', action: 'imageByPath', params: [imagePath: '', noImage: 'no-img.gif'])}"/></li>
+                            </g:else>
+
                         </ul>
                     </li>
                 </ul>
@@ -31,17 +42,11 @@
     </ul>
 </div>
 
-%{--<ul class="resultContainer">--}%
-    %{--<g:each in="${recipeList}" var="recipe" status="index">--}%
-        %{--<g:render template="/menuPlan/recipeThumb" model="[recipe:recipe, index: index]"/>--}%
-    %{--</g:each>--}%
-%{--</ul>--}%
-
 <div class="paginateButtons">
     <util:remotePaginate
             controller="menuPlan"
             action="search"
-            total="${recipeTotal}"
+            total="${itemTotal}"
             params="[query: query]"
             max="4"
             offset="${params.offset}"
