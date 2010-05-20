@@ -28,11 +28,29 @@ class UtilController {
         render "All recipes deleted!!"
     }
 
+    public String deleteRecipe() {
+
+        Recipe recipe = Recipe.list().last()
+
+        println "************************ Recipe: ${recipe?.name}"
+        println "************************ Ingredients: ${recipe?.ingredients}"
+        try {
+            recipe.delete(flush:true)
+        } catch (e) {
+            e.printStackTrace
+            return "************************ Problem while Deleting recipe: ${recipe?.name}....."
+        }
+        return "Recipe: ${recipe?.name} ........ DELETED !!"
+    }
+
     def index = {
+
+        render deleteRecipe()
+        /*
         Unit unit1 = Unit.findByName(TIME_UNIT_HOURS)
         Unit unit2 = Unit.findByName(TIME_UNIT_MINUTES)
-//        Unit unit1 = null
-//        Unit unit2 = null
+        Unit unit3 = null
+        Unit unit4 = null
         String val1 = '2'
         String val2 = '16'
 
@@ -45,16 +63,18 @@ class UtilController {
         Quantity q = addQuantities(val1, unit1, val2, unit2)
         render "SUM: ${q.toString()? q : 'QUANTITIES CAN NOT BE ADDED..'} <br/>"
         q.s()
+        */
 
-//        asynchronousMailService.sendAsynchronousMail {
-//            to 'aman@intelligrape.com'
-//            subject 'created your profile! grails.'
-//            html '<body><u>XYZ</u></body>'
-//        }
-//
-//        Long l = 30l
-//        render "metric: " + NumberTools.longToString(l)
+        /*
+        asynchronousMailService.sendAsynchronousMail {
+            to 'aman@intelligrape.com'
+            subject 'created your profile! grails.'
+            html '<body><u>XYZ</u></body>'
+        }
 
+        Long l = 30l
+        render "metric: " + NumberTools.longToString(l)
+        */
     }
 
     def uploadRecipes = {
@@ -188,4 +208,5 @@ class UtilController {
         }
         return resultantQuantity
     }
+
 }

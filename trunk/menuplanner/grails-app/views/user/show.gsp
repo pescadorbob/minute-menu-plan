@@ -101,9 +101,10 @@
 
                 </div>
                 <div id="button">
-                    <a href="${createLink(controller: 'user', action: 'edit', id: user?.id)}">
-                        <input type="button" name="btnEdit" class="button" value="Edit Profile"/>
-                    </a>
+                    <g:uploadForm name="formUserDetail">
+                        <g:hiddenField name='id' value='${user?.id}'/>
+                        <g:actionSubmit class='button pointer' controller='user' action='edit' id='${user?.id}' value='Edit Profile' name='edit'/>
+                    </g:uploadForm>
                 </div>
             </div>
             <div class="bottom-shadow">

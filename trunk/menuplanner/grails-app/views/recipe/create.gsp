@@ -37,7 +37,7 @@
                     </ul>
                 </div>
 
-                <g:uploadForm name="formCreateRecipe" controller="recipe" action="save">
+                <g:uploadForm name="formCreateRecipe">
 
                     <g:render template="/recipe/generalInfo" model="[recipeCO: recipeCO, timeUnits: timeUnits]"/>
                     <g:render template="/recipe/ingredients" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
@@ -51,21 +51,17 @@
                     <div id="button">
                         <ul>
                             <li>
-                                <g:submitButton name="btnSave" class="button pointer" value="Save Recipe"/>
+                                <g:actionSubmit class="button pointer" controller="recipe" action="save" name="create" value="Create"/>
                             </li>
                             <li>
                                 <input type="button" name="preview" class="button" id="preview" value="Preview"/>
                             </li>
                             <li>
-                                <a href="${createLink(controller: 'recipe', action: 'list')}">
-                                    <input type="button" name="cancel" class="button pointer" id="cancel" value="Cancel"/>
-                                </a>
+                                <g:actionSubmit class="button pointer" controller="recipe" action="list" name="cancel" value="Cancel"/>
                             </li>
                         </ul>
                     </div>
-
                 </g:uploadForm>
-
             </div>
             <g:render template="/recipe/preview"/>
         </div>
