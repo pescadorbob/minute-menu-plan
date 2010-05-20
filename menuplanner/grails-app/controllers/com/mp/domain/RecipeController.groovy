@@ -35,6 +35,7 @@ class RecipeController {
     }
 
     def list = {
+        println ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> In The List action..."
         Integer listSize = Recipe.count()
         params.max = Math.min(params.max ? params.int('max') : 15, 150)
         List<Category> categoryList = Category.list()
@@ -68,22 +69,30 @@ class RecipeController {
         render(template: '/recipe/searchResultRecipe', model: [recipeList: results, recipeTotal: total, query: query])
     }
 
+
     def delete = {
         def recipe = Recipe.get(params.id)
         if (recipe) {
             try {
-                recipe.delete(flush: true)
+                recipeService.deleteRecipe(recipe)
+                println ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Returned from method.............."
                 flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'recipe.label', default: 'Recipe'), params.id])}"
-                redirect(action: "list")
+                println ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Added message to flash........"
+                redirect(controller:'recipe', action: "list")
+                println ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>redirected to list........"
+                return
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
+                println ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>. CAUGHT"
                 flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'recipe.label', default: 'Recipe'), params.id])}"
                 redirect(action: "show", id: params.id)
+                return
             }
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'recipe.label', default: 'Recipe'), params.id])}"
             redirect(action: "list")
+            return
         }
     }
 

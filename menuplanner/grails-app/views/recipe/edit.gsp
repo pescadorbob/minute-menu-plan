@@ -36,47 +36,39 @@
                         <li><a class="tabs" id="tabNutritionFacts" style="${hasErrors(bean: recipeCO, field: 'nutrientQuantities', 'color:red;')}"><span>Nutrition&nbsp;Facts</span></a></li>
                     </ul>
                 </div>
-
-                <g:uploadForm name="formCreateRecipe" controller="recipe" action="update">
+                <g:uploadForm name="formCreateRecipe">
                     <g:hiddenField name='id' value='${recipeCO?.id}'/>
                     <g:render template="/recipe/generalInfo" model="[recipeCO: recipeCO, timeUnits: timeUnits]"/>
                     <g:render template="/recipe/ingredients" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
                     <g:render template="/recipe/cookingSteps" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
                     <g:render template="/recipe/serveWith" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
                     <g:render template="/recipe/nutrientFacts" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
-
                     <div class="bottom-shadow">
                         <label>&nbsp;</label>
                     </div>
                     <div id="button">
                         <ul>
                             <li>
-                                <g:submitButton name="btnUpdate" class="button pointer" value="Update Recipe"/>
+                                <g:actionSubmit class="button pointer" controller="recipe" action="update" name="update" value="Update"/>
                             </li>
                             <li>
                                 <input class="button" type="button" name="preview" id="preview" value="Preview"/>
                             </li>
-                            %{--<li>--}%
-                                %{--<a href="${createLink(controller: 'recipe', action: 'delete', id:recipeCO?.id)}">--}%
-                                    %{--<input class="button" type="button" name="delete" id="delete" value="Delete"/>--}%
-                                %{--</a>--}%
-                            %{--</li>--}%
                             <li>
-                                <a href="${createLink(controller: 'recipe', action: 'show', id:recipeCO?.id)}">
-                                    <input class="button pointer" type="button" name="cancel" id="cancel" value="Cancel"/>
-                                </a>
+                                <g:actionSubmit class="button pointer" controller="recipe" action="delete" name="delete" value="Delete"/>
+                            </li>
+                            <li>
+                                <g:actionSubmit class="button pointer" controller="recipe" action="show" name="cancel" value="Cancel"/>
+                                %{--<input class="button pointer" type="button" name="cancel" id="cancel" value="Cancel" onClick="self.location.href = '${createLink(action:'show',controller:'recipe', id:recipeCO?.id)}'"/>--}%
                             </li>
                         </ul>
                     </div>
-
                 </g:uploadForm>
-
             </div>
             <g:render template="/recipe/preview"/>
         </div>
     </div>
 </div>
 <g:render template="/recipe/bindEventsToTabs"/>
-
 </body>
 </html>

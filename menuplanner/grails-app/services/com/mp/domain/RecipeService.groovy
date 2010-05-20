@@ -8,6 +8,20 @@ import org.codehaus.groovy.grails.commons.ApplicationHolder
 class RecipeService {
 
     boolean transactional = true
+
+    public boolean deleteRecipe(Recipe recipe) {
+        println "************************ Recipe: ${recipe?.name}"
+        println "************************ Ingredients: ${recipe?.ingredients}"
+        try {
+            recipe.delete()
+        } catch (e) {
+            e.printStackTrace()
+            println "************************ Problem while Deleting recipe: ${recipe?.name}....."
+        }
+        println "Recipe: ${recipe?.name} ........ DELETED !!"
+        return true
+    }
+    
 }
 
 class RecipeCO {

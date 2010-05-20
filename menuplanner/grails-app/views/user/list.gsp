@@ -16,7 +16,7 @@
             <div class="top-shadow">
                 <label>&nbsp;</label>
             </div>
-            <g:form controller="user" action="list" name="searchForm">
+            <g:form name="searchForm">
                 <div class="leftbox clearfix">
 
                     <div id="adduser">
@@ -25,24 +25,22 @@
                             <li>
                                 <span><strong>Accounts :</strong></span>
                                 <label>
-                                    <a href="${createLink(controller: 'user', action: 'create')}">
-                                        <input type="button" value="Add User" class="pointer"/>
-                                    </a>
+                                    <g:actionSubmit controller="user" action="create" name="addUser" value="Add User" class="pointer"/>
                                 </label>
                             </li>
                             <li>
                                 <span><strong>Filter Name :</strong></span>
                                 <input name="searchName" type="text" class="inpbox" value="${searchName}"/>
                                 &nbsp;&nbsp;&nbsp;&nbsp;Show&nbsp;
-                                    <input type="radio" name="userStatus" ${(userStatus == 'all') ? 'checked="checked"' : ''} value="all" onClick="usersByStatus()"/> All
-                                    <input type="radio" name="userStatus" ${(userStatus == 'enabled') ? 'checked="checked"' : ''} value="enabled" onClick="usersByStatus()"/> Enabled
-                                    <input type="radio" name="userStatus" ${(userStatus == 'disabled') ? 'checked="checked"' : ''} value="disabled" onClick="usersByStatus()"/> Disabled
-                                &nbsp;  &nbsp; &nbsp; Flagged :
+                                <input type="radio" name="userStatus" ${(userStatus == 'all') ? 'checked="checked"' : ''} value="all" onClick="usersByStatus()"/> All
+                                <input type="radio" name="userStatus" ${(userStatus == 'enabled') ? 'checked="checked"' : ''} value="enabled" onClick="usersByStatus()"/> Enabled
+                                <input type="radio" name="userStatus" ${(userStatus == 'disabled') ? 'checked="checked"' : ''} value="disabled" onClick="usersByStatus()"/> Disabled
+                            &nbsp;  &nbsp; &nbsp; Flagged :
                                 <input type="text" class="inpboxSmall">
                             </li>
                         </ul>
 
-                        <g:submitButton name="submit" value="Submit" style="display:none;"/>
+                        <g:actionSubmit controller="user" action="list" name="submit" value="Submit" style="display:none;"/>
 
                     </div>
 
