@@ -14,5 +14,6 @@ class Item {
 
     static mapping = {
         tablePerHierarchy false
+		sort 'name'
     }
 }
