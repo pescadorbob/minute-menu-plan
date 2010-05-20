@@ -18,9 +18,7 @@
             </div>
             <g:form name="searchForm">
                 <div class="leftbox clearfix">
-
                     <div id="adduser">
-
                         <ul>
                             <li>
                                 <span><strong>Accounts :</strong></span>
@@ -39,11 +37,8 @@
                                 <input type="text" class="inpboxSmall">
                             </li>
                         </ul>
-
                         <g:actionSubmit controller="user" action="list" name="submit" value="Submit" style="display:none;"/>
-
                     </div>
-
                     <div id="userlist" class="clearfix">
                         <g:render template="/user/usersResult" mode="[userLise:userList]"/>
                     </div>
@@ -51,10 +46,7 @@
                         <g:paginate controller="user" action="list" total="${total}"/>
                     </div>
                 </div>
-
             </g:form>
-
-
             <div class="bottom-shadow">
                 <label>&nbsp;</label>
             </div>

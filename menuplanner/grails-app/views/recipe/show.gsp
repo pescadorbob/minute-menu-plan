@@ -4,25 +4,31 @@
 <head>
     <title>${recipe?.name}</title>
     <meta name="layout" content="menu"/>
-  <g:javascript src="jquery.printElement.min.js"/>
-  <script type="text/javascript">
-    jQuery(function(){
-      jQuery("#printButton").click(function(){
-        printElem({ pageTitle: '${recipe?.name}' });
-        return false;
-      });
+    <g:javascript src="jquery.printElement.min.js"/>
+    <script type="text/javascript">
+        jQuery(function() {
+            jQuery("#printButton").click(function() {
+                printElem({ pageTitle: '${recipe?.name}' });
+                return false;
+            });
 
-    });
-    function printElem(options){
-      jQuery(".printMe:first").printElement(options);
-    }
-  </script>
+        });
+        function printElem(options) {
+            jQuery(".printMe:first").printElement(options);
+        }
+    </script>
 </head>
 <body>
 <div class="clearfix printMe" id="content-wrapper">
     <!--  start left-panel -->
     <div id="left-panel">
-        <!--  start left-panel -->
+    <!--  start left-panel -->
+
+        <g:if test="${flash.message}">
+            <div class="flashMessage">${flash.message}</div>
+        </g:if>
+
+
         <div id="right-head">
             <div id="leftpart">
                 <label>${recipe?.name}</label>
@@ -36,66 +42,66 @@
                     <g:link action="edit" id="${recipe?.id}">Edit</g:link>
                 </span>
                 <span><img src="${resource(dir: 'images', file: 'printer.gif')}"/><a href="#" id="printButton">Print</a></span>
-                </div>
+            </div>
 
-                </div>
-                <div class="top-shadow"><label></label></div>
-                <div class="leftbox clearfix">
-                    <div id="contectElement">
+        </div>
+        <div class="top-shadow"><label></label></div>
+        <div class="leftbox clearfix">
+            <div id="contectElement">
+                <ul>
+                    <li>
                         <ul>
                             <li>
-                                <ul>
-                                    <li>
-                                        <g:if test="${recipe?.difficulty}">
-                                            <span>Difficulty Level: ${recipe?.difficulty}</span>
-                                        </g:if>
-                                        <g:if test="${recipe?.servings}">
-                                            <span>Servings: ${recipe?.servings}</span>
-                                        </g:if>
-                                    </li>
-                                    <g:if test="${recipe?.ingredients}">
-                                        <li>
-                                            <g:each in="${recipe?.ingredients}" var="ingredient">
-                                                <span><strong>${ingredient}</strong></span>
-                                            </g:each>
-                                        </li>
-                                    </g:if>
-                                    <g:if test="${recipe?.directions}">
-                                        <li>${recipe?.directions*.toString().join(" ")}</li>
-                                    </g:if>
-                                    <g:if test="${recipe?.categories}">
-                                        <li>Categories: ${recipe?.categories?.join(", ")}</li>
-                                    </g:if>
-                                    <g:if test="${recipe?.nutrients}">
-                                        <li><span>Nutritional Facts per serving:</span>
-                                            <g:each in="${recipe?.nutrients}" var="nutrient">
-                                                <span>${nutrient}</span>
-                                            </g:each>
-                                        </li>
-                                    </g:if>
-                                    <g:if test="${recipe?.items}">
-                                        <li><span>Serve With: ${recipe?.items?.join(", ")}</span></li>
-                                    </g:if>
-                                </ul>
-                            </li>
-                            <li style="text-align: right;">
-                                <g:if test="${recipe?.image}">
-                                    <mp:recipeImage id="${recipe?.image?.id}" height="160" width="160"/>
+                                <g:if test="${recipe?.difficulty}">
+                                    <span>Difficulty Level: ${recipe?.difficulty}</span>
                                 </g:if>
-                                <g:else>
-                                    <img src="${resource(dir: 'images', file: 'no-img.gif')}" width="160" height="160" align="top"/>
-                                </g:else>
+                                <g:if test="${recipe?.servings}">
+                                    <span>Servings: ${recipe?.servings}</span>
+                                </g:if>
                             </li>
+                            <g:if test="${recipe?.ingredients}">
+                                <li>
+                                    <g:each in="${recipe?.ingredients}" var="ingredient">
+                                        <span><strong>${ingredient}</strong></span>
+                                    </g:each>
+                                </li>
+                            </g:if>
+                            <g:if test="${recipe?.directions}">
+                                <li>${recipe?.directions*.toString().join(" ")}</li>
+                            </g:if>
+                            <g:if test="${recipe?.categories}">
+                                <li>Categories: ${recipe?.categories?.join(", ")}</li>
+                            </g:if>
+                            <g:if test="${recipe?.nutrients}">
+                                <li><span>Nutritional Facts per serving:</span>
+                                    <g:each in="${recipe?.nutrients}" var="nutrient">
+                                        <span>${nutrient}</span>
+                                    </g:each>
+                                </li>
+                            </g:if>
+                            <g:if test="${recipe?.items}">
+                                <li><span>Serve With: ${recipe?.items?.join(", ")}</span></li>
+                            </g:if>
                         </ul>
-                    </div>
-                </div>
-                <div class="bottom-shadow"><label></label></div>
+                    </li>
+                    <li style="text-align: right;">
+                        <g:if test="${recipe?.image}">
+                            <mp:recipeImage id="${recipe?.image?.id}" height="160" width="160"/>
+                        </g:if>
+                        <g:else>
+                            <img src="${resource(dir: 'images', file: 'no-img.gif')}" width="160" height="160" align="top"/>
+                        </g:else>
+                    </li>
+                </ul>
             </div>
-            <!--  end left-panel start right-panel -->
-            <div id="right-panel">
-
-            </div>
-            <!--  end right-panel -->
         </div>
+        <div class="bottom-shadow"><label></label></div>
+    </div>
+    <!--  end left-panel start right-panel -->
+    <div id="right-panel">
+
+    </div>
+    <!--  end right-panel -->
+</div>
 </body>
 </html> 

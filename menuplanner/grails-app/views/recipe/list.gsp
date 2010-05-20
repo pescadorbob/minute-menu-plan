@@ -20,6 +20,11 @@
             </g:formRemote>
 
             <div id="right-panel-product">
+
+                <g:if test="${flash.message}">
+                    <div class="flashMessage">${flash.message}</div>
+                </g:if>
+
                 <div class="top-shadow">
                     <label>&nbsp;</label>
                 </div>
