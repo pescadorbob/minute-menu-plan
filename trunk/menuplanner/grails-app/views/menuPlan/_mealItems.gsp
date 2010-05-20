@@ -12,8 +12,8 @@
           <img src="${resource(dir:"images",file:"delete.jpg")}" alt="" align="left" style="display:none;" class="deleteImage"><span>${mealItem}</span>
         </div>
       </g:each>
-    </g:each>
       <div class="farji" style="display:none; clear:both;"> </div>
+    </g:each>
       </li>
   </ul>
 </li>
