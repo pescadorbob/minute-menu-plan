@@ -28,24 +28,8 @@ class UtilController {
         render "All recipes deleted!!"
     }
 
-    public String deleteRecipe() {
-
-        Recipe recipe = Recipe.list().last()
-
-        println "************************ Recipe: ${recipe?.name}"
-        println "************************ Ingredients: ${recipe?.ingredients}"
-        try {
-            recipe.delete(flush:true)
-        } catch (e) {
-            e.printStackTrace
-            return "************************ Problem while Deleting recipe: ${recipe?.name}....."
-        }
-        return "Recipe: ${recipe?.name} ........ DELETED !!"
-    }
-
     def index = {
 
-        render deleteRecipe()
         /*
         Unit unit1 = Unit.findByName(TIME_UNIT_HOURS)
         Unit unit2 = Unit.findByName(TIME_UNIT_MINUTES)

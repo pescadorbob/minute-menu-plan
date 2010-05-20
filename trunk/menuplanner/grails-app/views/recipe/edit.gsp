@@ -55,7 +55,7 @@
                                 <input class="button" type="button" name="preview" id="preview" value="Preview"/>
                             </li>
                             <li>
-                                <g:actionSubmit class="button pointer" controller="recipe" action="delete" name="delete" value="Delete"/>
+                                <g:actionSubmit class="button pointer" controller="recipe" action="delete" name="delete" value="Delete" onclick="return confirm('Are you sure?');"/>
                             </li>
                             <li>
                                 <g:actionSubmit class="button pointer" controller="recipe" action="show" name="cancel" value="Cancel"/>
