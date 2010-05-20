@@ -53,3 +53,6 @@
             update="searchResult"
             maxsteps="5"/>
 </div>
+<script type="text/javascript">
+  bindSortableToSearchItems()
+</script>
