@@ -90,9 +90,6 @@ class Recipe extends Item {
 
     def getTotalTime() {
         if (cookingTime && preparationTime) {
-//            String val1 = StandardConversion.getUsaQuantityString(cookingTime)
-//            String val2 = StandardConversion.getUsaQuantityString(preparationTime)
-//            Quantity sum = StandardConversion.addQuantities(val1, cookingTime.unit, val2, preparationTime.unit)
             Quantity sum = Quantity.addTime(cookingTime, preparationTime)
             return sum
         } else if (cookingTime) {

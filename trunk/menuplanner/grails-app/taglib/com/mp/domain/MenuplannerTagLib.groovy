@@ -6,6 +6,11 @@ class MenuplannerTagLib {
 
     static namespace = 'mp'
 
+    def menuPlanDropdown = {
+        List<MenuPlan> menuPlans = MenuPlan.list()
+         out << g.render(template: '/layouts/menuPlanDropdown', model: [menuPlans : menuPlans])
+    }
+
     def checkGeneralInfoTabError = {attrs ->
         def bean = attrs['bean']
         def fieldsToCheck = attrs['fields']

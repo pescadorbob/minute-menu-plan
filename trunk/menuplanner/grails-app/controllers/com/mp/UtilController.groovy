@@ -29,37 +29,22 @@ class UtilController {
     }
 
     def index = {
+        Unit unit1 = Unit.findByName(TIME_UNIT_HOURS)
+        Unit unit2 = Unit.findByName(TIME_UNIT_MINUTES)
+//        Unit unit1 = null
+//        Unit unit2 = null
+        String val1 = '2'
+        String val2 = '16'
 
-        List<UserType>userRoles=UserType.list()*.name
+        Quantity q1 = StandardConversion.getQuantityToSave(val1, unit1)
+        render "Q1: ${q1} <br/>"
 
-        List<UserType> x =[]
-
-        userRoles?.each{
-            println "********** role: ${it}"
-            x.add(UserType."${it}")
-        }
-
-        println x
-        
-
-        /*
-        Unit unit1= Unit.findByName(UNIT_GRAM)
-        Unit unit2= Unit.findByName(UNIT_MILLI_GRAM)
-        String val1 = '1/2'
-        String val2 = '1'
-
-        Quantity q1 = StandardConversion.getMetricQuantity(val1, unit1)
-        Quantity q2 = StandardConversion.getMetricQuantity(val2, unit2)
+        Quantity q2 = StandardConversion.getQuantityToSave(val2, unit2)
+        render "Q2: ${q2} <br/>"
 
         Quantity q = addQuantities(val1, unit1, val2, unit2)
-
-        render "Q1: ${q1.toString()} <br/>"
-        render "Q2: ${q2.toString()} <br/>"
-        render "SUM: value and saved unit: ${new Fraction(q.value)?.floatValue()} ${q.savedUnit.symbol}<br/>"
-
-        String qUsa = StandardConversion.getUsaQuantityString(q)
-        render "SUM: qUsa and unit: ${qUsa} ${q.unit.symbol}<br/>"
-          */
+        render "SUM: ${q.toString()? q : 'QUANTITIES CAN NOT BE ADDED..'} <br/>"
+        q.s()
 
 //        asynchronousMailService.sendAsynchronousMail {
 //            to 'aman@intelligrape.com'
@@ -188,25 +173,19 @@ class UtilController {
 
     public static Quantity addQuantities(String usVal1, Unit displayUnit1, String usVal2, Unit displayUnit2) {
         Quantity resultantQuantity = new Quantity()
-        Quantity q1 = StandardConversion.getMetricQuantity(usVal1, displayUnit1)
-        Quantity q2 = StandardConversion.getMetricQuantity(usVal2, displayUnit2)
-
-            String val1 = StandardConversion.getUsaQuantityString(q1)
-            Unit unit1 = q1.unit
-            String val2 = StandardConversion.getUsaQuantityString(q2)
-            Unit unit2 = q2.unit
-            if(q1?.savedUnit==q2?.savedUnit){
-                Unit displayUnit = unit1
-                if (StandardConversion.findBySourceUnit(unit1)?.conversionFactor > StandardConversion.findBySourceUnit(unit2)?.conversionFactor) {
-                    displayUnit = unit2
+        Quantity q1 = StandardConversion.getQuantityToSave(usVal1, displayUnit1)
+        Quantity q2 = StandardConversion.getQuantityToSave(usVal2, displayUnit2)
+        if (q1?.savedUnit == q2?.savedUnit) {
+            Unit displayUnit = q1?.unit
+            if (displayUnit) {
+                if (StandardConversion.findBySourceUnit(q1?.unit)?.conversionFactor > StandardConversion.findBySourceUnit(q2?.unit)?.conversionFactor) {
+                    displayUnit = q2?.unit
                 }
-                Quantity metricQ1 = StandardConversion.getMetricQuantity(val1, unit1)
-                Quantity metricQ2 = StandardConversion.getMetricQuantity(val2, unit2)
-                resultantQuantity.value = metricQ1?.value + metricQ2?.value
-                resultantQuantity.unit = displayUnit
-                resultantQuantity.savedUnit = q1?.savedUnit
             }
+            resultantQuantity?.value = q1?.value + q2?.value
+            resultantQuantity?.savedUnit = q1?.savedUnit
+            resultantQuantity?.unit = displayUnit
+        }
         return resultantQuantity
     }
-
 }

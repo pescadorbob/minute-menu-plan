@@ -13,8 +13,8 @@ class Quantity {
 
     String toString() {
         String amount
-        amount = StandardConversion.getUsaQuantityString(this)
-        return "${amount ? amount : ''} ${unit ? unit?.symbol : ''}"
+        amount = StandardConversion.getQuantityValueString(this)
+        return "${amount ? amount : ''}${unit ?(' '+ unit?.symbol) : ''}"
     }
 
     static constraints = {

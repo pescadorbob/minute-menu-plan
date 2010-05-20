@@ -86,7 +86,7 @@ class ExcelService {
                 else if (recipe[2].getAt(2).toLowerCase() == 'hrs.') {
                     unit = Unit.findByName(TIME_UNIT_HOURS)
                 }
-                prep = StandardConversion.getMetricQuantity(recipe[2].getAt(1), unit)
+                prep = StandardConversion.getQuantityToSave(recipe[2].getAt(1), unit)
                 prep.s()
                 recipeInstance.preparationTime = prep
             }
@@ -101,7 +101,7 @@ class ExcelService {
                 else if (recipe[3].getAt(2).toLowerCase() == 'hrs.') {
                     unit = Unit.findByName(TIME_UNIT_HOURS)
                 }
-                cook = StandardConversion.getMetricQuantity(recipe[3].getAt(1), unit)
+                cook = StandardConversion.getQuantityToSave(recipe[3].getAt(1), unit)
                 cook.s()
                 recipeInstance.cookingTime = cook
             }
@@ -224,9 +224,9 @@ class ExcelService {
                         standardConversion.s()
                         */
                     }
-                    quantity = StandardConversion.getMetricQuantity(ingredientRow.getAt(1), unit)
+                    quantity = StandardConversion.getQuantityToSave(ingredientRow.getAt(1), unit)
                 } else if (ingredientRow.getAt(1)) {  // only Amount is specified:
-                    quantity = StandardConversion.getMetricQuantity(ingredientRow.getAt(1), null)
+                    quantity = StandardConversion.getQuantityToSave(ingredientRow.getAt(1), null)
                 }
                 quantity.s()
                 recipeIngredient.quantity = quantity

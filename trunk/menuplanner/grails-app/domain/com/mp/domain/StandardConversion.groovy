@@ -10,64 +10,49 @@ class StandardConversion {
     Unit targetUnit
     Double conversionFactor
 
-    public static Quantity getMetricQuantity(String amountFraction, Unit displayUnit) {
+    public static Quantity getQuantityToSave(String amountFraction, Unit displayUnit) {
         Quantity result = new Quantity()
         Float amount
-        if (amountFraction != null) {
-            amount = new Fraction(amountFraction)?.floatValue()
+        if (amountFraction) {
+            if (amountFraction.contains('/')) {
+                amount = new Fraction(amountFraction)?.floatValue()
+            } else {
+                amount = amountFraction.toFloat()
+            }
+            result.value = amount
         }
         if (displayUnit && (amount != null)) {
             StandardConversion standardConversion = StandardConversion.findBySourceUnit(displayUnit)
-            if (standardConversion) {
-                result.savedUnit = standardConversion?.targetUnit
-                result.unit = displayUnit
-                result.value = amount * standardConversion?.conversionFactor
-            } else {
-                result.savedUnit = displayUnit
-                result.unit = displayUnit
-                result.value = amount
-            }
-        } else if (amount != null) {
-            result.value = amount
+            result.value = amount * standardConversion?.conversionFactor
+            result.savedUnit = standardConversion?.targetUnit
+            result.unit = displayUnit
         }
         return result
     }
 
-    public static String getUsaQuantityString(Quantity sourceQuantity) {
-        Float metricValue = sourceQuantity?.value
+    public static String getQuantityValueString(Quantity sourceQuantity) {
+        String result = ''
+        Float floatValue = sourceQuantity?.value
         Unit unit = sourceQuantity?.unit
-        String result
-        if ((metricValue != null) && unit) {
-            StandardConversion standardConversion
-            StandardConversion.withNewSession {
-                if (unit) {
+        if (!unit) {
+            result = floatValue ? new Fraction(floatValue).myFormatUsingProperFractionFormat() : ''
+        } else {
+            if (floatValue != null) {
+                StandardConversion standardConversion
+                StandardConversion.withNewSession {
                     standardConversion = StandardConversion.findBySourceUnit(unit)
-                }
-                if (standardConversion) {
-                    Float conversionFactor = StandardConversion.findBySourceUnit(unit)?.conversionFactor
-                    metricValue = metricValue / conversionFactor
-                    result = new Fraction(metricValue).myFormatUsingProperFractionFormat()
-                } else {
-                    result = new Fraction(metricValue).myFormatUsingProperFractionFormat()
+                    Float conversionFactor = standardConversion?.conversionFactor
+                    floatValue = floatValue / conversionFactor
+                    if (unit.belongsToUsaSystem()) {
+                        result = new Fraction(floatValue).myFormatUsingProperFractionFormat()
+                    } else {
+                        result = floatValue ? floatValue?.toString() : ''
+                    }
                 }
             }
-        } else if ((metricValue != null)) {
-            result = new Fraction(metricValue).myFormatUsingProperFractionFormat()
         }
         return result
     }
-
-    public static getTargetUnit(Unit unit){
-        Unit targetUnit = new Unit()
-        if(unit){
-            targetUnit = StandardConversion.findBySourceUnit(unit)?.targetUnit
-            if(!targetUnit){
-                targetUnit = unit
-            }
-        }
-        return targetUnit
-    }
-
     static constraints = {
     }
 }
