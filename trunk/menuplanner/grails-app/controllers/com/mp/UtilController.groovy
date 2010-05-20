@@ -139,42 +139,6 @@ class UtilController {
 
     }
 
-
-    def df = {
-        List<String> testStr = ["1.50", ".25", "0.45", "12.5"]
-        List results = []
-        testStr.each {
-            results << excelService.decimalToFraction(it)
-        }
-        render testStr + [' Converted To: '] + results
-    }
-    def fd = {
-        List<String> testStr = ["2 1/4", "1/4", "0 1/4"]
-        List results = []
-        testStr.each {
-            results << excelService.fractionToDecimal(it)
-        }
-        render testStr + [' Converted To: '] + results
-    }
-
-    def test1 = {
-        String recipeImageDirectory = config.imagesRootDir + "/recipes/"
-        File file = new File(recipeImageDirectory)
-        file.mkdirs()
-
-        String bootStrapDirectory = "/bootstrapData/recipeImages/"
-        String fileName = "xyz.txt"
-        File sourceImage = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath(bootStrapDirectory + fileName))
-
-        String targetImagePath = recipeImageDirectory + fileName
-        new File(targetImagePath).withOutputStream {out ->
-            out.write sourceImage.readBytes()
-        }
-
-        Image image = new Image(targetImagePath, "Some alternate text")
-        render sourceImage.exists()
-    }
-
     public static Quantity addQuantities(String usVal1, Unit displayUnit1, String usVal2, Unit displayUnit2) {
         Quantity resultantQuantity = new Quantity()
         Quantity q1 = StandardConversion.getQuantityToSave(usVal1, displayUnit1)
@@ -192,5 +156,4 @@ class UtilController {
         }
         return resultantQuantity
     }
-
 }
