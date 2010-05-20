@@ -8,6 +8,8 @@ class MenuConstants {
 
     public static final String TIME_UNIT_HOURS = "Hours"
     public static final String TIME_UNIT_HOURS_SYMBOL = "hrs"
+    public static final Double TIME_UNIT_MINUTES_TO_MINUTES_CONVERSION_FACTOR = 1.0
+
     public static final String TIME_UNIT_MINUTES = "Minutes"
     public static final String TIME_UNIT_MINUTES_SYMBOL = "mins"
     public static final Double TIME_UNIT_HOURS_TO_MINUTES_CONVERSION_FACTOR = 60
@@ -98,17 +100,23 @@ class MenuConstants {
 
     public static final String UNIT_MILLI_LITRE = "Milli Litre"
     public static final String UNIT_MILLI_LITRE_SYMBOL = "mL"
+    public static final Double UNIT_MILLI_LITRE_CONVERSION_FACTOR = 1.0
 
     public static final String UNIT_MILLI_GRAM = "Milli Grams"
     public static final String UNIT_MILLI_GRAM_SYMBOL = "mg."
+    public static final Double UNIT_MILLI_GRAM_CONVERSION_FACTOR = 1.0
 
     public static final String UNIT_GRAM = "Grams"
     public static final String UNIT_GRAM_SYMBOL = "g."
     public static final Double UNIT_GRAM_CONVERSION_FACTOR = 1000.0
     
+    public static final String UNIT_KILO_GRAM = "Kilo Grams"
+    public static final String UNIT_KILO_GRAM_SYMBOL = "Kg."
+    public static final Double UNIT_KILO_GRAM_CONVERSION_FACTOR = 1000000.0
+
     public static final String UNIT_CALORIES = "Calories"
     public static final String UNIT_CALORIES_SYMBOL = "cal."
-
+    public static final Double UNIT_CALORIES_CONVERSION_FACTOR = 1.0
 
     public static final String NUTRIENT_CALORIES = "Calories"
     public static final String NUTRIENT_TOTAL_FAT = "Total Fat"

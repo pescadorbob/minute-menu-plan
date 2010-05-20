@@ -63,10 +63,10 @@ class RecipeCO {
 
 
         preparationUnitId = recipe?.preparationTime?.unit?.id
-        preparationTime = recipe?.preparationTime ? StandardConversion.getUsaQuantityString(recipe?.preparationTime)?.toInteger() : null
+        preparationTime = recipe?.preparationTime ? StandardConversion.getQuantityValueString(recipe?.preparationTime)?.toInteger() : null
 
         cookUnitId = recipe?.cookingTime?.unit?.id
-        cookTime = recipe?.cookingTime ? StandardConversion.getUsaQuantityString(recipe?.cookingTime)?.toInteger() : null
+        cookTime = recipe?.cookingTime ? StandardConversion.getQuantityValueString(recipe?.cookingTime)?.toInteger() : null
 
         categoryIds = recipe?.categories*.id as Set
         directions = recipe?.directions
@@ -81,7 +81,7 @@ class RecipeCO {
         }
 
         recipe?.ingredients*.quantity?.value?.eachWithIndex {Float val, Integer index ->
-            String usValue = StandardConversion.getUsaQuantityString(recipe?.ingredients?.getAt(index)?.quantity)
+            String usValue = StandardConversion.getQuantityValueString(recipe?.ingredients?.getAt(index)?.quantity)
             ingredientQuantities.add(usValue)
         }
 
@@ -90,7 +90,7 @@ class RecipeCO {
             nutrientQuantities[it] = ""
         }
         recipe?.nutrients.each {RecipeNutrient recipeNutrient ->
-            nutrientQuantities[recipeNutrient?.nutrient?.id?.toInteger() - 1] = StandardConversion.getUsaQuantityString(recipeNutrient?.quantity)?.toInteger()
+            nutrientQuantities[recipeNutrient?.nutrient?.id?.toInteger() - 1] = StandardConversion.getQuantityValueString(recipeNutrient?.quantity)?.toInteger()
         }
     }
 
@@ -236,7 +236,7 @@ class RecipeCO {
         }
         Quantity time = new Quantity()
         Unit unit = Unit.get(unitId)
-        time = StandardConversion.getMetricQuantity(minutes.toString(), unit)
+        time = StandardConversion.getQuantityToSave(minutes.toString(), unit)
         time.s()
         if (time) {
             return time
@@ -251,7 +251,7 @@ class RecipeCO {
             RecipeIngredient recipeIngredient = new RecipeIngredient()
             Item product = Item.findByName(productName)
             Unit unit = (unitIds[index]) ? Unit?.get(unitIds[index]?.toLong()) : null
-            Quantity quantity = StandardConversion.getMetricQuantity(amounts?.getAt(index) ? amounts[index] : null, unit)
+            Quantity quantity = StandardConversion.getQuantityToSave(amounts?.getAt(index) ? amounts[index] : null, unit)
 
             if (!product) {
                 if (unit) {
@@ -290,7 +290,7 @@ class RecipeCO {
             if (amount) {
                 RecipeNutrient recipeNutrient = new RecipeNutrient()
                 recipeNutrient.nutrient = Nutrient.get(nutrientIds[index])
-                Quantity quantity = StandardConversion.getMetricQuantity(amount?.toInteger()?.toString(), Nutrient.get(nutrientIds[index]).preferredUnit)
+                Quantity quantity = StandardConversion.getQuantityToSave(amount?.toInteger()?.toString(), Nutrient.get(nutrientIds[index]).preferredUnit)
                 quantity.s()
                 recipeNutrient.quantity = quantity
                 recipeNutrientList.add(recipeNutrient)

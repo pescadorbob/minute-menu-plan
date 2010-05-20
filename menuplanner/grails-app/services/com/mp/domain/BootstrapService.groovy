@@ -113,7 +113,7 @@ class BootstrapService {
             RecipeIngredient ingredient = new RecipeIngredient()
             ingredient.recipe = recipe
             ingredient.ingredient = MeasurableProduct.get(new Random().nextInt(MeasurableProduct.count()) + 1)
-            Quantity quantity = StandardConversion.getMetricQuantity((new Random().nextInt(5) + 1).toString(), Unit.findByName(UNIT_FIFTH))
+            Quantity quantity = StandardConversion.getQuantityToSave((new Random().nextInt(5) + 1).toString(), Unit.findByName(UNIT_FIFTH))
             quantity.s()
 
             ingredient.quantity = quantity

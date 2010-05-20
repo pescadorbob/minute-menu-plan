@@ -28,11 +28,9 @@ class RecipeController {
     def getMatchingItems = {
         List<Item> items = Item.findAllByNameIlike("%${params.q}%")
         String itemsJson = ''
-        println "x: ${items}"
         items.each {
             itemsJson += it.name + "|" + it.id + "\n"
         }
-        println "xxx : ${itemsJson}"
         render(itemsJson)
     }
 

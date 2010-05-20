@@ -29,7 +29,7 @@
         </div>
         <div id="navigation">
             <ul>
-                <li><a href="#" class="menuplan"><span>Menu&nbsp;Plans</span></a></li>
+                <mp:menuPlanDropdown />
                 %{--<li><a href="#" class="browse"><span>Browse&nbsp;Recipes</span></a></li>--}%
                 <li><g:link controller="recipe" action="list" class="browse">Browse&nbsp;Recipes</g:link></li>
                 <li><g:link controller="recipe" action="create">Add New&nbsp;Recipe</g:link></li>
@@ -49,5 +49,15 @@
     <div id="footer"></div>
     <!-- end header -->
 </div>
+<script type="text/javascript">
+    jQuery.each(jQuery('#navigation>ul>li'), function() {
+        jQuery(this).mouseover(function() {
+            jQuery(this).addClass("sfhover")
+        })
+        jQuery(this).mouseout(function() {
+            jQuery(this).removeClass("sfhover")
+        })
+    });
+</script>
 </body>
 </html>

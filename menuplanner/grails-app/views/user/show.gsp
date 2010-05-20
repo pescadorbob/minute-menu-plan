@@ -22,13 +22,9 @@
                         <mp:recipeImage id="${user?.image?.id}" noImage="no-img.gif" height="150" width="150"/>
                     </div>
                     <ul>
-                        %{--<li><a href="#">Upload New Photo</a> <a href="#">Remove Photo</a></li>--}%
-
                         <li>Member since ${user?.joiningDate?.format('MMMM yyyy')}</li>
-
                         <li></li>
                         <li></li>
-
                         <g:each in="${user?.type}" var="role">
                             <li>
                                 <strong>${role}</strong>
