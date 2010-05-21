@@ -85,23 +85,21 @@
                         </ul>
                     </li>
                     <li style="text-align: right;">
-                        <g:if test="${recipe?.image}">
-                            <mp:recipeImage id="${recipe?.image?.id}" height="160" width="160"/>
-                        </g:if>
-                        <g:else>
-                            <img src="${resource(dir: 'images', file: 'no-img.gif')}" width="160" height="160" align="top"/>
-                        </g:else>
+                        <mp:recipeImage id="${recipe?.image?.id}" height="160" width="160" noImage="no-img.gif"/><br/>
+                        <g:link controller="user" action="alterFavorite" name="changeFavorite" id="${recipe?.id}">
+                            <span id="showFavorite" style="text-align:right;">
+                                <mp:showFavorite recipeId="${recipe?.id}" userId="${session?.loggedUserId}"/>
+                            </span>
+                        </g:link>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="bottom-shadow"><label></label></div>
     </div>
-    <!--  end left-panel start right-panel -->
     <div id="right-panel">
-
     </div>
-    <!--  end right-panel -->
+
 </div>
 </body>
 </html> 

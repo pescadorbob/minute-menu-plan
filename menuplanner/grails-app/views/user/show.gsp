@@ -17,6 +17,11 @@
                 <label>&nbsp;</label>
             </div>
             <div class="leftbox clearfix">
+                <g:if test="${flash.welcomeMessage}">
+                    <div class="welcomeMessage">
+                        ${flash.welcomeMessage}
+                    </div>
+                </g:if>
                 <div id="leftpanel">
                     <div id="photo">
                         <mp:recipeImage id="${user?.image?.id}" noImage="no-img.gif" height="150" width="150"/>
@@ -30,20 +35,19 @@
                                 <strong>${role}</strong>
                             </li>
                         </g:each>
-                    %{--<li>--}%
-                    %{--<h3>Contributed Recipes</h3>--}%
-                    %{--</li>--}%
-                    %{--<li><a href="#">Beef & broccoll</a></li>--}%
-                    %{--<li><a href="#">Lamb Curry</a></li>--}%
-
-                    %{--<li><a href="#">Turkey Pie</a></li>--}%
-                    %{--<li>--}%
-                    %{--<h3>Favorites</h3>--}%
-                    %{--</li>--}%
-                    %{--<li><a href="#">Beef & broccoll</a> <a href="#">remove</a></li>--}%
-                    %{--<li><a href="#">Lamb Curry</a> <a href="#">remove</a></li>--}%
-
-                    %{--<li><a href="#">Turkey Pie</a> <a href="#">remove</a></li>--}%
+                        %{--<li>--}%
+                            %{--<h3>Contributed Recipes</h3>--}%
+                        %{--</li>--}%
+                        %{--<li><a href="#">Beef & broccoll</a></li>--}%
+                        %{--<li><a href="#">Lamb Curry</a></li>--}%
+                        %{--<li><a href="#">Turkey Pie</a></li>--}%
+                        <li>
+                            <h3>Favorites</h3>
+                        </li>
+                        <g:each in="${user?.favourites}" var="recipe">
+                            <li><a href="${createLink(controller:'recipe',action:'show',id:recipe?.id)}">${recipe?.name}</a>
+                                <a href="${createLink(controller:'user',action:'removeFavorite',id:recipe?.id)}">remove</a></li>
+                        </g:each>
                     </ul>
                 </div>
                 <div id="rightpanel">

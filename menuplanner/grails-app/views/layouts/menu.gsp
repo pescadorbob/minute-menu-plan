@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'jquery.autocomplete.css')}"/>
     %{--<link rel="stylesheet" href="${resource(dir: 'css', file: 'token-input-facebook.css')}"/>--}%
     <g:javascript library="jquery"/>
-    <g:setProvider library="jquery" />
+    <g:setProvider library="jquery"/>
     <script type="text/javascript" src="${resource(dir: 'jquery.uploadify-v2.1.0', file: 'swfobject.js')}"></script>
     <script type="text/javascript" src="${resource(dir: 'jquery.uploadify-v2.1.0', file: 'jquery.uploadify.v2.1.0.min.js')}"></script>
     <script type="text/javascript" src="${resource(dir: 'js', file: 'createRecipe.js')}"></script>
@@ -18,22 +18,24 @@
     <g:layoutHead/>
 </head>
 <body>
-<g:setProvider library="jquery" />
+<g:setProvider library="jquery"/>
 <div id="container">
     <!-- start header -->
     <div id="header">
-        <div id="logo"><a href="${resource(url:'/')}">
+        <div id="logo"><a href="${resource(url: '/')}">
             <img src="${resource(dir: 'images', file: 'logo.gif')}" border="0"/>
         </a>
             <h1><nobr>Plan Your Month's Menu in a Minute!</nobr></h1>
         </div>
         <div id="navigation">
             <ul>
-                <mp:menuPlanDropdown />
+                <mp:menuPlanDropdown/>
                 %{--<li><a href="#" class="browse"><span>Browse&nbsp;Recipes</span></a></li>--}%
                 <li><g:link controller="recipe" action="list" class="browse">Browse&nbsp;Recipes</g:link></li>
                 <li><g:link controller="recipe" action="create">Add New&nbsp;Recipe</g:link></li>
-                %{--<li><a href="#"><span>My&nbsp;Account</span></a></li>--}%
+
+                <mp:loggedUserDropDown loggedUserId="${session?.loggedUserId}"/>
+
                 %{--<li><a href="#">Forums</a></li>--}%
                 %{--<li><a href="#">Conversions</a></li>--}%
                 %{--<li><a href="#">Help</a></li>--}%
@@ -43,7 +45,7 @@
     </div>
     <!-- end header start wrapper -->
     <div id="wrapper" class="clearfix">
-    <g:layoutBody/>
+        <g:layoutBody/>
     </div>
     <!--end wrapper start footer -->
     <div id="footer"></div>

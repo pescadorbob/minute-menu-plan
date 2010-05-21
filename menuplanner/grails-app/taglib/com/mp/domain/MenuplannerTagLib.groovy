@@ -6,9 +6,26 @@ class MenuplannerTagLib {
 
     static namespace = 'mp'
 
+    def showFavorite = {attrs ->
+        Long userId = attrs['userId']?.toLong()
+        Long recipeId = attrs['recipeId']?.toLong()
+        User user = User.get(userId)
+        Recipe recipe = Recipe.get(recipeId)
+            if (user?.favourites?.contains(recipe)) {
+                out << "Remove from favorite"
+            } else {
+                out << "Add to favorite"
+            }
+        }
     def menuPlanDropdown = {
         List<MenuPlan> menuPlans = MenuPlan.list()
-         out << g.render(template: '/layouts/menuPlanDropdown', model: [menuPlans : menuPlans])
+        out << g.render(template: '/layouts/menuPlanDropdown', model: [menuPlans: menuPlans])
+    }
+
+    def loggedUserDropDown = {attrs ->
+        Long userId =attrs['loggedUserId']?.toLong()
+        User loggedUser = User.get(userId)
+        out << g.render(template: '/layouts/loggedUserDropDown', model: [loggedUser: loggedUser])
     }
 
     def checkGeneralInfoTabError = {attrs ->
@@ -28,20 +45,20 @@ class MenuplannerTagLib {
     }
 
     def recipeImage = {attrs ->
-        String height= attrs['height']
-        String width= attrs['width']
+        String height = attrs['height']
+        String width = attrs['width']
         String id = attrs['id']
         String noImage = attrs['noImage']
         String clas = attrs['class']
-        out << "<img class='${clas}' height='${height}' width='${width}' src='" + createLink(controller: 'image', action: 'image', params:[id: id, noImage: noImage]) + "'/>"
+        out << "<img class='${clas}' height='${height}' width='${width}' src='" + createLink(controller: 'image', action: 'image', params: [id: id, noImage: noImage]) + "'/>"
     }
 
-    def getSelectedCategoriesAsJSON={attrs->
-        if(attrs['prePopulated']) {
+    def getSelectedCategoriesAsJSON = {attrs ->
+        if (attrs['prePopulated']) {
             List<Category> categories = Category.getAll([attrs['prePopulated']].flatten()*.toLong())
             List categoriesJson = categories.collect { [id: it.id, name: it.name] }
             println categoriesJson as JSON
-            out<<categoriesJson
+            out << categoriesJson
         }
     }
 

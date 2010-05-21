@@ -49,17 +49,17 @@
                     <div id="button">
                         <ul>
                             <li>
-                                <g:actionSubmit class="button pointer" controller="recipe" action="update" name="update" value="Update"/>
+                                <g:actionSubmit class="button" controller="recipe" action="update" name="update" value="Update"/>
                             </li>
                             <li>
                                 <input class="button" type="button" name="preview" id="preview" value="Preview"/>
                             </li>
                             <li>
-                                <g:actionSubmit class="button pointer" controller="recipe" action="delete" name="delete" value="Delete" onclick="return confirm('Are you sure?');"/>
+                                <g:actionSubmit class="button" controller="recipe" action="delete" name="delete" value="Delete" onclick="return confirm('Are you sure?');"/>
                             </li>
                             <li>
-                                <g:actionSubmit class="button pointer" controller="recipe" action="show" name="cancel" value="Cancel"/>
-                                %{--<input class="button pointer" type="button" name="cancel" id="cancel" value="Cancel" onClick="self.location.href = '${createLink(action:'show',controller:'recipe', id:recipeCO?.id)}'"/>--}%
+                                <g:actionSubmit class="button" controller="recipe" action="show" name="cancel" value="Cancel"/>
+                                %{--<input class="button" type="button" name="cancel" id="cancel" value="Cancel" onClick="self.location.href = '${createLink(action:'show',controller:'recipe', id:recipeCO?.id)}'"/>--}%
                             </li>
                         </ul>
                     </div>
