@@ -2,9 +2,9 @@
 <div id="rightpanel">
 
     <ul>
-        <li><span><strong>Email : </strong></span>
+        <li><span><strong>Email :</strong></span>
             <label>
-                <span id = "displayEmailAsLabel"></span>
+                <span id="displayEmailAsLabel"></span>
                 <input name="email" type="text" class="inpbox ${hasErrors(bean: userCO, field: 'email', 'errors')}" value="${userCO?.email}"/>
                 <input class="passwordSection" type="button" id="btnChangePassword" name="changePassword" value="Change Password" onclick="ChangePassword()" style="display:none;"/>
             </label>
@@ -64,11 +64,11 @@
         %{--<img src="${resource(dir: 'images', file: 'calendar.png')}" alt="Calendar " align="absmiddle"/>--}%
         %{--</label>--}%
         %{--</li>--}%
-        %{--<li><span>&nbsp;</span>--}%
-        %{--<label>--}%
-        %{--<input name="" type="checkbox" value=""/>--}%
-        %{--<strong>Account enabled</strong></label>--}%
-        %{--</li>--}%
+        <li><span>&nbsp;</span>
+            <label>
+                <input name="isEnabled" ${(userCO)?((userCO?.isEnabled)?'checked="checked"':''):'checked="checked"'}type="checkbox" value=""/>
+                <strong>Account enabled</strong></label>
+        </li>
     </ul>
     %{--<div id="right-link">--}%
 

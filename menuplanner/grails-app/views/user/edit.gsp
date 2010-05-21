@@ -22,15 +22,13 @@
                 <label>&nbsp;</label>
             </div>
             <div class="leftbox clearfix">
-                <g:uploadForm name="formUpdateUser" controller="user" action="update">
-
+                <g:uploadForm name="formUpdateUser">
                     <g:hiddenField name='id' value='${userCO?.id}'/>
-                    
                     <g:render template="/user/imageSection" model="[userCO:userCO]"/>
                     <g:render template="/user/userDetail" model="[userCO:userCO]"/>
                     <div id="button">
-                        <g:submitButton name="btnUpdate" class="button" value="Update User"/>
-                        <input class="button" type="button" name="cancel" id="cancel" value="Cancel"/>
+                        <g:actionSubmit name="btnUpdate" class="button" value="Update User" controller="user" action="update"/>
+                        <g:actionSubmit name="cancel" class="button" value="Cancel" controller="user" action="show"/>
                     </div>
                 </g:uploadForm>
             </div>

@@ -30,7 +30,6 @@ class UtilController {
 
     def index = {
 
-        /*
         Unit unit1 = Unit.findByName(TIME_UNIT_HOURS)
         Unit unit2 = Unit.findByName(TIME_UNIT_MINUTES)
         Unit unit3 = null
@@ -46,8 +45,6 @@ class UtilController {
 
         Quantity q = addQuantities(val1, unit1, val2, unit2)
         render "SUM: ${q.toString()? q : 'QUANTITIES CAN NOT BE ADDED..'} <br/>"
-        q.s()
-        */
 
         /*
         asynchronousMailService.sendAsynchronousMail {

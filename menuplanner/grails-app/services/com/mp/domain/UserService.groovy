@@ -29,6 +29,7 @@ class UserCO {
     String introduction
     Date joiningDate
     List<String> type
+    boolean isEnabled
 
     String id
     def selectUserImagePath
@@ -43,6 +44,7 @@ class UserCO {
         introduction = user?.introduction
         city = user?.city
         joiningDate = user?.joiningDate
+        isEnabled = user?.isEnabled
 
         type = user?.type*.name()
         
@@ -73,6 +75,7 @@ class UserCO {
         user?.mouthsToFeed = mouthsToFeed
         user?.introduction = introduction
         user?.city = city
+        user.isEnabled=isEnabled
         if (user?.password != password) {
             user.password = password.encodeAsBase64()
         }
