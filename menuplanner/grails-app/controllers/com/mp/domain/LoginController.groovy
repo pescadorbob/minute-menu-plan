@@ -17,7 +17,7 @@ class LoginController {
     def login = {LoginCO loginCO ->
         if (loginCO.validate()) {
             println loginCO.password
-            User user = User.findByEmailAndPassword(loginCO?.email, loginCO?.password)
+            User user = User.findByEmailAndPassword(loginCO?.email, loginCO?.password?.encodeAsBase64())
             if (user) {
                 session.loggedUserId = user.id.toString()
                 flash.welcomeMessage = 'Welcome ' + user?.name + '!'
