@@ -53,6 +53,8 @@
             update="searchResult"
             maxsteps="5"/>
 </div>
-<script type="text/javascript">
-  bindSortableToSearchItems()
-</script>
+<g:if test="${params.action!='show'}">
+  <script type="text/javascript">
+    bindSortableToSearchItems()
+  </script>
+</g:if>  
