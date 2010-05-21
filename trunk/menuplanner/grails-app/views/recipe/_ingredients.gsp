@@ -14,8 +14,8 @@
                     <td width="24">&nbsp;</td>
                     <td width="24">&nbsp;</td>
                     <td width="30">&nbsp;</td>
-                    <td width="70"><strong>Amount</strong></td>
-                    <td width="110"><strong>Unit</strong></td>
+                    <td width="117"><strong>Amount</strong></td>
+                    <td width="203"><strong>Unit</strong></td>
                     <td><strong>Ingredient</strong></td>
                 </tr>
                 <!-- Show Ingredients Here -->
@@ -32,9 +32,10 @@
                     <span id="ingredientToBeAdded">
                         <div style="float:left;">
                             <g:textField class="inpboxSmall" id='optionIngredientQuantities' name="optionIngredientQuantities" value=""/>
-                            <g:select class="inpbox" id='optionIngredientUnitIds' noSelection="['':'(No Unit)']" name="optionIngredientUnitIds" from="${metricUnits}" optionKey="id" style="width:105px;"/>
+                            <g:select class="inpbox" id='optionIngredientUnitIds' noSelection="['':'(No Unit)']" name="optionIngredientUnitIds" from="${metricUnits}" optionKey="id" style="width:105px;display:none;"/>
+                            <input name="combobox_optionIngredientUnitIds" class="inpbox" id="combobox_optionIngredientUnitIds">
                         </div>
-                        <div style="padding-top:2px; float:left; padding-left:5px;">
+                        <div style="float:left; padding-left:5px;">
                             <input class="inpbox" id="optionIngredientProductIds" name="optionIngredientProductIds" value=""/>
                         </div>
                     </span>
@@ -54,5 +55,28 @@
     $("#optionIngredientProductIds").result(function(event, data, formatted) {
         jQuery(this).val(data[0]);
     })
+    var metricUnits=[]
+    <g:each in="${metricUnits}" var="metricUnit">
+    metricUnits.push('${metricUnit}')
+    </g:each>
+    metricUnits.push('Other...')
+    $("#combobox_optionIngredientUnitIds").autocomplete(metricUnits, {
+      matchContains: true,
+      minChars: 0,
+      max:0,
+      mustMatch:true
+    });
 
+    $("#combobox_optionIngredientUnitIds").result(function(event, data, formatted) {
+      var currentUnit=jQuery(this).val()
+      if(currentUnit=='Other...'){
+        $("#optionIngredientUnitIds").val('')
+      }
+      $("#optionIngredientUnitIds").children().each(function(){
+        if($(this).text()==currentUnit){
+          $(this).attr('selected','selected')
+        }
+      })
+
+    })
 </script>
