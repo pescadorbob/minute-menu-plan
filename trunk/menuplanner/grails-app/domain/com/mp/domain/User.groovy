@@ -13,7 +13,7 @@ class User {
     Boolean isEnabled = true
     List<UserType> type = []
 
-    static hasMany = [type: UserType,favourites: Recipe, contributions: Recipe]
+    static hasMany = [type: UserType, favourites: Recipe, contributions: Recipe]
     static transients = ['isEnabledString']
 
     String getIsEnabledString() {
