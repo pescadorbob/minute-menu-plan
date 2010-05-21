@@ -51,13 +51,13 @@
                     <div id="button">
                         <ul>
                             <li>
-                                <g:actionSubmit class="button pointer" controller="recipe" action="save" name="create" value="Create"/>
+                                <g:actionSubmit class="button" controller="recipe" action="save" name="create" value="Create"/>
                             </li>
                             <li>
                                 <input type="button" name="preview" class="button" id="preview" value="Preview"/>
                             </li>
                             <li>
-                                <g:actionSubmit class="button pointer" controller="recipe" action="list" name="cancel" value="Cancel"/>
+                                <g:actionSubmit class="button" controller="recipe" action="list" name="cancel" value="Cancel"/>
                             </li>
                         </ul>
                     </div>

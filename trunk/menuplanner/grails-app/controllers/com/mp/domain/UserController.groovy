@@ -13,12 +13,31 @@ class UserController {
     }
 
     def changeStatus = {
-            render "" + userService.changeStatus(params?.id?.toLong())
+        render "" + userService.changeStatus(params?.id?.toLong())
+    }
+
+    def removeFavorite = {
+        Recipe recipe = Recipe.get(params.id)
+        User user = User.get(session?.loggedUserId.toLong())
+        user?.removeFromFavourites(recipe)
+        user.s()
+        render(view: 'show', model: [user: user])
+    }
+
+    def alterFavorite = {
+        Recipe recipe = Recipe.get(params.id)
+        User user = User.get(session?.loggedUserId.toLong())
+        if (user?.favourites?.contains(recipe)) {
+            user?.removeFromFavourites(recipe)
+            user.s()
+        } else {
+            user?.addToFavourites(recipe)
+            user.s()
+        }
+        redirect(controller: 'recipe', action: 'show', id: params?.id)
     }
 
     def list = {
-
-
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         String name = params.searchName
 
@@ -26,26 +45,25 @@ class UserController {
         Integer total
         if (name || params?.userStatus) {
             userList = User.createCriteria().list(max: params.max, offset: 0) {
-                if(name){
+                if (name) {
                     ilike('name', "%${name}%")
                 }
-                if(params.userStatus=='enabled'){
-                    eq('isEnabled',true)
+                if (params.userStatus == 'enabled') {
+                    eq('isEnabled', true)
                 }
-                if(params.userStatus=='disabled'){
-                    eq('isEnabled',false)
+                if (params.userStatus == 'disabled') {
+                    eq('isEnabled', false)
                 }
             }
             total = userList.getTotalCount()
         } else {
-            params.userStatus='all'
+            params.userStatus = 'all'
             userList = User.list(params)
-            total= User.count()
+            total = User.count()
         }
 
-        render(view: 'list', model: [userList: userList, total: total, searchName: name, userStatus:params.userStatus])
+        render(view: 'list', model: [userList: userList, total: total, searchName: name, userStatus: params.userStatus])
     }
-
 
     def edit = {
         if (params.id) {
@@ -71,7 +89,7 @@ class UserController {
     def save = {UserCO userCO ->
         if (userCO.validate()) {
             User user = userCO.convertToUser()
-            
+
 //            asynchronousMailService.sendAsynchronousMail {
 //                to user?.email
 //                subject "Email verification for Minute Menu Plan"

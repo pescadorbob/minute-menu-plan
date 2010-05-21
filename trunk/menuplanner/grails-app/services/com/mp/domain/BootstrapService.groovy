@@ -16,7 +16,7 @@ class BootstrapService {
             Integer intVal = ((new Random().nextInt(10) + 1) * 10)
             user.email = 'user' + index + '@gmail.com'
             user.name = 'user' + index
-            user.password = user.name
+            user.password = '1234'
             user.city = 'city' + index
             user.mouthsToFeed = intVal
             List<UserType> roles = [UserType.User]

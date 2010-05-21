@@ -114,7 +114,7 @@
 #adduser ul li{clear:both;padding:10px;}
 #adduser ul li span{float:left;width:160px;text-align:right;padding-right:15px;}
 #adduser ul li label{float:left;}
-#displayEmailAsLabel{text-align: left;font-weight: bold;width: 180px;}
+#displayEmailAsLabel{text-align: left !important;font-weight: bold;width: 185px !important;}
 /* end adduser
 
 /* start userlist  */
@@ -127,3 +127,41 @@
 #userlist ul li a{text-decoration:underline;color:#007ad8;}
 #userlist ul li a:hover{text-decoration:none;}
 /* end adduser */
+
+/* start user Login */
+#right-panel-landing{float:right;width:215px;}
+#maiddle-panel{float:left;width:546px; margin-left:14px;}
+.search-input{background:url(../images/search-input.png) no-repeat top left;padding-left:5px;line-height:14px; width:100%;}
+.search-input input{background:url(../images/search-input1.gif) no-repeat top right;height:22px;padding:2px 0px 3px 0px;}
+#login{clear:both;font-size:12px;color:#787a7a;}
+#login ul li{clear:both;padding:3px 0px;}
+#login ul li label{clear:both;text-align:right; font-size:11px; color:#b4b8b8; display:block;padding-bottom:5px;}
+#login ul li.border{border-top:1px solid #d6d4d5;}
+
+#login ul li h2{line-height:24px;color:#292e2e;font-size:15px;color:#e67432;font-weight:bold;}
+#login ul li a{display:block;text-decoration:none;color:#007ad8;font-weight:normal;clear:both;padding:0px 0px;margin:0px;line-height:14px;}
+#login ul li a:hover{color:#fea000;}
+
+#category{clear:both;font-size:12px;color:#787a7a;}
+#category ul li{clear:both;padding:3px 0px;}
+#category ul li label{clear:both;text-align:right; font-size:11px; color:#b4b8b8; display:block;padding-bottom:5px;}
+#category ul li.border{border-top:1px solid #d6d4d5;}
+#category ul li h2{line-height:24px;color:#292e2e;font-size:15px;color:#e67432;font-weight:bold;}
+#category ul li a{text-decoration:none;color:#007ad8;font-weight:normal;padding:0px 0px;margin:0px;line-height:14px;}
+#category ul li a:hover{color:#fea000;}
+
+.button1{border:1px solid #ffa500;text-decoration: none;font-size:14px;color:#fff;line-height:35px;width:120px;height:35px;background:#ffa500;padding:2px 10px 3px 10px; margin:0px;}
+#video-box{height:230px; width:260px; float:left}
+.orderbtn{height:175px; width:120px; padding-top:5px; float:left;color:#787a7a; font-size:12px; text-align:center; margin-top:50px; background:url("../images/order-button.png") no-repeat top center; }
+.orderbtn h3{color:#e67432; font-size:14px;font-weight:bold; line-height:20px;}
+.clear{clear:both; padding:20px 0px;}
+#content{ font-size:12px; color:#838888;}
+#content p{ font-size:12px; color:#838888; padding:5px 0px;}
+#content h2{ font-size:24px; color:#292e2e; padding:10px 0px; font-weight:normal; text-align:center;}
+div.loginError{border:0px;color:red;font-size:12px; margin-bottom:5px;}
+.welcomeMessage{border:1px solid #eef;color:red;font-size:12px; margin-bottom:5px; text-align:center;padding:10px;font-weight:bolder;}
+
+#country-cateLogin{clear:both;font-size:12px;color:#616A72;font-weight:bold;}
+#country-cateLogin ul li{clear:both;margin-top:0px;padding:5px 0px 5px 0px;}
+
+/* end user Login */

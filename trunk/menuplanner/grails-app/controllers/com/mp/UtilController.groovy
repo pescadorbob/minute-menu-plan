@@ -30,6 +30,17 @@ class UtilController {
 
     def index = {
 
+        User user = User.list().first()
+        Recipe recipe = Recipe.list().first()
+        user.addToFavourites(recipe)
+        user.s()
+
+        render user?.favourites.contains(recipe)
+
+//        if(user?.favourites*.name().contains(recipe?.id)){
+        
+
+        /*
         Unit unit1 = Unit.findByName(TIME_UNIT_HOURS)
         Unit unit2 = Unit.findByName(TIME_UNIT_MINUTES)
         Unit unit3 = null
@@ -45,6 +56,9 @@ class UtilController {
 
         Quantity q = addQuantities(val1, unit1, val2, unit2)
         render "SUM: ${q.toString()? q : 'QUANTITIES CAN NOT BE ADDED..'} <br/>"
+        */
+
+
 
         /*
         asynchronousMailService.sendAsynchronousMail {
