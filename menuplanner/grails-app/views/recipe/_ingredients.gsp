@@ -43,6 +43,7 @@
             </li>
         </ul>
     </div>
+  <g:render template="unitAddPopup"/>  
 </div>
 
 <script type="text/javascript">
@@ -71,12 +72,14 @@
       var currentUnit=jQuery(this).val()
       if(currentUnit=='Other...'){
         $("#optionIngredientUnitIds").val('')
+        $("#unitAddPopup").show()
+      }else{
+        $("#optionIngredientUnitIds").children().each(function(){
+          if($(this).text()==currentUnit){
+            $(this).attr('selected','selected')
+            $("#unitAddPopup").hide()
+          }
+        })
       }
-      $("#optionIngredientUnitIds").children().each(function(){
-        if($(this).text()==currentUnit){
-          $(this).attr('selected','selected')
-        }
-      })
-
     })
 </script>
