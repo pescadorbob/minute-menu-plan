@@ -12,32 +12,32 @@
         <div class="leftbox clearfix">
             <div id="country-cateLogin">
                 <ul>
-                    <li> - Create a meal plan in minutes </li>
-                    <li> - Choose from 1000s of recipes</li>
-                    <li> - Rate the recipes</li>
-                    <li> - Add your own recipes</li>
-                    <li> - Print your shopping list</li>
-                    <li> - Print your own recipes</li>
-                    <li> - Automatically calculate more or less mouth to feed</li>
-                    <li> - Print recipe by day or separately</li>
-                    <li> - Share recipe with your friends</li>
-                    <li> - Save $100s dollars by only buying recipe you need</li>
-                    <li> - Save time in kitchen</li>
-                    <li> - 60-day money back</li>
+                    <li>- Create a meal plan in minutes</li>
+                    <li>- Choose from 1000s of recipes</li>
+                    <li>- Rate the recipes</li>
+                    <li>- Add your own recipes</li>
+                    <li>- Print your shopping list</li>
+                    <li>- Print your own recipes</li>
+                    <li>- Automatically calculate more or less mouth to feed</li>
+                    <li>- Print recipe by day or separately</li>
+                    <li>- Share recipe with your friends</li>
+                    <li>- Save $100s dollars by only buying recipe you need</li>
+                    <li>- Save time in kitchen</li>
+                    <li>- 60-day money back</li>
                 </ul>
             </div>
             <div id="category">
                 <ul><li></li>
                     <li class="border"><strong>Recipes Categories Include:</strong></li>
                     <li>Appetizers | Beverages | Breads | Cakes | Candies|
-                        Casserts |Eggs | Fish |
-                        Itallian | Main Dishes Meats |Mexican</li>
+                    Casserts |Eggs | Fish |
+                    Itallian | Main Dishes Meats |Mexican</li>
                     <li>Appetizers | Beverages | Breads | Cakes | Candies|
-                        Casserts |Eggs | Fish |
-                        Itallian | Main Dishes Meats |Mexican</li>
+                    Casserts |Eggs | Fish |
+                    Itallian | Main Dishes Meats |Mexican</li>
                     <li>Appetizers | Beverages | Breads | Cakes | Candies|
-                        Casserts |Eggs | Fish |
-                        Itallian | Main Dishes Meats |Mexican</li>
+                    Casserts |Eggs | Fish |
+                    Itallian | Main Dishes Meats |Mexican</li>
                 </ul>
             </div>
         </div>
@@ -56,9 +56,9 @@
                 <h2>"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
                 "There is no one who loves pain itself, who seeks after it and wants to</h2>
                 <div class="clear clearfix">
-                    <div class="orderbtn"><h3>Order Now</h3> $5/month</div>
+                    <g:link controller="user" action="create"><div class="orderbtn"><h3>Order Now</h3> $5/month</div></g:link>
                     <div id="video-box"><img src="${resource(dir: 'images', file: 'video.png')}"/></div>
-                    <div class="orderbtn"><h3>Order Now</h3> $5/month</div>
+                    <g:link controller="user" action="create"><div class="orderbtn"><h3>Order Now</h3> $5/month</div></g:link>
                 </div>
                 <p>Hello. You have found an example page for Suckerfish Dropdowns.</p>
                 <p>Under the hood you will find some nice structured HTML, a smattering of CSS and a teensy bit of JavaScript (that's just 12 lines of it). It's lightweight, it's accessible, it's cross-compatible.
@@ -81,7 +81,7 @@
                             <input name="email" type="text" class="inp" value="${loginCO?.email}"/></div>
                         </li>
                         <li>Password :<div class="search-input">
-                                <input name="password" type="password" class="inp" value=""/></div>
+                            <input name="password" type="password" class="inp" value=""/></div>
                             <g:if test="${flash.message}">
                                 <div class="loginError">
                                     ${flash.message}

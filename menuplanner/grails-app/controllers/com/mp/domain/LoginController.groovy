@@ -23,11 +23,19 @@ class LoginController {
                 flash.welcomeMessage = 'Welcome ' + user?.name + '!'
                 redirect(controller: 'recipe', action: 'list', id: user?.id)
             } else {
-                flash.message = 'The username or password you entered is incorrect.'
+                flash.message="The username or password you entered is incorrect."
                 render(view: 'home', model: [loginCO: loginCO])
             }
         } else {
-            flash.message = 'The username or password you entered is incorrect.'
+            if(!loginCO?.email && !loginCO?.password){
+                flash.message = 'Username and Password can not be blank.'
+            }else if(!loginCO?.email){
+                flash.message = 'Provide Username.'
+            }else if(!loginCO.password){
+                flash.message = 'Provide Password.'
+            }else{
+                flash.message="The username or password you entered is incorrect."
+            }
             render(view: 'home', model: [loginCO: loginCO])
         }
     }

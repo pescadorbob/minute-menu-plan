@@ -22,12 +22,12 @@
                 <label>&nbsp;</label>
             </div>
             <div class="leftbox clearfix">
-                <g:uploadForm name="formCreateUser" controller="user" action="save">
+                <g:uploadForm name="formCreateUser">
                     <g:render template="/user/imageSection" model="[userCO:userCO]"/>
                     <g:render template="/user/userDetail" model="[userCO:userCO]"/>
                     <div id="button">
-                        <g:submitButton name="btnUpdate" class="button" value="Create User"/>
-                        <input class="button" type="button" name="cancel" id="cancel" value="Cancel"/>
+                        <g:actionSubmit name="btnUpdate" class="button" value="Create User" controller="user" action="save"/>
+                        %{--<g:actionSubmit name="cancel" class="button" value="Cancel" controller="user" action="show"/>--}%
                     </div>
                 </g:uploadForm>
             </div>

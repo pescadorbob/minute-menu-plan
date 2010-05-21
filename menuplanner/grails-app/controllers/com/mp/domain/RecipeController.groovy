@@ -127,6 +127,9 @@ class RecipeController {
     def save = {RecipeCO recipeCO ->
         if (recipeCO.validate()) {
             Recipe recipe = recipeCO.convertToRecipe()
+            User loggedUser = User.get(session?.loggedUserId?.toLong())
+            loggedUser.addToContributions(recipe)
+            loggedUser.s()
             redirect(action: 'show', id: recipe?.id)
         } else {
             println recipeCO.errors.allErrors.each {
