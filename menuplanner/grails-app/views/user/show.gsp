@@ -31,11 +31,10 @@
                             </li>
                         </g:each>
                         <li>
-                            <h3>Contributions</h3>
+                            <h3>Contributed Recipes</h3>
                         </li>
                         <g:each in="${user?.contributions}" var="recipe">
-                            <li><a href="${createLink(controller:'recipe',action:'show',id:recipe?.id)}">${recipe?.name}</a>
-                                <a href="${createLink(controller:'user',action:'removeFavorite',id:recipe?.id)}">remove</a></li>
+                            <li><a href="${createLink(controller:'recipe',action:'show',id:recipe?.id)}">${recipe?.name}</a></li>
                         </g:each>
                         <li>
                             <h3>Favorites</h3>
