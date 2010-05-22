@@ -78,22 +78,27 @@
                 <g:uploadForm name="loginForm">
                     <ul>
                         <li>Username : (Email Address)<div class="search-input">
-                            <input name="email" type="text" class="inp" value="${loginCO?.email}"/></div>
-                        </li>
-                        <li>Password :<div class="search-input">
-                            <input name="password" type="password" class="inp" value=""/></div>
-
-                            <g:hasErrors bean="${loginCO}">
+                            <input name="email" type="text" class="inp  ${hasErrors(bean: loginCO, field: 'email', 'loginExc')}" value="${loginCO?.email}"/></div>
+                            <g:hasErrors bean="${loginCO}" field="email" >
                                 <div class="loginError">
-                                    <g:renderErrors bean="${loginCO}"/>
+                                    <g:renderErrors bean="${loginCO}" field="email"/>
                                 </div>
                             </g:hasErrors>
+                        </li>
+                        <li>Password :<div class="search-input">
+                            <input name="password" type="password" class="inp  ${hasErrors(bean: loginCO, field: 'password', 'loginExc')}" value=""/></div>
+                            <g:hasErrors bean="${loginCO}"  field="password">
+                                <div class="loginError">
+                                    <g:renderErrors bean="${loginCO}" field="password"/>
+                                </div>
+                            </g:hasErrors>
+
                             <g:if test="${flash.message}">
                                 <div class="loginError">
                                     ${flash.message}
                                 </div>
                             </g:if>
-                            
+
                         </li>
                         <li>
                             <g:actionSubmit name="login" controller="login" action="login" value="Login" class=""/>

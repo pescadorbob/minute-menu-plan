@@ -16,7 +16,6 @@ class LoginController {
     }
     def login = {LoginCO loginCO ->
         if (loginCO.validate()) {
-            println loginCO.password
             User user = User.findByEmailAndPassword(loginCO?.email, loginCO?.password?.encodeAsBase64())
             if (user) {
                 session.loggedUserId = user.id.toString()
@@ -26,10 +25,7 @@ class LoginController {
                 render(view: 'home', model: [loginCO: loginCO])
             }
         } else {
-            println loginCO.errors.allErrors.each {
-                println it
-            }
-            render(view: 'home', model: [loginCO: loginCO])
+             render(view: 'home', model: [loginCO: loginCO])
         }
     }
 }
