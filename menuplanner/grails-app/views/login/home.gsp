@@ -82,11 +82,18 @@
                         </li>
                         <li>Password :<div class="search-input">
                             <input name="password" type="password" class="inp" value=""/></div>
+
+                            <g:hasErrors bean="${loginCO}">
+                                <div class="loginError">
+                                    <g:renderErrors bean="${loginCO}"/>
+                                </div>
+                            </g:hasErrors>
                             <g:if test="${flash.message}">
                                 <div class="loginError">
                                     ${flash.message}
                                 </div>
                             </g:if>
+                            
                         </li>
                         <li>
                             <g:actionSubmit name="login" controller="login" action="login" value="Login" class=""/>
