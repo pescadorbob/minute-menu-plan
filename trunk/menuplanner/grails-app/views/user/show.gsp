@@ -17,11 +17,6 @@
                 <label>&nbsp;</label>
             </div>
             <div class="leftbox clearfix">
-                <g:if test="${flash.welcomeMessage}">
-                    <div class="welcomeMessage">
-                        ${flash.welcomeMessage}
-                    </div>
-                </g:if>
                 <div id="leftpanel">
                     <div id="photo">
                         <mp:recipeImage id="${user?.image?.id}" noImage="no-img.gif" height="150" width="150"/>

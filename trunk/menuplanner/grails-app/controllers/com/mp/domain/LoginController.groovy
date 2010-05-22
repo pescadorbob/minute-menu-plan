@@ -20,21 +20,14 @@ class LoginController {
             User user = User.findByEmailAndPassword(loginCO?.email, loginCO?.password?.encodeAsBase64())
             if (user) {
                 session.loggedUserId = user.id.toString()
-                flash.welcomeMessage = 'Welcome ' + user?.name + '!'
                 redirect(controller: 'recipe', action: 'list', id: user?.id)
             } else {
                 flash.message="The username or password you entered is incorrect."
                 render(view: 'home', model: [loginCO: loginCO])
             }
         } else {
-            if(!loginCO?.email && !loginCO?.password){
-                flash.message = 'Username and Password can not be blank.'
-            }else if(!loginCO?.email){
-                flash.message = 'Provide Username.'
-            }else if(!loginCO.password){
-                flash.message = 'Provide Password.'
-            }else{
-                flash.message="The username or password you entered is incorrect."
+            println loginCO.errors.allErrors.each {
+                println it
             }
             render(view: 'home', model: [loginCO: loginCO])
         }
@@ -47,6 +40,6 @@ class LoginCO {
 
     static constraints = {
         email(blank: false, nullable: false, email: true)
-        password(nullable: false, blank: false, minSize: 4)
+        password(nullable: false, blank: false)
     }
 }
