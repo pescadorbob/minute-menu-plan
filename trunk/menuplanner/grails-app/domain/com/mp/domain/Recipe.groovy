@@ -3,8 +3,9 @@ package com.mp.domain
 import org.apache.lucene.document.NumberTools
 import static com.mp.MenuConstants.*
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import org.grails.comments.*
 
-class Recipe extends Item {
+class Recipe extends Item implements Commentable{
 
     static searchable = {
         ingredients component: true

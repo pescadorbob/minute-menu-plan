@@ -27,21 +27,7 @@
         </a>
             <h1><nobr>Plan Your Month's Menu in a Minute!</nobr></h1>
         </div>
-        <div id="navigation">
-            <ul>
-                <mp:menuPlanDropdown/>
-                %{--<li><a href="#" class="browse"><span>Browse&nbsp;Recipes</span></a></li>--}%
-                <li><g:link controller="recipe" action="list" class="browse">Browse&nbsp;Recipes</g:link></li>
-                <li><g:link controller="recipe" action="create">Add New&nbsp;Recipe</g:link></li>
-
-                <mp:loggedUserDropDown loggedUserId="${session?.loggedUserId}"/>
-
-                %{--<li><a href="#">Forums</a></li>--}%
-                %{--<li><a href="#">Conversions</a></li>--}%
-                %{--<li><a href="#">Help</a></li>--}%
-                %{--<li><a href="#"><span>Admin</span></a></li>--}%
-            </ul>
-        </div>
+            <g:render template="/layouts/navigationBar" />
     </div>
     <!-- end header start wrapper -->
     <div id="wrapper" class="clearfix">
