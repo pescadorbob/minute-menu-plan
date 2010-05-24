@@ -82,6 +82,19 @@
                             <g:if test="${recipe?.items}">
                                 <li><span>Serve With: ${recipe?.items?.join(", ")}</span></li>
                             </g:if>
+                            %{--<li>--}%
+                                %{--<strong>Comments :</strong><br/>--}%
+                                %{--<g:render template='/recipe/rating'/>--}%
+                                %{--&nbsp; &nbsp; lorem ipsum lorem--}%
+                                %{--<a href="#"> ipsum</a>--}%
+                            %{--</li>--}%
+                            %{--<li>--}%
+                                %{--<g:uploadForm name="addCommentForm">--}%
+                                    %{--<g:textArea class="inpbox" name="comment" rows="5" cols="50"/>--}%
+                                    %{--<g:hiddenField name="recipeId" value="${recipe?.id}"/>--}%
+                                    %{--<g:actionSubmit controller="recipe" action="addComment" value="Add Comment"/>--}%
+                                %{--</g:uploadForm>--}%
+                            %{--</li>--}%
                         </ul>
                     </li>
                     <li style="text-align: right;">
