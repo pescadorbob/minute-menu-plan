@@ -16,6 +16,10 @@ class User {
     static hasMany = [type: UserType, favourites: Recipe, contributions: Recipe]
     static transients = ['isEnabledString']
 
+    String toString() {
+        return name
+    }
+
     String getIsEnabledString() {
         return (isEnabled ? 'Enabled' : 'Disabled')
     }

@@ -66,15 +66,15 @@ class BootStrap {
             println "Populated Users"
             bootstrapService.populateCategory()
             println "Populated Categories"
-            bootstrapService.populateQuantities(20)
-            println "Populated Quantities"
+//            bootstrapService.populateQuantities(20)
+//            println "Populated Quantities"
             bootstrapService.populateMeasurableProduct()
             println "Populated Products"
             File recipeExcelFile
             if (!GrailsUtil.isDevelopmentEnv()) {
                 recipeExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet.xls"))
             } else {
-                recipeExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet.xls"))
+                recipeExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet_test.xls"))
             }
             List<String> recipeLog
             recipeExcelFile.withInputStream {inputStream ->

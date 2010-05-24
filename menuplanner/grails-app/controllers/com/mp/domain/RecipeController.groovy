@@ -146,7 +146,7 @@ class RecipeController {
         println params
         Recipe recipe = Recipe.findById(params?.recipeId)
         User user = User?.get(session?.loggedUserId?.toLong())
-        recipeService.addComment(user, recipe, params?.comment)
+        recipe?.addComment(user, params?.comment)
         render(view: 'show', model: [recipe: recipe])
     }
 

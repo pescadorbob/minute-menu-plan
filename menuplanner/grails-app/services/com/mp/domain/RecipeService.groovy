@@ -21,13 +21,7 @@ class RecipeService {
         println "Recipe: ${recipe?.name} ........ DELETED !!"
         return true
     }
-    public boolean addComment(User user, Recipe recipe, String comment){
-        println user
-        println recipe
-        println comment
-    }
-    
-    
+        
 }
 
 class RecipeCO {
