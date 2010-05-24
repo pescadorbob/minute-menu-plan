@@ -14,7 +14,7 @@ class BootstrapService {
         (1..count).each {Integer index ->
             User user = new User()
             Integer intVal = ((new Random().nextInt(10) + 1) * 10)
-            user.email = 'user' + index + '@gmail.com'
+            user.email = 'qa.menuplanner+user' + index + '@gmail.com'
             user.name = 'user' + index
             user.password = '1234'.encodeAsBase64()
             user.city = 'city' + index
