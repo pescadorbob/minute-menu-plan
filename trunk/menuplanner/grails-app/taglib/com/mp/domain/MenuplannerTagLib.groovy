@@ -3,6 +3,7 @@ package com.mp.domain
 import grails.converters.JSON
 import org.grails.comments.Comment
 
+
 class MenuplannerTagLib {
 
     static namespace = 'mp'
@@ -85,6 +86,20 @@ class MenuplannerTagLib {
             }
         }
         out << g.render(template: "/recipe/comments", model: [recipe: recipe, comments: nonAbusiveComments])
+    }
+
+    def showRecipeAbuse = {attrs ->
+        Recipe recipe = attrs['recipe']
+        User user = User.get(attrs['userId']?.toString()?.toLong())
+        Boolean reported = false
+
+        List<RecipeAbuse> recipeAbuses = RecipeAbuse.findAllByReporterAndRecipe(user, recipe)
+        if(!recipeAbuses){
+            out << g.render(template: "/recipe/showRecipeAbuse", model: [reported: reported, recipeId: recipe?.id])
+        } else{
+            reported = true
+            out << g.render(template: "/recipe/showRecipeAbuse", model: [reported: reported])
+        }
     }
 
     def reportCommentAbuse = {attrs ->
