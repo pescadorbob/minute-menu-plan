@@ -37,7 +37,7 @@
         <li><span><strong>Mouths to Feed :</strong></span>
 
             <label>
-                <input name="mouthsToFeed" type="text" class="inpbox  ${hasErrors(bean: userCO, field: 'mouthsToFeed', 'errors')}" value="${userCO?.mouthsToFeed}"/>
+                <input name="mouthsToFeed" type="text" class="inpboxSmall  ${hasErrors(bean: userCO, field: 'mouthsToFeed', 'errors')}" value="${userCO?.mouthsToFeed}"/>
             </label>
         </li>
         <li><span><strong>Something about yourself :</strong></span>

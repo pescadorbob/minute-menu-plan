@@ -95,23 +95,7 @@
                         </g:link>
                     </li>
                 </ul>
-                <div class="content">
-                    <strong>Comments :</strong><br/>
-                    
-                    <comments:each bean="${recipe}">
-                        <span class="clearfix">
-                            %{--<g:render template='/recipe/rating'/>--}%
-                            ${comment?.body} - Posted by <g:link controller="user" action="show" id="${comment?.poster?.id}">${comment?.poster}</g:link>
-                            %{--<g:link controller="user" action="reportComment" id="${comment?.poster?.id}"> &nbsp;&nbsp;&nbsp; report this </g:link>--}%
-                            <br/>
-                        </span>
-                    </comments:each><br/> 
-                    <g:uploadForm name="addCommentForm">
-                        <g:textArea class="inpbox" name="comment" rows="5" cols="50"/>
-                        <g:hiddenField name="recipeId" value="${recipe?.id}"/>
-                        <g:actionSubmit controller="recipe" action="addComment" value="Add Comment"/>
-                    </g:uploadForm>
-                </div>
+                <mp:comments recipe="${recipe}" />
             </div>
         </div>
         <div class="bottom-shadow"><label></label></div>
