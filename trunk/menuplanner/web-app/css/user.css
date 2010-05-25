@@ -159,7 +159,7 @@
 #content p{ font-size:12px; color:#838888; padding:5px 0px;}
 #content h2{ font-size:24px; color:#292e2e; padding:10px 0px; font-weight:normal; text-align:center;}
 div.loginError{border:0px;color:red;font-size:12px; margin-bottom:5px;}
-.welcomeMessage{border:1px solid #eef;color:red;font-size:12px; margin-bottom:5px; text-align:center;padding:10px;font-weight:bolder;}
+.userFlashMessage{border:1px solid #eef;color:#787a7a;font-size:12px; margin-bottom:5px; text-align:center;padding:10px;font-weight:bolder;}
 
 #country-cateLogin{clear:both;font-size:12px;color:#616A72;font-weight:bold;}
 #country-cateLogin ul li{clear:both;margin-top:0px;padding:5px 0px 5px 0px;}
