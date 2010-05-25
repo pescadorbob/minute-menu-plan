@@ -4,6 +4,8 @@ class UnitController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+    def unitService
+
     def index = {
         redirect(action: "list", params: params)
     }
@@ -96,5 +98,10 @@ class UnitController {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'unit.label', default: 'Unit'), params.id])}"
             redirect(action: "list")
         }
+    }
+
+    def saveNewUnit={
+        Boolean isSaved=unitService.createNewUnit(params.unitName,params.unitSymbol,params.unitId?.toLong(),params.systemOfUnit.toLong(),params.conversionFactor?.toFloat())?:false        
+        render "success"
     }
 }

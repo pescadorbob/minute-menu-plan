@@ -43,7 +43,6 @@
             </li>
         </ul>
     </div>
-  <g:render template="unitAddPopup"/>  
 </div>
 
 <script type="text/javascript">
