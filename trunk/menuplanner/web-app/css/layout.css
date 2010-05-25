@@ -10,6 +10,7 @@
 #viewmenu ul li.noseprator{float:left;background:none;}
 #viewmenu ul li.noseprator1{padding:0px 0px 0px 20px;float:left;background:none;}
 .imagePointer{cursor:pointer;}
+#spanRateable{float:left; padding:0px 5px; line-height:12px;}
 
 .inp{border:none;background:transparent;padding:1px 0px 3px 5px;height:15px;width:140px;font-family:Arial, Helvetica, sans-serif;font-size:12px;color:#a3a3a3;}
 #youhave{background:url(../images/vert-divider.gif) no-repeat bottom left;clear:both;font-size:12px;color:#525454;font-size:12px;padding:5px 0px;}

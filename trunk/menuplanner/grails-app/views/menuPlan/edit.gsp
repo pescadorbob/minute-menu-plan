@@ -6,6 +6,7 @@
   <g:javascript library="ui.core"/>
   <g:javascript library="ui.sortable"/>
   <g:javascript src="menuPlan.js"/>
+  <rateable:resources/>
   <script type="text/javascript">
     setCrossImagePath("${resource(dir:'images',file:'delete.jpg')}")
   </script>

@@ -4,8 +4,10 @@ import org.apache.lucene.document.NumberTools
 import static com.mp.MenuConstants.*
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.grails.comments.*
+import org.grails.rateable.*
 
-class Recipe extends Item implements Commentable{
+
+class Recipe extends Item implements Commentable, Rateable{
 
     static searchable = {
         ingredients component: true

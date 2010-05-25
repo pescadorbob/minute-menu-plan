@@ -1,3 +1,4 @@
+<%@ page import="com.mp.domain.Recipe" %>
 <div id="right-panel">
     <div class="headbox">
         <h3>
@@ -8,7 +9,11 @@
         <label>
             <span id="displayName"></span>
         </label>
-        <g:render template="/recipe/rating"/>
+
+        <g:if test="${recipeCO?.id}">
+            <rateable:ratings bean='${Recipe.get(recipeCO?.id?.toString()?.toLong())}' active="false"/>
+        </g:if>
+        %{--<g:render template="/recipe/rating"/>--}%
         <span id="displayPrepTime"></span>
         <span id="displayCookTime"></span>
     </div>

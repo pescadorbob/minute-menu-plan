@@ -5,6 +5,7 @@
     <title>${recipe?.name}</title>
     <meta name="layout" content="menu"/>
     <g:javascript src="jquery.printElement.min.js"/>
+    <rateable:resources/>
     <script type="text/javascript">
         jQuery(function() {
             jQuery("#printButton").click(function() {
@@ -32,7 +33,8 @@
         <div id="right-head">
             <div id="leftpart">
                 <label>${recipe?.name}</label>
-                <g:render template="/rating/rating"/>
+                %{--<g:render template="/rating/rating"/>--}%
+                <span id="spanRateable"><rateable:ratings bean='${recipe}'/></span>
                 <g:if test="${recipe?.preparationTime}">Prep - ${recipe?.preparationTime}</g:if>
                 <g:if test="${recipe?.cookingTime}">Cook - ${recipe?.cookingTime}</g:if>
             </div>

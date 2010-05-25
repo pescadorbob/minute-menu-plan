@@ -1,7 +1,7 @@
 <div class="product clearfix">
 <ul>
 <g:each in="${recipeList}" var="recipe" status="index">
-    <li onclick="location.href='${createLink(controller:'recipe', action:'show', id:recipe?.id)}'">
+    <li onclick="location.href = '${createLink(controller:'recipe', action:'show', id:recipe?.id)}'">
         <ul>
             <li><strong>${recipe.name}</strong></li>
             <li>
@@ -9,7 +9,9 @@
                     <li><mp:recipeImage id="${recipe?.image?.id}" noImage="no-img.gif" height="100" width="100"/></li>
                     <li>
                         <ul>
-                            <li><g:render template="/rating/rating"/></li>
+                            <li>
+                                <rateable:ratings bean='${recipe}' active="false"/>
+                            </li>
                             <li>${recipe?.totalTime}</li>
                             <li>${recipe?.difficulty}</li>
                             <g:each in="${recipe?.ingredients?.ingredient}" var="product" status="i">

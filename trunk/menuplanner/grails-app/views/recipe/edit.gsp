@@ -3,6 +3,7 @@
 <head>
     <meta name="layout" content="menu"/>
     <title>Add Recipe</title>
+    <rateable:resources/>
 </head>
 <body>
 

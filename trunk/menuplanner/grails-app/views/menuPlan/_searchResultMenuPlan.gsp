@@ -17,7 +17,9 @@
                                 <li><img class="imgbor" src="${createLink(controller: 'image', action: 'image', id: item?.image?.id)}"/></li>
                                 <li>
                                     <ul>
-                                        <li><g:render template="/rating/rating"/></li>
+                                        <li>
+                                            <rateable:ratings bean='${item}' active="false"/>
+                                        </li>
                                         <g:if test="${item?.totalTime}">
                                             <li>${item?.totalTime}</li>
                                         </g:if>

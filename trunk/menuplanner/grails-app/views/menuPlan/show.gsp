@@ -3,6 +3,7 @@
 <head>
     <meta name="layout" content="menu"/>
     <title>${menuPlan.name}</title>
+    <rateable:resources/>
 </head>
 <style type="text/css">
 .ui-sortable-placeholder {

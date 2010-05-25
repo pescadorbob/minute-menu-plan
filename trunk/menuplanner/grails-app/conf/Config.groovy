@@ -1,3 +1,5 @@
+import com.mp.domain.User
+
 // locations to search for config files that get merged into the main config
 // config files can either be Java properties files or ConfigSlurper scripts
 
@@ -9,6 +11,7 @@
 // if(System.properties["${appName}.config.location"]) {
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
 // }
+grails.rateable.rater.evaluator = { User.get(session?.loggedUserId) }
 grails.views.javascript.library = "jquery"
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
 grails.mime.use.accept.header = false
