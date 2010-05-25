@@ -92,10 +92,13 @@
                             <span id="showFavorite" style="text-align:right;">
                                 <mp:showFavorite recipeId="${recipe?.id}" userId="${session?.loggedUserId}"/>
                             </span>
-                        </g:link>
+                        </g:link> &nbsp; &nbsp;
+                        <span id="showRecipeAbuse" style="text-align:right;">
+                            <mp:showRecipeAbuse recipe="${recipe}" userId="${session?.loggedUserId}"/>
+                        </span>
                     </li>
                 </ul>
-                <mp:comments recipe="${recipe}" />
+                <mp:comments recipe="${recipe}"/>
             </div>
         </div>
         <div class="bottom-shadow"><label></label></div>

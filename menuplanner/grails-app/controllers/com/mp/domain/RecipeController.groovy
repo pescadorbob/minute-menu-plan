@@ -177,4 +177,11 @@ class RecipeController {
         new CommentAbuse(comment: comment, reporter: user).s()
         redirect(action: 'show', id: params.recipeId)
     }
+    def reportRecipeAbuse = {
+        RecipeAbuse recipeAbuse = new RecipeAbuse()
+        recipeAbuse.recipe=Recipe.get(params?.id?.toLong())
+        recipeAbuse.reporter=User.get(session?.loggedUserId?.toLong())
+        recipeAbuse.s()
+        redirect(action: 'show', id: params?.id)
+    }
 }
