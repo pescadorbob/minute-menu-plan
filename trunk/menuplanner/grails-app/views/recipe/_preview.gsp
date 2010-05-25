@@ -14,8 +14,6 @@
             <rateable:ratings bean='${Recipe.get(recipeCO?.id?.toString()?.toLong())}' active="false"/>
         </g:if>
         %{--<g:render template="/recipe/rating"/>--}%
-        <span id="displayPrepTime"></span>
-        <span id="displayCookTime"></span>
     </div>
     <div class="top-shadow">
         <label>&nbsp;</label>
@@ -24,16 +22,14 @@
     <div class="leftbox clearfix">
         %{--<img id="displayRecipeImage" src="" width="80" height="80" align="right" style="float:right">--}%
         <div id="rightElement">
-            <p>
             <div style="float:right; width:150px;">
                 <img id="displayRecipeImage" src="" width="150" height="150"/>
             </div>
-            <p>
-                <span id="displayDifficulty"></span>
-            </p>
-            <p>
-                <span id="displayMakeServing"></span>
-            </p>
+            <span id="displayPrepTime"></span>
+            <br/>
+            <span id="displayCookTime"></span>
+            <p><span id="displayDifficulty"></span></p>
+            <p><span id="displayMakeServing"></span></p>
             <p>&nbsp;</p>
             <p><strong><span id="displayIngredients"></span></strong></p>
             <ul>
@@ -42,7 +38,7 @@
             <p><span id="displayCategory"></span></p>
             <p><span id="displayServeWith"></span></p>
             <p><span id="showNutrients"></span></p>
-            <p><strong><a href="#"></a></strong> </p>
+            <p><strong><a href="#"></a></strong></p>
         </div>
     </div>
     <div class="bottom-shadow">

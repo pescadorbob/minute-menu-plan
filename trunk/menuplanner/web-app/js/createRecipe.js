@@ -87,7 +87,7 @@ function reflectInPreviewPanel() {
     jQuery('#displayName').html(getPlainText('name'))
     var showPrep = ''
     if (getPlainText('preparationTime').length) {
-        showPrep = 'prep- ' + getPlainText('preparationTime')
+        showPrep = 'Prep - ' + getPlainText('preparationTime')
         if (jQuery('#preparationUnitId :selected').text() == 'Hours') {
             showPrep += ' hrs '
         }
@@ -98,7 +98,7 @@ function reflectInPreviewPanel() {
     jQuery('#displayPrepTime').html(showPrep)
     var showCook = ''
     if (getPlainText('cookTime').length) {
-        showCook = 'cook- ' + getPlainText('cookTime')
+        showCook = 'Cook - ' + getPlainText('cookTime')
         if (jQuery('#cookUnitId :selected').text() == 'Hours') {
             showCook += ' hrs'
         }
