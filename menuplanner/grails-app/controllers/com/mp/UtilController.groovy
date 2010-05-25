@@ -35,8 +35,8 @@ class UtilController {
         user.addToFavourites(recipe)
         user.s()
 
-        render user?.favourites.contains(recipe)
-
+        render(view:'index', bean:recipe)
+        
 //        if(user?.favourites*.name().contains(recipe?.id)){
         
 

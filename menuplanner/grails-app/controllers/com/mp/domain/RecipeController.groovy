@@ -4,6 +4,7 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import grails.converters.JSON
 import static com.mp.MenuConstants.*
 import org.codehaus.groovy.grails.commons.ApplicationHolder
+import org.grails.comments.Comment
 
 class RecipeController {
     static config = ConfigurationHolder.config
@@ -146,6 +147,8 @@ class RecipeController {
         println params
         Recipe recipe = Recipe.findById(params?.recipeId)
         User user = User?.get(session?.loggedUserId?.toLong())
+        println "User: " + user
+        println "Recipe: " + recipe
         recipe?.addComment(user, params?.comment)
         render(view: 'show', model: [recipe: recipe])
     }
@@ -166,5 +169,12 @@ class RecipeController {
             out.write fileContents
         }
         render actualFile.absolutePath as String
+    }
+
+    def reportCommentAbuse = {
+        User user = User.get(session.loggedUserId)
+        Comment comment = Comment.get(params.id)
+        new CommentAbuse(comment: comment, reporter: user).s()
+        redirect(action: 'show', id: params.recipeId)
     }
 }

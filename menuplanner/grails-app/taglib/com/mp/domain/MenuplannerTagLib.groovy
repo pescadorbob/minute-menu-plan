@@ -1,6 +1,7 @@
 package com.mp.domain
 
 import grails.converters.JSON
+import org.grails.comments.Comment
 
 class MenuplannerTagLib {
 
@@ -11,19 +12,19 @@ class MenuplannerTagLib {
         Long recipeId = attrs['recipeId']?.toLong()
         User user = User.get(userId)
         Recipe recipe = Recipe.get(recipeId)
-            if (user?.favourites?.contains(recipe)) {
-                out << "Remove from favorite"
-            } else {
-                out << "Add to favorite"
-            }
+        if (user?.favourites?.contains(recipe)) {
+            out << "Remove from favorite"
+        } else {
+            out << "Add to favorite"
         }
+    }
     def menuPlanDropdown = {
         List<MenuPlan> menuPlans = MenuPlan.list()
         out << g.render(template: '/layouts/menuPlanDropdown', model: [menuPlans: menuPlans])
     }
 
     def loggedUserDropDown = {attrs ->
-        Long userId =attrs['loggedUserId']?.toLong()
+        Long userId = attrs['loggedUserId']?.toLong()
         User loggedUser = User.get(userId)
         out << g.render(template: '/layouts/loggedUserDropDown', model: [loggedUser: loggedUser])
     }
@@ -68,6 +69,29 @@ class MenuplannerTagLib {
         Week week = attrs['week']
         String image = attrs['image']
         out << g.render(template: '/menuPlan/mealItems', model: [week: week, weekIndex: weekIndex, mealType: mealType, image: image])
+    }
+
+
+    def comments = {attrs ->
+        Recipe recipe = attrs['recipe']
+        List<Comment> nonAbusiveComments = recipe.comments
+        List<Comment> abusiveComments = []
+        if (recipe.comments) {
+            abusiveComments = CommentAbuse.findAllByCommentInList(recipe.comments)
+            if (abusiveComments) {
+                Map x = abusiveComments.groupBy {it.comment.id}
+                abusiveComments = abusiveComments?.findAll {(x[it.id]?.size()) >= 3}
+                nonAbusiveComments = recipe.comments.findAll {(!(it.id in abusiveComments.id))}
+            }
+        }
+        out << g.render(template: "/recipe/comments", model: [recipe: recipe, comments: nonAbusiveComments])
+    }
+
+    def reportCommentAbuse = {attrs ->
+        Comment comment = attrs['comment']
+        User user = User.get(session.loggedUserId)
+        Boolean alreadyReported = CommentAbuse.countByCommentAndReporter(comment, user) as Boolean
+        out << g.render(template: "/recipe/reportCommentAbuse", model: [comment: comment, user: user, alreadyReported: alreadyReported])
     }
 
 }
