@@ -102,7 +102,8 @@
                 <div id="button">
                     <g:uploadForm name="formUserDetail">
                         <g:hiddenField name='id' value='${user?.id}'/>
-                        <g:actionSubmit class='button pointer' controller='user' action='edit' id='${user?.id}' value='Edit Profile' name='edit'/>
+                        <g:actionSubmit class='button' controller='user' action='edit' id='${user?.id}' value='Edit Profile' name='edit'/>
+                        <g:actionSubmit class='button' controller='user' action='delete' id='${user?.id}' value='Delete User' name='delete' onclick="return confirm('Are you sure?');"/>
                     </g:uploadForm>
                 </div>
             </div>

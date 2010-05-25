@@ -18,6 +18,11 @@
             </div>
             <g:form name="searchForm">
                 <div class="leftbox clearfix">
+                    <g:if test="${flash.message}">
+                        <div class="userFlashMessage">
+                            ${flash.message}
+                        </div>
+                    </g:if>
                     <div id="adduser">
                         <ul>
                             <li>
@@ -37,7 +42,7 @@
                                 <input type="text" class="inpboxSmall">
                             </li>
                         </ul>
-                        <g:actionSubmit controller="user" action="list" name="submit" value="Submit" style="display:none;"/>
+                        <g:actionSubmit id="btnSubmit" controller="user" action="list" name="submit" value="Submit" style="display:none;"/>
                     </div>
                     <div id="userlist" class="clearfix">
                         <g:render template="/user/usersResult" mode="[userLise:userList]"/>
@@ -56,7 +61,7 @@
 
 <script type="text/javascript">
     function usersByStatus() {
-        jQuery('input[name="submit"]').click();
+        jQuery('#btnSubmit').click();
         return false;
     }
 </script>

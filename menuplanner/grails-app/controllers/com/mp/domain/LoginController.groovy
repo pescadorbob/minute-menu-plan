@@ -20,7 +20,7 @@ class LoginController {
             if (user) {
                 if(user.isEnabled){
                 session.loggedUserId = user.id.toString()
-                redirect(controller: 'recipe', action: 'list', id: user?.id)
+                redirect(controller: 'recipe', action: 'list')
                 } else {
                     flash.message="Your account has been disabled. Please contact System Admin"
                     render(view: 'home', model: [loginCO: loginCO])

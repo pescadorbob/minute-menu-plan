@@ -12,6 +12,36 @@ class UserController {
         redirect(action: 'list')
     }
 
+    def delete = {
+        User user = User.get(params?.id)
+        if (user) {
+            try {
+                flash.message = "${user?.name} deleted."
+                User.withTransaction {
+                    List u = CommentAbuse.findAllByReporter(user)
+                    u*.delete(flush: true)
+                    u = RecipeAbuse.findAllByReporter(user)
+                    u*.delete(flush: true)
+                    user.delete(flush: true)
+                }
+                if (params.id == session?.loggedUserId) {
+                    redirect(action: "logout", controller: 'login')
+                } else {
+                    redirect(controller: 'user', action: "list")
+                }
+                return
+            } catch (org.springframework.dao.DataIntegrityViolationException e) {
+                flash.message = "${user?.name} Could not be deleted. It is referenced somewhere."
+                redirect(action: "show", id: params.id)
+                return
+            }
+        } else {
+            flash.message = "No such User exists."
+            redirect(action: "list")
+            return
+        }
+    }
+
     def changeStatus = {
         render "" + userService.changeStatus(params?.id?.toLong())
     }

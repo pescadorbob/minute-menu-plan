@@ -79,7 +79,7 @@ class RecipeController {
                 return
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = "Recipe: ${recipe?.name} Could not be deleted. It is referenced somewere."
+                flash.message = "Recipe: ${recipe?.name} Could not be deleted. It is referenced somewhere."
                 redirect(action: "show", id: params.id)
                 return
             }
