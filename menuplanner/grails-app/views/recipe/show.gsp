@@ -35,8 +35,6 @@
                 <label>${recipe?.name}</label>
                 %{--<g:render template="/rating/rating"/>--}%
                 <span id="spanRateable"><rateable:ratings bean='${recipe}'/></span>
-                <g:if test="${recipe?.preparationTime}">Prep - ${recipe?.preparationTime}</g:if>
-                <g:if test="${recipe?.cookingTime}">Cook - ${recipe?.cookingTime}</g:if>
             </div>
             <div id="rightpart">
                 <span>
@@ -53,6 +51,10 @@
                 <ul>
                     <li>
                         <ul>
+                            <li>
+                                <g:if test="${recipe?.preparationTime}">Prep - ${recipe?.preparationTime}</g:if><br/>
+                                <g:if test="${recipe?.cookingTime}">Cook - ${recipe?.cookingTime}</g:if>
+                            </li>
                             <li>
                                 <g:if test="${recipe?.difficulty}">
                                     <span>Difficulty Level: ${recipe?.difficulty}</span>
