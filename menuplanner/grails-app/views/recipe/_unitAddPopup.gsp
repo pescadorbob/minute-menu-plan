@@ -37,9 +37,26 @@
     $("#unitCreate").click(function() {
       $.post("${createLink(controller:'unit',action:'saveNewUnit')}", {"unitName":$("#unitName").val(),
         "unitSymbol":$("#unitSymbol").val(), "conversionFactor":$("#conversionFactor").val(),
-        "unitId":$("#unitId").val(), "systemOfUnit":$("#systemOfUnit").val()}, function() {
-        $('#unitAddPopup').hide();
-        return false;
+        "unitId":$("#unitId").val(), "systemOfUnit":$("#systemOfUnit").val()}, function(data) {
+        if(data.toString()!="error"){
+          metricUnits.push($("#unitName").val())
+          $("#optionIngredientUnitIds").append("<option value='" + data.toString() + "'>"+ $("#unitName").val() +"</option>")
+          $("#combobox_optionIngredientUnitIds").unautocomplete()
+          $("#combobox_optionIngredientUnitIds").autocomplete(metricUnits, {
+            matchContains: true,
+            minChars: 0,
+            max:0,
+            mustMatch:true
+          });
+          $("#combobox_optionIngredientUnitIds").val($("#unitName").val())
+          $("#optionIngredientUnitIds").children().each(function(){
+          if($(this).text()==$("#unitName").val()){
+            $(this).attr('selected','selected')
+            $("#unitAddPopup").hide()
+          }
+        })
+          return false;
+        }
       })
       return false;
     })
