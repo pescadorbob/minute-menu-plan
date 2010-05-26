@@ -76,6 +76,7 @@
         <div class="leftbox clearfix">
             <div id="login">
                 <g:uploadForm name="loginForm">
+                    <g:hiddenField name="targetUri" value="${params.targetUri}"/>
                     <ul>
                         <li>Username : (Email Address)<div class="search-input">
                             <input name="email" type="text" class="inp  ${hasErrors(bean: loginCO, field: 'email', 'loginExc')}" value="${loginCO?.email}"/></div>
