@@ -6,7 +6,7 @@ class UnitService {
 
     boolean transactional = true
 
-    public Boolean createNewUnit(String unitName,String unitSymbol,Long unitId,Long systemOfUnit,Float conversionFactor){
+    public Unit createNewUnit(String unitName,String unitSymbol,Long unitId,Long systemOfUnit,Float conversionFactor){
         Unit unit = new Unit()
         unit.name=unitName
         unit.symbol=unitSymbol
@@ -18,6 +18,6 @@ class UnitService {
         Unit targetUnit = Unit.findByName(UNIT_MILLI_LITRE)
         conversionFactor = conversionFactor * StandardConversion.findBySourceUnit(sourceUnit).conversionFactor
         new StandardConversion(sourceUnit: unit, targetUnit: targetUnit, conversionFactor: conversionFactor).s()
-        return true
+        return unit
     }
 }

@@ -101,7 +101,14 @@ class UnitController {
     }
 
     def saveNewUnit={
-        Boolean isSaved=unitService.createNewUnit(params.unitName,params.unitSymbol,params.unitId?.toLong(),params.systemOfUnit.toLong(),params.conversionFactor?.toFloat())?:false        
-        render "success"
+        Unit unit = null
+        try{
+            unit = unitService.createNewUnit(params.unitName,params.unitSymbol,params.unitId?.toLong(),params.systemOfUnit.toLong(),params.conversionFactor?.toFloat())
+        }catch(ex){}
+        if(unit){
+            render unit.id
+        }else{
+            render "error"
+        }
     }
 }
