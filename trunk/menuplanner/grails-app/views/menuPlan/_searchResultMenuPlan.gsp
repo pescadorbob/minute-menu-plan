@@ -14,7 +14,8 @@
                     <li>
                         <ul>
                             <g:if test="${item.instanceOf(Recipe)}">
-                                <li><img class="imgbor" src="${createLink(controller: 'image', action: 'image', id: item?.image?.id)}"/></li>
+                                <li>
+                                    <mp:recipeImage class="imgbor" id="${item?.image?.id}" noImage="no-img.gif"/>
                                 <li>
                                     <ul>
                                         <li>

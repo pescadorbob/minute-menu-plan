@@ -174,8 +174,8 @@ function getPlainTextFromHtml(htmlText) {
             returnText = htmlText
         }
     }
-    if (returnText.length > 10) {
-        returnText = returnText.substring(0, 8) + '...'
+    if (returnText.length > 30) {
+        returnText = returnText.substring(0, 28) + '...'
     }
     return returnText;
 }
