@@ -2,25 +2,8 @@ package com.mp.domain
 
 class LoginController {
 
-    def filter = {
-        verifyUserIsLoggedIn(controller: '*', action: '*') {
-            before = {
-                println "Application Access Log: ${new Date()} : ${params}"
-                if ((!session.loggedUserId) && !(params.controller in ['auth', 'util', 'crs'])) {
-                    if (!params.targetUri) {
-                        String targetUri = request.forwardURI.toString() - request.contextPath.toString()
-                        if (!(targetUri == null || targetUri == "/")) {
-                            params.targetUri = targetUri
-                        }
-                    }
-                    redirect(controller: 'auth', action: 'index', params: params)
-                    return false
-                }
-            }
-        }
-    }
-
     def index = {
+        println ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + params
         if (session.loggedUserId) {
             redirect(controller: 'recipe', action: 'list')
         } else {
@@ -38,7 +21,12 @@ class LoginController {
             if (user) {
                 if (user.isEnabled) {
                     session.loggedUserId = user.id.toString()
-                    redirect(controller: 'recipe', action: 'list')
+                    if(params.targetUri?.size()){
+                        redirect(uri:params.targetUri)
+                        params.remove('targetUri')
+                    }else{
+                        redirect(controller: 'login', action: 'index')                        
+                    }
                 } else {
                     flash.message = "Your account has been disabled. Please contact System Admin"
                     render(view: 'home', model: [loginCO: loginCO])
