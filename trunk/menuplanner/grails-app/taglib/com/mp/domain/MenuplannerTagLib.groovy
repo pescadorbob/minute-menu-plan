@@ -8,6 +8,16 @@ class MenuplannerTagLib {
 
     static namespace = 'mp'
 
+    def showEditRecipe = {attrs ->
+        Long userId = attrs['userId']?.toLong()
+        Long recipeId = attrs['recipeId']?.toLong()
+        User user = User.get(userId)
+        Recipe recipe = Recipe.get(recipeId)
+        if (user?.contributions?.contains(recipe)) {
+            out << g.render(template: '/recipe/isEditableRecipe', model: [isEditable: true, recipeId:recipeId])
+        }
+    }
+
     def showFavorite = {attrs ->
         Long userId = attrs['userId']?.toLong()
         Long recipeId = attrs['recipeId']?.toLong()
@@ -43,7 +53,6 @@ class MenuplannerTagLib {
                 out << ""
             }
         }
-
     }
 
     def recipeImage = {attrs ->
@@ -108,5 +117,4 @@ class MenuplannerTagLib {
         Boolean alreadyReported = CommentAbuse.countByCommentAndReporter(comment, user) as Boolean
         out << g.render(template: "/recipe/reportCommentAbuse", model: [comment: comment, user: user, alreadyReported: alreadyReported])
     }
-
 }

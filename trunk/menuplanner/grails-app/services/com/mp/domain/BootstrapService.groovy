@@ -4,12 +4,35 @@ import com.mp.domain.*
 import static com.mp.MenuConstants.*
 import org.springframework.web.multipart.commons.CommonsMultipartFile
 import org.codehaus.groovy.grails.commons.ApplicationHolder
+import org.grails.comments.*
 
 class BootstrapService {
 
     boolean transactional = true
     def excelService
 
+    public void addCommentsFavouriteAndContributed(){
+        Recipe recipe
+        User user
+        (0..Recipe.count()-1).each{Integer index ->
+            recipe = Recipe.list().getAt(index)
+
+            user = User.get(new Random().nextInt(User.count()) + 1)
+            user.addToContributions(recipe)          // contributed Recipe
+            user.s()
+            
+            (1..new Random().nextInt(5)).each{       // comments on Recipe
+                user = User.get(new Random().nextInt(User.count()) + 1)
+                String commentText = 'Lorem Ipsum'
+                recipe?.addComment(user,commentText)
+            }
+            (1..new Random().nextInt(5)).each{      // add to Favorite
+                user = User.get(new Random().nextInt(User.count()) + 1)
+                user.addToFavourites(recipe)
+                user.s()
+            }
+        }
+    }
     public void populateUsers(Integer count) {
         (1..count).each {Integer index ->
             User user = new User()
@@ -55,7 +78,6 @@ class BootstrapService {
         }
     }
 
-
     public void populateRecipes(Integer count) {
 
         (1..count).each {Integer index ->
@@ -78,8 +100,6 @@ class BootstrapService {
             populateRecipeNutrient(recipe)
             recipe.s()
         }
-
-
     }
 
     public List<RecipeNutrient> populateRecipeNutrient(Recipe recipe) {

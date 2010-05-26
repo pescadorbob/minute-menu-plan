@@ -190,7 +190,7 @@ class RecipeCO {
         return recipe
     }
 
-    public Recipe convertToRecipe() {
+    public Recipe convertToRecipe(User byUser) {
         Recipe recipe = new Recipe()
 
         recipe.name = name
@@ -199,7 +199,6 @@ class RecipeCO {
         recipe.difficulty = RecipeDifficulty."${difficulty}"
         recipe.preparationTime = makeTimeQuantity(preparationTime, preparationUnitId)
         recipe.cookingTime = makeTimeQuantity(cookTime, cookUnitId)
-
 
         addCategoriesToRecipe(recipe, categoryIds)
         addDirectionsToRecipe(recipe, directions)
