@@ -38,8 +38,7 @@
             </div>
             <div id="rightpart">
                 <span>
-                    <img src="${resource(dir: 'images', file: 'edit.gif')}"/>
-                    <g:link action="edit" id="${recipe?.id}">Edit</g:link>
+                    <mp:showEditRecipe recipeId="${recipe?.id}" userId="${session?.loggedUserId}"/>
                 </span>
                 <span><img src="${resource(dir: 'images', file: 'printer.gif')}"/><a href="#" id="printButton">Print</a></span>
             </div>
@@ -53,7 +52,7 @@
                         <ul>
                             <li>
                                 <g:if test="${recipe?.preparationTime}">Prep - ${recipe?.preparationTime}</g:if><br/>
-                                <g:if test="${recipe?.cookingTime}">Cook - ${recipe?.cookingTime}</g:if>
+                                <g:if test="${recipe?.cookingTime}">Cook - ${recipe?.cookingTime}</g:if><br/>
                             </li>
                             <li>
                                 <g:if test="${recipe?.difficulty}">
@@ -109,7 +108,6 @@
     </div>
     <div id="right-panel">
     </div>
-
 </div>
 </body>
 </html> 

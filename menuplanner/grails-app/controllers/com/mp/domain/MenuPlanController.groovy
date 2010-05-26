@@ -5,13 +5,13 @@ class MenuPlanController {
     def index = { }
 
     def show = {
-        Integer listSize = Item.count()
+        Integer listSize = Recipe.count()
         params.max = Math.min(params.max ? params.int('max') : 4, 150)
         List<Category> categoryList = Category.list()
-        List<Item> itemList = Item.list(params)
+        List<Recipe> recipeList = Recipe.list(params)
 
         MenuPlan menuPlan = MenuPlan.get(params.long("id"))
-        render(view: 'show', model: [menuPlan: menuPlan, categoryList: categoryList, itemList: itemList, itemTotal: Item.count()])
+        render(view: 'show', model: [menuPlan: menuPlan, categoryList: categoryList, itemList: recipeList, itemTotal: Recipe.count()])
     }
 
     def create = {
@@ -26,18 +26,18 @@ class MenuPlanController {
             menuPlan.addToWeeks(week)
         }
         List<Category> categoryList = Category.list()
-        List<Item> itemList = Item.list(params)
-        render(view: 'create', model: [menuPlan: menuPlan, categoryList: categoryList, itemList: itemList, itemTotal: Item.count()])
+        List<Recipe> recipeList = Recipe.list(params)
+        render(view: 'create', model: [menuPlan: menuPlan, categoryList: categoryList, itemList: recipeList, itemTotal: Recipe.count()])
     }
 
     def edit = {
         Integer listSize = Item.count()
         params.max = Math.min(params.max ? params.int('max') : 4, 150)
         List<Category> categoryList = Category.list()
-        List<Item> itemList = Item.list(params)
+        List<Recipe> recipeList = Recipe.list(params)
 
         MenuPlan menuPlan = MenuPlan.get(params.long("id"))
-        render(view: 'edit', model: [menuPlan: menuPlan, categoryList: categoryList, itemList: itemList, itemTotal: Item.count()])
+        render(view: 'edit', model: [menuPlan: menuPlan, categoryList: categoryList, itemList: recipeList, itemTotal: Recipe.count()])
     }
 
     def saveAndUpdate = {

@@ -14,8 +14,8 @@
                     <td width="24">&nbsp;</td>
                     <td width="24">&nbsp;</td>
                     <td width="30">&nbsp;</td>
-                    <td width="117"><strong>Amount</strong></td>
-                    <td width="203"><strong>Unit</strong></td>
+                    <td width="70"><strong>Amount</strong></td>
+                    <td width="200"><strong>Unit</strong></td>
                     <td><strong>Ingredient</strong></td>
                 </tr>
                 <!-- Show Ingredients Here -->

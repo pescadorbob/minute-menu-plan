@@ -81,6 +81,7 @@ class BootStrap {
                 recipeLog = excelService.createLineItems(inputStream)
             }
             println "Populated Recipes"
+            bootstrapService.addCommentsFavouriteAndContributed()
             bootstrapService.populateMenuPlans(GrailsUtil.isDevelopmentEnv()? 2 : 4)
             println "Populated Menu Plans"
         }
