@@ -12,18 +12,18 @@
         <div class="leftbox clearfix">
             <div id="country-cateLogin">
                 <ul>
-                    <li>- Create a meal plan in minutes</li>
-                    <li>- Choose from 1000s of recipes</li>
-                    <li>- Rate the recipes</li>
-                    <li>- Add your own recipes</li>
-                    <li>- Print your shopping list</li>
-                    <li>- Print your own recipes</li>
-                    <li>- Automatically calculate more or less mouth to feed</li>
-                    <li>- Print recipe by day or separately</li>
-                    <li>- Share recipe with your friends</li>
-                    <li>- Save $100s dollars by only buying recipe you need</li>
-                    <li>- Save time in kitchen</li>
-                    <li>- 60-day money back</li>
+                    <li>Create a meal plan in minutes</li>
+                    <li>Choose from 1000s of recipes</li>
+                    <li>Rate the recipes</li>
+                    <li>Add your own recipes</li>
+                    <li>Print your shopping list</li>
+                    <li>Print your own recipes</li>
+                    <li>Automatically calculate more or less mouth to feed</li>
+                    <li>Print recipe by day or separately</li>
+                    <li>Share recipe with your friends</li>
+                    <li>Save $100s dollars by only buying recipe you need</li>
+                    <li>Save time in kitchen</li>
+                    <li>60-day money back</li>
                 </ul>
             </div>
             <div id="category">
@@ -51,18 +51,17 @@
         </div>
         <div class="leftbox clearfix">
             <div id="content">
-                <p>Hello. You have found an example page for Suckerfish Dropdowns.</p>
-                <p>Under the hood you will find some nice structured HTML, a smattering of CSS and a teensy bit of JavaScript (that's just 12 lines of it). It's lightweight, it's accessible, it's cross-compatible.</p>
-                <h2>"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
-                "There is no one who loves pain itself, who seeks after it and wants to</h2>
+                <p>Use It Today - Plan and Print Immediately After Purchasing</p>
+                <p>"Learn how this Minute Menu Plan will interest picky kids, relieve stressed moms, and make meals enjoyable again!"</p>
+                <h2>"Who Else Wants To Make Every Dinner This Week A Relaxed, Enjoyable Event That Your Family Will Talk About For Weeks - With Almost Zero Effort, 1/2 The Expense Or The Dreaded, "What's For Dinner?" Question?</h2>
                 <div class="clear clearfix">
                     <g:link controller="user" action="create"><div class="orderbtn"><h3>Order Now</h3> $5/month</div></g:link>
                     <div id="video-box"><img src="${resource(dir: 'images', file: 'video.png')}"/></div>
                     <g:link controller="user" action="create"><div class="orderbtn"><h3>Order Now</h3> $5/month</div></g:link>
                 </div>
-                <p>Hello. You have found an example page for Suckerfish Dropdowns.</p>
-                <p>Under the hood you will find some nice structured HTML, a smattering of CSS and a teensy bit of JavaScript (that's just 12 lines of it). It's lightweight, it's accessible, it's cross-compatible.
-                .. Demo Hemburg NY</p>
+                <p>More and More Text Here...</p>
+                <p>We just keep on telling them how good this product is, and displaying the 'Order Now' Button</p>
+
             </div>
         </div>
         <div class="bottom-shadow">
@@ -106,15 +105,13 @@
                         </li>
                         <li><a href="#">forgot password or username?</a></li>
                         <li class="border"><h2>TESTIMONIAL</h2></li>
-                        <li>Hello. You have found an example page for Suckerfish Dropdowns. Under the hood you will find some nice structured HTML, a smattering of CSS and a teensy bit of JavaScript (that's just 12 lines of it). It's lightweight, it's accessible, it's cross-compatible.
-                            <label>.. Demo Hemburg NY</label>
-                        </li>
-                        <li>Hello. You have found an example page for Suckerfish Dropdowns. Under the hood you will find some nice structured HTML, a smattering of CSS and a teensy bit of JavaScript (that's just 12 lines of it). It's lightweight, it's accessible, it's cross-compatible.
-                            <label>.. Demo Hemburg NY</label>
-                        </li>
-                        <li>Hello. You have found an example page for Suckerfish Dropdowns. Under the hood you will find some nice structured HTML, a smattering of CSS and a teensy bit of JavaScript (that's just 12 lines of it). It's lightweight, it's accessible, it's cross-compatible.
-                            <label>.. Demo Hemburg NY</label>
-                        </li>
+                        <li>Minute Menu Plan removed the stress from my evenings and stopped the kids from asking whats for dinner.  We love to plan our meals together, and it takes only a few minutes.  Thanks Minute Menu Plan!
+                        	<label>--Donna, Hamburg, NY</label></li>
+                        <li>Minute Menu Plan removed the stress from my evenings and stopped the kids from asking whats for dinner.  We love to plan our meals together, and it takes only a few minutes.  Thanks Minute Menu Plan!
+                        	<label>--Donna, Hamburg, NY</label></li>
+                        <li>Minute Menu Plan removed the stress from my evenings and stopped the kids from asking whats for dinner.  We love to plan our meals together, and it takes only a few minutes.  Thanks Minute Menu Plan!
+                        	<label>--Donna, Hamburg, NY</label></li>
+ 
                     </ul>
                 </g:uploadForm>
             </div>
