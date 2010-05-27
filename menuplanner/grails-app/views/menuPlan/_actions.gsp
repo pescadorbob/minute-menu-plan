@@ -1,6 +1,6 @@
 <div id="wintermenu">
     <div id="winterplan">
-        <g:if test="${params.action=='show'}">
+        <g:if test="${params.action in ['show','saveAndUpdate']}">
           ${menuPlan?.name}
         </g:if>
         <g:else>

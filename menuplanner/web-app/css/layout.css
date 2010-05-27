@@ -137,7 +137,7 @@ div.errors{border:red 1px solid;font-size:smaller;color:red;padding:10px;margin-
     color:#000;
 }
 .tooltip.bottom {
-    background:transparent url(../images/tooltip/white_arrow.png));
+    background:transparent url('../images/tooltip/white_arrow.png');
 }
 
 /* style the trigger elements */
