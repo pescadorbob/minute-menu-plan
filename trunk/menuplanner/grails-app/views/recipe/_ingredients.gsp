@@ -31,12 +31,12 @@
                     <img class="imagePointer" id="btnAddIngredient" src="${resource(dir: 'images', file: 'plus-add.jpg')}" hspace="4" align="left" border="0"/>
                     <span id="ingredientToBeAdded">
                         <div style="float:left;">
-                            <g:textField class="inpboxSmall" id='optionIngredientQuantities' name="optionIngredientQuantities" value=""/>
+                            <g:textField class="inpboxSmall showToolTip" id='optionIngredientQuantities' name="optionIngredientQuantities" value="" title="${g.message(code:'toolTip.recipe.amount')}"/>
                             <g:select class="inpbox" id='optionIngredientUnitIds' noSelection="['':'(No Unit)']" name="optionIngredientUnitIds" from="${metricUnits}" optionKey="id" style="width:105px;display:none;"/>
-                            <input name="combobox_optionIngredientUnitIds" class="inpbox" id="combobox_optionIngredientUnitIds">
+                            <input name="combobox_optionIngredientUnitIds" class="inpbox showToolTip" id="combobox_optionIngredientUnitIds" title="${g.message(code:'toolTip.recipe.unit')}">
                         </div>
                         <div style="float:left; padding-left:5px;">
-                            <input class="inpbox" id="optionIngredientProductIds" name="optionIngredientProductIds" value=""/>
+                            <input class="inpbox showToolTip" id="optionIngredientProductIds" name="optionIngredientProductIds" value="" title="${g.message(code:'toolTip.recipe.ingredient')}"/>
                         </div>
                     </span>
                 </span>
@@ -46,39 +46,46 @@
 </div>
 
 <script type="text/javascript">
-    $("#optionIngredientProductIds").autocomplete("${createLink(action: 'getMatchingItems', controller: 'recipe')}", {
-            width: 300,
-            multiple: false,
-            matchContains: true,
-        });
+  $("#optionIngredientProductIds").autocomplete("${createLink(action: 'getMatchingItems', controller: 'recipe')}", {
+    width: 300,
+    multiple: false,
+    matchContains: true
+  })
 
-    $("#optionIngredientProductIds").result(function(event, data, formatted) {
-        jQuery(this).val(data[0]);
-    })
-    var metricUnits=[]
-    <g:each in="${metricUnits}" var="metricUnit">
-    metricUnits.push('${metricUnit}')
-    </g:each>
-    metricUnits.push('Other...')
-    $("#combobox_optionIngredientUnitIds").autocomplete(metricUnits, {
-      matchContains: true,
-      minChars: 0,
-      max:0,
-      mustMatch:true
-    });
+  $("#optionIngredientProductIds").result(function(event, data, formatted) {
+    jQuery(this).val(data[0]);
+  })
+  var metricUnits=[]
+  <g:each in="${metricUnits}" var="metricUnit">
+  metricUnits.push('${metricUnit}')
+  </g:each>
+  metricUnits.push('Other...')
+  $("#combobox_optionIngredientUnitIds").autocomplete(metricUnits, {
+    matchContains: true,
+    minChars: 0,
+    max:0,
+    mustMatch:true
+  });
 
-    $("#combobox_optionIngredientUnitIds").result(function(event, data, formatted) {
-      var currentUnit=jQuery(this).val()
-      if(currentUnit=='Other...'){
-        $("#optionIngredientUnitIds").val('')
-        $("#unitAddPopup").show()
-      }else{
-        $("#optionIngredientUnitIds").children().each(function(){
-          if($(this).text()==currentUnit){
-            $(this).attr('selected','selected')
-            $("#unitAddPopup").hide()
-          }
-        })
-      }
-    })
+  $("#combobox_optionIngredientUnitIds").result(function(event, data, formatted) {
+    var currentUnit=jQuery(this).val()
+    if(currentUnit=='Other...'){
+      $("#optionIngredientUnitIds").val('')
+      $("#unitAddPopup").show()
+    }else{
+      $("#optionIngredientUnitIds").children().each(function(){
+        if($(this).text()==currentUnit){
+          $(this).attr('selected','selected')
+          $("#unitAddPopup").hide()
+        }
+      })
+    }
+  })
+
+  $(".showToolTip").tooltip({events: {
+            input: "focus mouseenter,blur mouseleave"
+  },
+    effect:'slide'
+  }).dynamic({ bottom: { direction: 'down', bounce: true } })
+    
 </script>
