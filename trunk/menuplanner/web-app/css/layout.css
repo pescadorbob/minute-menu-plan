@@ -131,9 +131,9 @@ div.errors{border:red 1px solid;font-size:smaller;color:red;padding:10px;margin-
     display:none;
     background:transparent url('../images/tooltip/white_arrow.png');
     font-size:12px;
-    height:70px;
-    width:160px;
-    padding:25px;
+    height:87px;
+    width:204px;
+    padding:6px 25px 25px;
     color:#000;
 }
 .tooltip.bottom {
