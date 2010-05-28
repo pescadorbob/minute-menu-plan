@@ -28,4 +28,16 @@
         }
         submitSearchForm(null, fieldName, fieldValue);
     }
+
+    function defineSearchDomainType(element, fieldName, fieldValue) {
+        jQuery('#' + fieldName + 'Row').show()
+        jQuery('#' + fieldName + 'Row td:eq(1)').html(jQuery(element).text())
+        jQuery('input[name=searchByDomainName]').attr('value', fieldValue)
+        document.getElementById('searchForm').onsubmit();
+    }
+    function noDomainSpecified(fieldName, defaultFieldValue) {
+        jQuery('#' + fieldName + 'Row').hide()
+        jQuery('input[name=searchByDomainName]').attr('value', defaultFieldValue)
+        document.getElementById('searchForm').onsubmit();
+    }
 </script>

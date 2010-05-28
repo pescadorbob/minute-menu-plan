@@ -3,7 +3,6 @@ package com.mp.domain
 class LoginController {
 
     def index = {
-        println ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + params
         if (session.loggedUserId) {
             redirect(controller: 'recipe', action: 'list')
         } else {

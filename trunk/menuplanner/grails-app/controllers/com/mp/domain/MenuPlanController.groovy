@@ -44,7 +44,7 @@ class MenuPlanController {
         MenuPlan menuPlan
         if (params.id) {
             menuPlan = MenuPlan.get(params.id)
-            menuPlan.name=params.menuPlan.name
+            menuPlan.name = params.menuPlan.name
             List<Week> weeks = menuPlan.weeks
             menuPlan.weeks = []
             weeks*.delete(flush: true)
@@ -73,7 +73,9 @@ class MenuPlanController {
     }
 
     def search = {
-        List<String>allQueries = []
+        String searchDomainName = (params.searchByDomainName) ? ('com.mp.domain.' + params.searchByDomainName) : ('com.mp.domain.Item')
+
+        List<String> allQueries = []
         params?.list("q")?.eachWithIndex {String myQ, Integer index ->
             allQueries.push(myQ)
             if (!(myQ.contains(':'))) {
@@ -85,7 +87,8 @@ class MenuPlanController {
         Integer total
 
         if (query && (query != 'null')) {
-            def search = Item.search([reload: true, max: 4, offset: params.offset ?: 0]) {
+            Class clazz = grailsApplication.getClassForName(searchDomainName)
+            def search = clazz.search([reload: true, max: 4, offset: params.offset ?: 0]) {
                 must(queryString(query))
             }
             results = search?.results
