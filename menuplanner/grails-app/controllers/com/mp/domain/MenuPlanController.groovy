@@ -102,4 +102,8 @@ class MenuPlanController {
         render(template: '/menuPlan/searchResultMenuPlan', model: [itemList: results, itemTotal: total, query: query])
     }
 
+    def quickFillAdmin = {
+        List<Category> categoryList = Category.list()
+        [categoryList: categoryList, itemTotal: Recipe.count()]            
+    }
 }
