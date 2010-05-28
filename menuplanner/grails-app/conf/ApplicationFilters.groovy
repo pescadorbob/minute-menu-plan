@@ -16,13 +16,12 @@ class ApplicationFilters {
         verifyUserIsLoggedIn(controller: '*', action: '*') {
             before = {
                 println "Application Access Log: ${new Date()} : ${params}"
-                if (!session.loggedUserId && params.controller!="login") {
+                if (!session.loggedUserId &&  !(params.controller in ['user', 'login'])) {
 
                     if (!params.targetUri) {
                         String targetUri = request.forwardURI.toString() - request.contextPath.toString()
                         if (!(targetUri == null || targetUri == "/")) {
                             params.targetUri = targetUri
-                    println ">>>>>>>"+params.targetUri        
                         }
                     }
                     redirect(controller: 'login', action: 'index', params: params)
