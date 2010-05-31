@@ -49,6 +49,6 @@
 .ratingbox ul li ul li{margin:0 !important;padding:0 !important;background:none  !important;}
 .ratingbox ul li ul li h3{padding:0px !important;margin:0px !important;line-height:20px;font-size:12px;}
 .ratingbox ul li ul li h3 a{text-decoration:none;color:#ffffff;}
-.ratingbox ul li ul li ul li{clear:none;float:left;width:102px !important;padding:2px 0px !important;background:none  !important;}
+.ratingbox ul li ul li ul li{clear:none;float:left;width:87px !important;padding:2px 0px !important;background:none  !important;}
 .ratingbox ul li ul li ul li ul li{line-height:15px;padding-left:0px !important;clear:both;}
 .ratingbox ul li:hover{background:#ffa500;}

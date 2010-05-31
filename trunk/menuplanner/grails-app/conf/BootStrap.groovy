@@ -66,10 +66,12 @@ class BootStrap {
             println "Populated Users"
             bootstrapService.populateCategory()
             println "Populated Categories"
-//            bootstrapService.populateQuantities(20)
-//            println "Populated Quantities"
-            bootstrapService.populateMeasurableProduct()
-            println "Populated Products"
+            /*
+               bootstrapService.populateQuantities(20)
+               println "Populated Quantities"
+               bootstrapService.populateMeasurableProduct()
+               println "Populated Products"
+                    */
             File recipeExcelFile
             if (!GrailsUtil.isDevelopmentEnv()) {
                 recipeExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet.xls"))
@@ -79,9 +81,10 @@ class BootStrap {
             List<String> recipeLog
             recipeExcelFile.withInputStream {inputStream ->
                 recipeLog = excelService.createLineItems(inputStream)
+                println "Populated Recipes"
             }
-            println "Populated Recipes"
             bootstrapService.addCommentsFavouriteAndContributed()
+            println "Added Comments Favourite And Contributed"
             bootstrapService.populateMenuPlans(GrailsUtil.isDevelopmentEnv()? 2 : 4)
             println "Populated Menu Plans"
         }

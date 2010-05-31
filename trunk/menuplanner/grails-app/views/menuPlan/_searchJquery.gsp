@@ -8,7 +8,7 @@
 
     function submitSearchForm(element, fieldName, fieldValue) {
         jQuery('[value^=' + fieldName + ']').remove();
-        var html = '<input type="hidden" name="q" value="' + fieldName + ':' + fieldValue + '" />';
+        var html = '<input type="hidden" name="query" value="' + fieldName + ':' + fieldValue + '" />';
         jQuery('#searchParams').append(html);
         jQuery('#' + fieldName + 'Row').show()
         if (element) {
@@ -31,7 +31,7 @@
 
     function defineSearchDomainType(element, fieldName, fieldValue) {
         jQuery('#' + fieldName + 'Row').show()
-        jQuery('#' + fieldName + 'Row td:eq(1)').html(jQuery(element).text())
+        jQuery('#' + fieldName + 'Row td:eq(0)').html(jQuery(element).text())
         jQuery('input[name=searchByDomainName]').attr('value', fieldValue)
         document.getElementById('searchForm').onsubmit();
     }

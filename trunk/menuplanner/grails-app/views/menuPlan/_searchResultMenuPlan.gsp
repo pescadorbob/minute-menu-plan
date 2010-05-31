@@ -50,7 +50,7 @@
             controller="menuPlan"
             action="search"
             total="${itemTotal}"
-            params="[query: query]"
+            params="[query: query, searchByDomainName: params.searchByDomainName]"
             max="4"
             offset="${params.offset}"
             update="searchResult"
