@@ -31,7 +31,7 @@ class LoginController {
                     render(view: 'home', model: [loginCO: loginCO])
                 }
             } else {
-                flash.message = "The username or password you entered is incorrect."
+                flash.message =message(code: 'loginCO.email.password.Invalid')
                 render(view: 'home', model: [loginCO: loginCO])
             }
         } else {
