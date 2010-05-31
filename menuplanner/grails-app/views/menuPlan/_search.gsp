@@ -11,11 +11,11 @@
                             url="[controller:'menuPlan', action:'search']"
                             update="searchResult">
 
-                        <input name="q" type="text" class="inp" value=""/>
+                        <input name="query" type="text" class="inp" value=""/>
                         <span id="searchParams" style="display:none;"></span>
                         <span style="display:none;"><input type="submit"/></span>
 
-                        <g:hiddenField name="searchByDomainName" value="Item"/>
+                        <g:hiddenField name="searchByDomainName" value="Recipe"/>
 
                     </g:formRemote>
 
@@ -32,8 +32,7 @@
                         </tr>
                         <tr id="domainTypeRow" style="display:none;">
                             <td width="100px;">
-                                <img onclick="noDomainSpecified('domainType', 'Item')" id="dimainTypeRemove" src="${resource(dir: 'images', file: 'delete-icon.jpg')}" align="top" style="cursor:pointer;"/>
-                                Search In:
+                                <img onclick="noDomainSpecified('domainType', 'Recipe')" id="dimainTypeRemove" src="${resource(dir: 'images', file: 'delete-icon.jpg')}" align="top" style="cursor:pointer;"/>
                             </td>
                             <td>
                                 <span id="domainTypeDisplay" class="searchOptionTexts"></span>
@@ -104,10 +103,8 @@
                             <g:select width="100px" name="qSelect" from="${categoryList}" onchange="submitSearchFormBySelect()" noSelection="[' ': '(Select One)']"/>
                         </li>
                         <li>
-                            Search In
-                            <br/>
-                            <span id="domainRecipe" class="pointer" onclick="defineSearchDomainType(this, 'domainType', 'Recipe');">Only Recipes</span><br/>
-                            <span id="domainProduct" class="pointer" onclick="defineSearchDomainType(this, 'domainType', 'Item');">Any Product</span><br/>
+                            %{--<span id="domainRecipe" class="pointer" onclick="defineSearchDomainType(this, 'domainType', 'Recipe');">Only Recipes</span><br/>--}%
+                            <span id="domainProduct" class="pointer" onclick="defineSearchDomainType(this, 'domainType', 'Item');">Include Products</span><br/>
                         </li>
                         <li>
                             Calories

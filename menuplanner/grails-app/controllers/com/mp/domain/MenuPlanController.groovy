@@ -73,10 +73,11 @@ class MenuPlanController {
     }
 
     def search = {
-        String searchDomainName = (params.searchByDomainName) ? ('com.mp.domain.' + params.searchByDomainName) : ('com.mp.domain.Item')
+        String searchDomainName = (params.searchByDomainName != 'null') ? ('com.mp.domain.' + params.searchByDomainName) : ('com.mp.domain.Recipe')
 
         List<String> allQueries = []
-        params?.list("q")?.eachWithIndex {String myQ, Integer index ->
+        params.query = (params.query == 'null') ? '' : params.query
+        params?.list("query")?.eachWithIndex {String myQ, Integer index ->
             allQueries.push(myQ)
             if (!(myQ.contains(':'))) {
                 allQueries[index] = myQ += '*'
@@ -98,6 +99,10 @@ class MenuPlanController {
             results = Item.list(params)
             total = Item.count()
         }
+
+        println "Query: " + query
+        println "Item List: " + results.size()
+        println "Item Total: " + total
 
         render(template: '/menuPlan/searchResultMenuPlan', model: [itemList: results, itemTotal: total, query: query])
     }
