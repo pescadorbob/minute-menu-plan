@@ -33,7 +33,7 @@
                         <tr id="domainTypeRow" style="display:none;">
                             <td width="100px;">
                                 <img onclick="noDomainSpecified('domainType', 'Item')" id="dimainTypeRemove" src="${resource(dir: 'images', file: 'delete-icon.jpg')}" align="top" style="cursor:pointer;"/>
-                                Domain Type:
+                                Search In:
                             </td>
                             <td>
                                 <span id="domainTypeDisplay" class="searchOptionTexts"></span>
