@@ -74,7 +74,7 @@ class BootStrap {
             if (!GrailsUtil.isDevelopmentEnv()) {
                 recipeExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet.xls"))
             } else {
-                recipeExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet_test.xls"))
+                recipeExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet.xls"))
             }
             List<String> recipeLog
             recipeExcelFile.withInputStream {inputStream ->
