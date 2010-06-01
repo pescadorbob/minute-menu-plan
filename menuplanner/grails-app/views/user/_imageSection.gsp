@@ -17,7 +17,7 @@
 
     <g:each in="${UserType?.list()}" var="role">
         <li>
-            <input type="checkbox" name="type" ${userCO?.type?.contains(role.name()) ? 'checked="checked"':''} value="${role.name()}"/>${role.name}
+            <input id="chk_${role.name()}" type="checkbox" name="type" ${userCO?.type?.contains(role.name()) ? 'checked="checked"':''} value="${role.name()}"/>${role.name}
         </li>
     </g:each>
     %{--<li>--}%

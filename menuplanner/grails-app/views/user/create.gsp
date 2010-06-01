@@ -10,7 +10,7 @@
     <div id="wrapper" class="clearfix">
         <div id="content-wrapper" class="clearfix">
             <div class="headbox">
-                <h3>Admin Profile  Add</h3>
+                <h3>Admin Profile Add</h3>
             </div>
             <g:hasErrors bean="${userCO}">
                 <div class="errors">
