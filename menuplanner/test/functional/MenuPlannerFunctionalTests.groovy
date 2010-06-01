@@ -1,19 +1,21 @@
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
-
+import com.gargoylesoftware.htmlunit.html.HtmlPage
 class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase {
 
     def messageSource = ConfigurationHolder.config.applicationContext.getBean("messageSource")
+    
     Locale locale = new Locale('en', 'US')
     Object[] TARGET_ARGS_EMPTY = [].toArray()
     Object[] TARGET_ARGS_WITH_VALUES = [].toArray()
 
-
     void userLogin(LoginFormData loginFormData) {
+//        HtmlPage htmlPage=new HtmlPage()
         get("/login/index")
         form('loginForm') {
             email = loginFormData.email
             password = loginFormData.password
-            click "Login"
+            click('Login')
+//            htmlPage.getElementByName("login").click()
         }
     }
 
@@ -69,7 +71,6 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
     }
 }
 
-
 class CreateRecipeData {
     String name
     String step_1
@@ -83,6 +84,7 @@ class CreateRecipeData {
         return createRecipeData
     }
 }
+
 class LoginFormData {
     String email
     String password
@@ -94,6 +96,7 @@ class LoginFormData {
         return loginFormData
     }
 }
+
 class UserFormData {
     String email
     String password

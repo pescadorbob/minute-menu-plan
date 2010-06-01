@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="menu"/>
-    <title>Add Recipe</title>
+    <title>Show User</title>
 </head>
 <body>
 

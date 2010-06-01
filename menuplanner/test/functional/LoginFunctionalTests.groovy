@@ -4,7 +4,7 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         loginFormData.password="Password"
         userLogin(loginFormData)
         assertStatus 200
-        assertContentContains 'The username or password you entered is incorrect.'
+        assertContentContains getMessage('loginCO.email.password.Invalid')
     }
 
     void testBlankUserName() {
@@ -12,7 +12,7 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         loginFormData.email=""
         userLogin(loginFormData)
         assertStatus 200
-        assertContentContains 'Provide Username.'
+        assertContentContains getMessage('loginCO.email.blank.error.email')
     }
 
     void testInvalidUserName() {
@@ -20,7 +20,7 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         loginFormData.email="Usernane."
         userLogin(loginFormData)
         assertStatus 200
-        assertContentContains 'Invalid Usernane.'
+        assertContentContains getMessage('loginCO.email.email.invalid.email')
     }
 
     void testValidLogin() {
