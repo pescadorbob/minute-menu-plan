@@ -24,3 +24,15 @@
         %{--</ul>--}%
     </div>
 </div>
+<script type="text/javascript">
+  $(function(){
+    $.each(jQuery(".menuContainer"),function(){
+        if (jQuery(this).children().last().show()[0].offsetTop >= 60) {
+            jQuery(this).addClass("downArrow")
+        } else {
+            jQuery(this).removeClass("downArrow")
+        }
+        jQuery('.farji', jQuery(this)).hide()
+    })
+  })
+</script>
