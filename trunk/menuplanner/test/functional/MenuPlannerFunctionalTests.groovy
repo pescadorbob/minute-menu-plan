@@ -10,6 +10,9 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
     Object[] TARGET_ARGS_EMPTY = [].toArray()
     Object[] TARGET_ARGS_WITH_VALUES = [].toArray()
 
+    //Test fails if a test file doesn't contains any test method.
+    void testSomething(){}
+
     void userLogin(LoginFormData loginFormData) {
         get("/login/index")
         form('loginForm') {
@@ -48,7 +51,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
         }
     }
 
-    /** * Helper method to return a message from the message bundle.    ***/
+    /** * Helper method to return a message from the message bundle.     ***/
     String getMessage(String key, def targetArgs = TARGET_ARGS_EMPTY) {
         def keyValue = messageSource.resolveCode(key, locale)
         return keyValue?.format(targetArgs)
