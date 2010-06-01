@@ -101,7 +101,7 @@
 
                         </li>
                         <li>
-                            <g:actionSubmit name="login" controller="login" action="login" value="Login" class=""/>
+                            <g:actionSubmit controller="login" action="login" value="Login" class=""/>
                         </li>
                         <li><a href="#">forgot password or username?</a></li>
                         <li class="border"><h2>TESTIMONIAL</h2></li>

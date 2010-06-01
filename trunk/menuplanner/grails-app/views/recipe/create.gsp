@@ -52,7 +52,7 @@
                     <div id="button">
                         <ul>
                             <li>
-                                <g:actionSubmit class="button" controller="recipe" action="save" name="create" value="Create"/>
+                                <g:actionSubmit class="button" controller="recipe" action="save" value="Create"/>
                             </li>
                             <li>
                                 <input type="button" name="preview" class="button" id="preview" value="Preview"/>

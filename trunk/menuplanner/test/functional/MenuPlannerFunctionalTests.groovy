@@ -1,21 +1,21 @@
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import com.gargoylesoftware.htmlunit.html.HtmlPage
+
+
 class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase {
 
     def messageSource = ConfigurationHolder.config.applicationContext.getBean("messageSource")
-    
+
     Locale locale = new Locale('en', 'US')
     Object[] TARGET_ARGS_EMPTY = [].toArray()
     Object[] TARGET_ARGS_WITH_VALUES = [].toArray()
 
     void userLogin(LoginFormData loginFormData) {
-//        HtmlPage htmlPage=new HtmlPage()
         get("/login/index")
         form('loginForm') {
             email = loginFormData.email
             password = loginFormData.password
-            click('Login')
-//            htmlPage.getElementByName("login").click()
+            byName('_action_login').click()
         }
     }
 
@@ -29,7 +29,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
             click "btnAddIngredient"
             optionDirections = createRecipeData.step_1
             click "btnAddDirection"
-            click("Create")
+            click("_action_save")
         }
     }
 
@@ -44,11 +44,11 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
             mouthsToFeed = userFormData.mouthsToFeed
             introduction = userFormData.introduction
             byId('chk_User').click()
-            click('Create User')
+            click('_action_save')
         }
     }
 
-    /** * Helper method to return a message from the message bundle.   ***/
+    /** * Helper method to return a message from the message bundle.    ***/
     String getMessage(String key, def targetArgs = TARGET_ARGS_EMPTY) {
         def keyValue = messageSource.resolveCode(key, locale)
         return keyValue?.format(targetArgs)

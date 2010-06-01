@@ -26,7 +26,7 @@
                     <g:render template="/user/imageSection" model="[userCO:userCO]"/>
                     <g:render template="/user/userDetail" model="[userCO:userCO]"/>
                     <div id="button">
-                        <g:actionSubmit name="btnUpdate" class="button" value="Create User" controller="user" action="save"/>
+                        <g:actionSubmit class="button" value="Create User" controller="user" action="save"/>
                         %{--<g:actionSubmit name="cancel" class="button" value="Cancel" controller="user" action="show"/>--}%
                     </div>
                 </g:uploadForm>
