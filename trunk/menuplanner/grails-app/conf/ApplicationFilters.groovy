@@ -16,7 +16,7 @@ class ApplicationFilters {
         verifyUserIsLoggedIn(controller: '*', action: '*') {
             before = {
                 println "Application Access Log: ${new Date()} : ${params}"
-                if (!session.loggedUserId &&  !(params.controller in ['user', 'login'])) {
+                if (!session.loggedUserId &&  !(params.controller in ['user', 'login', 'image'])) {
 
                     if (!params.targetUri) {
                         String targetUri = request.forwardURI.toString() - request.contextPath.toString()
