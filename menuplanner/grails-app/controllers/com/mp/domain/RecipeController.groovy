@@ -75,7 +75,7 @@ class RecipeController {
             try {
                 flash.message = "Recipe: ${recipe?.name} deleted."
                 recipeService.deleteRecipe(recipe)
-                redirect(controller:'recipe', action: "list")
+                redirect(controller: 'recipe', action: "list")
                 return
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
@@ -145,12 +145,13 @@ class RecipeController {
 
     def addComment = {
         println params
+        println "****comment added ******"
         Recipe recipe = Recipe.findById(params?.recipeId)
         User user = User?.get(session?.loggedUserId?.toLong())
         println "User: " + user
         println "Recipe: " + recipe
         recipe?.addComment(user, params?.comment)
-        render(view: 'show', model: [recipe: recipe])
+        redirect(action: 'show', controller: 'recipe', params: [id: recipe?.id])
     }
 
     def show = {
@@ -179,8 +180,8 @@ class RecipeController {
     }
     def reportRecipeAbuse = {
         RecipeAbuse recipeAbuse = new RecipeAbuse()
-        recipeAbuse.recipe=Recipe.get(params?.id?.toLong())
-        recipeAbuse.reporter=User.get(session?.loggedUserId?.toLong())
+        recipeAbuse.recipe = Recipe.get(params?.id?.toLong())
+        recipeAbuse.reporter = User.get(session?.loggedUserId?.toLong())
         recipeAbuse.s()
         redirect(action: 'show', id: params?.id)
     }

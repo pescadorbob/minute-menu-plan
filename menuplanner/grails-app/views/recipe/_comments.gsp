@@ -11,7 +11,7 @@
     <g:uploadForm name="addCommentForm">
         <g:textArea class="inpbox" name="comment" rows="5" cols="50" id="comment"/>
         <g:hiddenField name="recipeId" value="${recipe?.id}"/>
-        <g:actionSubmit name="btnAddComment" controller="recipe" action="addComment" value="Add Comment" disabled="disabled"/>
+        <g:actionSubmit controller="recipe" action="addComment" value="Add Comment" disabled="disabled"/>
     </g:uploadForm>
 </div>
 <script type="text/javascript">

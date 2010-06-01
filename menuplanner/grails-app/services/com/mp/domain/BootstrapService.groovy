@@ -23,7 +23,7 @@ class BootstrapService {
             
             (1..new Random().nextInt(5)).each{       // comments on Recipe
                 user = User.get(new Random().nextInt(User.count()) + 1)
-                String commentText = 'Lorem Ipsum'
+                String commentText = 'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum '
                 recipe?.addComment(user,commentText)
             }
             (1..new Random().nextInt(5)).each{      // add to Favorite
