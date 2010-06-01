@@ -2,7 +2,7 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase {
 
-//    def messageSource = ConfigurationHolder.config.applicationContext.getBean("messageSource")
+    def messageSource = ConfigurationHolder.config.applicationContext.getBean("messageSource")
     Locale locale = new Locale('en', 'US')
     Object[] TARGET_ARGS_EMPTY = [].toArray()
     Object[] TARGET_ARGS_WITH_VALUES = [].toArray()
