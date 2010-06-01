@@ -1,8 +1,13 @@
 package com.mp.domain
 
 import static com.mp.MenuConstants.*
+import org.codehaus.groovy.grails.commons.ApplicationHolder
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import org.springframework.beans.BeansException
+import org.springframework.context.ApplicationContext
+import org.springframework.context.ApplicationContextAware
 
-class MasterDataBootStrapService {
+class MasterDataBootStrapService implements ApplicationContextAware {
 
     boolean transactional = true
 
@@ -182,4 +187,9 @@ class MasterDataBootStrapService {
         new Nutrient(name: NUTRIENT_FIBER, preferredUnit: gram).s()
         new Nutrient(name: NUTRIENT_PROTEIN, preferredUnit: gram).s()
     }
+
+    void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        ConfigurationHolder.config.applicationContext = applicationContext;
+    }
+
 }
