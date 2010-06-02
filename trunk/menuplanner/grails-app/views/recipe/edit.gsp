@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="menu"/>
-    <title>Add Recipe</title>
+    <title>Edit Recipe</title>
     <rateable:resources/>
 </head>
 <body>
@@ -13,13 +13,10 @@
 <table id="sampleDirectionRow" style="display:none;">
     <g:render template="directionRow"/>
 </table>
-
 <div id="container">
     <div id="wrapper" class="clearfix">
         <div id="content-wrapper" class="clearfix">
-            <!--  start left-panel -->
             <div id="left-panel">
-                <!--  start left-panel -->
                 <div class="headbox">
                     <h3>Edit Recipe</h3>
                 </div>
@@ -60,7 +57,6 @@
                             </li>
                             <li>
                                 <g:actionSubmit class="button" controller="recipe" action="show" name="cancel" value="Cancel"/>
-                                %{--<input class="button" type="button" name="cancel" id="cancel" value="Cancel" onClick="self.location.href = '${createLink(action:'show',controller:'recipe', id:recipeCO?.id)}'"/>--}%
                             </li>
                         </ul>
                     </div>
