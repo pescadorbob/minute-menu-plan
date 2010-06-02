@@ -12,7 +12,6 @@
                 printElem({ pageTitle: '${recipe?.name}' });
                 return false;
             });
-
         });
         function printElem(options) {
             jQuery(".printMe:first").printElement(options);
@@ -21,19 +20,13 @@
 </head>
 <body>
 <div class="clearfix printMe" id="content-wrapper">
-    <!--  start left-panel -->
     <div id="left-panel">
-    <!--  start left-panel -->
-
         <g:if test="${flash.message}">
             <div class="flashMessage">${flash.message}</div>
         </g:if>
-
-
         <div id="right-head">
             <div id="leftpart">
                 <label>${recipe?.name}</label>
-                %{--<g:render template="/rating/rating"/>--}%
                 <span id="spanRateable"><rateable:ratings bean='${recipe}'/></span>
             </div>
             <div id="rightpart">
@@ -42,7 +35,6 @@
                 </span>
                 <span><img src="${resource(dir: 'images', file: 'printer.gif')}"/><a href="#" id="printButton">Print</a></span>
             </div>
-
         </div>
         <div class="top-shadow"><label></label></div>
         <div class="leftbox clearfix">
@@ -95,7 +87,7 @@
                             <span id="showFavorite" style="text-align:right;">
                                 <mp:showFavorite recipeId="${recipe?.id}" userId="${session?.loggedUserId}"/>
                             </span>
-                        </g:link> &nbsp; &nbsp;
+                        </g:link> &nbsp;&nbsp;
                         <span id="showRecipeAbuse" style="text-align:right;">
                             <mp:showRecipeAbuse recipe="${recipe}" userId="${session?.loggedUserId}"/>
                         </span>

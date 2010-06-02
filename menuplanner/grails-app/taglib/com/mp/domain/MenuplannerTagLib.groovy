@@ -14,7 +14,7 @@ class MenuplannerTagLib {
         User user = User.get(userId)
         Recipe recipe = Recipe.get(recipeId)
         if (user?.contributions?.contains(recipe)) {
-            out << g.render(template: '/recipe/isEditableRecipe', model: [isEditable: true, recipeId:recipeId])
+            out << g.render(template: '/recipe/isEditableRecipe', model: [isEditable: true, recipeId: recipeId])
         }
     }
 
@@ -24,9 +24,9 @@ class MenuplannerTagLib {
         User user = User.get(userId)
         Recipe recipe = Recipe.get(recipeId)
         if (user?.favourites?.contains(recipe)) {
-            out << "Remove from favorite"
+            out << g.render(template: '/recipe/showAddToFavorite', model: [isAdded: true])
         } else {
-            out << "Add to favorite"
+            out << g.render(template: '/recipe/showAddToFavorite', model: [isAdded: false])
         }
     }
     def menuPlanDropdown = {
@@ -103,9 +103,9 @@ class MenuplannerTagLib {
         Boolean reported = false
 
         List<RecipeAbuse> recipeAbuses = RecipeAbuse.findAllByReporterAndRecipe(user, recipe)
-        if(!recipeAbuses){
+        if (!recipeAbuses) {
             out << g.render(template: "/recipe/showRecipeAbuse", model: [reported: reported, recipeId: recipe?.id])
-        } else{
+        } else {
             reported = true
             out << g.render(template: "/recipe/showRecipeAbuse", model: [reported: reported])
         }

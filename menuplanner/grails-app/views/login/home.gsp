@@ -80,7 +80,7 @@
                         <li>Username : (Email Address)<div class="search-input">
                             <input name="email" type="text" class="inp  ${hasErrors(bean: loginCO, field: 'email', 'loginExc')}" value="${loginCO?.email}"/></div>
                             <g:hasErrors bean="${loginCO}" field="email" >
-                                <div class="loginError">
+                                <div id="displayEmailError" class="loginError">
                                     <g:renderErrors bean="${loginCO}" field="email"/>
                                 </div>
                             </g:hasErrors>
@@ -88,13 +88,13 @@
                         <li>Password :<div class="search-input">
                             <input name="password" type="password" class="inp  ${hasErrors(bean: loginCO, field: 'password', 'loginExc')}" value=""/></div>
                             <g:hasErrors bean="${loginCO}"  field="password">
-                                <div class="loginError">
+                                <div id="displayPasswordError" class="loginError">
                                     <g:renderErrors bean="${loginCO}" field="password"/>
                                 </div>
                             </g:hasErrors>
 
                             <g:if test="${flash.message}">
-                                <div class="loginError">
+                                <div id="displayWrongPasswordError" class="loginError">
                                     ${flash.message}
                                 </div>
                             </g:if>
