@@ -1,4 +1,4 @@
-<div class="content">
+<div class="content" id="divComments">
     <strong>Comments :</strong><br/>
     <g:each in="${comments}" var="comment">
         <span class="clearfix">

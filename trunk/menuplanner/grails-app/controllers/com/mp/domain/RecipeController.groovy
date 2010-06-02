@@ -110,7 +110,6 @@ class RecipeController {
     }
 
     def update = {RecipeCO recipeCO ->
-        println "Updating..."
         if (recipeCO.validate()) {
             recipeCO.updateRecipe()
             redirect(action: 'show', id: recipeCO?.id)
@@ -144,12 +143,8 @@ class RecipeController {
     }
 
     def addComment = {
-        println params
-        println "****comment added ******"
         Recipe recipe = Recipe.findById(params?.recipeId)
         User user = User?.get(session?.loggedUserId?.toLong())
-        println "User: " + user
-        println "Recipe: " + recipe
         recipe?.addComment(user, params?.comment)
         redirect(action: 'show', controller: 'recipe', params: [id: recipe?.id])
     }

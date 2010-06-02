@@ -24,7 +24,7 @@
                     <h3>Add Recipe</h3>
                 </div>
                 <g:hasErrors bean="${recipeCO}">
-                    <div class="errors">
+                    <div id="displayRecipeErrors" class="errors">
                         <g:renderErrors bean="${recipeCO}"/>
                     </div>
                 </g:hasErrors>

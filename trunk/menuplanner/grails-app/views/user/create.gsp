@@ -13,7 +13,7 @@
                 <h3>Admin Profile Add</h3>
             </div>
             <g:hasErrors bean="${userCO}">
-                <div class="errors">
+                <div id="displayUserCOErrors" class="errors">
                     <g:renderErrors bean="${userCO}" as="list"/>
                 </div>
             </g:hasErrors>

@@ -12,7 +12,8 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
         userFormData.email = "invalidEmailType"
         createUser(userFormData)
         assertStatus 200
-        assertContentContains getMessage('userCO.email.email.error.com.mp.domain.UserCO.email')
+        assertElementTextContains('displayUserCOErrors', getMessage('userCO.email.email.error.com.mp.domain.UserCO.email'))
+
     }
     void testCreateUser_PASSWORD_CONFIRMPASSWORD_NOT_MATCHED() {
         UserFormData userFormData = UserFormData.getDefaultUserFormData()
@@ -20,6 +21,6 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
         userFormData.confirmPassword = "abcd"
         createUser(userFormData)
         assertStatus 200
-        assertContentContains getMessage('userCO.confirmPassword.validator.invalid.confirmPassword')
+        assertElementTextContains('displayUserCOErrors', getMessage('userCO.confirmPassword.validator.invalid.confirmPassword'))
     }
 }
