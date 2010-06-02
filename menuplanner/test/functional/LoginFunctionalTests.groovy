@@ -23,7 +23,6 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         assertContentContains getMessage('loginCO.email.email.invalid.email')
     }
 
-/*
     void testValidLogin() {
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
         userLogin(loginFormData)
@@ -31,6 +30,4 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         followRedirect()
         assertContentContains 'Logout'
     }
-
-    */
 }
