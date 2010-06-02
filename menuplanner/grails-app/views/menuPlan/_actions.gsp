@@ -34,5 +34,13 @@
         }
         jQuery('.farji', jQuery(this)).hide()
     })
+
+    jQuery(".placeMyHover").hover(function() {
+      jQuery(this).addClass("myHover");
+    }, function() {
+      jQuery(this).removeClass("myHover");
+
+    })
+
   })
 </script>
