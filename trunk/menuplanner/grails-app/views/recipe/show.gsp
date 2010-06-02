@@ -26,7 +26,7 @@
         </g:if>
         <div id="right-head">
             <div id="leftpart">
-                <label>${recipe?.name}</label>
+                <label id="recipeNameTst">${recipe?.name}</label>
                 <span id="spanRateable"><rateable:ratings bean='${recipe}'/></span>
             </div>
             <div id="rightpart">

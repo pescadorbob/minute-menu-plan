@@ -71,15 +71,16 @@ class RecipeController {
 
     def delete = {
         def recipe = Recipe.get(params.id)
+        User loggedUser = User.get(session?.loggedUserId?.toLong())
         if (recipe) {
             try {
-                flash.message = "Recipe: ${recipe?.name} deleted."
-                recipeService.deleteRecipe(recipe)
+                flash.message = message(code: 'recipe.deleted.success')
+                recipeService.deleteRecipe(recipe,loggedUser)
                 redirect(controller: 'recipe', action: "list")
                 return
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = "Recipe: ${recipe?.name} Could not be deleted. It is referenced somewhere."
+                flash.message = message(code: 'recipe.deleted.unsuccess')
                 redirect(action: "show", id: params.id)
                 return
             }

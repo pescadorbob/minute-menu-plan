@@ -9,8 +9,10 @@ class RecipeService {
 
     boolean transactional = true
 
-    public boolean deleteRecipe(Recipe recipe) {
+    public boolean deleteRecipe(Recipe recipe, User user) {
         try {
+            user.removeFromContributions(recipe)
+            user.s()
             recipe.delete()
         } catch (e) {
             e.printStackTrace()
