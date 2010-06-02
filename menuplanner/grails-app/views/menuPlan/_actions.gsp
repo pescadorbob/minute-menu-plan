@@ -1,7 +1,7 @@
 <div id="wintermenu">
     <div id="winterplan">
         <g:if test="${params.action in ['show','saveAndUpdate']}">
-          ${menuPlan?.name}
+          ${menuPlan?.name} <g:link controller="menuPlan" action="create" params="['menuPlanId':menuPlan.id]">Copy Menu Plan</g:link>
         </g:if>
         <g:else>
             <input type="text" name="menuPlan.name"  value="${menuPlan?.name}">

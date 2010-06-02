@@ -11,4 +11,14 @@ class Meal {
     static constraints = {
         type(unique: 'day')
     }
+
+    public Meal shallowClone(Day day){
+        Meal meal = new Meal(day: day, type: this.type)
+        meal.items=[]
+        this.items.each{Item item->
+            meal.items+=item.shallowClone()
+        }
+        return meal
+    }
+
 }
