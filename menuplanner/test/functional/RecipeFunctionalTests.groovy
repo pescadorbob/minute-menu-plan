@@ -3,9 +3,7 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
 //TODO: Pick button to be clicked using Id instead of text.
 
     void testAddRecipePage() {
-        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
-        userLogin(loginFormData)
-        get('/recipe/create')
+        gotoCreateRecipePage()
         assertStatus 200
         assertTitle 'Minute Menu Plan : Add Recipe'
     }
@@ -28,8 +26,7 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
     }
 
     void testAddToFavorite() {
-        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
-        createRecipe(createRecipeData)
+        gotoShowRecipePage()
         byName('changeFavorite').click()
         redirectEnabled = false
         followRedirect()
@@ -37,9 +34,20 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         assertEquals('Remove from favorite', byId('showFavorite').asText())
     }
 
+    void testRemoveFromFavorite() {
+        gotoShowRecipePage()
+        byName('changeFavorite').click()
+        redirectEnabled = false
+        followRedirect()
+        byName('changeFavorite').click()
+        redirectEnabled = false
+        followRedirect()
+        assertStatus 200
+        assertEquals('Add to favorite', byId('showFavorite').asText())
+    }
+
     void testReportAbuseToRecipe() {
-        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
-        createRecipe(createRecipeData)
+        gotoShowRecipePage()
         byName('recipeAbuse').click()
         redirectEnabled = false
         followRedirect()
@@ -48,8 +56,7 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
     }
 
     void testAddComment() {
-        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
-        createRecipe(createRecipeData)
+        gotoShowRecipePage()
         String commentText = 'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum'
         form('addCommentForm') {
             comment = commentText
@@ -63,8 +70,7 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
     }
 
     void testReportAbuseToComment() {
-        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
-        createRecipe(createRecipeData)
+        gotoShowRecipePage()
         String commentText = 'Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum'
         form('addCommentForm') {
             comment = commentText
@@ -77,6 +83,40 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         click('Report this')
         redirectEnabled = false
         followRedirect()
-        assertEquals('Abuse reported', byId('showCommentAbuseReported').asText())
+        assertEquals('Abuse reported', byClass('showCommentAbuseReported').asText())
+    }
+
+    void testCancelCreateRecipe() {
+        gotoCreateRecipePage()
+        byName('_action_list').click()
+        assertTitleContains 'Minute Menu Plan : List Recipe'
+    }
+
+    void testEditRecipeLink() {
+        gotoEditRecipePage()
+        assertTitleContains 'Minute Menu Plan : Edit Recipe'
+    }
+    void testCancelEditRecipe(){
+        gotoEditRecipePage()
+        byName('_action_show').click()
+        assertTitleContains 'Minute Menu Plan : Show Recipe'
+    }
+
+    void gotoCreateRecipePage(){
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        userLogin(loginFormData)
+        get('/recipe/create')        
+    }
+
+    void gotoShowRecipePage(){
+        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
+        createRecipe(createRecipeData)        
+    }
+
+    void gotoEditRecipePage(){
+        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
+        createRecipe(createRecipeData)
+//        byClass('editRecipeLink').click()
+        click('Edit')
     }
 }

@@ -61,7 +61,6 @@
                 </div>
                 <p>More and More Text Here...</p>
                 <p>We just keep on telling them how good this product is, and displaying the 'Order Now' Button</p>
-
             </div>
         </div>
         <div class="bottom-shadow">
@@ -98,7 +97,6 @@
                                     ${flash.message}
                                 </div>
                             </g:if>
-
                         </li>
                         <li>
                             <g:actionSubmit controller="login" action="login" value="Login" class=""/>
@@ -111,7 +109,6 @@
                         	<label>--Donna, Hamburg, NY</label></li>
                         <li>Minute Menu Plan removed the stress from my evenings and stopped the kids from asking whats for dinner.  We love to plan our meals together, and it takes only a few minutes.  Thanks Minute Menu Plan!
                         	<label>--Donna, Hamburg, NY</label></li>
- 
                     </ul>
                 </g:uploadForm>
             </div>

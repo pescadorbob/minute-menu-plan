@@ -4,7 +4,7 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         loginFormData.password = "Password"
         userLogin(loginFormData)
         assertStatus 200
-        assertEquals(getMessage('loginCO.email.password.Invalid') ,byId('displayWrongPasswordError').asText())
+        assertEquals(getMessage('loginCO.email.password.Invalid'), byId('displayWrongPasswordError').asText())
     }
 
     void testBlankUserName() {
@@ -12,7 +12,7 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         loginFormData.email = ""
         userLogin(loginFormData)
         assertStatus 200
-        assertEquals(getMessage('loginCO.email.blank.error.email') ,byId('displayEmailError').asText())
+        assertEquals(getMessage('loginCO.email.blank.error.email'), byId('displayEmailError').asText())
     }
 
     void testInvalidUserName() {
@@ -20,13 +20,23 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         loginFormData.email = "Usernane."
         userLogin(loginFormData)
         assertStatus 200
-        assertEquals(getMessage('loginCO.email.email.invalid.email') ,byId('displayEmailError').asText())
+        assertEquals(getMessage('loginCO.email.email.invalid.email'), byId('displayEmailError').asText())
     }
 
     void testValidLogin() {
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
         userLogin(loginFormData)
         get('/recipe/list')
-        assertEquals('Logout' ,byClass('logoutLink').asText())
+        assertEquals('Logout', byClass('logoutLink').asText())
+    }
+
+    void testLogout() {
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        userLogin(loginFormData)
+        get('/recipe/list')
+        byClass('logoutLink').click()
+        redirectEnabled = false
+        followRedirect()
+        assertEquals('Login', byName('_action_login').asText())
     }
 }
