@@ -40,4 +40,13 @@ class Day {
 
     static constraints = {
     }
+
+    public Day shallowClone(Week week){
+        Day day = new Day(week: week)
+        day.meals =[]
+        this.meals.each{Meal meal->
+            day.meals +=meal.shallowClone(day)
+        }
+        return day
+    }
 }

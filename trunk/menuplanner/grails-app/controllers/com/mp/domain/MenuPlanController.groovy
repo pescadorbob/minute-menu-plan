@@ -25,6 +25,8 @@ class MenuPlanController {
             }
             menuPlan.addToWeeks(week)
         }
+        MenuPlan menuPlanCopy =MenuPlan.get(params.long("menuPlanId"))
+        menuPlan = menuPlanCopy?:menuPlan 
         List<Category> categoryList = Category.list()
         List<Recipe> recipeList = Recipe.list(params)
         render(view: 'create', model: [menuPlan: menuPlan, categoryList: categoryList, itemList: recipeList, itemTotal: Recipe.count()])
@@ -50,7 +52,8 @@ class MenuPlanController {
             weeks*.delete(flush: true)
         } else {
             menuPlan = new MenuPlan()
-            menuPlan.name = System.currentTimeMillis()
+            println "**************************************" +params?.menuPlan?.name 
+            menuPlan.name = params?.menuPlan?.name?:System.currentTimeMillis()
         }
         (0..3).each {Integer weekIndex ->
             Week week = new Week()
@@ -109,6 +112,6 @@ class MenuPlanController {
 
     def quickFillAdmin = {
         List<Category> categoryList = Category.list()
-        [categoryList: categoryList, itemTotal: Recipe.count()]            
+        [categoryList: categoryList, itemTotal: Recipe.count()]
     }
 }
