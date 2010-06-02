@@ -96,24 +96,43 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         gotoEditRecipePage()
         assertTitleContains 'Minute Menu Plan : Edit Recipe'
     }
-    void testCancelEditRecipe(){
+
+    void testCancelEditRecipe() {
         gotoEditRecipePage()
         byName('_action_show').click()
         assertTitleContains 'Minute Menu Plan : Show Recipe'
     }
 
-    void gotoCreateRecipePage(){
+    void testEditRecipe() {
+        gotoEditRecipePage()
+        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
+        createRecipeData.name = "Changed Recipe Name"
+        form('formEditRecipe') {
+            name = createRecipeData.name
+            click("_action_update")
+        }
+        assertElementTextContainsStrict('recipeNameTst', createRecipeData.name)
+    }
+    void testDeleteRecipe() {
+        gotoEditRecipePage()
+        byName('_action_delete').click()
+        redirectEnabled = false
+        followRedirect()
+        assertElementTextContainsStrict('deleteRecipeFlashMessage', getMessage('recipe.deleted.success'))
+    }
+
+    void gotoCreateRecipePage() {
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
         userLogin(loginFormData)
-        get('/recipe/create')        
+        get('/recipe/create')
     }
 
-    void gotoShowRecipePage(){
+    void gotoShowRecipePage() {
         CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
-        createRecipe(createRecipeData)        
+        createRecipe(createRecipeData)
     }
 
-    void gotoEditRecipePage(){
+    void gotoEditRecipePage() {
         CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
         createRecipe(createRecipeData)
 //        byClass('editRecipeLink').click()

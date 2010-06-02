@@ -34,7 +34,7 @@
                         <li><a class="tabs" id="tabNutritionFacts" style="${hasErrors(bean: recipeCO, field: 'nutrientQuantities', 'color:red;')}"><span>Nutrition&nbsp;Facts</span></a></li>
                     </ul>
                 </div>
-                <g:uploadForm name="formCreateRecipe">
+                <g:uploadForm name="formEditRecipe">
                     <g:hiddenField name='id' value='${recipeCO?.id}'/>
                     <g:render template="/recipe/generalInfo" model="[recipeCO: recipeCO, timeUnits: timeUnits]"/>
                     <g:render template="/recipe/ingredients" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
