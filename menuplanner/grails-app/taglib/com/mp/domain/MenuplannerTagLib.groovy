@@ -40,6 +40,14 @@ class MenuplannerTagLib {
         out << g.render(template: '/layouts/loggedUserDropDown', model: [loggedUser: loggedUser])
     }
 
+    def adminDropDown = {
+        out << g.render(template: '/layouts/adminDropDown')
+    }
+
+    def actions = {
+        out << g.render(template: '/layouts/actions')
+    }
+
     def checkGeneralInfoTabError = {attrs ->
         def bean = attrs['bean']
         def fieldsToCheck = attrs['fields']

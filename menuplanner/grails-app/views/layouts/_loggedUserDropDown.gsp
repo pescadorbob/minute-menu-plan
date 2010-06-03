@@ -9,4 +9,4 @@
             <li><g:link class="logoutLink" controller="login" action="logout">Logout</g:link></li>
         </ul>
     </li>
-</g:if>
+</g:if>                                      
