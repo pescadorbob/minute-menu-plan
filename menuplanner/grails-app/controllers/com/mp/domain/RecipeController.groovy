@@ -71,7 +71,7 @@ class RecipeController {
 
     def delete = {
         def recipe = Recipe.get(params.id)
-        User loggedUser = User.get(session?.loggedUserId?.toLong())
+        User loggedUser = User.currentUser
         if (recipe) {
             try {
                 flash.message = message(code: 'recipe.deleted.success')
@@ -127,13 +127,13 @@ class RecipeController {
 
     def save = {RecipeCO recipeCO ->
         if (recipeCO.validate()) {
-            User loggedUser = User.get(session?.loggedUserId?.toLong())
+            User loggedUser = User.currentUser
             Recipe recipe = recipeCO.convertToRecipe(loggedUser)
             loggedUser.addToContributions(recipe)
             loggedUser.s()
             redirect(action: 'show', id: recipe?.id)
         } else {
-            println recipeCO.errors.allErrors.each {
+            recipeCO.errors.allErrors.each {
                 println it
             }
             SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
@@ -145,7 +145,7 @@ class RecipeController {
 
     def addComment = {
         Recipe recipe = Recipe.findById(params?.recipeId)
-        User user = User?.get(session?.loggedUserId?.toLong())
+        User user = User.currentUser
         recipe?.addComment(user, params?.comment)
         redirect(action: 'show', controller: 'recipe', params: [id: recipe?.id])
     }
@@ -169,7 +169,7 @@ class RecipeController {
     }
 
     def reportCommentAbuse = {
-        User user = User.get(session.loggedUserId)
+        User user = User.currentUser
         Comment comment = Comment.get(params.id)
         new CommentAbuse(comment: comment, reporter: user).s()
         redirect(action: 'show', id: params.recipeId)
@@ -177,7 +177,7 @@ class RecipeController {
     def reportRecipeAbuse = {
         RecipeAbuse recipeAbuse = new RecipeAbuse()
         recipeAbuse.recipe = Recipe.get(params?.id?.toLong())
-        recipeAbuse.reporter = User.get(session?.loggedUserId?.toLong())
+        recipeAbuse.reporter = User.currentUser
         recipeAbuse.s()
         redirect(action: 'show', id: params?.id)
     }

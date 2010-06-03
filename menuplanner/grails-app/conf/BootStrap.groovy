@@ -97,6 +97,7 @@ class BootStrap {
             masterDataBootStrapService.populateTimeUnits()
             masterDataBootStrapService.populateUnitsAndStandardConversions()
             masterDataBootStrapService.populateNutrients()
+            masterDataBootStrapService.populatePermissions()
         }
     }
 }

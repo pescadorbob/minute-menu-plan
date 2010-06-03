@@ -25,7 +25,7 @@
                         <li>Member since ${user?.joiningDate?.format('MMMM yyyy')}</li>
                         <li></li>
                         <li></li>
-                        <g:each in="${user?.type}" var="role">
+                        <g:each in="${user?.roles}" var="role">
                             <li>
                                 <strong>${role}</strong>
                             </li>

@@ -11,10 +11,15 @@ class User {
     Date joiningDate
     String password
     Boolean isEnabled = true
-    List<UserType> type = []
+    List<UserType> roles = []
 
-    static hasMany = [type: UserType, favourites: Recipe, contributions: Recipe]
+    static hasMany = [roles: UserType, favourites: Recipe, contributions: Recipe]
     static transients = ['isEnabledString']
+
+    static User getCurrentUser() {
+        Long userId = SessionUtils.session.loggedUserId?.toLong()
+        return ((userId) ? User.get(userId) : null)
+    }
 
     String toString() {
         return name
@@ -27,7 +32,6 @@ class User {
     def beforeInsert = {
         joiningDate = new Date()
     }
-
 
     static constraints = {
         email(email: true, unique: true)

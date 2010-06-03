@@ -11,7 +11,7 @@ import com.mp.domain.User
 // if(System.properties["${appName}.config.location"]) {
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
 // }
-grails.rateable.rater.evaluator = { User.get(session?.loggedUserId) }
+grails.rateable.rater.evaluator = { User.currentUser }
 grails.views.javascript.library = "jquery"
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
 grails.mime.use.accept.header = false

@@ -188,6 +188,46 @@ class MasterDataBootStrapService implements ApplicationContextAware {
         new Nutrient(name: NUTRIENT_PROTEIN, preferredUnit: gram).s()
     }
 
+    public void populatePermissions() {
+        if (!SecurityRole.countByName(SECURITY_ROLE_SUPER_ADMIN)) {
+            println "Populating Security role ${SECURITY_ROLE_SUPER_ADMIN}"
+            SecurityRole role = new SecurityRole(name: SECURITY_ROLE_SUPER_ADMIN, description: 'Super Admin with all permissions').s()
+            Permission.values().each {Permission permission ->
+                new PermissionLevel(role: role, permission: permission, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
+            }
+        } else {
+            verifySecurityAccess()
+        }
+
+        if (!SecurityRole.countByName(SECURITY_ROLE_ADMIN)) {
+            println "Populating Security role ${SECURITY_ROLE_ADMIN}"
+            SecurityRole role = new SecurityRole(name: SECURITY_ROLE_ADMIN, description: 'Admin').s()
+            Permission.values().each {Permission permission ->
+                new PermissionLevel(role: role, permission: permission, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
+            }
+        }
+
+    }
+
+    public static void verifySecurityAccess() {
+        List<SecurityRole> roles = SecurityRole.list()
+        Boolean hasSecurityAccess = roles.any {SecurityRole securityRole ->
+            ([Permission.CREATE_SECURITY_ROLE, Permission.READ_SECURITY_ROLE,
+                    Permission.UPDATE_SECURITY_ROLE, Permission.DELETE_SECURITY_ROLE]).every {
+                (it in securityRole.permissionLevels*.permission)
+            }
+        }
+
+        if (!hasSecurityAccess) {
+            SecurityRole securityRole = SecurityRole.findByName(SECURITY_ROLE_SUPER_ADMIN)
+            new PermissionLevel(role: securityRole, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL, permission: Permission.CREATE_SECURITY_ROLE).s()
+            new PermissionLevel(role: securityRole, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL, permission: Permission.READ_SECURITY_ROLE).s()
+            new PermissionLevel(role: securityRole, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL, permission: Permission.UPDATE_SECURITY_ROLE).s()
+            new PermissionLevel(role: securityRole, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL, permission: Permission.DELETE_SECURITY_ROLE).s()
+        }
+    }
+
+
     void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         ConfigurationHolder.config.applicationContext = applicationContext;
     }

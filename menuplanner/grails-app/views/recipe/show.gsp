@@ -32,7 +32,7 @@
             </div>
             <div id="rightpart">
                 <span>
-                    <mp:showEditRecipe recipeId="${recipe?.id}" userId="${session?.loggedUserId}"/>
+                    <mp:showEditRecipe recipeId="${recipe?.id}"/>
                 </span>
                 <span><img src="${resource(dir: 'images', file: 'printer.gif')}"/><a href="#" id="printButton">Print</a></span>
             </div>
@@ -86,11 +86,11 @@
                         <mp:recipeImage id="${recipe?.image?.id}" height="160" width="160" noImage="no-img.gif"/><br/>
                         <g:link controller="user" action="alterFavorite" name="changeFavorite" id="${recipe?.id}">
                             <span id="showFavorite" style="text-align:right;">
-                                <mp:showFavorite recipeId="${recipe?.id}" userId="${session?.loggedUserId}"/>
+                                <mp:showFavorite recipeId="${recipe?.id}"/>
                             </span>
                         </g:link> &nbsp;&nbsp;
                         <span id="showRecipeAbuse" style="text-align:right;">
-                            <mp:showRecipeAbuse recipe="${recipe}" userId="${session?.loggedUserId}"/>
+                            <mp:showRecipeAbuse recipe="${recipe}"/>
                         </span>
                     </li>
                 </ul>

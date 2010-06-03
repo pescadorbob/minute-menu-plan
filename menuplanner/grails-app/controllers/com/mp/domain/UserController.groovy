@@ -16,15 +16,16 @@ class UserController {
         User user = User.get(params?.id)
         if (user) {
             try {
+                Boolean deletingCurrentUser = (user == User.currentUser)
                 flash.message = "${user?.name} deleted."
                 User.withTransaction {
-                    List u = CommentAbuse.findAllByReporter(user)
-                    u*.delete(flush: true)
-                    u = RecipeAbuse.findAllByReporter(user)
-                    u*.delete(flush: true)
+                    List commentAbuses = CommentAbuse.findAllByReporter(user)
+                    List recipeAbuses = RecipeAbuse.findAllByReporter(user)
+                    commentAbuses*.delete(flush: true)
+                    recipeAbuses*.delete(flush: true)
                     user.delete(flush: true)
                 }
-                if (params.id == session?.loggedUserId) {
+                if (deletingCurrentUser) {
                     redirect(action: "logout", controller: 'login')
                 } else {
                     redirect(controller: 'user', action: "list")
@@ -48,7 +49,7 @@ class UserController {
 
     def removeFavorite = {
         Recipe recipe = Recipe.get(params.id)
-        User user = User.get(session?.loggedUserId.toLong())
+        User user = User.currentUser
         user?.removeFromFavourites(recipe)
         user.s()
         render(view: 'show', model: [user: user])
@@ -56,7 +57,7 @@ class UserController {
 
     def alterFavorite = {
         Recipe recipe = Recipe.get(params.id)
-        User user = User.get(session?.loggedUserId.toLong())
+        User user = User.currentUser
         if (user?.favourites?.contains(recipe)) {
             user?.removeFromFavourites(recipe)
             user.s()
