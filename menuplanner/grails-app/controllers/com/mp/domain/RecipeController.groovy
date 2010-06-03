@@ -45,7 +45,7 @@ class RecipeController {
 
     def search = {
         List<String> allQueries = []
-        params?.list("q")?.eachWithIndex {String myQ, Integer index ->
+        params?.list("query")?.eachWithIndex {String myQ, Integer index ->
             allQueries.push(myQ)
             if (!(myQ.contains(':'))) {
                 allQueries[index] = '*' + myQ + '*'

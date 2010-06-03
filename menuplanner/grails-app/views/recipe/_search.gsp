@@ -4,7 +4,7 @@
     </div>
     <div class="leftbox clearfix">
         <div id="search-input">
-            <input name="q" type="text" class="inp" value=""/>
+            <input name="query" type="text" class="inp" value=""/>
         </div>
         <h2>You have Selected</h2>
         <table id="tableOption" style="border:0px; font-size:12px;">
