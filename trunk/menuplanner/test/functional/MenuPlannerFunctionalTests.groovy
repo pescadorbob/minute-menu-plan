@@ -1,7 +1,6 @@
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import com.gargoylesoftware.htmlunit.html.HtmlPage
 
-
 class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase {
 
     def messageSource = ConfigurationHolder.config.applicationContext.getBean("messageSource")
