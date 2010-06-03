@@ -85,6 +85,14 @@ environments {
 //        grails.mail.default.from = '"MinuteMenu" <qa@qa.menuplanner.intelligrape.net>'
         grails.serverURL = "http://qa.menuplanner.intelligrape.net"
     }
+    qa {
+//        mail {
+//            host = "qa.menuplanner.intelligrape.net"
+//            port = 25
+//        }
+//        grails.mail.default.from = '"MinuteMenu" <qa@qa.menuplanner.intelligrape.net>'
+        grails.serverURL = "http://qa.menuplanner.intelligrape.net"
+    }
 
 }
 
