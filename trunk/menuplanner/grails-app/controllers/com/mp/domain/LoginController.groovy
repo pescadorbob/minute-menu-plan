@@ -27,7 +27,7 @@ class LoginController {
                         redirect(controller: 'login', action: 'index')                        
                     }
                 } else {
-                    flash.message = "Your account has been disabled. Please contact System Admin"
+                    flash.message = message(code: 'loginCO.user.disabled')
                     render(view: 'home', model: [loginCO: loginCO])
                 }
             } else {

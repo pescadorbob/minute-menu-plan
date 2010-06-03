@@ -43,7 +43,7 @@
                 <ul>
                     <li>
                         <ul>
-                            <li>
+                            <li id="prepAndCookTimesTst">
                                 <g:if test="${recipe?.preparationTime}">Prep - ${recipe?.preparationTime}</g:if><br/>
                                 <g:if test="${recipe?.cookingTime}">Cook - ${recipe?.cookingTime}</g:if><br/>
                             </li>
@@ -56,14 +56,14 @@
                                 </g:if>
                             </li>
                             <g:if test="${recipe?.ingredients}">
-                                <li>
+                                <li id="showAllIngredientsHereTst">
                                     <g:each in="${recipe?.ingredients}" var="ingredient">
                                         <span><strong>${ingredient}</strong></span>
                                     </g:each>
                                 </li>
                             </g:if>
                             <g:if test="${recipe?.directions}">
-                                <li>${recipe?.directions*.toString().join(" ")}</li>
+                                <li id="showAllStepsHereTst">${recipe?.directions*.toString().join(" ")}</li>
                             </g:if>
                             <g:if test="${recipe?.categories}">
                                 <li>Categories: ${recipe?.categories?.join(", ")}</li>

@@ -5,7 +5,7 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         loginFormData.password = "Password"
         userLogin(loginFormData)
         assertStatus 200
-        assertEquals(getMessage('loginCO.email.password.Invalid'), byId('displayWrongPasswordError').asText())
+        assertEquals(getMessage('loginCO.email.password.Invalid'), byId('display_WrongPassword_DisabledUser_Error').asText())
     }
 
     void testBlankUserName() {
@@ -29,6 +29,17 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         userLogin(loginFormData)
         get('/recipe/list')
         assertEquals('Logout', byClass('logoutLink').asText())
+    }
+
+    void testLogin_BY_DISABLED_USER(){
+        UserFormData userFormData = UserFormData.getDefaultUserFormData()
+        userFormData.isEnabled = false
+        createUser(userFormData)
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginFormData.email=userFormData.email
+        loginFormData.password=userFormData.password
+        userLogin(loginFormData)
+        assertEquals(getMessage('loginCO.user.disabled'), byId('display_WrongPassword_DisabledUser_Error').asText())        
     }
 
     void testLogout() {

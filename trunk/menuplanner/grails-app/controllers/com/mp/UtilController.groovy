@@ -29,6 +29,13 @@ class UtilController {
     }
 
     def index = {
+        String password = UUID.randomUUID()
+        render password + '<br/>'
+        render password + '<br/>'
+        
+    }
+
+    def test = {
 
         User user = User.list().first()
         Recipe recipe = Recipe.list().first()
