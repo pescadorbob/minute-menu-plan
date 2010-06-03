@@ -12,6 +12,7 @@
                 printElem({ pageTitle: '${recipe?.name}' });
                 return false;
             });
+
         });
         function printElem(options) {
             jQuery(".printMe:first").printElement(options);
@@ -101,5 +102,14 @@
     <div id="right-panel">
     </div>
 </div>
+<script type="text/javascript">
+  window.onload=preventRatingClickEvent;
+  function preventRatingClickEvent(){
+    $(".rating a").click(function(e){
+      e.preventDefault()
+    })
+  }
+
+</script>
 </body>
 </html> 
