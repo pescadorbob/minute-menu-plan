@@ -30,6 +30,7 @@ class Recipe extends Item implements Commentable, Rateable{
     String totalTimeValue
     String categoriesString
     String caloriesString
+    Date dateCreated
 
     public void validateTimings() {
         if (!preparationTime) {
