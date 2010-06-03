@@ -27,6 +27,8 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
         get("/recipe/create")
         form('formCreateRecipe') {
             name = createRecipeData.name
+            preparationTime = createRecipeData.prepTime
+            cookTime = createRecipeData.cookTime
             optionIngredientProductIds = createRecipeData.productName_1
             click "btnAddIngredient"
             optionDirections = createRecipeData.step_1
@@ -45,6 +47,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
             city = userFormData.city
             mouthsToFeed = userFormData.mouthsToFeed
             introduction = userFormData.introduction
+            if(!userFormData.isEnabled){ byId('chk_Enable').click() }
             byId('chk_User').click()
             click('_action_save')
         }
@@ -77,12 +80,16 @@ class CreateRecipeData {
     String name
     String step_1
     String productName_1
+    String cookTime
+    String prepTime
 
     public static CreateRecipeData getDefaultCreateRecipeData() {
         CreateRecipeData createRecipeData = new CreateRecipeData()
         createRecipeData.name = 'New Recipe'
         createRecipeData.step_1 = 'Step One'
         createRecipeData.productName_1 = 'Product One'
+        createRecipeData.cookTime = ''
+        createRecipeData.prepTime = ''
         return createRecipeData
     }
 }
@@ -107,6 +114,7 @@ class UserFormData {
     String city
     String mouthsToFeed
     String introduction
+    boolean isEnabled
 
     public static UserFormData getDefaultUserFormData() {
         UserFormData userFormData = new UserFormData()
@@ -117,6 +125,7 @@ class UserFormData {
         userFormData.city = "city"
         userFormData.mouthsToFeed = "6"
         userFormData.introduction = "Some description"
+        userFormData.isEnabled = true
         return userFormData
     }
 }

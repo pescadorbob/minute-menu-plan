@@ -93,7 +93,7 @@
                             </g:hasErrors>
 
                             <g:if test="${flash.message}">
-                                <div id="displayWrongPasswordError" class="loginError">
+                                <div id="display_WrongPassword_DisabledUser_Error" class="loginError">
                                     ${flash.message}
                                 </div>
                             </g:if>

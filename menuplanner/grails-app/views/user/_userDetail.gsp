@@ -64,11 +64,12 @@
         %{--<img src="${resource(dir: 'images', file: 'calendar.png')}" alt="Calendar " align="absmiddle"/>--}%
         %{--</label>--}%
         %{--</li>--}%
-        %{--<li><span>&nbsp;</span>--}%
-            %{--<label>--}%
-                %{--<input name="isEnabled" ${(userCO)?((userCO?.isEnabled)?'checked="checked"':''):'checked="checked"'}type="checkbox" value=""/>--}%
-                %{--<strong>Account enabled</strong></label>--}%
-        %{--</li>--}%
+
+        <li><span>&nbsp;</span>
+            <label>
+                <input id="chk_Enable" name="isEnabled" ${(userCO)?((userCO?.isEnabled)?'checked="checked"':''):'checked="checked"'}type="checkbox" value="true"/>
+                <strong>Account enabled</strong></label>
+        </li>
     </ul>
     %{--<div id="right-link">--}%
 

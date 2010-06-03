@@ -1,7 +1,7 @@
 class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
 
 //TODO: Pick button to be clicked using Id instead of text.
-
+       
     void testAddRecipePage() {
         gotoCreateRecipePage()
         assertStatus 200
@@ -12,7 +12,31 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
         createRecipe(createRecipeData)
         assertStatus 200
-        assertTitleContains 'Minute Menu Plan : Show Recipe'
+        assertTrue(
+                (byId('recipeNameTst').asText() == createRecipeData.name) &&
+                        (byId('showAllIngredientsHereTst').asText().contains(createRecipeData.productName_1)) &&
+                        (byId('showAllStepsHereTst').asText().contains(createRecipeData.step_1))
+        )
+    }
+
+    void testAddRecipe_VALID_PrepTime_0(){
+        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
+        createRecipeData.prepTime = '0'
+        createRecipe(createRecipeData)
+        assertTrue(
+                (byId('recipeNameTst').asText() == createRecipeData.name) &&
+                        (byId('prepAndCookTimesTst').asText().contains('Prep - ' + createRecipeData.prepTime))
+        )
+    }
+
+    void testAddRecipe_VALID_CookTime_0(){
+        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
+        createRecipeData.cookTime = '0'
+        createRecipe(createRecipeData)
+        assertTrue(
+                (byId('recipeNameTst').asText() == createRecipeData.name) &&
+                        (byId('prepAndCookTimesTst').asText().contains('Cook - ' + createRecipeData.cookTime))
+        )
     }
 
     void testAddRecipe_EMPTY_FORM() {
@@ -22,7 +46,11 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         createRecipeData.step_1 = ""
         createRecipe(createRecipeData)
         assertStatus 200
-        assertElementTextContains('displayRecipeErrors', getMessage('recipeCO.name.blank.error.name'))
+        assertTrue(
+                (byId('displayRecipeErrors').asText().contains(getMessage('recipeCO.name.blank.error.name'))) &&
+                        (byId('displayRecipeErrors').asText().contains(getMessage('recipeCO.ingredient.not.Provided.message'))) &&
+                        (byId('displayRecipeErrors').asText().contains(getMessage('recipeCO.directions.not.valid.message')))
+        )
     }
 
     void testAddToFavorite() {
@@ -113,6 +141,7 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         }
         assertElementTextContainsStrict('recipeNameTst', createRecipeData.name)
     }
+
     void testDeleteRecipe() {
         gotoEditRecipePage()
         byName('_action_delete').click()
@@ -131,7 +160,6 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
         createRecipe(createRecipeData)
     }
-
     void gotoEditRecipePage() {
         CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
         createRecipe(createRecipeData)
