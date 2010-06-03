@@ -1,4 +1,4 @@
-<%@ page import="com.mp.domain.UserType" %>
+<%@ page import="com.mp.domain.Permission; com.mp.domain.UserType" %>
 <div id="leftpanel">
     <div id="photo">
       <img id='userImage' border='0' width='180' height="180" src="${g.createLink(controller: 'image', action: 'imageByPath', params: [imagePath: userCO?.selectUserImagePath, noImage:'no-img.gif'])}"/>
@@ -17,9 +17,10 @@
 
     <g:each in="${UserType?.list()}" var="role">
         <li>
-            <input id="chk_${role.name()}" type="checkbox" name="type" ${userCO?.type?.contains(role.name()) ? 'checked="checked"':''} value="${role.name()}"/>${role.name}
+            <input id="chk_${role.name()}" type="checkbox" name="roles" ${userCO?.roles?.contains(role.name()) ? 'checked="checked"':''} value="${role.name()}"/>${role.name}
         </li>
     </g:each>
+
     %{--<li>--}%
     %{--<h3>Contributed Recipes</h3>--}%
     %{--</li>--}%

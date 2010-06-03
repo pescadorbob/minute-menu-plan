@@ -3,7 +3,7 @@ package com.mp.domain
 class LoginController {
 
     def index = {
-        if (session.loggedUserId) {
+        if (User.currentUser) {
             redirect(controller: 'recipe', action: 'list')
         } else {
             render(view: 'home')
@@ -14,6 +14,7 @@ class LoginController {
         session.loggedUserId = null
         redirect(controller: 'login', action: 'index')
     }
+
     def login = {LoginCO loginCO ->
         if (loginCO.validate()) {
             User user = User.findByEmailAndPassword(loginCO?.email, loginCO?.password?.encodeAsBase64())

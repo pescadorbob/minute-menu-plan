@@ -1,5 +1,6 @@
 import grails.util.GrailsUtil
 import org.codehaus.groovy.grails.commons.GrailsApplication
+import com.mp.domain.User
 
 class ApplicationFilters {
 
@@ -16,7 +17,7 @@ class ApplicationFilters {
         verifyUserIsLoggedIn(controller: '*', action: '*') {
             before = {
                 println "Application Access Log: ${new Date()} : ${params}"
-                if (!session.loggedUserId &&  !(params.controller in ['user', 'login', 'image'])) {
+                if (!User.currentUser &&  !(params.controller in ['util', 'user', 'login', 'image'])) {
 
                     if (!params.targetUri) {
                         String targetUri = request.forwardURI.toString() - request.contextPath.toString()

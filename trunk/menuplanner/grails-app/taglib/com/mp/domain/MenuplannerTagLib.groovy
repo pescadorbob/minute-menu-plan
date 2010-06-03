@@ -7,11 +7,11 @@ import org.grails.comments.Comment
 class MenuplannerTagLib {
 
     static namespace = 'mp'
+    def permissionService
 
     def showEditRecipe = {attrs ->
-        Long userId = attrs['userId']?.toLong()
         Long recipeId = attrs['recipeId']?.toLong()
-        User user = User.get(userId)
+        User user = User.currentUser
         Recipe recipe = Recipe.get(recipeId)
         if (user?.contributions?.contains(recipe)) {
             out << g.render(template: '/recipe/isEditableRecipe', model: [isEditable: true, recipeId: recipeId])
@@ -19,15 +19,10 @@ class MenuplannerTagLib {
     }
 
     def showFavorite = {attrs ->
-        Long userId = attrs['userId']?.toLong()
         Long recipeId = attrs['recipeId']?.toLong()
-        User user = User.get(userId)
+        User user = User.currentUser
         Recipe recipe = Recipe.get(recipeId)
-        if (user?.favourites?.contains(recipe)) {
-            out << g.render(template: '/recipe/showAddToFavorite', model: [isAdded: true])
-        } else {
-            out << g.render(template: '/recipe/showAddToFavorite', model: [isAdded: false])
-        }
+        out << g.render(template: '/recipe/showAddToFavorite', model: [isAdded: (recipe in user?.favourites)])
     }
     def menuPlanDropdown = {
         List<MenuPlan> menuPlans = MenuPlan.list()
@@ -35,9 +30,7 @@ class MenuplannerTagLib {
     }
 
     def loggedUserDropDown = {attrs ->
-        Long userId = attrs['loggedUserId']?.toLong()
-        User loggedUser = User.get(userId)
-        out << g.render(template: '/layouts/loggedUserDropDown', model: [loggedUser: loggedUser])
+        out << g.render(template: '/layouts/loggedUserDropDown', model: [loggedUser: User.currentUser])
     }
 
     def adminDropDown = {
@@ -107,7 +100,7 @@ class MenuplannerTagLib {
 
     def showRecipeAbuse = {attrs ->
         Recipe recipe = attrs['recipe']
-        User user = User.get(attrs['userId']?.toString()?.toLong())
+        User user = User.currentUser
         Boolean reported = false
 
         List<RecipeAbuse> recipeAbuses = RecipeAbuse.findAllByReporterAndRecipe(user, recipe)
@@ -121,8 +114,32 @@ class MenuplannerTagLib {
 
     def reportCommentAbuse = {attrs ->
         Comment comment = attrs['comment']
-        User user = User.get(session.loggedUserId)
+        User user = User.currentUser
         Boolean alreadyReported = CommentAbuse.countByCommentAndReporter(comment, user) as Boolean
         out << g.render(template: "/recipe/reportCommentAbuse", model: [comment: comment, user: user, alreadyReported: alreadyReported])
     }
+
+    def hasPermission = {attrs, body ->
+        Permission permission = attrs['permission']
+        println "Permission: " + permission
+        if (permission && permissionService.hasPermission(permission)) {
+            println "Has Permission"
+            out << true
+        } else {
+            println "Has No Permission"
+        }
+
+    }
+
+    def isPermissionChecked = {attrs, body ->
+        SecurityRole role = attrs['role']
+        String permission = attrs['permission']
+        Long value = attrs['value']
+        PermissionLevel permissionLevel = (role?.permissionLevels?.find {it?.permission?.name == permission})
+        Boolean isChecked = (permissionLevel && ((permissionLevel?.level % value) == 0))
+        if (isChecked) {
+            out << true
+        }
+    }
+    
 }

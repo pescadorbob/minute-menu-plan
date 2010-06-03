@@ -28,7 +28,7 @@ class UserCO {
     String city
     String introduction
     Date joiningDate
-    List<String> type
+    List<String> roles
     boolean isEnabled
 
     String id
@@ -46,7 +46,7 @@ class UserCO {
         joiningDate = user?.joiningDate
         isEnabled = user?.isEnabled
 
-        type = user?.type*.name()
+        roles = user?.roles*.name()
 
         if (user?.image) {
             selectUserImagePath = user?.image?.path + user?.image?.storedName
@@ -66,7 +66,7 @@ class UserCO {
         mouthsToFeed(nullable: false, matches: /[0-9]*/)
         introduction(nullable: true, blank: true)
         city(nullable: false, blank: false)
-        type(nullable: false, blank: false)
+        roles(nullable: false, blank: false)
     }
 
     public boolean createUser(User user) {
@@ -84,10 +84,10 @@ class UserCO {
 
     public boolean setRoles(User user) {
         List<UserType> userRoles = []
-        type?.each {String role ->
+        roles?.each {String role ->
             userRoles.add(UserType."${role}")
         }
-        user?.type = userRoles
+        user?.roles = userRoles
         return true
     }
 
