@@ -14,6 +14,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
 
     void userLogin(LoginFormData loginFormData) {
         get("/login/index")
+        println "*********************************************************USER EMAIL: "  + loginFormData.email
         form('loginForm') {
             email = loginFormData.email
             password = loginFormData.password
@@ -118,7 +119,7 @@ class UserFormData {
 
     public static UserFormData getDefaultUserFormData() {
         UserFormData userFormData = new UserFormData()
-        userFormData.email = "qa.menuplanner+testuser1@gmail.com"
+        userFormData.email = "qa.menuplanner+${System.currentTimeMillis()}@gmail.com"
         userFormData.password = "1234"
         userFormData.confirmPassword = "1234"
         userFormData.name = "testuser1"

@@ -1,5 +1,5 @@
 class LoginFunctionalTests extends MenuPlannerFunctionalTests {
-    
+
     void testWrongPassword() {
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
         loginFormData.password = "Password"
