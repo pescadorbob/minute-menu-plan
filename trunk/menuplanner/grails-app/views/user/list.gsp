@@ -16,16 +16,17 @@
             <div class="top-shadow">
                 <label>&nbsp;</label>
             </div>
-            <g:form name="searchForm">
-                <div class="leftbox clearfix">
-                    <g:if test="${flash.message}">
-                        <div class="userFlashMessage">
-                            ${flash.message}
-                        </div>
-                    </g:if>
-                    <div id="adduser">
-                        <ul>
+            <div class="leftbox clearfix">
+                <g:if test="${flash.message}">
+                    <div class="userFlashMessage">
+                        ${flash.message}
+                    </div>
+                </g:if>
+                <div id="adduser">
+                    <ul>
+                        <g:form name="searchForm">
                             <li>
+                                <g:actionSubmit id="btnSubmit" controller="user" action="list" name="submit" value="Submit" style="display:none;"/>
                                 <span><strong>Accounts :</strong></span>
                                 <label>
                                     <g:actionSubmit controller="user" action="create" name="addUser" value="Add User" class="pointer"/>
@@ -38,20 +39,18 @@
                                 <input type="radio" name="userStatus" ${(userStatus == 'all') ? 'checked="checked"' : ''} value="all" onClick="usersByStatus()"/> All
                                 <input type="radio" name="userStatus" ${(userStatus == 'enabled') ? 'checked="checked"' : ''} value="enabled" onClick="usersByStatus()"/> Enabled
                                 <input type="radio" name="userStatus" ${(userStatus == 'disabled') ? 'checked="checked"' : ''} value="disabled" onClick="usersByStatus()"/> Disabled
-                            &nbsp;  &nbsp; &nbsp; Flagged :
-                                <input type="text" class="inpboxSmall">
+                            &nbsp;  &nbsp; &nbsp; Flagged :<input name="flags" type="text" class="inpboxSmall" value="${flags}">
                             </li>
-                        </ul>
-                        <g:actionSubmit id="btnSubmit" controller="user" action="list" name="submit" value="Submit" style="display:none;"/>
-                    </div>
-                    <div id="userlist" class="clearfix">
-                        <g:render template="/user/usersResult" mode="[userLise:userList]"/>
-                    </div>
-                    <div id="pagination">
-                        <g:paginate controller="user" action="list" total="${total}"/>
-                    </div>
+                        </g:form>
+                    </ul>
                 </div>
-            </g:form>
+                <div id="userlist" class="clearfix">
+                    <g:render template="/user/usersResult" mode="[userLise:userList]"/>
+                </div>
+                <div id="pagination">
+                    <g:paginate controller="user" action="list" total="${total}"/>
+                </div>
+            </div>
             <div class="bottom-shadow">
                 <label>&nbsp;</label>
             </div>

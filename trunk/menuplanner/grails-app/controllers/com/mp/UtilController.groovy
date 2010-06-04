@@ -13,6 +13,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile
 import java.math.MathContext
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 import static com.mp.MenuConstants.*
+import org.grails.comments.Comment
 
 
 class UtilController {
@@ -29,22 +30,24 @@ class UtilController {
     }
 
     def index = {
-        String password = UUID.randomUUID().toString().split('-').getAt(0)
-        render password + '<br/>'
-        
+        User user = User.get(1)
+
+        render("${user.abusiveComments}")
+
+        render("<br/>${user.abusiveRecipes}")
+        render("<br/>Total Flags: " +  (user.inappropriateFlagsCount)?.toString())
+
     }
 
     def test = {
-
         User user = User.list().first()
         Recipe recipe = Recipe.list().first()
         user.addToFavourites(recipe)
         user.s()
 
-        render(view:'index', bean:recipe)
-        
+        render(view: 'index', bean: recipe)
+
 //        if(user?.favourites*.name().contains(recipe?.id)){
-        
 
         /*
         Unit unit1 = Unit.findByName(TIME_UNIT_HOURS)
@@ -63,9 +66,6 @@ class UtilController {
         Quantity q = addQuantities(val1, unit1, val2, unit2)
         render "SUM: ${q.toString()? q : 'QUANTITIES CAN NOT BE ADDED..'} <br/>"
         */
-
-
-
         /*
         asynchronousMailService.sendAsynchronousMail {
             to 'aman@intelligrape.com'

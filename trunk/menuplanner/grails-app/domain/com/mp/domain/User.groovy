@@ -1,5 +1,7 @@
 package com.mp.domain
 
+import org.grails.comments.Comment
+
 class User {
 
     String name
@@ -19,6 +21,29 @@ class User {
     static User getCurrentUser() {
         Long userId = SessionUtils.session.loggedUserId?.toLong()
         return ((userId) ? User.get(userId) : null)
+    }
+
+    List<Comment> getAbusiveComments() {
+        List<Comment> allComments = Comment.findAllByPoster(this)
+        List<Comment> abusiveCommentsList = []
+        if (allComments) {
+            List<CommentAbuse> x = CommentAbuse.findAllByCommentInList(allComments)
+            abusiveCommentsList = x*.comment
+        }
+        return abusiveCommentsList
+    }
+
+    List<Recipe> getAbusiveRecipes() {
+        List<Recipe> abusiveRecipes = []
+        if (this.contributions) {
+            List<RecipeAbuse> recipeAbuses = RecipeAbuse.findAllByRecipeInList(this.contributions)
+            abusiveRecipes = recipeAbuses*.recipe
+        }
+        return abusiveRecipes
+    }
+
+    def getInappropriateFlagsCount(){
+        return (abusiveRecipes.size() + abusiveComments.size())
     }
 
     String toString() {

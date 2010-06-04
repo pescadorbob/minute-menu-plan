@@ -21,7 +21,7 @@ class BootstrapService {
             user.addToContributions(recipe)          // contributed Recipe
             user.s()
             
-            (1..new Random().nextInt(5)).each{       // comments on Recipe
+            (1..new Random().nextInt(15)).each{       // comments on Recipe
                 user = User.get(new Random().nextInt(User.count()) + 1)
                 String commentText = "Recipe-${recipe.id} Comment-${it} Lorem ipsum  dolor sit amet, consectetur adipiscing elit. Donec ut sem felis, sed rhoncus purus. Donec mauris arcu, auctor sit amet tristique eget, egestas ut dui. Aenean quis eros sit amet tortor ullamcorper cursus ut nec urna. Proin scelerisque imperdiet lacus vel convallis. Morbi vehicula nisl eu mi tristique fringilla rhoncus sapien vulputate." 
                 recipe?.addComment(user,commentText)

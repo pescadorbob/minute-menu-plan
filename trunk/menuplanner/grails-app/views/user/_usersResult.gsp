@@ -21,11 +21,9 @@
                 </li>
                 <li class="email">${user?.email}</li>
                 %{--<li>2 day ago</li>--}%
-                %{--<li>Enabled</li>--}%
-                %{--<li>0 Flags</li>--}%
                 <li>To Be Implemented</li>
                 <li id="status${user?.id}">${user?.isEnabledString}</li>
-                <li>To Be Implemented</li>
+                <li>${user.inappropriateFlagsCount} Flags</li>
                 <li><g:link controller="user" action="edit" params="[id:user?.id]">Edit</g:link></li>
                 <li><g:remoteLink controller="user" action="changeStatus" onSuccess="invertStatus('${user?.id}');" name="changeStatus${user?.id}"
                         id="${user?.id}">${(user?.isEnabledString == 'Enabled') ? 'Disable' : 'Enable'}</g:remoteLink></li>
