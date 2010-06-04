@@ -132,12 +132,14 @@ div.errors{border:red 1px solid;font-size:smaller;color:red;padding:10px;margin-
     background:transparent url('../images/tooltip/white_arrow.png');
     font-size:12px;
     height:87px;
-    width:204px;
-    padding:6px 25px 25px;
+    width:235px;
+    padding:13px 8px 24px;
     color:#000;
 }
 .tooltip.bottom {
-    background:transparent url('../images/tooltip/white_arrow.png');
+    background:transparent url('../images/tooltip/white_arrow_inverse.png');
+    height:65px;
+    padding-top:30px;
 }
 
 /* style the trigger elements */
