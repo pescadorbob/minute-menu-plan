@@ -11,7 +11,7 @@
     <div id="wrapper" class="clearfix">
         <div id="content-wrapper" class="clearfix">
             <div class="headbox">
-                <h3>Forgot Password:</h3>
+                <h3>Forgot Password</h3>
             </div>
             <div class="top-shadow"><label>&nbsp;</label></div>
             <div class="leftbox clearfix">
@@ -25,7 +25,7 @@
                                 ${flash.message}
                             </div>
                         </g:if>
-                        some text<br/>
+                        <br/>
                         <g:form name="forgotPasswordForm">
                             Username : (Email Address) <g:textField name="email"/> <g:actionSubmit action="resetPassword" controller="login" value="Reset Password"/>
                         </g:form>

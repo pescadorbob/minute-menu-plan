@@ -71,7 +71,6 @@ class UserController {
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         String name = params.searchName
-
         def userList
         Integer total
         if (name || params?.userStatus) {

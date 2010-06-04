@@ -24,7 +24,7 @@ class LoginController {
             user.s()
             asynchronousMailService.sendAsynchronousMail {
                 to user?.email
-                subject "Password Changed Notification: Minute Menu Plan"
+                subject "Your password for http://qa.menuplanner.intelligrape.net/ has been reset."
                 html g.render(template: '/login/passwordChangedNotification', model: [user: user, password: newPassword])
             }
             flash.message = message(code: 'login.password.change.sucessfull')
