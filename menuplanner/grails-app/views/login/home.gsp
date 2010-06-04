@@ -101,7 +101,7 @@
                         <li>
                             <g:actionSubmit controller="login" action="login" value="Login" class=""/>
                         </li>
-                        <li><a href="#">forgot password or username?</a></li>
+                        <li><g:link controller="login" action="forgotPassword">forgot password or username?</g:link></li>
                         <li class="border"><h2>TESTIMONIAL</h2></li>
                         <li>Minute Menu Plan removed the stress from my evenings and stopped the kids from asking whats for dinner.  We love to plan our meals together, and it takes only a few minutes.  Thanks Minute Menu Plan!
                         	<label>--Donna, Hamburg, NY</label></li>

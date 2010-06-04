@@ -2,11 +2,36 @@ package com.mp.domain
 
 class LoginController {
 
+    def asynchronousMailService
     def index = {
+        flash.message = ""
         if (User.currentUser) {
             redirect(controller: 'recipe', action: 'list')
         } else {
             render(view: 'home')
+        }
+    }
+
+    def forgotPassword = {
+        render(view: 'forgotPassword', params:[email:params.email])
+    }
+
+    def resetPassword = {
+        User user = User.findByEmail(params.email)
+        if (user) {
+            String newPassword = UUID?.randomUUID()?.toString()?.split('-')?.getAt(0)
+            user.password = newPassword.encodeAsBase64()
+            user.s()
+            asynchronousMailService.sendAsynchronousMail {
+                to user?.email
+                subject "Password Changed Notification: Minute Menu Plan"
+                html g.render(template: '/login/passwordChangedNotification', model: [user: user, password: newPassword])
+            }
+            flash.message = message(code: 'login.password.change.sucessfull')
+            render(view: 'forgotPassword', model:[passwordChanged:true])
+        } else {
+            flash.message = message(code: 'login.password.change.unsucessfull')
+            render(view: 'forgotPassword', model:[passwordChanged:false])
         }
     }
 
@@ -21,18 +46,18 @@ class LoginController {
             if (user) {
                 if (user.isEnabled) {
                     session.loggedUserId = user.id.toString()
-                    if(params.targetUri?.size()){
-                        redirect(uri:params.targetUri)
+                    if (params.targetUri?.size()) {
+                        redirect(uri: params.targetUri)
                         params.remove('targetUri')
-                    }else{
-                        redirect(controller: 'login', action: 'index')                        
+                    } else {
+                        redirect(controller: 'login', action: 'index')
                     }
                 } else {
                     flash.message = message(code: 'loginCO.user.disabled')
                     render(view: 'home', model: [loginCO: loginCO])
                 }
             } else {
-                flash.message =message(code: 'loginCO.email.password.Invalid')
+                flash.message = message(code: 'loginCO.email.password.Invalid')
                 render(view: 'home', model: [loginCO: loginCO])
             }
         } else {
