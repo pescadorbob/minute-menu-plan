@@ -14,7 +14,6 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
 
     void userLogin(LoginFormData loginFormData) {
         get("/login/index")
-        println "*********************************************************USER EMAIL: "  + loginFormData.email
         form('loginForm') {
             email = loginFormData.email
             password = loginFormData.password
