@@ -7,7 +7,7 @@ import org.grails.comments.*
 import org.grails.rateable.*
 
 
-class Recipe extends Item implements Commentable, Rateable{
+class Recipe extends Item implements Commentable, Rateable {
 
     static searchable = {
         ingredients component: true
@@ -32,6 +32,14 @@ class Recipe extends Item implements Commentable, Rateable{
     String caloriesString
     Date dateCreated
 
+    def getContributor() {
+        return User.createCriteria().get {
+            contributions {
+                eq('id', this.id)
+            }
+        }
+    }
+
     public void validateTimings() {
         if (!preparationTime) {
             preparationTime = new Quantity(value: (config.bootstrapMode ? 10 : 1), unit: Unit.findByName(TIME_UNIT_MINUTES), savedUnit: Unit.findByName(TIME_UNIT_MINUTES)).s()
@@ -49,7 +57,7 @@ class Recipe extends Item implements Commentable, Rateable{
         validateTimings()
     }
 
-    static transients = ['categories', 'cookingTimeValue', 'totalTimeValue', 'prepTimeValue', 'caloriesString', 'categoriesString']
+    static transients = ['categories', 'cookingTimeValue', 'totalTimeValue', 'prepTimeValue', 'caloriesString', 'categoriesString', 'contributor']
     static hasMany = [ingredients: RecipeIngredient, directions: String, recipeCategories: RecipeCategory, nutrients: RecipeNutrient, items: Item]
 
     String getCategoriesString() {

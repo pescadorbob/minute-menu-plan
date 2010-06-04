@@ -54,14 +54,14 @@
     padding: 10px;
 }
 
-#rightpanel ul li span {
+#rightpanel ul li>span {
     float: left;
     width: 160px;
     text-align: right;
     padding-right: 15px;
 }
 
-#rightpanel ul li label {
+#rightpanel ul li>label {
     float: left;
     width: auto;
 }
