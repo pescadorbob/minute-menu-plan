@@ -29,8 +29,7 @@ class UtilController {
     }
 
     def index = {
-        String password = UUID.randomUUID()
-        render password + '<br/>'
+        String password = UUID.randomUUID().toString().split('-').getAt(0)
         render password + '<br/>'
         
     }
