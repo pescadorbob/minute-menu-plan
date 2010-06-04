@@ -31,12 +31,6 @@ class UtilController {
 
     def index = {
         User user = User.get(1)
-
-        render("${user.abusiveComments}")
-
-        render("<br/>${user.abusiveRecipes}")
-        render("<br/>Total Flags: " +  (user.inappropriateFlagsCount)?.toString())
-
     }
 
     def test = {

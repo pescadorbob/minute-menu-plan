@@ -23,27 +23,43 @@ class User {
         return ((userId) ? User.get(userId) : null)
     }
 
-    List<Comment> getAbusiveComments() {
+    def getAbusiveCommentsMap() {
         List<Comment> allComments = Comment.findAllByPoster(this)
         List<Comment> abusiveCommentsList = []
         if (allComments) {
             List<CommentAbuse> x = CommentAbuse.findAllByCommentInList(allComments)
             abusiveCommentsList = x*.comment
         }
-        return abusiveCommentsList
+
+        Map map = (abusiveCommentsList) ? abusiveCommentsList.groupBy{it} : [:]
+        if(map){
+            map.keySet().each{key ->
+                map[key] = map[key].size()
+            }
+        }
+        return map
     }
 
-    List<Recipe> getAbusiveRecipes() {
-        List<Recipe> abusiveRecipes = []
+    def getAbusiveRecipesMap() {
+        List<Recipe> abusiveRecipesList = []
         if (this.contributions) {
             List<RecipeAbuse> recipeAbuses = RecipeAbuse.findAllByRecipeInList(this.contributions)
-            abusiveRecipes = recipeAbuses*.recipe
+            abusiveRecipesList = recipeAbuses*.recipe
         }
-        return abusiveRecipes
+        Map map = (abusiveRecipesList) ? abusiveRecipesList.groupBy{it} : [:]
+        if(map){
+            map.keySet().each{key ->
+                map[key] = map[key].size()
+            }
+        }
+        return map
     }
 
     def getInappropriateFlagsCount(){
-        return (abusiveRecipes.size() + abusiveComments.size())
+        Integer total = 0
+        if(abusiveRecipesMap){ total +=abusiveRecipesMap.values()?.sum{it}}
+        if(abusiveCommentsMap){ total +=abusiveCommentsMap.values()?.sum{it}}
+        return total
     }
 
     String toString() {

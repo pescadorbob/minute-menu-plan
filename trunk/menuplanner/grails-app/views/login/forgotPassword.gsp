@@ -21,7 +21,7 @@
                     </g:if>
                     <g:else>
                         <g:if test="${flash.message}">
-                            <div class="userFlashMessage">
+                            <div class="errors">
                                 ${flash.message}
                             </div>
                         </g:if>

@@ -1,6 +1,7 @@
 package com.mp.domain
 
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import org.grails.comments.Comment
 
 class UserController {
 
@@ -137,7 +138,9 @@ class UserController {
 
     def show = {
         User user = User.get(params.id)
-        render(view: 'show', model: [user: user])
+        Map abusiveRecipesMap = user.abusiveRecipesMap
+        Map abusiveCommentsMap = user.abusiveCommentsMap
+        render(view: 'show', model: [user: user, abusiveCommentsMap: abusiveCommentsMap, abusiveRecipesMap: abusiveRecipesMap])
     }
     def uploadImage = {
         String relativePath = "/tempUser"
