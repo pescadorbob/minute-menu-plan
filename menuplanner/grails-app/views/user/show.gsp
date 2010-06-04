@@ -72,11 +72,11 @@
                         <g:if test="${user.inappropriateFlagsCount}">
                             <h3>Inappropriate Flags</h3>
                             <ul>
-                                <g:each in="${user?.abusiveRecipes}" var="abusiveRecipe">
-                                    <li>${abusiveRecipe?.dateCreated?.format('M/d/yy')} &nbsp;${abusiveRecipe.name} &nbsp;&nbsp;<a>remove</a></li>
+                                <g:each in="${abusiveRecipesMap?.keySet()}" var="abusiveRecipe">
+                                    <li>${abusiveRecipe?.dateCreated?.format('M/d/yy')} &nbsp;<g:link controller="recipe" action="show" id="${abusiveRecipe.id}">${abusiveRecipe.name}</g:link>&nbsp;(Abuse Reported ${abusiveRecipesMap[abusiveRecipe]} Times)&nbsp;&nbsp;<a>remove</a></li>
                                 </g:each>
-                                <g:each in="${user?.abusiveComments}" var="abusiveComment">
-                                    <li>${abusiveComment?.dateCreated?.format('M/d/yy')} &nbsp;${abusiveComment.body} &nbsp;&nbsp;<a>remove</a></li>
+                                <g:each in="${abusiveCommentsMap?.keySet()}" var="abusiveComment">
+                                    <li>${abusiveComment?.dateCreated?.format('M/d/yy')} &nbsp;<g:link controller="recipe" action="show" id="${abusiveRecipe.id}">${abusiveComment.body}</g:link>&nbsp;(Abuse Reported ${abusiveCommentsMap[abusiveComment]} Times)&nbsp;&nbsp;<a>remove</a></li>
                                 </g:each>
                             </ul>
                         </g:if>
