@@ -45,7 +45,18 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         )
     }
 
-     void testAddRecipe_VALID_CookTime_0() {
+    void testAddRecipe_nutrients() {
+        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
+        createRecipeData.calories = '100'
+        createRecipe(createRecipeData)
+        assertStatus 200
+        assertTrue(
+                (byId('recipeNameTst').asText() == createRecipeData.name) &&
+                        (byId('showNutrientsTst').asText().contains(createRecipeData.calories))
+        )
+    }
+
+    void testAddRecipe_VALID_CookTime_0() {
         CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
         createRecipeData.cookTime = '0'
         createRecipe(createRecipeData)

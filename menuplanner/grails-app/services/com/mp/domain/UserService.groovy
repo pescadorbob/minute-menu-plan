@@ -20,8 +20,8 @@ class UserCO {
     def asynchronousMailService
     static config = ConfigurationHolder.config
 
-    String email
-    String password
+    String userEmail
+    String userPassword
     String confirmPassword
     String name
     Integer mouthsToFeed
@@ -36,8 +36,8 @@ class UserCO {
 
     UserCO(User user) {
         id = user?.id?.toString()
-        email = user?.email
-        password = user?.password
+        userEmail = user?.email
+        userPassword = user?.password
         confirmPassword = user?.password
         name = user?.name
         mouthsToFeed = user?.mouthsToFeed
@@ -57,10 +57,10 @@ class UserCO {
 
     static constraints = {
         id(nullable: true)
-        email(blank: false, nullable: false, email: true)
-        password(nullable: false, blank: false, minSize: 4)
+        userEmail(blank: false, nullable: false, email: true)
+        userPassword(nullable: false, blank: false, minSize: 4)
         confirmPassword(nullable: false, blank: false, validator: {val, obj ->
-            obj.properties['password'] == val
+            obj.properties['userPassword'] == val
         })
         name(nullable: false, blank: false, matches: /[a-zA-Z0-9\s\&]*/)
         mouthsToFeed(nullable: false, matches: /[0-9]*/)
@@ -71,13 +71,13 @@ class UserCO {
 
     public boolean createUser(User user) {
         user?.name = name
-        user?.email = email
+        user?.email = userEmail
         user?.mouthsToFeed = mouthsToFeed
         user?.introduction = introduction
         user?.city = city
         user.isEnabled = isEnabled
-        if (user?.password != password) {
-            user.password = password.encodeAsBase64()
+        if (user?.password != userPassword) {
+            user.password = userPassword.encodeAsBase64()
         }
         return true
     }

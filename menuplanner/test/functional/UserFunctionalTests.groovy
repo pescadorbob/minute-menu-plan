@@ -7,6 +7,7 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
         assertStatus 200
         assertTitle 'Minute Menu Plan : Show User'
     }
+
     void testCreateUser_INVALID_EMAIL() {
         UserFormData userFormData = UserFormData.getDefaultUserFormData()
         userFormData.email = "invalidEmailType"
@@ -15,6 +16,7 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
         assertElementTextContains('displayUserCOErrors', getMessage('userCO.email.email.error.com.mp.domain.UserCO.email'))
 
     }
+
     void testCreateUser_PASSWORD_CONFIRMPASSWORD_NOT_MATCHED() {
         UserFormData userFormData = UserFormData.getDefaultUserFormData()
         userFormData.password = "1234"
@@ -23,4 +25,17 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
         assertStatus 200
         assertElementTextContains('displayUserCOErrors', getMessage('userCO.confirmPassword.validator.invalid.confirmPassword'))
     }
+
+/*
+    void testEditUser() {
+        UserFormData userFormData = UserFormData.getDefaultUserFormData()
+        createUser(userFormData)
+        byName('_action_edit').click()
+        form('formUpdateUser') {
+            byName('_action_update').click()
+        }
+        assertElementTextContains('displayUserCOErrors', getMessage('userCO.confirmPassword.validator.invalid.confirmPassword'))
+    }
+*/
+    
 }
