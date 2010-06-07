@@ -5,7 +5,6 @@
     <title>Edit User</title>
 </head>
 <body>
-
 <div id="container">
     <div id="wrapper" class="clearfix">
         <div id="content-wrapper" class="clearfix">
@@ -13,11 +12,10 @@
                 <h3>Admin Profile  Edit</h3>
             </div>
             <g:hasErrors bean="${userCO}">
-                <div class="errors">
+                <div id="displayUserCOErrors" class="errors">
                     <g:renderErrors bean="${userCO}" as="list"/>
                 </div>
             </g:hasErrors>
-
             <div class="top-shadow">
                 <label>&nbsp;</label>
             </div>
