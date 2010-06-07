@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'layout.css')}"/>
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'menuPlan.css')}"/>
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'user.css')}"/>
+    <link rel="stylesheet" href="${resource(dir: 'css', file: 'securityRole.css')}"/>
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'jquery.autocomplete.css')}"/>
     %{--<link rel="stylesheet" href="${resource(dir: 'css', file: 'token-input-facebook.css')}"/>--}%
     <g:javascript library="jquery"/>

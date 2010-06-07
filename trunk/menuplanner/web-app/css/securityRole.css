@@ -1,0 +1,15 @@
+#secureRole{width:80%;color:#616A72; font-size:12px; margin:auto;}
+#secureRole ul li{clear:both;padding:5px;}
+#secureRole ul li h3{color:#E67432;
+font-size:15px;
+font-weight:bold;
+line-height:18px;
+padding-top:9px;}
+#secureRole ul li.dotsLine{padding:8px 0; border-bottom:1px dotted #CCCCCC;clear:both; overflow:hidden;}
+#secureRole ul li ul li{padding:0 20px 0 0; margin:0; float:left; clear:none;}
+#secureRole li a {clear:both;color:#007AD8;font-weight:normal;line-height:14px;margin:0;padding:0;text-decoration:none;}
+#secureRole li a:hover{color:#EB7527;}
+#secureRole ul li ul li div{padding:0 0px 0 15px; margin:0;  clear:both; clear:none; color:#EB7527;}
+#secureRole ul li span{float:left;text-align:right;padding-right:15px;}
+#secureRole ul li label{float:left;}
+.red{color:#EB7527;}
