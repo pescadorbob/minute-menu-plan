@@ -15,7 +15,7 @@ class User {
     Boolean isEnabled = true
     List<UserType> roles = []
 
-    static hasMany = [roles: UserType, favourites: Recipe, contributions: Recipe]
+    static hasMany = [roles: UserType, favourites: Recipe, contributions: Recipe, menuPlans:MenuPlan]
     static transients = ['isEnabledString']
 
     static User getCurrentUser() {

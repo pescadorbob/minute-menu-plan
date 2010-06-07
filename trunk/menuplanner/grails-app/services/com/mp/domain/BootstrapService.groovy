@@ -37,12 +37,12 @@ class BootstrapService {
             user.addToContributions(recipe)          // contributed Recipe
             user.s()
             
-            (1..new Random().nextInt(15)).each{       // comments on Recipe
+            (1..new Random().nextInt(5)).each{       // comments on Recipe
                 user = User.get(new Random().nextInt(User.count()) + 1)
                 String commentText = "Recipe-${recipe.id} Comment-${it} Lorem ipsum  dolor sit amet, consectetur adipiscing elit. Donec ut sem felis, sed rhoncus purus. Donec mauris arcu, auctor sit amet tristique eget, egestas ut dui. Aenean quis eros sit amet tortor ullamcorper cursus ut nec urna. Proin scelerisque imperdiet lacus vel convallis. Morbi vehicula nisl eu mi tristique fringilla rhoncus sapien vulputate." 
                 recipe?.addComment(user,commentText)
             }
-            (1..new Random().nextInt(5)).each{      // add to Favorite
+            (1..new Random().nextInt(3)).each{      // add to Favorite
                 user = User.get(new Random().nextInt(User.count()) + 1)
                 user.addToFavourites(recipe)
                 user.s()
@@ -166,11 +166,17 @@ class BootstrapService {
         return directions
     }
 
-    public void populateMenuPlans(Integer count) {
-        (1..count).each {Integer index ->
-            MenuPlan menuPlan = new MenuPlan(name: "MenuPlan-${index}").s()
-            menuPlan.weeks = populateWeeks(menuPlan)
-            menuPlan.s()
+    public void populateMenuPlans() {
+        (1..User.count()).each {Integer index ->
+            User user = User.get(index)
+            (1..2).each{Integer i->
+                MenuPlan menuPlan = new MenuPlan(name: "${user.name}'s MenuPlan-${i}", owner:user).s()
+                menuPlan.weeks = populateWeeks(menuPlan)
+                menuPlan.s()
+                user.addToMenuPlans(menuPlan)
+                user.s()
+                println "----- Created menuPlan: ${menuPlan.name}."
+            }
         }
     }
 
