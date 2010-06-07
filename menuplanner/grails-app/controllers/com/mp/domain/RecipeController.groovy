@@ -55,7 +55,6 @@ class RecipeController {
         List<Recipe> results = []
         String query = allQueries?.join(" ")
         Integer total
-        println query
         if (query && (query != 'null')) {
             def searchList = Recipe.search([reload: true, max: 15, offset: params.offset ?: 0]) {
                 must(queryString(query))
@@ -67,7 +66,7 @@ class RecipeController {
             results = Recipe.list(params)
             total = Recipe.count()
         }
-        render(template: '/recipe/searchResultRecipe', model: [recipeList: results, recipeTotal: total, query: params?.query])
+        render(template: '/recipe/searchResultRecipe', model: [recipeList: results, recipeTotal: total, query: params.query])
     }
 
     def delete = {

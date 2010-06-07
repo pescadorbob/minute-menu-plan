@@ -25,7 +25,8 @@ class MenuplannerTagLib {
         out << g.render(template: '/recipe/showAddToFavorite', model: [isAdded: (recipe in user?.favourites)])
     }
     def menuPlanDropdown = {
-        List<MenuPlan> menuPlans = MenuPlan.list()
+        User user = User.currentUser
+        List<MenuPlan> menuPlans = MenuPlan.findAllByOwner(user)
         out << g.render(template: '/layouts/menuPlanDropdown', model: [menuPlans: menuPlans])
     }
 
@@ -141,5 +142,5 @@ class MenuplannerTagLib {
             out << true
         }
     }
-    
+
 }
