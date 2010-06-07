@@ -61,7 +61,7 @@ class BootStrap {
         }
 
         bootstrapMasterData()
-        if (!GrailsUtil.environment != Environment.PRODUCTION) {
+        if (!GrailsUtil.environment != Environment.PRODUCTION && !User.count()) {
             bootstrapService.populateUsers(GrailsUtil.isDevelopmentEnv() ? 2 : 5)
             println "Populated Users"
             bootstrapService.populateCategory()
