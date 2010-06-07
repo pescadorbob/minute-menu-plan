@@ -11,6 +11,22 @@ class BootstrapService {
     boolean transactional = true
     def excelService
 
+    public void addAbusesOnCommentsAndRecipes(){
+        (1..25).each{Integer count->
+            Comment comment = Comment.get(new Random().nextInt(Comment.count()) + 1)
+            User user = User.get(new Random().nextInt(User.count()) + 1)
+            if((!CommentAbuse.findByCommentAndReporter(comment,user)) && (comment) &&(user)){
+                new CommentAbuse(comment: comment, reporter: user).s()
+            }
+        }
+        (1..10).each{Integer count->
+            Recipe recipe = Recipe.get(new Random().nextInt(Recipe?.count()) + 1)
+            User user = User.get(new Random().nextInt(User.count()) + 1)
+            if((!RecipeAbuse.findByRecipeAndReporter(recipe,user)) && (recipe) &&(user)){
+                new RecipeAbuse(recipe:recipe, reporter: user).s()
+            }
+        }
+    }
     public void addCommentsFavouriteAndContributed(){
         Recipe recipe
         User user
