@@ -13,3 +13,12 @@ padding-top:9px;}
 #secureRole ul li span{float:left;text-align:right;padding-right:15px;}
 #secureRole ul li label{float:left;}
 .red{color:#EB7527;}
+
+#rolelist{width:100%;color:#616A72; font-size:12px;border-top:1px solid #d3d1d2;border-left:1px solid #d3d1d2; clear:both;}
+#rolelist ul li{clear:both;padding:0px; margin:0;border-bottom:1px solid #d3d1d2; overflow:hidden; }
+#rolelist ul li.head{ font-weight:bold; background:#e6e6e6;overflow:hidden; clear:both; position:relative;}
+#rolelist ul li.alternatecolor{ background:#fafaf6; overflow:hidden; clear:both;  position:relative;}
+#rolelist ul li ul li{float:left;width:260px;border-right:1px solid #d3d1d2; clear:none;border-bottom:none; padding:4px 0;}
+#rolelist ul li ul li.desc{width:700px}
+#rolelist ul li a{text-decoration:underline;color:#007ad8;}
+#rolelist ul li a:hover{text-decoration:none;}

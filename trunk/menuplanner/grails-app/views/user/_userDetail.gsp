@@ -1,4 +1,4 @@
-<%@ page import="com.mp.domain.UserType" %>
+<%@ page import="com.mp.domain.Permission; com.mp.domain.UserType" %>
 <div id="rightpanel">
 
     <ul>
@@ -46,30 +46,38 @@
                 &nbsp; Public</label>
         </li>
 
-        %{--<li><span>&nbsp;</span>--}%
-        %{--<label>--}%
-        %{--<input name="" type="checkbox" value=""/>--}%
-        %{--<strong>Automatically renews</strong></label>--}%
-        %{--</li>--}%
-        %{--<li><span>&nbsp;</span>--}%
-        %{--<label>--}%
+    %{--<li><span>&nbsp;</span>--}%
+    %{--<label>--}%
+    %{--<input name="" type="checkbox" value=""/>--}%
+    %{--<strong>Automatically renews</strong></label>--}%
+    %{--</li>--}%
+    %{--<li><span>&nbsp;</span>--}%
+    %{--<label>--}%
 
-        %{--<input name="" type="checkbox" value=""/>--}%
-        %{--<strong>Unlimited subscription</strong></label>--}%
-        %{--</li>--}%
-        %{--<li><span>&nbsp;</span>--}%
-        %{--<label><strong>Last day of subscription</strong> &nbsp;--}%
-        %{--<input type="text" class="inpboxSmall" value="2 / 2 / 2010"/>--}%
-        %{--&nbsp;--}%
-        %{--<img src="${resource(dir: 'images', file: 'calendar.png')}" alt="Calendar " align="absmiddle"/>--}%
-        %{--</label>--}%
-        %{--</li>--}%
+    %{--<input name="" type="checkbox" value=""/>--}%
+    %{--<strong>Unlimited subscription</strong></label>--}%
+    %{--</li>--}%
+    %{--<li><span>&nbsp;</span>--}%
+    %{--<label><strong>Last day of subscription</strong> &nbsp;--}%
+    %{--<input type="text" class="inpboxSmall" value="2 / 2 / 2010"/>--}%
+    %{--&nbsp;--}%
+    %{--<img src="${resource(dir: 'images', file: 'calendar.png')}" alt="Calendar " align="absmiddle"/>--}%
+    %{--</label>--}%
+    %{--</li>--}%
 
-        <li><span>&nbsp;</span>
-            <label>
-                <input id="chk_Enable" name="isEnabled" ${(userCO)?((userCO?.isEnabled)?'checked="checked"':''):'checked="checked"'}type="checkbox" value="true"/>
-                <strong>Account enabled</strong></label>
-        </li>
+        <g:if test="${mp.hasPermission(permission: Permission.UPDATE_USER_ROLES)}">
+            <li><span>&nbsp;</span>
+                <label>
+                    <input id="chk_Enable" name="isEnabled" ${(userCO) ? ((userCO?.isEnabled) ? 'checked="checked"' : '') : 'checked="checked"'}type="checkbox" value="true"/>
+                    <strong>Account enabled</strong>
+                </label>
+            </li>
+        </g:if>
+        <g:else>
+            <g:if test="${userCO?.isEnabled}">
+                <input id="chk_Enable" name="isEnabled" type="hidden" value="true"/>
+            </g:if>
+        </g:else>
     </ul>
     %{--<div id="right-link">--}%
 
