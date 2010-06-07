@@ -16,6 +16,12 @@
                 <label>&nbsp;</label>
             </div>
             <div class="leftbox clearfix">
+                <g:if test="${flash.message}">
+                    <div class="userFlashMessage">
+                        ${flash.message}
+                    </div>
+                </g:if>
+
                 <div id="leftpanel">
                     <div id="photo">
                         <mp:recipeImage id="${user?.image?.id}" noImage="no-img.gif" height="150" width="150"/>
@@ -23,9 +29,7 @@
                     <ul>
                         <li>Member since ${user?.joiningDate?.format('MMMM yyyy')}</li>
                         <li></li><li></li>
-                        <g:each in="${user?.roles}" var="role">
-                            <li><strong>${role}</strong></li>
-                        </g:each>
+                        <g:each in="${user?.roles}" var="role"><li><strong>${role}</strong></li></g:each>
                         <li><h3>Contributed Recipes</h3></li>
                         <g:each in="${user?.contributions}" var="recipe">
                             <li><a href="${createLink(controller: 'recipe', action: 'show', id: recipe?.id)}">${recipe?.name}</a></li>
@@ -69,14 +73,14 @@
                         %{--</li>--}%
                     </ul>
                     <div id="right-link">
-                        <g:if test="${user.inappropriateFlagsCount}">
+                        <g:if test="${user?.inappropriateFlagsCount}">
                             <h3>Inappropriate Flags</h3>
                             <ul>
                                 <g:each in="${abusiveRecipesMap?.keySet()}" var="abusiveRecipe">
-                                    <li>${abusiveRecipe?.dateCreated?.format('M/d/yy')} &nbsp;<g:link controller="recipe" action="show" id="${abusiveRecipe.id}">${abusiveRecipe.name}</g:link>&nbsp;(Abuse Reported ${abusiveRecipesMap[abusiveRecipe]} Times)&nbsp;&nbsp;<a>remove</a></li>
+                                    <li>${abusiveRecipe?.dateCreated?.format('M/d/yy')} &nbsp;<g:link controller="recipe" action="show" id="${abusiveRecipe?.id}">${abusiveRecipe.name}</g:link>&nbsp;(Abuse Reported ${abusiveRecipesMap[abusiveRecipe]} Times)&nbsp;&nbsp;<a>remove</a></li>
                                 </g:each>
                                 <g:each in="${abusiveCommentsMap?.keySet()}" var="abusiveComment">
-                                    <li>${abusiveComment?.dateCreated?.format('M/d/yy')} &nbsp;<g:link controller="recipe" action="show" id="${abusiveRecipe.id}">${abusiveComment.body}</g:link>&nbsp;(Abuse Reported ${abusiveCommentsMap[abusiveComment]} Times)&nbsp;&nbsp;<a>remove</a></li>
+                                    <li>${abusiveComment?.dateCreated?.format('M/d/yy')} &nbsp;${abusiveComment.body}&nbsp;(Abuse Reported ${abusiveCommentsMap[abusiveComment]} Times)&nbsp;&nbsp;<a>remove</a></li>
                                 </g:each>
                             </ul>
                         </g:if>

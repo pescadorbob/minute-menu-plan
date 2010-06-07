@@ -18,13 +18,13 @@ class UserController {
         if (user) {
             try {
                 Boolean deletingCurrentUser = (user == User.currentUser)
-                flash.message = "${user?.name} deleted."
                 User.withTransaction {
                     List commentAbuses = CommentAbuse.findAllByReporter(user)
                     List recipeAbuses = RecipeAbuse.findAllByReporter(user)
                     commentAbuses*.delete(flush: true)
                     recipeAbuses*.delete(flush: true)
                     user.delete(flush: true)
+                    flash.message = message(code:'user.delete.successful')
                 }
                 if (deletingCurrentUser) {
                     redirect(action: "logout", controller: 'login')
@@ -33,12 +33,12 @@ class UserController {
                 }
                 return
             } catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = "${user?.name} Could not be deleted. It is referenced somewhere."
+                flash.message = message(code:'user.delete.unsuccessful')
                 redirect(action: "show", id: params.id)
                 return
             }
         } else {
-            flash.message = "No such User exists."
+            flash.message = message(code:'no.such.user.exists')
             redirect(action: "list")
             return
         }
@@ -109,6 +109,7 @@ class UserController {
     def update = {UserCO userCO ->
         if (userCO.validate()) {
             userCO.updateUser()
+            flash.massage = message(code: 'user.updateded.success')
             redirect(action: 'show', id: userCO?.id)
         } else {
             println userCO.errors.allErrors.each {

@@ -68,7 +68,7 @@ class BootStrap {
             println "Populated Categories"
             File recipeExcelFile
             if (GrailsUtil.isDevelopmentEnv()) {
-                recipeExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet_test.xls"))
+                recipeExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet.xls"))
             } else {
                 recipeExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet.xls"))
             }
@@ -79,6 +79,8 @@ class BootStrap {
             }
             bootstrapService.addCommentsFavouriteAndContributed()
             println "Added Comments Favourite And Contributed"
+            bootstrapService.addAbusesOnCommentsAndRecipes()
+            println "Added abuses on comments & recipes"
             bootstrapService.populateMenuPlans(GrailsUtil.isDevelopmentEnv() ? 2 : 4)
             println "Populated Menu Plans"
         }
