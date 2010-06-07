@@ -62,14 +62,15 @@ class BootStrap {
 
         bootstrapMasterData()
         if (!GrailsUtil.environment != Environment.PRODUCTION && !User.count()) {
-            bootstrapService.populateUsers(GrailsUtil.isDevelopmentEnv() ? 2 : 5)
+            bootstrapService.populateUsers()
             println "Populated Users"
             bootstrapService.populateCategory()
             println "Populated Categories"
 
+/*
             File recipeExcelFile
             if (GrailsUtil.isDevelopmentEnv()) {
-                recipeExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet.xls"))
+                recipeExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet_test.xls"))
             } else {
                 recipeExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet.xls"))
             }
@@ -84,6 +85,8 @@ class BootStrap {
             println "Added abuses on comments & recipes"
             bootstrapService.populateMenuPlans()
             println "Populated Menu Plans"
+*/
+
         }
 
         Thread.start {

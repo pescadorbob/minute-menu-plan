@@ -103,7 +103,8 @@ class RecipeCO {
             nutrientQuantities[it] = ""
         }
         recipe?.nutrients.each {RecipeNutrient recipeNutrient ->
-            nutrientQuantities[recipeNutrient?.nutrient?.id?.toInteger() - 1] = StandardConversion.getQuantityValueString(recipeNutrient?.quantity)?.toInteger()
+            Integer val = StandardConversion.getQuantityValueString(recipeNutrient?.quantity)?.toBigDecimal()
+            nutrientQuantities[recipeNutrient?.nutrient?.id?.toInteger() - 1] = val
         }
     }
 
