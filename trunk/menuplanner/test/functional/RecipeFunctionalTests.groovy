@@ -1,7 +1,7 @@
 class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
 
 //TODO: Pick button to be clicked using Id instead of text.
-       
+
     void testAddRecipePage() {
         gotoCreateRecipePage()
         assertStatus 200
@@ -15,11 +15,14 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         assertTrue(
                 (byId('recipeNameTst').asText() == createRecipeData.name) &&
                         (byId('showAllIngredientsHereTst').asText().contains(createRecipeData.productName_1)) &&
-                        (byId('showAllStepsHereTst').asText().contains(createRecipeData.step_1))
+                        (byId('showAllStepsHereTst').asText().contains(createRecipeData.step_1)) &&
+                        (byId('showServeWithTst').asText().contains(createRecipeData.serveWith_1)) &&
+                        (byId('showServeWithTst').asText().contains(createRecipeData.serveWith_2)) &&
+                        (byId('showNutrientsTst').asText().contains(createRecipeData.calories))
         )
     }
 
-    void testAddRecipe_VALID_PrepTime_0(){
+    void testAddRecipe_VALID_PrepTime_0() {
         CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
         createRecipeData.prepTime = '0'
         createRecipe(createRecipeData)
@@ -29,7 +32,20 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         )
     }
 
-    void testAddRecipe_VALID_CookTime_0(){
+    void testAddRecipe_ServeWith() {
+        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
+        createRecipeData.serveWith_1 = "some Item"
+        createRecipeData.serveWith_2 = "another Item"
+        createRecipe(createRecipeData)
+        assertStatus 200
+        assertTrue(
+                (byId('recipeNameTst').asText() == createRecipeData.name) &&
+                        (byId('showServeWithTst').asText().contains(createRecipeData.serveWith_1)) &&
+                        (byId('showServeWithTst').asText().contains(createRecipeData.serveWith_2))
+        )
+    }
+
+     void testAddRecipe_VALID_CookTime_0() {
         CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
         createRecipeData.cookTime = '0'
         createRecipe(createRecipeData)
@@ -44,6 +60,9 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         createRecipeData.name = ""
         createRecipeData.productName_1 = ""
         createRecipeData.step_1 = ""
+        createRecipeData.serveWith_1 = ""
+        createRecipeData.serveWith_2 = ""
+        createRecipeData.calories = ""
         createRecipe(createRecipeData)
         assertStatus 200
         assertTrue(
@@ -160,6 +179,7 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
         createRecipe(createRecipeData)
     }
+
     void gotoEditRecipePage() {
         CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
         createRecipe(createRecipeData)

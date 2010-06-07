@@ -12,14 +12,14 @@ class BootstrapService {
     def excelService
 
     public void addAbusesOnCommentsAndRecipes(){
-        (1..25).each{Integer count->
+        (1..15).each{Integer count->   //  Comment Abuses
             Comment comment = Comment.get(new Random().nextInt(Comment.count()) + 1)
             User user = User.get(new Random().nextInt(User.count()) + 1)
             if((!CommentAbuse.findByCommentAndReporter(comment,user)) && (comment) &&(user)){
                 new CommentAbuse(comment: comment, reporter: user).s()
             }
         }
-        (1..10).each{Integer count->
+        (1..10).each{Integer count->   //  Recipe Abuses
             Recipe recipe = Recipe.get(new Random().nextInt(Recipe?.count()) + 1)
             User user = User.get(new Random().nextInt(User.count()) + 1)
             if((!RecipeAbuse.findByRecipeAndReporter(recipe,user)) && (recipe) &&(user)){
@@ -37,28 +37,32 @@ class BootstrapService {
             user.addToContributions(recipe)          // contributed Recipe
             user.s()
             
-            (1..new Random().nextInt(5)).each{       // comments on Recipe
+            (1..(new Random().nextInt(2) +1)).each{       // comments on Recipe
                 user = User.get(new Random().nextInt(User.count()) + 1)
                 String commentText = "Recipe-${recipe.id} Comment-${it} Lorem ipsum  dolor sit amet, consectetur adipiscing elit. Donec ut sem felis, sed rhoncus purus. Donec mauris arcu, auctor sit amet tristique eget, egestas ut dui. Aenean quis eros sit amet tortor ullamcorper cursus ut nec urna. Proin scelerisque imperdiet lacus vel convallis. Morbi vehicula nisl eu mi tristique fringilla rhoncus sapien vulputate." 
                 recipe?.addComment(user,commentText)
             }
-            (1..new Random().nextInt(3)).each{      // add to Favorite
+            (1..(new Random().nextInt(2))).each{      // add to Favorite
                 user = User.get(new Random().nextInt(User.count()) + 1)
                 user.addToFavourites(recipe)
                 user.s()
             }
         }
     }
-    public void populateUsers(Integer count) {
-        (1..count).each {Integer index ->
+    public void populateUsers() {
+        List<String> userNames = ['superAdmin', 'admin1', 'admin2', 'user1', 'user2']
+        userNames.each {String name ->
             User user = new User()
             Integer intVal = (new Random().nextInt(10) + 1)
-            user.email = 'qa.menuplanner+user' + index + '@gmail.com'
-            user.name = 'user' + index
+            user.email = 'qa.menuplanner+' + name + '@gmail.com'
+            user.name = name
             user.password = '1234'.encodeAsBase64()
-            user.city = 'city' + index
+            user.city = 'city'
             user.mouthsToFeed = intVal
-            List<UserType> roles = [UserType.User]
+            List<UserType> roles = []
+            if(name == 'superAdmin'){roles = [UserType.SuperAdmin]}
+            else if(name.contains('admin')){roles = [UserType.Admin]}
+            else {roles = [UserType.User]}
             user.roles = roles
             user.introduction = 'about ' + user.name
             user.isEnabled = true

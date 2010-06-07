@@ -33,6 +33,10 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
             click "btnAddIngredient"
             optionDirections = createRecipeData.step_1
             click "btnAddDirection"
+            byId('serveWithItems1').setValue(createRecipeData.serveWith_1)
+            byId('serveWithItems2').setValue(createRecipeData.serveWith_1)
+            println "************************************************************** ${createRecipeData.calories}"
+            byId('txtCalories').setValue(createRecipeData.calories)
             click("_action_save")
         }
     }
@@ -82,6 +86,9 @@ class CreateRecipeData {
     String productName_1
     String cookTime
     String prepTime
+    String serveWith_1
+    String serveWith_2
+    String calories
 
     public static CreateRecipeData getDefaultCreateRecipeData() {
         CreateRecipeData createRecipeData = new CreateRecipeData()
@@ -90,6 +97,9 @@ class CreateRecipeData {
         createRecipeData.productName_1 = 'Product One'
         createRecipeData.cookTime = ''
         createRecipeData.prepTime = ''
+        createRecipeData.serveWith_1 = "Item-${System.currentTimeMillis().toString().substring(1,5)}"
+        createRecipeData.serveWith_2 = "Item-${System.currentTimeMillis().toString().substring(1,5)}"
+        createRecipeData.calories = '350'
         return createRecipeData
     }
 }

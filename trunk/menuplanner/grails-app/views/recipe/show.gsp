@@ -12,7 +12,6 @@
                 printElem({ pageTitle: '${recipe?.name}' });
                 return false;
             });
-
         });
         function printElem(options) {
             jQuery(".printMe:first").printElement(options);
@@ -47,52 +46,32 @@
                                 <g:if test="${recipe?.preparationTime}">Prep - ${recipe?.preparationTime}</g:if><br/>
                                 <g:if test="${recipe?.cookingTime}">Cook - ${recipe?.cookingTime}</g:if><br/>
                             </li>
-                            <li>
-                                <g:if test="${recipe?.difficulty}">
-                                    <span>Difficulty Level: ${recipe?.difficulty}</span>
-                                </g:if>
-                                <g:if test="${recipe?.servings}">
-                                    <span>Servings: ${recipe?.servings}</span>
-                                </g:if>
+                            <li><g:if test="${recipe?.difficulty}"><span>Difficulty Level: ${recipe?.difficulty}</span></g:if>
+                                <g:if test="${recipe?.servings}"><span>Servings: ${recipe?.servings}</span></g:if>
                             </li>
                             <g:if test="${recipe?.ingredients}">
-                                <li id="showAllIngredientsHereTst">
-                                    <g:each in="${recipe?.ingredients}" var="ingredient">
-                                        <span><strong>${ingredient}</strong></span>
-                                    </g:each>
-                                </li>
+                                <li id="showAllIngredientsHereTst"><g:each in="${recipe?.ingredients}" var="ingredient"><span><strong>${ingredient}</strong></span></g:each></li>
                             </g:if>
                             <g:if test="${recipe?.directions}">
                                 <li id="showAllStepsHereTst">${recipe?.directions*.toString().join(" ")}</li>
                             </g:if>
-                            <g:if test="${recipe?.categories}">
-                                <li>Categories: ${recipe?.categories?.join(", ")}</li>
-                            </g:if>
+                            <g:if test="${recipe?.categories}"><li>Categories: ${recipe?.categories?.join(", ")}</li></g:if>
                             <g:if test="${recipe?.nutrients}">
-                                <li><span>Nutritional Facts per serving:</span>
-                                    <g:each in="${recipe?.nutrients}" var="nutrient">
-                                        <span>${nutrient}</span>
-                                    </g:each>
-                                </li>
+                                <li><span id="showNutrientsTst" style="width:auto;">Nutritional Facts per serving: ${recipe?.nutrients?.join(", ")}</span></li>
                             </g:if>
                             <g:if test="${recipe?.items}">
-                                <li><span>Serve With: ${recipe?.items?.join(", ")}</span></li>
+                                <li><span id="showServeWithTst">Serve With: ${recipe?.items?.join(", ")}</span></li>
                             </g:if>
-                            <li>
-                            </li>
+                            <li></li>
                         </ul>
                     </li>
                     <li style="text-align: right;">
                         <mp:recipeImage id="${recipe?.image?.id}" height="160" width="160" noImage="no-img.gif"/><br/>
                         <g:link controller="user" action="alterFavorite" name="changeFavorite" id="${recipe?.id}">
-                            <span id="showFavorite" style="text-align:right;">
-                                <mp:showFavorite recipeId="${recipe?.id}"/>
-                            </span>
+                            <span id="showFavorite" style="text-align:right;"><mp:showFavorite recipeId="${recipe?.id}"/></span>
                         </g:link> &nbsp;&nbsp;
-                        <span id="showRecipeAbuse" style="text-align:right;">
-                            <mp:showRecipeAbuse recipe="${recipe}"/>
-                        </span>
-                    </li>
+                        <span id="showRecipeAbuse" style="text-align:right;"><mp:showRecipeAbuse recipe="${recipe}"/></span>
+                    </li>                                       
                 </ul>
                 <mp:comments recipe="${recipe}"/>
             </div>
@@ -103,13 +82,12 @@
     </div>
 </div>
 <script type="text/javascript">
-  window.onload=preventRatingClickEvent;
-  function preventRatingClickEvent(){
-    $(".rating a").click(function(e){
-      e.preventDefault()
-    })
-  }
-
+    window.onload = preventRatingClickEvent;
+    function preventRatingClickEvent() {
+        $(".rating a").click(function(e) {
+            e.preventDefault()
+        })
+    }
 </script>
 </body>
 </html> 
