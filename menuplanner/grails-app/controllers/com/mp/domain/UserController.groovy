@@ -59,7 +59,7 @@ class UserController {
     def alterFavorite = {
         Recipe recipe = Recipe.get(params.id)
         User user = User.currentUser
-        if (user?.favourites?.contains(recipe)) {
+        if (recipe in user?.favourites) {
             user?.removeFromFavourites(recipe)
             user.s()
         } else {
@@ -120,16 +120,9 @@ class UserController {
     def save = {UserCO userCO ->
         if (userCO.validate()) {
             User user = userCO.convertToUser()
-
-//            asynchronousMailService.sendAsynchronousMail {
-//                to user?.email
-//                subject "Email verification for Minute Menu Plan"
-//                html g.render(template: '/user/accountVerification', model: [user: user, password: userCO.password])
-//            }
-
             redirect(action: 'show', id: user?.id)
         } else {
-            println userCO.errors.allErrors.each {
+            userCO.errors.allErrors.each {
                 println it
             }
             render(view: 'create', model: [userCO: userCO])

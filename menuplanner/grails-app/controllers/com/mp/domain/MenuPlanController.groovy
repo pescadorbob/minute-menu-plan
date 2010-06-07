@@ -5,7 +5,6 @@ class MenuPlanController {
     def index = { }
 
     def show = {
-        Integer listSize = Recipe.count()
         params.max = Math.min(params.max ? params.int('max') : 4, 150)
         List<Category> categoryList = Category.list()
         List<Recipe> recipeList = Recipe.list(params)
@@ -16,24 +15,26 @@ class MenuPlanController {
 
     def create = {
         params.max = Math.min(params.max ? params.int('max') : 4, 150)
-        MenuPlan menuPlan = new MenuPlan()
-        4.times {
-            Week week = new Week()
-            7.times {
-                Day day = new Day()
-                week.addToDays(day)
+        MenuPlan menuPlan
+        if (params.menuPlanId) {
+            menuPlan = MenuPlan.get(params.long("menuPlanId"))
+        } else {
+            menuPlan = new MenuPlan()
+            4.times {
+                Week week = new Week()
+                7.times {
+                    Day day = new Day()
+                    week.addToDays(day)
+                }
+                menuPlan.addToWeeks(week)
             }
-            menuPlan.addToWeeks(week)
         }
-        MenuPlan menuPlanCopy =MenuPlan.get(params.long("menuPlanId"))
-        menuPlan = menuPlanCopy?:menuPlan 
         List<Category> categoryList = Category.list()
         List<Recipe> recipeList = Recipe.list(params)
         render(view: 'create', model: [menuPlan: menuPlan, categoryList: categoryList, itemList: recipeList, itemTotal: Recipe.count()])
     }
 
     def edit = {
-        Integer listSize = Item.count()
         params.max = Math.min(params.max ? params.int('max') : 4, 150)
         List<Category> categoryList = Category.list()
         List<Recipe> recipeList = Recipe.list(params)
@@ -52,8 +53,7 @@ class MenuPlanController {
             weeks*.delete(flush: true)
         } else {
             menuPlan = new MenuPlan()
-            println "**************************************" +params?.menuPlan?.name 
-            menuPlan.name = params?.menuPlan?.name?:System.currentTimeMillis()
+            menuPlan.name = params?.menuPlan?.name
         }
         (0..3).each {Integer weekIndex ->
             Week week = new Week()
