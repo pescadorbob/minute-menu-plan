@@ -45,6 +45,7 @@ class RecipeController {
 
     def search = {
         List<String> allQueries = []
+        params.query = (params.query == 'null') ? '' : params.query
         params?.list("query")?.eachWithIndex {String myQ, Integer index ->
             allQueries.push(myQ)
             if (!(myQ.contains(':'))) {
@@ -54,19 +55,19 @@ class RecipeController {
         List<Recipe> results = []
         String query = allQueries?.join(" ")
         Integer total
+        println query
         if (query && (query != 'null')) {
-            def search = Recipe.search([reload: true, max: 15, offset: params.offset ?: 0]) {
+            def searchList = Recipe.search([reload: true, max: 15, offset: params.offset ?: 0]) {
                 must(queryString(query))
             }
-            results = search?.results
-            total = search?.total
+            results = searchList?.results
+            total = searchList?.total
         } else {
             params.max = 15
             results = Recipe.list(params)
             total = Recipe.count()
         }
-
-        render(template: '/recipe/searchResultRecipe', model: [recipeList: results, recipeTotal: total, query: query])
+        render(template: '/recipe/searchResultRecipe', model: [recipeList: results, recipeTotal: total, query: params?.query])
     }
 
     def delete = {

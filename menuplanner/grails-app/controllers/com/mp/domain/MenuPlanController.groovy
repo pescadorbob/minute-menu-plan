@@ -83,7 +83,7 @@ class MenuPlanController {
         params?.list("query")?.eachWithIndex {String myQ, Integer index ->
             allQueries.push(myQ)
             if (!(myQ.contains(':'))) {
-                allQueries[index] = myQ += '*'
+                allQueries[index] = '*' + myQ + '*'
             }
         }
         List<Recipe> results = []
@@ -92,22 +92,17 @@ class MenuPlanController {
 
         if (query && (query != 'null')) {
             Class clazz = grailsApplication.getClassForName(searchDomainName)
-            def search = clazz.search([reload: true, max: 4, offset: params.offset ?: 0]) {
+            def searchList = clazz.search([reload: true, max: 4, offset: params.offset ?: 0]) {
                 must(queryString(query))
             }
-            results = search?.results
-            total = search?.total
+            results = searchList?.results
+            total = searchList?.total
         } else {
             params.max = 4
             results = Item.list(params)
             total = Item.count()
         }
-
-        println "Query: " + query
-        println "Item List: " + results.size()
-        println "Item Total: " + total
-
-        render(template: '/menuPlan/searchResultMenuPlan', model: [itemList: results, itemTotal: total, query: query])
+        render(template: '/menuPlan/searchResultMenuPlan', model: [itemList: results, itemTotal: total, query: params.query])
     }
 
     def quickFillAdmin = {
