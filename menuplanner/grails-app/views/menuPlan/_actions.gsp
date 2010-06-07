@@ -1,8 +1,6 @@
 <div id="wintermenu">
     <div id="winterplan">
-        <g:if test="${params.action in ['show','saveAndUpdate']}">
-          ${menuPlan?.name} <g:link controller="menuPlan" action="create" params="['menuPlanId':menuPlan.id]">Copy Menu Plan</g:link>
-        </g:if>
+        <g:if test="${params.action in ['show','saveAndUpdate']}">${menuPlan?.name}</g:if>
         <g:else>
             <input type="text" name="menuPlan.name"  value="${menuPlan?.name}">
         </g:else>
@@ -25,15 +23,15 @@
     </div>
 </div>
 <script type="text/javascript">
-  $(function(){
-    $.each(jQuery(".menuContainer"),function(){
+  jQuery(document).ready(function(){
+    jQuery.each(jQuery(".menuContainer"),function(){
         if (jQuery(this).children().last().show()[0].offsetTop >= 60) {
             jQuery(this).addClass("downArrow")
         } else {
             jQuery(this).removeClass("downArrow")
         }
         jQuery('.farji', jQuery(this)).hide()
-    })
+    });
 
     jQuery(".placeMyHover").hover(function() {
       jQuery(this).addClass("myHover");
@@ -42,5 +40,5 @@
 
     })
 
-  })
+  });
 </script>
