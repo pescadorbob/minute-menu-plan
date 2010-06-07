@@ -75,7 +75,7 @@ class RecipeController {
         if (recipe) {
             try {
                 flash.message = message(code: 'recipe.deleted.success')
-                recipeService.deleteRecipe(recipe,loggedUser)
+                recipeService.deleteRecipe(recipe, loggedUser)
                 redirect(controller: 'recipe', action: "list")
                 return
             }
@@ -174,11 +174,47 @@ class RecipeController {
         new CommentAbuse(comment: comment, reporter: user).s()
         redirect(action: 'show', id: params.recipeId)
     }
+    def removeCommentAbuse = {
+        Comment comment = Comment.get(params?.id)
+        CommentAbuse commentAbuse = CommentAbuse.findByComment(comment)
+        if (commentAbuse) {
+            try {
+                flash.message = "Removed comment abuse"
+                commentAbuse.delete(flush: true)
+            } catch (org.springframework.dao.DataIntegrityViolationException e) {
+                commentAbuse.errors.allErrors.each {
+                    println it
+                }
+                flash.message = "Could not removed abuse on comment"
+            }
+        } else {
+            flash.message = "No such comment abuse found."            
+        }
+        redirect(controller: 'user', action: 'show', id: params.userId)
+    }
     def reportRecipeAbuse = {
         RecipeAbuse recipeAbuse = new RecipeAbuse()
         recipeAbuse.recipe = Recipe.get(params?.id?.toLong())
         recipeAbuse.reporter = User.currentUser
         recipeAbuse.s()
         redirect(action: 'show', id: params?.id)
+    }
+    def removeRecipeAbuse = {
+        Recipe recipe = Recipe.get(params?.id)
+        RecipeAbuse recipeAbuse = RecipeAbuse.findByRecipe(recipe)
+        if (recipeAbuse) {
+            try {
+                flash.message = "Removed recipe abuse"
+                recipeAbuse.delete(flush: true)
+            }catch (ex){
+                recipeAbuse.errors.allErrors.each {
+                    println it
+                }
+                flash.message = "Could not removed abuse on recipe"
+            }
+        } else {
+            flash.message = "No such recipe abuse found."
+        }
+        redirect(controller: 'user', action: 'show', id: params.userId)
     }
 }
