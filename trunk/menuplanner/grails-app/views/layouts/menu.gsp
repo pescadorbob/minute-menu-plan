@@ -23,7 +23,7 @@
 <div id="container">
     <!-- start header -->
     <div id="header">
-        <div id="logo"><a href="${resource(url: '/')}">
+        <div id="logo"><a href="${resource(dir: '/')}">
             <img src="${resource(dir: 'images', file: 'logo.gif')}" border="0"/>
         </a>
             <h1><nobr>Plan Your Month's Menu in a Minute!</nobr></h1>
