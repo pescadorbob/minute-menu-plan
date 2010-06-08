@@ -9,7 +9,7 @@
     <div id="wrapper" class="clearfix">
         <div id="content-wrapper" class="clearfix">
             <div class="headbox">
-                <h3>Admin Profile  Edit</h3>
+                <h3>Admin Profile Edit</h3>
             </div>
             <g:hasErrors bean="${userCO}">
                 <div id="displayUserCOErrors" class="errors">
@@ -40,8 +40,8 @@
 <script type="text/javascript">
     jQuery(document).ready(function() {
         jQuery('.passwordSection').hide()
-        jQuery('#displayEmailAsLabel').html(jQuery('input[name="email"]').val())
-        jQuery('input[name="email"]').hide()
+        jQuery('#displayEmailAsLabel').html(jQuery('input[name="userEmail"]').val())
+        jQuery('input[name="userEmail"]').hide()
         jQuery('#btnChangePassword').show()
     })
 </script>

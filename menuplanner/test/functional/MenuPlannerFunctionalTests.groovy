@@ -43,17 +43,26 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
     void createUser(UserFormData userFormData) {
         get("/user/create")
         form('formCreateUser') {
-            email = userFormData.email
-            password = userFormData.password
+            userEmail = userFormData.email
+            userPassword = userFormData.password
             confirmPassword = userFormData.confirmPassword
             name = userFormData.name
             city = userFormData.city
             mouthsToFeed = userFormData.mouthsToFeed
             introduction = userFormData.introduction
             if(!userFormData.isEnabled){ byId('chk_Enable').click() }
-            byId('chk_User').click()
+            if(userFormData.isSuperAdmin){byId('chk_SuperAdmin').click()}
+            if(userFormData.isAdmin){byId('chk_Admin').click()}
+            if(userFormData.isUser){byId('chk_User').click()}
             click('_action_save')
         }
+    }
+
+    void loginBySuperAdmin(){
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginFormData.email = "qa.menuplanner+superAdmin@gmail.com"
+        loginFormData.password = "1234"
+        userLogin(loginFormData)       
     }
 
     /** * Helper method to return a message from the message bundle.     ***/
@@ -124,6 +133,9 @@ class UserFormData {
     String mouthsToFeed
     String introduction
     boolean isEnabled
+    boolean isSuperAdmin
+    boolean isAdmin
+    boolean isUser
 
     public static UserFormData getDefaultUserFormData() {
         UserFormData userFormData = new UserFormData()
@@ -135,6 +147,9 @@ class UserFormData {
         userFormData.mouthsToFeed = "6"
         userFormData.introduction = "Some description"
         userFormData.isEnabled = true
+        userFormData.isSuperAdmin = false
+        userFormData.isAdmin = false
+        userFormData.isUser = true
         return userFormData
     }
 }

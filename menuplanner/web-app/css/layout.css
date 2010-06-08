@@ -40,6 +40,8 @@
 #menu ul li a.current{float:left;text-decoration:none;color:#fff;padding-left:20px;background: url(../images/menu-hover.gif) no-repeat bottom left;cursor:pointer;}
 #menu ul li a.current span{float:left;padding-right:21px;background:url(../images/menu-hover.gif) no-repeat bottom right;}
 #browseimg{padding:10px 0px;text-align:right;}
+.difficultyGray{background-color:#eee!important;}
+.difficultyBlue{background-color:#eee!important;color:#000;}
 .leftbox{border-left:1px solid #d6d4d5;border-right:1px solid #d6d4d5;clear:both;padding:0px 20px;}
 .top-shadow{background:url(../images/top-left.png) no-repeat bottom left;padding-left:20px;clear:both;display:block;height:9px;}
 .top-shadow label{background:url(../images/top-right.png) no-repeat bottom right;height:9px;display:block;}

@@ -66,7 +66,6 @@ class BootStrap {
             println "Populated Users"
             bootstrapService.populateCategory()
             println "Populated Categories"
-
             File recipeExcelFile
             if (GrailsUtil.isDevelopmentEnv()) {
                 recipeExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet_test.xls"))
@@ -84,7 +83,6 @@ class BootStrap {
             println "Added abuses on comments & recipes"
             bootstrapService.populateMenuPlans()
             println "Populated Menu Plans"
-
         }
 
         Thread.start {
