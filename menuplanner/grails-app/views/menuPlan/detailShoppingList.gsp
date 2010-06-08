@@ -20,41 +20,7 @@
                 </li></ul>
                 </div>
                 <g:each in="${weeks}" var="week">
-                    <div class="winter-week clearfix" style="width:406px;">
-                        <div class="winterButton"><strong>${week}</strong>
-                            <p>Produce</p>
-                        </div>
-                        <ul>
-                            <li>
-                                <ul><li class="first_clumon"><input name="" type="checkbox" value=""/></li>
-                                    <li class="email">Eggs</li><li>2 dozen</li>
-                                </ul>
-                            </li>
-                            <li class="alternatecolor">
-                                <ul><li class="first_clumon"><input name="" type="checkbox" value=""/></li>
-                                    <li class="email">Eggs</li>
-                                    <li>2 dozen</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="winterButton">
-                        <ul>
-                            <li><p>Meat/Poultry/Seafood</p>
-                                <p>Dairyt/Refrigerater/Freezer case</p>
-                                <p>Can/Bottle/Jar</p>
-                                <p>Miscellaneous</p>
-                                <p>Stock Items(Inventory your own stock before you shop)</p>
-                            </li>
-
-                            <li><span><input type="button" value="Add Item"/></span>
-                                <label>
-                                    <input type="text" class="inpbox" value="Auto complete grocery Items " size="40"/>
-                                </label>
-                            </li>
-                        </ul>
-                    </div>
-                    %{--<div style="height:50px;">&nbsp;</div>--}%
+                    <g:render template="/menuPlan/shoppingListPerWeek" model="[menuPlan:menuPlan, week:week]"/>
                 </g:each>
                 <div class="winterButton">
                     <ul><li>
@@ -65,7 +31,7 @@
                 </div>
             </div>
             <div class="bottom-shadow">
-                <label>&nbsp;</label>
+                <label></label>
             </div>
         </div>
     </div>
