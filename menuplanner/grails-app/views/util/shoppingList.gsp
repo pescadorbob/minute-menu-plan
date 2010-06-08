@@ -175,6 +175,7 @@
                     </li></ul>
                 </div>
             </div>
+            <g:render template="/util/tempPopup"/>
             <div class="bottom-shadow">
                 <label>&nbsp;</label>
             </div>
