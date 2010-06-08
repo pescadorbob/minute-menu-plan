@@ -18,13 +18,13 @@
         <g:if test="${mp.hasPermission(permission: Permission.UPDATE_USER_ROLES)}">
             <g:each in="${UserType?.list()}" var="role">
                 <li>
-                    <input id="chk_${role.name()}" type="checkbox" name="roles" ${userCO?.roles?.contains(role.name()) ? 'checked="checked"' : ''} value="${role.name()}"/>${role.name}
+                    <input id="chk_${role.name()}" type="checkbox" name="roles" ${(role.name() in userCO?.roles) ? 'checked="checked"' : ''} value="${role.name()}"/>${role.name}
                 </li>
             </g:each>
         </g:if>
         <g:else>
             <g:each in="${UserType?.list()}" var="role">
-                <g:if test="${role.name() in userCO.roles}">
+                <g:if test="${role.name() in userCO?.roles}">
                     <li>
                         <input id="chk_${role.name()}" type="hidden" name="roles" value="${role.name()}"/>
                     </li>
