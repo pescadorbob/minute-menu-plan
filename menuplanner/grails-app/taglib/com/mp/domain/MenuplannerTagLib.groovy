@@ -143,4 +143,13 @@ class MenuplannerTagLib {
         }
     }
 
+    def firstTimeUser={attrs, body ->
+        if (session.loggedUserId){
+            User user=User.get(session.loggedUserId.toLong())
+            if(user.menuPlans.size()==0){
+                out<< body()
+            }
+        }
+    }
+
 }

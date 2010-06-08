@@ -30,5 +30,18 @@
     </g:form>
     <g:render template="/menuPlan/search"/>
 </div>
+<mp:firstTimeUser>
+<div class="tooltip" id="draggingBaloonTip" style="display: none; visibility: visible; position: absolute; top: 155px; left: 650px;">
+  To create a menu plan: Click on the search item from right and drag it into the empty boxes on the left side. As soon as you release the click the item will automatically gets added to the plan.
+</div>
+<script type="text/javascript">
+  $(function(){
+    $('#draggingBaloonTip').fadeIn()
+    setTimeout(function(){
+      $('#draggingBaloonTip').fadeOut()
+    },20000)
+  })
+  </mp:firstTimeUser>
+</script>
 </body>
 </html>
