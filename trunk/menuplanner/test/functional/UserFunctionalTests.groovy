@@ -1,24 +1,31 @@
 import com.gargoylesoftware.htmlunit.html.*
 
 class UserFunctionalTests extends MenuPlannerFunctionalTests {
+
     void testCreateUser_VALID() {
+        loginBySuperAdmin()
         UserFormData userFormData = UserFormData.getDefaultUserFormData()
+        userFormData.isUser = true
         createUser(userFormData)
         assertStatus 200
         assertTitle 'Minute Menu Plan : Show User'
     }
 
     void testCreateUser_INVALID_EMAIL() {
+        loginBySuperAdmin()
         UserFormData userFormData = UserFormData.getDefaultUserFormData()
+        userFormData.isUser = true
         userFormData.email = "invalidEmailType"
         createUser(userFormData)
         assertStatus 200
-        assertElementTextContains('displayUserCOErrors', getMessage('userCO.email.email.error.com.mp.domain.UserCO.email'))
+        assertElementTextContains('displayUserCOErrors', getMessage('userCO.userEmail.email.error.com.mp.domain.UserCO.userEmail'))
 
     }
 
     void testCreateUser_PASSWORD_CONFIRMPASSWORD_NOT_MATCHED() {
+        loginBySuperAdmin()
         UserFormData userFormData = UserFormData.getDefaultUserFormData()
+        userFormData.isUser = true
         userFormData.password = "1234"
         userFormData.confirmPassword = "abcd"
         createUser(userFormData)
@@ -34,8 +41,7 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
         form('formUpdateUser') {
             byName('_action_update').click()
         }
-        assertElementTextContains('displayUserCOErrors', getMessage('userCO.confirmPassword.validator.invalid.confirmPassword'))
+        assertFalse(false)
     }
-*/
-    
+*/    
 }

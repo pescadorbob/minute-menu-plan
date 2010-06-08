@@ -32,14 +32,20 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
     }
 
     void testLogin_BY_DISABLED_USER(){
+        loginByAdmin()
         UserFormData userFormData = UserFormData.getDefaultUserFormData()
-        userFormData.isEnabled = false
+        userFormData.isEnabled =  false
+        userFormData.isUser = true
         createUser(userFormData)
+        byClass('logoutLink').click()
+        redirectEnabled = false
+        followRedirect()
+
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
         loginFormData.email=userFormData.email
         loginFormData.password=userFormData.password
         userLogin(loginFormData)
-        assertEquals(getMessage('loginCO.user.disabled'), byId('display_WrongPassword_DisabledUser_Error').asText())        
+        assertEquals(getMessage('loginCO.user.disabled'), byId('display_WrongPassword_DisabledUser_Error').asText())
     }
 
     void testLogout() {
