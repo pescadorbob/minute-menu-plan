@@ -84,7 +84,6 @@ class BootStrap {
             println "Added abuses on comments & recipes"
             bootstrapService.populateMenuPlans()
             println "Populated Menu Plans"
-
         }
 
         Thread.start {

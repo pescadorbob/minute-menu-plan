@@ -20,4 +20,8 @@ class MenuPlan {
         }
         return menuPlan
     }
+
+    String toString() {
+        return name
+    }
 }
