@@ -51,138 +51,27 @@
                             </ul>
                         </li>
                         <li class="alternatecolor">
-                            <ul>
-                                <li>Italian</li>
-                                <li>&nbsp;<a href="quickFillAdmin.gsp#">Edit</a></li>
-                            </ul>
+                            <ul><li>Italian</li><li>&nbsp;<a href="quickFillAdmin.gsp#">Edit</a></li></ul>
                         </li>
                         <li>
-                            <ul>
-                                <li>Italian</li>
-                                <li>&nbsp;<a href="quickFillAdmin.gsp#">Edit</a></li>
-                            </ul>
+                            <ul><li>Italian</li><li>&nbsp;<a href="quickFillAdmin.gsp#">Edit</a></li></ul>
                         </li>
                         <li class="alternatecolor">
-                            <ul>
-                                <li>Italian</li>
-                                <li>&nbsp;<a href="quickFillAdmin.gsp#">Edit</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <ul>
-                                <li>Italian</li>
-                                <li>&nbsp;<a href="quickFillAdmin.gsp#">Edit</a></li>
-                            </ul>
-                        </li>
-                        <li class="alternatecolor">
-                            <ul>
-                                <li>Italian</li>
-                                <li>&nbsp;<a href="quickFillAdmin.gsp#">Edit</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <ul>
-                                <li>Italian</li>
-                                <li>&nbsp;<a href="quickFillAdmin.gsp#">Edit</a></li>
-                            </ul>
-                        </li>
-                        <li class="alternatecolor">
-                            <ul>
-                                <li>Italian</li>
-                                <li>&nbsp;<a href="quickFillAdmin.gsp#">Edit</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <ul>
-                                <li>Italian</li>
-                                <li>&nbsp;<a href="quickFillAdmin.gsp#">Edit</a></li>
-                            </ul>
-                        </li>
-                        <li class="alternatecolor">
-                            <ul>
-                                <li>Italian</li>
-                                <li>&nbsp;<a href="quickFillAdmin.gsp#">Edit</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <ul>
-                                <li>Italian</li>
-                                <li>&nbsp;<a href="quickFillAdmin.gsp#">Edit</a></li>
-                            </ul>
-                        </li>
-                        <li class="alternatecolor">
-                            <ul>
-                                <li>Italian</li>
-                                <li>&nbsp;<a href="quickFillAdmin.gsp#">Edit</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <ul>
-                                <li>Italian</li>
-                                <li>&nbsp;<a href="quickFillAdmin.gsp#">Edit</a></li>
-                            </ul>
-                        </li>
-                        <li class="alternatecolor">
-                            <ul>
-                                <li>Italian</li>
-                                <li>&nbsp;<a href="quickFillAdmin.gsp#">Edit</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <ul>
-                                <li>Italian</li>
-                                <li>&nbsp;<a href="quickFillAdmin.gsp#">Edit</a></li>
-                            </ul>
-                        </li>
-                        <li class="alternatecolor">
-                            <ul>
-                                <li>Italian</li>
-                                <li>&nbsp;<a href="quickFillAdmin.gsp#">Edit</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <ul>
-                                <li>Italian</li>
-                                <li>&nbsp;<a href="quickFillAdmin.gsp#">Edit</a></li>
-                            </ul>
-                        </li>
-                        <li class="alternatecolor">
-                            <ul>
-                                <li>Quick</li>
-                                <li>&nbsp;<a href="quickFillAdmin.gsp#">Edit</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <ul>
-                                <li>Italian</li>
-                                <li>&nbsp;<a href="quickFillAdmin.gsp#">Edit</a></li>
-                            </ul>
-                        </li>
-                        <li class="alternatecolor">
-                            <ul>
-                                <li>Italian</li>
-                                <li>&nbsp;<a href="quickFillAdmin.gsp#">Edit</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <ul>
-                                <li>Quick</li>
-                                <li>&nbsp;<a href="quickFillAdmin.gsp#">Edit</a></li>
-                            </ul>
+                            <ul><li>Italian</li><li>&nbsp;<a href="quickFillAdmin.gsp#">Edit</a></li></ul>
                         </li>
                     </ul>
                 </div>
                 <div id="pagination">
                     <ul>
-                        <li><img src="images/first.gif" class="arrowbor"/></li>
-                        <li><img src="images/prev.gif" class="arrowbor"/></li>
+                        <li><img src="${resource(dir:'images',file:'first.gif')}" class="arrowbor"/></li>
+                        <li><img src="${resource(dir:'images',file:'prev.gif')}" class="arrowbor"/></li>
                         <li><a href="quickFillAdmin.gsp#">1</a></li>
                         <li><a href="quickFillAdmin.gsp#">2</a></li>
                         <li><a href="quickFillAdmin.gsp#">3</a></li>
                         <li><a href="quickFillAdmin.gsp#">4</a></li>
                         <li><a href="quickFillAdmin.gsp#">5</a></li>
-                        <li><a href="quickFillAdmin.gsp#"><img src="images/next.gif" border="0" class="arrowbor"/></a></li>
-                        <li><a href="quickFillAdmin.gsp#"><img src="images/last.gif" border="0" class="arrowbor"/></a></li>
+                        <li><a href="quickFillAdmin.gsp#"><img src="${resource(dir:'images',file:'next.gif')}" border="0" class="arrowbor"/></a></li>
+                        <li><a href="quickFillAdmin.gsp#"><img src="${resource(dir:'images',file:'last.gif')}" border="0" class="arrowbor"/></a></li>
                     </ul>
                 </div>
             </div>

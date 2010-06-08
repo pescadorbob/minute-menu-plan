@@ -4,14 +4,14 @@
         <li><span><strong>Email :</strong></span>
             <label>
                 <span id="displayEmailAsLabel"></span>
-                <input name="userEmail" type="text" class="inpbox ${hasErrors(bean: userCO, field: 'userEmail', 'errors')}" value="${(userCO)?(userCO.userEmail):''}" autocomplete="false"/>
+                <input name="email" type="text" class="inpbox ${hasErrors(bean: userCO, field: 'email', 'errors')}" value="${(userCO)?(userCO.email):''}" autocomplete="false"/>
                 <input class="passwordSection" type="button" id="btnChangePassword" name="changePassword" value="Change Password" onclick="ChangePassword()" style="display:none;"/>
             </label>
         </li>
         <li class="passwordSection">
             <span><strong>Password :</strong></span>
             <label>
-                <input name="userPassword" type="password" class="inpbox  ${hasErrors(bean: userCO, field: 'userPassword', 'errors')}" value="${userCO?.userPassword}"/>
+                <input name="password" type="password" class="inpbox  ${hasErrors(bean: userCO, field: 'password', 'errors')}" value="${userCO?.password}" autocomplete="false"/>
                 &nbsp; Minimum 4 characters</label>
         </li>
         <li class="passwordSection">

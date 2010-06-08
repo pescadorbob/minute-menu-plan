@@ -18,7 +18,7 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
         userFormData.email = "invalidEmailType"
         createUser(userFormData)
         assertStatus 200
-        assertElementTextContains('displayUserCOErrors', getMessage('userCO.userEmail.email.error.com.mp.domain.UserCO.userEmail'))
+        assertElementTextContains('displayUserCOErrors', getMessage('userCO.email.email.error.com.mp.domain.UserCO.email'))
 
     }
 

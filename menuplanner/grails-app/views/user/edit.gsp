@@ -20,7 +20,7 @@
                 <label>&nbsp;</label>
             </div>
             <div class="leftbox clearfix">
-                <g:uploadForm name="formUpdateUser">
+                <g:uploadForm name="formUpdateUser" onsubmit="checkIfEdited();">
                     <g:hiddenField name='id' value='${userCO?.id}'/>
                     <g:render template="/user/imageSection" model="[userCO:userCO]"/>
                     <g:render template="/user/userDetail" model="[userCO:userCO]"/>
@@ -40,9 +40,10 @@
 <script type="text/javascript">
     jQuery(document).ready(function() {
         jQuery('.passwordSection').hide()
-        jQuery('#displayEmailAsLabel').html(jQuery('input[name="userEmail"]').val())
-        jQuery('input[name="userEmail"]').hide()
+        jQuery('#displayEmailAsLabel').html(jQuery('input[name="email"]').val())
+        jQuery('input[name="email"]').hide()
         jQuery('#btnChangePassword').show()
+        jQuery(':input[name="password"]').val(jQuery(':input[name="confirmPassword"]').val());
     })
 </script>
 </body>
