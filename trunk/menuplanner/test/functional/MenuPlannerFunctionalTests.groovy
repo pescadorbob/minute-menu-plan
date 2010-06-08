@@ -43,8 +43,8 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
     void createUser(UserFormData userFormData) {
         get("/user/create")
         form('formCreateUser') {
-            userEmail = userFormData.email
-            userPassword = userFormData.password
+            email = userFormData.email
+            password = userFormData.password
             confirmPassword = userFormData.confirmPassword
             name = userFormData.name
             city = userFormData.city
