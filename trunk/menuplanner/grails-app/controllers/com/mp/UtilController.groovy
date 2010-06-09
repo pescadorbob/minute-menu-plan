@@ -30,7 +30,30 @@ class UtilController {
     }
 
     def index = {
-        User user = User.get(1)
+        MenuPlan menuPlan = MenuPlan.get(2)
+        
+        render "MENUPLAN : ${menuPlan}<br/>"
+        menuPlan?.weeks?.each{Week week->
+            render "<hr/>"
+            render "<br/>WEEK : ${week}<br/>"
+            week.days.each{Day day->
+                render "DAY : ${day}<br/>"
+                day.getBreakfast().each{Item item->
+                    render "-------------------------- BREAKFAST : ${item} <br/>"
+                    if(item?.instanceOf(Recipe)){
+                        item.ingredients.each{RecipeIngredient recipeIngredient ->
+                            render ">>>>>>>>>>>>>>>>>>>>>>>>>>> INGREDIENT : ${recipeIngredient} <br/>"
+                        }
+                    }
+                }
+                day.getLunch().each{Item item->
+                    render "+++++++++++++ LUNCH : ${item} isRecipe : ${item?.instanceOf(Recipe)}<br/>"
+                }
+                day.getDinner().each{Item item->
+                    render "******************** DINNER : ${item} isRecipe : ${item?.instanceOf(Recipe)}<br/>"
+                }
+            }
+        }
     }
 
     def test = {
@@ -59,8 +82,7 @@ class UtilController {
 
         Quantity q = addQuantities(val1, unit1, val2, unit2)
         render "SUM: ${q.toString()? q : 'QUANTITIES CAN NOT BE ADDED..'} <br/>"
-        */
-        /*
+       
         asynchronousMailService.sendAsynchronousMail {
             to 'aman@intelligrape.com'
             subject 'created your profile! grails.'

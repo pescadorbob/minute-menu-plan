@@ -19,8 +19,9 @@
                     <img src="${resource(dir:'images',file:'printer.gif')}" alt="print" align="absmiddle"/> &nbsp; Print Shopping List
                 </li></ul>
                 </div>
-                <g:each in="${weeks}" var="week">
-                    <g:render template="/menuPlan/shoppingListPerWeek" model="[menuPlan:menuPlan, week:week]"/>
+                <g:each in="${weeks}" var="weekIndex">
+                    %{--<mp:shoppingListPerWeek menuPlanId="${menuPlan?.id}" week="${week}"/>--}%
+                    <g:render template="/menuPlan/shoppingListPerWeek" model="[menuPlan:menuPlan, weekIndex:weekIndex]"/>
                 </g:each>
                 <div class="winterButton">
                     <ul><li>

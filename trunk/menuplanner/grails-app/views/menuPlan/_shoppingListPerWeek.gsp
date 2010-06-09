@@ -1,25 +1,23 @@
+<%@ page import="com.mp.domain.Recipe" %>
 <div class="winter-week clearfix" style="width:406px;">
-    <div class="winterButton"><strong>${week}</strong><p>Produce</p></div>
+    <div class="winterButton"><strong>Week${weekIndex.toInteger() + 1}</strong><p></p></div>
     <ul>
-        <li>
-            <ul><li class="first_clumon"><input name="" type="checkbox" value=""/></li>
-                <li class="email">Eggs</li><li>2 dozen</li>
-            </ul>
-        </li>
-        <li class="alternatecolor">
-            <ul><li class="first_clumon"><input name="" type="checkbox" value=""/></li>
-                <li class="email">Eggs</li>
-                <li>2 dozen</li>
-            </ul>
-        </li>
+        <g:each in="${menuPlan.weeks[weekIndex.toInteger()]}" var="week">
+            <g:each in="${week.days}" var="day">
+                <g:set var="items" value="${day.breakfast + day.lunch + day.dinner}"/>
+                <g:each in="${items}" var="item" status="i">
+                    <g:render template="shoppingListRecipe${item.instanceOf(Recipe)}" model="[item:item]"/>
+                </g:each>
+            </g:each>
+        </g:each>
     </ul>
 </div>
 <div class="winterButton">
     <ul>
         <li id="groceriesTst">
             <p>Meat/Poultry/Seafood</p>
-            <p>Dairyt/Refrigerater/Freezer case</p>
-            <p>Miscellaneous</p>
+            %{--<p>Dairyt/Refrigerater/Freezer case</p>--}%
+            %{--<p>Miscellaneous</p>--}%
             <p>Stock Items(Inventory your own stock before you shop)</p>
         </li>
         <li><span><input type="button" value="Add Item"/></span>
