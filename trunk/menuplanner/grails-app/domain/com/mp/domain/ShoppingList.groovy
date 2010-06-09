@@ -2,6 +2,7 @@ package com.mp.domain
 
 class ShoppingList {
 
+    String name
     Integer servings
     User user 
     MenuPlan menuPlan
