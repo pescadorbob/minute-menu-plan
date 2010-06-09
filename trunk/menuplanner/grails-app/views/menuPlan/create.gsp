@@ -14,6 +14,7 @@
 
 <body>
 
+	;
 <div id="content-wrapper" class="clearfix">
 <div id="left-panel">
   <g:form action="saveAndUpdate" name="editMenuPlanForm">
@@ -41,7 +42,28 @@
       $('#draggingBaloonTip').fadeOut()
     },20000)
   })
-  </mp:firstTimeUser>
+</script>
+</mp:firstTimeUser>
+<script type="text/javascript">
+  $('#menuPlanNameTextbox').each(function(){
+
+	this.value = $(this).attr('title');
+	$(this).css('color','#cdcdcd')
+
+	$(this).focus(function(){
+		if(this.value == $(this).attr('title')) {
+			this.value = '';
+			$(this).css('color','');
+		}
+	});
+
+	$(this).blur(function(){
+		if(this.value == '') {
+			this.value = $(this).attr('title');
+			$(this).css('color','#cdcdcd');
+		}
+	});
+})
 </script>
 </body>
 </html>

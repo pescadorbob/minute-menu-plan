@@ -49,14 +49,9 @@ jQuery(function() {
     });
 
     bindHoverAndClick();
-//    jQuery(".placeMyHover").hover(function() {
-//        jQuery(this).addClass("myHover");
-//    }, function() {
-//        jQuery(this).removeClass("myHover");
-//
-//    })
-
     bindSortableToSearchItems()
+
+    
 })
 function bindHoverAndClick() {
     jQuery(".menuContainer>div").unbind();

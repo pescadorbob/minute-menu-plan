@@ -2,7 +2,7 @@
     <div id="winterplan">
         <g:if test="${params.action in ['show','saveAndUpdate']}">${menuPlan?.name}</g:if>
         <g:else>
-            <input type="text" name="menuPlan.name"  value="${menuPlan?.name}">
+            <input type="text" name="menuPlan.name" id="menuPlanNameTextbox" title="Enter Menu Plan Name" value="${menuPlan?.name}">
         </g:else>
     </div>
     <div id="viewmenu">
