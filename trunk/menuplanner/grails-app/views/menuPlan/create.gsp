@@ -13,8 +13,6 @@
 </head>
 
 <body>
-
-	;
 <div id="content-wrapper" class="clearfix">
 <div id="left-panel">
   <g:form action="saveAndUpdate" name="editMenuPlanForm">
