@@ -24,7 +24,7 @@
                                 <p><input name="weeks" type="checkbox" value="2"/> <span>Week3</span></p>
                                 <p><input name="weeks" type="checkbox" value="3"/> <span>Week4</span></p></li>
                             <li style="text-align:center;">
-                                <g:actionSubmit controller="menuPlan" action="detailShoppingList" value="Generate New List" class="button" style="width:150px;"/></li>
+                                <g:actionSubmit controller="shoppingList" action="detailShoppingList" value="Generate New List" class="button" style="width:150px;"/></li>
                         </g:uploadForm>
                     </ul>
                 </div>
