@@ -48,7 +48,7 @@
     %{--</label>--}%
     %{--</li>--}%
         <g:if test="${mp.hasPermission(permission: Permission.UPDATE_USER_ROLES)}">
-            <li><span>&nbsp;</span>
+            <li><span></span>
                 <label>
                     <input id="chk_Enable" name="isEnabled" ${(userCO) ? ((userCO?.isEnabled) ? 'checked="checked"' : '') : 'checked="checked"'}type="checkbox" value="true"/>
                     <strong>Account enabled</strong>
@@ -61,12 +61,4 @@
             </g:if>
         </g:else>
     </ul>
-    %{--<div id="right-link">--}%
-    %{--<h3>Contributed Recipes</h3>--}%
-    %{--<ul>--}%
-    %{--<li>2 / 2 / 05 <a href="#">remove</a></li>--}%
-    %{--<li>2 / 3 / 05 <a href="#">remove</a></li>--}%
-    %{--<li>2 / 6 / 06</a> <a href="#">remove</a></li>--}%
-    %{--</ul>--}%
-    %{--</div>--}%
 </div>

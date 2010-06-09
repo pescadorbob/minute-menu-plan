@@ -46,5 +46,5 @@
 #shopping-list ul li{clear:both; padding:5px; font-size:12px;}
 #shopping-list ul li p{clear:both; padding:2px;}
 #shopping-list ul li p span{ float:none;}
-#shopping-list ul li label{float:left; width:150px; }
+#shopping-list ul li label{float:left; width:150px; text-align:right;padding-right:5px;}
 #shopping-list ul li span{float:left;text-align:right;padding-right:15px;}

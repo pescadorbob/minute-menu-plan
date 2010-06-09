@@ -24,7 +24,7 @@ class UserController {
                     commentAbuses*.delete(flush: true)
                     recipeAbuses*.delete(flush: true)
                     user.delete(flush: true)
-                    flash.message = message(code:'user.delete.successful')
+                    flash.message = message(code: 'user.delete.successful')
                 }
                 if (deletingCurrentUser) {
                     redirect(action: "logout", controller: 'login')
@@ -33,12 +33,12 @@ class UserController {
                 }
                 return
             } catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = message(code:'user.delete.unsuccessful')
+                flash.message = message(code: 'user.delete.unsuccessful')
                 redirect(action: "show", id: params.id)
                 return
             }
         } else {
-            flash.message = message(code:'no.such.user.exists')
+            flash.message = message(code: 'no.such.user.exists')
             redirect(action: "list")
             return
         }
@@ -109,8 +109,8 @@ class UserController {
     def update = {UserCO userCO ->
         if (userCO.validate()) {
             userCO.updateUser()
-            flash.massage = message(code: 'user.updateded.success')
-            redirect(action: 'show', id: userCO?.id)
+            String message = message(code: 'user.updateded.success')
+            redirect(action: 'show', id: userCO?.id, params: [message: message])
         } else {
             println userCO.errors.allErrors.each {
                 println it
@@ -134,6 +134,10 @@ class UserController {
         User user = User.get(params.id)
         Map abusiveRecipesMap = user.abusiveRecipesMap
         Map abusiveCommentsMap = user.abusiveCommentsMap
+        flash.message = message(code: 'user.created.success')               
+        if (params?.message) {
+            flash.message = params.message
+        }
         render(view: 'show', model: [user: user, abusiveCommentsMap: abusiveCommentsMap, abusiveRecipesMap: abusiveRecipesMap])
     }
     def uploadImage = {
