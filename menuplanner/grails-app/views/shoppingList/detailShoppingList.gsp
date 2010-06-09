@@ -28,6 +28,8 @@
                         <ul><li>
                             <g:hiddenField name="menuPlanId" value="${menuPlan?.id}"/> 
                             <g:hiddenField name="weekList" value="${weeks}"/>
+                            <g:hiddenField name="servings" value="${servings}"/>
+                            <g:hiddenField name="shoppingListName" value="${shoppingListName}"/>
                             <g:actionSubmit class="button" controller="shoppingList" action="create" name="create" value="Create"/>
                             <input class="button" type="button" value="Save"/>
                             <input class="button" type="button" value="Cancel"/>

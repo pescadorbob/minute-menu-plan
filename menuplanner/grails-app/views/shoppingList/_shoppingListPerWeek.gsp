@@ -1,8 +1,8 @@
 <%@ page import="com.mp.domain.Recipe" %>
 <div class="winter-week clearfix" style="width:406px;">
-    <div class="winterButton"><strong>Week${weekIndex.toInteger() + 1}</strong><p></p></div>
+    <div class="winterButton"><strong>Week${weekIndex?.toInteger() + 1}</strong><p></p></div>
     <ul>
-        <g:each in="${menuPlan.weeks[weekIndex.toInteger()]}" var="week">
+        <g:each in="${menuPlan.weeks[weekIndex?.toInteger()]}" var="week">
             <g:each in="${week.days}" var="day">
                 <g:set var="items" value="${day.breakfast + day.lunch + day.dinner}"/>
                 <g:each in="${items}" var="item" status="i">

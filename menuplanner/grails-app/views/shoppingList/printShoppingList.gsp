@@ -17,8 +17,10 @@
                     <ul>
                         <g:uploadForm name="formShoppingList">
                             <li><label>Name of shopping list : </label>
-                                <span><g:select class="" name="menuPlanId" from="${menuPlans}" optionKey="id" style="width:200px;"/></span></li>
-                            <li><label>Servings : </label><span><input name="servings" type="text" class="inpboxSmall" value=""/></span></li>
+                                <span><g:textField class="inpbox" name="name" style="width:184px;"/></span></li>
+                            <li><label>Choose MenuPlan : </label>
+                                <span><g:select class="inpbox" name="menuPlanId" from="${menuPlans}" optionKey="id" style="width:200px;"/></span></li>
+                            <li><label>Servings : </label><span><input name="servings" type="text" class="inpboxSmall" value="${servings}"/></span></li>
                             <li><p><input name="weeks" type="checkbox" value="0"/> <span>Week1</span></p>
                                 <p><input name="weeks" type="checkbox" value="1"/> <span>Week2</span></p>
                                 <p><input name="weeks" type="checkbox" value="2"/> <span>Week3</span></p>
