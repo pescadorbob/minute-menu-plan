@@ -112,13 +112,5 @@ class MenuPlanController {
         List<Category> categoryList = Category.list()
         [categoryList: categoryList, itemTotal: Recipe.count()]
     }
-    def printShoppingList = {
-        User user = User.currentUser
-        List<MenuPlan> menuPlans = MenuPlan.findAllByOwner(user)
-        render(view: 'printShoppingList', model: [menuPlans: menuPlans])
-    }
-    def detailShoppingList = {
-        MenuPlan menuPlan = MenuPlan.get(params?.menuPlanId)
-        render(view: 'detailShoppingList', model: [menuPlan: menuPlan, weeks: params?.list('weeks')])
-    }
+
 }
