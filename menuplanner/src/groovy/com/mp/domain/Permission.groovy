@@ -14,7 +14,7 @@ enum Permission {
     UPDATE_USER_ROLES('UPDATE_USER_ROLES'),
     LIST_USERS('LIST_USERS')
 
-    private final String name
+    final String name
 
     Permission(String name) {
         this.name = name

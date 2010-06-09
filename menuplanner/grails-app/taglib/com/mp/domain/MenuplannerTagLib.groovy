@@ -130,29 +130,6 @@ class MenuplannerTagLib {
         out << g.render(template: "/recipe/reportCommentAbuse", model: [comment: comment, user: user, alreadyReported: alreadyReported])
     }
 
-    def hasPermission = {attrs, body ->
-        Permission permission = attrs['permission']
-        println "Permission: " + permission
-        if (permission && permissionService.hasPermission(permission)) {
-            println "Has Permission"
-            out << true
-        } else {
-            println "Has No Permission"
-        }
-
-    }
-
-    def isPermissionChecked = {attrs, body ->
-        SecurityRole role = attrs['role']
-        String permission = attrs['permission']
-        Long value = attrs['value']
-        PermissionLevel permissionLevel = (role?.permissionLevels?.find {it?.permission?.name == permission})
-        Boolean isChecked = (permissionLevel && ((permissionLevel?.level % value) == 0))
-        if (isChecked) {
-            out << true
-        }
-    }
-
     def firstTimeUser={attrs, body ->
         if (session.loggedUserId){
             User user=User.get(session.loggedUserId.toLong())

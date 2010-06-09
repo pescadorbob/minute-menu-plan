@@ -1,5 +1,5 @@
 <%@ page import="com.mp.domain.Permission" %>
-<g:if test="${mp.hasPermission(permission: Permission.LIST_USERS)}">
+<g:if test="${permission.hasPermission(permission: Permission.LIST_USERS)}">
     <li>
         <a href="#"><span>Admin</span></a>
         <ul>

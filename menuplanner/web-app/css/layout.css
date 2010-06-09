@@ -101,6 +101,7 @@
 .nutrientRow0{background:#fff;}
 .nutrientRow1{background:#eee;}
 input.errors{border:red 1px solid;}
+textarea.errors{border:red 1px solid;}
 div.errors{border:red 1px solid;font-size:smaller;color:red;padding:10px;margin-bottom:5px;}
 .paginateButtons {border: 0px;color: #666;font-size: 10px;overflow: hidden;padding: 10px 3px;margin-top: 10px;}
 .paginateButtons a{font-weight: bold;font-size:11px;color:royalblue;margin:0 3px;}
