@@ -133,5 +133,6 @@ class MenuConstants {
 
     public static final Long  NOT_AUTHORIZED_PERMISSION_LEVEL = 0
     public static final Long  UNRESTRICTED_ACCESS_PERMISSION_LEVEL = 1
+    public static final Long  ACCESS_IF_OWNS_RECIPE_PERMISSION_LEVEL = 2
 
 }

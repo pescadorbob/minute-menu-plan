@@ -1,5 +1,5 @@
 /* start secureRole  */
-#secureRole{width:80%;color:#616A72; font-size:12px; margin:auto;}
+#secureRole{color:#616A72; font-size:12px; margin:auto;}
 #secureRole ul li{clear:both;padding:5px;}
 #secureRole ul li h3{color:#E67432;font-size:15px;font-weight:bold;line-height:18px;padding-top:9px;}
 #secureRole ul li.dotsLine{padding:8px 0; border-bottom:1px dotted #CCCCCC;clear:both; overflow:hidden;}

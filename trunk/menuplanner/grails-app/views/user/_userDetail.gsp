@@ -47,7 +47,7 @@
     %{--<img src="${resource(dir: 'images', file: 'calendar.png')}" alt="Calendar " align="absmiddle"/>--}%
     %{--</label>--}%
     %{--</li>--}%
-        <g:if test="${mp.hasPermission(permission: Permission.UPDATE_USER_ROLES)}">
+        <g:if test="${permission.hasPermission(permission: Permission.UPDATE_USER_ROLES)}">
             <li><span></span>
                 <label>
                     <input id="chk_Enable" name="isEnabled" ${(userCO) ? ((userCO?.isEnabled) ? 'checked="checked"' : '') : 'checked="checked"'}type="checkbox" value="true"/>

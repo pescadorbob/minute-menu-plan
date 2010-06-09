@@ -7,7 +7,7 @@
     <g:render template="/recipe/imageUpload" model="[selectorName:'selectUserImage']"/>
     <ul>
         <g:if test="${userCO?.joiningDate}"><li>Member since ${userCO?.joiningDate?.format('MMMM yyyy')}</li></g:if><li></li><li></li>
-        <g:if test="${mp.hasPermission(permission: Permission.UPDATE_USER_ROLES)}">
+        <g:if test="${permission.hasPermission(permission: Permission.UPDATE_USER_ROLES)}">
             <g:each in="${UserType?.list()}" var="role">
                 <li><input id="chk_${role.name()}" type="checkbox" name="roles" ${(role.name() in userCO?.roles) ? 'checked="checked"' : ''} value="${role.name()}"/>${role.name}</li>
             </g:each>
