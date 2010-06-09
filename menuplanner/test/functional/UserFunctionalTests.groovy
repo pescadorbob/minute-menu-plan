@@ -8,7 +8,7 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
         userFormData.isUser = true
         createUser(userFormData)
         assertStatus 200
-        assertTitle 'Minute Menu Plan : Show User'
+        assertElementTextContains('flashMsgTst', getMessage('user.created.success'))
     }
 
     void testCreateUser_INVALID_EMAIL() {
@@ -33,15 +33,15 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
         assertElementTextContains('displayUserCOErrors', getMessage('userCO.confirmPassword.validator.invalid.confirmPassword'))
     }
 
-/*
     void testEditUser() {
-        UserFormData userFormData = UserFormData.getDefaultUserFormData()
-        createUser(userFormData)
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        userLogin(loginFormData)
+        get('/recipe/list')
+        byName('profileLinkTst').click()
         byName('_action_edit').click()
-        form('formUpdateUser') {
-            byName('_action_update').click()
-        }
-        assertFalse(false)
+        byName('_action_update').click()
+        redirectEnabled = false
+        followRedirect()
+        assertElementTextContains('flashMsgTst', getMessage('user.updateded.success'))
     }
-*/    
 }
