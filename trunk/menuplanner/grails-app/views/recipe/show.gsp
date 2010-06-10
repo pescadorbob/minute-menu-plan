@@ -9,7 +9,7 @@
     <script type="text/javascript">
         jQuery(function() {
             jQuery("#printButton").click(function() {
-                printElem({ pageTitle: '${recipe?.name}' });
+                window.open("${createLink(controller:'recipe',action:'printRecipes',params:[id:recipe?.id])}", 'print_Recipe','width=800, height=800')
                 return false;
             });
         });

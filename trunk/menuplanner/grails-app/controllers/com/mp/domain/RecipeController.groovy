@@ -155,6 +155,16 @@ class RecipeController {
         render(view: 'show', model: [recipe: recipe])
     }
 
+    def printRecipes = {
+        List<Recipe> recipes
+        if (params.id || params.ids){
+            recipes =(params?.ids)?Recipe.getAll(params?.ids?.toList()):Recipe.findAllById(params?.id)
+        }else{
+            recipes = Recipe.list()
+        }
+        [recipes: recipes]
+    }
+
     def uploadImage = {
         String relativePath = "/tempRecipe"
         def fileContents = params.Filedata.bytes
