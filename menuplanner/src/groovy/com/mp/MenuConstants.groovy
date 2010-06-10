@@ -127,7 +127,7 @@ class MenuConstants {
     public static final String NUTRIENT_FIBER = "Fiber"
     public static final String NUTRIENT_PROTEIN = "Protein"
 
-    public static final String SECURITY_ROLE_SUBSCRIBER = "Subscriber"
+    public static final String SECURITY_ROLE_SUBSCRIBER = "User"
     public static final String SECURITY_ROLE_ADMIN = "Admin"
     public static final String SECURITY_ROLE_SUPER_ADMIN = "Super Admin"
 
