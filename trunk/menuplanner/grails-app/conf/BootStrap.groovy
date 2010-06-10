@@ -100,7 +100,7 @@ class BootStrap {
             masterDataBootStrapService.populateTimeUnits()
             masterDataBootStrapService.populateUnitsAndStandardConversions()
             masterDataBootStrapService.populateNutrients()
-            masterDataBootStrapService.populatePermissions()
         }
+        masterDataBootStrapService.populatePermissions()
     }
 }

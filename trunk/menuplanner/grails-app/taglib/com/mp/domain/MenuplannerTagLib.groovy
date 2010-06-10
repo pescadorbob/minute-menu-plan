@@ -21,9 +21,8 @@ class MenuplannerTagLib {
 
     def showEditRecipe = {attrs ->
         Long recipeId = attrs['recipeId']?.toLong()
-        User user = User.currentUser
         Recipe recipe = Recipe.get(recipeId)
-        if (user?.contributions?.contains(recipe)) {
+        if (permission.hasPermission(permission: Permission.UPDATE_RECIPE, recipe: recipe)) {
             out << g.render(template: '/recipe/isEditableRecipe', model: [isEditable: true, recipeId: recipeId])
         }
     }

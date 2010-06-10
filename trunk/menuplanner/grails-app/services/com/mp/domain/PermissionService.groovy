@@ -9,7 +9,7 @@ class PermissionService {
 
     private Boolean isPermitted(Long level, Recipe recipe) {
         if (level == UNRESTRICTED_ACCESS_PERMISSION_LEVEL) {
-            return false
+            return true
         } else if (level == ACCESS_IF_OWNS_RECIPE_PERMISSION_LEVEL) {
             return validateOwnsRecipe(recipe)
         }
