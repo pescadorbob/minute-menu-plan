@@ -121,7 +121,8 @@ class UserController {
     def save = {UserCO userCO ->
         if (userCO.validate()) {
             User user = userCO.convertToUser()
-            redirect(action: 'show', id: user?.id)
+            flash.message = message(code: 'user.created.success')
+            redirect(action: 'show', id: user?.id, params: [message: message])
         } else {
             userCO.errors.allErrors.each {
                 println it
@@ -134,7 +135,6 @@ class UserController {
         User user = User.get(params.id)
         Map abusiveRecipesMap = user.abusiveRecipesMap
         Map abusiveCommentsMap = user.abusiveCommentsMap
-        flash.message = message(code: 'user.created.success')               
         if (params?.message) {
             flash.message = params.message
         }
