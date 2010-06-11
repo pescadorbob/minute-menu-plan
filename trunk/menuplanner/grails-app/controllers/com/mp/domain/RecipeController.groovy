@@ -227,4 +227,8 @@ class RecipeController {
         }
         redirect(controller: 'user', action: 'show', id: params.userId)
     }
+
+    def selectRecipesToPrint = {
+        
+    }
 }
