@@ -1,0 +1,9 @@
+.winterWeek{width:100%;color:#616A72; font-size:12px; padding:5px; clear:both;}
+.winterWeek ul li{clear:both;padding:5px 15px;}
+.winterWeekbox{width:406px;color:#616A72; float:left;  font-size:12px; line-height:22px;border:1px solid #d3d1d2;}
+.winterWeekbox ul li{clear:both;padding:0px; margin:0; overflow:hidden; }
+.winterWeekbox ul li.head{ background:#dddfe5; overflow:hidden; clear:both;  position:relative; font-weight:bold; font-size:13px;}
+.winterWeekbox ul li ul li.weekby{ font-weight:bold;}
+.winterWeekbox ul li.alternatecolor{ background:#fafaf6; overflow:hidden; clear:both;  position:relative;}
+.winterWeekbox ul li ul li{float:left;width:110px; clear:none;border-bottom:none; height:22px; padding:4px;border-left:1px solid #d3d1d2; }
+.winterWeekbox ul li ul li.first_clumon{float:left;width:30px; clear:none; padding:4px;}

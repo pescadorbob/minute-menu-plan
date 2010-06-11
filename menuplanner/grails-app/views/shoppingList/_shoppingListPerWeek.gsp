@@ -1,5 +1,5 @@
 <%@ page import="com.mp.domain.Recipe" %>
-<div class="winter-week clearfix" style="width:406px;">
+<div class="winter-week" >
     <div class="winterButton"><strong>Week${weekIndex?.toInteger() + 1}</strong><p></p></div>
     <ul>
         <g:each in="${productListForWeek}" var="prodList" status="i">
@@ -22,24 +22,21 @@
     %{--</g:each>--}%
     %{--</g:each>--}%
     </ul>
+  <div class="winterButton"><ul><li id="groceries_${weekIndex}" class="grocery"> </li></ul></div>
 </div>
-<div class="winterButton">
-    <ul>
-        <li id="groceries_${weekIndex}" class="grocery">
-        </li>
-        <li><span>
-            <input type="button" name="addItemBtn_${weekIndex}" id="addItemBtn_${weekIndex}" value="Add Item"/></span>
-            <label>
-                <input name="addItemTxt_${weekIndex}" class="inpbox" id="addItemTxt_${weekIndex}" title="${g.message(code: 'toolTip.recipe.unit')}">
-                %{--<input type="text" class="inpbox" value="Auto complete grocery Items " size="40" name="addItemTxt_${weekIndex}" id="addItemTxt_${weekIndex}" />--}%
-            </label>
-        </li>
-    </ul>
+<div class="winter-week">
+  <div class="winterButton" style="margin-top:52px;margin-left:64px">
+    <input type="button" name="addItemBtn_${weekIndex}" id="addItemBtn_${weekIndex}" value="Add Item"/>
+    <input name="addItemTxt_${weekIndex}" class="inpbox" id="addItemTxt_${weekIndex}" title="${g.message(code: 'toolTip.recipe.unit')}">
+    %{--<input type="text" class="inpbox" value="Auto complete grocery Items " size="40" name="addItemTxt_${weekIndex}" id="addItemTxt_${weekIndex}" />--}%
 </div>
+</div>
+
 
 <script type="text/javascript">
     jQuery(document).ready(function() {
         jQuery('#addItemBtn_${weekIndex}').click(function() {
+            if (jQuery('#addItemTxt_${weekIndex}').val()=="")
             var htmlString = '<p>' + jQuery('#addItemTxt_${weekIndex}').val() + '</p><input type="hidden" name="groceries${weekIndex}" value="' + jQuery('#addItemTxt_${weekIndex}').val() + '">'
             jQuery('#groceries_${weekIndex}').append(htmlString)
             return false;
