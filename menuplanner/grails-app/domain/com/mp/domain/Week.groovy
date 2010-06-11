@@ -18,4 +18,17 @@ class Week {
         }
         return week
     }
+
+    boolean equals(o) {
+        if (this.is(o)) return true;
+
+        if (!o || getClass() != o.class) return false;
+
+        Week week = (Week) o;
+
+        if (!id.equals(week.id)) return false;
+
+        return true;
+    }
+
 }
