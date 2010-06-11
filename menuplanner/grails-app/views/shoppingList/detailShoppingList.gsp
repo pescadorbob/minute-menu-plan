@@ -9,7 +9,7 @@
     <div id="wrapper" class="clearfix">
         <div id="content-wrapper" class="clearfix">
             <div class="headbox">
-                <h3>${menuPlan?.name}</h3>
+                <h3>${shoppingListName}</h3>
             </div>
             <div class="top-shadow">
                 <label>&nbsp;</label>
@@ -20,9 +20,9 @@
                         <img src="${resource(dir: 'images', file: 'printer.gif')}" alt="print" align="absmiddle"/> &nbsp; Print Shopping List
                     </li></ul>
                     </div>
-                    <g:each in="${weeks}" var="weekIndex">
+                    <g:each in="${weeks}" var="weekIndex" status="i">
                     %{--<mp:shoppingListPerWeek menuPlanId="${menuPlan?.id}" week="${week}"/>--}%
-                        <g:render template="/shoppingList/shoppingListPerWeek" model="[menuPlan:menuPlan, weekIndex:weekIndex]"/>
+                        <g:render template="/shoppingList/shoppingListPerWeek" model="[menuPlan:menuPlan, weekIndex:weekIndex, productListForWeek:productListPerWeek[i]]"/>
                     </g:each>
                     <div class="winterButton">
                         <ul><li>
