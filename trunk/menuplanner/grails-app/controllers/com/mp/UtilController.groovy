@@ -31,25 +31,25 @@ class UtilController {
 
     def index = {
         MenuPlan menuPlan = MenuPlan.get(2)
-        
+
         render "MENUPLAN : ${menuPlan}<br/>"
-        menuPlan?.weeks?.each{Week week->
+        menuPlan?.weeks?.each {Week week ->
             render "<hr/>"
             render "<br/>WEEK : ${week}<br/>"
-            week.days.each{Day day->
+            week.days.each {Day day ->
                 render "DAY : ${day}<br/>"
-                day.getBreakfast().each{Item item->
+                day.getBreakfast().each {Item item ->
                     render "-------------------------- BREAKFAST : ${item} <br/>"
-                    if(item?.instanceOf(Recipe)){
-                        item.ingredients.each{RecipeIngredient recipeIngredient ->
+                    if (item?.instanceOf(Recipe)) {
+                        item.ingredients.each {RecipeIngredient recipeIngredient ->
                             render ">>>>>>>>>>>>>>>>>>>>>>>>>>> INGREDIENT : ${recipeIngredient} <br/>"
                         }
                     }
                 }
-                day.getLunch().each{Item item->
+                day.getLunch().each {Item item ->
                     render "+++++++++++++ LUNCH : ${item} isRecipe : ${item?.instanceOf(Recipe)}<br/>"
                 }
-                day.getDinner().each{Item item->
+                day.getDinner().each {Item item ->
                     render "******************** DINNER : ${item} isRecipe : ${item?.instanceOf(Recipe)}<br/>"
                 }
             }
@@ -57,22 +57,16 @@ class UtilController {
     }
 
     def test = {
-        User user = User.list().first()
-        Recipe recipe = Recipe.list().first()
-        user.addToFavourites(recipe)
-        user.s()
 
-        render(view: 'index', bean: recipe)
-
-//        if(user?.favourites*.name().contains(recipe?.id)){
-
-        /*
-        Unit unit1 = Unit.findByName(TIME_UNIT_HOURS)
-        Unit unit2 = Unit.findByName(TIME_UNIT_MINUTES)
-        Unit unit3 = null
-        Unit unit4 = null
+        Unit unit1 = Unit.findByName(UNIT_16_OUNCE_CAN)
+        Unit unit2 = Unit.findByName(UNIT_16_OUNCE_CAN)
         String val1 = '2'
-        String val2 = '16'
+        String val2 = '3'
+
+        unit1 = null
+        unit2 = Unit.findByName(UNIT_16_OUNCE_CAN)
+        val1 = ''
+        val2 = '3'
 
         Quantity q1 = StandardConversion.getQuantityToSave(val1, unit1)
         render "Q1: ${q1} <br/>"
@@ -81,8 +75,8 @@ class UtilController {
         render "Q2: ${q2} <br/>"
 
         Quantity q = addQuantities(val1, unit1, val2, unit2)
-        render "SUM: ${q.toString()? q : 'QUANTITIES CAN NOT BE ADDED..'} <br/>"
-       
+        render "SUM: ${q.toString() ? q : 'QUANTITIES CAN NOT BE ADDED..'} <br/>"
+        /*
         asynchronousMailService.sendAsynchronousMail {
             to 'aman@intelligrape.com'
             subject 'created your profile! grails.'
@@ -176,6 +170,8 @@ class UtilController {
         Quantity resultantQuantity = new Quantity()
         Quantity q1 = StandardConversion.getQuantityToSave(usVal1, displayUnit1)
         Quantity q2 = StandardConversion.getQuantityToSave(usVal2, displayUnit2)
+        if (q1.toString() && !q2.toString()) { return q1 }
+        if (!q1.toString() && q2.toString()) { return q2 }
         if (q1?.savedUnit == q2?.savedUnit) {
             Unit displayUnit = q1?.unit
             if (displayUnit) {

@@ -11,7 +11,6 @@ class ShoppingList {
 
     static hasMany = [weeklyShoppingLists: WeeklyShoppingList]
     
-
     static constraints = {
     }
 }

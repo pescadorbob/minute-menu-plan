@@ -13,8 +13,10 @@ class Quantity {
 
     String toString() {
         String amount
+        String result
         amount = StandardConversion.getQuantityValueString(this)
-        return "${amount ? amount : ''}${unit ?(' '+ unit?.symbol) : ''}"
+        result = "${amount ? amount : ''}${unit ?(' '+ unit?.symbol) : ''}"
+        return result.trim()
     }
 
     static constraints = {
@@ -39,4 +41,27 @@ class Quantity {
         return sum
     }
 
+    public Quantity plus(Quantity quantity){
+        String usVal1 =(this.value)?(StandardConversion.getQuantityValueString(this)):''
+        Unit displayUnit1=this.unit
+        String usVal2 = (quantity.value)?(StandardConversion.getQuantityValueString(quantity)):''
+        Unit displayUnit2=quantity.unit
+        Quantity resultantQuantity = new Quantity()
+        Quantity q1 = StandardConversion.getQuantityToSave(usVal1, displayUnit1)
+        Quantity q2 = StandardConversion.getQuantityToSave(usVal2, displayUnit2)
+        if (q1.toString() && !q2.toString()) { return q1 }
+        if (!q1.toString() && q2.toString()) { return q2 }
+        if (q1?.savedUnit == q2?.savedUnit) {
+            Unit displayUnit = q1?.unit
+            if (displayUnit) {
+                if (StandardConversion.findBySourceUnit(q1?.unit)?.conversionFactor > StandardConversion.findBySourceUnit(q2?.unit)?.conversionFactor) {
+                    displayUnit = q2?.unit
+                }
+            }
+            resultantQuantity?.value = q1?.value + q2?.value
+            resultantQuantity?.savedUnit = q1?.savedUnit
+            resultantQuantity?.unit = displayUnit
+        }
+        return resultantQuantity
+    }
 }
