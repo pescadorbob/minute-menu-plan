@@ -229,6 +229,8 @@ class RecipeController {
     }
 
     def selectRecipesToPrint = {
+        MenuPlan menuPlan = MenuPlan.get(params.id)
+        [menuPlan:menuPlan]
         
     }
 }
