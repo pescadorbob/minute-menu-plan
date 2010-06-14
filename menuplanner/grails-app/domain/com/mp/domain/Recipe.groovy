@@ -103,7 +103,7 @@ class Recipe extends Item implements Commentable, Rateable {
     def getTotalTime() {
         if (cookingTime && preparationTime) {
             Quantity sum = Quantity.addTime(cookingTime, preparationTime)
-//            Quantity sum = StandardConversion.addQuantities('5',cookingTime.unit,'5', preparationTime.unit)
+//            Quantity sum = cookingTime + preparationTime
             return sum
         } else if (cookingTime) {
             return cookingTime
