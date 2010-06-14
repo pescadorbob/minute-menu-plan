@@ -8,9 +8,7 @@
 <div id="container">
     <div id="wrapper" class="clearfix">
         <div id="content-wrapper" class="clearfix">
-            <div class="headbox">
-                <h3>${shoppingListName}</h3>
-            </div>
+            <div class="headbox"><h3>${shoppingListName}</h3></div>
             <div class="top-shadow">
                 <label>&nbsp;</label>
             </div>
@@ -21,8 +19,7 @@
                     </li></ul>
                     </div>
                     <g:each in="${weeks}" var="weekIndex" status="i">
-                    %{--<mp:shoppingListPerWeek menuPlanId="${menuPlan?.id}" week="${week}"/>--}%
-                        <g:render template="/shoppingList/shoppingListPerWeek" model="[menuPlan:menuPlan, weekIndex:weekIndex, productListForWeek:productListPerWeek?.get(i)]"/>
+                        <g:render template="/shoppingList/shoppingListPerWeek" model="[menuPlan:menuPlan, weekIndex:weekIndex, productListForWeek:productListForWeeks?.get(i)]"/>
                     </g:each>
                     <div class="winterButton">
                         <ul><li>
@@ -31,8 +28,7 @@
                             <g:hiddenField name="servings" value="${servings}"/>
                             <g:hiddenField name="shoppingListName" value="${shoppingListName}"/>
                             <g:actionSubmit class="button" controller="shoppingList" action="create" name="create" value="Create"/>
-                            %{--<input class="button" type="button" value="Save"/>--}%
-                            %{--<input class="button" type="button" value="Cancel"/>--}%
+                            <g:actionSubmit class="button" controller="shoppingList" action="cancelDetailShoppingList" name="create" value="Cancel"/>
                         </li></ul>
                     </div>
                 </g:uploadForm>

@@ -19,19 +19,18 @@
                     <img src="${resource(dir: 'images', file: 'printer.gif')}" alt="print" align="absmiddle"/> &nbsp; Print Shopping List
                 </li></ul>
                 </div>
-                <g:each in="${shoppingList?.weeklyShoppingLists}" var="weeklyShoppingList" status="outer_i">
+                <g:each in="${productListPerWeek}" var="productListForWeek" status="outer_i">
                     <div class="winter-week clearfix" style="width:406px;">
-                        <div class="winterButton"><strong>Week ${weeklyShoppingList?.weekIndex}</strong><p></p></div>
+                        <div class="winterButton"><strong>Week${weeks?.getAt(outer_i).toInteger() + 1}</strong><p></p></div>
                         <ul>
-                            <g:each in="${weeklyShoppingList?.products}" var="product" status="i">
+                            <g:each in="${productListForWeek}" var="prodList" status="i">
                                 <li class="${(i % 2 == 1) ? 'alternatecolor' : ''}">
                                     <ul>
                                         <li class="first_clumon">
                                             <input name="" type="checkbox" value=""/>
                                         </li>
-                                        <li class="email">${product?.item}</li>
-                                        <li>${product?.quantity}
-                                        </li>
+                                        <li class="email">${prodList.key}</li>
+                                        <li>${prodList.value}</li>
                                     </ul>
                                 </li>
                             </g:each>
@@ -40,7 +39,7 @@
                     <div class="winterButton">
                         <ul>
                             <li class="grocery">
-                                <g:each in="${weeklyShoppingList?.groceries}" var="item">
+                                <g:each in="${[shoppingList?.weeklyShoppingLists[outer_i]?.groceries].flatten()}" var="item">
                                     <p>${item}</p>
                                 </g:each>
                             </li>

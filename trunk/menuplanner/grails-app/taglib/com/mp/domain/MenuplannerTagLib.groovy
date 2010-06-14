@@ -9,16 +9,6 @@ class MenuplannerTagLib {
     static namespace = 'mp'
     def permissionService
 
-    def shoppingListPerWeek = {attrs ->
-        Long menuPlanId  = attrs['menuPlanId']
-        MenuPlan menuPlan = MenuPlan.get(menuPlanId)
-        println "***************** ${menuPlan}"
-        String week = attrs['week']
-        println "***************** ${week}"
-        out << g.render(template: '/menuPlan/shoppingListPerWeek', model: [menuPlan: menuPlan, week: week])
-
-    }
-
     def showEditRecipe = {attrs ->
         Long recipeId = attrs['recipeId']?.toLong()
         Recipe recipe = Recipe.get(recipeId)
