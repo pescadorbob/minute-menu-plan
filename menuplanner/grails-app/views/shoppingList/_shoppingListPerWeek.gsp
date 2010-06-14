@@ -1,4 +1,5 @@
 <%@ page import="com.mp.domain.Recipe" %>
+<div class="clearfix">
 <div class="winter-week" >
     <div class="winterButton"><strong>Week${weekIndex?.toInteger() + 1}</strong><p></p></div>
     <ul>
@@ -20,11 +21,9 @@
   <div class="winterButton" style="margin-top:52px;margin-left:64px">
     <input type="button" name="addItemBtn_${weekIndex}" id="addItemBtn_${weekIndex}" value="Add Item"/>
     <input name="addItemTxt_${weekIndex}" class="inpbox" id="addItemTxt_${weekIndex}" title="${g.message(code: 'toolTip.recipe.unit')}">
-    %{--<input type="text" class="inpbox" value="Auto complete grocery Items " size="40" name="addItemTxt_${weekIndex}" id="addItemTxt_${weekIndex}" />--}%
 </div>
 </div>
-
-
+     </div>
 <script type="text/javascript">
     jQuery(document).ready(function() {
         jQuery('#addItemBtn_${weekIndex}').click(function() {
