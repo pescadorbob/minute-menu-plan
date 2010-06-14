@@ -31,4 +31,19 @@ class Week {
         return true;
     }
 
+    List<Item> getRecipes(){
+        List<Item> items = []
+        days?.each{Day day->
+            day.meals?.each{Meal meal ->
+                meal.items?.each{Item item ->
+                 if(item.instanceOf(Recipe.class)){
+                     items.add(item)
+                 }
+                }
+            }
+        }
+        items = items?.unique{it.id}
+        return items
+    }
+
 }

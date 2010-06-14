@@ -156,12 +156,24 @@ class RecipeController {
     }
 
     def printRecipes = {
-        List<Recipe> recipes
-        if (params.id || params.ids){
-            recipes =(params?.ids)?Recipe.getAll(params?.ids?.toList()):Recipe.findAllById(params?.id)
+        List<Recipe> recipes=[]
+        if(request.method=="POST"){
+            switch(params.printRecipe){
+                case "PRINT_SELECTED_WEEKS":
+                    MenuPlan menuPlan = MenuPlan.get(params.menuPlanId)
+                    recipes= (params.fullWeek1)?menuPlan?.weeks?.get(params.int('fullWeek1')-1)?.recipes:[]
+                    recipes+= (params.fullWeek2)?menuPlan?.weeks?.get(params.int('fullWeek2')-1)?.recipes:[]
+                    recipes+= (params.fullWeek3)?menuPlan?.weeks?.get(params.int('fullWeek3')-1)?.recipes:[]
+                    recipes+= (params.fullWeek4)?menuPlan?.weeks?.get(params.int('fullWeek4')-1)?.recipes:[]
+                    break;
+                case "PRINT_SELECTED_RECIPES":
+                recipes=Recipe.getAll(params?.list('recipeIds'))
+                break;
+            }
         }else{
-            recipes = Recipe.list()
+            recipes = (params.ids)?Recipe.getAll(params?.list('ids')):Recipe.list()
         }
+        recipes=recipes?.unique{it.id}
         [recipes: recipes]
     }
 

@@ -9,7 +9,7 @@
     <script type="text/javascript">
         jQuery(function() {
             jQuery("#printButton").click(function() {
-                window.open("${createLink(controller:'recipe',action:'printRecipes',params:[id:recipe?.id])}", 'print_Recipe','width=800, height=800')
+                window.open("${createLink(controller:'recipe',action:'printRecipes',params:[ids:recipe?.id])}", 'print_Recipe','width=800, height=800')
                 return false;
             });
         });
