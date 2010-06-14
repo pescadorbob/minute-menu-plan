@@ -29,6 +29,12 @@ class ShoppingListController {
         shoppingList.user = User.currentUser
 
         WeeklyShoppingList weeklyShoppingList
+        ['0','1','2','3'].each{String index->
+            if (index in weekList) {
+                shoppingList.weeklyShoppingLists.add(createWeeklyShoppingList(params?.list('groceries' + index), shoppingList, menuPlan.weeks[index.toInteger()]))
+            }
+        }
+/*
         if ('0' in weekList) {
             shoppingList.weeklyShoppingLists.add(createWeeklyShoppingList(params?.list('groceries0'), shoppingList, menuPlan.weeks[0]))
         }
@@ -41,6 +47,7 @@ class ShoppingListController {
         if ('3' in weekList) {
             shoppingList.weeklyShoppingLists.add(createWeeklyShoppingList(params?.list('groceries3'), shoppingList, menuPlan.weeks[3]))
         }
+*/
         shoppingList.s()
         redirect(controller: 'shoppingList', action: 'show', id: shoppingList?.id)
     }

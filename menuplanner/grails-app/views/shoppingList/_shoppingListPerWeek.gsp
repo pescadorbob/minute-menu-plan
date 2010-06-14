@@ -13,14 +13,6 @@
                 </ul>
             </li>
         </g:each>
-    %{--<g:each in="${menuPlan.weeks[weekIndex?.toInteger()]}" var="week">--}%
-    %{--<g:each in="${week.days}" var="day">--}%
-    %{--<g:set var="items" value="${day.breakfast + day.lunch + day.dinner}"/>--}%
-    %{--<g:each in="${items}" var="item" status="i">--}%
-    %{--<g:render template="shoppingListRecipe${item.instanceOf(Recipe)}" model="[item:item]"/>--}%
-    %{--</g:each>--}%
-    %{--</g:each>--}%
-    %{--</g:each>--}%
     </ul>
   <div class="winterButton"><ul><li id="groceries_${weekIndex}" class="grocery"> </li></ul></div>
 </div>
@@ -36,9 +28,11 @@
 <script type="text/javascript">
     jQuery(document).ready(function() {
         jQuery('#addItemBtn_${weekIndex}').click(function() {
-            if (jQuery('#addItemTxt_${weekIndex}').val()=="")
-            var htmlString = '<p>' + jQuery('#addItemTxt_${weekIndex}').val() + '</p><input type="hidden" name="groceries${weekIndex}" value="' + jQuery('#addItemTxt_${weekIndex}').val() + '">'
-            jQuery('#groceries_${weekIndex}').append(htmlString)
+            if (jQuery('#addItemTxt_${weekIndex}').val()!=""){
+                var htmlString = '<p>' + jQuery('#addItemTxt_${weekIndex}').val() + '</p><input type="hidden" name="groceries${weekIndex}" value="' + jQuery('#addItemTxt_${weekIndex}').val() + '">'
+                jQuery('#groceries_${weekIndex}').append(htmlString)
+                jQuery('#addItemTxt_${weekIndex}').val('')
+            }
             return false;
         })
         $("#addItemTxt_${weekIndex}").autocomplete("${createLink(action: 'getMatchingItems', controller: 'recipe')}", {
