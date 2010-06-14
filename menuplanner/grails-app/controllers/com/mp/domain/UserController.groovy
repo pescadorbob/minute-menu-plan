@@ -121,7 +121,7 @@ class UserController {
     def save = {UserCO userCO ->
         if (userCO.validate()) {
             User user = userCO.convertToUser()
-            flash.message = message(code: 'user.created.success')
+            String message = message(code: 'user.created.success')
             redirect(action: 'show', id: user?.id, params: [message: message])
         } else {
             userCO.errors.allErrors.each {
