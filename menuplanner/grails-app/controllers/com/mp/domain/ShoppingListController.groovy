@@ -19,12 +19,21 @@ class ShoppingListController {
             items.each {Item item ->
                 if (item?.instanceOf(Recipe)) {
                     item?.ingredients?.each {RecipeIngredient ingredient ->
-                        ShoppingIngredient shoppingIngredient = new ShoppingIngredient()
-                        shoppingIngredient.item = ingredient.ingredient
-                        shoppingIngredient.quantity = ingredient.quantity
-                        shoppingIngredient.weeklyShoppingList = weeklyShoppingList
-                        weeklyShoppingList.addToProducts(shoppingIngredient)
-                        shoppingIngredient.s()
+                        if (ingredient?.ingredient?.id in weeklyShoppingList?.products*.item?.id) {
+                            def shoppingIngredient = weeklyShoppingList?.products?.find {it?.item?.id == ingredient?.ingredient?.id}
+                            Quantity quantity = shoppingIngredient?.quantity + ingredient?.quantity
+                            quantity.s()
+                            shoppingIngredient?.quantity = quantity
+                            shoppingIngredient.s()
+
+                        } else {
+                            ShoppingIngredient shoppingIngredient = new ShoppingIngredient()
+                            shoppingIngredient.item = ingredient.ingredient
+                            shoppingIngredient.quantity = ingredient.quantity
+                            shoppingIngredient.weeklyShoppingList = weeklyShoppingList
+                            weeklyShoppingList.addToProducts(shoppingIngredient)
+                            shoppingIngredient.s()
+                        }
                     }
                 } else {
                     weeklyShoppingList.addToGroceries(item)
