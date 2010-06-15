@@ -78,11 +78,16 @@
                             <ul>
                                 <g:each in="${abusiveRecipesMap?.keySet()}" var="abusiveRecipe">
                                     <li>${abusiveRecipe?.dateCreated?.format('M/d/yy')} &nbsp;<g:link controller="recipe" action="show" id="${abusiveRecipe?.id}" onclick="return confirm('Remove Abuse?');">${abusiveRecipe.name}</g:link>&nbsp;(Abuse Reported ${abusiveRecipesMap[abusiveRecipe]} Times)&nbsp;&nbsp;
-                                        <g:link controller="recipe" action="removeRecipeAbuse" id="${abusiveRecipe.id}" params="[userId:user?.id]">remove</g:link></li>
+                                    <g:if test="${permission.hasPermission(permission: Permission.REMOVE_RECIPE_ABUSE)}">
+                                    <g:link controller="recipe" action="removeRecipeAbuse" id="${abusiveRecipe.id}" params="[userId:user?.id]">Remove</g:link>
+                                        </g:if>
+                                    </li>
                                 </g:each>
                                 <g:each in="${abusiveCommentsMap?.keySet()}" var="abusiveComment">
                                     <li>${abusiveComment?.dateCreated?.format('M/d/yy')} &nbsp;${abusiveComment.body}&nbsp;(Abuse Reported ${abusiveCommentsMap[abusiveComment]} Times)&nbsp;&nbsp;
-                                        <g:link controller="recipe" action="removeCommentAbuse" id="${abusiveComment?.id}" params="[userId:user?.id]" onclick="return confirm('Remove Abuse?');">remove</g:link></li>
+                                    <g:if test="${permission.hasPermission(permission: Permission.REMOVE_COMMENT_ABUSE)}">
+                                        <g:link controller="recipe" action="removeCommentAbuse" id="${abusiveComment?.id}" params="[userId:user?.id]" onclick="return confirm('Remove Abuse?');">Remove</g:link></li>
+                                    </g:if>
                                 </g:each>
                             </ul>
                         </g:if>
