@@ -12,9 +12,7 @@
   <g:javascript src="jquery.printElement.min.js"/>
   <rateable:resources/>
   <script type="text/javascript">
-    jQuery(function() {
-      print();
-    })
+    window.onload = print()
   </script>
 </head>
 <body>
@@ -59,10 +57,11 @@
                   <li><span id="showServeWithTst">Serve With: ${recipe?.items?.join(", ")}</span></li>
                 </g:if>
                 <li></li>
-                <li style="text-align: right;">
-                  <mp:recipeImage id="${recipe?.image?.id}" height="160" width="160" noImage="no-img.gif"/><br/>
-                </li>
+
               </ul>
+            </li>
+            <li style="text-align: right;">
+              <mp:recipeImage id="${recipe?.image?.id}" height="160" width="160" noImage="no-img.gif"/><br/>
             </li>
           </ul>
         </div>
