@@ -16,10 +16,4 @@ class Item {
         tablePerHierarchy false
 		sort 'name'
     }
-
-    public Item shallowClone(){
-        Item item = new Item()
-        item.name=this.name
-        return item
-    }
 }
