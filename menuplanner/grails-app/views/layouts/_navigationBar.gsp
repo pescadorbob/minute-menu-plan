@@ -1,4 +1,4 @@
-<%@ page import="com.mp.domain.User" %>
+<%@ page import="com.mp.domain.Permission; com.mp.domain.User" %>
 <div id="navigation">
     <ul>
         <g:if test="${User.currentUser}">

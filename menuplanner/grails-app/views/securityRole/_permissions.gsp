@@ -9,6 +9,14 @@
             <g:checkBox value="${MenuConstants.UNRESTRICTED_ACCESS_PERMISSION_LEVEL}" name="UPDATE_USER_ROLES" class="checkbox7"
                     checked="${permission.isPermissionChecked(role: role, permission: 'UPDATE_USER_ROLES', value: MenuConstants.UNRESTRICTED_ACCESS_PERMISSION_LEVEL)}"/>
             </span><span>Update Role</span></li>
+        <li><span>
+            <g:checkBox value="${MenuConstants.UNRESTRICTED_ACCESS_PERMISSION_LEVEL}" name="REMOVE_RECIPE_ABUSE" class="checkbox7"
+                    checked="${permission.isPermissionChecked(role: role, permission: 'REMOVE_RECIPE_ABUSE', value: MenuConstants.UNRESTRICTED_ACCESS_PERMISSION_LEVEL)}"/>
+            </span><span>Remove Recipe Abuse</span></li>
+        <li><span>
+            <g:checkBox value="${MenuConstants.UNRESTRICTED_ACCESS_PERMISSION_LEVEL}" name="REMOVE_COMMENT_ABUSE" class="checkbox7"
+                    checked="${permission.isPermissionChecked(role: role, permission: 'REMOVE_COMMENT_ABUSE', value: MenuConstants.UNRESTRICTED_ACCESS_PERMISSION_LEVEL)}"/>
+            </span><span>Remove Comment Abuse</span></li>
     </ul>
 </li>
 <li class="dotsLine">
