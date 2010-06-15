@@ -33,7 +33,7 @@ class ShoppingListController {
                         }
                     }
                 } else {
-                    weeklyShoppingList.addToGroceries(item)
+//                    weeklyShoppingList.addToGroceries(item)
                 }
             }
         }
@@ -42,7 +42,9 @@ class ShoppingListController {
             if (!item) {
                 item = new Product(name: name).s()
             }
-            weeklyShoppingList.groceries.add(item)
+            if (!(item?.id in weeklyShoppingList?.groceries*.id)) {
+                weeklyShoppingList.groceries.add(item)
+            }
         }
         return weeklyShoppingList
     }
@@ -72,9 +74,13 @@ class ShoppingListController {
     }
 
     def printShoppingList = {
+        PrintShoppingListCO pslCO = new PrintShoppingListCO()
         User user = User.currentUser
+        pslCO.menuPlanId = params?.id
+        pslCO.servings = user.mouthsToFeed.toString()
+
         List<MenuPlan> menuPlans = MenuPlan.findAllByOwner(user)
-        render(view: 'printShoppingList', model: [menuPlans: menuPlans, servings: user.mouthsToFeed])
+        render(view: 'printShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: user.mouthsToFeed])
     }
 
     def detailShoppingList = {PrintShoppingListCO pslCO ->
@@ -86,16 +92,16 @@ class ShoppingListController {
             params?.weeks?.each {String weekIndex ->
                 Map<String, Quantity> productListForWeek = [:]
                 List<String> groceryListForWeek = []
-                try{
+                try {
                     productListForWeek = shoppingListService.getProductListForWeek(menuPlan, weekIndex)
                     groceryListForWeek = shoppingListService.getGroceryListForWeek(menuPlan, weekIndex)
-                } catch (e){
+                } catch (e) {
                     e.printStackTrace()
                 }
                 productListForWeeks.add(productListForWeek)
                 groceryListForWeeks.add(groceryListForWeek)
             }
-            render(view: 'detailShoppingList', model: [menuPlan: menuPlan, servings: servings, shoppingListName: params?.name, weeks: params?.list('weeks'), productListForWeeks: productListForWeeks, groceryListForWeeks:groceryListForWeeks])
+            render(view: 'detailShoppingList', model: [menuPlan: menuPlan, servings: servings, shoppingListName: params?.name, weeks: params?.list('weeks'), productListForWeeks: productListForWeeks, groceryListForWeeks: groceryListForWeeks])
         } else {
             pslCO.errors.allErrors.each {
                 println it

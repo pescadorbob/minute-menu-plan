@@ -13,6 +13,9 @@
                 <label>&nbsp;</label>
             </div>
             <div class="leftbox clearfix">
+                <table id="groceryTemplateRow" style="display:none;">
+                    <g:render template="/shoppingList/grocery"/>                    
+                </table>
                 <g:uploadForm name="formDetailShoppingList">
                     <div class="wintertop"><ul><li><strong>&nbsp;</strong></li><li><input name="" type="checkbox" value=""/> Export to Todo</li><li>
                         <img src="${resource(dir: 'images', file: 'printer.gif')}" alt="print" align="absmiddle"/> &nbsp; Print Shopping List

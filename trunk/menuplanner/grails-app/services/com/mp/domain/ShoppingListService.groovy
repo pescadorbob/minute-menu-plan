@@ -35,7 +35,7 @@ class ShoppingListService {
                 }
             }
         }
-        return groceryListForWeek.unique() as List
+        return (groceryListForWeek as Set) as List
     }
 }
 

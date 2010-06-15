@@ -15,11 +15,20 @@
                 </li>
             </g:each>
         </ul>
-        <div class="winterButton"><ul><li id="groceries_${weekIndex}" class="grocery">
-            <g:each in="${groceryListForWeek}" var="grocery" status="i">
-                <p>${grocery}</p>
-            </g:each>
-        </li></ul></div>
+        <div class="winterButton">
+            <span id="groceries_${weekIndex}" class="grocery">
+                <table id="groceryTable_${weekIndex}" style="width:100%">
+                    <g:if test="${groceryListForWeek}">
+                        <g:each in="${groceryListForWeek}" var="grocery" status="i">
+                            <g:render template="/shoppingList/groceryWithParams" model="[grocery:grocery, weekIndex:weekIndex]"/>
+                        </g:each>
+                    </g:if>
+                    <g:else>
+                        <tr class="addGrocery">&nbsp;</tr>
+                    </g:else>
+                </table>
+            </span>
+        </div>
     </div>
     <div class="winter-week">
         <div class="winterButton" style="margin-top:52px;margin-left:64px">
@@ -29,19 +38,50 @@
     </div>
 </div>
 <script type="text/javascript">
+    var htmlString = jQuery('#groceryTemplateRow>tbody').html()
     jQuery(document).ready(function() {
+        bindEvents()
         jQuery('#addItemBtn_${weekIndex}').click(function() {
             if (jQuery('#addItemTxt_${weekIndex}').val() != "") {
-                var htmlString = '<p>' + jQuery('#addItemTxt_${weekIndex}').val() + '</p><input type="hidden" name="groceries${weekIndex}" value="' + jQuery('#addItemTxt_${weekIndex}').val() + '">'
-                jQuery('#groceries_${weekIndex}').append(htmlString)
+                var grocery = jQuery('#addItemTxt_${weekIndex}').val()
+                var groceryTB = '<input type="text" name="groceries${weekIndex}" value="' + jQuery('#addItemTxt_${weekIndex}').val() + '">'
+
+                jQuery('#groceryTable_${weekIndex} tbody').append(htmlString)
+                jQuery('#groceryTable_${weekIndex} .addGroceryNew .groceryText').html(grocery)
+                jQuery('#groceryTable_${weekIndex} .addGroceryNew .groceryTextBox').html(groceryTB);
+
+                jQuery('#groceryTable_${weekIndex} .addGroceryNew .groceryTextBox input[type="text"]').hide()
+
+                jQuery('#groceryTable_${weekIndex} .addGroceryNew').attr('class', 'addGrocery')
+                bindEvents()
                 jQuery('#addItemTxt_${weekIndex}').val('')
             }
             return false;
         })
+
         $("#addItemTxt_${weekIndex}").autocomplete("${createLink(action: 'getMatchingItems', controller: 'recipe')}", {
             width: 300,
             multiple: false,
             matchContains: true
         })
+        function bindEvents() {
+            jQuery('.btnCross').click(function() {
+                jQuery(this).parents('tr').remove();
+            })
+            jQuery('.linkEdit').click(function() {
+                jQuery(('.groceryTextBox input[type="text"]'), jQuery(this).parent().parent())
+                        .show().focus().unbind()
+                        .blur(function() {
+                    jQuery(('.groceryText'), jQuery(this).hide().parent().parent()).show().html(jQuery(this).val())
+                })
+                        .keydown(function(e) {
+                    if (e.keyCode == 13) {
+                        jQuery(this).blur()
+                        return false;
+                    }
+                })
+                jQuery(('.groceryText'), jQuery(this).parent().parent()).hide();
+            })
+        }
     })
 </script>
