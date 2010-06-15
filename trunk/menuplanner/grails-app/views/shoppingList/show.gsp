@@ -9,7 +9,7 @@
     <div id="wrapper" class="clearfix">
         <div id="content-wrapper" class="clearfix">
             <div class="headbox">
-                <h3>${shoppingList.name}</h3>
+                <h3>${shoppingList?.name}</h3>
             </div>
             <div class="top-shadow">
                 <label>&nbsp;</label>
@@ -21,7 +21,7 @@
                 </div>
                 <g:each in="${shoppingList?.weeklyShoppingLists}" var="weeklyShoppingList" status="outer_i">
                     <div class="winter-week clearfix" style="width:406px;">
-                        <div class="winterButton"><strong>Week ${weeklyShoppingList?.weekIndex}</strong><p></p></div>
+                        <div class="winterButton"><strong>Week ${weeklyShoppingList?.weekIndex + 1}</strong><p></p></div>
                         <ul>
                             <g:each in="${weeklyShoppingList?.products}" var="product" status="i">
                                 <li class="${(i % 2 == 1) ? 'alternatecolor' : ''}">

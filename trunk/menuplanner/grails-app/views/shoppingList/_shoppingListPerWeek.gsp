@@ -1,7 +1,7 @@
 <%@ page import="com.mp.domain.Recipe" %>
 <div class="clearfix">
     <div class="winter-week">
-        <div class="winterButton"><strong>Week${weekIndex?.toInteger() + 1}</strong><p></p></div>
+        <div class="winterButton"><strong>Week ${weekIndex?.toInteger() + 1}</strong><p></p></div>
         <ul>
             <g:each in="${productListForWeek}" var="prodList" status="i">
                 <li class="${(i % 2 == 1) ? 'alternatecolor' : ''}">
