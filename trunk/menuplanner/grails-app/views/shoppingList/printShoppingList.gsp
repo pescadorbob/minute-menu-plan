@@ -9,7 +9,7 @@
     <div id="wrapper" class="clearfix">
         <div id="content-wrapper" class="clearfix">
             <g:hasErrors bean="${pslCO}">
-                <div class="errors">
+                <div id="errorsDiv" class="errors">
                     <g:renderErrors bean="${pslCO}"/>
                 </div>
             </g:hasErrors>
