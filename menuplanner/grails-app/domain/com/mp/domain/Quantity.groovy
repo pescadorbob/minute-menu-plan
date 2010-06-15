@@ -42,21 +42,15 @@ class Quantity {
     }
 
     public static Quantity add(Quantity quantity1, Quantity quantity2){
-      Quantity quantity
-      return quantity
-
-    }
-
-    public Quantity plus(Quantity quantity){
-        String usVal1 =(this.value)?(StandardConversion.getQuantityValueString(this)):''
-        Unit displayUnit1=this.unit
-        String usVal2 = (quantity.value)?(StandardConversion.getQuantityValueString(quantity)):''
-        Unit displayUnit2=quantity.unit
+        if(!quantity1){ return quantity2 }
+        if(!quantity2){ return quantity1 }
+        String usVal1 =(quantity1.value)?(StandardConversion.getQuantityValueString(quantity1)):''
+        Unit displayUnit1=quantity1.unit
+        String usVal2 = (quantity2.value)?(StandardConversion.getQuantityValueString(quantity2)):''
+        Unit displayUnit2=quantity2.unit
         Quantity resultantQuantity = new Quantity()
         Quantity q1 = StandardConversion.getQuantityToSave(usVal1, displayUnit1)
         Quantity q2 = StandardConversion.getQuantityToSave(usVal2, displayUnit2)
-        if (q1.toString() && !q2.toString()) { return q1 }
-        if (!q1.toString() && q2.toString()) { return q2 }
         if (q1?.savedUnit == q2?.savedUnit) {
             Unit displayUnit = q1?.unit
             if (displayUnit) {
