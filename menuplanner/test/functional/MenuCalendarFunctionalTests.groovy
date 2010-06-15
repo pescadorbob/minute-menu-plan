@@ -1,3 +1,5 @@
+import com.mp.domain.*
+
 class MenuCalendarFunctionalTests extends MenuPlannerFunctionalTests {
 
     void testCreateMenuPlanCalendar() {
@@ -32,8 +34,6 @@ class MenuCalendarFunctionalTests extends MenuPlannerFunctionalTests {
         assertTitleContains menuPlanName.toString()
 
         byName('editMenuPlan').click()
-//        redirectEnabled = false
-//        followRedirect()
         assertTitleContains "Edit"
         assertTitleContains menuPlanName.toString()
         byName("menuPlan.name").setValue("ChangedMenuPlanName${menuPlanName}")
@@ -42,8 +42,5 @@ class MenuCalendarFunctionalTests extends MenuPlannerFunctionalTests {
         followRedirect()
         assertStatus 200
         assertTitleContains "ChangedMenuPlanName"
-
     }
-
-
 }
