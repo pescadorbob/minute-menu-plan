@@ -33,4 +33,21 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
         def superAdminEmail = byId('userlist').getFirstChild().getFirstChild().getNextSibling().getFirstChild().getFirstChild().getNextSibling().getTextContent()
         assertEquals(SUPER_ADMIN, superAdminEmail)
     }
+
+    void testSuperAdmin_AddUserLink() {
+        goToAccountsPage()
+        def addUserLink = byName('_action_create')
+        addUserLink.click()
+        assertContentContains 'Admin Profile Add'
+        assertContentContains 'Email'
+        assertContentContains 'Password'
+        assertContentContains 'Confirm Password '
+        assertContentContains 'Name'
+        assertContentContains 'City'
+        assertContentContains 'Mouths to Feed '
+        assertContentContains 'Something about yourself :'
+        assertContentContains 'Minimum 4 characters'
+        assertContentContains 'Public name displayed on recipes'
+        assertContentContains 'City displayed on recipes'
+    }
 }
