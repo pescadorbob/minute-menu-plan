@@ -20,7 +20,7 @@
                 <label>&nbsp;</label>
             </div>
             <div class="leftbox clearfix">
-                <g:uploadForm name="formUpdateUser"">
+                <g:uploadForm name="formUpdateUser">
                     <g:hiddenField name='id' value='${userCO?.id}'/>
                     <g:render template="/user/imageSection" model="[userCO:userCO]"/>
                     <g:render template="/user/userDetail" model="[userCO:userCO]"/>

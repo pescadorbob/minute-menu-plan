@@ -34,6 +34,10 @@ class UserCO {
     String id
     def selectUserImagePath
 
+    UserCO(){
+        
+    }
+
     UserCO(User user) {
         id = user?.id?.toString()
         email = user?.email
