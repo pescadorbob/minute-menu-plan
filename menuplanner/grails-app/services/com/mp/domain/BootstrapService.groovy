@@ -184,6 +184,20 @@ class BootstrapService {
         }
     }
 
+    public void populateQuickFills(Integer count) {
+        (1..count).each {Integer index ->
+            QuickFill quickFill = new QuickFill(name: "QuickFill-${index}")
+            Meal meal1 = new Meal(type: MealType.BREAKFAST, items: Item.getAll(1..2))
+            Meal meal2 = new Meal(type: MealType.LUNCH, items: Item.getAll(3..4))
+            Meal meal3 = new Meal(type: MealType.DINNER, items: Item.getAll(5..6))
+//            meal.quickFill = quickFill
+            quickFill.addToMealItems(meal1)
+            quickFill.addToMealItems(meal2)
+            quickFill.addToMealItems(meal3)
+            quickFill.s()
+        }
+    }
+
     public List<Week> populateWeeks(MenuPlan menuPlan) {
         List<Week> weeks = []
         4.times {
@@ -207,7 +221,8 @@ class BootstrapService {
     public List<Meal> populateMeals(Day day) {
         List<Meal> meals = []
         (MealType.values()).eachWithIndex {MealType type, Integer index ->
-            Meal meal = new Meal(day: day, type: type)
+//            Meal meal = new Meal(day: day, type: type)
+            Meal meal = new Meal(type: type)
             meal.items = populateMealItems(meal)
             meals.add(meal)
         }

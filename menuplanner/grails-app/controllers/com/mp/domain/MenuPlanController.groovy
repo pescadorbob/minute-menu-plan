@@ -110,7 +110,11 @@ class MenuPlanController {
 
     def quickFillAdmin = {
         List<Category> categoryList = Category.list()
-        [categoryList: categoryList, itemTotal: Recipe.count()]
+        QuickFill quickFill = params.addNew?new QuickFill(mealItems:[new Meal(type: MealType.BREAKFAST),new Meal(type: MealType.LUNCH),new Meal(type: MealType.DINNER)]):QuickFill.get(1)
+        if(params.id){
+            quickFill = QuickFill.get(params.long("id"))
+        }
+        [categoryList: categoryList, itemTotal: Recipe.count(),quickFill:quickFill]
     }
 
 }
