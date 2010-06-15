@@ -1,3 +1,5 @@
+import com.mp.domain.*
+
 class LoginFunctionalTests extends MenuPlannerFunctionalTests {
 
     void testWrongPassword() {
@@ -31,10 +33,10 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         assertEquals('Logout', byClass('logoutLink').asText())
     }
 
-    void testLogin_BY_DISABLED_USER(){
+    void testLogin_BY_DISABLED_USER() {
         loginBySuperAdmin()
         UserFormData userFormData = UserFormData.getDefaultUserFormData()
-        userFormData.isEnabled =  false
+        userFormData.isEnabled = false
         userFormData.isUser = true
         createUser(userFormData)
         byClass('logoutLink').click()
@@ -42,8 +44,8 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         followRedirect()
 
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
-        loginFormData.email=userFormData.email
-        loginFormData.password=userFormData.password
+        loginFormData.email = userFormData.email
+        loginFormData.password = userFormData.password
         userLogin(loginFormData)
         assertEquals(getMessage('loginCO.user.disabled'), byId('display_WrongPassword_DisabledUser_Error').asText())
     }
