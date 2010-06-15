@@ -15,9 +15,9 @@
 <body>
 <div id="content-wrapper" class="clearfix">
 <div id="left-panel">
-  <g:form action="saveAndUpdate" name="editMenuPlanForm">
-    <g:render template="/menuPlan/actions"/>
-    <g:render template="/menuPlan/quickFills"/>
+    <g:form action="saveAndUpdate" name="editMenuPlanForm">
+        <g:render template="/menuPlan/actions"/>
+        <g:render template="/menuPlan/quickFills"/>
         <g:render template="weeklyMeals"/>
         <div id="button">
             <ul>
@@ -30,38 +30,38 @@
     <g:render template="/menuPlan/search"/>
 </div>
 <mp:firstTimeUser>
-<div class="tooltip" id="draggingBaloonTip" style="display: none; visibility: visible; position: absolute; top: 155px; left: 650px;">
-  To create a menu plan: Click on the search item from right and drag it into the empty boxes on the left side. As soon as you release the click the item will automatically gets added to the plan.
-</div>
-<script type="text/javascript">
-  $(function(){
-    $('#draggingBaloonTip').fadeIn()
-    setTimeout(function(){
-      $('#draggingBaloonTip').fadeOut()
-    },20000)
-  })
-</script>
+    <div class="tooltip" id="draggingBaloonTip" style="display: none; visibility: visible; position: absolute; top: 155px; left: 650px;">
+        <g:message code="toolTip.menuPlan.firstTimeUser"/>
+    </div>
+    <script type="text/javascript">
+        $(function() {
+            $('#draggingBaloonTip').fadeIn()
+            setTimeout(function() {
+                $('#draggingBaloonTip').fadeOut()
+            }, 20000)
+        })
+    </script>
 </mp:firstTimeUser>
 <script type="text/javascript">
-  $('#menuPlanNameTextbox').each(function(){
+    $('#menuPlanNameTextbox').each(function() {
 
-	this.value = $(this).attr('title');
-	$(this).css('color','#cdcdcd')
+        this.value = $(this).attr('title');
+        $(this).css('color', '#cdcdcd')
 
-	$(this).focus(function(){
-		if(this.value == $(this).attr('title')) {
-			this.value = '';
-			$(this).css('color','');
-		}
-	});
+        $(this).focus(function() {
+            if (this.value == $(this).attr('title')) {
+                this.value = '';
+                $(this).css('color', '');
+            }
+        });
 
-	$(this).blur(function(){
-		if(this.value == '') {
-			this.value = $(this).attr('title');
-			$(this).css('color','#cdcdcd');
-		}
-	});
-})
+        $(this).blur(function() {
+            if (this.value == '') {
+                this.value = $(this).attr('title');
+                $(this).css('color', '#cdcdcd');
+            }
+        });
+    })
 </script>
 </body>
 </html>
