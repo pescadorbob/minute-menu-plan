@@ -1,3 +1,5 @@
+import com.mp.domain.*
+
 class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
 
 //TODO: Pick button to be clicked using Id instead of text.
@@ -178,23 +180,5 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         redirectEnabled = false
         followRedirect()
         assertElementTextContainsStrict('deleteRecipeFlashMessage', getMessage('recipe.deleted.success'))
-    }
-
-    void gotoCreateRecipePage() {
-        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
-        userLogin(loginFormData)
-        get('/recipe/create')
-    }
-
-    void gotoShowRecipePage() {
-        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
-        createRecipe(createRecipeData)
-    }
-
-    void gotoEditRecipePage() {
-        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
-        createRecipe(createRecipeData)
-//        byClass('editRecipeLink').click()
-        click('Edit')
     }
 }
