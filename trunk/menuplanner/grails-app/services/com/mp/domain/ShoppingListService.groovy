@@ -15,7 +15,7 @@ class ShoppingListService {
                     item?.ingredients?.each {RecipeIngredient recipeIngredient ->
                         prodName = recipeIngredient?.ingredient
                         quantity = recipeIngredient?.quantity
-                        productListForWeek[prodName] = (productListForWeek[prodName] && (quantity)) ? productListForWeek[prodName] + quantity : quantity
+                        productListForWeek[prodName] = (productListForWeek[prodName] && (quantity)) ? (Quantity.add(productListForWeek[prodName], quantity)) : quantity
                     }
                 }
             }
@@ -29,7 +29,6 @@ class ShoppingListService {
             List<Item> items = day?.breakfast + day?.lunch + day?.dinner as List
             items.each {Item item ->
                 String prodName
-                Quantity quantity
                 if (!(item?.instanceOf(Recipe))) {
                     prodName = item?.name
                     groceryListForWeek.add(prodName)

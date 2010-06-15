@@ -19,7 +19,7 @@ class ShoppingListController {
                     item?.ingredients?.each {RecipeIngredient ingredient ->
                         if (ingredient?.ingredient?.id in weeklyShoppingList?.products*.item?.id) {
                             def shoppingIngredient = weeklyShoppingList?.products?.find {it?.item?.id == ingredient?.ingredient?.id}
-                            Quantity quantity = shoppingIngredient?.quantity + ingredient?.quantity
+                            Quantity quantity = Quantity.add(shoppingIngredient?.quantity, ingredient?.quantity)
                             quantity.s()
                             shoppingIngredient?.quantity = quantity
                             shoppingIngredient.s()
@@ -44,7 +44,6 @@ class ShoppingListController {
             }
             weeklyShoppingList.groceries.add(item)
         }
-
         return weeklyShoppingList
     }
 
