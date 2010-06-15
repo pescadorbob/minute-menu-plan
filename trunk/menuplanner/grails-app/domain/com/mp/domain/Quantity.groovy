@@ -41,7 +41,7 @@ class Quantity {
         return sum
     }
 
-    public static Quantity addQuantities(Quantity quantity1, Quantity quantity2){
+    public static Quantity add(Quantity quantity1, Quantity quantity2){
       Quantity quantity
       return quantity
 
