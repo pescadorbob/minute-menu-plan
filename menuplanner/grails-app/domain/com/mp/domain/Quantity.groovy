@@ -1,10 +1,5 @@
 package com.mp.domain
 
-import static com.mp.MenuConstants.*
-import java.text.FieldPosition
-import org.apache.commons.math.fraction.ProperFractionFormat
-import org.apache.commons.math.fraction.Fraction
-
 class Quantity {
 
     Float value
@@ -48,10 +43,12 @@ class Quantity {
         Unit displayUnit1=quantity1.unit
         String usVal2 = (quantity2.value)?(StandardConversion.getQuantityValueString(quantity2)):''
         Unit displayUnit2=quantity2.unit
-        Quantity resultantQuantity = new Quantity()
+        Quantity resultantQuantity
         Quantity q1 = StandardConversion.getQuantityToSave(usVal1, displayUnit1)
         Quantity q2 = StandardConversion.getQuantityToSave(usVal2, displayUnit2)
-        if (q1?.savedUnit == q2?.savedUnit) {
+
+        if (q1!=null && (q1?.savedUnit == q2?.savedUnit)) {
+           resultantQuantity = new Quantity()
             Unit displayUnit = q1?.unit
             if (displayUnit) {
                 if (StandardConversion.findBySourceUnit(q1?.unit)?.conversionFactor > StandardConversion.findBySourceUnit(q2?.unit)?.conversionFactor) {
