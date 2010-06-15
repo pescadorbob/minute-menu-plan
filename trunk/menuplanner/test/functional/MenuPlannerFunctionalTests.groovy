@@ -1,6 +1,8 @@
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import com.gargoylesoftware.htmlunit.html.HtmlPage
 import com.mp.domain.*
+import static com.mp.domain.TestConstants.*
+
 
 class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase {
 
@@ -107,8 +109,8 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
 
     void loginBySuperAdmin() {
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
-        loginFormData.email = "qa.menuplanner+superAdmin@gmail.com"
-        loginFormData.password = "1234"
+        loginFormData.email = SUPER_ADMIN
+        loginFormData.password = USER_PASSWORD
         userLogin(loginFormData)
     }
 
@@ -135,7 +137,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
         get('/shoppingList/printShoppingList')
     }
 
-    /** * Helper method to return a message from the message bundle.                    ***/
+    /** * Helper method to return a message from the message bundle.                     ***/
     String getMessage(String key, def targetArgs = TARGET_ARGS_EMPTY) {
         def keyValue = messageSource.resolveCode(key, locale)
         return keyValue?.format(targetArgs)
