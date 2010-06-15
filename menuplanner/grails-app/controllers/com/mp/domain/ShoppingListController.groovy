@@ -85,12 +85,18 @@ class ShoppingListController {
             List<Map<String, Quantity>> productListForWeeks = []
             List<List<String>> groceryListForWeeks = []
             params?.weeks?.each {String weekIndex ->
-                Map<String, Quantity> productListForWeek = shoppingListService.getProductListForWeek(menuPlan, weekIndex)
+                Map<String, Quantity> productListForWeek = [:]
+                List<String> groceryListForWeek = []
+                try{
+                    productListForWeek = shoppingListService.getProductListForWeek(menuPlan, weekIndex)
+                    groceryListForWeek = shoppingListService.getGroceryListForWeek(menuPlan, weekIndex)
+                } catch (e){
+                    e.printStackTrace()
+                }
                 productListForWeeks.add(productListForWeek)
-                List<String> groceryListForWeek = shoppingListService.getGroceryListForWeek(menuPlan, weekIndex)
                 groceryListForWeeks.add(groceryListForWeek)
             }
-            render(view: 'detailShoppingList', model: [menuPlan: menuPlan, servings: params?.servings, shoppingListName: params?.name, weeks: params?.list('weeks'), productListForWeeks: productListForWeeks, groceryListForWeeks:groceryListForWeeks])
+            render(view: 'detailShoppingList', model: [menuPlan: menuPlan, servings: servings, shoppingListName: params?.name, weeks: params?.list('weeks'), productListForWeeks: productListForWeeks, groceryListForWeeks:groceryListForWeeks])
         } else {
             pslCO.errors.allErrors.each {
                 println it

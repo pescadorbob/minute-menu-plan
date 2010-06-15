@@ -12,7 +12,7 @@ class ShoppingListService {
                 String prodName
                 Quantity quantity
                 if (item?.instanceOf(Recipe)) {
-                    item.ingredients.each {RecipeIngredient recipeIngredient ->
+                    item?.ingredients?.each {RecipeIngredient recipeIngredient ->
                         prodName = recipeIngredient?.ingredient
                         quantity = recipeIngredient?.quantity
                         productListForWeek[prodName] = (productListForWeek[prodName] && (quantity)) ? productListForWeek[prodName] + quantity : quantity
