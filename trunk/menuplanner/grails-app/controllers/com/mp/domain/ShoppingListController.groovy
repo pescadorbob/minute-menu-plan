@@ -11,9 +11,7 @@ class ShoppingListController {
         weeklyShoppingList.weekIndex = index
         shoppingList.addToWeeklyShoppingLists(weeklyShoppingList)
         weeklyShoppingList.s()
-
         Week week = menuPlan?.weeks?.get(index)
-
         week.days.each {Day day ->
             List<Item> items = day?.breakfast + day?.lunch + day?.dinner
             items.each {Item item ->
@@ -25,7 +23,6 @@ class ShoppingListController {
                             quantity.s()
                             shoppingIngredient?.quantity = quantity
                             shoppingIngredient.s()
-
                         } else {
                             ShoppingIngredient shoppingIngredient = new ShoppingIngredient()
                             shoppingIngredient.item = ingredient.ingredient
@@ -86,11 +83,14 @@ class ShoppingListController {
             Integer servings = params?.servings?.toInteger()
             MenuPlan menuPlan = MenuPlan.get(params?.menuPlanId)
             List<Map<String, Quantity>> productListForWeeks = []
+            List<List<String>> groceryListForWeeks = []
             params?.weeks?.each {String weekIndex ->
                 Map<String, Quantity> productListForWeek = shoppingListService.getProductListForWeek(menuPlan, weekIndex)
                 productListForWeeks.add(productListForWeek)
+                List<String> groceryListForWeek = shoppingListService.getGroceryListForWeek(menuPlan, weekIndex)
+                groceryListForWeeks.add(groceryListForWeek)
             }
-            render(view: 'detailShoppingList', model: [menuPlan: menuPlan, servings: params?.servings, shoppingListName: params?.name, weeks: params?.list('weeks'), productListForWeeks: productListForWeeks])
+            render(view: 'detailShoppingList', model: [menuPlan: menuPlan, servings: params?.servings, shoppingListName: params?.name, weeks: params?.list('weeks'), productListForWeeks: productListForWeeks, groceryListForWeeks:groceryListForWeeks])
         } else {
             pslCO.errors.allErrors.each {
                 println it
