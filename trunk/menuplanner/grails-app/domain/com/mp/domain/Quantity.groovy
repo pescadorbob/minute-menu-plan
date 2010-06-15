@@ -41,6 +41,12 @@ class Quantity {
         return sum
     }
 
+    public static Quantity addQuantities(Quantity quantity1, Quantity quantity2){
+      Quantity quantity
+      return quantity
+
+    }
+
     public Quantity plus(Quantity quantity){
         String usVal1 =(this.value)?(StandardConversion.getQuantityValueString(this)):''
         Unit displayUnit1=this.unit
