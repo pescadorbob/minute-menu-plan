@@ -58,7 +58,13 @@ class Quantity {
                     displayUnit = q2?.unit
                 }
             }
-            resultantQuantity?.value = q1?.value + q2?.value
+            if(q1?.value && q2?.value){
+                resultantQuantity?.value = q1?.value + q2?.value
+            }else if(q1?.value){
+                resultantQuantity?.value = q1?.value
+            }else if(q2?.value){
+                resultantQuantity?.value = q2?.value
+            }
             resultantQuantity?.savedUnit = q1?.savedUnit
             resultantQuantity?.unit = displayUnit
         }

@@ -48,17 +48,17 @@ class MasterDataBootStrapService implements ApplicationContextAware {
         Unit milliGram = new Unit(name: UNIT_MILLI_GRAM, symbol: UNIT_MILLI_GRAM_SYMBOL, definition: "This is definition for milligram", metricType: MetricType.METRIC)
         milliGram.addToSystemOfUnits(systemOfUnitsMetric)
         milliGram.s()
-        new StandardConversion(sourceUnit: milliGram, targetUnit: milliGram, conversionFactor: UNIT_MILLI_LITRE_CONVERSION_FACTOR).s()
+        new StandardConversion(sourceUnit: milliGram, targetUnit: milliLitres, conversionFactor: UNIT_MILLI_LITRE_CONVERSION_FACTOR).s()
 
         Unit gram = new Unit(name: UNIT_GRAM, symbol: UNIT_GRAM_SYMBOL, definition: "This is definition for gram", metricType: MetricType.METRIC)
         gram.addToSystemOfUnits(systemOfUnitsMetric)
         gram.s()
-        new StandardConversion(sourceUnit: gram, targetUnit: milliGram, conversionFactor: UNIT_GRAM_CONVERSION_FACTOR).s()
+        new StandardConversion(sourceUnit: gram, targetUnit: milliLitres, conversionFactor: UNIT_GRAM_CONVERSION_FACTOR).s()
 
         Unit kiloGram = new Unit(name: UNIT_KILO_GRAM, symbol: UNIT_KILO_GRAM_SYMBOL, definition: "This is definition for kilogram", metricType: MetricType.METRIC)
         kiloGram.addToSystemOfUnits(systemOfUnitsMetric)
         kiloGram.s()
-        new StandardConversion(sourceUnit: kiloGram, targetUnit: milliGram, conversionFactor: UNIT_KILO_GRAM_CONVERSION_FACTOR).s()
+        new StandardConversion(sourceUnit: kiloGram, targetUnit: milliLitres, conversionFactor: UNIT_KILO_GRAM_CONVERSION_FACTOR).s()
 
         /* POPULATEING USA UNITS: */
         SystemOfUnit systemOfUnitsUsa = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
@@ -116,52 +116,52 @@ class MasterDataBootStrapService implements ApplicationContextAware {
         Unit pound = new Unit(name: UNIT_POUND, symbol: UNIT_POUND_SYMBOL, definition: "This is definition for Pound", metricType: MetricType.METRIC)
         pound.addToSystemOfUnits(systemOfUnitsUsa)
         pound.s()
-        new StandardConversion(sourceUnit: pound, targetUnit: milliGram, conversionFactor: UNIT_POUND_CONVERSION_FACTOR).s()
+        new StandardConversion(sourceUnit: pound, targetUnit: milliLitres, conversionFactor: UNIT_POUND_CONVERSION_FACTOR).s()
 
         Unit can = new Unit(name: UNIT_CAN, symbol: UNIT_CAN_SYMBOL, definition: "This is definition for Can", metricType: MetricType.METRIC)
         can.addToSystemOfUnits(systemOfUnitsUsa)
         can.s()
-        new StandardConversion(sourceUnit: can, targetUnit: milliGram, conversionFactor: UNIT_CAN_CONVERSION_FACTOR).s()
+        new StandardConversion(sourceUnit: can, targetUnit: milliLitres, conversionFactor: UNIT_CAN_CONVERSION_FACTOR).s()
 
         Unit can_8 = new Unit(name: UNIT_8_CAN, symbol: UNIT_8_CAN_SYMBOL, definition: "This is definition for 8 Can", metricType: MetricType.METRIC)
         can_8.addToSystemOfUnits(systemOfUnitsUsa)
         can_8.s()
-        new StandardConversion(sourceUnit: can_8, targetUnit: milliGram, conversionFactor: UNIT_8_CAN_CONVERSION_FACTOR).s()
+        new StandardConversion(sourceUnit: can_8, targetUnit: milliLitres, conversionFactor: UNIT_8_CAN_CONVERSION_FACTOR).s()
 
         Unit ounce_10_3_4 = new Unit(name: UNIT_10_3_4_OUNCE_CAN, symbol: UNIT_10_3_4_OUNCE_CAN_SYMBOL, definition: "This is definition for 10 3/4 ounce can", metricType: MetricType.METRIC)
         ounce_10_3_4.addToSystemOfUnits(systemOfUnitsUsa)
         ounce_10_3_4.s()
-        new StandardConversion(sourceUnit: ounce_10_3_4, targetUnit: milliGram, conversionFactor: UNIT_10_3_4_OUNCE_CAN_CONVERSION_FACTOR).s()
+        new StandardConversion(sourceUnit: ounce_10_3_4, targetUnit: milliLitres, conversionFactor: UNIT_10_3_4_OUNCE_CAN_CONVERSION_FACTOR).s()
 
         Unit ounce_6 = new Unit(name: UNIT_6_OUNCE_CAN, symbol: UNIT_6_OUNCE_CAN_SYMBOL, definition: "This is definition for 6 ounce can", metricType: MetricType.METRIC)
         ounce_6.addToSystemOfUnits(systemOfUnitsUsa)
         ounce_6.s()
-        new StandardConversion(sourceUnit: ounce_6, targetUnit: milliGram, conversionFactor: UNIT_6_OUNCE_CAN_CONVERSION_FACTOR).s()
+        new StandardConversion(sourceUnit: ounce_6, targetUnit: milliLitres, conversionFactor: UNIT_6_OUNCE_CAN_CONVERSION_FACTOR).s()
 
         Unit ounce_8 = new Unit(name: UNIT_8_OUNCE_CAN, symbol: UNIT_8_OUNCE_CAN_SYMBOL, definition: "This is definition for 8 ounce can", metricType: MetricType.METRIC)
         ounce_8.addToSystemOfUnits(systemOfUnitsUsa)
         ounce_8.s()
-        new StandardConversion(sourceUnit: ounce_8, targetUnit: milliGram, conversionFactor: UNIT_8_OUNCE_CAN_CONVERSION_FACTOR).s()
+        new StandardConversion(sourceUnit: ounce_8, targetUnit: milliLitres, conversionFactor: UNIT_8_OUNCE_CAN_CONVERSION_FACTOR).s()
 
         Unit ounce_10 = new Unit(name: UNIT_10_OUNCE_PACKAGE, symbol: UNIT_10_OUNCE_PACKAGE_SYMBOL, definition: "This is definition for 10 ounce package", metricType: MetricType.METRIC)
         ounce_10.addToSystemOfUnits(systemOfUnitsUsa)
         ounce_10.s()
-        new StandardConversion(sourceUnit: ounce_10, targetUnit: milliGram, conversionFactor: UNIT_10_OUNCE_PACKAGE_CONVERSION_FACTOR).s()
+        new StandardConversion(sourceUnit: ounce_10, targetUnit: milliLitres, conversionFactor: UNIT_10_OUNCE_PACKAGE_CONVERSION_FACTOR).s()
 
         Unit ounce_16 = new Unit(name: UNIT_16_OUNCE_CAN, symbol: UNIT_16_OUNCE_CAN_SYMBOL, definition: "This is definition for 16 ounce can", metricType: MetricType.METRIC)
         ounce_16.addToSystemOfUnits(systemOfUnitsUsa)
         ounce_16.s()
-        new StandardConversion(sourceUnit: ounce_16, targetUnit: milliGram, conversionFactor: UNIT_16_OUNCE_CAN_CONVERSION_FACTOR).s()
+        new StandardConversion(sourceUnit: ounce_16, targetUnit: milliLitres, conversionFactor: UNIT_16_OUNCE_CAN_CONVERSION_FACTOR).s()
 
         Unit ounce_20 = new Unit(name: UNIT_20_OUNCE_PACKAGE, symbol: UNIT_20_OUNCE_PACKAGE_SYMBOL, definition: "This is definition for 20 ounce can", metricType: MetricType.METRIC)
         ounce_20.addToSystemOfUnits(systemOfUnitsUsa)
         ounce_20.s()
-        new StandardConversion(sourceUnit: ounce_20, targetUnit: milliGram, conversionFactor: UNIT_20_OUNCE_PACKAGE_CONVERSION_FACTOR).s()
+        new StandardConversion(sourceUnit: ounce_20, targetUnit: milliLitres, conversionFactor: UNIT_20_OUNCE_PACKAGE_CONVERSION_FACTOR).s()
 
         Unit ounce = new Unit(name: UNIT_OUNCE, symbol: UNIT_OUNCE_SYMBOL, definition: "This is definition for Ounce", metricType: MetricType.METRIC)
         ounce.addToSystemOfUnits(systemOfUnitsUsa)
         ounce.s()
-        new StandardConversion(sourceUnit: ounce, targetUnit: milliGram, conversionFactor: UNIT_OUNCE_CONVERSION_FACTOR).s()
+        new StandardConversion(sourceUnit: ounce, targetUnit: milliLitres, conversionFactor: UNIT_OUNCE_CONVERSION_FACTOR).s()
 
         /* POPULATEING CALORY UNIT: */
         Unit calories = new Unit(name: UNIT_CALORIES, symbol: UNIT_CALORIES_SYMBOL, definition: "This is definition for calories", metricType: MetricType.METRIC)

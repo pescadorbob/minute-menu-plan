@@ -19,7 +19,7 @@
                     </li></ul>
                     </div>
                     <g:each in="${weeks}" var="weekIndex" status="i">
-                        <g:render template="/shoppingList/shoppingListPerWeek" model="[menuPlan:menuPlan, weekIndex:weekIndex, productListForWeek:productListForWeeks?.get(i)]"/>
+                        <g:render template="/shoppingList/shoppingListPerWeek" model="[menuPlan:menuPlan, weekIndex:weekIndex, productListForWeek:productListForWeeks?.get(i), groceryListForWeek:groceryListForWeeks?.get(i)]"/>
                     </g:each>
                     <div class="winterButton">
                         <ul><li>
