@@ -104,7 +104,8 @@ class UserController {
         }
     }
     def create = {
-        render(view: 'create')
+        UserCO userCO = new UserCO(roles: [UserType.User.toString()], isEnabled: true)
+        render(view: 'create', model: [userCO: userCO])
     }
     def update = {UserCO userCO ->
         if (userCO.validate()) {
