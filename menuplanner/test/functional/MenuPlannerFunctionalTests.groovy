@@ -55,9 +55,8 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
             mouthsToFeed = userFormData.mouthsToFeed
             introduction = userFormData.introduction
             if (!userFormData.isEnabled) { byId('chk_Enable').click() }
-            if (userFormData.isSuperAdmin) {byId('chk_SuperAdmin').click()}
-            if (userFormData.isAdmin) {byId('chk_Admin').click()}
-            if (userFormData.isUser) {byId('chk_User').click()}
+            if (userFormData.isSuperAdmin) {byId('chk_User').click() byId('chk_SuperAdmin').click()}
+            if (userFormData.isAdmin) {byId('chk_User').click() byId('chk_Admin').click()}
             click('_action_save')
         }
     }
