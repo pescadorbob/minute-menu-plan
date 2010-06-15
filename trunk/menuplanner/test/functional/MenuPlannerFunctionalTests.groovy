@@ -59,6 +59,21 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
         }
     }
 
+    void createShoppingList(ShoppingListFormData shoppingListFormData) {
+        get('/shoppingList/printShoppingList')
+        form('formShoppingList') {
+            name = shoppingListFormData.name
+            menuPlanId = byId('menuPlanId').getOption(1).getValueAttribute()
+            servings = shoppingListFormData.servings
+            //selecting all weeks  i.e. week-1, week-2, week-3 and week-4
+            byId('formShoppingList').getFirstChild().getNextSibling().getNextSibling().getNextSibling().getChildren().each {
+                def checkbox = it.getFirstChild()
+                checkbox.click()
+            }
+            click('_action_detailShoppingList')
+        }
+    }
+
     void loginBySuperAdmin() {
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
         loginFormData.email = "qa.menuplanner+superAdmin@gmail.com"
@@ -83,7 +98,13 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
         click('Edit')
     }
 
-    /** * Helper method to return a message from the message bundle.       ***/
+    void goToShoppingListPage() {
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        userLogin(loginFormData)
+        get('/shoppingList/printShoppingList')
+    }
+
+    /** * Helper method to return a message from the message bundle.                ***/
     String getMessage(String key, def targetArgs = TARGET_ARGS_EMPTY) {
         def keyValue = messageSource.resolveCode(key, locale)
         return keyValue?.format(targetArgs)
