@@ -19,13 +19,18 @@ class ShoppingListFunctionalTests extends MenuPlannerFunctionalTests {
         assertContentContains "Print Shopping List "
     }
 
+    void testGenerateNewShoppingList_One_Week_Selected() {
+        goToShoppingListPage()
+        ShoppingListFormData shoppingListFormData = ShoppingListFormData.getDefaultShoppingListFormData()
+        createShoppingList_One_Week_Selected(shoppingListFormData)
+        assertContentContains shoppingListFormData.name
+        assertContentContains "Export to Todo"
+        assertContentContains "Print Shopping List "
+    }
+
     void testGenerateNewShoppingList_All_Blank_Fields() {
         goToShoppingListPage()
-        form('formShoppingList') {
-            name = ""
-            servings = ""
-            click('_action_detailShoppingList')
-        }
+        createShoppingList_All_Fields_Blank()
         assertTrue(
                 (byId('errorsDiv').asText().contains(getMessage('printShoppingListCO.servings.blank.servings'))) &&
                         (byId('errorsDiv').asText().contains(getMessage('printShoppingListCO.weeks.nullable.error.weeks'))) &&
