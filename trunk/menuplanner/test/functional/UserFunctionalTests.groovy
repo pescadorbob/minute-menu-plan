@@ -1,4 +1,5 @@
 import com.gargoylesoftware.htmlunit.html.*
+import com.mp.domain.*
 
 class UserFunctionalTests extends MenuPlannerFunctionalTests {
 
