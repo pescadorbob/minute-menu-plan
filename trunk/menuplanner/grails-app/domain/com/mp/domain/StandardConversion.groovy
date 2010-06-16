@@ -11,10 +11,9 @@ class StandardConversion {
     Double conversionFactor
 
     public static Quantity getQuantityToSave(String amountFraction, Unit displayUnit) { 
-        Quantity result
+        Quantity result = new Quantity()
         Float amount
         if (amountFraction) {
-          result = new Quantity()
             if (amountFraction.contains('/')) {
                 amount = new Fraction(amountFraction)?.floatValue()
             } else {
