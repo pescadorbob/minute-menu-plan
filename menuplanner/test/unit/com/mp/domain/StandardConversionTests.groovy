@@ -67,26 +67,26 @@ class StandardConversionTests extends GrailsUnitTestCase {
 
   }
 
-   void test1_invalid_getQuantityToSave() {
-    String amountFraction
-    Unit displayUnit
-    def instances = []
-    def fracInstances = []
-
-    mockDomain(Unit, instances)
-    mockDomain(Quantity)
-     Fraction.metaClass.constructor << {String stringToParse ->
-            new ProperFractionFormat().parse(stringToParse)
-        }
-     def scMock = mockFor(StandardConversion)
-    Unit kiloGram = new Unit(name: 'Kilo Grams', symbol: 'Kg.', definition: "This is definition for kilogram", metricType: MetricType.METRIC)
-
-    scMock.demand.static.findBySourceUnit(){Unit unit-> return null}
-
-    Quantity quant = StandardConversion.getQuantityToSave(null, kiloGram)
-    assertNull quant
-
-  }
+//   void test1_invalid_getQuantityToSave() {
+//    String amountFraction
+//    Unit displayUnit
+//    def instances = []
+//    def fracInstances = []
+//
+//    mockDomain(Unit, instances)
+//    mockDomain(Quantity)
+//     Fraction.metaClass.constructor << {String stringToParse ->
+//            new ProperFractionFormat().parse(stringToParse)
+//        }
+//     def scMock = mockFor(StandardConversion)
+//    Unit kiloGram = new Unit(name: 'Kilo Grams', symbol: 'Kg.', definition: "This is definition for kilogram", metricType: MetricType.METRIC)
+//
+//    scMock.demand.static.findBySourceUnit(){Unit unit-> return null}
+//
+//    Quantity quant = StandardConversion.getQuantityToSave(null, kiloGram)
+//    assertNull quant
+//
+//  }
 
   void test2_invalid_getQuantityToSave() {
     String amountFraction
