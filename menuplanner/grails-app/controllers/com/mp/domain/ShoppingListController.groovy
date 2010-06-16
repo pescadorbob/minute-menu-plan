@@ -39,7 +39,7 @@ class ShoppingListController {
         }
         groceries?.each {String name ->
             Item item = Item.findByName(name)
-            if (!item) {
+            if (!item && name.trim()) {
                 item = new Product(name: name).s()
             }
             if (!(item?.id in weeklyShoppingList?.groceries*.id)) {
@@ -49,7 +49,7 @@ class ShoppingListController {
         return weeklyShoppingList
     }
 
-    def create = {
+    def save = {
         List<String> weekList = params.weekList?.tokenize('[, ]')
         MenuPlan menuPlan = MenuPlan.get(params?.menuPlanId?.toLong())
         ShoppingList shoppingList = new ShoppingList()
@@ -69,7 +69,6 @@ class ShoppingListController {
 
     def show = {
         ShoppingList shoppingList = ShoppingList.get(params.id)
-
         render(view: 'show', model: [shoppingList: shoppingList])
     }
 
@@ -86,7 +85,7 @@ class ShoppingListController {
         render(view: 'printShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: user.mouthsToFeed])
     }
 
-    def detailShoppingList = {PrintShoppingListCO pslCO ->
+    def create = {PrintShoppingListCO pslCO ->
         if (pslCO.validate()) {
             Integer servings = params?.servings?.toInteger()
             MenuPlan menuPlan = MenuPlan.get(params?.menuPlanId)
@@ -104,7 +103,7 @@ class ShoppingListController {
                 productListForWeeks.add(productListForWeek)
                 groceryListForWeeks.add(groceryListForWeek)
             }
-            render(view: 'detailShoppingList', model: [menuPlan: menuPlan, servings: servings, shoppingListName: params?.name, weeks: params?.list('weeks'), productListForWeeks: productListForWeeks, groceryListForWeeks: groceryListForWeeks])
+            render(view: 'create', model: [menuPlan: menuPlan, servings: servings, shoppingListName: params?.name, weeks: params?.list('weeks'), productListForWeeks: productListForWeeks, groceryListForWeeks: groceryListForWeeks])
         } else {
             pslCO.errors.allErrors.each {
                 println it
@@ -116,7 +115,37 @@ class ShoppingListController {
     }
 
     def cancelDetailShoppingList = {
-        redirect(controller: 'shoppingList', action: 'printShoppingList')
+        redirect(controller: 'shoppingList', action: 'printShoppingList', id: params?.menuPlanId)
     }
+
+    def edit = {
+        ShoppingList shoppingList = ShoppingList.get(params?.shoppingListId?.toLong())
+        Integer servings = shoppingList?.servings
+        MenuPlan menuPlan = shoppingList?.menuPlan
+        List<String> weeks = []
+        List<Map<String, Quantity>> productListForWeeks = []
+        List<List<String>> groceryListForWeeks = []
+        shoppingList?.weeklyShoppingLists?.each {WeeklyShoppingList weeklyShoppingList ->
+            weeks.add(weeklyShoppingList?.weekIndex?.toString())
+            Map<String, Quantity> productListForWeek = [:]
+            List<String> groceryListForWeek = []
+            try {
+                productListForWeek = shoppingListService.getProductListForWeekFromShoppingList(weeklyShoppingList)
+                groceryListForWeek = shoppingListService.getGroceryListForWeekFromShoppingList(weeklyShoppingList)
+            } catch (e) {
+                e.printStackTrace()
+            }
+            productListForWeeks.add(productListForWeek)
+            groceryListForWeeks.add(groceryListForWeek)
+        }
+        render(view: 'create', model: [menuPlan: menuPlan, shoppingListId: shoppingList?.id, servings: servings, shoppingListName: shoppingList?.name, weeks: weeks, productListForWeeks: productListForWeeks, groceryListForWeeks: groceryListForWeeks])
+    }
+
+    def update = {
+
+
+        render(view: 'show', model: [shoppingList: shoppingList])
+    }
+
 
 }

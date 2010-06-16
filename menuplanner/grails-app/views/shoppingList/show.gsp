@@ -50,7 +50,8 @@
                 <div class="winterButton">
                     <ul><li>
                         <g:uploadForm name="formDetailShoppingList">
-                            <g:actionSubmit class="button" controller="shoppingList" action="edit" name="edit" id="${shoppingList?.id}" value="Edit"/>
+                            <g:hiddenField name="shoppingListId" value="${shoppingList?.id}"/>
+                            <g:actionSubmit class="button" controller="shoppingList" action="edit" name="edit" value="Edit"/>
                         </g:uploadForm>
                     </li></ul>
                 </div>

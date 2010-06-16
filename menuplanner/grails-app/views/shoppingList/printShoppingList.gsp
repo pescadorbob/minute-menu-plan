@@ -31,7 +31,7 @@
                                 <p><input name="weeks" type="checkbox" value="2" ${(pslCO?.weeks?.contains("2")) ? "checked=checked" : ""}/> <span>Week3</span></p>
                                 <p><input name="weeks" type="checkbox" value="3" ${(pslCO?.weeks?.contains("3")) ? "checked=checked" : ""}/> <span>Week4</span></p></li>
                             <li style="text-align:center;">
-                                <g:actionSubmit controller="shoppingList" action="detailShoppingList" value="Generate New List" class="button" style="width:150px;"/></li>
+                                <g:actionSubmit controller="shoppingList" action="create" value="Generate New List" class="button" style="width:150px;"/></li>
                         </g:uploadForm>
                     </ul>
                 </div>
