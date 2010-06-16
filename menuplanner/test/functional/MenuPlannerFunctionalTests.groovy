@@ -74,7 +74,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
                 def checkbox = it.getFirstChild()
                 checkbox.click()
             }
-            click('_action_detailShoppingList')
+            click('_action_create')
         }
     }
 
@@ -86,7 +86,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
             servings = shoppingListFormData.servings
             //selecting week-1
             byId('formShoppingList').getFirstChild().getNextSibling().getNextSibling().getNextSibling().getFirstChild().getFirstChild().click()
-            click('_action_detailShoppingList')
+            click('_action_create')
         }
     }
 
@@ -94,7 +94,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
         form('formShoppingList') {
             name = ""
             servings = ""
-            click('_action_detailShoppingList')
+            click('_action_create')
         }
     }
 
@@ -104,7 +104,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
             name = shoppingListFormData.name
             menuPlanId = byId('menuPlanId').getOption(1).getValueAttribute()
             servings = shoppingListFormData.servings
-            click('_action_detailShoppingList')
+            click('_action_create')
         }
     }
 
