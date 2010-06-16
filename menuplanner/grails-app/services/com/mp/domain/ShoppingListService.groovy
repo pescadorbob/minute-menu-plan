@@ -4,7 +4,7 @@ class ShoppingListService {
 
     boolean transactional = true
 
-    Map<String, Quantity> getProductListForWeek(MenuPlan menuPlan, String weekIndex) {
+    Map<String, Quantity> getProductListForWeekFromMenuPlan(MenuPlan menuPlan, String weekIndex) {
         Map<String, Quantity> productListForWeek = [:]
         menuPlan?.weeks[weekIndex?.toInteger()]?.days?.each {Day day ->
             List<Item> items = day?.breakfast + day?.lunch + day?.dinner as List
@@ -23,7 +23,7 @@ class ShoppingListService {
         return productListForWeek
     }
 
-    List<String> getGroceryListForWeek(MenuPlan menuPlan, String weekIndex) {
+    List<String> getGroceryListForWeekFromMenuPlan(MenuPlan menuPlan, String weekIndex) {
         List<String> groceryListForWeek = []
         menuPlan?.weeks[weekIndex?.toInteger()]?.days?.each {Day day ->
             List<Item> items = day?.breakfast + day?.lunch + day?.dinner as List
@@ -54,7 +54,6 @@ class ShoppingListService {
     List<String> getGroceryListForWeekFromShoppingList(WeeklyShoppingList weeklyShoppingList) {
         List<String> groceryListForWeek = []
         weeklyShoppingList.groceries.each {Item item ->
-            String prodName
             groceryListForWeek.add(item?.name)
         }
         return (groceryListForWeek as Set) as List
