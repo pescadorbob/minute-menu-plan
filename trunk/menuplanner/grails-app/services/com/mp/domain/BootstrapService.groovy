@@ -51,7 +51,7 @@ class BootstrapService {
         }
     }
 
-    public void populateUser(String userName) {
+    public void populateUser(String name) {
         User user = new User()
         Integer intVal = (new Random().nextInt(10) + 1)
         user.email = 'qa.menuplanner+' + name + '@gmail.com'
