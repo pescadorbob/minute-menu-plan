@@ -10,10 +10,11 @@ class StandardConversion {
     Unit targetUnit
     Double conversionFactor
 
-    public static Quantity getQuantityToSave(String amountFraction, Unit displayUnit) {
-        Quantity result = new Quantity()
+    public static Quantity getQuantityToSave(String amountFraction, Unit displayUnit) { 
+        Quantity result
         Float amount
         if (amountFraction) {
+          result = new Quantity()
             if (amountFraction.contains('/')) {
                 amount = new Fraction(amountFraction)?.floatValue()
             } else {
@@ -21,7 +22,7 @@ class StandardConversion {
             }
             result.value = amount
         }
-        if (displayUnit && (amount != null)) {
+        if (displayUnit && (amount != null)) { 
             StandardConversion standardConversion = StandardConversion.findBySourceUnit(displayUnit)
             result.value = amount * standardConversion?.conversionFactor
             result.savedUnit = standardConversion?.targetUnit
@@ -53,6 +54,8 @@ class StandardConversion {
         }
         return result
     }
+
+  
     static constraints = {
     }
 }
