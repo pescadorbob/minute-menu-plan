@@ -46,7 +46,7 @@ class PrintShoppingListCO {
     String servings
 
     static constraints = {
-        name(blank: false, matches: /[a-zA-Z0-9\s\&]*/)
+        name(blank: false, nullable: false)
         weeks(nullable: false, blank: false)
         menuPlanId(nullable: false, blank: false)
         servings(blank: false, matches: /[0-9\s]*/)
