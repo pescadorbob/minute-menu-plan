@@ -14,7 +14,7 @@
             </div>
             <div class="leftbox clearfix">
                 <table id="groceryTemplateRow" style="display:none;">
-                    <g:render template="/shoppingList/grocery"/>                    
+                    <g:render template="/shoppingList/grocery"/>
                 </table>
                 <g:uploadForm name="formDetailShoppingList">
                     <div class="wintertop"><ul><li><strong>&nbsp;</strong></li><li><input name="" type="checkbox" value=""/> Export to Todo</li><li>
@@ -26,11 +26,16 @@
                     </g:each>
                     <div class="winterButton">
                         <ul><li>
-                            <g:hiddenField name="menuPlanId" value="${menuPlan?.id}"/> 
+                            <g:hiddenField name="menuPlanId" value="${menuPlan?.id}"/>
                             <g:hiddenField name="weekList" value="${weeks}"/>
                             <g:hiddenField name="servings" value="${servings}"/>
                             <g:hiddenField name="shoppingListName" value="${shoppingListName}"/>
-                            <g:actionSubmit class="button" controller="shoppingList" action="create" name="create" value="Create"/>
+                            <g:if test="${shoppingListId}">
+                                <g:actionSubmit class="button" controller="shoppingList" action="update" name="update" value="Update"/>
+                            </g:if>
+                            <g:else>
+                                <g:actionSubmit class="button" controller="shoppingList" action="save" name="save" value="Create"/>
+                            </g:else>
                             <g:actionSubmit class="button" controller="shoppingList" action="cancelDetailShoppingList" name="create" value="Cancel"/>
                         </li></ul>
                     </div>

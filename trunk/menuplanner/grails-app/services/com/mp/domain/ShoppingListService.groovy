@@ -37,6 +37,31 @@ class ShoppingListService {
         }
         return (groceryListForWeek as Set) as List
     }
+
+    Map<String, Quantity> getProductListForWeekFromShoppingList(WeeklyShoppingList weeklyShoppingList) {
+           Map<String, Quantity> productListForWeek = [:]
+           weeklyShoppingList.products.each {ShoppingIngredient shoppingIngredient ->
+               String prodName
+               Quantity quantity
+               prodName = shoppingIngredient?.item?.name
+               quantity = shoppingIngredient?.quantity
+               productListForWeek[prodName] = quantity
+           }
+
+           return productListForWeek
+       }
+
+       List<String> getGroceryListForWeekFromShoppingList(WeeklyShoppingList weeklyShoppingList) {
+           List<String> groceryListForWeek = []
+           weeklyShoppingList.groceries.each {ShoppingIngredient shoppingIngredient ->
+               String prodName
+               Quantity quantity
+               prodName = shoppingIngredient?.item?.name
+               groceryListForWeek.add(prodName)
+           }
+           return (groceryListForWeek as Set) as List
+       }
+
 }
 
 class PrintShoppingListCO {
