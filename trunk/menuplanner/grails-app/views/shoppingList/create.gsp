@@ -31,6 +31,7 @@
                             <g:hiddenField name="servings" value="${servings}"/>
                             <g:hiddenField name="shoppingListName" value="${shoppingListName}"/>
                             <g:if test="${shoppingListId}">
+                                <g:hiddenField name="shoppingListId" value="${shoppingListId}"/>
                                 <g:actionSubmit class="button" controller="shoppingList" action="update" name="update" value="Update"/>
                             </g:if>
                             <g:else>

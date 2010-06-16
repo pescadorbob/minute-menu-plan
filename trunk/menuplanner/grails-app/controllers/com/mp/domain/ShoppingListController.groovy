@@ -32,8 +32,6 @@ class ShoppingListController {
                             shoppingIngredient.s()
                         }
                     }
-                } else {
-//                    weeklyShoppingList.addToGroceries(item)
                 }
             }
         }
@@ -95,8 +93,8 @@ class ShoppingListController {
                 Map<String, Quantity> productListForWeek = [:]
                 List<String> groceryListForWeek = []
                 try {
-                    productListForWeek = shoppingListService.getProductListForWeek(menuPlan, weekIndex)
-                    groceryListForWeek = shoppingListService.getGroceryListForWeek(menuPlan, weekIndex)
+                    productListForWeek = shoppingListService.getProductListForWeekFromMenuPlan(menuPlan, weekIndex)
+                    groceryListForWeek = shoppingListService.getGroceryListForWeekFromMenuPlan(menuPlan, weekIndex)
                 } catch (e) {
                     e.printStackTrace()
                 }
@@ -120,32 +118,82 @@ class ShoppingListController {
 
     def edit = {
         ShoppingList shoppingList = ShoppingList.get(params?.shoppingListId?.toLong())
-        Integer servings = shoppingList?.servings
-        MenuPlan menuPlan = shoppingList?.menuPlan
-        List<String> weeks = []
+        User user = User.currentUser
+        PrintShoppingListCO pslCO = new PrintShoppingListCO()
+        pslCO.name = shoppingList?.name
+        pslCO.menuPlanId = shoppingList?.menuPlan?.id
+        pslCO.servings = shoppingList?.servings
+        pslCO.weeks = shoppingList?.weeklyShoppingLists*.weekIndex.toString()
+        List<MenuPlan> menuPlans = MenuPlan.findAllByOwner(user)
+
+        render(view: 'printShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, shoppingListId: shoppingList?.id, servings: user.mouthsToFeed])
+    }
+
+    def modifyShoppingList = {
+        ShoppingList shoppingList = ShoppingList.get(params?.shoppingListId?.toLong())
+        String shoppingListId = shoppingList?.id?.toString()
+        List<String> weekIndexInShoppingList = []
+        List<String> weeks = params?.list('weeks')
+        shoppingList?.weeklyShoppingLists?.each {WeeklyShoppingList weeklyShoppingList ->
+            weekIndexInShoppingList.add(weeklyShoppingList?.weekIndex?.toString())
+        }
         List<Map<String, Quantity>> productListForWeeks = []
         List<List<String>> groceryListForWeeks = []
-        shoppingList?.weeklyShoppingLists?.each {WeeklyShoppingList weeklyShoppingList ->
-            weeks.add(weeklyShoppingList?.weekIndex?.toString())
+        weeks.each {String weekIndex ->
             Map<String, Quantity> productListForWeek = [:]
             List<String> groceryListForWeek = []
-            try {
-                productListForWeek = shoppingListService.getProductListForWeekFromShoppingList(weeklyShoppingList)
-                groceryListForWeek = shoppingListService.getGroceryListForWeekFromShoppingList(weeklyShoppingList)
-            } catch (e) {
-                e.printStackTrace()
+            if (weekIndex in weekIndexInShoppingList) {
+                WeeklyShoppingList weeklyShoppingList = shoppingList?.weeklyShoppingLists.find {it?.weekIndex == weekIndex?.toInteger()}
+                try {
+                    productListForWeek = shoppingListService.getProductListForWeekFromShoppingList(weeklyShoppingList)
+                    groceryListForWeek = shoppingListService.getGroceryListForWeekFromShoppingList(weeklyShoppingList)
+                } catch (e) {
+                    e.printStackTrace()
+                }
+                productListForWeeks.add(productListForWeek)
+                groceryListForWeeks.add(groceryListForWeek)
+
+            } else {
+                MenuPlan menuPlan = shoppingList?.menuPlan
+                try {
+                    productListForWeek = shoppingListService.getProductListForWeekFromMenuPlan(menuPlan, weekIndex)
+                    groceryListForWeek = shoppingListService.getGroceryListForWeekFromMenuPlan(menuPlan, weekIndex)
+                } catch (e) {
+                    e.printStackTrace()
+                }
+                productListForWeeks.add(productListForWeek)
+                groceryListForWeeks.add(groceryListForWeek)
             }
-            productListForWeeks.add(productListForWeek)
-            groceryListForWeeks.add(groceryListForWeek)
         }
-        render(view: 'create', model: [menuPlan: menuPlan, shoppingListId: shoppingList?.id, servings: servings, shoppingListName: shoppingList?.name, weeks: weeks, productListForWeeks: productListForWeeks, groceryListForWeeks: groceryListForWeeks])
+        render(view: 'create', model: [menuPlan: shoppingList.menuPlan, shoppingListId: shoppingListId,
+                servings: shoppingList.servings, shoppingListName: shoppingList?.name,
+                weeks: weeks, productListForWeeks: productListForWeeks, groceryListForWeeks: groceryListForWeeks])
     }
 
     def update = {
+        ShoppingList shoppingList = ShoppingList.get(params?.shoppingListId?.toLong())
+        shoppingList?.weeklyShoppingLists?.each {WeeklyShoppingList weeklyShoppingList ->
+            try {
+                weeklyShoppingList.delete(flush: true)
+            }
+            catch (Exception e) {
 
-
+            }
+        }
         render(view: 'show', model: [shoppingList: shoppingList])
     }
 
 
+    WeeklyShoppingList updateWeeklyShoppingList(List<String> groceries, WeeklyShoppingList weeklyShoppingList) {
+        groceries?.each {String name ->
+            Item item = Item.findByName(name)
+            if (!item && name.trim()) {
+                item = new Product(name: name).s()
+            }
+            if (!(item?.id in weeklyShoppingList?.groceries*.id)) {
+                weeklyShoppingList.groceries.add(item)
+            }
+        }
+        return weeklyShoppingList
+    }
 }
