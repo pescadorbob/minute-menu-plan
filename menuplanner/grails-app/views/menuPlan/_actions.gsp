@@ -4,6 +4,9 @@
         <g:else>
             <input type="text" name="menuPlan.name" id="menuPlanNameTextbox" title="Enter Menu Plan Name" value="${menuPlan?.name}">
         </g:else>
+        <div class="menuPlanActions">
+            %{--<g:select class="inpbox" optionKey="id" name="categoryIds" from="${categories}" value="${(recipeCO?.categoryIds?.size() > 1)? recipeCO?.categoryIds?.toList()[1] :null}" onchange="checkCategory()" noSelection="['': '(Select One)']"/> <br/><br/>--}%
+        </div>
     </div>
     <div id="viewmenu">
         %{--<ul>--}%
