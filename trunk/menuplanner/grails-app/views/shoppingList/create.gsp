@@ -17,10 +17,15 @@
                     <g:render template="/shoppingList/grocery"/>
                 </table>
                 <g:uploadForm name="formDetailShoppingList">
-                    <div class="wintertop"><ul><li><strong>&nbsp;</strong></li><li><input name="" type="checkbox" value=""/> Export to Todo</li><li>
-                        <img src="${resource(dir: 'images', file: 'printer.gif')}" alt="print" align="absmiddle"/> &nbsp; Print Shopping List
-                    </li></ul>
-                    </div>
+                   %{-- <div class="wintertop">
+                      <ul>
+                        <li><strong>&nbsp;</strong></li>
+                        <li><input name="" type="checkbox" value=""/> Export to Todo</li>
+                        <li style="cursor:pointer" id="printShoppingListBtn">
+                            <img src="${resource(dir: 'images', file: 'printer.gif')}" alt="print" align="absmiddle"/> &nbsp; Print Shopping List
+                        </li>
+                      </ul>
+                    </div>--}%
                     <g:each in="${weeks}" var="weekIndex" status="i">
                         <g:render template="/shoppingList/shoppingListPerWeek" model="[menuPlan:menuPlan, weekIndex:weekIndex, productListForWeek:productListForWeeks?.get(i), groceryListForWeek:groceryListForWeeks?.get(i)]"/>
                     </g:each>

@@ -5,8 +5,20 @@
   <title>Recipe Book List</title>
   <meta name="layout" content="printRecipelayout"/>
   <style>
+  <g:if test="${printOneRecipePerPage}">
   .break {
     page-break-after: always;
+  }
+  </g:if>
+  body {
+    color : #000000;
+    background : #ffffff;
+    font-family : "Times New Roman", Times, serif;
+    font-size : 12pt;
+  }
+  a {
+    text-decoration : underline;
+    color : #0000ff;
   }
   </style>
   <g:javascript src="jquery.printElement.min.js"/>
@@ -23,11 +35,9 @@
         <div id="leftpart">
           <label id="recipeNameTst">${recipe?.name}</label>
           <span id="spanRateable">
-            %{--<rateable:ratings bean='${recipe}'/>--}%
           </span>
         </div>
         <div id="rightpart">
-          %{--<span><img src="${resource(dir: 'images', file: 'printer.gif')}"/><a href="#" id="printButton">Print</a></span>--}%
         </div>
       </div>
       <div class="top-shadow"><label></label></div>

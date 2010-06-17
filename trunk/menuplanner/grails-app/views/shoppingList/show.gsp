@@ -15,10 +15,15 @@
                 <label>&nbsp;</label>
             </div>
             <div class="leftbox clearfix">
-                <div class="wintertop"><ul><li><strong>&nbsp;</strong></li><li><input name="" type="checkbox" value=""/> Export to Todo</li><li>
+              <div class="wintertop">
+                <ul>
+                  <li><strong>&nbsp;</strong></li>
+                  <li><input name="" type="checkbox" value=""/> Export to Todo</li>
+                  <li style="cursor:pointer" id="printShoppingListBtn">
                     <img src="${resource(dir: 'images', file: 'printer.gif')}" alt="print" align="absmiddle"/> &nbsp; Print Shopping List
-                </li></ul>
-                </div>
+                  </li>
+                </ul>
+              </div>
                 <g:each in="${shoppingList?.weeklyShoppingLists}" var="weeklyShoppingList" status="outer_i">
                     <div class="winter-week clearfix" style="width:406px;">
                         <div class="winterButton"><strong>Week ${weeklyShoppingList?.weekIndex + 1}</strong><p></p></div>
@@ -62,5 +67,11 @@
         </div>
     </div>
 </div>
+  <script type="text/javascript">
+    $("#printShoppingListBtn").click(function(){
+      window.open("${createLink(controller:'shoppingList',action:'printerFriendlyShoppingList',id:shoppingList.id)}",'printShoppingList','width=800,height=800,scrollbars=yes')
+      return false;
+    })
+  </script>
 </body>
 </html>

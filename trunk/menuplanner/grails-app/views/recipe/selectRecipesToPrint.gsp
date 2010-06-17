@@ -25,16 +25,16 @@
           <div class="winterWeek">
             <ul>
               <li>
-                <input name="fullWeek1" type="checkbox" value="1"/>
+                <input name="fullWeek1" type="checkbox" value="1" checked="checked"/>
                 Week 1</li>
               <li>
-                <input name="fullWeek2" type="checkbox" value="2"/>
+                <input name="fullWeek2" type="checkbox" value="2" checked="checked"/>
                 Week 2</li>
               <li>
-                <input name="fullWeek3" type="checkbox" value="3"/>
+                <input name="fullWeek3" type="checkbox" value="3" checked="checked"/>
                 Week 3</li>
               <li>
-                <input name="fullWeek4" type="checkbox" value="4"/>
+                <input name="fullWeek4" type="checkbox" value="4" checked="checked"/>
                 Week 4</li>
             </ul>
           </div>
