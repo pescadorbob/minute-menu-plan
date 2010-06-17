@@ -8,11 +8,13 @@ class QuickFillController {
 
     def quickFillAdmin = {
         List<Category> categoryList = Category.list()
+        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+
         QuickFill quickFill = params.addNew ? new QuickFill(mealItems: [new Meal(type: MealType.BREAKFAST), new Meal(type: MealType.LUNCH), new Meal(type: MealType.DINNER)]) : QuickFill.get(1)
         if (params.id) {
             quickFill = QuickFill.get(params.long("id"))
         }
-        [categoryList: categoryList, itemTotal: Recipe.count(), quickFill: quickFill]
+        [categoryList: categoryList, itemTotal: Recipe.count(), quickFill: quickFill, quickFillList: QuickFill.list(max: params.max, offset: params?.offset), quickFillTotal: QuickFill.count()]
     }
 
     def saveAndUpdateQuickFill = {
