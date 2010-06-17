@@ -37,8 +37,12 @@ class MenuplannerTagLib {
         out << g.render(template: '/layouts/adminDropDown')
     }
 
-    def actions = {
-        out << g.render(template: '/layouts/actions')
+    def actions = {attrs ->
+        Long menuPlanId = attrs['menuPlanId']?.toLong()
+        MenuPlan menuPlan = MenuPlan?.get(menuPlanId)
+        User user = User.currentUser
+        ShoppingList shoppingList = ShoppingList.findByMenuPlanAndUser(menuPlan, user)
+        out << g.render(template: '/layouts/actions', model:[shoppingList:shoppingList])
     }
 
     def checkGeneralInfoTabError = {attrs ->

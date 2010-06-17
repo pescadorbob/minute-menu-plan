@@ -71,14 +71,14 @@ class ShoppingListController {
     }
 
     def printShoppingList = {
-        PrintShoppingListCO pslCO = new PrintShoppingListCO()
-        User user = User.currentUser
         MenuPlan menuPlan = MenuPlan.get(params?.id?.toLong())
+        User user = User.currentUser
+        ShoppingList shoppingList = ShoppingList?.findByMenuPlanAndUser(menuPlan, user)
+        PrintShoppingListCO pslCO = new PrintShoppingListCO()
         pslCO.name = menuPlan?.name + '-Shopping List'
         pslCO.menuPlanId = params?.id
         pslCO.weeks = '[0,1,2,3]'
         pslCO.servings = user.mouthsToFeed.toString()
-
         List<MenuPlan> menuPlans = MenuPlan.findAllByOwner(user)
         render(view: 'printShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: user.mouthsToFeed])
     }
