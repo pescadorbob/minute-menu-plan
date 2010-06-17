@@ -19,7 +19,7 @@
 <div id="content-wrapper" class="clearfix">
     <div id="left-panel">
         <g:render template="/menuPlan/actions"/>
-        <g:render template="/menuPlan/quickFills"/>
+        <g:render template="/quickFill/quickFills"/>
         <div class="week">
             <ul>
                 <mp:mealItems week="${menuPlan.weeks[0]}" type="${MealType.DINNER}" image="week1.gif"/>
