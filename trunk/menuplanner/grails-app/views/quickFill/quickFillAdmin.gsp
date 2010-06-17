@@ -38,7 +38,7 @@
         <div style="font-size:13px;background-color:#99ccff;border:1px solid #6666ff">${flash.message}</div>
       </g:if>
       <g:render template="quickFillList"/>
-      <g:form controller="menuPlan" action="saveAndUpdateQuickFill" method="post">
+      <g:form controller="quickFill" action="saveAndUpdateQuickFill" method="post">
         <div id="box-right">
           <div id="usersave"><strong>Name :</strong>
             <input type="text" class="inpbox" name="quickFillName" value="${quickFill.name}"/>
@@ -54,7 +54,7 @@
                 </li>
                 <li class="bgcolor clearfix mealContainer" rel="${meal.type}">
                   <g:each in="${meal?.items}" var="item">
-                    <div><span>${item.name}</span><a href="#">Remove</a>
+                    <div><span>${item.name}</span><a href="quickFillAdmin.gsp#">Remove</a>
                       <input type="hidden" name="meal.${meal.type}" value="${item.id}">
                     </div>
                   </g:each>
@@ -107,7 +107,7 @@
       bindSortableToSearchItems()
 
       $("#addQuickFillBtn").click(function() {
-        self.location.href = "${createLink(controller:'menuPlan',action:'quickFillAdmin',params:['addNew':true])}"
+        self.location.href = "${createLink(controller:'quickFill',action:'quickFillAdmin',params:['addNew':true])}"
         return false;
       })
 

@@ -12,7 +12,7 @@
         <li class="${(i % 2 == 0) ? 'alternatecolor ' : ''}clearfix">
           <ul>
             <li>${quickFill.name}</li>
-            <li>&nbsp;<g:link controller="menuPlan" action="quickFillAdmin" id="${quickFill.id}">Edit</g:link></li>
+            <li>&nbsp;<g:link controller="quickFill" action="quickFillAdmin" id="${quickFill.id}">Edit</g:link></li>
           </ul>
         </li>
       </g:each>
