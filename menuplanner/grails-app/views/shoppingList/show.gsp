@@ -18,7 +18,10 @@
               <div class="wintertop">
                 <ul>
                   <li><strong>&nbsp;</strong></li>
-                  <li><input name="" type="checkbox" value=""/> Export to Todo</li>
+                  <li id="emailShoppingListBtn" style="cursor:pointer">
+                    <img src="${resource(dir:'images',file:'emailMe.jpeg')}" alt="" align="absmiddle" style="width:29px;height:23px">
+                    Email the Shopping List
+                  </li>
                   <li style="cursor:pointer" id="printShoppingListBtn">
                     <img src="${resource(dir: 'images', file: 'printer.gif')}" alt="print" align="absmiddle"/> &nbsp; Print Shopping List
                   </li>
@@ -71,6 +74,14 @@
     $("#printShoppingListBtn").click(function(){
       window.open("${createLink(controller:'shoppingList',action:'printerFriendlyShoppingList',id:shoppingList.id)}",'printShoppingList','width=800,height=800,scrollbars=yes')
       return false;
+    })
+
+    $(function(){
+      $("#emailShoppingListBtn").click(function(){
+        $.get("${createLink(controller:'shoppingList',action:'emailShoppingList',id:shoppingList.id)}",function(data){
+          alert("An email has been sent to your email id.");
+        })
+      })
     })
   </script>
 </body>
