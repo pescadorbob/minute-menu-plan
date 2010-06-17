@@ -157,6 +157,7 @@ class RecipeController {
 
     def printRecipes = {
         List<Recipe> recipes=[]
+        Boolean printOneRecipePerPage=true
         if(request.method=="POST"){
             switch(params.printRecipe){
                 case "PRINT_SELECTED_WEEKS":
@@ -165,6 +166,7 @@ class RecipeController {
                     recipes+= (params.fullWeek2)?menuPlan?.weeks?.get(params.int('fullWeek2')-1)?.recipes:[]
                     recipes+= (params.fullWeek3)?menuPlan?.weeks?.get(params.int('fullWeek3')-1)?.recipes:[]
                     recipes+= (params.fullWeek4)?menuPlan?.weeks?.get(params.int('fullWeek4')-1)?.recipes:[]
+                    printOneRecipePerPage=false
                     break;
                 case "PRINT_SELECTED_RECIPES":
                 recipes=Recipe.getAll(params?.list('recipeIds'))
@@ -172,9 +174,10 @@ class RecipeController {
             }
         }else{
             recipes = (params.ids)?Recipe.getAll(params?.list('ids')):Recipe.list()
+            printOneRecipePerPage=false
         }
         recipes=recipes?.unique{it.id}
-        [recipes: recipes]
+        [recipes: recipes,printOneRecipePerPage:printOneRecipePerPage]
     }
 
     def uploadImage = {

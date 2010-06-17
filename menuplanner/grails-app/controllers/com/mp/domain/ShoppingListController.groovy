@@ -184,6 +184,11 @@ class ShoppingListController {
         }
     }
 
+    def printerFriendlyShoppingList = {
+        ShoppingList shoppingList = ShoppingList.get(params.id)
+        render(view: 'printerFriendlyShoppingList', model: [shoppingList: shoppingList])
+    }
+
     def update = {
         ShoppingList shoppingList = ShoppingList.get(params?.shoppingListId?.toLong())
         List<String> weekList = params.weekList?.tokenize('[, ]')
