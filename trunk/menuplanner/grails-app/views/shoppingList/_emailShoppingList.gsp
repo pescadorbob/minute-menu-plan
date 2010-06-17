@@ -14,23 +14,36 @@
 
             <div class="clearfix">
                 <g:each in="${shoppingList?.weeklyShoppingLists}" var="weeklyShoppingList" status="outer_i">
-                    <div class="winter-week clearfix" style="width:406px;float:none">
+                    <div class="winter-week clearfix" style="width:406px;">
                         <div class="winterButton"><strong>Week ${weeklyShoppingList?.weekIndex + 1}</strong><p></p></div>
-                        <ul>
+                        <ul style="list-style:none">
                             <g:each in="${weeklyShoppingList?.products}" var="product" status="i">
                                 <li class="${(i % 2 == 1) ? 'alternatecolor' : ''}">
-                                    <ul>
-                                        <li class="email">${product?.item}</li>
-                                        <li>${product?.quantity}
-                                        </li>
+                                    <ul style="list-style:none">
+                                      <li>
+                                      <table>
+                                        <tr>
+                                          <td>${product?.item}:</td>
+                                          <td>${product?.quantity}
+                                          </td>
+                                        </tr>
+                                      </table>
+                                      </li>
                                     </ul>
                                 </li>
                             </g:each>
                           <g:each in="${weeklyShoppingList?.groceries}" var="item" status="j">
                             <li class="${(j % 2 == 1) ? 'alternatecolor' : ''}">
-                              <ul>
-                                <li class="email">${item}</li>
-                                <li>&nbsp;</li>
+                              <ul style="list-style:none">
+                                <li>
+                                  <table>
+                                    <tr>
+                                      <td>${item}</td>
+                                      <td>&nbsp;
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </li>
                               </ul>
                             </li>
                           </g:each>
@@ -43,8 +56,5 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    window.onload = print()
-  </script>
 </body>
 </html>

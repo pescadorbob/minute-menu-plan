@@ -3,6 +3,7 @@ package com.mp.domain
 class ShoppingListController {
 
     def shoppingListService
+    def asynchronousMailService
 
     def index = { }
 
@@ -187,6 +188,16 @@ class ShoppingListController {
     def printerFriendlyShoppingList = {
         ShoppingList shoppingList = ShoppingList.get(params.id)
         render(view: 'printerFriendlyShoppingList', model: [shoppingList: shoppingList])
+    }
+
+    def emailShoppingList={
+        ShoppingList shoppingList = ShoppingList.get(params.id)
+        asynchronousMailService.sendAsynchronousMail {
+                to User.currentUser?.email
+                subject "Your Shopping List : ${shoppingList.name}"
+                html g.render(template: '/shoppingList/emailShoppingList', model: [shoppingList: shoppingList])
+            }
+        render "Email sent to ${User.currentUser?.email}"
     }
 
     def update = {
