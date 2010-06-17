@@ -33,16 +33,14 @@ class MenuplannerTagLib {
         out << g.render(template: '/layouts/loggedUserDropDown', model: [loggedUser: User.currentUser])
     }
 
-    def adminDropDown = {
-        out << g.render(template: '/layouts/adminDropDown')
+    def shoppingListDropDown = {
+        User user = User.currentUser
+        List<ShoppingList> shoppingLists = ShoppingList.findAllByUser(user)
+        out << g.render(template: '/layouts/shoppingListDropDown', model: [shoppingLists: shoppingLists])
     }
 
-    def actions = {attrs ->
-        Long menuPlanId = attrs['menuPlanId']?.toLong()
-        MenuPlan menuPlan = MenuPlan?.get(menuPlanId)
-        User user = User.currentUser
-        ShoppingList shoppingList = ShoppingList.findByMenuPlanAndUser(menuPlan, user)
-        out << g.render(template: '/layouts/actions', model:[shoppingList:shoppingList])
+    def adminDropDown = {
+        out << g.render(template: '/layouts/adminDropDown')
     }
 
     def checkGeneralInfoTabError = {attrs ->
@@ -123,13 +121,17 @@ class MenuplannerTagLib {
         out << g.render(template: "/recipe/reportCommentAbuse", model: [comment: comment, user: user, alreadyReported: alreadyReported])
     }
 
-    def firstTimeUser={attrs, body ->
-        if (session.loggedUserId){
-            User user=User.get(session.loggedUserId.toLong())
-            if(user.menuPlans.size()==0){
-                out<< body()
+    def firstTimeUser = {attrs, body ->
+        if (session.loggedUserId) {
+            User user = User.get(session.loggedUserId.toLong())
+            if (user.menuPlans.size() == 0) {
+                out << body()
             }
         }
     }
 
+    def menuPlanActions = {
+        List<String> menuplanActions = ['Print Monthly Menu Plan', 'Print Weekly Menu Plan', 'Create Shopping List', 'Delete Menu Plan']
+        out << g.render(template: "/menuPlan/menuPlanActions", model: [menuplanActions: menuplanActions])
+    }
 }
