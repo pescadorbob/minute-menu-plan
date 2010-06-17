@@ -73,14 +73,18 @@ class ShoppingListController {
     def printShoppingList = {
         MenuPlan menuPlan = MenuPlan.get(params?.id?.toLong())
         User user = User.currentUser
-        ShoppingList shoppingList = ShoppingList?.findByMenuPlanAndUser(menuPlan, user)
-        PrintShoppingListCO pslCO = new PrintShoppingListCO()
-        pslCO.name = menuPlan?.name + '-Shopping List'
-        pslCO.menuPlanId = params?.id
-        pslCO.weeks = '[0,1,2,3]'
-        pslCO.servings = user.mouthsToFeed.toString()
-        List<MenuPlan> menuPlans = MenuPlan.findAllByOwner(user)
-        render(view: 'printShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: user.mouthsToFeed])
+        ShoppingList shoppingList = ShoppingList?.findByMenuPlanAndUser(menuPlan,user)
+        if(!shoppingList){
+            PrintShoppingListCO pslCO = new PrintShoppingListCO()
+            pslCO.name = menuPlan?.name + '-Shopping List'
+            pslCO.menuPlanId = params?.id
+            pslCO.weeks = '[0,1,2,3]'
+            pslCO.servings = user.mouthsToFeed.toString()
+            List<MenuPlan> menuPlans = MenuPlan.findAllByOwner(user)
+            render(view: 'printShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: user.mouthsToFeed])
+        } else{
+            redirect(controller:'shoppingList', action:'show', id:shoppingList?.id)
+        }
     }
 
     def create = {PrintShoppingListCO pslCO ->

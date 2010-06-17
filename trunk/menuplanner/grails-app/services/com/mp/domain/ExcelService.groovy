@@ -87,7 +87,7 @@ class ExcelService {
                     unit = Unit.findByName(TIME_UNIT_HOURS)
                 }
                 prep = StandardConversion.getQuantityToSave(recipe[2].getAt(1), unit)
-                prep.s()
+                prep?.s()
                 recipeInstance.preparationTime = prep
             }
 
@@ -102,7 +102,7 @@ class ExcelService {
                     unit = Unit.findByName(TIME_UNIT_HOURS)
                 }
                 cook = StandardConversion.getQuantityToSave(recipe[3].getAt(1), unit)
-                cook.s()
+                cook?.s()
                 recipeInstance.cookingTime = cook
             }
 
@@ -228,7 +228,7 @@ class ExcelService {
                 } else if (ingredientRow.getAt(1)) {  // only Amount is specified:
                     quantity = StandardConversion.getQuantityToSave(ingredientRow.getAt(1), null)
                 }
-                quantity.s()
+                quantity?.s()
                 recipeIngredient.quantity = quantity
                 recipeIngredients.add(recipeIngredient)
             }
