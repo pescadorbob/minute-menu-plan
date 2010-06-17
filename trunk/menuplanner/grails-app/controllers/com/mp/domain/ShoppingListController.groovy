@@ -80,7 +80,7 @@ class ShoppingListController {
             pslCO.menuPlanId = params?.id
             pslCO.weeks = '[0,1,2,3]'
             pslCO.servings = user.mouthsToFeed.toString()
-            List<MenuPlan> menuPlans = MenuPlan.findAllByOwner(user)
+           List<MenuPlan> menuPlans =  user?.menuPlans as List
             render(view: 'printShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: user.mouthsToFeed])
         } else{
             redirect(controller:'shoppingList', action:'show', id:shoppingList?.id)
@@ -111,7 +111,7 @@ class ShoppingListController {
                 println it
             }
             User user = User.currentUser
-            List<MenuPlan> menuPlans = MenuPlan.findAllByOwner(user)
+           List<MenuPlan> menuPlans =  user?.menuPlans as List
             render(view: 'printShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: user.mouthsToFeed])
         }
     }
@@ -128,7 +128,7 @@ class ShoppingListController {
         pslCO.menuPlanId = shoppingList?.menuPlan?.id
         pslCO.servings = shoppingList?.servings
         pslCO.weeks = shoppingList?.weeklyShoppingLists*.weekIndex.toString()
-        List<MenuPlan> menuPlans = MenuPlan.findAllByOwner(user)
+       List<MenuPlan> menuPlans =  user?.menuPlans as List
 
         render(view: 'printShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, shoppingListId: shoppingList?.id, servings: user.mouthsToFeed])
     }
@@ -179,7 +179,7 @@ class ShoppingListController {
                 println it
             }
             User user = User.currentUser
-            List<MenuPlan> menuPlans = MenuPlan.findAllByOwner(user)
+           List<MenuPlan> menuPlans =  user?.menuPlans as List
             render(view: 'printShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: user.mouthsToFeed])
         }
     }

@@ -4,44 +4,34 @@
         <g:else>
             <input type="text" name="menuPlan.name" id="menuPlanNameTextbox" title="Enter Menu Plan Name" value="${menuPlan?.name}">
         </g:else>
-        <div class="menuPlanActions">
-            %{--<g:select class="inpbox" optionKey="id" name="categoryIds" from="${categories}" value="${(recipeCO?.categoryIds?.size() > 1)? recipeCO?.categoryIds?.toList()[1] :null}" onchange="checkCategory()" noSelection="['': '(Select One)']"/> <br/><br/>--}%
-        </div>
     </div>
-    <div id="viewmenu">
-        %{--<ul>--}%
-            %{--<li>VIEW:--}%
-                %{--<a href="menuPlan.gsp#">Monthly</a>--}%
-            %{--</li>--}%
-            %{--<li>--}%
-                %{--<a href="menuPlan.gsp#">Weekly</a>--}%
-            %{--</li>--}%
-            %{--<li class="noseprator">--}%
-                %{--<a href="menuPlan.gsp#">Shopping List</a>--}%
-            %{--</li>--}%
-            %{--<li class="noseprator1">--}%
-                %{--<img src="${resource(dir: 'images', file: 'actions.gif')}"/>--}%
-            %{--</li>--}%
-        %{--</ul>--}%
+    <div class="menuPlanActions">
+        <mp:menuPlanActions/>
     </div>
+   
 </div>
 <script type="text/javascript">
-  jQuery(document).ready(function(){
-    jQuery.each(jQuery(".menuContainer"),function(){
-        if (jQuery(this).children().last().show()[0].offsetTop >= 60) {
-            jQuery(this).addClass("downArrow")
-        } else {
-            jQuery(this).removeClass("downArrow")
-        }
-        jQuery('.farji', jQuery(this)).hide()
+    jQuery(document).ready(function() {
+        jQuery.each(jQuery(".menuContainer"), function() {
+            if (jQuery(this).children().last().show()[0].offsetTop >= 60) {
+                jQuery(this).addClass("downArrow")
+            } else {
+                jQuery(this).removeClass("downArrow")
+            }
+            jQuery('.farji', jQuery(this)).hide()
+        });
+
+        jQuery(".placeMyHover").hover(function() {
+            jQuery(this).addClass("myHover");
+        }, function() {
+            jQuery(this).removeClass("myHover");
+
+        })
+
     });
-
-    jQuery(".placeMyHover").hover(function() {
-      jQuery(this).addClass("myHover");
-    }, function() {
-      jQuery(this).removeClass("myHover");
-
-    })
-
-  });
+</script>
+<script type="text/javascript">
+    function checkMenuPlanAction(){
+        alert('Hello')
+    }
 </script>
