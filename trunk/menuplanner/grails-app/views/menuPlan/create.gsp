@@ -17,7 +17,7 @@
 <div id="left-panel">
     <g:form action="saveAndUpdate" name="editMenuPlanForm">
         <g:render template="/menuPlan/actions"/>
-        <g:render template="/menuPlan/quickFills"/>
+        <g:render template="/quickFill/quickFills"/>
         <g:render template="weeklyMeals"/>
         <div id="button">
             <ul>
