@@ -5,7 +5,7 @@
             <mp:menuPlanDropdown/>
             <li><g:link controller="recipe" action="list" class="browse">Browse&nbsp;Recipes</g:link></li>
             <g:if test="${((params.controller =='menuPlan') && (params.action in ['show','saveAndUpdate']))}">
-                <mp:actions/>
+                <mp:actions menuPlanId="${menuPlan?.id}"/>
             </g:if>
             <mp:loggedUserDropDown/>
         %{--<li><a>Forums</a></li>--}%
