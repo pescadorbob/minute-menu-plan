@@ -52,8 +52,9 @@ class ExcelService {
             String valueTwo = sheet.getCell(1, position).contents.toString().trim()
             String valueThree = sheet.getCell(2, position).contents.toString().trim()
             String valueFour = sheet.getCell(3, position).contents.toString().trim()
-            if (valueTwo || valueThree || valueFour) {
-                ingredients.add([valueOne, valueTwo, valueThree, valueFour])
+            String valueFive = sheet.getCell(4, position).contents.toString().trim()
+            if (valueTwo || valueThree || valueFour || valueFive) {
+                ingredients.add([valueOne, valueTwo, valueThree, valueFour, valueFive])
             }
         }
         (22..31).eachWithIndex {Integer position, Integer index ->
@@ -204,8 +205,15 @@ class ExcelService {
                     item.s()
                 }
                 recipeIngredient.ingredient = item
-                Quantity quantity = new Quantity()
 
+                Aisle aisle = Aisle.findByName(ingredientRow.getAt(4))
+                if (aisle) {
+                    recipeIngredient.aisle = aisle
+                }
+
+
+
+                Quantity quantity = new Quantity()
                 if (ingredientRow.getAt(1) && ingredientRow.getAt(2)) {  // if amount and unit both are Specified:
 
                     Unit unit = Unit.findBySymbol(ingredientRow.getAt(2))

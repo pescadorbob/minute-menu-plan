@@ -2,11 +2,12 @@ package com.mp.domain
 
 class RecipeIngredient {
     static searchable = {
-        ingredient component :true
+        ingredient component: true
     }
 
     Item ingredient
     Quantity quantity
+    Aisle aisle
 
     static belongsTo = [recipe: Recipe]
 
@@ -17,6 +18,7 @@ class RecipeIngredient {
     static constraints = {
         ingredient(unique: 'recipe')
         quantity(nullable: true, blank: true)
+        aisle(nullable: true, blank: true)
     }
 
     static mapping = {

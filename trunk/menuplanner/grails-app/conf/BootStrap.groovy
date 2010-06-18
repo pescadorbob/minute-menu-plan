@@ -107,6 +107,7 @@ class BootStrap {
             masterDataBootStrapService.populateUnitsAndStandardConversions()
             masterDataBootStrapService.populateNutrients()
         }
+        masterDataBootStrapService.populateAisle()
         masterDataBootStrapService.populatePermissions()
     }
 }
