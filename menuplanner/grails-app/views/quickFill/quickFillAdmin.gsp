@@ -48,14 +48,14 @@
                     </div>
                     <div class="box-rating">
                         <ul>
-                            <g:each in="${quickFill.mealItems}" var="meal">
+                            <g:each in="${quickFill.mealItems}" var="meal" status="mealIndex">
                                 <li>
-                                    <h2>${meal.type}</h2>
+                                    <h2>${(mealIndex>=4)?meal.type:'Week '+(mealIndex+1)}</h2>
                                 </li>
-                                <li class="bgcolor clearfix mealContainer" rel="${meal.type}">
+                                <li class="bgcolor clearfix mealContainer" rel="${(mealIndex>=4)?meal.type:'Dinner'+(mealIndex+1)}">
                                     <g:each in="${meal?.items}" var="item">
                                         <div><span>${item.name}</span><a href="quickFillAdmin.gsp#">Remove</a>
-                                            <input type="hidden" name="meal.${meal.type}" value="${item.id}">
+                                            <input type="hidden" name="meal.${(mealIndex>=4)?meal.type:'Dinner'+(mealIndex+1)}" value="${item.id}">
                                         </div>
                                     </g:each>
                                 </li>
