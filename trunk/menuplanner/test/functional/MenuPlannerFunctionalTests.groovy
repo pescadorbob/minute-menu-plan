@@ -13,6 +13,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
     Object[] TARGET_ARGS_WITH_VALUES = [].toArray()
 
     //Test fails if a test file doesn't contains any test method.
+    /* These test requires atleast one menuplan created during boot-strap*/
 
     void testSomething() {}
 
@@ -64,22 +65,18 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
     }
 
     void createShoppingList(ShoppingListFormData shoppingListFormData) {
-        get('/shoppingList/printShoppingList')
+        get('/shoppingList/printShoppingList/1')
         form('formShoppingList') {
             name = shoppingListFormData.name
             menuPlanId = byId('menuPlanId').getOption(1).getValueAttribute()
             servings = shoppingListFormData.servings
             //selecting all weeks  i.e. week-1, week-2, week-3 and week-4
-            byId('formShoppingList').getFirstChild().getNextSibling().getNextSibling().getNextSibling().getChildren().each {
-                def checkbox = it.getFirstChild()
-                checkbox.click()
-            }
             click('_action_create')
         }
     }
 
     void createShoppingList_One_Week_Selected(ShoppingListFormData shoppingListFormData) {
-        get('/shoppingList/printShoppingList')
+        get('/shoppingList/printShoppingList/1')
         form('formShoppingList') {
             name = shoppingListFormData.name
             menuPlanId = byId('menuPlanId').getOption(1).getValueAttribute()
@@ -91,6 +88,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
     }
 
     void createShoppingList_All_Fields_Blank() {
+        get('/shoppingList/printShoppingList/1')
         form('formShoppingList') {
             name = ""
             servings = ""
@@ -99,11 +97,15 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
     }
 
     void createShoppingList_Blank_Weeks(ShoppingListFormData shoppingListFormData) {
-        get('/shoppingList/printShoppingList')
+        get('/shoppingList/printShoppingList/1')
         form('formShoppingList') {
             name = shoppingListFormData.name
             menuPlanId = byId('menuPlanId').getOption(1).getValueAttribute()
             servings = shoppingListFormData.servings
+            byId('formShoppingList').getFirstChild().getNextSibling().getNextSibling().getNextSibling().getChildren().each {
+                def checkbox = it.getFirstChild()
+                checkbox.click()
+            }
             click('_action_create')
         }
     }
@@ -135,10 +137,10 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
     void goToShoppingListPage() {
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
         userLogin(loginFormData)
-        get('/shoppingList/printShoppingList')
+        get('/shoppingList/printShoppingList/1')
     }
 
-    /** * Helper method to return a message from the message bundle.                     ***/
+    /** * Helper method to return a message from the message bundle.                         ***/
     String getMessage(String key, def targetArgs = TARGET_ARGS_EMPTY) {
         def keyValue = messageSource.resolveCode(key, locale)
         return keyValue?.format(targetArgs)
