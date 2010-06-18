@@ -186,13 +186,18 @@ class BootstrapService {
     public void populateQuickFills(Integer count) {
         (1..count).each {Integer index ->
             QuickFill quickFill = new QuickFill(name: "QuickFill-${index}")
-            Meal meal1 = new Meal(type: MealType.BREAKFAST, items: Item.getAll(1..2))
-            Meal meal2 = new Meal(type: MealType.LUNCH, items: Item.getAll(3..4))
-            Meal meal3 = new Meal(type: MealType.DINNER, items: Item.getAll(5..6))
-//            meal.quickFill = quickFill
+            Meal meal1 = new Meal(type: MealType.DINNER, items: Item.getAll(1..3))
+            Meal meal2 = new Meal(type: MealType.DINNER, items: Item.getAll(2..4))
+            Meal meal3 = new Meal(type: MealType.DINNER, items: Item.getAll(3..5))
+            Meal meal4 = new Meal(type: MealType.DINNER, items: Item.getAll(4..6))
+            Meal meal5 = new Meal(type: MealType.BREAKFAST, items: Item.getAll(1..2))
+            Meal meal6 = new Meal(type: MealType.LUNCH, items: Item.getAll(3..4))
             quickFill.addToMealItems(meal1)
             quickFill.addToMealItems(meal2)
             quickFill.addToMealItems(meal3)
+            quickFill.addToMealItems(meal4)
+            quickFill.addToMealItems(meal5)
+            quickFill.addToMealItems(meal6)
             quickFill.s()
         }
     }
