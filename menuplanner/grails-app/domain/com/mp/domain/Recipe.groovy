@@ -30,7 +30,26 @@ class Recipe extends Item implements Commentable, Rateable {
     String totalTimeValue
     String categoriesString
     String caloriesString
+    String favouriteForUsersString
     Date dateCreated
+
+    String getFavouriteForUsersString() {
+        List<User> users = favouriteForUsers
+        String s = (users ? users.collect {it.id.toString()}.join(", ") : '')
+        return s
+    }
+
+    List<User> getFavouriteForUsers() {
+        List<User> users = []
+        if (!config.bootstrapMode) {
+            users = User.createCriteria().list {
+                favourites {
+                    eq('id', this.id)
+                }
+            }
+        }
+        return users
+    }
 
     def getContributor() {
         return User.createCriteria().get {
@@ -57,7 +76,7 @@ class Recipe extends Item implements Commentable, Rateable {
         validateTimings()
     }
 
-    static transients = ['categories', 'cookingTimeValue', 'totalTimeValue', 'prepTimeValue', 'caloriesString', 'categoriesString', 'contributor']
+    static transients = ['categories', 'favouriteForUsers', 'favouriteForUsersString', 'cookingTimeValue', 'totalTimeValue', 'prepTimeValue', 'caloriesString', 'categoriesString', 'contributor']
     static hasMany = [ingredients: RecipeIngredient, directions: String, recipeCategories: RecipeCategory, nutrients: RecipeNutrient, items: Item]
 
     String getCategoriesString() {
@@ -134,6 +153,7 @@ class Recipe extends Item implements Commentable, Rateable {
         servings(nullable: true, blank: true)
         image(nullable: true, blank: true)
     }
+
     static mapping = {
         tablePerHierarchy false
     }

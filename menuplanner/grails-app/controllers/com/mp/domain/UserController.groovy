@@ -53,6 +53,7 @@ class UserController {
         User user = User.currentUser
         user?.removeFromFavourites(recipe)
         user.s()
+        recipe.reindex()
         render(view: 'show', model: [user: user])
     }
 
@@ -66,6 +67,7 @@ class UserController {
             user?.addToFavourites(recipe)
             user.s()
         }
+        recipe.reindex()
         redirect(controller: 'recipe', action: 'show', id: params?.id)
     }
 

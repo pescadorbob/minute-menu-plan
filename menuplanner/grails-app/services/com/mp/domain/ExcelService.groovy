@@ -11,7 +11,7 @@ class ExcelService {
     boolean transactional = true
     static config = ConfigurationHolder.config
 
-    public List<String> createLineItems(InputStream fileInputStream) {
+    public List<String> createLineItems(File file) {
         println "Creating line items.."
         WorkbookSettings workbookSettings
         Workbook workbook
@@ -19,7 +19,7 @@ class ExcelService {
         List<String> recipeLog = []
         workbookSettings = new WorkbookSettings();
         workbookSettings.setLocale(new Locale("en", "EN"));
-        workbook = Workbook.getWorkbook(fileInputStream, workbookSettings);
+        workbook = Workbook.getWorkbook(file, workbookSettings);
 
         workbook?.sheets?.eachWithIndex {Sheet sheet, Integer index ->
             println "**************************************** Sheet:${index} " + sheet.name + " ****************************************"

@@ -77,11 +77,8 @@ class BootStrap {
             } else {
                 recipeExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet.xls"))
             }
-            List<String> recipeLog
-            recipeExcelFile.withInputStream {inputStream ->
-                recipeLog = excelService.createLineItems(inputStream)
-                println "Populated Recipes"
-            }
+            List<String> recipeLog = excelService.createLineItems(recipeExcelFile)
+            println "Populated Recipes"
             bootstrapService.addCommentsFavouriteAndContributed()
             println "Added Comments Favourite And Contributed"
             bootstrapService.addAbusesOnCommentsAndRecipes()
