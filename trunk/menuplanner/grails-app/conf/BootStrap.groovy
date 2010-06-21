@@ -86,7 +86,10 @@ class BootStrap {
             println "Added Comments Favourite And Contributed"
             bootstrapService.addAbusesOnCommentsAndRecipes()
             println "Added abuses on comments & recipes"
-            bootstrapService.populateMenuPlans()
+            List<User> users = User.list()
+            users.each{User user ->
+                bootstrapService.populateMenuPlans(user)
+            }
             println "Populated Menu Plans"
             bootstrapService.populateQuickFills(5)
             println "Populated Quick Fills"

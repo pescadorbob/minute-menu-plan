@@ -169,17 +169,14 @@ class BootstrapService {
         return directions
     }
 
-    public void populateMenuPlans() {
-        (1..User.count()).each {Integer index ->
-            User user = User.get(index)
-            (1..2).each {Integer i ->
-                MenuPlan menuPlan = new MenuPlan(name: "${user.name}'s MenuPlan-${i}", owner: user).s()
-                menuPlan.weeks = populateWeeks(menuPlan)
-                menuPlan.s()
-                user.addToMenuPlans(menuPlan)
-                user.s()
-                println "----- Created menuPlan: ${menuPlan.name}."
-            }
+    public void populateMenuPlans(User user) {
+        (1..2).each {Integer i ->
+            MenuPlan menuPlan = new MenuPlan(name: "${user.name}'s MenuPlan-${i}", owner: user).s()
+            menuPlan.weeks = populateWeeks(menuPlan)
+            menuPlan.s()
+            user.addToMenuPlans(menuPlan)
+            user.s()
+            println "----- Created menuPlan: ${menuPlan.name}."
         }
     }
 
