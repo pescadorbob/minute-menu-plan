@@ -79,8 +79,8 @@ class ExcelService {
 
             recipeInstance.preparationTime = null
             if (recipe[2].getAt(1)) {
-                Quantity prep = new Quantity()
-                Unit unit = new Unit()
+                Quantity prep
+                Unit unit
                 if (recipe[2].getAt(2).toLowerCase() == 'mins.') {
                     unit = Unit.findByName(TIME_UNIT_MINUTES)
                 }
@@ -94,8 +94,8 @@ class ExcelService {
 
             recipeInstance.cookingTime = null
             if (recipe[3].getAt(1)) {
-                Quantity cook = new Quantity()
-                Unit unit = new Unit()
+                Quantity cook
+                Unit unit
                 if (recipe[3].getAt(2).toLowerCase() == 'mins.') {
                     unit = Unit.findByName(TIME_UNIT_MINUTES)
                 }
