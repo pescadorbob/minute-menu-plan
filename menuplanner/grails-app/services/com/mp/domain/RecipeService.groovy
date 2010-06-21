@@ -276,7 +276,7 @@ class RecipeCO {
             }
             if (!product) {
                 if (unit) {
-                    product = new MeasurableProduct(name: productNames[index], isVisible: false, preferredUnit: unit).s()
+                    product = new MeasurableProduct(name: productNames[index], isVisible: false, preferredUnit: unit, suggestedAisle: aisle).s()
                 } else {
                     product = new Product(name: productNames[index], isVisible: false, suggestedAisle: aisle).s()
                 }
