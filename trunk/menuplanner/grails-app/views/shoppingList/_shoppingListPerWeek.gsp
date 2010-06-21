@@ -2,19 +2,29 @@
 <div class="clearfix">
     <div class="winter-week">
         <div class="winterButton"><strong>Week ${weekIndex?.toInteger() + 1}</strong><p></p></div>
-        <ul>
-            <g:each in="${productListForWeek}" var="prodList" status="i">
-                <li class="${(i % 2 == 1) ? 'alternatecolor' : ''}">
-                    <ul>
-                        <li class="first_clumon">
-                            <input name="" type="checkbox" value=""/>
-                        </li>
-                        <li class="email">${prodList.key}</li>
-                        <li>${prodList.value}</li>
-                    </ul>
-                </li>
-            </g:each>
-        </ul>
+        %{--<ul>--}%
+            %{--<g:each in="${productListForWeek}" var="prodList" status="i">--}%
+                %{--<li class="${(i % 2 == 1) ? 'alternatecolor' : ''}">--}%
+                    %{--<ul>--}%
+                        %{--<li class="first_clumon">--}%
+                            %{--<input name="" type="checkbox" value=""/>--}%
+                        %{--</li>--}%
+                        %{--<li class="email">${prodList.key}</li>--}%
+                        %{--<li>${prodList.value}</li>--}%
+                    %{--</ul>--}%
+                %{--</li>--}%
+            %{--</g:each>--}%
+        %{--</ul>--}%
+        <span id="products_${weekIndex}" class="grocery">
+                <table id="ProductTable_${weekIndex}" style="width:100%">
+                    <g:if test="${productListForWeek}">
+                        <g:each in="${productListForWeek}" var="product" status="i">
+                            <g:render template="/shoppingList/productsWithParams" model="[product:product, weekIndex:weekIndex]"/>
+                        </g:each>
+                    </g:if>
+                </table>
+            </span>
+
         <div class="winterButton">
             <span id="groceries_${weekIndex}" class="grocery">
                 <table id="groceryTable_${weekIndex}" style="width:100%">
