@@ -1,15 +1,17 @@
-function AddIngredient(quantity, unitId, productId, unitName, prodName, unitSymbol) {
+function AddIngredient(quantity, unitId, productId, unitName, prodName, unitSymbol, aisleId) {
     var addIngredient = sampleIngredientRowHTML;
     jQuery('#tableIngredients tbody').append(addIngredient)
     jQuery('.ingredientRowNew .Q').val(quantity);
     jQuery('.ingredientRowNew .U').val(unitId);
     jQuery('.ingredientRowNew .P').val(productId);
+    jQuery('.ingredientRowNew .R').val(aisleId);
     jQuery('.ingredientRowNew .UN').val(unitName);
     jQuery('.ingredientRowNew .US').val(unitSymbol);
     jQuery('.ingredientRowNew .PN').val(prodName);
     jQuery('.ingredientRowNew .quantity').html(quantity)
     jQuery('.ingredientRowNew .unit').html(unitName)
     jQuery('.ingredientRowNew .product').html(prodName)
+    jQuery('.ingredientRowNew .aisle').html(aisleId)
     jQuery('.ingredientRowNew').attr('class', 'ingredientRow')
 }
 

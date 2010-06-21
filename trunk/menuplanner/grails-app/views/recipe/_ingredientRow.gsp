@@ -5,11 +5,13 @@
             <input class='Q' type="hidden" value="" name="ingredientQuantities"/>
             <input class='U' type="hidden" value="" name="ingredientUnitIds"/>
             <input class='P' type="hidden" value="" name="ingredientProductIds"/>
+            <input class='R' type="hidden" value="" name="ingredientAisleIds"/>
         </span>
         <span class="hiddenTextIngredient">
             <input class='UN' type="hidden" name="hiddenIngredientUnitNames" value=""/>
             <input class='US' type="hidden" name="hiddenIngredientUnitSymbols" value=""/>
             <input class='PN' type="hidden" name="hiddenIngredientProductNames" value=""/>
+            <input class='R' type="hidden" name="hiddenIngredientAisleNames" value=""/>
         </span>
     </td>
     <td>
@@ -27,4 +29,8 @@
     <td>
         <span class="product"></span>
     </td>
+    <td>
+        <span class="aisle"></span>
+    </td>
+
 </tr>

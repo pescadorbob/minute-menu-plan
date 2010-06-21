@@ -4,7 +4,6 @@ class Product extends Item{
     static searchable = true
 
     Boolean isVisible = false
-    Aisle suggestedAisle
 
     String toString() {
         return name
@@ -12,7 +11,6 @@ class Product extends Item{
 
     static constraints = {
         name(unique: true, nullable:false)
-        suggestedAisle(nullable: true)
     }
 
     static mapping = {
