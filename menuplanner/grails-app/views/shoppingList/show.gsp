@@ -15,34 +15,27 @@
                 <label>&nbsp;</label>
             </div>
             <div class="leftbox clearfix">
-              <div class="wintertop">
-                <ul>
-                  <li><strong>&nbsp;</strong></li>
-                  <li id="emailShoppingListBtn" style="cursor:pointer">
-                    <img src="${resource(dir:'images',file:'emailMe.jpeg')}" alt="" align="absmiddle" style="width:29px;height:23px">
-                    Email the Shopping List
-                  </li>
-                  <li style="cursor:pointer" id="printShoppingListBtn">
-                    <img src="${resource(dir: 'images', file: 'printer.gif')}" alt="print" align="absmiddle"/> &nbsp; Print Shopping List
-                  </li>
-                </ul>
-              </div>
+                <div class="wintertop">
+                    <ul>
+                        <li><strong>&nbsp;</strong></li>
+                        <li id="emailShoppingListBtn" style="cursor:pointer">
+                            <img src="${resource(dir: 'images', file: 'emailMe.jpeg')}" alt="" align="absmiddle" style="width:29px;height:23px">
+                            Email the Shopping List
+                        </li>
+                        <li style="cursor:pointer" id="printShoppingListBtn">
+                            <img src="${resource(dir: 'images', file: 'printer.gif')}" alt="print" align="absmiddle"/> &nbsp; Print Shopping List
+                        </li>
+                    </ul>
+                </div>
                 <g:each in="${shoppingList?.weeklyShoppingLists}" var="weeklyShoppingList" status="outer_i">
                     <div class="winter-week clearfix" style="width:406px;">
                         <div class="winterButton"><strong>Week ${weeklyShoppingList?.weekIndex + 1}</strong><p></p></div>
                         <ul>
-                            <g:each in="${weeklyShoppingList?.products}" var="product" status="i">
-                                <li class="${(i % 2 == 1) ? 'alternatecolor' : ''}">
-                                    <ul>
-                                        <li class="first_clumon">
-                                            <input name="" type="checkbox" value=""/>
-                                        </li>
-                                        <li class="email">${product?.item}</li>
-                                        <li>${product?.quantity}
-                                        </li>
-                                    </ul>
-                                </li>
-                            </g:each>
+                            <li class="grocery">
+                                <g:each in="${weeklyShoppingList?.products}" var="item">
+                                    <p>${item}</p>
+                                </g:each>
+                            </li>
                         </ul>
                     </div>
                     <div class="winterButton">
@@ -70,19 +63,19 @@
         </div>
     </div>
 </div>
-  <script type="text/javascript">
-    $("#printShoppingListBtn").click(function(){
-      window.open("${createLink(controller:'shoppingList',action:'printerFriendlyShoppingList',id:shoppingList.id)}",'printShoppingList','width=800,height=800,scrollbars=yes')
-      return false;
+<script type="text/javascript">
+    $("#printShoppingListBtn").click(function() {
+        window.open("${createLink(controller:'shoppingList',action:'printerFriendlyShoppingList',id:shoppingList.id)}", 'printShoppingList', 'width=800,height=800,scrollbars=yes')
+        return false;
     })
 
-    $(function(){
-      $("#emailShoppingListBtn").click(function(){
-        $.get("${createLink(controller:'shoppingList',action:'emailShoppingList',id:shoppingList.id)}",function(data){
-          alert("An email has been sent to your email id.");
+    $(function() {
+        $("#emailShoppingListBtn").click(function() {
+            $.get("${createLink(controller:'shoppingList',action:'emailShoppingList',id:shoppingList.id)}", function(data) {
+                alert("An email has been sent to your email id.");
+            })
         })
-      })
     })
-  </script>
+</script>
 </body>
 </html>

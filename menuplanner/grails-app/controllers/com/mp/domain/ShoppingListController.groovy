@@ -48,6 +48,27 @@ class ShoppingListController {
         return weeklyShoppingList
     }
 
+    void createWeeklyShoppingList(List<String> groceries, List<String> products, ShoppingList shoppingList, MenuPlan menuPlan, Integer index) {
+        WeeklyShoppingList weeklyShoppingList = new WeeklyShoppingList()
+        weeklyShoppingList.weekIndex = index
+        shoppingList.addToWeeklyShoppingLists(weeklyShoppingList)
+        weeklyShoppingList.s()
+
+        products.each {String name ->
+            weeklyShoppingList.products.add(name)
+        }
+        groceries?.each {String name ->
+            String item = Item.findByName(name).toString()
+            if (!item && name.trim()) {
+                Item newItem = new Product(name: name).s()
+                item = newItem.toString()
+            }
+            if (!(item in weeklyShoppingList?.groceries)) {
+                weeklyShoppingList.groceries.add(item)
+            }
+        }
+    }
+
     def save = {
         List<String> weekList = params.weekList?.tokenize('[, ]')
         MenuPlan menuPlan = MenuPlan.get(params?.menuPlanId?.toLong())
@@ -59,8 +80,9 @@ class ShoppingListController {
         shoppingList.s()
         ['0', '1', '2', '3'].each {String index ->
             List<String> groceries = params?.list('groceries' + index)
+            List<String> products = params?.list('products' + index)
             if (index in weekList) {
-                createWeeklyShoppingListFromMenuPlan(groceries, shoppingList, menuPlan, index?.toInteger())
+                createWeeklyShoppingList(groceries, products, shoppingList, menuPlan, index?.toInteger())
             }
         }
         redirect(controller: 'shoppingList', action: 'show', id: shoppingList?.id)
@@ -74,17 +96,17 @@ class ShoppingListController {
     def printShoppingList = {
         MenuPlan menuPlan = MenuPlan.get(params?.id?.toLong())
         User user = User.currentUser
-        ShoppingList shoppingList = ShoppingList?.findByMenuPlanAndUser(menuPlan,user)
-        if(!shoppingList){
+        ShoppingList shoppingList = ShoppingList?.findByMenuPlanAndUser(menuPlan, user)
+        if (!shoppingList) {
             PrintShoppingListCO pslCO = new PrintShoppingListCO()
             pslCO.name = menuPlan?.name + '-Shopping List'
             pslCO.menuPlanId = params?.id
             pslCO.weeks = '[0,1,2,3]'
             pslCO.servings = user.mouthsToFeed.toString()
-           List<MenuPlan> menuPlans =  user?.menuPlans as List
+            List<MenuPlan> menuPlans = user?.menuPlans as List
             render(view: 'printShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: user.mouthsToFeed])
-        } else{
-            redirect(controller:'shoppingList', action:'show', id:shoppingList?.id)
+        } else {
+            redirect(controller: 'shoppingList', action: 'show', id: shoppingList?.id)
         }
     }
 
@@ -92,10 +114,10 @@ class ShoppingListController {
         if (pslCO.validate()) {
             Integer servings = params?.servings?.toInteger()
             MenuPlan menuPlan = MenuPlan.get(params?.menuPlanId)
-            List<Map<String, Quantity>> productListForWeeks = []
+            List<List<String>> productListForWeeks = []
             List<List<String>> groceryListForWeeks = []
             params?.weeks?.each {String weekIndex ->
-                Map<String, Quantity> productListForWeek = [:]
+                List<String> productListForWeek = []
                 List<String> groceryListForWeek = []
                 try {
                     productListForWeek = shoppingListService.getProductListForWeekFromMenuPlan(menuPlan, weekIndex)
@@ -112,7 +134,7 @@ class ShoppingListController {
                 println it
             }
             User user = User.currentUser
-           List<MenuPlan> menuPlans =  user?.menuPlans as List
+            List<MenuPlan> menuPlans = user?.menuPlans as List
             render(view: 'printShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: user.mouthsToFeed])
         }
     }
@@ -129,7 +151,7 @@ class ShoppingListController {
         pslCO.menuPlanId = shoppingList?.menuPlan?.id
         pslCO.servings = shoppingList?.servings
         pslCO.weeks = shoppingList?.weeklyShoppingLists*.weekIndex.toString()
-       List<MenuPlan> menuPlans =  user?.menuPlans as List
+        List<MenuPlan> menuPlans = user?.menuPlans as List
 
         render(view: 'printShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, shoppingListId: shoppingList?.id, servings: user.mouthsToFeed])
     }
@@ -140,13 +162,14 @@ class ShoppingListController {
             String shoppingListId = shoppingList?.id?.toString()
             List<String> weekIndexInShoppingList = []
             List<String> weeks = params?.list('weeks')
+            List<String> productList
             shoppingList?.weeklyShoppingLists?.each {WeeklyShoppingList weeklyShoppingList ->
                 weekIndexInShoppingList.add(weeklyShoppingList?.weekIndex?.toString())
             }
-            List<Map<String, Quantity>> productListForWeeks = []
+            List<List<String>> productListForWeeks = []
             List<List<String>> groceryListForWeeks = []
             weeks.each {String weekIndex ->
-                Map<String, Quantity> productListForWeek = [:]
+                List<String> productListForWeek = []
                 List<String> groceryListForWeek = []
                 if (weekIndex in weekIndexInShoppingList) {
                     WeeklyShoppingList weeklyShoppingList = shoppingList?.weeklyShoppingLists?.find {it?.weekIndex == weekIndex?.toInteger()}
@@ -180,7 +203,7 @@ class ShoppingListController {
                 println it
             }
             User user = User.currentUser
-           List<MenuPlan> menuPlans =  user?.menuPlans as List
+            List<MenuPlan> menuPlans = user?.menuPlans as List
             render(view: 'printShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: user.mouthsToFeed])
         }
     }
@@ -190,13 +213,13 @@ class ShoppingListController {
         render(view: 'printerFriendlyShoppingList', model: [shoppingList: shoppingList])
     }
 
-    def emailShoppingList={
+    def emailShoppingList = {
         ShoppingList shoppingList = ShoppingList.get(params.id)
         asynchronousMailService.sendAsynchronousMail {
-                to User.currentUser?.email
-                subject "Your Shopping List : ${shoppingList.name}"
-                html g.render(template: '/shoppingList/emailShoppingList', model: [shoppingList: shoppingList])
-            }
+            to User.currentUser?.email
+            subject "Your Shopping List : ${shoppingList.name}"
+            html g.render(template: '/shoppingList/emailShoppingList', model: [shoppingList: shoppingList])
+        }
         render "Email sent to ${User.currentUser?.email}"
     }
 
@@ -215,8 +238,10 @@ class ShoppingListController {
         }
         ['0', '1', '2', '3'].each {String index ->
             List<String> groceries = params?.list('groceries' + index)
+            List<String> products = params?.list('products' + index)
+
             if (index in weekList) {
-                createWeeklyShoppingListFromMenuPlan(groceries, shoppingList, shoppingList?.menuPlan, index?.toInteger())
+                createWeeklyShoppingList(groceries, products, shoppingList, shoppingList?.menuPlan, index?.toInteger())
             }
         }
         render(view: 'show', model: [shoppingList: shoppingList])
@@ -225,11 +250,12 @@ class ShoppingListController {
 
     WeeklyShoppingList updateWeeklyShoppingList(List<String> groceries, WeeklyShoppingList weeklyShoppingList) {
         groceries?.each {String name ->
-            Item item = Item.findByName(name)
+            String item = Item.findByName(name).toString()
             if (!item && name.trim()) {
-                item = new Product(name: name).s()
+                Item newItem = new Product(name: name).s().toString()
+                item = newItem.toString()
             }
-            if (!(item?.id in weeklyShoppingList?.groceries*.id)) {
+            if (!(item in weeklyShoppingList?.groceries)) {
                 weeklyShoppingList.groceries.add(item)
             }
         }
