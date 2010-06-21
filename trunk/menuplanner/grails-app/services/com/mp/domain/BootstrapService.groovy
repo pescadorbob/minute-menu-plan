@@ -37,7 +37,6 @@ class BootstrapService {
 
             user = User.get(new Random().nextInt(User.count()) + 1)
             user.addToContributions(recipe)          // contributed Recipe
-            user.s()
 
             (1..(new Random().nextInt(2) + 1)).each {       // comments on Recipe
                 user = User.get(new Random().nextInt(User.count()) + 1)
@@ -47,8 +46,8 @@ class BootstrapService {
             (1..(new Random().nextInt(2))).each {      // add to Favorite
                 user = User.get(new Random().nextInt(User.count()) + 1)
                 user.addToFavourites(recipe)
-                user.s()
             }
+            user.s()
         }
     }
 

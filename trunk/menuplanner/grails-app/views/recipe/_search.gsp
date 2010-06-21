@@ -1,3 +1,4 @@
+<%@ page import="com.mp.domain.User" %>
 <div id="left-panel-product">
     <div class="top-shadow">
         <label>&nbsp;</label>
@@ -12,6 +13,15 @@
                 <td width="100px;"></td>
                 <td>
                     <span class="searchOptionTexts" id="categoriesStringDisplay"></span>
+                </td>
+            </tr>
+            <tr id="favouriteForUsersStringRow" style="display:none;">
+                <td width="100px;">
+                    <img onclick="removeSearchOption('favouriteForUsersString')" id="favouriteForUsersStringRemove" src="${resource(dir: 'images', file: 'delete-icon.jpg')}" align="top" style="cursor:pointer;"/>
+                    Show:
+                </td>
+                <td>
+                    <span id="nutrientsDisplay" class="searchOptionTexts"></span>
                 </td>
             </tr>
             <tr id="caloriesStringRow" style="display:none;">
@@ -66,6 +76,9 @@
             <ul>
                 <li>
                     <g:select width="100px" name="qSelect" from="${categoryList}" onchange="submitSearchFormBySelect()" noSelection="[' ': '(Select One)']"/>
+                </li>
+                <li>
+                    <span id="favouriteForUsersString" class="pointer" onclick="submitSearchForm(this, 'favouriteForUsersString', '*${User.currentUser.id}*');">Favourites</span>
                 </li>
                 <li>
                     Calories

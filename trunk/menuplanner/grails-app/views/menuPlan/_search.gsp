@@ -1,3 +1,4 @@
+<%@ page import="com.mp.domain.User" %>
 <div id="right-panel">
     <div id="search">Quick Recipe Search</div>
     <div id="search-container">
@@ -45,6 +46,15 @@
                             </td>
                             <td>
                                 <span id="nutrientsDisplay" class="searchOptionTexts"></span>
+                            </td>
+                        </tr>
+                        <tr id="favouriteForUsersStringRow" style="display:none;">
+                            <td width="100px;">
+                                <img onclick="removeSearchOption('favouriteForUsersString')" id="favouriteForUsersStringRemove" src="${resource(dir: 'images', file: 'delete-icon.jpg')}" align="top" style="cursor:pointer;"/>
+                                Favourites:
+                            </td>
+                            <td>
+                                <span id="difficultyDisplay" class="searchOptionTexts"></span>
                             </td>
                         </tr>
                         <tr id="difficultyRow" style="display:none;">
@@ -103,8 +113,10 @@
                             <g:select width="100px" name="qSelect" from="${categoryList}" onchange="submitSearchFormBySelect()" noSelection="[' ': '(Select One)']"/>
                         </li>
                         <li>
-                            %{--<span id="domainRecipe" class="pointer" onclick="defineSearchDomainType(this, 'domainType', 'Recipe');">Only Recipes</span><br/>--}%
                             <span id="domainProduct" class="pointer" onclick="defineSearchDomainType(this, 'domainType', 'Item');">Include Products</span><br/>
+                        </li>
+                        <li>
+                            <span id="favourites" class="pointer" onclick="submitSearchForm(this, 'favouriteForUsersString', '*${User.currentUser.id}*');">Show favourites</span><br/>
                         </li>
                         <li>
                             Calories
