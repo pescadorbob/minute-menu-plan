@@ -5,6 +5,7 @@ import static com.mp.MenuConstants.*
 import org.springframework.web.multipart.commons.CommonsMultipartFile
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.grails.comments.*
+import grails.util.GrailsUtil
 
 class BootstrapService {
 
@@ -170,7 +171,7 @@ class BootstrapService {
     }
 
     public void populateMenuPlans(User user) {
-        (1..2).each {Integer i ->
+        (1..(GrailsUtil.isDevelopmentEnv()? 1 : 2)).each {Integer i ->
             MenuPlan menuPlan = new MenuPlan(name: "${user.name}'s MenuPlan-${i}", owner: user).s()
             menuPlan.weeks = populateWeeks(menuPlan)
             menuPlan.s()
