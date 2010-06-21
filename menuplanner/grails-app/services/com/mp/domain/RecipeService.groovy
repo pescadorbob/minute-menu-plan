@@ -20,7 +20,6 @@ class RecipeService {
         }
         return true
     }
-        
 }
 
 class RecipeCO {
@@ -49,9 +48,11 @@ class RecipeCO {
     List<String> ingredientQuantities = []
     List<String> ingredientUnitIds = []
     List<String> ingredientProductIds = []
+    List<String> ingredientAisleIds = []
     List<String> hiddenIngredientUnitNames = []
     List<String> hiddenIngredientUnitSymbols = []
     List<String> hiddenIngredientProductNames = []
+    List<String> hiddenIngredientAisleNames = []
 
     List<String> directions = []
 
@@ -63,10 +64,10 @@ class RecipeCO {
         imageId = recipe?.image?.id
         name = recipe?.name
 
-        if(recipe?.image){
+        if (recipe?.image) {
             selectRecipeImagePath = recipe?.image?.path + recipe?.image?.storedName
-        } else{
-            selectRecipeImagePath = ''            
+        } else {
+            selectRecipeImagePath = ''
         }
 
         difficulty = recipe?.difficulty?.name()
@@ -87,6 +88,10 @@ class RecipeCO {
         hiddenIngredientProductNames = recipe?.ingredients*.ingredient?.name
         ingredientProductIds = recipe?.ingredients*.ingredient?.id
 
+        recipe?.ingredients*.aisle.each {Aisle aisle ->
+            ingredientAisleIds.add(aisle?.id)
+            hiddenIngredientAisleNames.add(aisle?.name)
+        }
         recipe?.ingredients*.quantity?.unit?.eachWithIndex {Unit unit, Integer index ->
             ingredientUnitIds.add(unit?.id)
             hiddenIngredientUnitNames.add(unit?.name)
@@ -171,7 +176,7 @@ class RecipeCO {
         def tempIngredients = recipe.ingredients
         recipe.ingredients = []
         tempIngredients*.delete(flush: true)
-        addIngredientsToRecipe(recipe, ingredientQuantities, ingredientUnitIds, hiddenIngredientProductNames)
+        addIngredientsToRecipe(recipe, ingredientQuantities, ingredientUnitIds, hiddenIngredientProductNames, ingredientAisleIds)
 
         recipe.directions = []
         addDirectionsToRecipe(recipe, directions)
@@ -202,7 +207,7 @@ class RecipeCO {
 
         addCategoriesToRecipe(recipe, categoryIds)
         addDirectionsToRecipe(recipe, directions)
-        addIngredientsToRecipe(recipe, ingredientQuantities, ingredientUnitIds, hiddenIngredientProductNames)
+        addIngredientsToRecipe(recipe, ingredientQuantities, ingredientUnitIds, hiddenIngredientProductNames, ingredientAisleIds)
         addServeWithToRecipe(recipe, serveWithItems)
         addNutrientsToRecipe(recipe, nutrientQuantities, nutrientIds)
 
@@ -217,7 +222,7 @@ class RecipeCO {
         if (!imagePath) {
             Image image = recipe?.image
             recipe.image = null
-            image?.delete(flush:true)
+            image?.delete(flush: true)
             return false
         } else {
             File sourceImage = new File(imagePath)
@@ -226,12 +231,12 @@ class RecipeCO {
                 File file = new File(recipeImageDirectory)
                 file.mkdirs()
                 String targetImagePath = recipeImageDirectory + recipe?.id + '.' + sourceImage.name.tokenize('.').tail().join('.')
-                if(!(imagePath==targetImagePath)){
+                if (!(imagePath == targetImagePath)) {
 
                     Image tempImage = recipe?.image
                     recipe.image = null
-                    tempImage?.delete(flush:true)
-                    
+                    tempImage?.delete(flush: true)
+
                     new File(targetImagePath).withOutputStream {out ->
                         out.write sourceImage.readBytes()
                     }
@@ -258,32 +263,35 @@ class RecipeCO {
         }
     }
 
-    public List<RecipeIngredient> recipeIngredientList(List<String> amounts, List<String> unitIds, List<String> productNames) {
+    public List<RecipeIngredient> recipeIngredientList(List<String> amounts, List<String> unitIds, List<String> productNames, List<String> aisleNames) {
         List<RecipeIngredient> recipeIngredients = []
         productNames?.eachWithIndex {String productName, Integer index ->
             RecipeIngredient recipeIngredient = new RecipeIngredient()
             Item product = Item.findByName(productName)
             Unit unit = (unitIds[index]) ? Unit?.get(unitIds[index]?.toLong()) : null
             Quantity quantity = StandardConversion.getQuantityToSave(amounts?.getAt(index) ? amounts[index] : null, unit)
-
+            Aisle aisle = Aisle.findByName(aisleNames[index])
+            if (!aisle) {
+                aisle = new Aisle(name: aisleNames[index]).s()
+            }
             if (!product) {
                 if (unit) {
                     product = new MeasurableProduct(name: productNames[index], isVisible: false, preferredUnit: unit).s()
                 } else {
-                    product = new Product(name: productNames[index], isVisible: false).s()
+                    product = new Product(name: productNames[index], isVisible: false, suggestedAisle: aisle).s()
                 }
             }
-
             quantity?.s()
             recipeIngredient.ingredient = product
             recipeIngredient.quantity = quantity
+            recipeIngredient.aisle = aisle
             recipeIngredients.add(recipeIngredient)
         }
         return recipeIngredients
     }
 
-    public boolean addIngredientsToRecipe(Recipe recipe, List<String> amounts, List<String> unitIds, List<String> productNames) {
-        List<RecipeIngredient> recipeIngredients = recipeIngredientList(amounts, unitIds, productNames)
+    public boolean addIngredientsToRecipe(Recipe recipe, List<String> amounts, List<String> unitIds, List<String> productNames, List<String> aisleNames) {
+        List<RecipeIngredient> recipeIngredients = recipeIngredientList(amounts, unitIds, productNames, aisleNames)
         recipeIngredients?.eachWithIndex {RecipeIngredient recipeIngredient, Integer index ->
             recipeIngredient.recipe = recipe
             recipe.addToIngredients(recipeIngredient)

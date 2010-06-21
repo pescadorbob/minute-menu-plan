@@ -202,6 +202,14 @@ class ExcelService {
                 if (!item) {
                     item = new Product(name: ingredientRow.getAt(3))
                     item.isVisible = true
+                    String aisleName = ingredientRow.getAt(4)
+                    if (aisleName) {
+                        Aisle aisle = Aisle.findByName(aisleName)
+                        if (!aisle) {
+                            aisle = new Aisle(name: aisleName).s()
+                        }
+                        item.suggestedAisle = aisle
+                    }
                     item.s()
                 }
                 recipeIngredient.ingredient = item
@@ -209,7 +217,7 @@ class ExcelService {
                 Aisle aisle = Aisle.findByName(ingredientRow.getAt(4))
                 if (aisle) {
                     recipeIngredient.aisle = aisle
-                }
+                } 
 
 
 
