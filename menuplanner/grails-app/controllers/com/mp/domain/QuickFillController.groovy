@@ -1,5 +1,7 @@
 package com.mp.domain
 
+import grails.converters.deep.JSON
+
 class QuickFillController {
 
     def index = {
@@ -40,5 +42,23 @@ class QuickFillController {
         quickFill.s()
         flash.message = (params.id) ? "Record updated to database." : "Record saved to database."
         redirect(action: "quickFillAdmin")
+    }
+
+    def getQuickFill={
+        QuickFill quickFill = QuickFill.get(params.long('id'))
+        String jsonQuickFill="{'mealItems':["
+        def mealCount=quickFill?.mealItems?.size()
+        quickFill?.mealItems?.eachWithIndex{Meal meal,Integer j->
+            jsonQuickFill+=" {'items':["
+            def itemCount=meal?.items?.size()
+            meal?.items?.eachWithIndex {Item item,Integer i->
+                jsonQuickFill+="{'id':${item.id},'name':'${item.name}'}${((itemCount-1)==i)?'':','}"
+
+            }
+            jsonQuickFill+="]}${((mealCount-1)==j)?'':','}"
+        }
+        jsonQuickFill+="]}"
+//        String quickFillJson=(quickFill as JSON).toString()
+        render (text:""" "($jsonQuickFill)" """,contentType:'text/json') 
     }
 }
