@@ -4,20 +4,24 @@ class ShoppingListService {
 
     boolean transactional = true
 
-    List<String> getProductListForWeekFromMenuPlan(MenuPlan menuPlan, String weekIndex) {
-        List<String> productListForWeek = []
+    List<ShoppingIngredient> getProductListForWeekFromMenuPlan(MenuPlan menuPlan, String weekIndex) {
+        List<ShoppingIngredient> productListForWeek = []
 
         menuPlan?.weeks[weekIndex?.toInteger()]?.days?.each {Day day ->
-            List<Item> items = day?.breakfast + day?.lunch + day?.dinner as List
+            List<Item> items = (day?.breakfast + day?.lunch + day?.dinner) as List
             items.each {Item item ->
                 String prodName
                 String quantity
-                if (item?.instanceOf(Recipe)) {
+                String name
+                if (item?.instanceOf(Recipe.class)) {
                     item?.ingredients?.each {RecipeIngredient recipeIngredient ->
                         prodName = recipeIngredient?.ingredient
                         quantity = recipeIngredient?.quantity?.toString()
-//                        productListForWeek.add((productListForWeek[prodName] && (quantity)) ? (Quantity.add(productListForWeek[prodName], quantity)).toString() : quantity.toString())
-                        productListForWeek.add(quantity + '  ' + prodName)
+                        name = quantity + '  ' + prodName
+                        ShoppingIngredient shoppingIngredient = new ShoppingIngredient()
+                        shoppingIngredient.name = name
+                        shoppingIngredient.aisle = recipeIngredient?.aisle
+                        productListForWeek.add(shoppingIngredient)
                     }
                 }
             }
@@ -25,36 +29,37 @@ class ShoppingListService {
         return productListForWeek
     }
 
-    List<String> getGroceryListForWeekFromMenuPlan(MenuPlan menuPlan, String weekIndex) {
-        List<String> groceryListForWeek = []
+    List<ShoppingIngredient> getGroceryListForWeekFromMenuPlan(MenuPlan menuPlan, String weekIndex) {
+        List<ShoppingIngredient> groceryListForWeek = []
         menuPlan?.weeks[weekIndex?.toInteger()]?.days?.each {Day day ->
-            List<Item> items = day?.breakfast + day?.lunch + day?.dinner as List
+            List<Item> items = (day?.breakfast + day?.lunch + day?.dinner) as List
             items.each {Item item ->
-                String prodName
-                if (!(item?.instanceOf(Recipe))) {
-                    prodName = item?.name
-                    groceryListForWeek.add(prodName)
+                if (!(item?.instanceOf(Recipe.class))) {
+                    ShoppingIngredient shoppingIngredient = new ShoppingIngredient()
+                    shoppingIngredient.name = item?.name
+                    shoppingIngredient.aisle = item?.suggestedAisle
+                    groceryListForWeek.add(shoppingIngredient)
                 }
             }
         }
-        return (groceryListForWeek as Set) as List
+        return (groceryListForWeek ? (groceryListForWeek?.unique{it.name} as List) : [])
     }
 
-    List<String> getProductListForWeekFromShoppingList(WeeklyShoppingList weeklyShoppingList) {
-        List<String> productListForWeek = []
-        weeklyShoppingList.products.each {String name ->
-            productListForWeek.add(name)
-        }
-        return productListForWeek
-    }
-
-    List<String> getGroceryListForWeekFromShoppingList(WeeklyShoppingList weeklyShoppingList) {
-        List<String> groceryListForWeek = []
-        weeklyShoppingList.groceries.each {String name ->
-            groceryListForWeek.add(name)
-        }
-        return (groceryListForWeek as Set) as List
-    }
+//    List<ShoppingIngredient> getProductListForWeekFromShoppingList(WeeklyShoppingList weeklyShoppingList) {
+//        List<ShoppingIngredient> productListForWeek = []
+//        weeklyShoppingList.products.each {ShoppingIngredient ingredient ->
+//            productListForWeek.add(ingredient)
+//        }
+//        return productListForWeek
+//    }
+//
+//    List<String> getGroceryListForWeekFromShoppingList(WeeklyShoppingList weeklyShoppingList) {
+//        List<String> groceryListForWeek = []
+//        weeklyShoppingList.groceries.each {String name ->
+//            groceryListForWeek.add(name)
+//        }
+//        return (groceryListForWeek as Set) as List
+//    }
 }
 
 class PrintShoppingListCO {
