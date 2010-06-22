@@ -23,7 +23,14 @@
                 <!-- Show Ingredients Here -->
                 <g:each status="i" in="${recipeCO?.hiddenIngredientProductNames}" var="x">
                     <g:render template="ingredientRowWithParams"
-                            model="[hiddenIngredientUnitNames:recipeCO?.hiddenIngredientUnitNames[i],hiddenIngredientProductNames:recipeCO?.hiddenIngredientProductNames[i],hiddenIngredientAisleNames:recipeCO?.hiddenIngredientAisleNames[i], ingredientQuantity:recipeCO?.ingredientQuantities[i],ingredientUnitId:recipeCO?.ingredientUnitIds[i],ingredientProductId:recipeCO?.ingredientProductIds[i],ingredientAisleId:recipeCO?.ingredientAisleIds[i], hiddenIngredientUnitSymbol:recipeCO?.hiddenIngredientUnitSymbols[i]]"/>
+                            model="[hiddenIngredientUnitNames:recipeCO?.hiddenIngredientUnitNames[i],
+                            hiddenIngredientProductNames:recipeCO?.hiddenIngredientProductNames[i],
+                            hiddenIngredientAisleNames:recipeCO?.hiddenIngredientAisleNames[i],
+                            ingredientQuantity:recipeCO?.ingredientQuantities[i],
+                            ingredientUnitId:recipeCO?.ingredientUnitIds[i],
+                            ingredientProductId:recipeCO?.ingredientProductIds[i],
+                            ingredientAisleId:recipeCO?.ingredientAisleIds[i],
+                             hiddenIngredientUnitSymbol:recipeCO?.hiddenIngredientUnitSymbols[i]]"/>
                 </g:each>
             </table>
         </div>
@@ -35,13 +42,13 @@
                         <div style="float:left;">
                             <g:textField class="inpboxSmall showToolTip" id='optionIngredientQuantities' name="optionIngredientQuantities" value="" title="${g.message(code:'toolTip.recipe.amount')}" style="width:50px;"/>
                             <g:select class="inpbox" id='optionIngredientUnitIds' noSelection="['':'(No Unit)']" name="optionIngredientUnitIds" from="${metricUnits}" optionKey="id" style="width:105px;display:none;"/>
-                            <input name="combobox_optionIngredientUnitIds" class="inpbox showToolTip" id="combobox_optionIngredientUnitIds" title="${g.message(code: 'toolTip.recipe.unit')}"style="width:110px;">
+                            <input name="combobox_optionIngredientUnitIds" class="inpbox showToolTip" id="combobox_optionIngredientUnitIds" title="${g.message(code: 'toolTip.recipe.unit')}" style="width:110px;">
                         </div>
                         <div style="float:left; padding-left:5px;">
                             <input class="inpbox showToolTip" id="optionIngredientProductIds" name="optionIngredientProductIds" value="" title="${g.message(code: 'toolTip.recipe.ingredient')}" style="width:110px;"/>
                         </div>
                         <div style="float:left; padding-left:5px;">
-                            <input class="inpbox showToolTip" id="optionIngredientAisleIds" name="optionIngredientAisleIds" value=""  style="width:110px;"/>
+                            <input class="inpbox showToolTip" id="optionIngredientAisleIds" name="optionIngredientAisleIds" value="" style="width:110px;"/>
                         </div>
                     </span>
                 </span>
@@ -59,7 +66,7 @@
 
     var itemsJson = {
         <g:each in="${Item.list()}" var="itemVar">
-        '${itemVar.name}':'${itemVar?.suggestedAisle?.name}',
+        '${itemVar?.name}':'${itemVar?.suggestedAisle?.name}',
         </g:each>
     }
 

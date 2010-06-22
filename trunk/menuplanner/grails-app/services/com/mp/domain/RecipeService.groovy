@@ -89,7 +89,7 @@ class RecipeCO {
         ingredientProductIds = recipe?.ingredients*.ingredient?.id
 
         recipe?.ingredients*.aisle.each {Aisle aisle ->
-            ingredientAisleIds.add(aisle?.id)
+            ingredientAisleIds.add(aisle?.id?.toString())
             hiddenIngredientAisleNames.add(aisle?.name)
         }
         recipe?.ingredients*.quantity?.unit?.eachWithIndex {Unit unit, Integer index ->
