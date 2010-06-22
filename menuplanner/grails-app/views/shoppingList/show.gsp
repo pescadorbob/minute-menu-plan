@@ -3,6 +3,7 @@
 <head>
     <meta name="layout" content="menu"/>
     <title>Show Shopping List</title>
+    <style>.winterButton ul{margin-bottom:10px;}</style>
 </head>
 <body>
 <div id="container">
@@ -27,26 +28,54 @@
                         </li>
                     </ul>
                 </div>
-                <g:each in="${shoppingList?.weeklyShoppingLists}" var="weeklyShoppingList" status="outer_i">
-                    <div class="winter-week clearfix" style="width:406px;">
-                        <div class="winterButton"><strong>Week ${weeklyShoppingList?.weekIndex + 1}</strong><p></p></div>
-                        <ul>
-                            <li class="grocery">
-                                <g:each in="${weeklyShoppingList?.products}" var="item">
-                                    <p>${item}</p>
-                                </g:each>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="winterButton">
-                        <ul>
-                            <li class="grocery">
-                                <g:each in="${weeklyShoppingList?.groceries}" var="item">
-                                    <p>${item}</p>
-                                </g:each>
-                            </li>
-                        </ul>
-                    </div>
+                <g:each in="${shoppingList?.weeklyShoppingLists}" var="weeklyShoppingList">
+                    <div class="winterButton" style="float:left;"><h3>Week ${weeklyShoppingList?.weekIndex + 1}</h3><p></p></div>
+                    <g:each in="${weeklyShoppingList.aisles + null}" var="aisle">
+                        <g:if test="${aisle}">
+                            <div class="winter-week clearfix" style="width:406px;">
+                                <strong>${(aisle ? aisle : 'Others')}</strong>
+                                <ul>
+                                    <li class="grocery">
+                                        <g:each in="${weeklyShoppingList?.getProductsByAisle(aisle)}" var="item">
+                                            <p>${item}</p>
+                                        </g:each>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="winterButton">
+                                <ul>
+                                    <li class="grocery">
+                                        <g:each in="${weeklyShoppingList?.getGroceriesByAisle(aisle)}" var="item">
+                                            <p>${item}</p>
+                                        </g:each>
+                                    </li>
+                                </ul>
+                            </div>
+                        </g:if>
+                        <g:else>
+                            <g:if test="${(weeklyShoppingList?.getProductsByAisle() || weeklyShoppingList?.getGroceriesByAisle())}">
+                                <div class="winter-week clearfix" style="width:406px;">
+                                    <strong>&nbsp;&nbsp;&nbsp;&nbsp;${(aisle ? aisle : 'Others')}</strong>
+                                    <ul>
+                                        <li class="grocery">
+                                            <g:each in="${weeklyShoppingList?.getProductsByAisle(aisle)}" var="item">
+                                                <p>${item}</p>
+                                            </g:each>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="winterButton">
+                                    <ul>
+                                        <li class="grocery">
+                                            <g:each in="${weeklyShoppingList?.getGroceriesByAisle(aisle)}" var="item">
+                                                <p>${item}</p>
+                                            </g:each>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </g:if>
+                        </g:else>
+                    </g:each>
                 </g:each>
                 <div class="winterButton">
                     <ul><li>
