@@ -23,7 +23,7 @@
                 <!-- Show Ingredients Here -->
                 <g:each status="i" in="${recipeCO?.hiddenIngredientProductNames}" var="x">
                     <g:render template="ingredientRowWithParams"
-                            model="[hiddenIngredientUnitNames:recipeCO?.hiddenIngredientUnitNames[i],hiddenIngredientProductNames:recipeCO.hiddenIngredientProductNames[i],hiddenIngredientAisleNames:recipeCO.hiddenIngredientAisleNames[i], ingredientQuantity:recipeCO.ingredientQuantities[i],ingredientUnitId:recipeCO.ingredientUnitIds[i],ingredientProductId:recipeCO.ingredientProductIds[i],ingredientAisleId:recipeCO.ingredientAisleIds[i], hiddenIngredientUnitSymbol:recipeCO?.hiddenIngredientUnitSymbols[i]]"/>
+                            model="[hiddenIngredientUnitNames:recipeCO?.hiddenIngredientUnitNames[i],hiddenIngredientProductNames:recipeCO?.hiddenIngredientProductNames[i],hiddenIngredientAisleNames:recipeCO?.hiddenIngredientAisleNames[i], ingredientQuantity:recipeCO?.ingredientQuantities[i],ingredientUnitId:recipeCO?.ingredientUnitIds[i],ingredientProductId:recipeCO?.ingredientProductIds[i],ingredientAisleId:recipeCO?.ingredientAisleIds[i], hiddenIngredientUnitSymbol:recipeCO?.hiddenIngredientUnitSymbols[i]]"/>
                 </g:each>
             </table>
         </div>
