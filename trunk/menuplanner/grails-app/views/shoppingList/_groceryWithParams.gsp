@@ -4,7 +4,12 @@
     </td>
     <td width="250" class="groceryText">${grocery}</td>
     <td width="250" class="groceryTextBox">
-        <input type="text" name="groceries${weekIndex}" value="${grocery}" style="display:none;"/>
+        <g:if test="${aisle}">
+            <input type="text" name="week${weekIndex}.groceries.${aisle.id}" value="${grocery}" style="display:none;"/>
+        </g:if>
+        <g:else>
+            <input type="text" name="week${weekIndex}.groceries.0" value="${grocery}" style="display:none;"/>
+        </g:else>
     </td>
     <td>
         <span class="linkEdit">Edit</span>

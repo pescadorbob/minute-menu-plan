@@ -4,6 +4,29 @@ class ShoppingListService {
 
     boolean transactional = true
 
+    ShoppingList createShoppingList(PrintShoppingListCO shoppingListCO) {
+        MenuPlan menuPlan = MenuPlan.get(shoppingListCO.menuPlanId?.toLong())
+        ShoppingList shoppingList = new ShoppingList()
+        shoppingList.name = shoppingListCO.name
+        shoppingList.menuPlan = menuPlan
+        shoppingList.servings = shoppingListCO.servings.toInteger()
+        shoppingList.user = User.currentUser
+
+        shoppingListCO.weeks.each{String weekIndex ->
+            WeeklyShoppingList weeklyShoppingList = createWeeklyShoppingList(shoppingList, menuPlan, weekIndex)
+            shoppingList.addToWeeklyShoppingLists(weeklyShoppingList)
+        }
+        return shoppingList
+    }
+
+    WeeklyShoppingList createWeeklyShoppingList(ShoppingList shoppingList, MenuPlan menuPlan, String index){
+        WeeklyShoppingList weeklyShoppingList = new WeeklyShoppingList()
+        weeklyShoppingList.weekIndex = index.toInteger()
+        weeklyShoppingList.products = getProductListForWeekFromMenuPlan(menuPlan, index)
+        weeklyShoppingList.groceries = getGroceryListForWeekFromMenuPlan(menuPlan, index)
+        return weeklyShoppingList
+    }
+
     List<ShoppingIngredient> getProductListForWeekFromMenuPlan(MenuPlan menuPlan, String weekIndex) {
         List<ShoppingIngredient> productListForWeek = []
 
@@ -42,7 +65,7 @@ class ShoppingListService {
                 }
             }
         }
-        return (groceryListForWeek ? (groceryListForWeek?.unique{it.name} as List) : [])
+        return (groceryListForWeek ? (groceryListForWeek?.unique {it.name} as List) : [])
     }
 
 //    List<ShoppingIngredient> getProductListForWeekFromShoppingList(WeeklyShoppingList weeklyShoppingList) {
@@ -65,12 +88,16 @@ class ShoppingListService {
 class PrintShoppingListCO {
     String name
     String menuPlanId
-    String weeks
+    List<String> weeks
     String servings
 
     static constraints = {
         name(blank: false, nullable: false)
-        weeks(nullable: false, blank: false)
+        weeks(validator: {obj, val ->
+            if (!val) {
+                return 'default.blank.message'
+            }
+        })
         menuPlanId(nullable: false, blank: false)
         servings(blank: false, matches: /[0-9\s]*/)
     }

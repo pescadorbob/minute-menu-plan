@@ -70,7 +70,7 @@ class ShoppingListController {
     }
 
     def save = {
-        List<String> weekList = params.weekList?.tokenize('[, ]')
+        List<String> weekList = params.weekList?.tokenize("[], ")
         MenuPlan menuPlan = MenuPlan.get(params?.menuPlanId?.toLong())
         ShoppingList shoppingList = new ShoppingList()
         shoppingList.menuPlan = menuPlan
@@ -78,18 +78,56 @@ class ShoppingListController {
         shoppingList.servings = params?.servings?.toInteger()
         shoppingList.user = User.currentUser
         shoppingList.s()
-        ['0', '1', '2', '3'].each {String index ->
-            List<String> groceries = params?.list('groceries' + index)
-            List<String> products = params?.list('products' + index)
-            if (index in weekList) {
-                createWeeklyShoppingList(groceries, products, shoppingList, index?.toInteger())
+        weekList.each {String index ->
+            WeeklyShoppingList weeklyShoppingList = new WeeklyShoppingList(shoppingList: shoppingList, weekIndex: index.toInteger())
+
+            List<ShoppingIngredient> products = []
+            List<ShoppingIngredient> groceries = []
+
+            Map groceriesByWeek = params.findAll {it.key.contains("week${index}.groceries")}
+            groceriesByWeek.each {key, value ->
+                String aisleId = key.tokenize(".")?.last()
+                Aisle aisle
+                if (aisleId) {
+                    aisle = Aisle.get(aisleId?.toLong())
+                }
+
+                List<String> groceryNames = [value].flatten()
+                groceryNames?.each {
+                    ShoppingIngredient shoppingIngredient = new ShoppingIngredient()
+                    shoppingIngredient.name = it
+                    shoppingIngredient.aisle = aisle
+                    groceries.add(shoppingIngredient.s())
+                }
             }
+
+            Map productsByWeek = params.findAll {it.key.contains("week${index}.products")}
+            productsByWeek.each {key, value ->
+                String aisleId = key.tokenize(".")?.last()
+                Aisle aisle
+                if (aisleId) {
+                    aisle = Aisle.get(aisleId?.toLong())
+                }
+                List<String> productNames = [value].flatten()
+                productNames?.each {
+                    ShoppingIngredient shoppingIngredient = new ShoppingIngredient()
+                    shoppingIngredient.name = it
+                    shoppingIngredient.aisle = aisle
+                    products.add(shoppingIngredient.s())
+                }
+            }
+            weeklyShoppingList.products = products
+            weeklyShoppingList.groceries = groceries
+
+            shoppingList.addToWeeklyShoppingLists(weeklyShoppingList)
+            weeklyShoppingList.s()
         }
         redirect(controller: 'shoppingList', action: 'show', id: shoppingList?.id)
     }
 
     def show = {
         ShoppingList shoppingList = ShoppingList.get(params.id)
+        println ">>>>>>>>>>>>>>>>>" + shoppingList.weeklyShoppingLists*.groceries
         render(view: 'show', model: [shoppingList: shoppingList])
     }
 
@@ -101,7 +139,7 @@ class ShoppingListController {
             PrintShoppingListCO pslCO = new PrintShoppingListCO()
             pslCO.name = menuPlan?.name + '-Shopping List'
             pslCO.menuPlanId = params?.id
-            pslCO.weeks = '[0,1,2,3]'
+            pslCO.weeks = ['0', '1', '2', '3']
             pslCO.servings = user.mouthsToFeed.toString()
             List<MenuPlan> menuPlans = user?.menuPlans as List
             render(view: 'printShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: user.mouthsToFeed])
@@ -112,23 +150,26 @@ class ShoppingListController {
 
     def create = {PrintShoppingListCO pslCO ->
         if (pslCO.validate()) {
-            Integer servings = params?.servings?.toInteger()
-            MenuPlan menuPlan = MenuPlan.get(params?.menuPlanId)
-            List<List<ShoppingIngredient>> productListForWeeks = []
-            List<List<ShoppingIngredient>> groceryListForWeeks = []
-            params?.weeks?.each {String weekIndex ->
-                List<ShoppingIngredient> productListForWeek = []
-                List<ShoppingIngredient> groceryListForWeek = []
-                try {
-                    productListForWeek = shoppingListService.getProductListForWeekFromMenuPlan(menuPlan, weekIndex)
-                    groceryListForWeek = shoppingListService.getGroceryListForWeekFromMenuPlan(menuPlan, weekIndex)
-                } catch (e) {
-                    e.printStackTrace()
-                }
-                productListForWeeks.add(productListForWeek)
-                groceryListForWeeks.add(groceryListForWeek)
-            }
-            render(view: 'create', model: [menuPlan: menuPlan, servings: servings, shoppingListName: params?.name, weeks: params?.list('weeks'), productListForWeeks: productListForWeeks, groceryListForWeeks: groceryListForWeeks])
+            ShoppingList shoppingList = shoppingListService.createShoppingList(pslCO)
+
+//            Integer servings = params?.servings?.toInteger()
+//            MenuPlan menuPlan = MenuPlan.get(params?.menuPlanId)
+//            List<List<ShoppingIngredient>> productListForWeeks = []
+//            List<List<ShoppingIngredient>> groceryListForWeeks = []
+//            pslCO?.weeks?.each {String weekIndex ->
+//                List<ShoppingIngredient> productListForWeek = []
+//                List<ShoppingIngredient> groceryListForWeek = []
+//                try {
+//                    productListForWeek = shoppingListService.getProductListForWeekFromMenuPlan(menuPlan, weekIndex)
+//                    groceryListForWeek = shoppingListService.getGroceryListForWeekFromMenuPlan(menuPlan, weekIndex)
+//                } catch (e) {
+//                    e.printStackTrace()
+//                }
+//                productListForWeeks.add(productListForWeek)
+//                groceryListForWeeks.add(groceryListForWeek)
+//            }
+//            render(view: 'create', model: [menuPlan: menuPlan, servings: servings, shoppingListName: params?.name, weeks: params?.list('weeks'), productListForWeeks: productListForWeeks, groceryListForWeeks: groceryListForWeeks])
+            render(view: 'create', model: [shoppingList: shoppingList])
         } else {
             pslCO.errors.allErrors.each {
                 println it
