@@ -1,9 +1,9 @@
 <tr class="addGrocery">
-    <td width="30px;">
+   <td width="30px;" valign="top">
         <img class="btnCross" src="${resource(dir: 'images', file: 'crossImg.png')}" hspace="2" vspace="2"/>
     </td>
-    <td class="groceryText">${grocery}</td>
-    <td class="groceryTextBox">
+    <td width="250" class="groceryText">${grocery}</td>
+    <td width="250" class="groceryTextBox">
         <input type="text" name="groceries${weekIndex}" value="${grocery}" style="display:none;"/>
     </td>
     <td>
