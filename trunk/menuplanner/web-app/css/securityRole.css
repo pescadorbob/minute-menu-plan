@@ -34,8 +34,8 @@
 /* end winter-week start winterButton */
 .winterButton{width:100%;color:#616A72; font-size:12px;}
 .winterButton ul{margin-bottom:40px;}
-.winterButton ul li{clear:both;padding:10px;}
-.winterButton ul li p{clear:both;padding-left:35px; line-height:22px;}
+.winterButton ul li{clear:both;}
+.winterButton ul li p{clear:both; line-height:22px;}
 .winterButton ul li span{float:left;width:100px;text-align:right;padding-right:15px;}
 .winterButton ul li label{float:left;width:550px;}
 /* end winterButton  */
