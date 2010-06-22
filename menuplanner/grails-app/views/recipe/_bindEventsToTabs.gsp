@@ -64,6 +64,8 @@
                 jQuery('#optionIngredientQuantities').attr('value', '')
                 jQuery('#optionIngredientUnitIds').val(1)
                 jQuery('#optionIngredientProductIds').val('')
+                jQuery('#combobox_optionIngredientUnitIds').val('')
+                jQuery('#optionIngredientAisleIds').val('')
             }
             bindEventsFor("tableIngredients", "ingredientRow");
         })

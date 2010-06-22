@@ -176,7 +176,7 @@ class RecipeCO {
         def tempIngredients = recipe.ingredients
         recipe.ingredients = []
         tempIngredients*.delete(flush: true)
-        addIngredientsToRecipe(recipe, ingredientQuantities, ingredientUnitIds, hiddenIngredientProductNames, ingredientAisleIds)
+        addIngredientsToRecipe(recipe, ingredientQuantities, ingredientUnitIds, hiddenIngredientProductNames, hiddenIngredientAisleNames)
 
         recipe.directions = []
         addDirectionsToRecipe(recipe, directions)
