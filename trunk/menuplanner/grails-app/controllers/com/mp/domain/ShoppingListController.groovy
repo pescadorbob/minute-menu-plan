@@ -48,26 +48,25 @@ class ShoppingListController {
         return weeklyShoppingList
     }
 
-    void createWeeklyShoppingList(List<String> groceries, List<String> products, ShoppingList shoppingList, MenuPlan menuPlan, Integer index) {
+    void createWeeklyShoppingList(List<ShoppingIngredient> groceries, List<ShoppingIngredient> products, ShoppingList shoppingList, Integer index) {
         WeeklyShoppingList weeklyShoppingList = new WeeklyShoppingList()
         weeklyShoppingList.weekIndex = index
         shoppingList.addToWeeklyShoppingLists(weeklyShoppingList)
+        weeklyShoppingList.products = products
+        weeklyShoppingList.groceries = groceries
         weeklyShoppingList.s()
 
-        products.each {String name ->
-            weeklyShoppingList.products.add(name)
-        }
-        groceries?.each {String name ->
-            String item = Item.findByName(name).toString()
-            if (!item && name.trim()) {
-                Item newItem = new Product(name: name).s()
-                item = newItem.toString()
-                weeklyShoppingList.groceries.add(item)
-            }
-            if (!(item in weeklyShoppingList?.groceries)) {
-                weeklyShoppingList.groceries.add(name)
-            }
-        }
+//        groceries?.each {ShoppingIngredient grocery ->
+//            String item = Item.findByName(name).toString()
+//            if (!item && name.trim()) {
+//                Item newItem = new Product(name: name).s()
+//                item = newItem.toString()
+//                weeklyShoppingList.groceries.add(item)
+//            }
+//            if (!(item in weeklyShoppingList?.groceries)) {
+//                weeklyShoppingList.groceries.add(name)
+//            }
+//        }
     }
 
     def save = {
@@ -83,7 +82,7 @@ class ShoppingListController {
             List<String> groceries = params?.list('groceries' + index)
             List<String> products = params?.list('products' + index)
             if (index in weekList) {
-                createWeeklyShoppingList(groceries, products, shoppingList, menuPlan, index?.toInteger())
+                createWeeklyShoppingList(groceries, products, shoppingList, index?.toInteger())
             }
         }
         redirect(controller: 'shoppingList', action: 'show', id: shoppingList?.id)
@@ -115,11 +114,11 @@ class ShoppingListController {
         if (pslCO.validate()) {
             Integer servings = params?.servings?.toInteger()
             MenuPlan menuPlan = MenuPlan.get(params?.menuPlanId)
-            List<List<String>> productListForWeeks = []
-            List<List<String>> groceryListForWeeks = []
+            List<List<ShoppingIngredient>> productListForWeeks = []
+            List<List<ShoppingIngredient>> groceryListForWeeks = []
             params?.weeks?.each {String weekIndex ->
-                List<String> productListForWeek = []
-                List<String> groceryListForWeek = []
+                List<ShoppingIngredient> productListForWeek = []
+                List<ShoppingIngredient> groceryListForWeek = []
                 try {
                     productListForWeek = shoppingListService.getProductListForWeekFromMenuPlan(menuPlan, weekIndex)
                     groceryListForWeek = shoppingListService.getGroceryListForWeekFromMenuPlan(menuPlan, weekIndex)
@@ -163,20 +162,19 @@ class ShoppingListController {
             String shoppingListId = shoppingList?.id?.toString()
             List<String> weekIndexInShoppingList = []
             List<String> weeks = params?.list('weeks')
-            List<String> productList
             shoppingList?.weeklyShoppingLists?.each {WeeklyShoppingList weeklyShoppingList ->
                 weekIndexInShoppingList.add(weeklyShoppingList?.weekIndex?.toString())
             }
-            List<List<String>> productListForWeeks = []
-            List<List<String>> groceryListForWeeks = []
+            List<List<ShoppingIngredient>> productListForWeeks = []
+            List<List<ShoppingIngredient>> groceryListForWeeks = []
             weeks.each {String weekIndex ->
-                List<String> productListForWeek = []
-                List<String> groceryListForWeek = []
+                List<ShoppingIngredient> productListForWeek = []
+                List<ShoppingIngredient> groceryListForWeek = []
                 if (weekIndex in weekIndexInShoppingList) {
                     WeeklyShoppingList weeklyShoppingList = shoppingList?.weeklyShoppingLists?.find {it?.weekIndex == weekIndex?.toInteger()}
                     try {
-                        productListForWeek = shoppingListService.getProductListForWeekFromShoppingList(weeklyShoppingList)
-                        groceryListForWeek = shoppingListService.getGroceryListForWeekFromShoppingList(weeklyShoppingList)
+                        productListForWeek = weeklyShoppingList.products
+                        groceryListForWeek = weeklyShoppingList.groceries
                     } catch (e) {
                         e.printStackTrace()
                     }

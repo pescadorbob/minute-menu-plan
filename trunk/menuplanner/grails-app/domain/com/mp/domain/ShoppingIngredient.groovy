@@ -2,18 +2,15 @@ package com.mp.domain
 
 class ShoppingIngredient {
 
-    Item item
-    Quantity quantity
-
-    static belongsTo = [weeklyShoppingList: WeeklyShoppingList]
+    String name
+    Aisle aisle
 
     String toString() {
-        return ("${quantity ? quantity : ''} ${item}")
+        return name
     }
 
     static constraints = {
-        item()
-        quantity(nullable: true, blank: true)
+        aisle(nullable: true, blank: true)
     }
 
     static mapping = {

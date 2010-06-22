@@ -3,14 +3,12 @@ package com.mp.domain
 class WeeklyShoppingList {
 
     Integer weekIndex
-    List<String> products = []
-    List<String> groceries = []
+    List<ShoppingIngredient> products = []
+    List<ShoppingIngredient> groceries = []
 
-    static hasMany = [products: String, groceries: String]
+    static hasMany = [products: ShoppingIngredient, groceries: ShoppingIngredient]
     static belongsTo = [shoppingList: ShoppingList]
 
     static constraints = {
-        products(nullable: true, blank: true)
-        groceries(nullable: true, blank: true)
     }
 }
