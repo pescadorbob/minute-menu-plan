@@ -9,19 +9,19 @@ class QuickFill {
 
     static transients = ['week1', 'week2', 'week3', 'week4', 'breakfast', 'lunch']
 
-    Meal getWeek1(){
+    public Meal getWeek1(){
         return getDinnerForWeek(1)
     }
 
-    Meal getWeek2(){
+    public Meal getWeek2(){
         return getDinnerForWeek(2)
     }
 
-    Meal getWeek3(){
+    public Meal getWeek3(){
         return getDinnerForWeek(3)
     }
 
-    Meal getWeek4(){
+    public Meal getWeek4(){
         return getDinnerForWeek(4)
     }
 
@@ -30,15 +30,19 @@ class QuickFill {
         return dinnerMeals[(week-1)]
     }
 
-    Meal getBreakfast(){
+    public Meal getBreakfast(){
         return mealItems.find{it.type == MealType.BREAKFAST}
     }
 
-    Meal getLunch(){
+    public Meal getLunch(){
         return mealItems.find{it.type == MealType.LUNCH}
     }
 
     static constraints = {
         name(unique: true)
+    }
+
+    public String toString(){
+        return this.name
     }
 }

@@ -10,7 +10,7 @@
 #countrymenu{height:22px;margin-bottom:8px;clear:both;border-top:1px solid #fff;font-weight:bold;color:#fff;background:url(../images/couintry-menu-second.gif) repeat-x top left;font-size:11px;line-height:22px;}
 #countrymenu ul li.first{width:21px;float:left;background:url(../images/country-menu-first.gif) repeat-x top left;border-right:1px solid #fff;}
 #countrymenu ul li{float:left;height:22px;}
-#countrymenu ul li li{float:left;padding:0px 20px 0px 17px;border-right:1px solid #fff;}
+#countrymenu ul li li{float:left;padding:0px 0px 0px 6px;border-right:1px solid #fff;}
 #countrymenu ul li a{color:#616a72;text-decoration:none;height:22px;padding-right:12px;background:url(../images/down-arrow-gray.gif) no-repeat center right;}
 #countrymenu ul li a:hover{color:#f4f1f1;}
 #countrymenu ul li li.last{float:left;border-right:none;}
@@ -52,3 +52,5 @@
 .ratingbox ul li ul li ul li{clear:none;float:left;width:87px !important;padding:2px 0px !important;background:none  !important;}
 .ratingbox ul li ul li ul li ul li{line-height:15px;padding-left:0px !important;clear:both;}
 .ratingbox ul li:hover{background:#ffa500;}
+
+.mySelect{height:22px;width:79px;font-size:10px}
