@@ -35,6 +35,15 @@ class RecipeController {
         render(itemsJson)
     }
 
+    def getMatchingAisle = {
+        List<Aisle> items = Aisle.findAllByNameIlike("%${params.q}%")
+        String itemsJson = ''
+        items.each {
+            itemsJson += it.name + "|" + it.id + "\n"
+        }
+        render(itemsJson)
+    }
+
     def list = {
         Integer listSize = Recipe.count()
         params.max = Math.min(params.max ? params.int('max') : 15, 150)
@@ -156,28 +165,28 @@ class RecipeController {
     }
 
     def printRecipes = {
-        List<Recipe> recipes=[]
-        Boolean printOneRecipePerPage=true
-        if(request.method=="POST"){
-            switch(params.printRecipe){
+        List<Recipe> recipes = []
+        Boolean printOneRecipePerPage = true
+        if (request.method == "POST") {
+            switch (params.printRecipe) {
                 case "PRINT_SELECTED_WEEKS":
                     MenuPlan menuPlan = MenuPlan.get(params.menuPlanId)
-                    recipes= (params.fullWeek1)?menuPlan?.weeks?.get(params.int('fullWeek1')-1)?.recipes:[]
-                    recipes+= (params.fullWeek2)?menuPlan?.weeks?.get(params.int('fullWeek2')-1)?.recipes:[]
-                    recipes+= (params.fullWeek3)?menuPlan?.weeks?.get(params.int('fullWeek3')-1)?.recipes:[]
-                    recipes+= (params.fullWeek4)?menuPlan?.weeks?.get(params.int('fullWeek4')-1)?.recipes:[]
-                    printOneRecipePerPage=false
+                    recipes = (params.fullWeek1) ? menuPlan?.weeks?.get(params.int('fullWeek1') - 1)?.recipes : []
+                    recipes += (params.fullWeek2) ? menuPlan?.weeks?.get(params.int('fullWeek2') - 1)?.recipes : []
+                    recipes += (params.fullWeek3) ? menuPlan?.weeks?.get(params.int('fullWeek3') - 1)?.recipes : []
+                    recipes += (params.fullWeek4) ? menuPlan?.weeks?.get(params.int('fullWeek4') - 1)?.recipes : []
+                    printOneRecipePerPage = false
                     break;
                 case "PRINT_SELECTED_RECIPES":
-                recipes=Recipe.getAll(params?.list('recipeIds'))
-                break;
+                    recipes = Recipe.getAll(params?.list('recipeIds'))
+                    break;
             }
-        }else{
-            recipes = (params.ids)?Recipe.getAll(params?.list('ids')):Recipe.list()
-            printOneRecipePerPage=false
+        } else {
+            recipes = (params.ids) ? Recipe.getAll(params?.list('ids')) : Recipe.list()
+            printOneRecipePerPage = false
         }
-        recipes=recipes?.unique{it.id}
-        [recipes: recipes,printOneRecipePerPage:printOneRecipePerPage]
+        recipes = recipes?.unique {it.id}
+        [recipes: recipes, printOneRecipePerPage: printOneRecipePerPage]
     }
 
     def uploadImage = {
@@ -213,7 +222,7 @@ class RecipeController {
                 flash.message = "Could not removed abuse on comment"
             }
         } else {
-            flash.message = "No such comment abuse found."            
+            flash.message = "No such comment abuse found."
         }
         redirect(controller: 'user', action: 'show', id: params.userId)
     }
@@ -231,7 +240,7 @@ class RecipeController {
             try {
                 flash.message = "Removed recipe abuse"
                 recipeAbuse.delete(flush: true)
-            }catch (ex){
+            } catch (ex) {
                 recipeAbuse.errors.allErrors.each {
                     println it
                 }
@@ -245,7 +254,7 @@ class RecipeController {
 
     def selectRecipesToPrint = {
         MenuPlan menuPlan = MenuPlan.get(params.id)
-        [menuPlan:menuPlan]
-        
+        [menuPlan: menuPlan]
+
     }
 }

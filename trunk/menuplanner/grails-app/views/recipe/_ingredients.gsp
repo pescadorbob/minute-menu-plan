@@ -64,6 +64,12 @@
         matchContains: true
     })
 
+    $("#optionIngredientAisleIds").autocomplete("${createLink(action: 'getMatchingAisle', controller: 'recipe')}", {
+        width: 160,
+        multiple: false,
+        matchContains: true
+    })
+
     var itemsJson = {
         <g:each in="${Item.list()}" var="itemVar">
         '${itemVar?.name}':'${itemVar?.suggestedAisle?.name}',
