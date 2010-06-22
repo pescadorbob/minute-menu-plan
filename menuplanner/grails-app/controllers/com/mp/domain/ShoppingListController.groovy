@@ -62,9 +62,10 @@ class ShoppingListController {
             if (!item && name.trim()) {
                 Item newItem = new Product(name: name).s()
                 item = newItem.toString()
+                weeklyShoppingList.groceries.add(item)
             }
             if (!(item in weeklyShoppingList?.groceries)) {
-                weeklyShoppingList.groceries.add(item)
+                weeklyShoppingList.groceries.add(name)
             }
         }
     }
