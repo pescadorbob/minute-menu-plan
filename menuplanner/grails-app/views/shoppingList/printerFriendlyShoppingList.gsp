@@ -24,24 +24,7 @@
             <div class="headbox" style="background-color:#2AA4B1">
                 <h3>Shopping List for: ${shoppingList?.name}</h3>
             </div>
-            <table cellpadding="2" cellspacing="3" style="padding-left:40px;">
-                <g:each in="${shoppingList?.weeklyShoppingLists}" var="weeklyShoppingList" status="outer_i">
-                    <tr><td colspan="2">
-                        <strong>Week ${weeklyShoppingList?.weekIndex + 1}</strong>
-                    </td></tr>
-                    <g:each in="${weeklyShoppingList?.products}" var="product" status="i">
-                        <tr>
-                            <td><input type="checkbox" name="shoppingItem"></td>
-                            <td>${product}</td></tr>
-                    </g:each>
-                    <g:each in="${weeklyShoppingList?.groceries}" var="item" status="j">
-                        <tr>
-                            <td><input type="checkbox" name="shoppingItem"></td>
-                            <td>${item}</td>
-                        </tr>
-                    </g:each>
-                </g:each>
-            </table>
+            <g:render template="/shoppingList/showShoppingListData" model="[shoppingList: shoppingList]"/>
         </div>
     </div>
 </div>
