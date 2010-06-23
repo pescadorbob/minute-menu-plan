@@ -11,9 +11,13 @@
         font-size: 12pt;
     }
 
-    a {
-        text-decoration: underline;
-        color: #0000ff;
+    strong, h1, h2, h3, h4, h5, h6, form, p, ul {
+        color: #000000 !important;
+    }
+
+    .alternate {
+        background: #fff;
+        clear: both;
     }
     </style>
 </head>
