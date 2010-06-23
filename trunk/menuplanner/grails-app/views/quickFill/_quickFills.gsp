@@ -51,7 +51,8 @@
                           + this.id + "' name='mealItems." + $('li.menuContainer[rel$='+ thisId +']').eq(i).attr("rel")
                           + "'> <img src='" + crossImagePath + "' alt='' style='display:none;' align='left' class='deleteImage'><span>" + this.name + "</span></div>"
                 })
-                $('li.menuContainer[rel$='+ thisId +']').eq(i).prepend(htmlString)
+                htmlString+='<div class="farji" style="display:none;clear:both"></div>'
+                $('li.menuContainer[rel$='+ thisId +']').eq(i).html(htmlString)
               })
               bindHoverAndClick();
             }

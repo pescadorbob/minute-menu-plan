@@ -2,7 +2,7 @@
     <a href="#" class="menuplan"><span>Menu&nbsp;Plans</span></a>
     <ul><li><nobr>
         <g:each in="${menuPlans}" var="menuPlan">
-            <g:link controller="menuPlan" action="show" id="${menuPlan.id}">${menuPlan.name}</g:link>
+            <g:link controller="menuPlan" action="edit" id="${menuPlan.id}">${menuPlan.name}</g:link>
         </g:each>
     </nobr></li>
         <li><nobr>
