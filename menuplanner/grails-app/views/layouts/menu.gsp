@@ -17,6 +17,7 @@
     <script type="text/javascript" src="${resource(dir: 'js', file: 'createRecipe.js')}"></script>
     <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.autocomplete.min.js')}"></script>
     <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.tools.min.js')}"></script>
+    <script type="text/javascript" src="${resource(dir: 'js', file: 'shoppingList.js')}"></script>
     <g:layoutHead/>
 </head>
 <body>
@@ -29,7 +30,7 @@
         </a>
             <h1><nobr>Plan Your Month's Menu in a Minute!</nobr></h1>
         </div>
-            <g:render template="/layouts/navigationBar" />
+        <g:render template="/layouts/navigationBar"/>
     </div>
     <!-- end header start wrapper -->
     <div id="wrapper" class="clearfix">
