@@ -13,7 +13,7 @@
                         <g:link controller="shoppingList" action="show" id="${shoppingList?.id}">${shoppingList?.name}</g:link>
                     </g:if>
                     <g:else>
-                        <g:link controller="shoppingList" action="printShoppingList" id="${menuPlan?.id}">Create Shopping List</g:link>
+                        <g:link controller="shoppingList" action="generateShoppingList" id="${menuPlan?.id}">Create Shopping List</g:link>
                     </g:else></li>
                 %{--<li><a href="">Delete Menu Plan</a></li>--}%
             </ul>
