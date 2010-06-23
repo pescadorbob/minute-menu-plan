@@ -30,30 +30,8 @@ class UtilController {
     }
 
     def index = {
-        MenuPlan menuPlan = MenuPlan.get(2)
-
-        render "MENUPLAN : ${menuPlan}<br/>"
-        menuPlan?.weeks?.each {Week week ->
-            render "<hr/>"
-            render "<br/>WEEK : ${week}<br/>"
-            week.days.each {Day day ->
-                render "DAY : ${day}<br/>"
-                day.getBreakfast().each {Item item ->
-                    render "-------------------------- BREAKFAST : ${item} <br/>"
-                    if (item?.instanceOf(Recipe)) {
-                        item.ingredients.each {RecipeIngredient recipeIngredient ->
-                            render ">>>>>>>>>>>>>>>>>>>>>>>>>>> INGREDIENT : ${recipeIngredient} <br/>"
-                        }
-                    }
-                }
-                day.getLunch().each {Item item ->
-                    render "+++++++++++++ LUNCH : ${item} isRecipe : ${item?.instanceOf(Recipe)}<br/>"
-                }
-                day.getDinner().each {Item item ->
-                    render "******************** DINNER : ${item} isRecipe : ${item?.instanceOf(Recipe)}<br/>"
-                }
-            }
-        }
+        ShoppingList shoppingList=ShoppingList.get(6)
+        render(template: '/shoppingList/emailShoppingList', model: [shoppingList: shoppingList])
     }
 
     def test = {
