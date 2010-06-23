@@ -5,7 +5,12 @@
     <title>Show Shopping List</title>
     <style>.winterButton ul {
         margin-bottom: 10px;
-    }</style>
+    }
+
+    .productCheckBox {
+        display: none;
+    }
+    </style>
 </head>
 <body>
 <div id="container">
