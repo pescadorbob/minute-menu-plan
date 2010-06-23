@@ -1,7 +1,7 @@
 <%@ page import="com.mp.domain.Recipe" %>
 <div class="clearfix">
     <div class="winter-week">
-        <div class="winterButton"><strong>Week ${weeklyShoppingList.weekIndex + 1}</strong><p></p></div>
+        <div class="winterButton"><h3><strong>Week ${weeklyShoppingList.weekIndex + 1}</strong></h3></div>
         <g:each in="${weeklyShoppingList.aisles + null}" var="aisle">
             <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${(aisle ? aisle : 'Others')}</strong>
         <span id="products_${weeklyShoppingList.weekIndex}" class="grocery">

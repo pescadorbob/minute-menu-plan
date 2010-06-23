@@ -35,13 +35,13 @@
                             <g:hiddenField name="weekList" value="${shoppingList?.weeklyShoppingLists*.weekIndex}"/>
                             <g:hiddenField name="servings" value="${shoppingList?.servings}"/>
                             <g:hiddenField name="shoppingListName" value="${shoppingList.name}"/>
-                            %{--<g:if test="${shoppingListId}">--}%
-                                %{--<g:hiddenField name="shoppingListId" value="${shoppingListId}"/>--}%
-                                %{--<g:actionSubmit class="button" controller="shoppingList" action="update" name="update" value="Update"/>--}%
-                            %{--</g:if>--}%
-                            %{--<g:else>--}%
+                            <g:if test="${shoppingListId}">
+                                <g:hiddenField name="shoppingListId" value="${shoppingListId}"/>
+                                <g:actionSubmit class="button" controller="shoppingList" action="update" name="update" value="Update"/>
+                            </g:if>
+                            <g:else>
                                 <g:actionSubmit class="button" controller="shoppingList" action="save" name="save" value="Create"/>
-                            %{--</g:else>--}%
+                            </g:else>
                             <g:actionSubmit class="button" controller="shoppingList" action="cancelDetailShoppingList" name="create" value="Cancel"/>
                         </li></ul>
                     </div>
