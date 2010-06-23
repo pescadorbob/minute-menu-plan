@@ -3,14 +3,7 @@
 <head>
     <meta name="layout" content="menu"/>
     <title>Show Shopping List</title>
-    <style>.winterButton ul {
-        margin-bottom: 10px;
-    }
-
-    .productCheckBox {
-        display: none;
-    }
-    </style>
+    <style>.winterButton ul {margin-bottom: 10px;}</style>
 </head>
 <body>
 <div id="container">
@@ -35,6 +28,13 @@
                         </li>
                     </ul>
                 </div>
+                <div class="emailShoppingList" id="emailShoppingList" style="display:none">
+                    <g:formRemote name="emailListForm" url="${[action:'emailShoppingList']}">
+                        Send To: <g:textField name="emailId"/>
+                        <g:hiddenField name="shoppingListId" value="${shoppingList?.id}"/>
+                        <g:submitButton name="submit" value="send" id="emailSubmitButton" onClick="attachPaginationLinkEvents()"/>
+                    </g:formRemote>
+                </div>
                 <g:render template="/shoppingList/showShoppingListData" model="[shoppingList: shoppingList]"/>
                 <div class="winterButton">
                     <ul><li>
@@ -44,6 +44,9 @@
                         </g:uploadForm>
                     </li></ul>
                 </div>
+            </div>
+            <div id="emailMessageTemplate">
+                <g:render template="/shoppingList/ajaxEmailSendingMessage"/>
             </div>
             <div class="bottom-shadow">
                 <label></label>
@@ -56,12 +59,9 @@
         window.open("${createLink(controller:'shoppingList',action:'printerFriendlyShoppingList',id:shoppingList.id)}", 'printShoppingList', 'width=800,height=800,scrollbars=yes')
         return false;
     })
-
     $(function() {
         $("#emailShoppingListBtn").click(function() {
-            $.get("${createLink(controller:'shoppingList',action:'emailShoppingList',id:shoppingList.id)}", function(data) {
-                alert("An email has been sent to your email id.");
-            })
+            jQuery('#emailShoppingList').show()
         })
     })
 </script>

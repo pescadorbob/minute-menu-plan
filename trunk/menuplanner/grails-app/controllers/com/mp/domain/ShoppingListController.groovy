@@ -199,9 +199,10 @@ class ShoppingListController {
     }
 
     def emailShoppingList = {
-        ShoppingList shoppingList = ShoppingList.get(params.id)
+        ShoppingList shoppingList = ShoppingList.get(params?.shoppingListId?.toLong())
+        String emailAddress = params?.emailId
         asynchronousMailService.sendAsynchronousMail {
-            to User.currentUser?.email
+            to emailAddress
             subject "Your Shopping List : ${shoppingList.name}"
             html g.render(template: '/shoppingList/emailShoppingList', model: [shoppingList: shoppingList])
         }
