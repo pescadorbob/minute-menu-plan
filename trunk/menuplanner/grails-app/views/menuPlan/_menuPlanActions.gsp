@@ -9,12 +9,8 @@
                 %{--<li><a href="">Print Monthly Menu Plan</a></li>--}%
                 %{--<li><a href="">Print Weekly Menu Plan</a></li>--}%
                 <li>
-                    <g:if test="${shoppingList}">
-                        <g:link controller="shoppingList" action="show" id="${shoppingList?.id}">${shoppingList?.name}</g:link>
-                    </g:if>
-                    <g:else>
-                        <g:link controller="shoppingList" action="generateShoppingList" id="${menuPlan?.id}">Create Shopping List</g:link>
-                    </g:else></li>
+                    <g:link controller="shoppingList" action="generateShoppingList" id="${menuPlan?.id}">Create Shopping List</g:link>
+                </li>
                 %{--<li><a href="">Delete Menu Plan</a></li>--}%
             </ul>
         </a>
