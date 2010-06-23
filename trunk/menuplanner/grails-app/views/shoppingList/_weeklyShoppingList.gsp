@@ -1,6 +1,6 @@
-<%@ page import="com.mp.domain.Recipe" %>
+<%@ page import="com.mp.domain.*" %>
 <div class="clearfix">
-    <div class="winter-week">
+    <div class="winter-week" id="shoppingWeek${weeklyShoppingList.weekIndex}">
         <div class="winterButton"><h3><strong>Week ${weeklyShoppingList.weekIndex + 1}</strong></h3></div>
         <g:each in="${weeklyShoppingList.aisles + null}" var="aisle">
             <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${(aisle ? aisle : 'Others')}</strong>
@@ -13,8 +13,8 @@
         </span>
 
         <div class="winterButton">
-            <span id="groceries_${weeklyShoppingList.weekIndex}" class="grocery">
-                <table id="groceryTable_${weeklyShoppingList.weekIndex}" style="width:100%">
+            <span id="groceries_${weeklyShoppingList.weekIndex}" class="grocery grocery_${(aisle?.id ?: 'null')}">
+                <table id="groceryTable_${weeklyShoppingList.weekIndex}" style="width:100%" class="week${weeklyShoppingList.weekIndex}_groceries${(aisle?.id)}">
                     <g:if test="${weeklyShoppingList.getGroceriesByAisle(aisle)}">
                         <g:each in="${weeklyShoppingList.getGroceriesByAisle(aisle)}" var="grocery" status="i">
                             <g:render template="/shoppingList/groceryWithParams" model="[grocery:grocery, weekIndex:weeklyShoppingList.weekIndex, aisle: aisle]"/>
@@ -28,12 +28,14 @@
         </div>
         </g:each>
     </div>
-    %{--<div class="winter-week">--}%
-    %{--<div class="winterButton" style="margin-top:52px;margin-left:64px">--}%
-    %{--<input type="button" name="addItemBtn_${weekIndex}" id="addItemBtn_${weekIndex}" value="Add Item"/>--}%
-    %{--<input name="addItemTxt_${weekIndex}" class="inpbox" id="addItemTxt_${weekIndex}" title="${g.message(code: 'toolTip.recipe.unit')}">--}%
-    %{--</div>--}%
-    %{--</div>--}%
+  <g:set var="weekIndex" value="${weeklyShoppingList.weekIndex}"/>
+    <div class="winter-week">
+    <div class="winterButton" style="margin-top:52px;margin-left:64px;">
+      <g:select name="aisleList_${weekIndex}" from="${Aisle.list()}" optionKey="id" optionValue="${it?.name}" noSelection="['':'-Select Aisle-']"/>
+      <input name="addItemTxt_${weekIndex}" class="inpbox" id="addItemTxt_${weekIndex}" title="${g.message(code: 'toolTip.recipe.unit')}">
+      <input type="button" name="addItemBtn_${weekIndex}" id="addItemBtn_${weekIndex}" value="Add Item"/>
+    </div>
+    </div>
 </div>
 <script type="text/javascript">
     var htmlString = jQuery('#groceryTemplateRow>tbody').html()
@@ -43,16 +45,18 @@
             if (jQuery('#addItemTxt_${weekIndex}').val() != "") {
                 var grocery = jQuery('#addItemTxt_${weekIndex}').val()
                 var groceryTB = '<input type="text" name="groceries${weekIndex}" value="' + jQuery('#addItemTxt_${weekIndex}').val() + '">'
-
-                jQuery('#groceryTable_${weekIndex} tbody').append(htmlString)
-                jQuery('#groceryTable_${weekIndex} .addGroceryNew .groceryText').html(grocery)
-                jQuery('#groceryTable_${weekIndex} .addGroceryNew .groceryTextBox').html(groceryTB);
-
-                jQuery('#groceryTable_${weekIndex} .addGroceryNew .groceryTextBox input[type="text"]').hide()
-
-                jQuery('#groceryTable_${weekIndex} .addGroceryNew').attr('class', 'addGrocery')
-                bindEvents()
-                jQuery('#addItemTxt_${weekIndex}').val('')
+              if($(".week${weekIndex}_groceries"+$("#aisleList_${weekIndex}").val()).length==0){
+                var groceryHtmlString='<strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ $('option[value='+$("#aisleList_${weekIndex}").val()+']',$("#aisleList_${weekIndex}")).text() +'</strong><div class="winterButton"> <span class="grocery grocery_'+$("#aisleList_${weekIndex}").val()+'" id="groceries_${weekIndex}"><table class="week${weekIndex}_groceries'+ $("#aisleList_${weekIndex}").val() +'" style="width: 100%;" id="groceryTable_0"><tbody><tr class="addGrocery"/></tbody></table></span></div>'
+                $("#shoppingWeek${weekIndex}").append(groceryHtmlString)
+              }
+              var newHtmlSting=$(htmlString).clone()
+                $(".groceryText",$(newHtmlSting)).html(grocery)
+                $(".groceryTextBox",$(newHtmlSting)).html(groceryTB)
+                $('input[type="text"]',$(newHtmlSting)).hide()
+                $(newHtmlSting).addClass('addGrocery')
+                $(".week${weekIndex}_groceries"+$("#aisleList_${weekIndex}").val()).append(newHtmlSting)
+                $('#addItemTxt_${weekIndex}').val('')
+              bindEvents()
             }
             return false;
         })

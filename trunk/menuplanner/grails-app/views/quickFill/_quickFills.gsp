@@ -22,7 +22,7 @@
       <li class="first">&nbsp;</li>
       <li>
         <ul>
-          <li><g:select name="day0" from="${QuickFill.list()}" optionKey="id" optionValue="${it}" class="mySelect" noSelection="['':'-Quick Fill-']"/> </li>
+          <li><g:select name="day0" from="${QuickFill.list()}" optionKey="id" optionValue="${it}" class="mySelect" noSelection="['':'-Quick Fill-']"/> <lable></lable></li>
           <li><g:select name="day1" from="${QuickFill.list()}" optionKey="id" optionValue="${it}" class="mySelect" noSelection="['':'-Quick Fill-']"/></li>
           <li><g:select name="day2" from="${QuickFill.list()}" optionKey="id" optionValue="${it}" class="mySelect" noSelection="['':'-Quick Fill-']"/></li>
           <li><g:select name="day3" from="${QuickFill.list()}" optionKey="id" optionValue="${it}" class="mySelect" noSelection="['':'-Quick Fill-']"/></li>
