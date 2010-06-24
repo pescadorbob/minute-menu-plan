@@ -53,8 +53,9 @@ class ExcelService {
             String valueThree = sheet.getCell(2, position).contents.toString().trim()
             String valueFour = sheet.getCell(3, position).contents.toString().trim()
             String valueFive = sheet.getCell(4, position).contents.toString().trim()
-            if (valueTwo || valueThree || valueFour || valueFive) {
-                ingredients.add([valueOne, valueTwo, valueThree, valueFour, valueFive])
+            String valueSix = sheet.getCell(4, position).contents.toString().trim()
+            if (valueTwo || valueThree || valueFour || valueFive || valueSix) {
+                ingredients.add([valueOne, valueTwo, valueThree, valueFour, valueFive, valueSix])
             }
         }
         (22..31).eachWithIndex {Integer position, Integer index ->
@@ -197,12 +198,22 @@ class ExcelService {
         try {
             List<RecipeIngredient> recipeIngredients = []
             ingredients.eachWithIndex {List<String> ingredientRow, Integer i ->
+
+                String itemName = ingredientRow.getAt(3)
+                String preparationMethodName = ingredientRow.getAt(4)
+                String aisleName = ingredientRow.getAt(5)
+
                 RecipeIngredient recipeIngredient = new RecipeIngredient()
-                Item item = Item.findByName(ingredientRow.getAt(3))
+                Item item = Item.findByName(itemName)
+                PreparationMethod preparationMethod
+                if(preparationMethodName){
+                    preparationMethod = PreparationMethod.findByName(preparationMethodName)
+                    if(!preparationMethod){preparationMethod = new PreparationMethod(name: preparationMethodName).s()}
+                }
+                recipeIngredient.preparationMethod = preparationMethod
                 if (!item) {
-                    item = new Product(name: ingredientRow.getAt(3))
+                    item = new Product(name: itemName)
                     item.isVisible = true
-                    String aisleName = ingredientRow.getAt(4)
                     if (aisleName) {
                         Aisle aisle = Aisle.findByName(aisleName)
                         if (!aisle) {
@@ -214,12 +225,9 @@ class ExcelService {
                 }
                 recipeIngredient.ingredient = item
 
-                Aisle aisle = Aisle.findByName(ingredientRow.getAt(4))
-                if (aisle) {
-                    recipeIngredient.aisle = aisle
+                if (aisleName) {
+                    recipeIngredient.aisle = Aisle.findByName(aisleName)
                 } 
-
-
 
                 Quantity quantity = new Quantity()
                 if (ingredientRow.getAt(1) && ingredientRow.getAt(2)) {  // if amount and unit both are Specified:
@@ -228,17 +236,6 @@ class ExcelService {
                     if (!unit) { unit = Unit.findByName(ingredientRow.getAt(2)) }
                     if (!unit) {
                         println "Unknown unit: " + ingredientRow.getAt(2)
-                        /*
-                        unit = new Unit(name: "${ingredientRow.getAt(2)}", symbol: "${ingredientRow.getAt(2)}", definition: "This is definition", metricType: MetricType.METRIC)
-                        unit.addToSystemOfUnits(SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA))
-                        unit.s()
-
-                        StandardConversion standardConversion = new StandardConversion()
-                        standardConversion.targetUnit = Unit.findByName(UNIT_MILLI_LITRE)
-                        standardConversion.sourceUnit = unit
-                        standardConversion.conversionFactor = 1.0
-                        standardConversion.s()
-                        */
                     }
                     quantity = StandardConversion.getQuantityToSave(ingredientRow.getAt(1), unit)
                 } else if (ingredientRow.getAt(1)) {  // only Amount is specified:

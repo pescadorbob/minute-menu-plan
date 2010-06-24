@@ -71,12 +71,8 @@ class BootStrap {
             println "Populated Categories"
 
 
-            File recipeExcelFile
-            if (GrailsUtil.isDevelopmentEnv()) {
-                recipeExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet_test.xls"))
-            } else {
-                recipeExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/recipeSpreadsheet.xls"))
-            }
+            String recipeFileName = (GrailsUtil.isDevelopmentEnv()) ? "/bootstrapData/recipeSpreadsheet_test.xls"  : "/bootstrapData/recipeSpreadsheet.xls"
+            File recipeExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath(recipeFileName))
             List<String> recipeLog = excelService.createLineItems(recipeExcelFile)
             println "Populated Recipes"
             bootstrapService.addCommentsFavouriteAndContributed()
