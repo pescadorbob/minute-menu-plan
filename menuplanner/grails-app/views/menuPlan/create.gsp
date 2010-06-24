@@ -62,6 +62,12 @@
             }
         });
     })
+    $("#create").click(function(){
+      if($("#menuPlanNameTextbox").val()=="Enter Menu Plan Name"){
+        alert("Please enter Menu plan name")
+        return false;
+      }
+    })
 </script>
 </body>
 </html>

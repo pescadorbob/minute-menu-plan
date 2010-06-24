@@ -30,6 +30,14 @@
     </div>
   </g:form>
   <g:render template="/menuPlan/search"/>
+  <script type="text/javascript">
+    $("#update").click(function(){
+      if($("#menuPlanNameTextbox").val()==""){
+        alert("Please enter Menu plan name")
+        return false;
+      }
+    })
+  </script>
 </div>
 </body>
 </html>
