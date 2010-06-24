@@ -31,7 +31,7 @@
 
     function defineSearchDomainType(element, fieldName, fieldValue) {
         jQuery('#' + fieldName + 'Row').show()
-        jQuery('#' + fieldName + 'Row td:eq(0)').html(jQuery(element).text())
+        jQuery('#' + fieldName + 'Row td:eq(1)').html(jQuery(element).text())
         jQuery('input[name=searchByDomainName]').attr('value', fieldValue)
         document.getElementById('searchForm').onsubmit();
     }
