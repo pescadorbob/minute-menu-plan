@@ -16,7 +16,8 @@ class QuickFillController {
         if (params.id) {
             quickFill = QuickFill.get(params.long("id"))
         }
-        [categoryList: categoryList, itemTotal: Recipe.count(), quickFill: quickFill, quickFillList: QuickFill.list(max: params.max, offset: params?.offset), quickFillTotal: QuickFill.count()]
+        List<Recipe> recipeList = Recipe.list(params)
+        [categoryList: categoryList, itemList: recipeList, itemTotal: Recipe.count(), quickFill: quickFill, quickFillList: QuickFill.list(max: params.max, offset: params?.offset), quickFillTotal: QuickFill.count()]
     }
 
     def saveAndUpdateQuickFill = {
