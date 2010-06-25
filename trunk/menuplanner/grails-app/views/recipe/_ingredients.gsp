@@ -12,12 +12,13 @@
             </table>
             <table id="tableIngredients" cellspacing="0px" cellpadding="0px" width="100%" class="menuplannerTab">
                 <tr id="tableIngredientsHeader" class="mnuTableHeader">
-                    <td width="20">&nbsp;</td>
-                    <td width="20">&nbsp;</td>
-                    <td width="40">&nbsp;</td>
-                    <td width="80"><strong>Amount</strong></td>
-                    <td width="120"><strong>Unit</strong></td>
-                    <td width="140"><strong>Ingredient</strong></td>
+                    <td width="25">&nbsp;</td>
+                    <td width="25">&nbsp;</td>
+                    <td width="30">&nbsp;</td>
+                    <td width="65"><strong>Amount</strong></td>
+                    <td width="105"><strong>Unit</strong></td>
+                    <td width="105"><strong>Ingredient</strong></td>
+                    <td width="110"><strong>Preparation</strong></td>
                     <td><strong>Aisle</strong></td>
                 </tr>
                 <!-- Show Ingredients Here -->
@@ -26,10 +27,12 @@
                             model="[hiddenIngredientUnitNames:recipeCO?.hiddenIngredientUnitNames[i],
                             hiddenIngredientProductNames:recipeCO?.hiddenIngredientProductNames[i],
                             hiddenIngredientAisleNames:recipeCO?.hiddenIngredientAisleNames[i],
+                            hiddenIngredientPreparationMethodNames:recipeCO?.hiddenIngredientPreparationMethodNames[i],
                             ingredientQuantity:recipeCO?.ingredientQuantities[i],
                             ingredientUnitId:recipeCO?.ingredientUnitIds[i],
                             ingredientProductId:recipeCO?.ingredientProductIds[i],
                             ingredientAisleId:recipeCO?.ingredientAisleIds[i],
+                            ingredientPreparationMethodId:recipeCO?.ingredientPreparationMethodIds[i],
                              hiddenIngredientUnitSymbol:recipeCO?.hiddenIngredientUnitSymbols[i]]"/>
                 </g:each>
             </table>
@@ -40,15 +43,18 @@
                     <img class="imagePointer" id="btnAddIngredient" src="${resource(dir: 'images', file: 'plus-add.jpg')}" hspace="4" align="left" border="0"/>
                     <span id="ingredientToBeAdded">
                         <div style="float:left;">
-                            <g:textField class="inpboxSmall showToolTip" id='optionIngredientQuantities' name="optionIngredientQuantities" value="" title="${g.message(code:'toolTip.recipe.amount')}" style="width:50px;"/>
+                            <g:textField class="inpboxSmall showToolTip" id='optionIngredientQuantities' name="optionIngredientQuantities" value="" title="${g.message(code:'toolTip.recipe.amount')}" style="width:40px;"/>
                             <g:select class="inpbox" id='optionIngredientUnitIds' noSelection="['':'(No Unit)']" name="optionIngredientUnitIds" from="${metricUnits}" optionKey="id" style="width:105px;display:none;"/>
-                            <input name="combobox_optionIngredientUnitIds" class="inpbox showToolTip" id="combobox_optionIngredientUnitIds" title="${g.message(code: 'toolTip.recipe.unit')}" style="width:110px;">
+                            <input name="combobox_optionIngredientUnitIds" class="inpbox showToolTip" id="combobox_optionIngredientUnitIds" title="${g.message(code: 'toolTip.recipe.unit')}" style="width:90px;">
                         </div>
                         <div style="float:left; padding-left:5px;">
-                            <input class="inpbox showToolTip" id="optionIngredientProductIds" name="optionIngredientProductIds" value="" title="${g.message(code: 'toolTip.recipe.ingredient')}" style="width:110px;"/>
+                            <input class="inpbox showToolTip" id="optionIngredientProductIds" name="optionIngredientProductIds" value="" title="${g.message(code: 'toolTip.recipe.ingredient')}" style="width:90px;"/>
                         </div>
                         <div style="float:left; padding-left:5px;">
-                            <input class="inpbox showToolTip" id="optionIngredientAisleIds" name="optionIngredientAisleIds" value="" style="width:110px;"/>
+                            <input class="inpbox" id="optionIngredientPreparationMethodIds" name="optionIngredientPreparationMethodIds" value="" style="width:90px;"/>
+                        </div>
+                        <div style="float:left; padding-left:5px;">
+                            <input class="inpbox" id="optionIngredientAisleIds" name="optionIngredientAisleIds" value="" style="width:90px;"/>
                         </div>
                     </span>
                 </span>
@@ -65,6 +71,11 @@
     })
 
     $("#optionIngredientAisleIds").autocomplete("${createLink(action: 'getMatchingAisle', controller: 'recipe')}", {
+        width: 160,
+        multiple: false,
+        matchContains: true
+    })
+    $("#optionIngredientPreparationMethodIds").autocomplete("${createLink(action: 'getMatchingPreparationMethod', controller: 'recipe')}", {
         width: 160,
         multiple: false,
         matchContains: true

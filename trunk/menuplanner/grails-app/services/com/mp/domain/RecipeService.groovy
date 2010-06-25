@@ -48,10 +48,12 @@ class RecipeCO {
     List<String> ingredientQuantities = []
     List<String> ingredientUnitIds = []
     List<String> ingredientProductIds = []
+    List<String> ingredientPreparationMethodIds = []
     List<String> ingredientAisleIds = []
     List<String> hiddenIngredientUnitNames = []
     List<String> hiddenIngredientUnitSymbols = []
     List<String> hiddenIngredientProductNames = []
+    List<String> hiddenIngredientPreparationMethodNames = []
     List<String> hiddenIngredientAisleNames = []
 
     List<String> directions = []
@@ -91,6 +93,11 @@ class RecipeCO {
         recipe?.ingredients*.aisle?.each {Aisle aisle ->
             ingredientAisleIds.add(aisle?.id?.toString())
             hiddenIngredientAisleNames.add(aisle?.name)
+        }
+
+        recipe?.ingredients*.preparationMethod?.each {PreparationMethod preparationMethod ->
+            ingredientPreparationMethodIds.add(preparationMethod?.id?.toString())
+            hiddenIngredientPreparationMethodNames.add(preparationMethod?.name)
         }
         recipe?.ingredients*.quantity?.unit?.eachWithIndex {Unit unit, Integer index ->
             ingredientUnitIds.add(unit?.id)
@@ -176,7 +183,7 @@ class RecipeCO {
         def tempIngredients = recipe.ingredients
         recipe.ingredients = []
         tempIngredients*.delete(flush: true)
-        addIngredientsToRecipe(recipe, ingredientQuantities, ingredientUnitIds, hiddenIngredientProductNames, hiddenIngredientAisleNames)
+        addIngredientsToRecipe(recipe, ingredientQuantities, ingredientUnitIds, hiddenIngredientProductNames, hiddenIngredientAisleNames,hiddenIngredientPreparationMethodNames)
 
         recipe.directions = []
         addDirectionsToRecipe(recipe, directions)
@@ -207,7 +214,7 @@ class RecipeCO {
 
         addCategoriesToRecipe(recipe, categoryIds)
         addDirectionsToRecipe(recipe, directions)
-        addIngredientsToRecipe(recipe, ingredientQuantities, ingredientUnitIds, hiddenIngredientProductNames, ingredientAisleIds)
+        addIngredientsToRecipe(recipe, ingredientQuantities, ingredientUnitIds, hiddenIngredientProductNames, ingredientAisleIds, hiddenIngredientPreparationMethodNames)
         addServeWithToRecipe(recipe, serveWithItems)
         addNutrientsToRecipe(recipe, nutrientQuantities, nutrientIds)
 
@@ -263,7 +270,7 @@ class RecipeCO {
         }
     }
 
-    public List<RecipeIngredient> recipeIngredientList(List<String> amounts, List<String> unitIds, List<String> productNames, List<String> aisleNames) {
+    public List<RecipeIngredient> recipeIngredientList(List<String> amounts, List<String> unitIds, List<String> productNames, List<String> aisleNames, List<String> preparationMethodNames) {
         List<RecipeIngredient> recipeIngredients = []
         productNames?.eachWithIndex {String productName, Integer index ->
             RecipeIngredient recipeIngredient = new RecipeIngredient()
@@ -271,8 +278,12 @@ class RecipeCO {
             Unit unit = (unitIds[index]) ? Unit?.get(unitIds[index]?.toLong()) : null
             Quantity quantity = StandardConversion.getQuantityToSave(amounts?.getAt(index) ? amounts[index] : null, unit)
             Aisle aisle = Aisle.findByName(aisleNames[index])
+            PreparationMethod preparationMethod = PreparationMethod.findByName(preparationMethodNames[index])
             if (!aisle) {
                 aisle = new Aisle(name: aisleNames[index]).s()
+            }
+            if (!preparationMethod) {
+                preparationMethod = new PreparationMethod(name: preparationMethodNames[index]).s()
             }
             if (!product) {
                 if (unit) {
@@ -284,14 +295,15 @@ class RecipeCO {
             quantity?.s()
             recipeIngredient.ingredient = product
             recipeIngredient.quantity = quantity
+            recipeIngredient.preparationMethod = preparationMethod
             recipeIngredient.aisle = aisle
             recipeIngredients.add(recipeIngredient)
         }
         return recipeIngredients
     }
 
-    public boolean addIngredientsToRecipe(Recipe recipe, List<String> amounts, List<String> unitIds, List<String> productNames, List<String> aisleNames) {
-        List<RecipeIngredient> recipeIngredients = recipeIngredientList(amounts, unitIds, productNames, aisleNames)
+    public boolean addIngredientsToRecipe(Recipe recipe, List<String> amounts, List<String> unitIds, List<String> productNames, List<String> aisleNames, List<String> preparationMethodNames) {
+        List<RecipeIngredient> recipeIngredients = recipeIngredientList(amounts, unitIds, productNames, aisleNames, preparationMethodNames)
         recipeIngredients?.eachWithIndex {RecipeIngredient recipeIngredient, Integer index ->
             recipeIngredient.recipe = recipe
             recipe.addToIngredients(recipeIngredient)

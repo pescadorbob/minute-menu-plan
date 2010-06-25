@@ -7,11 +7,13 @@
             <input class='US' type="hidden" value="${hiddenIngredientUnitSymbol}" name="hiddenIngredientUnitSymbols"/>
             <input class='P' type="hidden" value="${ingredientProductId}" name="ingredientProductIds"/>
             <input class='R' type="hidden" value="${ingredientAisleId}" name="ingredientAisleIds"/>
+            <input class='S' type="hidden" value="${ingredientPreparationMethodId}" name="ingredientPreparationMethodIds"/>
         </span>
         <span class="hiddenTextIngredient">
             <input class='UN' type="hidden" name="hiddenIngredientUnitNames" value="${hiddenIngredientUnitNames}"/>
             <input class='PN' type="hidden" name="hiddenIngredientProductNames" value="${hiddenIngredientProductNames}"/>
             <input class='PN' type="hidden" name="hiddenIngredientAisleNames" value="${hiddenIngredientAisleNames}"/>
+            <input class='PN' type="hidden" name="hiddenIngredientPreparationMethodNames" value="${hiddenIngredientPreparationMethodNames}"/>
         </span>
     </td>
     <td>
@@ -28,6 +30,9 @@
     </td>
     <td>
         <span class="product">${hiddenIngredientProductNames}</span>
+    </td>
+    <td>
+        <span class="aisle">${hiddenIngredientPreparationMethodNames}</span>
     </td>
     <td>
         <span class="aisle">${hiddenIngredientAisleNames}</span>
