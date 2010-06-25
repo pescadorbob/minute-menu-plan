@@ -16,7 +16,19 @@
                 <table id="groceryTemplateRow" style="display:none;">
                     <g:render template="/shoppingList/grocery"/>
                 </table>
-                <g:uploadForm name="formDetailShoppingList">
+                <g:form name="formDetailShoppingList">
+                    <g:if test="${shoppingListId}">
+                        %{--<g:hiddenField name="shoppingListId" value="${shoppingListId}"/>--}%
+                        <input type="submit" class="button" name="Update" value="Update" onclick="$('#updateShoppingListButton').click();
+                        return false;"/>
+                        <g:actionSubmit class="button" controller="shoppingList" action="cancelDetailShoppingList" name="cancel" value="Cancel"/>
+                    </g:if>
+                    <g:else>
+                        <input type="submit" class="button" name="create" value="Create" onclick="$('#createShoppingListButton').click();
+                        return false;"/>
+                        <g:actionSubmit class="button" controller="shoppingList" action="cancelDetailShoppingList" name="cancel" value="Cancel"/>
+                    </g:else>
+
                     <g:each in="${shoppingList.weeklyShoppingLists}" var="weeklyShoppingList">
                         <g:render template="/shoppingList/weeklyShoppingList" model="[weeklyShoppingList: weeklyShoppingList]"/>
                     </g:each>
@@ -28,15 +40,15 @@
                             <g:hiddenField name="shoppingListName" value="${shoppingList.name}"/>
                             <g:if test="${shoppingListId}">
                                 <g:hiddenField name="shoppingListId" value="${shoppingListId}"/>
-                                <g:actionSubmit class="button" controller="shoppingList" action="update" name="update" value="Update"/>
+                                <g:actionSubmit class="button" controller="shoppingList" action="update" name="update" id="updateShoppingListButton" value="Update"/>
                             </g:if>
                             <g:else>
-                                <g:actionSubmit class="button" controller="shoppingList" action="save" name="save" value="Create"/>
+                                <g:actionSubmit class="button" controller="shoppingList" action="save" id="createShoppingListButton" name="save" value="Create"/>
                             </g:else>
                             <g:actionSubmit class="button" controller="shoppingList" action="cancelDetailShoppingList" name="cancel" value="Cancel"/>
                         </li></ul>
                     </div>
-                </g:uploadForm>
+                </g:form>
             </div>
             <div class="bottom-shadow">
                 <label></label>

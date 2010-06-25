@@ -3,7 +3,9 @@
 <head>
     <meta name="layout" content="menu"/>
     <title>Show Shopping List</title>
-    <style>.winterButton ul {margin-bottom: 10px;}</style>
+    <style>.winterButton ul {
+        margin-bottom: 10px;
+    }</style>
 </head>
 <body>
 <div id="container">
@@ -35,15 +37,21 @@
                         <g:submitButton name="submit" value="send" id="emailSubmitButton" onClick="attachPaginationLinkEvents()"/>
                     </g:formRemote>
                 </div>
-                <g:render template="/shoppingList/showShoppingListData" model="[shoppingList: shoppingList]"/>
-                <div class="winterButton">
-                    <ul><li>
-                        <g:uploadForm name="formDetailShoppingList">
-                            <g:hiddenField name="shoppingListId" value="${shoppingList?.id}"/>
-                            <g:actionSubmit class="button" controller="shoppingList" action="edit" name="edit" value="Edit"/>
-                        </g:uploadForm>
+            <div class="winterButton">
+            <ul><li>
+                <g:form name="formDetailShoppingList">
+                    <g:actionSubmit class="button" controller="shoppingList" action="edit" name="edit" value="Edit"/>
                     </li></ul>
                 </div>
+                    <g:render template="/shoppingList/showShoppingListData" model="[shoppingList: shoppingList]"/>
+                    <div class="winterButton">
+                    <ul><li>
+
+                    <g:hiddenField name="shoppingListId" value="${shoppingList?.id}"/>
+                    <g:actionSubmit class="button" controller="shoppingList" action="edit" name="edit" value="Edit"/>
+                </g:form>
+            </li></ul>
+            </div>
             </div>
             <div id="emailMessageTemplate">
                 <g:render template="/shoppingList/ajaxEmailSendingMessage"/>
