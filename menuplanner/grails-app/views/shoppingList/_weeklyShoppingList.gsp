@@ -44,7 +44,7 @@
         jQuery('#addItemBtn_${weekIndex}').click(function() {
             if (jQuery('#addItemTxt_${weekIndex}').val() != "") {
                 var grocery = jQuery('#addItemTxt_${weekIndex}').val()
-                var groceryTB = '<input type="text" name="groceries${weekIndex}" value="' + jQuery('#addItemTxt_${weekIndex}').val() + '">'
+                var groceryTB = '<input type="text" name="week${weekIndex}.groceries.'+$("#aisleList_${weekIndex}").val() +'"value="' + jQuery('#addItemTxt_${weekIndex}').val() + '">'
               if($(".week${weekIndex}_groceries"+$("#aisleList_${weekIndex}").val()).length==0){
                 var groceryHtmlString='<strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ $('option[value='+$("#aisleList_${weekIndex}").val()+']',$("#aisleList_${weekIndex}")).text() +'</strong><div class="winterButton"> <span class="grocery grocery_'+$("#aisleList_${weekIndex}").val()+'" id="groceries_${weekIndex}"><table class="week${weekIndex}_groceries'+ $("#aisleList_${weekIndex}").val() +'" style="width: 100%;" id="groceryTable_0"><tbody><tr class="addGrocery"/></tbody></table></span></div>'
                 $("#shoppingWeek${weekIndex}").append(groceryHtmlString)
@@ -52,7 +52,7 @@
               var newHtmlSting=$(htmlString).clone()
                 $(".groceryText",$(newHtmlSting)).html(grocery)
                 $(".groceryTextBox",$(newHtmlSting)).html(groceryTB)
-                $('input[type="text"]',$(newHtmlSting)).hide()
+//                $('input[type="text"]',$(newHtmlSting)).hide()
                 $(newHtmlSting).addClass('addGrocery')
                 $(".week${weekIndex}_groceries"+$("#aisleList_${weekIndex}").val()).append(newHtmlSting)
                 $('#addItemTxt_${weekIndex}').val('')
@@ -70,20 +70,20 @@
             jQuery('.btnCross').click(function() {
                 jQuery(this).parents('tr').remove();
             })
-            jQuery('.linkEdit').click(function() {
-                jQuery(('.groceryTextBox input[type="text"]'), jQuery(this).parent().parent())
-                        .show().focus().unbind()
-                        .blur(function() {
-                    jQuery(('.groceryText'), jQuery(this).hide().parent().parent()).show().html(jQuery(this).val())
-                })
-                        .keydown(function(e) {
-                    if (e.keyCode == 13) {
-                        jQuery(this).blur()
-                        return false;
-                    }
-                })
-                jQuery(('.groceryText'), jQuery(this).parent().parent()).hide();
-            })
+//            jQuery('.linkEdit').click(function() {
+//                jQuery(('.groceryTextBox input[type="text"]'), jQuery(this).parent().parent())
+//                        .show().focus().unbind()
+//                        .blur(function() {
+//                    jQuery(('.groceryText'), jQuery(this).hide().parent().parent()).show().html(jQuery(this).val())
+//                })
+//                        .keydown(function(e) {
+//                    if (e.keyCode == 13) {
+//                        jQuery(this).blur()
+//                        return false;
+//                    }
+//                })
+//                jQuery(('.groceryText'), jQuery(this).parent().parent()).hide();
+//            })
         }
     })
 </script>
