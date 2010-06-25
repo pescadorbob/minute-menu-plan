@@ -151,6 +151,7 @@ class Recipe extends Item implements Commentable, Rateable {
         name(nullabe: false, blank: false)
         preparationTime(nullable: true, blank: true)
         cookingTime(nullable: true, blank: true)
+        servings(nullable: true, blank: true)
         difficulty(nullable: true, blank: true)
         image(nullable: true, blank: true)
     }
@@ -158,4 +159,13 @@ class Recipe extends Item implements Commentable, Rateable {
     static mapping = {
         tablePerHierarchy false
     }
+
+    boolean equals(final Object o) {
+        if (this.is(o)) return true;
+        if (o == null) return false;
+        if (!getClass().isAssignableFrom(o.getClass())) return false;
+        final Recipe other = Recipe.class.cast(o);
+        return id == null ? false : id.equals(other.id);
+    }
+
 }

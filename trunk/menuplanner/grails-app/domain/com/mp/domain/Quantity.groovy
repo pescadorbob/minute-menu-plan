@@ -36,6 +36,11 @@ class Quantity {
         return sum
     }
 
+    //TODO; Implement this
+    public static Quantity multiply(Quantity quantity1, Quantity quantity2){
+        return add(quantity1, quantity2)
+    }
+
     public static Quantity add(Quantity quantity1, Quantity quantity2){
         if(!quantity1){ return quantity2 }
         if(!quantity2){ return quantity1 }
