@@ -12,14 +12,14 @@ class ShoppingListService {
         shoppingList.servings = shoppingListCO.servings.toInteger()
         shoppingList.user = User.currentUser
 
-        shoppingListCO.weeks.each{String weekIndex ->
+        shoppingListCO.weeks.each {String weekIndex ->
             WeeklyShoppingList weeklyShoppingList = createWeeklyShoppingList(shoppingList, menuPlan, weekIndex)
             shoppingList.addToWeeklyShoppingLists(weeklyShoppingList)
         }
         return shoppingList
     }
 
-    WeeklyShoppingList createWeeklyShoppingList(ShoppingList shoppingList, MenuPlan menuPlan, String index){
+    WeeklyShoppingList createWeeklyShoppingList(ShoppingList shoppingList, MenuPlan menuPlan, String index) {
         WeeklyShoppingList weeklyShoppingList = new WeeklyShoppingList()
         weeklyShoppingList.weekIndex = index.toInteger()
         weeklyShoppingList.products = getProductListForWeekFromMenuPlan(menuPlan, index)
@@ -29,59 +29,110 @@ class ShoppingListService {
 
     List<ShoppingIngredient> getProductListForWeekFromMenuPlan(MenuPlan menuPlan, String weekIndex) {
         List<ShoppingIngredient> productListForWeek = []
+        List<RecipeIngredient> weeklyRecipeIngredients = []
+        Week week = menuPlan?.weeks[weekIndex?.toInteger()]
 
-        menuPlan?.weeks[weekIndex?.toInteger()]?.days?.each {Day day ->
-            List<Item> items = (day?.breakfast + day?.lunch + day?.dinner) as List
-            items.each {Item item ->
-                String prodName
-                String quantity
-                String name
-                if (item?.instanceOf(Recipe.class)) {
-                    item?.ingredients?.each {RecipeIngredient recipeIngredient ->
-                        prodName = recipeIngredient?.ingredient
-                        quantity = recipeIngredient?.quantity?.toString()
-                        name = quantity + '  ' + prodName
-                        ShoppingIngredient shoppingIngredient = new ShoppingIngredient()
-                        shoppingIngredient.name = name
-                        shoppingIngredient.aisle = recipeIngredient?.aisle
-                        productListForWeek.add(shoppingIngredient)
+        week?.days?.each {Day day ->
+            day.meals.each {Meal meal ->
+                meal.items.each {Item item ->
+                    if (item?.instanceOf(Recipe.class)) {
+                        weeklyRecipeIngredients += getRecipeIngredientsList(item)
                     }
                 }
             }
         }
+        Map<Aisle, List<RecipeIngredient>> ingredientsGroupByAisles = weeklyRecipeIngredients.groupBy {return (it.aisle ? it.aisle : new Aisle('Others'))}
+        Set<Aisle> aisles = ingredientsGroupByAisles.keySet()
+
+        aisles.each {Aisle aisle ->
+            List<RecipeIngredient> ingredientsByAisle = ingredientsGroupByAisles[aisle]
+            Map ingredientsGroupByName = ingredientsByAisle.groupBy {it.ingredient}
+            Set differentIngredients = ingredientsGroupByName.keySet()
+
+            differentIngredients.each {Item differentIngredient ->
+                List similarIngredients = ingredientsGroupByName[differentIngredient]
+                Quantity total = null
+                similarIngredients.each {RecipeIngredient similarIngredient ->
+                    total = (total == null) ? similarIngredient.quantity : Quantity.add(total, similarIngredient.quantity)
+                }
+                ShoppingIngredient shoppingIngredient = new ShoppingIngredient(name: "${total} " + differentIngredient.name, aisle: aisle)
+                productListForWeek.add(shoppingIngredient)
+            }
+        }
+
         return productListForWeek
+    }
+
+    List<RecipeIngredient> getRecipeIngredientsList(def recipe) {
+        List<RecipeIngredient> ingredients = []
+        if (recipe?.instanceOf(Recipe.class)) {
+            recipe.ingredients.each {RecipeIngredient recipeIngredient ->
+                if (recipeIngredient.ingredient?.instanceOf(Recipe.class)) {
+                    List<RecipeIngredient> subRecipeIngredients = getRecipeIngredientsList(recipeIngredient.ingredient as Recipe)
+                    subRecipeIngredients.each {RecipeIngredient subRecipeIngredient ->
+                        if (subRecipeIngredient.quantity && recipeIngredient.quantity) {
+                            RecipeIngredient newSubRecipeIngredient = new RecipeIngredient()
+                            newSubRecipeIngredient.with {
+                                ingredient = subRecipeIngredient.ingredient
+                                quantity = Quantity.multiply(subRecipeIngredient.quantity, recipeIngredient.quantity)
+                                aisle = subRecipeIngredient.aisle
+                                preparationMethod = subRecipeIngredient.preparationMethod
+                            }
+                            if (newSubRecipeIngredient.quantity) {ingredients.add(newSubRecipeIngredient)}
+                        } else {
+                            if (subRecipeIngredient.quantity) {ingredients.add(subRecipeIngredient)}
+                        }
+
+                    }
+                } else {
+                    if (recipeIngredient.quantity) {ingredients.add(recipeIngredient)}
+                }
+            }
+        }
+        return ingredients
     }
 
     List<ShoppingIngredient> getGroceryListForWeekFromMenuPlan(MenuPlan menuPlan, String weekIndex) {
         List<ShoppingIngredient> groceryListForWeek = []
-        menuPlan?.weeks[weekIndex?.toInteger()]?.days?.each {Day day ->
-            List<Item> items = (day?.breakfast + day?.lunch + day?.dinner) as List
-            items.each {Item item ->
-                if (!(item?.instanceOf(Recipe.class))) {
-                    ShoppingIngredient shoppingIngredient = new ShoppingIngredient()
-                    shoppingIngredient.name = item?.name
-                    shoppingIngredient.aisle = item?.suggestedAisle
-                    groceryListForWeek.add(shoppingIngredient)
+        List<Product> weeklyGroceryItems = []
+        Week week = menuPlan?.weeks[weekIndex?.toInteger()]
+        week?.days?.each {Day day ->
+            day.meals.each {Meal meal ->
+                meal.items.each {Item item ->
+                    weeklyGroceryItems += getProductsList(item)
                 }
             }
         }
-        return (groceryListForWeek ? (groceryListForWeek?.unique {it.name} as List) : [])
+
+        weeklyGroceryItems = weeklyGroceryItems.unique()
+
+        weeklyGroceryItems.each {def product ->
+            ShoppingIngredient shoppingIngredient = new ShoppingIngredient(name: product.name, aisle: product.suggestedAisle)
+            groceryListForWeek.add(shoppingIngredient)
+        }
+
+
+        return groceryListForWeek
     }
 
-//    List<ShoppingIngredient> getProductListForWeekFromShoppingList(WeeklyShoppingList weeklyShoppingList) {
-//        List<ShoppingIngredient> productListForWeek = []
-//        weeklyShoppingList.products.each {ShoppingIngredient ingredient ->
-//            productListForWeek.add(ingredient)
-//        }
-//        return productListForWeek
-//    }
-//
-//    List<String> getGroceryListForWeekFromShoppingList(WeeklyShoppingList weeklyShoppingList) {
-//        List<String> groceryListForWeek = []
-//        weeklyShoppingList.groceries.each {String name ->
-//            groceryListForWeek.add(name)
-//        }
-//        return (groceryListForWeek as Set) as List
-//    }
+    List<Product> getProductsList(def recipe) {
+        List<Product> products = []
+        if (recipe?.instanceOf(Recipe.class)) {
+            recipe.ingredients.each {RecipeIngredient recipeIngredient ->
+                if (recipeIngredient.ingredient?.instanceOf(Recipe.class)) {
+                    List<Product> subProducts = getProductsList(recipeIngredient.ingredient as Recipe)
+                    products += subProducts
+                } else {
+                    if (!recipeIngredient.quantity) {
+                        products.add(recipeIngredient.ingredient as Product)
+                    }
+                }
+            }
+        } else {
+            products.add(recipe)
+        }
+        return products
+    }
+
 }
 
