@@ -11,9 +11,14 @@
         font-size: 16px;
     }
 
-    strong, h1, h2, h3, h4, h5, h6, form, p, ul {
+    h1, h2, h3, h4, h5, h6, form {
         color: #000000 !important;
+        font-size: 20px !important;
+    }
+
+    strong, ul, p {
         font-size: 16px !important;
+        color: #000000 !important;
     }
 
     .alternate {

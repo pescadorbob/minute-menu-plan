@@ -43,7 +43,7 @@
     .week ul li ul li {
         float: left;
         border: #d5d4d4 1px solid;
-        width: 120px;
+        width: 115px;
         margin-left: 4px;
         padding: 6px 6px 6px 0px;
         clear: none;
@@ -54,9 +54,11 @@
         float: left;
         border: none;
         background: #b1bdc1;
-        width: 60px;
+        width: 90px;
         text-align: center;
         color: #000;
+        font-size: 20px !important;
+        display: block;
     }
 
     .week ul li ul li div {
@@ -64,7 +66,7 @@
         padding-left: 4px;
         clear: both;
         color: #000;
-        font-size:16px !important;
+        font-size: 16px !important;
     }
 
     #daymenu {
@@ -77,7 +79,7 @@
     }
 
     #daymenu ul li.first {
-        width: 70px;
+        width: 100px;
         float: left;
         background: url(images/day-menu-first.gif) repeat-x top left;
         border-right: 1px solid #fff;
@@ -90,7 +92,8 @@
     #daymenu ul li li {
         float: left;
         padding: 0px;
-        width: 125px;
+        width: 115px;
+        font-size: 18px;
         color: #000;
         margin-left: 4px;
         text-align: center;
