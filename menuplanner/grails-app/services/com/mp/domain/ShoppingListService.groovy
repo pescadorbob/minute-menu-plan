@@ -41,7 +41,8 @@ class ShoppingListService {
                 }
             }
         }
-        Map<Aisle, List<RecipeIngredient>> ingredientsGroupByAisles = weeklyRecipeIngredients.groupBy {return (it.aisle ? it.aisle : new Aisle('Others'))}
+        Aisle otherAisle = new Aisle(name:'Others')
+        Map<Aisle, List<RecipeIngredient>> ingredientsGroupByAisles = weeklyRecipeIngredients.groupBy {return (it.aisle ? it.aisle : otherAisle)}
         Set<Aisle> aisles = ingredientsGroupByAisles.keySet()
 
         aisles.each {Aisle aisle ->
@@ -55,7 +56,7 @@ class ShoppingListService {
                 similarIngredients.each {RecipeIngredient similarIngredient ->
                     total = (total == null) ? similarIngredient.quantity : Quantity.add(total, similarIngredient.quantity)
                 }
-                ShoppingIngredient shoppingIngredient = new ShoppingIngredient(name: "${total} " + differentIngredient.name, aisle: aisle)
+                ShoppingIngredient shoppingIngredient = new ShoppingIngredient(name: "${total} " + differentIngredient.name, aisle: (aisle?.id) ? aisle : null)
                 productListForWeek.add(shoppingIngredient)
             }
         }
