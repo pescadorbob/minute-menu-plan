@@ -16,7 +16,7 @@ class MenuConstants {
 
     public static final String UNIT_DROP = "Drop"
     public static final String UNIT_DROP_SYMBOL = "drop"
-    public static final Double UNIT_DROP_CONVERSION_FACTOR =0.05
+    public static final Double UNIT_DROP_CONVERSION_FACTOR = 0.05
 
     public static final String UNIT_TEA_SPOON = "Tea spoon"
     public static final String UNIT_TEA_SPOON_SYMBOL = "t"
@@ -109,7 +109,7 @@ class MenuConstants {
     public static final String UNIT_GRAM = "Grams"
     public static final String UNIT_GRAM_SYMBOL = "g."
     public static final Double UNIT_GRAM_CONVERSION_FACTOR = 1000.0
-    
+
     public static final String UNIT_KILO_GRAM = "Kilo Grams"
     public static final String UNIT_KILO_GRAM_SYMBOL = "Kg."
     public static final Double UNIT_KILO_GRAM_CONVERSION_FACTOR = 1000000.0
@@ -131,8 +131,29 @@ class MenuConstants {
     public static final String SECURITY_ROLE_ADMIN = "Admin"
     public static final String SECURITY_ROLE_SUPER_ADMIN = "Super Admin"
 
-    public static final Long  NOT_AUTHORIZED_PERMISSION_LEVEL = 0
-    public static final Long  UNRESTRICTED_ACCESS_PERMISSION_LEVEL = 1
-    public static final Long  ACCESS_IF_OWNS_RECIPE_PERMISSION_LEVEL = 2
+    public static final Long NOT_AUTHORIZED_PERMISSION_LEVEL = 0
+    public static final Long UNRESTRICTED_ACCESS_PERMISSION_LEVEL = 1
+    public static final Long ACCESS_IF_OWNS_RECIPE_PERMISSION_LEVEL = 2
+
+
+    public static final String AISLE_PRODUCE = "produce"
+    public static final String AISLE_FROZEN_FOODS = "frozen food"
+    public static final String AISLE_BULK_FOOD = "bulk food"
+    public static final String AISLE_BAKING = "baking"
+    public static final String AISLE_BREADS = "breads"
+    public static final String AISLE_SEAFOOD = "meat and seafood"
+    public static final String AISLE_DELI = "deli"
+    public static final String AISLE_BAKERY = "bakery"
+    public static final String AISLE_DAIRY = "dairy"
+    public static final String AISLE_BEVERAGES = "beverages"
+    public static final String AISLE_PASTA_AND_RICE = "pasta and rice"
+    public static final String AISLE_ETHNIC_FOODS = "ethnic foods"
+    public static final String AISLE_CANNED_FOODS = "canned foods"
+    public static final String AISLE_CONDIMENTS = "condiments"
+    public static final String AISLE_SNACKS = "snacks"
+    public static final String AISLE_CEREAL = "cereal"
+    public static final String AISLE_HOUSEHOLD_ITEMS = "household items"
+    public static final String AISLE_HEALTH = "health and beauty"
+    public static final String AISLE_PHARMACY = "pharmacy"
 
 }
