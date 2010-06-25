@@ -64,6 +64,7 @@
         padding-left: 4px;
         clear: both;
         color: #000;
+        font-size:16px !important;
     }
 
     #daymenu {
