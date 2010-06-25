@@ -8,7 +8,7 @@
         color: #000000;
         background: #ffffff;
         font-family: "Times New Roman", Times, serif;
-        font-size: 12pt;
+        font-size: 16px;
     }
 
     strong, h1, h2, h3, h4, h5, h6, form, p, ul {
