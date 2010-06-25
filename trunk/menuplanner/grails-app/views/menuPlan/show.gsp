@@ -45,6 +45,11 @@
     </div>
     <g:render template="/menuPlan/search" model='[categoryList:categoryList]'/>
 </div>
+<script type="text/javascript">
+    $("#printMonthlyMenuPlanBtn").click(function() {
+        window.open("${createLink(controller:'menuPlan',action:'printerFriendlyMenuPlan',id:menuPlan.id)}", 'printShoppingList', 'width=800,height=800,scrollbars=yes')
+        return false;
+    })
+</script>
 </body>
-
 </html>
