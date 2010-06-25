@@ -16,7 +16,6 @@ class ApplicationFilters {
 
         verifyUserIsLoggedIn(controller: '*', action: '*') {
             before = {
-                println "Application Access Log: ${new Date()} : ${params}"
                 if (!User.currentUser &&  !(params.controller in ['util', 'user', 'login', 'image'])) {
 
                     if (!params.targetUri) {

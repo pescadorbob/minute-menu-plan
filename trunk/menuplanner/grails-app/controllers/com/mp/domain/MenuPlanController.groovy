@@ -45,18 +45,16 @@ class MenuPlanController {
 
     def saveAndUpdate = {
         MenuPlan menuPlan
-        User user = User.currentUser
         if (params.id) {
             menuPlan = MenuPlan.get(params.id)
-            menuPlan.name = params.menuPlan.name
-            menuPlan.owner = user
             List<Week> weeks = menuPlan.weeks
             menuPlan.weeks = []
             weeks*.delete(flush: true)
         } else {
             menuPlan = new MenuPlan()
-            menuPlan.name = params?.menuPlan?.name
+            menuPlan.owner = User.currentUser
         }
+        menuPlan.name = params.menuPlan.name
         (0..3).each {Integer weekIndex ->
             Week week = new Week()
             (0..6).each {Integer dayIndex ->
@@ -74,8 +72,8 @@ class MenuPlanController {
             menuPlan.addToWeeks(week)
         }
         menuPlan.s()
-        user.addToMenuPlans(menuPlan)
-        user.s()
+        menuPlan.owner.addToMenuPlans(menuPlan)
+        menuPlan.owner.s()
         redirect(action: 'show', id: menuPlan.id)
     }
 
