@@ -70,10 +70,12 @@ class Recipe extends Item implements Commentable, Rateable {
 
     def beforeInsert = {
         validateTimings()
+        if(!servings){servings=1}
     }
 
     def beforeUpdate = {
         validateTimings()
+        if(!servings){servings=1}
     }
 
     static transients = ['categories', 'favouriteForUsers', 'favouriteForUsersString', 'cookingTimeValue', 'totalTimeValue', 'prepTimeValue', 'caloriesString', 'categoriesString', 'contributor']
@@ -150,7 +152,6 @@ class Recipe extends Item implements Commentable, Rateable {
         preparationTime(nullable: true, blank: true)
         cookingTime(nullable: true, blank: true)
         difficulty(nullable: true, blank: true)
-        servings(nullable: true, blank: true)
         image(nullable: true, blank: true)
     }
 
