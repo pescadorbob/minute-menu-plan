@@ -42,6 +42,7 @@
             var quantity = jQuery('#optionIngredientQuantities').attr('value')
             var unitId = jQuery('#optionIngredientUnitIds').attr('value')
             var aisleId = jQuery('#optionIngredientAisleIds').attr('value')
+            var preparationMethodId = jQuery('#optionIngredientPreparationMethodIds').attr('value')
             var productId = jQuery('#AddIngredientToolBox input[name=optionIngredientProductIds][value!=""]').attr('value')
             var unitName = (unitId) ? jQuery('#optionIngredientUnitIds :selected').text() : ''
             var unitSymbol = ''
@@ -59,12 +60,13 @@
             var fractionRegex = /^\d+(\s)*(\d*(\s)*\/(\s)*\d+(\s)*)*$/;
 
             if ((prodName.length > 0) && (intRegex.test(quantity) || fractionRegex.test(quantity) || quantity == '')) {
-                AddIngredient(quantity, unitId, productId, unitName, prodName, unitSymbol, aisleId)
+                AddIngredient(quantity, unitId, productId, unitName, prodName, unitSymbol, aisleId,preparationMethodId)
                 /* Reset Add Ingredient ToolBox.... */
                 jQuery('#optionIngredientQuantities').attr('value', '')
                 jQuery('#optionIngredientUnitIds').val(1)
                 jQuery('#optionIngredientProductIds').val('')
                 jQuery('#combobox_optionIngredientUnitIds').val('')
+                jQuery('#optionIngredientPreparationMethodIds').val('')
                 jQuery('#optionIngredientAisleIds').val('')
             }
             bindEventsFor("tableIngredients", "ingredientRow");

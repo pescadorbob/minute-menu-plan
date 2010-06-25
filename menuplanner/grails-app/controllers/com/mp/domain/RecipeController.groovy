@@ -43,6 +43,15 @@ class RecipeController {
         }
         render(itemsJson)
     }
+    
+    def getMatchingPreparationMethod = {
+        List<PreparationMethod> items = PreparationMethod.findAllByNameIlike("%${params.q}%")
+        String itemsJson = ''
+        items.each {
+            itemsJson += it.name + "|" + it.id + "\n"
+        }
+        render(itemsJson)
+    }
 
     def list = {
         Integer listSize = Recipe.count()
