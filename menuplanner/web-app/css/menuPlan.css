@@ -49,9 +49,10 @@
 .ratingbox ul li ul li{margin:0 !important;padding:0 !important;background:none  !important;}
 .ratingbox ul li ul li h3{padding:0px !important;margin:0px !important;line-height:20px;font-size:12px;}
 .ratingbox ul li ul li h3 a{text-decoration:none;color:#ffffff;}
-.ratingbox ul li ul li ul li{clear:none;float:left;width:87px !important;padding:2px 0px !important;background:none  !important;}
-.ratingbox ul li ul li ul li ul li{line-height:15px;padding-left:0px !important;clear:both;}
+.ratingbox ul li ul li ul li{clear:none;float:left;width:87px !important;padding:1px 0px !important;background:none  !important;}
+.ratingbox ul li ul li ul li ul li{line-height:12px;padding-left:0px !important;clear:both;}
 .ratingbox ul li:hover{background:#ffa500;}
 
 .mySelect{height:22px;width:79px;font-size:10px}
 .btn{ background:url(../images/button-bg.png) no-repeat top center; width:102px; font-weight:bold; height:25px; border:none; font-size:11px; color:#fff; padding:0; margin:0; text-decoration:none; text-align:center; line-height:24px; display:inline-block;}
+.roundedCorner {background:#187c85;border: 1px solid #187c85;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;behavior: url(border-radius.htc);}
