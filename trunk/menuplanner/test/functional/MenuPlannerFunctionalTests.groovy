@@ -34,6 +34,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
             name = createRecipeData.name
             preparationTime = createRecipeData.prepTime
             cookTime = createRecipeData.cookTime
+            makesServing = createRecipeData.servings
             optionIngredientProductIds = createRecipeData.productName_1
             click "btnAddIngredient"
             optionDirections = createRecipeData.step_1
