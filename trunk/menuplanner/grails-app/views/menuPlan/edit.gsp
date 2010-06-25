@@ -24,7 +24,7 @@
     <div id="button">
       <ul>
         <li><g:submitButton class="button" name="update" value="Update"/></li>
-        <li><g:actionSubmit class="button" action="show" value="Cancel"/></li>
+        <li><g:actionSubmit class="button" action="show" value="Cancel" id="cancel"/></li>
       </ul>
     </div>
     </div>

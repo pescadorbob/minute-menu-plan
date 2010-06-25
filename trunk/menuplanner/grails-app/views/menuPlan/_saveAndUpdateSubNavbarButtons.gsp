@@ -1,0 +1,1 @@
+<li><g:link action="edit" id="${menuPlan.id}" name="editMenuPlan" class="btn">Edit</g:link></li>

@@ -38,7 +38,7 @@
         <div id="button">
             <ul>
                 <li><g:link action="edit" id="${menuPlan.id}" name="editMenuPlan">
-                    <input type="button" class="button" value="Edit"/></g:link>
+                    <input type="button" class="button" value="Edit" id="edit"/></g:link>
                 </li>
             </ul>
         </div>

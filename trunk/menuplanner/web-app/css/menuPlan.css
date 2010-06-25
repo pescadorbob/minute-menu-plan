@@ -54,3 +54,4 @@
 .ratingbox ul li:hover{background:#ffa500;}
 
 .mySelect{height:22px;width:79px;font-size:10px}
+.btn{ background:url(../images/button-bg.png) no-repeat top center; width:102px; font-weight:bold; height:25px; border:none; font-size:11px; color:#fff; padding:0; margin:0; text-decoration:none; text-align:center; line-height:24px; display:inline-block;}

@@ -1,7 +1,8 @@
 <div id="viewmenu">
+
     <ul>
-        %{--<li><a href="#">VIEW : Monthly</a></li>--}%
-        %{--<li><a href="#">Weekly</a></li>--}%
+        <g:render template="${params.action}SubNavbarButtons"/>
+        %{--<li><a href="#" class="btn">Weekly</a></li>--}%
         %{--<li class="noseprator"><a href="#">Shopping List</a></li>--}%
         <li class="noseprator1"><a href="#">
             <img src="${resource(dir: 'images', file: 'actions.gif')}" border="0"/>
@@ -17,7 +18,7 @@
         </li>
     </ul>
     <script type="text/javascript">
-        jQuery.each(jQuery('#viewmenu>ul>li'), function() {
+        jQuery.each(jQuery('#viewmenu>ul>li.noseprator1'), function() {
             jQuery(this).mouseover(function() {
                 jQuery(this).addClass("sfhover")
             })

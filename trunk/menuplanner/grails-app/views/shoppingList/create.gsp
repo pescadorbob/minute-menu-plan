@@ -33,7 +33,7 @@
                             <g:else>
                                 <g:actionSubmit class="button" controller="shoppingList" action="save" name="save" value="Create"/>
                             </g:else>
-                            <g:actionSubmit class="button" controller="shoppingList" action="cancelDetailShoppingList" name="create" value="Cancel"/>
+                            <g:actionSubmit class="button" controller="shoppingList" action="cancelDetailShoppingList" name="cancel" value="Cancel"/>
                         </li></ul>
                     </div>
                 </g:uploadForm>
