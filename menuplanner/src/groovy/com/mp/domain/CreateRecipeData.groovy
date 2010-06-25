@@ -5,6 +5,7 @@ class CreateRecipeData {
     String step_1
     String productName_1
     String cookTime
+    String servings
     String prepTime
     String serveWith_1
     String serveWith_2
@@ -17,6 +18,7 @@ class CreateRecipeData {
         createRecipeData.productName_1 = 'Product One'
         createRecipeData.cookTime = ''
         createRecipeData.prepTime = ''
+        createRecipeData.servings = 2
         createRecipeData.serveWith_1 = "Item-${System.currentTimeMillis().toString().substring(1, 5)}"
         createRecipeData.serveWith_2 = "Item-${System.currentTimeMillis().toString().substring(1, 4)}"
         createRecipeData.calories = "350"
