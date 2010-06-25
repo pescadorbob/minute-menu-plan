@@ -22,7 +22,7 @@
         <div id="button">
             <ul>
                 <li><g:submitButton class="button" name="create" value="Create"/></li>
-                <li><g:actionSubmit class="button" action="create" value="Cancel"/></li>
+                <li><g:actionSubmit class="button" action="create" value="Cancel" id="cancel"/></li>
             </ul>
         </div>
         </div>
