@@ -233,6 +233,28 @@ class MasterDataBootStrapService implements ApplicationContextAware {
         }
     }
 
+    public void populateAisle() {
+        new Aisle(name: AISLE_PRODUCE).s()
+        new Aisle(name: AISLE_FROZEN_FOODS).s()
+        new Aisle(name: AISLE_BULK_FOOD).s()
+        new Aisle(name: AISLE_BAKING).s()
+        new Aisle(name: AISLE_BREADS).s()
+        new Aisle(name: AISLE_SEAFOOD).s()
+        new Aisle(name: AISLE_DELI).s()
+        new Aisle(name: AISLE_BAKERY).s()
+        new Aisle(name: AISLE_DAIRY).s()
+        new Aisle(name: AISLE_PASTA_AND_RICE).s()
+        new Aisle(name: AISLE_ETHNIC_FOODS).s()
+        new Aisle(name: AISLE_CANNED_FOODS).s()
+        new Aisle(name: AISLE_CONDIMENTS).s()
+        new Aisle(name: AISLE_SNACKS).s()
+        new Aisle(name: AISLE_CEREAL).s()
+        new Aisle(name: AISLE_BEVERAGES).s()
+        new Aisle(name: AISLE_HOUSEHOLD_ITEMS).s()
+        new Aisle(name: AISLE_HEALTH).s()
+        new Aisle(name: AISLE_PHARMACY).s()
+    }
+
     void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         ConfigurationHolder.config.applicationContext = applicationContext;
     }

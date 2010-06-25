@@ -102,6 +102,7 @@ class BootStrap {
             masterDataBootStrapService.populateTimeUnits()
             masterDataBootStrapService.populateUnitsAndStandardConversions()
             masterDataBootStrapService.populateNutrients()
+            masterDataBootStrapService.populateAisle()
         }
         masterDataBootStrapService.populatePermissions()
     }
