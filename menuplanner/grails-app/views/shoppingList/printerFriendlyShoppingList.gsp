@@ -13,6 +13,7 @@
 
     strong, h1, h2, h3, h4, h5, h6, form, p, ul {
         color: #000000 !important;
+        font-size: 16px !important;
     }
 
     .alternate {
