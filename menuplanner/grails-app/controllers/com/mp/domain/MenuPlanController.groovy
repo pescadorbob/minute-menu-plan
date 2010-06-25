@@ -61,7 +61,13 @@ class MenuPlanController {
                 Day day = new Day()
                 MealType.values().each {MealType mealType ->
                     Meal meal = new Meal(type: mealType)
-                    params.list("mealItems.${mealType}.week${weekIndex}.day${dayIndex}")?.each {
+                    String itemKey
+                    if (mealType in [MealType.BREAKFAST, MealType.LUNCH]) {
+                        itemKey = "mealItems.${mealType}.week0.day${dayIndex}"
+                    } else {
+                        itemKey = "mealItems.${mealType}.week${weekIndex}.day${dayIndex}"
+                    }
+                    params.list(itemKey)?.each {
                         Item item = Item.get(it)
                         meal.addToItems(item)
                     }
@@ -106,6 +112,8 @@ class MenuPlanController {
         render(template: '/menuPlan/searchResultMenuPlan', model: [itemList: results, itemTotal: total, query: params.query])
     }
 
-    
-
+    def printerFriendlyMenuPlan = {
+        MenuPlan menuPlan = MenuPlan.get(params.long("id"))
+        render(view: 'printMenuPlan', model: [menuPlan: menuPlan])
+    }
 }

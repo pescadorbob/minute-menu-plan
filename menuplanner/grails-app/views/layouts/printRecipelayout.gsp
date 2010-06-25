@@ -5,7 +5,6 @@
     <title>Minute Menu Plan : <g:layoutTitle default="Minute Menu Plan"/></title>
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'common.css')}"/>
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'layout.css')}"/>
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'menuPlan.css')}"/>
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'user.css')}"/>
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'securityRole.css')}"/>
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'jquery.autocomplete.css')}"/>
