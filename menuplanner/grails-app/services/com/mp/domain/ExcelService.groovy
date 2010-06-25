@@ -53,7 +53,7 @@ class ExcelService {
             String valueThree = sheet.getCell(2, position).contents.toString().trim()
             String valueFour = sheet.getCell(3, position).contents.toString().trim()
             String valueFive = sheet.getCell(4, position).contents.toString().trim()
-            String valueSix = sheet.getCell(4, position).contents.toString().trim()
+            String valueSix = sheet.getCell(5, position).contents.toString().trim()
             if (valueTwo || valueThree || valueFour || valueFive || valueSix) {
                 ingredients.add([valueOne, valueTwo, valueThree, valueFour, valueFive, valueSix])
             }
