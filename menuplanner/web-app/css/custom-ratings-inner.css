@@ -1,0 +1,81 @@
+form.rating {
+    padding: 1em;
+    border: 1px solid #ccc;
+}
+
+.rating {
+    cursor: pointer;
+    clear: both;
+    display: block;
+}
+
+.rating:after {
+    content: '.';
+    display: block;
+    height: 0;
+    width: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+div.star {
+    float: left;
+    width: 14px !important;
+    height: 14px !important;
+    overflow: hidden;
+    text-indent: -999em;
+    cursor: pointer;
+}
+
+div.star, span.star, div.star a, span.star a {
+    background: url(../images/star1.png) no-repeat 0 0px !important;
+}
+
+div.star a {
+   display: block;
+   width: 14px !important;
+    height: 14px !important;
+    background-position: 0 0px;
+}
+
+div.rating div.on a {
+    background-position: 0 -16px !important;
+}
+
+div.rating div.hover a,
+    div.rating div a:hover {
+    background-position: 0 -32px !important;
+}
+
+div#notifytext {
+    margin-top: 5px;
+    font-size: .8em;
+    clear: both;
+}
+
+#ratingdiv {
+
+    height: 14px !important;
+}
+.ratingDisplay table {
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    border-spacing:0px !important;
+
+}
+.ratingDisplay td {
+    padding: 0px;
+    margin: 0px;
+    border: none;
+}
+
+.ratingDisplay div.star {
+    cursor: default;
+    float:none;
+}
+.ratingDisplay div.on a {
+    background-position: 0 -32px;
+}
+
+

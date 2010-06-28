@@ -17,6 +17,7 @@
             jQuery(".printMe:first").printElement(options);
         }
     </script>
+   <link rel="stylesheet" href="${resource(dir: 'css', file: 'custom-ratings-inner.css')}"/>
 </head>
 <body>
 <div class="clearfix printMe" id="content-wrapper">

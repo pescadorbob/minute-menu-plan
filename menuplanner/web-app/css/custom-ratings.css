@@ -33,18 +33,18 @@ div.star, span.star, div.star a, span.star a {
 
 div.star a {
     display: block;
-    width: 100%;
-    height: 100%;
+   width: 14px !important;
+    height: 14px !important;
     background-position: 0 0px;
 }
 
 div.rating div.on a {
-    background-position: 0 -16px;
+    background-position: 0 -16px !important;
 }
 
 div.rating div.hover a,
     div.rating div a:hover {
-    background-position: 0 -32px;
+    background-position: 0 -32px !important;
 }
 
 div#notifytext {
@@ -59,7 +59,8 @@ div#notifytext {
 .ratingDisplay table {
     padding: 0px;
     margin: 0px;
-    border: none;
+    border: 0px;
+    border-spacing:0px;
 }
 .ratingDisplay td {
     padding: 0px;

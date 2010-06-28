@@ -20,7 +20,7 @@
     <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.tools.min.js')}"></script>
     <script type="text/javascript" src="${resource(dir: 'js', file: 'shoppingList.js')}"></script>
     <g:layoutHead/>
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'custom-ratings.css')}"/>
+    
 </head>
 <body>
 <g:setProvider library="jquery"/>

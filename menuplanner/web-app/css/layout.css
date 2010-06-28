@@ -23,7 +23,7 @@
 #country-cate ul li a{display:block;text-decoration:none;color:#007ad8;font-weight:normal;clear:both;padding:0px 0px;margin:0px;line-height:14px;}
 #country-cate ul li span:hover{color:orange;font-weight:bold;}
 #country-cate ul li span{color:#007ec1; cursor:pointer;}
-.imgbor{border:none;height:80px;width:100px;background:url(../images/ima-bg.gif) no-repeat top left;}
+.imgbor{border:none;height:80px;width:100px}
 #pagination{clear:both;font-size:12px;font-weight:bold;height:20px;padding-top:10px;}
 #pagination ul li{float:left;padding:0px 3px;}
 #pagination ul li a{color:#007ad8;text-decoration:none;}
