@@ -11,10 +11,27 @@ class ShoppingListService {
         shoppingList.menuPlan = menuPlan
         shoppingList.servings = shoppingListCO.servings.toInteger()
         shoppingList.user = User.currentUser
-
         shoppingListCO.weeks.each {String weekIndex ->
             WeeklyShoppingList weeklyShoppingList = createWeeklyShoppingList(shoppingList, menuPlan, weekIndex)
             shoppingList.addToWeeklyShoppingLists(weeklyShoppingList)
+        }
+        return shoppingList
+    }
+
+    ShoppingList modifyShoppingList(PrintShoppingListCO shoppingListCO, ShoppingList shoppingListOld) {
+        MenuPlan menuPlan = MenuPlan.get(shoppingListCO.menuPlanId?.toLong())
+        ShoppingList shoppingList = new ShoppingList()
+        shoppingList.name = shoppingListCO.name
+        shoppingList.menuPlan = menuPlan
+        shoppingList.servings = shoppingListCO.servings.toInteger()
+        shoppingList.user = User.currentUser
+        shoppingListCO.weeks.each {String weekIndex ->
+            if (weekIndex in shoppingListOld?.weeklyShoppingLists?.weekIndex*.toString()) {
+                shoppingList.addToWeeklyShoppingLists(shoppingListOld?.weeklyShoppingLists?.find {it?.weekIndex == weekIndex.toInteger()})
+            } else {
+                WeeklyShoppingList weeklyShoppingList = createWeeklyShoppingList(shoppingList, menuPlan, weekIndex)
+                shoppingList.addToWeeklyShoppingLists(weeklyShoppingList)
+            }
         }
         return shoppingList
     }
@@ -41,7 +58,7 @@ class ShoppingListService {
                 }
             }
         }
-        Aisle otherAisle = new Aisle(name:'Others')
+        Aisle otherAisle = new Aisle(name: 'Others')
         Map<Aisle, List<RecipeIngredient>> ingredientsGroupByAisles = weeklyRecipeIngredients.groupBy {return (it.aisle ? it.aisle : otherAisle)}
         Set<Aisle> aisles = ingredientsGroupByAisles.keySet()
 
