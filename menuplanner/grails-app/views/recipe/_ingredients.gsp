@@ -51,9 +51,13 @@
                             <input class="inpbox showToolTip" id="optionIngredientProductIds" name="optionIngredientProductIds" value="" title="${g.message(code: 'toolTip.recipe.ingredient')}" style="width:90px;"/>
                         </div>
                         <div style="float:left; padding-left:5px;">
+                            <g:select class="inpbox" id='select_optionIngredientPreparationMethodIds' noSelection="['':'(No Preparation Method)']"
+                                    name="select_optionIngredientPreparationMethodIds" from="${preparationMethods}" optionKey="id" style="width:105px;display:none;"/>
                             <input class="inpbox" id="optionIngredientPreparationMethodIds" name="optionIngredientPreparationMethodIds" value="" style="width:90px;"/>
                         </div>
                         <div style="float:left; padding-left:5px;">
+                            <g:select class="inpbox" id='select_optionIngredientAisleIds' noSelection="['':'(No Aisle)']"
+                                    name="select_optionIngredientAisleIds" from="${aisles}" optionKey="id" style="width:1905px;display:none;"/>
                             <input class="inpbox" id="optionIngredientAisleIds" name="optionIngredientAisleIds" value="" style="width:90px;"/>
                         </div>
                     </span>
@@ -66,17 +70,6 @@
 <script type="text/javascript">
     $("#optionIngredientProductIds").autocomplete("${createLink(action: 'getMatchingItems', controller: 'recipe')}", {
         width: 300,
-        multiple: false,
-        matchContains: true
-    })
-
-    $("#optionIngredientAisleIds").autocomplete("${createLink(action: 'getMatchingAisle', controller: 'recipe')}", {
-        width: 160,
-        multiple: false,
-        matchContains: true
-    })
-    $("#optionIngredientPreparationMethodIds").autocomplete("${createLink(action: 'getMatchingPreparationMethod', controller: 'recipe')}", {
-        width: 160,
         multiple: false,
         matchContains: true
     })
@@ -110,6 +103,28 @@
     </g:each>
     metricUnits.push('Other...')
     $("#combobox_optionIngredientUnitIds").autocomplete(metricUnits, {
+        matchContains: true,
+        minChars: 0,
+        max:0,
+        mustMatch:true
+    });
+
+    var aisles = []
+    <g:each in="${aisles}" var="aisle">
+    aisles.push('${aisle}')
+    </g:each>
+    $("#optionIngredientAisleIds").autocomplete(aisles, {
+        matchContains: true,
+        minChars: 0,
+        max:0,
+        mustMatch:true
+    });
+
+    var preparationMethods = []
+    <g:each in="${preparationMethods}" var="preparationMethod">
+    preparationMethods.push('${preparationMethod}')
+    </g:each>
+    $("#optionIngredientPreparationMethodIds").autocomplete(preparationMethods, {
         matchContains: true,
         minChars: 0,
         max:0,
