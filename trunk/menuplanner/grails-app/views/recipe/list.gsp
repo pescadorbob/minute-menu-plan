@@ -4,6 +4,7 @@
     <meta name="layout" content="menu"/>
     <title>List Recipe</title>
     <rateable:resources/>
+     <link rel="stylesheet" href="${resource(dir: 'css', file: 'custom-ratings-inner.css')}"/>
 </head>
 <body>
 <div id="container">

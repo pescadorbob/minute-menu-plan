@@ -13,7 +13,9 @@
                     </g:else>
                     <li><ul>
                             <g:if test="${item.instanceOf(Recipe)}">
-                                <li><mp:recipeImage class="imgbor" id="${item?.image?.id}" noImage="no-img.gif"/><li>
+                                <li>
+                              <div class="frame-corner"> &nbsp; </div>
+                              <mp:recipeImage class="imgbor" id="${item?.image?.id}" noImage="no-img.gif"/><li>
                                     <ul>
                                         <li><rateable:ratings bean='${item}' active="false"/></li>
                                         <g:if test="${item?.totalTime}"><li>${item?.totalTime}</li></g:if>
