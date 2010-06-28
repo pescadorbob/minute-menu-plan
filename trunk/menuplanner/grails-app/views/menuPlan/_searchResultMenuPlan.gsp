@@ -2,7 +2,7 @@
 <div class="ratingbox">
     <ul class="resultContainer">
         <g:each in="${itemList}" var="item" status="index">
-            <li class="clearfix draggableItem roundedCorner" id="draggableSearchItem_${index + 1}">
+            <li class="clearfix draggableItem" id="draggableSearchItem_${index + 1}">
                 <ul>
                     <input type="hidden" name="menuItemId" value="${item.id}"/>
                     <g:if test="${item?.instanceOf(Recipe)}">
