@@ -26,9 +26,9 @@
                                     </ul>
                                 </li>
                             </g:if>
-                            <g:else>
-                                <li><img class="imgbor" src="${createLink(controller: 'image', action: 'imageByPath', params: [imagePath: '', noImage: 'no-img.gif'])}"/></li>
-                            </g:else>
+                            %{--<g:else>--}%
+                                %{--<li><img class="imgbor" src="${createLink(controller: 'image', action: 'imageByPath', params: [imagePath: '', noImage: 'no-img.gif'])}"/></li>--}%
+                            %{--</g:else>--}%
                         </ul></li>
                 </ul>
             </li>
