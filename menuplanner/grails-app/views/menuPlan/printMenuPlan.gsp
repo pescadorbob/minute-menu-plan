@@ -141,6 +141,9 @@
         <g:render template="/menuPlan/menuPlanData" model="[menuPlan:menuPlan]"/>
     </div>
 </div>
+<script type="text/javascript">
+    window.onload = print()
+</script>
 </body>
 
 </html>
