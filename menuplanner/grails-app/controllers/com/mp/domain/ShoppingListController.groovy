@@ -112,15 +112,9 @@ class ShoppingListController {
 
     def modifyShoppingList = {PrintShoppingListCO pslCO ->
         if (pslCO.validate()) {
-            ShoppingList shoppingListOld = ShoppingList.get(params?.shoppingListId?.toLong())
-            ShoppingList shoppingListNew = shoppingListService.createShoppingList(pslCO)
 
-            shoppingListNew.weeklyShoppingLists.each {WeeklyShoppingList wsl ->
-                WeeklyShoppingList weeklyShoppingList = shoppingListOld.weeklyShoppingLists.find {it.weekIndex == wsl.weekIndex}
-                if (weeklyShoppingList) {
-                    wsl = weeklyShoppingList
-                }
-            }
+            ShoppingList shoppingListOld = ShoppingList.get(params?.shoppingListId?.toLong())
+            ShoppingList shoppingListNew = shoppingListService.modifyShoppingList(pslCO, shoppingListOld)
             render(view: 'create', model: [shoppingList: shoppingListNew, shoppingListId: shoppingListOld?.id])
         }
         else {
