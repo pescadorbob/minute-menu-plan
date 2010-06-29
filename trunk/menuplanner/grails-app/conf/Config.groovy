@@ -68,6 +68,12 @@ environments {
 //        }
 //        grails.mail.default.from = '"MinuteMenu" <minutemenu@menuplanner.com>'
         grails.serverURL = "http://www.changeme.com"
+        facebookConnect {
+			//These two values need to be grabbed from facebook when you create your application there.
+			// http://www.facebook.com/developers/
+			APIKey = "37332c8f7259d66c3fe1bc0aceeeeeb1"
+			SecretKey = "bd0391c1765d5de67b1f4fd41b2ad5b0"
+		}
     }
     development {
 //        mail {
@@ -76,6 +82,12 @@ environments {
 //        }
 //        grails.mail.default.from = '"MinuteMenu" <dev@dev.menuplanner.intelligrape.net>'
         grails.serverURL = "http://localhost:8080/${appName}"
+        facebookConnect {
+			//These two values need to be grabbed from facebook when you create your application there.
+			// http://www.facebook.com/developers/
+			APIKey = "37332c8f7259d66c3fe1bc0aceeeeeb1"
+			SecretKey = "bd0391c1765d5de67b1f4fd41b2ad5b0"
+		}
     }
     test {
 //        mail {
@@ -84,6 +96,12 @@ environments {
 //        }
 //        grails.mail.default.from = '"MinuteMenu" <qa@qa.menuplanner.intelligrape.net>'
         grails.serverURL = "http://qa.menuplanner.intelligrape.net"
+        facebookConnect {
+			//These two values need to be grabbed from facebook when you create your application there.
+			// http://www.facebook.com/developers/
+			APIKey = "37332c8f7259d66c3fe1bc0aceeeeeb1"
+			SecretKey = "bd0391c1765d5de67b1f4fd41b2ad5b0"
+		}
     }
     qa {
 //        mail {
@@ -92,6 +110,12 @@ environments {
 //        }
 //        grails.mail.default.from = '"MinuteMenu" <qa@qa.menuplanner.intelligrape.net>'
         grails.serverURL = "http://qa.menuplanner.intelligrape.net"
+        facebookConnect {
+			//These two values need to be grabbed from facebook when you create your application there.
+			// http://www.facebook.com/developers/
+			APIKey = "37332c8f7259d66c3fe1bc0aceeeeeb1"
+			SecretKey = "bd0391c1765d5de67b1f4fd41b2ad5b0"    
+		}
     }
 
 }

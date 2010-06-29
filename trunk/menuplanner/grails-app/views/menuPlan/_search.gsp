@@ -1,4 +1,5 @@
 <%@ page import="com.mp.domain.User" %>
+
 <div id="right-panel">
     <div id="search">Quick Recipe Search</div>
     <div id="search-container">

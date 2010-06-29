@@ -13,6 +13,7 @@ class User {
     Date joiningDate
     String password
     Boolean isEnabled = true
+    String fbOauthToken                         //for storing facebook Oauth Token
     List<UserType> roles = []
 
     static hasMany = [roles: UserType, favourites: Recipe, contributions: Recipe, menuPlans:MenuPlan]
