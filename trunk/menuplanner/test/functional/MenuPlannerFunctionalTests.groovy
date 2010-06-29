@@ -66,7 +66,6 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
     }
 
     void createShoppingList(ShoppingListFormData shoppingListFormData) {
-        get('/shoppingList/printShoppingList/1')
         form('formShoppingList') {
             name = shoppingListFormData.name
             menuPlanId = byId('menuPlanId').getOption(1).getValueAttribute()
@@ -76,8 +75,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
         }
     }
 
-    void createShoppingList_One_Week_Selected(ShoppingListFormData shoppingListFormData) {
-        get('/shoppingList/printShoppingList/1')
+    void createShoppingList_Three_Weeks_Selected(ShoppingListFormData shoppingListFormData) {
         form('formShoppingList') {
             name = shoppingListFormData.name
             menuPlanId = byId('menuPlanId').getOption(1).getValueAttribute()
@@ -89,7 +87,6 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
     }
 
     void createShoppingList_All_Fields_Blank() {
-        get('/shoppingList/printShoppingList/1')
         form('formShoppingList') {
             name = ""
             servings = ""
@@ -98,7 +95,6 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
     }
 
     void createShoppingList_Blank_Weeks(ShoppingListFormData shoppingListFormData) {
-        get('/shoppingList/printShoppingList/1')
         form('formShoppingList') {
             name = shoppingListFormData.name
             menuPlanId = byId('menuPlanId').getOption(1).getValueAttribute()
@@ -135,13 +131,21 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
         click('Edit')
     }
 
+    void goToCreateShoppingListPage() {
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        userLogin(loginFormData)
+        get('shoppingList/generateShoppingList/4')
+    }
+
     void goToShoppingListPage() {
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
         userLogin(loginFormData)
-        get('/shoppingList/printShoppingList/1')
+        get('shoppingList/generateShoppingList/4')
+        def createLink = byName('_action_create')
+        createLink.click()
     }
 
-    /** * Helper method to return a message from the message bundle.                         ***/
+    /** * Helper method to return a message from the message bundle.                               ***/
     String getMessage(String key, def targetArgs = TARGET_ARGS_EMPTY) {
         def keyValue = messageSource.resolveCode(key, locale)
         return keyValue?.format(targetArgs)
