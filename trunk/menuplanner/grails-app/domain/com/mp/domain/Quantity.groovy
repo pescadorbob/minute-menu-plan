@@ -1,5 +1,7 @@
 package com.mp.domain
 
+import org.apache.commons.math.fraction.Fraction
+
 class Quantity {
 
     Float value
@@ -10,7 +12,16 @@ class Quantity {
         String amount
         String result
         amount = StandardConversion.getQuantityValueString(this)
-        result = "${amount ? amount : ''}${unit ?(' '+ unit?.symbol) : ''}"
+        result = "${amount ? amount : ''}${unit ? (' ' + unit?.symbol) : ''}"
+        return result.trim()
+    }
+
+    String toCeilString() {
+        String amount
+        String result
+        amount = StandardConversion.getQuantityValueString(this)
+        amount = amount ? new Fraction(Math.ceil(new Fraction(amount).toFloat())) : ''
+        result = "${amount}${unit ? (' ' + unit?.symbol) : ''}"
         return result.trim()
     }
 
@@ -37,35 +48,34 @@ class Quantity {
     }
 
     //TODO; Implement this
-    public static Quantity multiply(Quantity quantity1, Quantity quantity2){
+
+    public static Quantity multiply(Quantity quantity1, Quantity quantity2) {
         return add(quantity1, quantity2)
     }
 
-    public static Quantity add(Quantity quantity1, Quantity quantity2){
-        if(!quantity1){ return quantity2 }
-        if(!quantity2){ return quantity1 }
-        String usVal1 =(quantity1.value)?(StandardConversion.getQuantityValueString(quantity1)):''
-        Unit displayUnit1=quantity1.unit
-        String usVal2 = (quantity2.value)?(StandardConversion.getQuantityValueString(quantity2)):''
-        Unit displayUnit2=quantity2.unit
+    public static Quantity add(Quantity quantity1, Quantity quantity2) {
+        if (!quantity1) { return quantity2 }
+        if (!quantity2) { return quantity1 }
+        String usVal1 = (quantity1.value) ? (StandardConversion.getQuantityValueString(quantity1)) : ''
+        Unit displayUnit1 = quantity1.unit
+        String usVal2 = (quantity2.value) ? (StandardConversion.getQuantityValueString(quantity2)) : ''
+        Unit displayUnit2 = quantity2.unit
         Quantity resultantQuantity
         Quantity q1 = StandardConversion.getQuantityToSave(usVal1, displayUnit1)
         Quantity q2 = StandardConversion.getQuantityToSave(usVal2, displayUnit2)
 
-        if (q1!=null && (q1?.savedUnit == q2?.savedUnit)) {
-           resultantQuantity = new Quantity()
+        if (q1 != null && (q1?.savedUnit == q2?.savedUnit)) {
+            resultantQuantity = new Quantity()
             Unit displayUnit = q1?.unit
             if (displayUnit) {
                 if (StandardConversion.findBySourceUnit(q1?.unit)?.conversionFactor > StandardConversion.findBySourceUnit(q2?.unit)?.conversionFactor) {
                     displayUnit = q2?.unit
                 }
             }
-            if(q1?.value && q2?.value){
-                resultantQuantity?.value = q1?.value + q2?.value
-            }else if(q1?.value){
-                resultantQuantity?.value = q1?.value
-            }else if(q2?.value){
-                resultantQuantity?.value = q2?.value
+            if (q1.value && q2.value) {
+                resultantQuantity?.value = q1?.value + q2.value
+            } else {
+                resultantQuantity?.value = (q1.value) ? q1.value : q2.value
             }
             resultantQuantity?.savedUnit = q1?.savedUnit
             resultantQuantity?.unit = displayUnit
