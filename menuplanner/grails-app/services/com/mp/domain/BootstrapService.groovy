@@ -11,6 +11,7 @@ class BootstrapService {
 
     boolean transactional = true
     def excelService
+    def shoppingListService
 
     public void addAbusesOnCommentsAndRecipes() {
         (1..15).each {Integer count ->   //  Comment Abuses
@@ -170,7 +171,7 @@ class BootstrapService {
     }
 
     public void populateMenuPlans(User user) {
-        (1..(GrailsUtil.isDevelopmentEnv()? 1 : 2)).each {Integer i ->
+        (1..(GrailsUtil.isDevelopmentEnv() ? 1 : 2)).each {Integer i ->
             MenuPlan menuPlan = new MenuPlan(name: "${user.name}'s MenuPlan-${i}", owner: user).s()
             menuPlan.weeks = populateWeeks(menuPlan)
             menuPlan.s()
@@ -178,6 +179,21 @@ class BootstrapService {
             user.s()
             println "----- Created menuPlan: ${menuPlan.name}."
         }
+    }
+
+    public void populateShoppingList(MenuPlan menuPlan) {
+        ShoppingList shoppingList = new ShoppingList()
+        shoppingList.name = menuPlan.name + '-Shopping List'
+        shoppingList.menuPlan = menuPlan
+        shoppingList.servings = 4
+        shoppingList.user = menuPlan.owner
+        ['0', '1', '2', '3'].each {String weekIndex ->
+            WeeklyShoppingList weeklyShoppingList = shoppingListService.createWeeklyShoppingList(shoppingList, menuPlan, weekIndex)
+            shoppingList.addToWeeklyShoppingLists(weeklyShoppingList)
+        }
+        shoppingList.s()
+        println "----- Created ShoppingList: ${shoppingList.name}."
+
     }
 
     public void populateQuickFills(Integer count) {
