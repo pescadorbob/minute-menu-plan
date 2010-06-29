@@ -7,9 +7,9 @@ class PrintShoppingListCO {
 
     static constraints = {
         name(blank: false, nullable: false)
-        weeks(validator: {obj, val ->
-            if (!(val && val.any{it})) {
-                return 'default.blank.message'
+        weeks(validator: {val, obj ->
+            if (!val) {
+                return 'printShoppingListCO.weeks.nullable.error.weeks'
             }
         })
         menuPlanId(nullable: false, blank: false)

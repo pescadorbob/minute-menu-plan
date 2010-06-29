@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="menu"/>
-    <title>Shopping List</title>
+    <title>Generate Shopping List</title>
 </head>
 <body>
 <div id="container">
@@ -26,10 +26,12 @@
                             <li><label>Choose MenuPlan :</label>
                                 <span><g:select class="inpbox" name="menuPlanId" from="${menuPlans}" optionKey="id" style="width:200px;" value="${pslCO?.menuPlanId}"/></span></li>
                             <li><label>Servings :</label><span><input name="servings" type="text" class="inpboxSmall ${hasErrors(bean: pslCO, field: 'servings', 'errors')}" value="${(pslCO) ? (pslCO?.servings) : (servings)}"/></span></li>
-                            <li><p><input name="weeks" type="checkbox" value="0" ${(pslCO?.weeks?.contains("0")) ? "checked=checked" : ""}/> <span>Week1</span></p>
-                                <p><input name="weeks" type="checkbox" value="1" ${(pslCO?.weeks?.contains("1")) ? "checked=checked" : ""}/> <span>Week2</span></p>
-                                <p><input name="weeks" type="checkbox" value="2" ${(pslCO?.weeks?.contains("2")) ? "checked=checked" : ""}/> <span>Week3</span></p>
-                                <p><input name="weeks" type="checkbox" value="3" ${(pslCO?.weeks?.contains("3")) ? "checked=checked" : ""}/> <span>Week4</span></p></li>
+                            <li>
+                                <p><g:checkBox name="weeks" value="0" checked="${('0' in pslCO.weeks)}"/> <span>Week1</span></p>
+                                <p><g:checkBox name="weeks" value="1" checked="${('1' in pslCO.weeks)}"/> <span>Week2</span></p>
+                                <p><g:checkBox name="weeks" value="2" checked="${('2' in pslCO.weeks)}"/> <span>Week3</span></p>
+                                <p><g:checkBox name="weeks" value="3" checked="${('3' in pslCO.weeks)}"/> <span>Week4</span></p>
+                            </li>
                             <li style="text-align:center;">
                                 <g:if test="${!shoppingListId}">
                                     <g:actionSubmit controller="shoppingList" action="create" value="Generate New List" class="button" style="width:150px;"/>
