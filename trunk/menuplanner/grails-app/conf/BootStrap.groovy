@@ -71,7 +71,7 @@ class BootStrap {
             println "Populated Categories"
 
 
-            String recipeFileName = (GrailsUtil.isDevelopmentEnv()) ? "/bootstrapData/recipeSpreadsheet_test.xls"  : "/bootstrapData/recipeSpreadsheet.xls"
+            String recipeFileName = (GrailsUtil.isDevelopmentEnv()) ? "/bootstrapData/recipeSpreadsheet_test.xls" : "/bootstrapData/recipeSpreadsheet.xls"
             File recipeExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath(recipeFileName))
             List<String> recipeLog = excelService.createLineItems(recipeExcelFile)
             println "Populated Recipes"
@@ -80,12 +80,17 @@ class BootStrap {
             bootstrapService.addAbusesOnCommentsAndRecipes()
             println "Added abuses on comments & recipes"
             List<User> users = User.list()
-            users.each{User user ->
+            users.each {User user ->
                 bootstrapService.populateMenuPlans(user)
             }
             println "Populated Menu Plans"
             bootstrapService.populateQuickFills(5)
             println "Populated Quick Fills"
+            List<MenuPlan> menuPlans = MenuPlan.list()
+            menuPlans.each {MenuPlan menuPlan ->
+                bootstrapService.populateShoppingList(menuPlan)
+            }
+            println "Populated Shopping Lists"
         }
 
         Thread.start {
