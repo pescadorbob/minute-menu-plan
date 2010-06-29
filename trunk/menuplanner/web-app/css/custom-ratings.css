@@ -1,3 +1,4 @@
+
 form.rating {
     padding: 1em;
     border: 1px solid #ccc;
@@ -20,31 +21,31 @@ form.rating {
 
 div.star {
     float: left;
-    width: 14px !important;
-    height: 14px !important;
+    width: 14px;
+    height: 14px;
     overflow: hidden;
     text-indent: -999em;
     cursor: pointer;
 }
 
 div.star, span.star, div.star a, span.star a {
-    background: url(../images/star.png) no-repeat 0 0px !important;
+     background: url(../images/star.png) no-repeat 0 0px;
 }
 
 div.star a {
     display: block;
-   width: 14px !important;
-    height: 14px !important;
+    width: 100%;
+    height: 100%;
     background-position: 0 0px;
 }
 
 div.rating div.on a {
-    background-position: 0 -16px !important;
+    background-position: 0 -16px;
 }
 
 div.rating div.hover a,
     div.rating div a:hover {
-    background-position: 0 -32px !important;
+    background-position: 0 -32px;
 }
 
 div#notifytext {
@@ -56,12 +57,7 @@ div#notifytext {
 #ratingdiv {
     height: 12px;
 }
-.ratingDisplay table {
-    padding: 0px;
-    margin: 0px;
-    border: 0px;
-    border-spacing:0px;
-}
+
 .ratingDisplay td {
     padding: 0px;
     margin: 0px;
@@ -75,5 +71,3 @@ div#notifytext {
 .ratingDisplay div.on a {
     background-position: 0 -32px;
 }
-
-
