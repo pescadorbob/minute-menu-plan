@@ -1,5 +1,7 @@
 package com.mp.domain
 
+import org.apache.commons.math.fraction.Fraction
+
 class ShoppingListService {
 
     boolean transactional = true
@@ -73,7 +75,7 @@ class ShoppingListService {
                 similarIngredients.each {RecipeIngredient similarIngredient ->
                     total = (total == null) ? similarIngredient.quantity : Quantity.add(total, similarIngredient.quantity)
                 }
-                ShoppingIngredient shoppingIngredient = new ShoppingIngredient(name: "${total} " + differentIngredient.name, aisle: (aisle?.id) ? aisle : null)
+                ShoppingIngredient shoppingIngredient = new ShoppingIngredient(name: "${total.toCeilString()} " + differentIngredient.name, aisle: (aisle?.id) ? aisle : null)
                 productListForWeek.add(shoppingIngredient)
             }
         }
