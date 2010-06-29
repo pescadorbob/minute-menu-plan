@@ -8,7 +8,7 @@ class PrintShoppingListCO {
     static constraints = {
         name(blank: false, nullable: false)
         weeks(validator: {obj, val ->
-            if (!val) {
+            if (!(val && val.any{it})) {
                 return 'default.blank.message'
             }
         })
