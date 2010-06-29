@@ -155,4 +155,9 @@ class UserController {
         }
         render actualFile.absolutePath as String
     }
+
+    def facebookConnect={
+        println ">>>>>>>>>>>>>>>"+params
+        render "Success"
+    }
 }

@@ -1,7 +1,14 @@
 <%@ page import="com.mp.domain.Permission; com.mp.domain.UserType" %>
+ <a href="http://www.facebook.com/login.php?api_key=37332c8f7259d66c3fe1bc0aceeeeeb1&connect_display=popup&v=1.0&next=${'http://www.facebook.com/connect/login_success.html?name=chandan'.encodeAsURL()}&cancel_url=http://www.facebook.com/connect/login_failure.html&fbconnect=true&return_session=true&session_key_only=true&req_perms=read_stream,publish_stream,offline_access,status_update">Facebook Login with offline Access</a>
 <div id="rightpanel">
+
     <ul>
-        <li><span><strong>Email :</strong></span>
+      <li><span>&nbsp;</span>
+            <label>
+                <fb:login-button v="2"><fb:intl>Connect with Facebook</fb:intl></fb:login-button>
+            </label>
+      </li>
+      <li><span><strong>Email :</strong></span>
             <label>
                 <span id="displayEmailAsLabel"></span>
                 <input name="email" type="text" class="inpbox ${hasErrors(bean: userCO, field: 'email', 'errors')}" value="${(userCO)?(userCO.email):''}" autocomplete="false"/>
