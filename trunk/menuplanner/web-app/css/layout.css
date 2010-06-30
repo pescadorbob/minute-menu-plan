@@ -87,18 +87,30 @@
 #left-panel-product h3{line-height:18px;font-size:15px;color:#e67432;font-weight:bold;}
 #right-panel-product{float:right;width:775px;}
 
+/*.ratingbox{clear:both;font-size:11px;color:#fff;margin-top:11px; font-family:Arial, Helvetica, sans-serif;}
+.ratingbox ul li{clear:both;cursor:pointer;overflow:hidden;width:205px;padding:5px 5px 2px;margin-bottom:11px; background:url(../images/gradient-bg.png) no-repeat 0 0  ;}
+.ratingbox ul li div.frame-corner{height:80px;width:100px;display:block; z-index:10; position:absolute; background:url(../images/frame-corner.png) no-repeat top left;}
+.ratingbox ul li ul li{margin:0 !important;padding:0 !important;background:none  !important; position:relative;}
+.ratingbox ul li ul li h3{padding:0px !important;margin:0px !important;line-height:20px;font-size:12px;}
+.ratingbox ul li ul li h3 a{text-decoration:none;color:#ffffff;}
+.ratingbox ul li ul li ul li{clear:none;float:left;width:100px !important;padding:1px 0px !important;background:none  !important;}
+.ratingbox ul li ul li ul li table {clear:none;float:left;width:100px !important;padding: 0px !important;background:none  !important; border:0;}
+.ratingbox ul li ul li ul li ul li{line-height:12px;margin-left:5px !important;clear:both;}
+.ratingbox ul li:hover{ background:url(../images/gradient-hover.png) no-repeat 0 0;}*/
+
 
 .product{clear:both;font-size:11px;color:#000;font-family:Arial, Helvetica, sans-serif;}
-.product ul li{float:left;width:210px;margin:0px 4px;padding:5px 5px 2px;margin-bottom:11px;overflow:hidden;}
-.product ul li div.frame-corner{height:80px;width:100px;display:block; z-index:10; position:absolute; background:url(../images/frame-corner-grey.png) no-repeat top left;}
+.product ul li{float:left;width:210px;margin:0px 4px;padding:5px 5px 2px;margin-bottom:11px;overflow:hidden;cursor:pointer;}
+.product ul li div.frame-corner{height:80px;width:100px;display:block; z-index:11;margin-top:3px;  position:absolute; background:url(../images/frame-corner-grey.png) no-repeat top left;}
+.product ul li img{margin-top:3px;}
 .product ul li ul li{margin:0 !important;padding:0 !important;background:none  !important; position:relative;}
 .product ul li ul li h3{padding:0px !important;margin:0px !important;line-height:20px;font-size:12px;}
 .product ul li ul li h3 a{text-decoration:none;color:#2aa4af;}
-.product ul li ul li ul li{clear:none;float:left;width:100px !important;padding:1px 0px !important;background:none  !important;}
-.product ul li ul li ul li table {clear:none;float:left;width:100px !important;padding: 0px !important;background:none  !important; border:0;}
+.product ul li ul li ul li{clear:none;float:left;width:100px !important;background:none  !important;}
 .product ul li ul li ul li ul li{line-height:12px;margin-left:5px !important;clear:both;}
-.product ul li:hover{background:url(../images/gradient-bg-grey.png) no-repeat 0 0  ;}
-
+.product ul li:hover{-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;behavior: url(border-radius.htc); background:#eee;}
+.frame-corner:hover{height:80px;width:100px;display:block; z-index:10; position:absolute; }
+.product ul li:hover div.frame-corner{background-position:0 -80px;}
 /* 30 April */
 .menuplannerTab tr{height:30px;font-family:verdana,arial,helvetica,sans-serif;font-size:11px;}
 .mnuTableHeader{background:#ddd;}
@@ -111,7 +123,6 @@ div.errors{border:red 1px solid;font-size:smaller;color:red;padding:10px;margin-
 .paginateButtons {border: 0px;color: #666;font-size: 10px;overflow: hidden;padding: 10px 3px;margin-top: 10px;}
 .paginateButtons a{font-weight: bold;font-size:11px;color:royalblue;margin:0 3px;}
 .paginateButtons span{padding: 2px 3px;}
-
 /*some more for add-edit recipe : 19 MAY 2010*/
 #directionToBeAdded{
     display:block;
