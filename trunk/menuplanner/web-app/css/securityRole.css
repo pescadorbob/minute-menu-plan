@@ -23,7 +23,7 @@
 #rolelist ul li a:hover{text-decoration:none;}
 
 /* start winter-week start winterButton */
-.winter-week{width:475px;color:#616A72;  font-size:12px;  line-height:22px;float:left;}
+.winter-week{width:300px;color:#616A72;  font-size:12px;  line-height:22px;float:left;}
 .winter-week ul li{clear:both;padding:0px; margin:0; overflow:hidden; }
 .winter-week ul li.alternatecolor{ background:#fafaf6; overflow:hidden; clear:both;  position:relative;}
 .winter-week ul li ul li{float:left;width:110px; clear:none;border-bottom:none; padding:4px; }
