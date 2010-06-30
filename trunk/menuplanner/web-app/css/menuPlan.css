@@ -45,7 +45,7 @@
 .ui-sortable-placeholder * {visibility: hidden;}
 
 .ratingbox{clear:both;font-size:11px;color:#fff;margin-top:11px; font-family:Arial, Helvetica, sans-serif;}
-.ratingbox ul li{clear:both;cursor:pointer;width:205px;padding:5px 5px 2px;margin-bottom:11px; background:url(../images/gradient-bg.png) no-repeat 0 0  ;}
+.ratingbox ul li{clear:both;cursor:pointer;overflow:hidden;width:205px;padding:5px 5px 2px;margin-bottom:11px; background:url(../images/gradient-bg.png) no-repeat 0 0  ;}
 .ratingbox ul li div.frame-corner{height:80px;width:100px;display:block; z-index:10; position:absolute; background:url(../images/frame-corner.png) no-repeat top left;}
 .ratingbox ul li ul li{margin:0 !important;padding:0 !important;background:none  !important; position:relative;}
 .ratingbox ul li ul li h3{padding:0px !important;margin:0px !important;line-height:20px;font-size:12px;}

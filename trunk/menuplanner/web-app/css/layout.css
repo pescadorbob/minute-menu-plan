@@ -86,15 +86,19 @@
 #left-panel-product h2{line-height:18px;color:#292e2e;font-size:15px;font-weight:bold;}
 #left-panel-product h3{line-height:18px;font-size:15px;color:#e67432;font-weight:bold;}
 #right-panel-product{float:right;width:775px;}
-.product{clear:both;font-size:11px;font-weight:bold;margin-top:0px;padding-top:20px;line-height:16px;}
-.product ul li{float:left;width:230px;margin:0px 4px;padding:2px 0px;cursor:pointer;}
-.product ul li:hover{background:#eeeeee;}
-.product ul li ul li{display:block;margin:0 !important;width:220px;padding:5px;}
-.product ul li ul li strong{color:#2aa4af;text-decoration:none;font-size:12px;margin:auto;}
-.product ul li ul li.center{text-align:center;}
-.product ul li ul li ul li{margin:0 !important;float:left !important;width:110px !important;padding:2px 0px !important;}
-.product ul li ul li ul li ul li{line-height:16px;padding:0px !important;clear:both;}
-.product ul li ul li strong:hover{color:#fea501;}
+
+
+.product{clear:both;font-size:11px;color:#000;font-family:Arial, Helvetica, sans-serif;}
+.product ul li{float:left;width:210px;margin:0px 4px;padding:5px 5px 2px;margin-bottom:11px;overflow:hidden;}
+.product ul li div.frame-corner{height:80px;width:100px;display:block; z-index:10; position:absolute; background:url(../images/frame-corner-grey.png) no-repeat top left;}
+.product ul li ul li{margin:0 !important;padding:0 !important;background:none  !important; position:relative;}
+.product ul li ul li h3{padding:0px !important;margin:0px !important;line-height:20px;font-size:12px;}
+.product ul li ul li h3 a{text-decoration:none;color:#2aa4af;}
+.product ul li ul li ul li{clear:none;float:left;width:100px !important;padding:1px 0px !important;background:none  !important;}
+.product ul li ul li ul li table {clear:none;float:left;width:100px !important;padding: 0px !important;background:none  !important; border:0;}
+.product ul li ul li ul li ul li{line-height:12px;margin-left:5px !important;clear:both;}
+.product ul li:hover{background:url(../images/gradient-bg-grey.png) no-repeat 0 0  ;}
+
 /* 30 April */
 .menuplannerTab tr{height:30px;font-family:verdana,arial,helvetica,sans-serif;font-size:11px;}
 .mnuTableHeader{background:#ddd;}
