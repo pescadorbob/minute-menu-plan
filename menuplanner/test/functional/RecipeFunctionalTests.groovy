@@ -174,9 +174,9 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         assertElementTextContainsStrict('recipeNameTst', createRecipeData.name)
     }
 
-    void testDeleteRecipe() {
-        gotoEditRecipePage()
-        byName('_action_delete').click()
-        assertElementTextContainsStrict('deleteRecipeFlashMessage', getMessage('recipe.deleted.success'))
-    }
+//    void testDeleteRecipe() {
+//        gotoEditRecipePage()
+//        byName('_action_delete').click()
+//        assertElementTextContainsStrict('deleteRecipeFlashMessage', getMessage('recipe.deleted.success'))
+//    }
 }

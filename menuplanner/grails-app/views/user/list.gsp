@@ -29,7 +29,7 @@
                                 <g:actionSubmit id="btnSubmit" controller="user" action="list" name="submit" value="Submit" style="display:none;"/>
                                 <span><strong>Accounts :</strong></span>
                                 <label>
-                                    <g:actionSubmit controller="user" action="create" name="addUser" value="Add User" class="pointer"/>
+                                    <g:actionSubmit controller="user" action="create" value="Add User" class="pointer"/>
                                 </label>
                             </li>
                             <li>
