@@ -2,7 +2,7 @@
 <div class="ratingbox">
     <ul class="resultContainer">
         <g:each in="${itemList}" var="item" status="index">
-            <g:render template="/recipe/showRecipe" model="['item':item]"/>
+            <g:render template="/recipe/showRecipe" model="['item':item ,'index':index]"/>
         </g:each>
     </ul>
 </div>

@@ -1,5 +1,5 @@
 <%@ page import="com.mp.domain.Recipe" %>
-<li class="draggableItem">
+<li class="clearfix draggableItem" id="draggableSearchItem_${index + 1}">
     <ul>
         <input type="hidden" name="menuItemId" value="${item.id}"/>
         <g:if test="${item?.instanceOf(Recipe)}">
