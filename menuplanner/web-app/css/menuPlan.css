@@ -2,11 +2,9 @@
 #daymenu ul li.first{width:16px;float:left;background:url(../images/day-menu-first.gif) repeat-x top left;border-right:1px solid #fff;}
 #daymenu ul li{float:left;height:26px;}
 #daymenu ul li li{float:left;padding:0px; width:83px;margin-left:4px; text-align:center;}
-
 #daymenu ul li a{color:#fff;text-decoration:none;}
 #daymenu ul li li:last-child{float:left;}
 #daymenu ul li a:hover{color:#f4f1f1;}
-
 #countrymenu{height:22px;margin-bottom:8px;clear:both;border-top:1px solid #fff;font-weight:bold;color:#fff;background:url(../images/couintry-menu-second.gif) repeat-x top left;font-size:11px;line-height:22px;}
 #countrymenu ul li.first{width:21px;float:left;background:url(../images/country-menu-first.gif) repeat-x top left;border-right:1px solid #fff;}
 #countrymenu ul li{float:left;height:22px;}
@@ -14,14 +12,12 @@
 #countrymenu ul li a{color:#616a72;text-decoration:none;height:22px;padding-right:12px;background:url(../images/down-arrow-gray.gif) no-repeat center right;}
 #countrymenu ul li a:hover{color:#f4f1f1;}
 #countrymenu ul li li.last{float:left;border-right:none;}
-
 #search{background:url(../images/quick-search.gif) no-repeat top left;margin-bottom:5px;height:26px;line-height:26px;color:#fff;font-size:15px;padding:0px 4px 0px 10px;}
 #search-container{background:url(../images/top-close.gif) no-repeat top left;padding-top:12px;}
 #search-bottom{background:url(../images/bottom-close.gif) no-repeat bottom left;padding:0px 11px 15px 12px;}
 #search-left{float:left;width:215px;}
 #search-input{background:url(../images/search-input.gif) no-repeat top left;margin-bottom:12px;padding-left:20px;}
 #search-input input{background:url(../images/search-input1.gif) no-repeat top right;padding:3px 0px 4px 0px;line-height:14px;}
-
 .week{font-size:11px;font-weight:bold; position:relative;}
 .week ul li{margin:0px 0px 4px 0px; height:69px; clear:both; position:relative;}
 .week ul li.divider{margin:0px 0px 0px 0px; clear:both; height:24px !important;}
@@ -43,24 +39,20 @@
 .menuContainer img:hover { cursor: pointer;}
 .ui-sortable-placeholder {border: 1px dotted black; visibility: visible !important;}
 .ui-sortable-placeholder * {visibility: hidden;}
-
 .ratingbox{clear:both;font-size:11px;color:#fff;margin-top:11px; font-family:Arial, Helvetica, sans-serif;}
-.ratingbox ul li{clear:both;cursor:pointer;overflow:hidden;width:205px;padding:5px 5px 2px;margin-bottom:11px; background:url(../images/gradient-bg.png) no-repeat 0 0  ;}
-.ratingbox ul li div.frame-corner{height:80px;width:100px;display:block; z-index:10; position:absolute; background:url(../images/frame-corner.png) no-repeat top left;}
-.ratingbox ul li ul li{margin:0 !important;padding:0 !important;background:none  !important; position:relative;}
+.ratingbox ul li{clear:both;cursor:pointer; margin-bottom:11px;overflow:hidden;width:205px;padding:5px;  -moz-border-radius: 5px;-webkit-border-radius: 5px;border-radius: 5px;	behavior: url(css/border-radius.htc);background:-webkit-gradient(linear, left top, left bottom, from(#1f858f), to(#329ba6));	background:-moz-linear-gradient(top, #1f858f, #329ba6);filter: progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#ff1f858f, endColorstr=#ff329ba6);}
+/*.ratingbox ul li{clear:both;cursor:pointer;overflow:hidden;width:205px;padding:5px 5px 2px;margin-bottom:11px; background:url(../images/gradient-bg.png) no-repeat 0 0  ;}*/
+.ratingbox ul li div.frame-corner{height:80px;width:100px;margin-top:3px;display:block; z-index:10; position:absolute; background:url(../images/frame-corner.png) no-repeat top left;}
+.ratingbox ul li img{margin-top:3px;}
+.ratingbox ul li ul li{margin:0 !important;padding:0 !important;background:none  !important; position:relative; -moz-border-radius:0px;-webkit-border-radius:5px;border-radius:0px;filter:progid:none;}
+.ratingbox ul li ul li:hover{background:none  !important;  -moz-border-radius:0px;-webkit-border-radius:5px;border-radius:0px;filter:progid:none;}
 .ratingbox ul li ul li h3{padding:0px !important;margin:0px !important;line-height:20px;font-size:12px;}
 .ratingbox ul li ul li h3 a{text-decoration:none;color:#ffffff;}
-.ratingbox ul li ul li ul li{clear:none;float:left;width:100px !important;padding:1px 0px !important;background:none  !important;}
-.ratingbox ul li ul li ul li table {clear:none;float:left;width:100px !important;padding: 0px !important;background:none  !important; border:0;}
-.ratingbox ul li ul li ul li ul li{line-height:12px;margin-left:5px !important;clear:both;}
-.ratingbox ul li:hover{ background:url(../images/gradient-hover.png) no-repeat 0 0;}
-
-
-.frame-corner:hover{height:80px;width:100px;display:block; z-index:10; position:absolute; }
-  .ratingbox ul li:hover div.frame-corner{background-position:0 -80px;}
-
-
-          /* background:background:url(../images/frame-corner1.png) no-repeat top left;  */
+.ratingbox ul li ul li ul li{clear:none;float:left;width:100px !important;padding:0 !important;background:none  !important;}
+.ratingbox ul li ul li ul li ul li{line-height:13px;margin-left:5px !important;clear:both;}
+.ratingbox ul li:hover{-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;behavior: url(border-radius.htc);background:-webkit-gradient(linear, left top, left bottom, from(#eb9402), to(#fdba00));	background:-moz-linear-gradient(top, #eb9402, #fdba00);  filter: progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#ffeb9402, endColorstr=#fffdba00);}.frame-corner:hover{height:80px;width:100px;display:block; z-index:10; position:absolute; }
+.ratingbox ul li:hover div.frame-corner{background-position:0 -80px;}
+ /* background:background:url(../images/frame-corner1.png) no-repeat top left;  */
 .mySelect{height:22px;width:79px;font-size:10px}
 .btn{ background:url(../images/button-bg.png) no-repeat top center; width:102px; font-weight:bold; height:25px; border:none; font-size:11px; color:#fff; padding:0; margin:0; text-decoration:none; text-align:center; line-height:24px; display:inline-block;}
 .roundedCorner {border: 0px solid #187c85;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;behavior: url(border-radius.htc);}
