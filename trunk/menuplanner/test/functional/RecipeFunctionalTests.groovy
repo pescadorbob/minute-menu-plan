@@ -177,8 +177,6 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
     void testDeleteRecipe() {
         gotoEditRecipePage()
         byName('_action_delete').click()
-        redirectEnabled = false
-        followRedirect()
         assertElementTextContainsStrict('deleteRecipeFlashMessage', getMessage('recipe.deleted.success'))
     }
 }
