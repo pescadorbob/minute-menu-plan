@@ -8,6 +8,7 @@ class UserController {
     static config = ConfigurationHolder.config
     def userService
     def asynchronousMailService
+    def facebookConnectService
 
     def index = {
         redirect(action: 'list')
@@ -157,7 +158,15 @@ class UserController {
     }
 
     def facebookConnect={
-        println ">>>>>>>>>>>>>>>"+params
-        render "Success"
+        String faceBookToken = params.selected_profiles
+        if(faceBookToken){
+            User user = User.currentUser
+            user.fbOauthToken = faceBookToken
+//            def data= facebookConnectService.getFacebookClient(params.x).photos_get(faceBookToken.toLong())
+//            println ">>>>>>>>>>>>>>>>>."+data
+            user.s()
+        }
+
+        render "<script type='text/javascript'>window.close()</script>"
     }
 }

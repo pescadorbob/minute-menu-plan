@@ -23,8 +23,8 @@ class FacebookTagLib {
 			out << "FB.init(\"${CH.config.facebookConnect.APIKey}\", \"${attrs['base']?attrs['base']:""}"
 
 			if(attrs['secure'])
-				out << "${g.createLinkTo(dir:"${pluginContextPath}", file:"xd_receiver_ssl.htm")}\");"
-			else out << "${g.createLinkTo(dir:"${pluginContextPath}", file:"xd_receiver.htm")}\");"
+				out << "${g.resource(dir:"/", file:"xd_receiver_ssl.htm")}\");"
+			else out << "${g.resource(dir:"/", file:"xd_receiver.htm")}\");"
 
 			out << "</script>"
 			out << '''\n'''

@@ -20,6 +20,7 @@ class UtilController {
     def excelService
     def userService
     def asynchronousMailService
+    def facebookConnectService
 
     static config = ConfigurationHolder.config
 
@@ -30,8 +31,9 @@ class UtilController {
     }
 
     def index = {
-        ShoppingList shoppingList=ShoppingList.get(6)
-        render(template: '/shoppingList/emailShoppingList', model: [shoppingList: shoppingList])
+        def data= facebookConnectService.getFacebookClient("5330b05b38e4580d4cc4dca6-728437803").users_getInfo()
+
+        render "Done: " + data
     }
 
     def test = {

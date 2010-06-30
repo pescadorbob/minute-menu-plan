@@ -1,11 +1,18 @@
 <%@ page import="com.mp.domain.Permission; com.mp.domain.UserType" %>
- <a href="http://www.facebook.com/login.php?api_key=37332c8f7259d66c3fe1bc0aceeeeeb1&connect_display=popup&v=1.0&next=${'http://www.facebook.com/connect/login_success.html?name=chandan'.encodeAsURL()}&cancel_url=http://www.facebook.com/connect/login_failure.html&fbconnect=true&return_session=true&session_key_only=true&req_perms=read_stream,publish_stream,offline_access,status_update">Facebook Login with offline Access</a>
+%{--<fb:prompt-permission perms="read_stream,offline_access">Connect with Facebook</fb:prompt-permission>--}%
+
+%{--<fb:login-button onlogin="alert('hello');"></fb:login-button>--}%
+ %{--<fb:login-button v="2" perms="read_stream,offline_access" size="medium" onlogin="window.location.reload(true);">x with Facebook</fb:login-button>--}%
+ %{--<fb:profile-pic uid="loggedinuser" size="square" facebook-logo="true"></fb:profile-pic>--}%
+ %{--<fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name>--}%
+
 <div id="rightpanel">
 
     <ul>
       <li><span>&nbsp;</span>
             <label>
-                <fb:login-button v="2"><fb:intl>Connect with Facebook</fb:intl></fb:login-button>
+                <a class="fbconnect_login_button FBConnectButton FBConnectButton_Medium" onclick="window.open('http://www.facebook.com/login.php?api_key=37332c8f7259d66c3fe1bc0aceeeeeb1&connect_display=popup&v=1.0&next=${'http://localhost:8080/menuplanner/user/facebookConnect?name=chandan'.encodeAsURL()}&cancel_url=http://localhost:8080/menuplanner/util/index&fbconnect=true&return_session=true&session_key_only=true&req_perms=email, read_stream, publish_stream, offline_access, status_update, photo_upload, create_event, rsvp_event, sms, video_upload, create_note, share_item','myWindow', 'width=600, height=300, top=250, left=300'); return false;"  href="#">
+ <span class="FBConnectButton_Text"><fb:intl>Connect with Facebook</fb:intl><a/></span></a>
             </label>
       </li>
       <li><span><strong>Email :</strong></span>
