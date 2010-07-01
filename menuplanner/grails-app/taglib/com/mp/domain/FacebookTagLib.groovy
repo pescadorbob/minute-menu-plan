@@ -10,8 +10,8 @@ class FacebookTagLib {
         if (!User.currentUser.fbOauthToken) {
             String apiKey = ConfigurationHolder.config.facebookConnect.apiKey
             String popupUrl = "http://www.facebook.com/login.php?api_key=${apiKey}&connect_display=popup&v=1.0"
-            String allowUrl = "http://localhost:8080/menuplanner/user/facebookConnect/"
-            String cancelUrl = 'http://localhost:8080/menuplanner/util/index'
+            String allowUrl = g.createLink(controller: 'user', action: 'facebookConnect', absolute: true)
+            String cancelUrl = g.createLink(controller: 'util', action: 'index', absolute: true)
             String applicationUrl = "${popupUrl}&next=${allowUrl}&cancel_url=${cancelUrl}&fbconnect=true&return_session=true&session_key_only=true&req_perms=read_stream, offline_access"
             println "******************* ApplicationUrl: " + applicationUrl
             out << g.render(template: '/facebook/connectToFacebook', model: [applicationUrl: applicationUrl, apiKey: apiKey])
