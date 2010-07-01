@@ -38,7 +38,7 @@ environments {
 	}
 	qa {
 		dataSource {
-			dbCreate = "create-drop"
+			dbCreate = "update"
 			url = "jdbc:mysql://localhost:3306/menuplanner_qa?autoReconnect=true"
 		}
 	}
