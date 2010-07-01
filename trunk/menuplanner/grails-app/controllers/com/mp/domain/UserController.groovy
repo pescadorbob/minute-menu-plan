@@ -169,4 +169,9 @@ class UserController {
 
         render "<script type='text/javascript'>window.close()</script>"
     }
+
+    def facebookConnectCancel={
+        render "<script type='text/javascript'>window.close()</script>"
+    }
+
 }

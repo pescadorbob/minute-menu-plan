@@ -18,7 +18,7 @@
       <td width="160">Conversion Factor</td>
       <td><input type="text" class="inpbox" name="conversionFactor" id="conversionFactor"></td>
     </tr><tr>
-      <td width="160">Ingredient</td>
+      <td width="160">Base Unit</td>
       <td><g:select class="inpbox" noSelection="['':'(No Unit)']" name="unitId" from="${metricUnits}" optionKey="id" style="width:105px;"/></td>
     </tr>
       <tr>
