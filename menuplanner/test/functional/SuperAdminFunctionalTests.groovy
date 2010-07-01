@@ -5,9 +5,7 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
 
     void goToAccountsPage() {
         loginBySuperAdmin()
-        get('/recipe/list')
-        def userAccountsLink = byClass('accountsLink')
-        userAccountsLink.click()
+        get('/user/list')
     }
 
     void testSuperAdminLogin() {
@@ -15,6 +13,7 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
         get('/recipe/list')
         assertContentContains 'Hi! superAdmin'
         assertElementTextContains 'navigation', 'Hi! superAdmin'
+        logout()
     }
 
     void testSuperAdmin_Accounts() {
@@ -24,6 +23,7 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
         assertContentContains 'Enabled'
         assertContentContains 'Disabled'
         assertContentContains 'Flagged'
+        logout()
     }
 
     void testSuperAdmin_UserList() {
@@ -32,6 +32,7 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
         assertEquals('superAdmin', superAdminName)
         def superAdminEmail = byId('userlist').getFirstChild().getFirstChild().getNextSibling().getFirstChild().getFirstChild().getNextSibling().getTextContent()
         assertEquals(SUPER_ADMIN, superAdminEmail)
+        logout()
     }
 
     void testSuperAdmin_AddUserLink() {
@@ -49,5 +50,6 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
         assertContentContains 'Minimum 4 characters'
         assertContentContains 'Public name displayed on recipes'
         assertContentContains 'City displayed on recipes'
+        logout()
     }
 }

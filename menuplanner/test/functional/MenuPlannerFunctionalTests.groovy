@@ -22,8 +22,13 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
         form('loginForm') {
             email = loginFormData.email
             password = loginFormData.password
-            byName('_action_login').click()
+            byClass('userLoginLink').click()
         }
+    }
+
+    void logout() {
+        def logoutLink = byClass('logoutLink')
+        logoutLink.click()
     }
 
     void createRecipe(CreateRecipeData createRecipeData) {
@@ -145,7 +150,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
         createLink.click()
     }
 
-    /** * Helper method to return a message from the message bundle.                               ***/
+    /** * Helper method to return a message from the message bundle.                                 ***/
     String getMessage(String key, def targetArgs = TARGET_ARGS_EMPTY) {
         def keyValue = messageSource.resolveCode(key, locale)
         return keyValue?.format(targetArgs)
