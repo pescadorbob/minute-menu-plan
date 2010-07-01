@@ -81,7 +81,7 @@ environments {
 //            port = 25
 //        }
 //        grails.mail.default.from = '"MinuteMenu" <dev@dev.menuplanner.intelligrape.net>'
-        grails.serverURL = "http://localhost:8080/${appName}"
+        grails.serverURL = "http://localhost:8080/menuplanner"
         facebookConnect {
 			//These two values need to be grabbed from facebook when you create your application there.
 			// http://www.facebook.com/developers/
