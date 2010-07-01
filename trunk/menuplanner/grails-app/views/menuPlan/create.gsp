@@ -7,6 +7,7 @@
     <g:javascript library="ui.core"/>
     <g:javascript library="ui.sortable"/>
     <g:javascript src="menuPlan.js"/>
+    <link rel="stylesheet" href="${resource(dir: 'css', file: 'custom-ratings.css')}"/>
     <script type="text/javascript">
         setCrossImagePath("${resource(dir:'images',file:'delete.jpg')}")
     </script>
@@ -62,11 +63,11 @@
             }
         });
     })
-    $("#create").click(function(){
-      if($("#menuPlanNameTextbox").val()=="Enter Menu Plan Name"){
-        alert("Please enter Menu plan name")
-        return false;
-      }
+    $("#create").click(function() {
+        if ($("#menuPlanNameTextbox").val() == "Enter Menu Plan Name") {
+            alert("Please enter Menu plan name")
+            return false;
+        }
     })
 </script>
 </body>
