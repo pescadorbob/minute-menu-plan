@@ -17,7 +17,7 @@ class Unit extends Metric{
 
     public static List<Unit> getSortedMetricUnits(){
         List<Unit> units = StandardConversion.listOrderByConversionFactor()?.findAll{it.sourceUnit.metricType == MetricType.METRIC}*.sourceUnit
-        units = units?.findll{((it.user == null) || (it.user == User.currentUser))}
+        units = units.findAll{((it.user == null) || (it.user == User.currentUser))}
         return units
     }
 
