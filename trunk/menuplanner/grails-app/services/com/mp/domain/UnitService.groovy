@@ -13,6 +13,7 @@ class UnitService {
         unit.metricType=MetricType.METRIC
         unit.addToSystemOfUnits(SystemOfUnit.get(systemOfUnit))
         unit.definition="User Created Unit"
+        unit.user=User.currentUser  
         unit.save()
         Unit sourceUnit = Unit.findById(unitId)
         Unit targetUnit = Unit.findByName(UNIT_MILLI_LITRE)

@@ -67,5 +67,6 @@
     </div>
 </div>
 <g:render template="/recipe/bindEventsToTabs"/>
+<g:render template="unitAddPopup"/>
 </body>
 </html>

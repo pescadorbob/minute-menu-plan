@@ -117,7 +117,7 @@
         matchContains: true,
         minChars: 0,
         max:0,
-        mustMatch:true
+        mustMatch:false
     });
 
     var preparationMethods = []
@@ -128,7 +128,7 @@
         matchContains: true,
         minChars: 0,
         max:0,
-        mustMatch:true
+        mustMatch:false
     });
 
     $("#combobox_optionIngredientUnitIds").result(function(event, data, formatted) {
