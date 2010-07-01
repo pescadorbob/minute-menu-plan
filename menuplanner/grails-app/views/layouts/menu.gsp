@@ -51,6 +51,5 @@
         })
     });
 </script>
-<g:facebookConnectJavascript/>
 </body>
 </html>

@@ -71,8 +71,8 @@ environments {
         facebookConnect {
 			//These two values need to be grabbed from facebook when you create your application there.
 			// http://www.facebook.com/developers/
-			APIKey = "37332c8f7259d66c3fe1bc0aceeeeeb1"
-			SecretKey = "bd0391c1765d5de67b1f4fd41b2ad5b0"
+			apiKey = "c7cb03d1076112dfdee19d3e4972c3eb"
+			secretKey = "2f069ab14fb4c6ab88cfe463aa9d4344"
 		}
     }
     development {
@@ -85,8 +85,8 @@ environments {
         facebookConnect {
 			//These two values need to be grabbed from facebook when you create your application there.
 			// http://www.facebook.com/developers/
-			APIKey = "37332c8f7259d66c3fe1bc0aceeeeeb1"
-			SecretKey = "bd0391c1765d5de67b1f4fd41b2ad5b0"
+			apiKey = "8fc5bc0ed2fe785413bb1c028503a04c"
+			secretKey = "73f7aba0121cc3527e04b02d15da407a"
 		}
     }
     test {
@@ -99,8 +99,8 @@ environments {
         facebookConnect {
 			//These two values need to be grabbed from facebook when you create your application there.
 			// http://www.facebook.com/developers/
-			APIKey = "37332c8f7259d66c3fe1bc0aceeeeeb1"
-			SecretKey = "bd0391c1765d5de67b1f4fd41b2ad5b0"
+            apiKey = "c7cb03d1076112dfdee19d3e4972c3eb"
+            secretKey = "2f069ab14fb4c6ab88cfe463aa9d4344"
 		}
     }
     qa {
@@ -113,8 +113,8 @@ environments {
         facebookConnect {
 			//These two values need to be grabbed from facebook when you create your application there.
 			// http://www.facebook.com/developers/
-			APIKey = "37332c8f7259d66c3fe1bc0aceeeeeb1"
-			SecretKey = "bd0391c1765d5de67b1f4fd41b2ad5b0"    
+            apiKey = "c7cb03d1076112dfdee19d3e4972c3eb"
+            secretKey = "2f069ab14fb4c6ab88cfe463aa9d4344"
 		}
     }
 
