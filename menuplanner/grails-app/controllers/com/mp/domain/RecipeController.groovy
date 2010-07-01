@@ -123,7 +123,7 @@ class RecipeController {
             SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
             List<Nutrient> nutrients = Nutrient.list()
             List<Category> categories = Category.list()
-            render(view: 'edit', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits: sys.getMetricUnits(), nutrients: nutrients,
+            render(view: 'edit', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits:  Unit.sortedMetricUnits, nutrients: nutrients,
                     categories: categories, aisles: Aisle.list(), preparationMethods: PreparationMethod.list()])
         }
     }
@@ -142,7 +142,7 @@ class RecipeController {
             SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
             List<Nutrient> nutrients = Nutrient.list()
             List<Category> categories = Category.list()
-            render(view: 'create', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits: sys.metricUnits, nutrients: nutrients,
+            render(view: 'create', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits: Unit.sortedMetricUnits, nutrients: nutrients,
                     categories: categories, aisles: Aisle.list(), preparationMethods: PreparationMethod.list()])
         }
     }
