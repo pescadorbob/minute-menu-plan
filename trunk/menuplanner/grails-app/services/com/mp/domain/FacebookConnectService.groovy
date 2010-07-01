@@ -22,7 +22,7 @@ class FacebookConnectService  implements InitializingBean {
     }
 
     FacebookJsonRestClient getFacebookClient(def sessionKey) {
-    	FacebookJsonRestClient client = new FacebookJsonRestClient(CH.config.facebookConnect.APIKey, CH.config.facebookConnect.SecretKey, sessionKey)
+    	FacebookJsonRestClient client = new FacebookJsonRestClient(CH.config.facebookConnect.apiKey, CH.config.facebookConnect.SecretKey, sessionKey)
     	return client
     }
 
@@ -31,8 +31,8 @@ class FacebookConnectService  implements InitializingBean {
     	boolean isCorrectFacebookSignature = validateSignature(request)
 
     	if(isCorrectFacebookSignature) {
-    		def facebookUserId = request.cookies.find{it.name == "${CH.config.facebookConnect.APIKey}_user"}.value
-    		sessionId = request.cookies.find{it.name == "${CH.config.facebookConnect.APIKey}_session_key"}.value
+    		def facebookUserId = request.cookies.find{it.name == "${CH.config.facebookConnect.apiKey}_user"}.value
+    		sessionId = request.cookies.find{it.name == "${CH.config.facebookConnect.apiKey}_session_key"}.value
     		log.info("facebook user login.  Facebook user id: ${facebookUserId} sessionId: ${sessionId}")
     	}
     	return isCorrectFacebookSignature
@@ -75,7 +75,7 @@ class FacebookConnectService  implements InitializingBean {
 
     private boolean validateSignature(HttpServletRequest request) {
 
-    	def cookieValues = getFacebookCookieValues(request,CH.config.facebookConnect.APIKey)+"${CH.config.facebookConnect.SecretKey}"
+    	def cookieValues = getFacebookCookieValues(request,CH.config.facebookConnect.apiKey)+"${CH.config.facebookConnect.SecretKey}"
 
     	log.info("validating facebook signature from cookie: ${cookieValues}")
 
@@ -91,7 +91,7 @@ class FacebookConnectService  implements InitializingBean {
     	}
 
 
-    	def signature = request.cookies.find {it.name == CH.config.facebookConnect.APIKey}?.value
+    	def signature = request.cookies.find {it.name == CH.config.facebookConnect.apiKey}?.value
 
     	if(signature == hexString.toString())
     		return true
