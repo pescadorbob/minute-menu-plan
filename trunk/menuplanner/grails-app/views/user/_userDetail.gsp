@@ -2,20 +2,22 @@
 %{--<fb:prompt-permission perms="read_stream,offline_access">Connect with Facebook</fb:prompt-permission>--}%
 
 %{--<fb:login-button onlogin="alert('hello');"></fb:login-button>--}%
- %{--<fb:login-button v="2" perms="read_stream,offline_access" size="medium" onlogin="window.location.reload(true);">x with Facebook</fb:login-button>--}%
- %{--<fb:profile-pic uid="loggedinuser" size="square" facebook-logo="true"></fb:profile-pic>--}%
- %{--<fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name>--}%
+%{--<fb:login-button v="2" perms="read_stream,offline_access" size="medium" onlogin="window.location.reload(true);">x with Facebook</fb:login-button>--}%
+%{--<fb:profile-pic uid="loggedinuser" size="square" facebook-logo="true"></fb:profile-pic>--}%
+%{--<fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name>--}%
 
 <div id="rightpanel">
 
     <ul>
-      <li><span>&nbsp;</span>
-            <label><facebook:connect/></label>
-      </li>
-      <li><span><strong>Email :</strong></span>
+        <g:if test="${userCO.id}">
+            <li><span>&nbsp;</span>
+                <label><facebook:connect/></label>
+            </li>
+        </g:if>
+        <li><span><strong>Email :</strong></span>
             <label>
                 <span id="displayEmailAsLabel"></span>
-                <input name="email" type="text" class="inpbox ${hasErrors(bean: userCO, field: 'email', 'errors')}" value="${(userCO)?(userCO.email):''}" autocomplete="false"/>
+                <input name="email" type="text" class="inpbox ${hasErrors(bean: userCO, field: 'email', 'errors')}" value="${(userCO) ? (userCO.email) : ''}" autocomplete="false"/>
                 <input class="passwordSection" type="button" id="btnChangePassword" name="changePassword" value="Change Password" onclick="ChangePassword()" style="display:none;"/>
             </label>
         </li>

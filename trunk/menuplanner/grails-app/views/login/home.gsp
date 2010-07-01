@@ -99,7 +99,7 @@
                             </g:if>
                         </li>
                         <li>
-                            <g:actionSubmit controller="login" action="login" value="Login" class=""/>
+                            <g:actionSubmit controller="login" action="login" value="Login" class="userLoginLink"/>
                         </li>
                         <li><g:link controller="login" action="forgotPassword">forgot password or username?</g:link></li>
                         <li class="border"><h2>TESTIMONIAL</h2></li>
