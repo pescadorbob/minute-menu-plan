@@ -36,7 +36,7 @@ class FacebookTagLib {
 
         out << '''\n'''
         out << "<script type=\"text/javascript\">"
-        out << "FB.init(\"${CH.config.facebookConnect.APIKey}\", \"${attrs['base'] ? attrs['base'] : ""}"
+        out << "FB.init(\"${CH.config.facebookConnect.apiKey}\", \"${attrs['base'] ? attrs['base'] : ""}"
 
         if (attrs['secure'])
             out << "${g.resource(dir: "/facebook", file: "xd_receiver_ssl.htm")}\");"
