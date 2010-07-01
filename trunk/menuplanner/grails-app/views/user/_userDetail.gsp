@@ -10,10 +10,7 @@
 
     <ul>
       <li><span>&nbsp;</span>
-            <label>
-                <a class="fbconnect_login_button FBConnectButton FBConnectButton_Medium" onclick="window.open('http://www.facebook.com/login.php?api_key=37332c8f7259d66c3fe1bc0aceeeeeb1&connect_display=popup&v=1.0&next=${'http://localhost:8080/menuplanner/user/facebookConnect?name=chandan'.encodeAsURL()}&cancel_url=http://localhost:8080/menuplanner/util/index&fbconnect=true&return_session=true&session_key_only=true&req_perms=email, read_stream, publish_stream, offline_access, status_update, photo_upload, create_event, rsvp_event, sms, video_upload, create_note, share_item','myWindow', 'width=600, height=300, top=250, left=300'); return false;"  href="#">
- <span class="FBConnectButton_Text"><fb:intl>Connect with Facebook</fb:intl><a/></span></a>
-            </label>
+            <label><facebook:connect/></label>
       </li>
       <li><span><strong>Email :</strong></span>
             <label>
