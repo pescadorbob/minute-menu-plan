@@ -124,10 +124,11 @@ function reflectInPreviewPanel() {
     var i;
     jQuery('#displayIngredients').html('')
     for (i = 1; i < jQuery('input[name="ingredientQuantities"]').size(); i++) {
+        var preparationMethod = jQuery('input[name="hiddenIngredientPreparationMethodNames"]:eq(' + i + ')').attr('value')
         var myIngredients = jQuery('input[name="ingredientQuantities"]:eq(' + i + ')').attr('value') +
             //                            ' ' + jQuery('input[name="hiddenIngredientUnitNames"]:eq(' + i + ')').attr('value') +
                             ' ' + jQuery('input[name="hiddenIngredientUnitSymbols"]:eq(' + i + ')').attr('value') +
-                            ' ' + jQuery('input[name="hiddenIngredientProductNames"]:eq(' + i + ')').attr('value') + '<br>'
+                            ' ' + jQuery('input[name="hiddenIngredientProductNames"]:eq(' + i + ')').attr('value') + (preparationMethod ? ' ('+preparationMethod + ')' : '') + '<br>'
         jQuery('#displayIngredients').append(myIngredients)
     }
     jQuery('#displayDirections').html('')
