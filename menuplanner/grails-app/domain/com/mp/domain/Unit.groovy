@@ -5,8 +5,10 @@ class Unit extends Metric{
 
     static hasMany = [systemOfUnits:SystemOfUnit]
     static belongsTo = SystemOfUnit
+    User user
 
     static constraints = {
+        user(nullable: true)
     }
 
     static mapping = {
@@ -14,7 +16,9 @@ class Unit extends Metric{
     }
 
     public static List<Unit> getSortedMetricUnits(){
-        return (StandardConversion.listOrderByConversionFactor()?.findAll{it.sourceUnit.metricType == MetricType.METRIC}*.sourceUnit)
+        List<Unit> units = StandardConversion.listOrderByConversionFactor()?.findAll{it.sourceUnit.metricType == MetricType.METRIC}*.sourceUnit
+        units = units?.findll{((it.user == null) || (it.user == User.currentUser))}
+        return units
     }
 
     Boolean belongsToMetricSystem(){
@@ -24,4 +28,11 @@ class Unit extends Metric{
     Boolean belongsToUsaSystem(){
         return (systemOfUnits? (systemOfUnits.any{it.systemName == SYSTEM_OF_UNIT_USA}) : false)
     }
+
+    public static List<Unit> listForCurrentUser(){
+        User currentUser = User.currentUser
+        List<Unit> units = currentUser ? Unit.findAllByUserOrUserIsNull(currentUser) : []
+        return units
+    }
+
 }
