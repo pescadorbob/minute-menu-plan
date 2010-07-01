@@ -45,8 +45,10 @@
         bindEvents()
         jQuery('#addItemBtn_${weekIndex}').click(function() {
             if (jQuery('#addItemTxt_${weekIndex}').val() != "") {
-                var grocery = jQuery('#addItemTxt_${weekIndex}').val()
-                var groceryTB = '<input type="text" name="week${weekIndex}.groceries.' + $("#aisleList_${weekIndex}").val() + '"value="' + jQuery('#addItemTxt_${weekIndex}').val() + '">'
+                var grocery = jQuery('#addItemTxt_${weekIndex}').val();
+                var aisleIndex = jQuery("#aisleList_${weekIndex}").val();
+                aisleIndex = aisleIndex ? aisleIndex : '0';
+                var groceryTB = '<input type="text" name="week${weekIndex}.groceries.' + aisleIndex + '"value="' + jQuery('#addItemTxt_${weekIndex}').val() + '">'
                 if ($(".week${weekIndex}_groceries" + $("#aisleList_${weekIndex}").val()).length == 0) {
                     var groceryHtmlString = '<strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + $('option[value=' + $("#aisleList_${weekIndex}").val() + ']', $("#aisleList_${weekIndex}")).text() + '</strong><div class="winterButton"> <span class="grocery grocery_' + $("#aisleList_${weekIndex}").val() + '" id="groceries_${weekIndex}"><table class="week${weekIndex}_groceries' + $("#aisleList_${weekIndex}").val() + '" style="width: 100%;" id="groceryTable_0"><tbody><tr class="addGrocery"/></tbody></table></span></div>'
                     $("#shoppingWeek${weekIndex}").append(groceryHtmlString)
