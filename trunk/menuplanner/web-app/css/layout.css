@@ -96,7 +96,8 @@
 .product ul li ul li ul li{float:left;width:104px !important;background:none !important; padding:0 !important;}
 .product ul li ul li ul li ul li{line-height:12px;clear:both;}
 .product ul li:hover div.frame-corner{background-position:0 -80px;}
-.product ul li.corner{zoom:1;border:0;}
+.product ul li.corner{zoom:1;border:0;-moz-border-radius: 3px;
+-webkit-border-radius: 3px;border: 0px solid #000;}
 .product ul li.corner:hover{background:#eeeeee;}
 .product ul div.outer {background:#ffffff;padding:0px; float:left; }
 
