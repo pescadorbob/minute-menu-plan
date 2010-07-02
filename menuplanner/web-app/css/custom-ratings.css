@@ -21,7 +21,7 @@ form.rating {
 
 div.star {
     float: left;
-    width: 14px;
+    width: 13px;
     height: 14px;
     overflow: hidden;
     text-indent: -999em;
@@ -49,7 +49,7 @@ div.rating div.hover a,
 }
 
 div#notifytext {
-    margin-top: 5px;
+    margin-top: 0px;
     font-size: .8em;
     clear: both;
 }

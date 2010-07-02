@@ -21,7 +21,7 @@ form.rating {
 
 div.star {
     float: left;
-    width: 14px;
+    width: 13px;
     height: 14px;
     overflow: hidden;
     text-indent: -999em;
