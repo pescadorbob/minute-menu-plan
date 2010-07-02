@@ -21,8 +21,8 @@ class FacebookConnectService  implements InitializingBean {
 //		facebookConnectConfig = new ConfigSlurper().parse(clazz)
     }
 
-    FacebookJsonRestClient getFacebookClient(def sessionKey) {
-    	FacebookJsonRestClient client = new FacebookJsonRestClient(CH.config.facebookConnect.apiKey, CH.config.facebookConnect.SecretKey, sessionKey)
+    FacebookJsonRestClient getFacebookClient() {
+    	FacebookJsonRestClient client = new FacebookJsonRestClient(CH.config.facebookConnect.apiKey, CH.config.facebookConnect.secretKey)
     	return client
     }
 
