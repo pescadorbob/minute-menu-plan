@@ -5,8 +5,7 @@
     <title>${menuPlan.name}</title>
     <rateable:resources/>
   <link rel="stylesheet" href="${resource(dir: 'css', file: 'custom-ratings.css')}"/>
-</head>
-<style type="text/css">
+   <style type="text/css">
 .ui-sortable-placeholder {
     border: 1px dotted black;
     visibility: visible !important;
@@ -16,6 +15,7 @@
     visibility: hidden;
 }
 </style>
+</head>
 <body>
 <div id="content-wrapper" class="clearfix">
     <div id="left-panel">

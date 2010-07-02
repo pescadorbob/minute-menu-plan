@@ -98,7 +98,7 @@
                     </table>
 
                 </div>
-                <div class="ratingbox" id="searchResult">
+                <div id="searchResult">
 
                     <g:render template="/menuPlan/searchResultMenuPlan" model="[itemList:itemList, itemTotal:itemTotal, query:query]"/>
 

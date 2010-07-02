@@ -1,5 +1,5 @@
 <%@ page import="com.mp.domain.Recipe" %>
-<li class="draggableItem" id="draggableSearchItem_${index + 1}">
+<li class="draggableItem corner" id="draggableSearchItem_${index + 1}">
     <g:if test="${item?.instanceOf(Recipe)}">
         <g:render template="/recipe/showRecipeDetail" model="['item':item]"/>
     </g:if>
