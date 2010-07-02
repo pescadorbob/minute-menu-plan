@@ -18,7 +18,7 @@
     <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.autocomplete.min.js')}"></script>
     <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.tools.min.js')}"></script>
     <script type="text/javascript" src="${resource(dir: 'js', file: 'shoppingList.js')}"></script>
-    <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.corner.js')}"></script>
+    %{--<script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.corner.js')}"></script>--}%
     <g:layoutHead/>
     
 </head>
