@@ -157,20 +157,13 @@ class UserController {
         render actualFile.absolutePath as String
     }
 
-    def facebookConnect={
-        String faceBookToken = params.selected_profiles
-        if(faceBookToken){
-            User user = User.currentUser
-            user.fbOauthToken = faceBookToken
-//            def data= facebookConnectService.getFacebookClient(params.x).photos_get(faceBookToken.toLong())
-//            println ">>>>>>>>>>>>>>>>>."+data
-            user.s()
-        }
-
+    def facebookConnect = {
+        String redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true)}"
+        userService.updateUserFromFacebook(redirectUrl, params.code)
         render "<script type='text/javascript'>window.close()</script>"
     }
 
-    def facebookConnectCancel={
+    def facebookConnectCancel = {
         render "<script type='text/javascript'>window.close()</script>"
     }
 

@@ -1,10 +1,14 @@
 package com.mp.domain
 
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import grails.converters.JSON
+import org.codehaus.groovy.grails.web.json.JSONElement
 
 class UserService {
 
     boolean transactional = true
+    def facebookConnectService
+    static config = ConfigurationHolder.config
 
     public boolean changeStatus(Long userId) {
         User user = User.findById(userId)
@@ -12,7 +16,45 @@ class UserService {
             (user.isEnabled = !(user.isEnabled))
             return true
         }
+        return false
     }
+
+    public void updateUserFromFacebook(String redirectUrl, String code, User user = User.currentUser) {
+        if (code) {
+            Long faceBookToken = code.tokenize("-|")[1]?.toLong()
+            if (faceBookToken) {
+                String urlString = "https://graph.facebook.com/oauth/access_token?client_id=${config.facebookConnect.apiKey}&redirect_uri=${redirectUrl}&client_secret=${config.facebookConnect.secretKey}&code=${code}"
+                URL url = new URL(urlString)
+                String token = url.getText()
+                user.uid = faceBookToken
+                user.fbOauthToken = (token - "access_token=")
+                user.s()
+                updateUserPhoto(user)
+                updateUserInfo(user)
+            }
+        }
+    }
+
+    private void updateUserPhoto(User user) {
+//        if (user.uid) {
+//            URL imageURL = new URL("http://graph.facebook.com/${user.uid}/picture?type=large")
+//            File file = new File("/tmp/${System.currentTimeMillis()}.jpg").withOutputStream {out ->
+//                imageURL.eachByte {
+//                    out.write it
+//                }
+//            }
+//        }
+    }
+
+    private void updateUserInfo(User user) {
+        if(user.uid && user.fbOauthToken){
+            URL url = new URL("https://graph.facebook.com/${user.uid}?access_token=${user.fbOauthToken}&fields=name")
+            JSONElement response = JSON.parse(url.newReader())
+            user.name = response.name
+            user.s()
+        }
+    }
+
 }
 
 class UserCO {
@@ -34,8 +76,8 @@ class UserCO {
     String id
     def selectUserImagePath
 
-    UserCO(){
-        
+    UserCO() {
+
     }
 
     UserCO(User user) {
