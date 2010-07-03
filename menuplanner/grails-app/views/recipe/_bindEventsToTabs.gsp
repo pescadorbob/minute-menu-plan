@@ -91,7 +91,7 @@
         })
         jQuery('#selectRecipeImage').uploadify({
             'uploader': "${resource(dir:'jquery.uploadify-v2.1.0', file:'uploadify.swf')}",
-            'script': "${createLink(controller:'recipe', action:'uploadImage')}",
+            'script': "${createLink(controller:'image', action:'uploadImage')}",
             'auto': true,
             'buttonImg': "${resource(dir:'jquery.uploadify-v2.1.0', file:'browser.jpg')}",
             'width': 130,

@@ -225,34 +225,8 @@ class RecipeCO {
         return recipe
     }
 
-    public boolean attachImage(Recipe recipe, def imagePath) {
-        if (!imagePath) {
-            Image image = recipe?.image
-            recipe.image = null
-            image?.delete(flush: true)
-            return false
-        } else {
-            File sourceImage = new File(imagePath)
-            if (sourceImage) {
-                String recipeImageDirectory = config.imagesRootDir + "/recipes/" + recipe?.id + '/'
-                File file = new File(recipeImageDirectory)
-                file.mkdirs()
-                String targetImagePath = recipeImageDirectory + recipe?.id + '.' + sourceImage.name.tokenize('.').tail().join('.')
-                if (!(imagePath == targetImagePath)) {
-
-                    Image tempImage = recipe?.image
-                    recipe.image = null
-                    tempImage?.delete(flush: true)
-
-                    new File(targetImagePath).withOutputStream {out ->
-                        out.write sourceImage.readBytes()
-                    }
-                    com.mp.domain.Image image = new com.mp.domain.Image(imagePath, recipeImageDirectory, recipe?.id?.toString(), "")
-                    recipe.image = image
-                    image.s()
-                }
-            }
-        }
+    public boolean attachImage(Recipe recipe, String imagePath) {
+        return Image.updateOwnerImage(recipe, imagePath)
     }
 
     public Quantity makeTimeQuantity(Integer minutes, Long unitId) {
@@ -278,12 +252,13 @@ class RecipeCO {
             Unit unit = (unitIds[index]) ? Unit?.get(unitIds[index]?.toLong()) : null
             Quantity quantity = StandardConversion.getQuantityToSave(amounts?.getAt(index) ? amounts[index] : null, unit)
             Aisle aisle = Aisle.findByName(aisleNames[index])
-            PreparationMethod preparationMethod = PreparationMethod.findByName(preparationMethodNames[index])
+            String preparationMethodString = (preparationMethodNames[index])?.trim()
+            PreparationMethod preparationMethod = (preparationMethodString) ? PreparationMethod.findByName(preparationMethodString) : null
             if (!aisle) {
                 aisle = new Aisle(name: aisleNames[index]).s()
             }
-            if (!preparationMethod) {
-                preparationMethod = new PreparationMethod(name: preparationMethodNames[index]).s()
+            if (!preparationMethod && preparationMethodString) {
+                preparationMethod = new PreparationMethod(name: preparationMethodString).s()
             }
             if (!product) {
                 if (unit) {

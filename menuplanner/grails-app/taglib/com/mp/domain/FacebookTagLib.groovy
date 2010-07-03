@@ -9,9 +9,7 @@ class FacebookTagLib {
     def connect = {
         if (!User.currentUser.fbOauthToken) {
             String apiKey = ConfigurationHolder.config.facebookConnect.apiKey
-            String popupUrl = "http://www.facebook.com/login.php?api_key=${apiKey}&connect_display=popup&v=1.0"
             String allowUrl = g.createLink(controller: 'user', action: 'facebookConnect', absolute: true)
-            String cancelUrl = g.createLink(controller: 'user', action: 'facebookConnectCancel', absolute: true)
             String applicationUrl = "https://graph.facebook.com/oauth/authorize?client_id=${apiKey}&redirect_uri=${allowUrl}&scope=read_stream,offline_access,user_location"
             out << g.render(template: '/facebook/connectToFacebook', model: [applicationUrl: applicationUrl, apiKey: apiKey])
         }
