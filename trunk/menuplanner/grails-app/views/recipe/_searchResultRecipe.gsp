@@ -16,8 +16,8 @@
             max="15" offset="${params.offset}" update="rightContainer"/>
 </div>
 <script type="text/javascript">
-  jQuery(function(){
-		 jQuery('.corner').wrap('<div class="outer"></div>');
-		jQuery('.corner').corner("round 5px").parent().css('padding', '1px').corner("round 5px")
-	    });
+//  jQuery(function(){
+//		 jQuery('.corner').wrap('<div class="outer"></div>');
+//		jQuery('.corner').corner("round 5px").parent().css('padding', '1px').corner("round 5px")
+//	    });
 </script>
