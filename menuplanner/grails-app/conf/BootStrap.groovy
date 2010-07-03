@@ -62,7 +62,12 @@ class BootStrap {
 
         bootstrapMasterData()
         if (!GrailsUtil.environment != Environment.PRODUCTION && !User.count()) {
-            List<String> userNames = ['superAdmin', 'admin1', 'admin2', 'user1', 'user2']
+            List<String> userNames
+            if(GrailsUtil.environment == 'qa'){
+                userNames = ['superAdmin', 'admin1', 'admin2', 'user1', 'user2']
+            } else {
+                userNames = ['superAdmin', 'user1']
+            }
             userNames.each {String name ->
                 bootstrapService.populateUser(name)
             }
