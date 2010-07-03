@@ -8,7 +8,7 @@
         /* jQuery for Image Upload. */
         jQuery('#selectUserImage').uploadify({
             'uploader': "${resource(dir:'jquery.uploadify-v2.1.0', file:'uploadify.swf')}",
-            'script': "${createLink(controller:'user', action:'uploadImage')}",
+            'script': "${createLink(controller:'image', action:'uploadImage')}",
             'auto': true,
             'buttonImg': "${resource(dir:'jquery.uploadify-v2.1.0', file:'browser.jpg')}",
             'width': 130,

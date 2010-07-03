@@ -158,31 +158,6 @@ class UserCO {
     }
 
     public boolean attachImage(User user, def imagePath) {
-
-        if (!imagePath) {
-            Image image = user?.image
-            user.image = null
-            image?.delete(flush: true)
-            return false
-        } else {
-            File sourceImage = new File(imagePath)
-            String userImageDirectory = config.imagesRootDir + "/users/" + user?.id + '/'
-            String targetImagePath = userImageDirectory + user?.id + '.' + sourceImage.name.tokenize('.').tail().join('.')
-            if (sourceImage && (!(imagePath == targetImagePath))) {
-                File file = new File(userImageDirectory)
-                file.mkdirs()
-
-                Image tempImage = user?.image
-                user.image = null
-                tempImage?.delete(flush: true)
-
-                new File(targetImagePath).withOutputStream {out ->
-                    out.write sourceImage.readBytes()
-                }
-                com.mp.domain.Image image = new com.mp.domain.Image(imagePath, userImageDirectory, user?.id?.toString(), "")
-                user.image = image
-                image.s()
-            }
-        }
+        return Image.updateOwnerImage(user, imagePath)
     }
 }

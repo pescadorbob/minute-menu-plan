@@ -33,6 +33,17 @@ class Recipe extends Item implements Commentable, Rateable {
     String favouriteForUsersString
     Date dateCreated
 
+
+    String getImageDir(){
+        return (config.imagesRootDir + config.recipesRootDir + this?.id + '/')
+    }
+
+    void deleteImage(){
+        Image image = this?.image
+        this.image = null
+        image?.delete(flush: true)
+    }
+
     String getFavouriteForUsersString() {
         List<User> users = favouriteForUsers
         String s = (users ? users.collect {it.id.toString()}.join(", ") : '')
@@ -78,7 +89,7 @@ class Recipe extends Item implements Commentable, Rateable {
         if(!servings){servings=1}
     }
 
-    static transients = ['categories', 'favouriteForUsers', 'favouriteForUsersString', 'cookingTimeValue', 'totalTimeValue', 'prepTimeValue', 'caloriesString', 'categoriesString', 'contributor']
+    static transients = ['categories', 'favouriteForUsers', 'favouriteForUsersString', 'cookingTimeValue', 'totalTimeValue', 'prepTimeValue', 'caloriesString', 'categoriesString', 'contributor', 'imageDir']
     static hasMany = [ingredients: RecipeIngredient, directions: String, recipeCategories: RecipeCategory, nutrients: RecipeNutrient, items: Item]
 
     String getCategoriesString() {

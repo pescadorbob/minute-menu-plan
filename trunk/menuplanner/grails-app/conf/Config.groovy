@@ -46,6 +46,9 @@ grails.logging.jul.usebridge = true
 // packages to include in Spring bean scanning
 grails.spring.bean.packages = []
 imagesRootDir = System.getProperty("java.io.tmpdir") + "/mpImages"
+tempDir = "/tempImages"
+recipesRootDir = "/recipes/"
+usersRootDir = "/users/"
 // set per-environment serverURL stem for creating absolute links
 grails{
     mail {

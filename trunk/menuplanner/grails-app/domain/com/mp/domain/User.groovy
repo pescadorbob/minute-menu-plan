@@ -1,8 +1,11 @@
 package com.mp.domain
 
 import org.grails.comments.Comment
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class User {
+
+    static config = ConfigurationHolder.config
 
     String name
     String email
@@ -18,11 +21,21 @@ class User {
     List<UserType> roles = []
 
     static hasMany = [roles: UserType, favourites: Recipe, contributions: Recipe, menuPlans:MenuPlan]
-    static transients = ['isEnabledString']
+    static transients = ['isEnabledString', 'imageDir']
 
     static User getCurrentUser() {
         Long userId = SessionUtils.session.loggedUserId?.toLong()
         return ((userId) ? User.get(userId) : null)
+    }
+
+    void deleteImage(){
+        Image image = this?.image
+        this.image = null
+        image?.delete(flush: true)
+    }
+
+    String getImageDir(){
+        return (config.imagesRootDir + config.usersRootDir + this?.id + '/')
     }
 
     def getAbusiveCommentsMap() {

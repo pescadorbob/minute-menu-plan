@@ -17,6 +17,21 @@ class Image {
 //        storedName(unique: 'path')
     }
 
+    public static String createTempImage(byte[] fileContents, String extension){
+        String filePath = config.imagesRootDir + config.tempDir
+        String fileName = 'Img_' + System.currentTimeMillis()?.toString() + '.' + extension
+        String path = createImageFile(fileContents, filePath, fileName).absolutePath as String
+        return path
+    }
+
+    public static File createImageFile(byte[] fileContents, String filePath, String fileName){
+        File file = new File(filePath)
+        file.mkdirs()
+        File actualFile = new File(file, fileName)
+        actualFile.withOutputStream {out -> out.write fileContents }
+        return actualFile
+    }
+
     public static Image createFile(Long id, String relativePath, String fileName, byte[] fileContents, String altText) {
         String filePath = config.imagesRootDir + relativePath
         File file = new File(filePath)
@@ -52,5 +67,26 @@ class Image {
         extension = imageFile.name.tokenize('.').tail().join('.')
         path = targetPath
         this.altText = altText
+    }
+
+    //ImageOwner could be a Recipe/User
+    public static boolean updateOwnerImage(def imageOwner, String imagePath){
+        if (!imagePath) {
+            imageOwner.deleteImage()
+            return false
+        } else {
+            File sourceImage = new File(imagePath)
+            String targetImageDirectory = imageOwner.imageDir
+            String extension = sourceImage.name.tokenize('.').tail().join('.')
+            String fileName = imageOwner?.id + '.' + extension
+            String targetImagePath = targetImageDirectory + fileName
+            if (sourceImage.exists() && (imagePath != targetImagePath)) {
+                imageOwner.deleteImage()
+                Image.createImageFile(sourceImage.readBytes(), targetImageDirectory, fileName)
+                imageOwner.image = new Image(imagePath, targetImageDirectory, imageOwner?.id?.toString(), imageOwner.name)
+                imageOwner.image.s()
+            }
+        }
+        return true
     }
 }

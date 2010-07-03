@@ -51,4 +51,11 @@ class ImageController {
             out.close()
         }
     }
+
+    def uploadImage = {
+        String extension = params.Filename.tokenize('.').last()
+        String path = Image.createTempImage(params.Filedata.bytes, extension)
+        render path
+    }
+
 }

@@ -140,22 +140,8 @@ class ExcelService {
         try {
             String bootStrapDirectory = "/bootstrapData/recipeImages/"
             String fileName = recipe?.name.trim() + '.jpg'
-            File sourceImage = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath(bootStrapDirectory + fileName))
-
-            if (sourceImage) {
-                String recipeImageDirectory = config.imagesRootDir + "/recipes/" + recipe?.id + '/'
-                File file = new File(recipeImageDirectory)
-                file.mkdirs()
-                String targetImagePath = recipeImageDirectory + recipe?.id + '.' + sourceImage?.name?.tokenize('.')?.tail()?.join('.')
-                new File(targetImagePath).withOutputStream {out ->
-                    out.write sourceImage.readBytes()
-                }
-                com.mp.domain.Image image = new com.mp.domain.Image(bootStrapDirectory + fileName, recipeImageDirectory, recipe?.id?.toString(), "")
-                recipe.image = image
-                image.s()
-                recipe.s()
-                return true
-            }
+            String absoluteFilePath = ApplicationHolder.application.parentContext.servletContext.getRealPath(bootStrapDirectory + fileName)
+            return com.mp.domain.Image.updateOwnerImage(recipe, absoluteFilePath)
         } catch (ex) {
             return false
         }

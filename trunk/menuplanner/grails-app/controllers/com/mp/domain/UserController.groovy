@@ -144,18 +144,6 @@ class UserController {
         }
         render(view: 'show', model: [user: user, abusiveCommentsMap: abusiveCommentsMap, abusiveRecipesMap: abusiveRecipesMap])
     }
-    def uploadImage = {
-        String relativePath = "/tempUser"
-        def fileContents = params.Filedata.bytes
-        String filePath = config.imagesRootDir + relativePath
-        File file = new File(filePath)
-        file.mkdirs()
-        File actualFile = new File(file, 'Img_' + System.currentTimeMillis()?.toString() + '.' + params.Filename.tokenize('.').tail().join('.'))
-        actualFile.withOutputStream {out ->
-            out.write fileContents
-        }
-        render actualFile.absolutePath as String
-    }
 
     def facebookConnect = {
         String redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true)}"
