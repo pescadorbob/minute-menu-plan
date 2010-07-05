@@ -58,13 +58,17 @@ class MenuplannerTagLib {
         }
     }
 
-    def recipeImage = {attrs ->
+    def image = {attrs ->
         String height = attrs['height']
         String width = attrs['width']
-        String id = attrs['id']
-        String noImage = attrs['noImage']
+        Long id = attrs['id']
+        String noImage = (attrs['noImage']) ? attrs['noImage'] : 'no-img.gif'
         String clas = attrs['class']
-        out << "<img class='${clas}' height='${height}' width='${width}' src='" + createLink(controller: 'image', action: 'image', params: [id: id, noImage: noImage]) + "'/>"
+        if(Image.exists(id)) {
+            out << "<img class='${clas}' height='${height}' width='${width}' src='" + createLink(controller: 'image', action: 'image', params: [id: id]) + "'/>"
+        } else {
+            out << "<img class='${clas}' height='${height}' width='${width}' src='" + createLink(controller: 'image', action: 'imageByPath', params: [noImage: noImage]) + "'/>"
+        }
     }
 
     def getSelectedCategoriesAsJSON = {attrs ->

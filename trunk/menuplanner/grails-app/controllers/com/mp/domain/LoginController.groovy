@@ -17,15 +17,15 @@ class LoginController {
     }
 
     def resetPassword = {
-        User user = User.findByEmail(params.email)
-        if (user) {
+        LoginCredential loginCredential = LoginCredential.findByEmail(params.email)
+        if (loginCredential) {
             String newPassword = UUID?.randomUUID()?.toString()?.split('-')?.getAt(0)
-            user.password = newPassword.encodeAsBase64()
-            user.s()
+            loginCredential.password = newPassword.encodeAsBase64()
+            loginCredential.s()
             asynchronousMailService.sendAsynchronousMail {
-                to user?.email
+                to loginCredential?.email
                 subject "Your password for http://qa.menuplanner.intelligrape.net/ has been reset."
-                html g.render(template: '/login/passwordChangedNotification', model: [user: user, password: newPassword])
+                html g.render(template: '/login/passwordChangedNotification', model: [loginCredential: loginCredential, password: newPassword])
             }
             flash.message = message(code: 'login.password.change.sucessfull')
             render(view: 'forgotPassword', model:[passwordChanged:true])
@@ -42,10 +42,10 @@ class LoginController {
 
     def login = {LoginCO loginCO ->
         if (loginCO.validate()) {
-            User user = User.findByEmailAndPassword(loginCO?.email, loginCO?.password?.encodeAsBase64())
-            if (user) {
-                if (user.isEnabled) {
-                    session.loggedUserId = user.id.toString()
+            LoginCredential loginCredential = LoginCredential.findByEmailAndPassword(loginCO?.email, loginCO?.password?.encodeAsBase64())
+            if (loginCredential) {
+                if (loginCredential.user.isEnabled) {
+                    session.loggedUserId = loginCredential.user.id.toString()
                     if (params.targetUri?.size()) {
                         redirect(uri: params.targetUri)
                         params.remove('targetUri')

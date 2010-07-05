@@ -24,7 +24,7 @@
 
                 <div id="leftpanel">
                     <div id="photo">
-                        <mp:recipeImage id="${user?.image?.id}" noImage="no-img.gif" height="150" width="150"/>
+                        <mp:image id="${user?.image?.id}" height="150" width="150"/>
                     </div>
                     <ul>
                         <li>Member since ${user?.joiningDate?.format('MMMM yyyy')}</li>
@@ -43,7 +43,7 @@
                 </div>
                 <div id="rightpanel">
                     <ul>
-                        <li><span><strong>Email :</strong></span><label>${user?.email}</label></li>
+                        <li><span><strong>Email :</strong></span><label>${user?.loginCredential?.email}</label></li>
                         <li><span><strong>Name :</strong></span><label>${user?.name}</label></li>
                         <li><span><strong>City :</strong></span><label>${user?.city}</label></li>
                         <li><span><strong>Mouths to Feed :</strong></span><label>${user?.mouthsToFeed}</label></li>

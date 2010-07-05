@@ -1,4 +1,4 @@
-Your password for username ${user?.email} has been reset to:<br/>
+Your password for username ${loginCredential?.email} has been reset to:<br/>
 <br/>
 ${password}<br/>
 <br/>

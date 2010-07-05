@@ -200,7 +200,7 @@ class ShoppingListController {
             subject "Your Shopping List : ${shoppingList.name}"
             html g.render(template: '/shoppingList/emailShoppingList', model: [shoppingList: shoppingList])
         }
-        render "Email sent to ${User.currentUser?.email}"
+        render "Email sent to ${emailAddress}"
     }
 
 }

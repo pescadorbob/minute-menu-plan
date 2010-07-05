@@ -71,7 +71,7 @@
               </ul>
             </li>
             <li style="text-align: right;">
-              <mp:recipeImage id="${recipe?.image?.id}" height="160" width="160" noImage="no-img.gif"/><br/>
+              <mp:image id="${recipe?.image?.id}" height="160" width="160"/><br/>
             </li>
           </ul>
         </div>

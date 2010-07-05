@@ -8,16 +8,14 @@ class User {
     static config = ConfigurationHolder.config
 
     String name
-    String email
     Image image
     Integer mouthsToFeed
     String introduction
     String city
     Date joiningDate
-    String password
+    LoginCredential loginCredential = new LoginCredential()
+    FacebookAccount facebookAccount
     Boolean isEnabled = true
-    Long uid                         //for storing user's facebook uid
-    String fbOauthToken              //for storing facebook Oauth Token
     List<UserType> roles = []
 
     static hasMany = [roles: UserType, favourites: Recipe, contributions: Recipe, menuPlans:MenuPlan]
@@ -90,13 +88,12 @@ class User {
     }
 
     static constraints = {
-        email(email: true, unique: true)
         image(nullable: true, blank: true)
-        password(nullable: true, blank: true)
+        city(nullable: true, blank: true)
         mouthsToFeed(nullable: true, blank: true)
-        uid(nullable: true, blank: true)
-        fbOauthToken(nullable: true, blank: true)
+        facebookAccount(nullable: true)
         joiningDate(nullable: true, blank: true)
         introduction(nullable: true, maxSize: 1000)
     }
+
 }
