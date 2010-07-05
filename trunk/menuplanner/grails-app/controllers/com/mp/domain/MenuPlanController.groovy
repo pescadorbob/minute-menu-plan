@@ -94,12 +94,15 @@ class MenuPlanController {
             }
         }
         List<Recipe> results = []
-        String query = allQueries?.join(" ")
+        String query = allQueries?.join(" ")?.tokenize(", ")?.join(" ")
+        if(query.startsWith('[')){
+            query = query.substring(1, query.length()-1)
+        }
         Integer total
 
         if (query && (query != 'null')) {
             Class clazz = grailsApplication.getClassForName(searchDomainName)
-            def searchList = clazz.search([reload: true, max: 4, offset: params.offset ?: 0]) {
+            def searchList = clazz.search([reload: true, max: 4, offset: params.offset ? params.long('offset') : 0]) {
                 must(queryString(query))
             }
             results = searchList?.results

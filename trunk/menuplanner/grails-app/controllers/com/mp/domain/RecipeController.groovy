@@ -53,7 +53,11 @@ class RecipeController {
             }
         }
         List<Recipe> results = []
-        String query = allQueries?.join(" ")
+        String query = allQueries?.join(" ")?.tokenize(", ")?.join(" ")
+        if(query.startsWith('[')){
+            query = query.substring(1, query.length()-1)
+        }
+
         Integer total
         if (query && (query != 'null')) {
             def searchList = Recipe.search([reload: true, max: 15, offset: params.offset ?: 0]) {
