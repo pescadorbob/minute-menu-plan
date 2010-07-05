@@ -13,8 +13,7 @@
         jQuery('#' + fieldName + 'Row').show()
         if (element) {
             jQuery('#' + fieldName + 'Row td:eq(1)').html(jQuery(element).text())
-        } else {
-        }
+        } 
         document.getElementById('searchForm').onsubmit();
         return false;
     }

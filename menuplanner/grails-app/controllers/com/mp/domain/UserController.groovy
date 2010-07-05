@@ -113,8 +113,8 @@ class UserController {
     def update = {UserCO userCO ->
         if (userCO.validate()) {
             userCO.updateUser()
-            String message = message(code: 'user.updateded.success')
-            redirect(action: 'show', id: userCO?.id, params: [message: message])
+            flash.message = message(code: 'user.updateded.success')
+            redirect(action: 'show', id: userCO?.id)
         } else {
             println userCO.errors.allErrors.each {
                 println it

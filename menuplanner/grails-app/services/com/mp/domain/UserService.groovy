@@ -26,8 +26,10 @@ class UserService {
                 String urlString = "https://graph.facebook.com/oauth/access_token?client_id=${config.facebookConnect.apiKey}&redirect_uri=${redirectUrl}&client_secret=${config.facebookConnect.secretKey}&code=${code}"
                 URL url = new URL(urlString)
                 String token = url.getText()
-                user.uid = faceBookToken
-                user.fbOauthToken = (token - "access_token=")
+                FacebookAccount facebookAccount = (user.facebookAccount) ? user.facebookAccount : new FacebookAccount()
+                facebookAccount.uid = faceBookToken
+                facebookAccount.oauthToken = (token - "access_token=")
+                user.facebookAccount = facebookAccount
                 user.s()
                 updateUserPhoto(user)
                 updateUserInfo(user)
@@ -35,22 +37,36 @@ class UserService {
         }
     }
 
+    public void updateProfile(User user){
+        updateUserPhoto(user)
+        updateUserInfo(user)
+    }
+
     private void updateUserPhoto(User user) {
-//        if (user.uid) {
-//            URL imageURL = new URL("http://graph.facebook.com/${user.uid}/picture?type=large")
-//            File file = new File("/tmp/${System.currentTimeMillis()}.jpg").withOutputStream {out ->
-//                imageURL.eachByte {
-//                    out.write it
-//                }
-//            }
-//        }
+        if (user.facebookAccount) {
+            URL imageURL = new URL("http://graph.facebook.com/${user.facebookAccount.uid}/picture?type=large")
+            String filePath = config.tempDir
+            File dirs = new File(filePath)
+            dirs.mkdirs()
+            String fileName = '/Img_' + System.currentTimeMillis()?.toString() + '.jpg'
+            new File(dirs, fileName).withOutputStream {out ->
+                imageURL.eachByte { out.write it }
+            }
+            File imageFile = new File(filePath + fileName)
+            if(imageFile.exists()){
+                Image.updateOwnerImage(user, imageFile.absolutePath)
+            }
+        }
     }
 
     private void updateUserInfo(User user) {
-        if(user.uid && user.fbOauthToken){
-            URL url = new URL("https://graph.facebook.com/${user.uid}?access_token=${user.fbOauthToken}&fields=name")
+        if (user.facebookAccount) {
+            URL url = new URL("https://graph.facebook.com/${user.facebookAccount.uid}?access_token=${user.facebookAccount.oauthToken}&fields=name,location")
             JSONElement response = JSON.parse(url.newReader())
             user.name = response.name
+            if(response?.location?.name){
+                user.city = response?.location?.name
+            }
             user.s()
         }
     }
@@ -82,9 +98,9 @@ class UserCO {
 
     UserCO(User user) {
         id = user?.id?.toString()
-        email = user?.email
-        password = user?.password
-        confirmPassword = user?.password
+        email = user?.loginCredential?.email
+        password = user?.loginCredential?.password
+        confirmPassword = user?.loginCredential?.password
         name = user?.name
         mouthsToFeed = user?.mouthsToFeed
         introduction = user?.introduction
@@ -117,13 +133,13 @@ class UserCO {
 
     public boolean createUser(User user) {
         user?.name = name
-        user?.email = email
+        user?.loginCredential?.email = email
         user?.mouthsToFeed = mouthsToFeed
         user?.introduction = introduction
         user?.city = city
         user.isEnabled = isEnabled
-        if (user?.password != password) {
-            user.password = password.encodeAsBase64()
+        if (user?.loginCredential?.password != password) {
+            user.loginCredential?.password = password.encodeAsBase64()
         }
         return true
     }

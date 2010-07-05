@@ -19,7 +19,7 @@
                 <li>
                     <a href="${createLink(action: 'show', controller: 'user', id: user?.id)}">${user?.name}</a>
                 </li>
-                <li class="email">${user?.email}</li>
+                <li class="email">${user?.loginCredential?.email}</li>
                 %{--<li>2 day ago</li>--}%
                 <li>To Be Implemented</li>
                 <li id="status${user?.id}">${user?.isEnabledString}</li>

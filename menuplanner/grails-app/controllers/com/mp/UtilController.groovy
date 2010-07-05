@@ -1,19 +1,15 @@
 package com.mp
 
 import com.mp.domain.*
+import org.grails.comments.Comment
+import static com.mp.MenuConstants.*
+import org.apache.commons.math.fraction.*
+import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
-
-import org.apache.commons.math.fraction.Fraction
-import org.apache.commons.math.fraction.ProperFractionFormat
 import java.text.FieldPosition
-import org.apache.commons.math.fraction.FractionFormat
 import org.apache.lucene.document.NumberTools
-
 import org.springframework.web.multipart.commons.CommonsMultipartFile
 import java.math.MathContext
-import org.codehaus.groovy.grails.commons.ApplicationHolder
-import static com.mp.MenuConstants.*
-import org.grails.comments.Comment
 
 
 class UtilController {
@@ -31,9 +27,12 @@ class UtilController {
     }
 
     def index = {
-        def data= facebookConnectService.getFacebookClient("5330b05b38e4580d4cc4dca6-728437803").users_getInfo()
+        render "Done"
+    }
 
-        render "Done: " + data
+    def triggerFacebookSync = {
+        FacebookProfileSyncJob.triggerNow()
+        render "Job Triggered"
     }
 
     def test = {

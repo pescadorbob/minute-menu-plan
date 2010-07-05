@@ -67,7 +67,7 @@
                         </ul>
                     </li>
                     <li style="text-align: right;">
-                        <mp:recipeImage id="${recipe?.image?.id}" height="160" width="160" noImage="no-img.gif"/><br/>
+                        <mp:image id="${recipe?.image?.id}" height="160" width="160"/><br/>
                         <g:link controller="user" action="alterFavorite" name="changeFavorite" id="${recipe?.id}">
                             <span id="showFavorite" style="text-align:right;"><mp:showFavorite recipeId="${recipe?.id}"/></span>
                         </g:link> &nbsp;&nbsp;

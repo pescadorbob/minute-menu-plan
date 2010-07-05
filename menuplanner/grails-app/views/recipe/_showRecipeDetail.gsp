@@ -3,7 +3,7 @@
     <li><h3 class="recipeName"><a href="${createLink(action: 'show', controller: 'recipe', id: item?.id)}">${item.name}</a></h3></li>
     <li><ul>
         <li><div class="frame-corner">&nbsp;</div>
-            <mp:recipeImage class="imgbor" id="${item?.image?.id}" noImage="no-img.gif"/>
+            <mp:image class="imgbor" id="${item?.image?.id}"/>
         <li>
             <ul>
                 <li><rateable:ratings bean='${item}' active="false"/></li>

@@ -55,9 +55,9 @@ class BootstrapService {
     public void populateUser(String name) {
         User user = new User()
         Integer intVal = (new Random().nextInt(10) + 1)
-        user.email = 'qa.menuplanner+' + name + '@gmail.com'
         user.name = name
-        user.password = '1234'.encodeAsBase64()
+        LoginCredential loginCredential = new LoginCredential(email: 'qa.menuplanner+' + name + '@gmail.com', password: '1234'.encodeAsBase64())
+        user.loginCredential = loginCredential
         user.city = 'city'
         user.mouthsToFeed = intVal
         List<UserType> roles = []

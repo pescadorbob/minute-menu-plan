@@ -18,7 +18,7 @@ class Image {
     }
 
     public static String createTempImage(byte[] fileContents, String extension){
-        String filePath = config.imagesRootDir + config.tempDir
+        String filePath = config.tempDir
         String fileName = 'Img_' + System.currentTimeMillis()?.toString() + '.' + extension
         String path = createImageFile(fileContents, filePath, fileName).absolutePath as String
         return path

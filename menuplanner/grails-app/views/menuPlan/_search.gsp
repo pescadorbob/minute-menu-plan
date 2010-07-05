@@ -11,6 +11,8 @@
                             name="searchForm"
                             url="[controller:'menuPlan', action:'search']"
                             update="searchResult">
+
+                        <input name="query" type="text" class="inp" value=""/>
                         <span id="searchParams" style="display:none;"></span>
                         <span style="display:none;"><input type="submit"/></span>
                         <g:hiddenField name="searchByDomainName" value="Recipe"/>
