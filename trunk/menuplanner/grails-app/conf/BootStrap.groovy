@@ -80,22 +80,22 @@ class BootStrap {
             File recipeExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath(recipeFileName))
             List<String> recipeLog = excelService.createLineItems(recipeExcelFile)
             println "Populated Recipes"
-            bootstrapService.addCommentsFavouriteAndContributed()
-            println "Added Comments Favourite And Contributed"
-            bootstrapService.addAbusesOnCommentsAndRecipes()
-            println "Added abuses on comments & recipes"
-            List<User> users = User.list()
-            users.each {User user ->
-                bootstrapService.populateMenuPlans(user)
-            }
-            println "Populated Menu Plans"
-            bootstrapService.populateQuickFills(5)
-            println "Populated Quick Fills"
-            List<MenuPlan> menuPlans = MenuPlan.list()
-            menuPlans.each {MenuPlan menuPlan ->
-                bootstrapService.populateShoppingList(menuPlan)
-            }
-            println "Populated Shopping Lists"
+//            bootstrapService.addCommentsFavouriteAndContributed()
+//            println "Added Comments Favourite And Contributed"
+//            bootstrapService.addAbusesOnCommentsAndRecipes()
+//            println "Added abuses on comments & recipes"
+//            List<User> users = User.list()
+//            users.each {User user ->
+//                bootstrapService.populateMenuPlans(user)
+//            }
+//            println "Populated Menu Plans"
+//            bootstrapService.populateQuickFills(5)
+//            println "Populated Quick Fills"
+//            List<MenuPlan> menuPlans = MenuPlan.list()
+//            menuPlans.each {MenuPlan menuPlan ->
+//                bootstrapService.populateShoppingList(menuPlan)
+//            }
+//            println "Populated Shopping Lists"
         }
 
         Thread.start {
