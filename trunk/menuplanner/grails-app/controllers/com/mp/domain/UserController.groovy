@@ -148,7 +148,7 @@ class UserController {
     def facebookConnect = {
         String redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true)}"
         userService.updateUserFromFacebook(redirectUrl, params.code)
-        render "<script type='text/javascript'>window.close()</script>"
+        render "<script type='text/javascript'>window.opener.facebookConnectSucces();window.close();</script>"
     }
 
     def facebookConnectCancel = {
