@@ -11,7 +11,8 @@
     <ul>
         <g:if test="${userCO.id}">
             <li><span>&nbsp;</span>
-                <label><facebook:connect/></label>
+                <label id="mpFacebookConnectButton"><facebook:connect/></label>
+                <label id="mpFacebookConnectSuccess" style="display:none">Your account has been connected with Facebook!!</label>
             </li>
         </g:if>
         <li><span><strong>Email :</strong></span>
@@ -75,3 +76,9 @@
         </g:else>
     </ul>
 </div>
+<script type="text/javascript">
+  function facebookConnectSucces(){
+     $("#mpFacebookConnectButton").hide();
+     $("#mpFacebookConnectSuccess").show();
+  }
+</script>
