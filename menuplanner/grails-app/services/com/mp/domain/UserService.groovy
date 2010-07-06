@@ -19,7 +19,7 @@ class UserService {
         return false
     }
 
-    public void updateUserFromFacebook(String redirectUrl, String code, User user = User.currentUser) {
+    public boolean updateUserFromFacebook(String redirectUrl, String code, User user = User.currentUser) {
         if (code) {
             Long faceBookToken = code.tokenize("-|")[1]?.toLong()
             if (faceBookToken) {
@@ -33,8 +33,10 @@ class UserService {
                 user.s()
                 updateUserPhoto(user)
                 updateUserInfo(user)
+                return true
             }
         }
+        return false
     }
 
     public void updateProfile(User user){

@@ -8,7 +8,7 @@ import static com.mp.MenuConstants.*
 class StandardConversion {
     Unit sourceUnit
     Unit targetUnit
-    Double conversionFactor
+    Float conversionFactor
 
     public static Quantity getQuantityToSave(String amountFraction, Unit displayUnit) {
         Quantity result
@@ -57,5 +57,6 @@ class StandardConversion {
 
 
     static constraints = {
+        conversionFactor(scale:3)
     }
 }

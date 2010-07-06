@@ -77,7 +77,7 @@
     </ul>
 </div>
 <script type="text/javascript">
-  function facebookConnectSucces(){
+  function facebookConnectSuccess(){
      $("#mpFacebookConnectButton").hide();
      $("#mpFacebookConnectSuccess").show();
   }
