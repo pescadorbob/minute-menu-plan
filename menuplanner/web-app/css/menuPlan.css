@@ -38,23 +38,27 @@
 .downArrow{background:#FCFCFC url(../images/arrows.gif) no-repeat scroll right top}
 .menuContainer img:hover { cursor: pointer;}
 .ui-sortable-placeholder {border: 1px dotted black; visibility: visible !important;}
-.ui-sortable-placeholder * {visibility: hidden;}
-.ratingbox{clear:both;font-size:11px;color:#fff; font-family:Arial, Helvetica, sans-serif;  background:#fafaf6;}
-.ratingbox ul li{clear:both; width:205px; padding:3px 4px; margin-top:15px; overflow:hidden;}
-.ratingbox ul li div.frame-corner{height:80px;width:100px;display:block;margin-top:3px;  z-index:10; position:absolute;background:url(../images/frame-corner.png) no-repeat top left;}
-.ratingbox ul li img{margin-top:3px;}
-.ratingbox ul li ul li{margin:0 !important;padding:0 !important; position:relative;border:none}
-.ratingbox ul li ul li h3{padding:0px !important;margin:0px !important;line-height:20px;font-size:12px;border:none}
-.ratingbox ul li ul li h3 a{text-decoration:none;color:#ffffff;}
-.ratingbox ul li ul li ul li{clear:none;float:left;width:100px !important;padding:0;border:none}
-.ratingbox ul li ul li ul li ul li{line-height:12px;margin-left:5px !important;clear:both;border:none}
+.ui-sortable-placeholder * {visibility: hidden;background:#ff0000;}
+.ratingbox{clear:both;font-size:11px;color:#fff; font-family:Arial, Helvetica, sans-serif;}
+.ratingbox ul li{clear:both; width:215px; margin:15px 0 0 0; padding:0px; position:relative;}
+.ratingbox ul li.topcorner {height:4px; padding:0; margin:0; position:absolute;}
+.ratingbox ul li.topcorner img{float:left; margin:0; padding:0;}
+
+.ratingbox ul li div.frame-corner{height:80px;width:100px;display:block;  z-index:10; position:absolute;background:url(../images/frame-corner.png) no-repeat top left;}
+.ratingbox ul li ul{margin:0;padding:0; list-style:none;}
+.ratingbox ul li ul li{margin:0 ;padding:0 ; position:relative;border:none; background:transparent; }
+.ratingbox ul li ul li:hover{ background:transparent; }
+.ratingbox ul li ul li h3{padding:0 5px;margin:0px;line-height:18px;font-size:12px;border:none;background:transparent;}
+.ratingbox ul li ul li h3 a{text-decoration:none;color:#ffffff;background:transparent;}
+.ratingbox ul li ul li ul li{clear:none;float:left;width:100px !important;border:none;background:transparent;}
+.ratingbox ul li ul li ul li:hover{background:transparent;}
+
+.ratingbox ul li ul li ul li ul li{line-height:12px;clear:both;border:none;background:transparent;}
+.ratingbox ul li ul li ul li ul li:hover{background:transparent;}
 .ratingbox ul li:hover div.frame-corner{background-position:0 -80px;}
-.ratingbox ul li.corner{zoom:1;border:0;-moz-border-radius: 3px;
--webkit-border-radius: 3px;border: 0px solid #000; filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr='#1f858f',EndColorstr='#329ba6');background:-webkit-gradient(linear, left top, left bottom, from(#1f858f), to(#329ba6));background:-moz-linear-gradient(top, #1f858f, #329ba6);background:#1f858f;}
-.ratingbox ul li.corner:hover{filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr='#eb9402',EndColorstr='#febb00');background:-webkit-gradient(linear, left top, left bottom, from(#eb9402), to(#febb00));background:-moz-linear-gradient(top, #eb9402, #febb00);background:#eb9402;}
-.ratingbox ul div.outer {background:#fff;padding:0;}
+.ratingbox ul li.corner{ cursor:pointer;background:url(../images/gradient-card-bg.png) repeat-x top left; overflow:hidden;}
+.ratingbox ul li.corner:hover{ background: url('../images/gradient-card-bg-hover.png') repeat-x top left;}
 
           /* background:background:url(../images/frame-corner1.png) no-repeat top left;  */
 .mySelect{height:22px;width:79px;font-size:10px}
 .btn{ background:url(../images/button-bg.png) no-repeat top center; width:102px; font-weight:bold; height:25px; border:none; font-size:11px; color:#fff; padding:0; margin:0; text-decoration:none; text-align:center; line-height:24px; display:inline-block;}
-.roundedCorner {border: 0px solid #187c85;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;behavior: url(border-radius.htc);}
