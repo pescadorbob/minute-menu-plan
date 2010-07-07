@@ -2,18 +2,15 @@ import com.mp.domain.*
 
 class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
 
-//TODO: Pick button to be clicked using Id instead of text.
-
-    void testAddRecipePage() {
-        gotoCreateRecipePage()
-        assertStatus 200
-        assertTitle 'Minute Menu Plan : Add Recipe'
-    }
-
     void testAddRecipe_VALID() {
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginToHomepage(loginFormData)
         CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
+        Integer initialCount = Recipe.count()
         createRecipe(createRecipeData)
+        Integer finalCount = Recipe.count()
         assertStatus 200
+        assertTrue('Add Recipe with valid values is not saved', (finalCount - initialCount == 1))
         assertTrue(
                 (byId('recipeNameTst').asText() == createRecipeData.name) &&
                         (byId('showAllIngredientsHereTst').asText().contains(createRecipeData.productName_1)) &&
@@ -25,9 +22,15 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
     }
 
     void testAddRecipe_VALID_PrepTime_0() {
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginToHomepage(loginFormData)
+        Integer initialCount = Recipe.count()
         CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
         createRecipeData.prepTime = '0'
         createRecipe(createRecipeData)
+        Integer finalCount = Recipe.count()
+        assertStatus 200
+        assertTrue('Add Recipe with valid preparation time is not saved', (finalCount - initialCount == 1))
         assertTrue(
                 (byId('recipeNameTst').asText() == createRecipeData.name) &&
                         (byId('prepAndCookTimesTst').asText().contains('Prep - ' + createRecipeData.prepTime))
@@ -35,11 +38,16 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
     }
 
     void testAddRecipe_ServeWith() {
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginToHomepage(loginFormData)
+        Integer initialCount = Recipe.count()
         CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
         createRecipeData.serveWith_1 = "some Item"
         createRecipeData.serveWith_2 = "another Item"
         createRecipe(createRecipeData)
+        Integer finalCount = Recipe.count()
         assertStatus 200
+        assertTrue('Add Recipe with valid serve items failed to save', (finalCount - initialCount == 1))
         assertTrue(
                 (byId('recipeNameTst').asText() == createRecipeData.name) &&
                         (byId('showServeWithTst').asText().contains(createRecipeData.serveWith_1)) &&
@@ -48,10 +56,15 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
     }
 
     void testAddRecipe_nutrients() {
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginToHomepage(loginFormData)
+        Integer initialCount = Recipe.count()
         CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
         createRecipeData.calories = '100'
         createRecipe(createRecipeData)
+        Integer finalCount = Recipe.count()
         assertStatus 200
+        assertTrue('Add Recipe with valid nutrients is not saved', (finalCount - initialCount == 1))
         assertTrue(
                 (byId('recipeNameTst').asText() == createRecipeData.name) &&
                         (byId('showNutrientsTst').asText().contains(createRecipeData.calories))
@@ -59,9 +72,15 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
     }
 
     void testAddRecipe_VALID_CookTime_0() {
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginToHomepage(loginFormData)
+        Integer initialCount = Recipe.count()
         CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
         createRecipeData.cookTime = '0'
         createRecipe(createRecipeData)
+        Integer finalCount = Recipe.count()
+        assertStatus 200
+        assertTrue('Add Recipe with valid cook time is not saved', (finalCount - initialCount == 1))
         assertTrue(
                 (byId('recipeNameTst').asText() == createRecipeData.name) &&
                         (byId('prepAndCookTimesTst').asText().contains('Cook - ' + createRecipeData.cookTime))
@@ -69,6 +88,9 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
     }
 
     void testAddRecipe_EMPTY_FORM() {
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginToHomepage(loginFormData)
+        Integer initialCount = Recipe.count()
         CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
         createRecipeData.name = ""
         createRecipeData.productName_1 = ""
@@ -77,7 +99,9 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         createRecipeData.serveWith_2 = ""
         createRecipeData.calories = ""
         createRecipe(createRecipeData)
+        Integer finalCount = Recipe.count()
         assertStatus 200
+        assertTrue('Add Recipe empty values still adds a new recipe', (finalCount - initialCount == 0))
         assertTrue(
                 (byId('displayRecipeErrors').asText().contains(getMessage('recipeCO.name.blank.error.name'))) &&
                         (byId('displayRecipeErrors').asText().contains(getMessage('recipeCO.ingredient.not.Provided.message'))) &&
@@ -91,7 +115,7 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         redirectEnabled = false
         followRedirect()
         assertStatus 200
-        assertEquals('Remove from favorite', byId('showFavorite').asText())
+        assertEquals('Add to favorite link did not exist on show recipe page', 'Remove from favorite', byId('showFavorite').asText())
     }
 
     void testRemoveFromFavorite() {
@@ -103,7 +127,7 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         redirectEnabled = false
         followRedirect()
         assertStatus 200
-        assertEquals('Add to favorite', byId('showFavorite').asText())
+        assertEquals('Remove from favorite link does not exist on show recipe page', 'Add to favorite', byId('showFavorite').asText())
     }
 
     void testReportAbuseToRecipe() {
@@ -112,7 +136,7 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         redirectEnabled = false
         followRedirect()
         assertStatus 200
-        assertEquals('Abuse reported', byId('showRecipeAbuseReported').asText())
+        assertEquals('Report abuse to recipe link does not exist on show recipe page', 'Abuse reported', byId('showRecipeAbuseReported').asText())
     }
 
     void testAddComment() {
@@ -149,34 +173,32 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
     void testCancelCreateRecipe() {
         gotoCreateRecipePage()
         byName('_action_list').click()
+        assertStatus 200
         assertTitleContains 'Minute Menu Plan : List Recipe'
     }
 
     void testEditRecipeLink() {
         gotoEditRecipePage()
+        assertStatus 200
         assertTitleContains 'Minute Menu Plan : Edit Recipe'
     }
 
     void testCancelEditRecipe() {
         gotoEditRecipePage()
+        assertStatus 200
         byName('_action_show').click()
+        assertStatus 200
         assertTitleContains 'Minute Menu Plan : Show Recipe'
     }
 
     void testEditRecipe() {
         gotoEditRecipePage()
-        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
-        createRecipeData.name = "Changed Recipe Name"
         form('formEditRecipe') {
-            name = createRecipeData.name
+            name = "Changed Recipe Name"
             click("_action_update")
         }
-        assertElementTextContainsStrict('recipeNameTst', createRecipeData.name)
+        assertElementTextContainsStrict('recipeNameTst', "Changed Recipe Name")
+        assertStatus 200
+        assertTitleContains 'Minute Menu Plan : Show Recipe'
     }
-
-//    void testDeleteRecipe() {
-//        gotoEditRecipePage()
-//        byName('_action_delete').click()
-//        assertElementTextContainsStrict('deleteRecipeFlashMessage', getMessage('recipe.deleted.success'))
-//    }
 }

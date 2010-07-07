@@ -171,7 +171,7 @@ class BootstrapService {
     }
 
     public void populateMenuPlans(User user) {
-        (1..(GrailsUtil.isDevelopmentEnv() ? 1 : 2)).each {Integer i ->
+        (1..((GrailsUtil.environment == 'qa') ? 2 : 1)).each {Integer i ->
             MenuPlan menuPlan = new MenuPlan(name: "${user.name}'s MenuPlan-${i}", owner: user).s()
             menuPlan.weeks = populateWeeks(menuPlan)
             menuPlan.s()

@@ -1,112 +1,186 @@
 import com.mp.domain.*
 
 class ShoppingListFunctionalTests extends MenuPlannerFunctionalTests {
-    void testSomething() {}
 
-    void testCreateShoppingListPage() {
-        goToCreateShoppingListPage()
-        assertContentContains "Shopping List of Parameters"
-        assertContentContains "Name of shopping list"
-        assertContentContains "Choose MenuPlan"
-        assertContentContains "Servings"
-        assertContentContains "Week1"
-        assertContentContains "Week2"
-        assertContentContains "Week3"
-        assertContentContains "Week4"
-    }
-
-    void testGenerateNewShoppingList_Valid_Values() {
-        goToCreateShoppingListPage()
-        ShoppingListFormData shoppingListFormData = ShoppingListFormData.getDefaultShoppingListFormData()
-        createShoppingList(shoppingListFormData)
-        assertContentContains shoppingListFormData.name
-        assertContentContains "Week 1"
-        assertContentContains "Week 2"
-        assertContentContains "Week 3"
-        assertContentContains "Week 4"
-        assertContentContains "Add items to Shopping List"
-    }
-
+    /*
+     * This test validates the creation of shopping list with week-2, week-3, week-4 selected.
+     * It requires at-least one menuplan bootstrapped for the login user.
+     * The test fails if a selected week does not appears on create page / unselected week appears on create page
+     */
     void testGenerateNewShoppingList_Three_Weeks_Selected() {
-        goToCreateShoppingListPage()
+        Integer initialCount = ShoppingList.count()
+        goToGenerateShoppingListPage()
+        assertStatus(200)
         ShoppingListFormData shoppingListFormData = ShoppingListFormData.getDefaultShoppingListFormData()
         createShoppingList_Three_Weeks_Selected(shoppingListFormData)
-        assertContentContains shoppingListFormData.name
-        assertContentContains "Week 2"
-        assertContentContains "Week 3"
-        assertContentContains "Week 4"
-        assertContentContains "Add items to Shopping List"
+        assertStatus(200)
+        Integer finalCount = ShoppingList.count()
+        assertTrue('Generate shopping list created a list', (finalCount - initialCount == 0))
+        assertTitle 'Minute Menu Plan : Shopping List'
+        assertElementTextContains 'shoppingWeek1', 'Week 2'
+        assertElementTextContains 'shoppingWeek2', 'Week 3'
+        assertElementTextContains 'shoppingWeek3', 'Week 4'
+        def week1 = byId('shoppingWeek0')
+        def week2 = byId('shoppingWeek1')
+        def week3 = byId('shoppingWeek2')
+        def week4 = byId('shoppingWeek3')
+        if (week1) {
+            fail('Unexpected element found on page')
+        }
+        if (!(week2 && week3 && week4)) {
+            fail('Expected element not found on page')
+        }
     }
 
-    void testGenerateNewShoppingList_All_Blank_Fields() {
-        goToCreateShoppingListPage()
+    /*
+     * This test validates the generation of shopping list with all text fields blank.
+     * The test fails if form validation doesn't works
+     */
+    void testGenerateNewShoppingList_Blank_Text_Fields() {
+        Integer initialCount = ShoppingList.count()
+        goToGenerateShoppingListPage()
         createShoppingList_All_Fields_Blank()
+        assertTitle('Minute Menu Plan : Generate Shopping List')
+        assertStatus(200)
+        Integer finalCount = ShoppingList.count()
+        assertTrue('Generate shopping list with blank fields created a shopping list', (finalCount - initialCount == 0))
         assertTrue(
                 (byId('errorsDiv').asText().contains(getMessage('printShoppingListCO.servings.blank.servings'))) &&
                         (byId('errorsDiv').asText().contains(getMessage('printShoppingListCO.name.blank.error.com.mp.domain.PrintShoppingListCO.name')))
         )
-
     }
 
+    /*
+    * This test validates the generation of shopping list with all name field blank.
+    * The test fails if validation for name field doesn't work
+    */
+
     void testGenerateNewShoppingList_Blank_Name() {
-        goToCreateShoppingListPage()
+        Integer initialCount = ShoppingList.count()
+        goToGenerateShoppingListPage()
         ShoppingListFormData shoppingListFormData = ShoppingListFormData.getDefaultShoppingListFormData()
         shoppingListFormData.name = ""
         createShoppingList(shoppingListFormData)
+        assertTitle('Minute Menu Plan : Generate Shopping List')
+        assertStatus(200)
+        Integer finalCount = ShoppingList.count()
+        assertTrue('Generate shopping list with blank name created a shopping list', (finalCount - initialCount == 0))
         assertTrue(byId('errorsDiv').asText().contains(getMessage('printShoppingListCO.name.blank.error.com.mp.domain.PrintShoppingListCO.name')))
     }
 
+    /*
+        * This test validates the generation of shopping list with all weeks unchecked.
+        * The test fails if validation for weeks doesn't work
+        */
+
     void testGenerateNewShoppingList_Blank_Weeks() {
-        goToCreateShoppingListPage()
+        Integer initialCount = ShoppingList.count()
+        goToGenerateShoppingListPage()
         ShoppingListFormData shoppingListFormData = ShoppingListFormData.getDefaultShoppingListFormData()
         createShoppingList_Blank_Weeks(shoppingListFormData)
-        //TODO: Implement blank validation on weeks
-//        assertTrue(byId('errorsDiv').asText().contains(getMessage('printShoppingListCO.weeks.nullable.error.weeks')))
+        assertTitle('Minute Menu Plan : Generate Shopping List')
+        assertStatus(200)
+        Integer finalCount = ShoppingList.count()
+        assertTrue('Generate shopping list with blank weeks created a shopping list', (finalCount - initialCount == 0))
+        assertTrue(byId('errorsDiv').asText().contains(getMessage('printShoppingListCO.weeks.nullable.error.weeks')))
     }
 
+    /*
+        * This test validates the generation of shopping list with servings field left blank.
+        * The test fails if validation for servings field doesn't work
+        */
+
     void testGenerateNewShoppingList_Blank_Servings() {
-        goToCreateShoppingListPage()
+        Integer initialCount = ShoppingList.count()
+        goToGenerateShoppingListPage()
         ShoppingListFormData shoppingListFormData = ShoppingListFormData.getDefaultShoppingListFormData()
         shoppingListFormData.servings = ""
         createShoppingList(shoppingListFormData)
+        assertTitle('Minute Menu Plan : Generate Shopping List')
+        assertStatus(200)
+        Integer finalCount = ShoppingList.count()
+        assertTrue('Generate shopping list with blank servings created a shopping list', (finalCount - initialCount == 0))
         assertTrue(byId('errorsDiv').asText().contains(getMessage('printShoppingListCO.servings.blank.servings')))
     }
 
+    /*
+        * This test validates the generation of shopping list with servings field provided with invalid values i.e non-integers.
+        * The test fails if exception occurs if servings is entered as string
+        */
+
     void testGenerateNewShoppingList_Invalid_Servings_Value() {
-        goToCreateShoppingListPage()
+        Integer initialCount = ShoppingList.count()
+        goToGenerateShoppingListPage()
         ShoppingListFormData shoppingListFormData = ShoppingListFormData.getDefaultShoppingListFormData()
         shoppingListFormData.servings = "abcd"
         createShoppingList(shoppingListFormData)
+        assertTitle('Minute Menu Plan : Generate Shopping List')
+        assertStatus(200)
+        Integer finalCount = ShoppingList.count()
+        assertTrue('Generate shopping list with invalid servings value created a shopping list', (finalCount - initialCount == 0))
         assertTrue(byId('errorsDiv').asText().contains(getMessage('printShoppingListCO.servings.matches.error.servings')))
     }
 
-    void testGenerateShoppingList_AddItem() {
-        goToCreateShoppingListPage()
-        ShoppingListFormData shoppingListFormData = ShoppingListFormData.getDefaultShoppingListFormData()
-        createShoppingList(shoppingListFormData)
-        assertContentContains shoppingListFormData.name
-        byId('aisleList_0').getOption(6).getValueAttribute()
-        byId('addItemTxt_0').setValue("Functional Test Item")
-        byId('addItemBtn_0').click()
-    }
+    /*
+        * This test validates the creation of shopping list with a new item added to list.
+        * The test fails if new item is not added to the shopping List.
+        */
 
-    void testCreateShoppingList() {
-        goToCreateShoppingListPage()
+    void testCreateShoppingList_AddItem() {
+        goToGenerateShoppingListPage()
         ShoppingListFormData shoppingListFormData = ShoppingListFormData.getDefaultShoppingListFormData()
         createShoppingList(shoppingListFormData)
-        assertContentContains shoppingListFormData.name
-        assertContentContains "Add items to Shopping List"
+        assertTitle 'Minute Menu Plan : Shopping List'
+        String itemText = "Functional Test Item=${System.currentTimeMillis()}"
+        byId('aisleList_0').getOption(6).getValueAttribute()
+        byId('addItemTxt_0').setValue(itemText)
+        byId('addItemBtn_0').click()
+        assertElementTextContains('shoppingWeek0', itemText)
+    }
+    /*
+    * This test validates the addition of item in shopping list during creation of shopping list.
+    * The test fails if added item is not saved in the shopping list.
+    */
+
+    void testCreateShoppingList_AddItem_And_Save() {
+        Integer initialCount = ShoppingList.count()
+        goToGenerateShoppingListPage()
+        ShoppingListFormData shoppingListFormData = ShoppingListFormData.getDefaultShoppingListFormData()
+        createShoppingList(shoppingListFormData)
+        assertTitle 'Minute Menu Plan : Shopping List'
+        String itemText = "Functional Test Item=${System.currentTimeMillis()}"
+        byId('aisleList_0').getOption(6).getValueAttribute()
+        byId('addItemTxt_0').setValue(itemText)
+        byId('addItemBtn_0').click()
         def saveShoppingListButton = byName('_action_save')
         saveShoppingListButton.click()
-        get('/shoppingList/show/1')
-        assertContentContains "Week 1"
-        assertContentContains "Week 2"
-        assertContentContains "Week 3"
-        assertContentContains "Week 4"
-        assertContentContains "snacks"
-        assertContentContains "condiments"
-        assertContentContains "canned foods"
-        assertContentContains "Print Shopping List"
-        assertContentContains "Email the Shopping List"
+        redirectEnabled = false
+        followRedirect()
+        assertTitle 'Minute Menu Plan : Show Shopping List'
+        assertContentContains(itemText)
+        assertStatus(200)
+        Integer finalCount = ShoppingList.count()
+        assertTrue('Create shopping list unables to create a new shopping list', (finalCount - initialCount == 1))
+    }
+
+    /*
+    * This test validates the creation of shopping list with default items provided by menuplan.
+    * The test fails if shopping list is not created.
+    */
+
+    void testCreateShoppingList_Default_Values() {
+        Integer initialCount = ShoppingList.count()
+        goToGenerateShoppingListPage()
+        ShoppingListFormData shoppingListFormData = ShoppingListFormData.getDefaultShoppingListFormData()
+        createShoppingList(shoppingListFormData)
+        assertTitle 'Minute Menu Plan : Shopping List'
+        def saveShoppingListButton = byName('_action_save')
+        saveShoppingListButton.click()
+        redirectEnabled = false
+        followRedirect()
+        assertTitle 'Minute Menu Plan : Show Shopping List'
+        assertStatus(200)
+        Integer finalCount = ShoppingList.count()
+        assertTrue('Create shopping list unables to create a new shopping list', (finalCount - initialCount == 1))
     }
 }
