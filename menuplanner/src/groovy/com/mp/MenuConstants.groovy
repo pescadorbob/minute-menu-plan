@@ -8,7 +8,7 @@ class MenuConstants {
 
     public static final String TIME_UNIT_HOURS = "Hours"
     public static final String TIME_UNIT_HOURS_SYMBOL = "hrs"
-    public static final Float TIME_UNIT_MINUTES_TO_MINUTES_CONVERSION_FACTOR = 1.0
+    public static final Float TIME_UNIT_MINUTES_TO_MINUTES_CONVERSION_FACTOR = 1
 
     public static final String TIME_UNIT_MINUTES = "Minutes"
     public static final String TIME_UNIT_MINUTES_SYMBOL = "mins"
@@ -28,39 +28,35 @@ class MenuConstants {
 
     public static final String UNIT_FLUID_OUNCE = "Fluid Ounce"
     public static final String UNIT_FLUID_OUNCE_SYMBOL = "fl.oz."
-    public static final Float UNIT_FLUID_OUNCE_CONVERSION_FACTOR = (2 * UNIT_TEA_SPOON_CONVERSION_FACTOR)
+    public static final Float UNIT_FLUID_OUNCE_CONVERSION_FACTOR = (2 * UNIT_TABLE_SPOON_CONVERSION_FACTOR)
 
     public static final String UNIT_JIGGER = "Jigger"
     public static final String UNIT_JIGGER_SYMBOL = "shots"
-    public static final Float UNIT_JIGGER_CONVERSION_FACTOR = 44.36
+    public static final Float UNIT_JIGGER_CONVERSION_FACTOR = (3 * UNIT_TABLE_SPOON_CONVERSION_FACTOR)
 
     public static final String UNIT_GILL = "gill"
     public static final String UNIT_GILL_SYMBOL = "gi."
-    public static final Float UNIT_GILL_CONVERSION_FACTOR = 118.29
+    public static final Float UNIT_GILL_CONVERSION_FACTOR = (4 * UNIT_FLUID_OUNCE_CONVERSION_FACTOR)
 
     public static final String UNIT_CUP = "Cup"
     public static final String UNIT_CUP_SYMBOL = "c"
-    public static final Float UNIT_CUP_CONVERSION_FACTOR = (16 * UNIT_TABLE_SPOON_CONVERSION_FACTOR)
-
-    public static final String UNIT_PINT = "Pint"
-    public static final String UNIT_PINT_SYMBOL = "pt."
-    public static final Float UNIT_PINT_CONVERSION_FACTOR = 473.18
-
-    public static final String UNIT_FIFTH = "Fifth"
-    public static final String UNIT_FIFTH_SYMBOL = "fifth"
-    public static final Float UNIT_FIFTH_CONVERSION_FACTOR = 750
-
-    public static final String UNIT_QUART = "Quart"
-    public static final String UNIT_QUART_SYMBOL = "qt."
-    public static final Float UNIT_QUART_CONVERSION_FACTOR = 946.35
-
-    public static final String UNIT_GALLON = "Gallon"
-    public static final String UNIT_GALLON_SYMBOL = "gal."
-    public static final Float UNIT_GALLON_CONVERSION_FACTOR = 3785.41
+    public static final Float UNIT_CUP_CONVERSION_FACTOR = (2 * UNIT_GILL_CONVERSION_FACTOR)
 
     public static final String UNIT_POUND = "Pound"
     public static final String UNIT_POUND_SYMBOL = "lb."
-    public static final Float UNIT_POUND_CONVERSION_FACTOR = 453592.37
+    public static final Float UNIT_POUND_CONVERSION_FACTOR = (2 * UNIT_CUP_CONVERSION_FACTOR)
+
+    public static final String UNIT_FIFTH = "Fifth"
+    public static final String UNIT_FIFTH_SYMBOL = "fifth"
+    public static final Float UNIT_FIFTH_CONVERSION_FACTOR = (1.6 * UNIT_POUND_CONVERSION_FACTOR)
+
+    public static final String UNIT_QUART = "Quart"
+    public static final String UNIT_QUART_SYMBOL = "qt."
+    public static final Float UNIT_QUART_CONVERSION_FACTOR = (2 * UNIT_POUND_CONVERSION_FACTOR)
+
+    public static final String UNIT_GALLON = "Gallon"
+    public static final String UNIT_GALLON_SYMBOL = "gal."
+    public static final Float UNIT_GALLON_CONVERSION_FACTOR = (4 * UNIT_QUART_CONVERSION_FACTOR)
 
     public static final String UNIT_CAN = "Can"
     public static final String UNIT_CAN_SYMBOL = "can"
@@ -68,7 +64,7 @@ class MenuConstants {
 
     public static final String UNIT_8_CAN = "8 Can"
     public static final String UNIT_8_CAN_SYMBOL = "8 can"
-    public static final Float UNIT_8_CAN_CONVERSION_FACTOR = 306620.0 * 8
+    public static final Float UNIT_8_CAN_CONVERSION_FACTOR = (8 * UNIT_CAN_CONVERSION_FACTOR)
 
     public static final String UNIT_10_3_4_OUNCE_CAN = "10 3/4 Ounce can"
     public static final String UNIT_10_3_4_OUNCE_CAN_SYMBOL = "10 3/4 oz. can"
@@ -94,29 +90,25 @@ class MenuConstants {
     public static final String UNIT_20_OUNCE_PACKAGE_SYMBOL = "20 oz. package"
     public static final Float UNIT_20_OUNCE_PACKAGE_CONVERSION_FACTOR = 566992.0
 
-    public static final String UNIT_OUNCE = "Ounce"
-    public static final String UNIT_OUNCE_SYMBOL = "oz."
-    public static final Float UNIT_OUNCE_CONVERSION_FACTOR = 28349.52
-
     public static final String UNIT_MILLI_LITRE = "Milli Litre"
     public static final String UNIT_MILLI_LITRE_SYMBOL = "mL"
-    public static final Float UNIT_MILLI_LITRE_CONVERSION_FACTOR = 1.0
+    public static final Float UNIT_MILLI_LITRE_CONVERSION_FACTOR = 1
 
     public static final String UNIT_MILLI_GRAM = "Milli Grams"
     public static final String UNIT_MILLI_GRAM_SYMBOL = "mg."
-    public static final Float UNIT_MILLI_GRAM_CONVERSION_FACTOR = 1.0
+    public static final Float UNIT_MILLI_GRAM_CONVERSION_FACTOR = 1
 
     public static final String UNIT_GRAM = "Grams"
     public static final String UNIT_GRAM_SYMBOL = "g."
-    public static final Float UNIT_GRAM_CONVERSION_FACTOR = 1000.0
+    public static final Float UNIT_GRAM_CONVERSION_FACTOR = 1000
 
     public static final String UNIT_KILO_GRAM = "Kilo Grams"
     public static final String UNIT_KILO_GRAM_SYMBOL = "Kg."
-    public static final Float UNIT_KILO_GRAM_CONVERSION_FACTOR = 1000000.0
+    public static final Float UNIT_KILO_GRAM_CONVERSION_FACTOR = 1000000
 
     public static final String UNIT_CALORIES = "Calories"
     public static final String UNIT_CALORIES_SYMBOL = "cal."
-    public static final Float UNIT_CALORIES_CONVERSION_FACTOR = 1.0
+    public static final Float UNIT_CALORIES_CONVERSION_FACTOR = 1
 
     public static final String NUTRIENT_CALORIES = "Calories"
     public static final String NUTRIENT_TOTAL_FAT = "Total Fat"

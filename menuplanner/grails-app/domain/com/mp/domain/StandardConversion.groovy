@@ -55,8 +55,8 @@ class StandardConversion {
         return result
     }
 
+    static mapping = {
+          conversionFactor (sqlType:'numeric(20, 10)')
+       }
 
-    static constraints = {
-        conversionFactor(scale:3)
-    }
 }

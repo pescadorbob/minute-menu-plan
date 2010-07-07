@@ -75,7 +75,7 @@ class ShoppingListService {
                 similarIngredients.each {RecipeIngredient similarIngredient ->
                     total = (total == null) ? similarIngredient.quantity : Quantity.add(total, similarIngredient.quantity)
                 }
-                ShoppingIngredient shoppingIngredient = new ShoppingIngredient(name: "${(total)? total.toCeilString() + ' ': ''}" + differentIngredient.name, aisle: (aisle?.id) ? aisle : null)
+                ShoppingIngredient shoppingIngredient = new ShoppingIngredient(name: "${(total)? total.toBiggestUnitString() + ' ': ''}" + differentIngredient.name, aisle: (aisle?.id) ? aisle : null)
                 productListForWeek.add(shoppingIngredient)
             }
         }
@@ -102,7 +102,6 @@ class ShoppingListService {
                         } else {
                             if (subRecipeIngredient.quantity) {ingredients.add(subRecipeIngredient)}
                         }
-
                     }
                 } else {
                     if (recipeIngredient.quantity) {ingredients.add(recipeIngredient)}
