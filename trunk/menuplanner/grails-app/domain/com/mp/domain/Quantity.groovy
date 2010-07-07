@@ -16,15 +16,6 @@ class Quantity {
         return result.trim()
     }
 
-    String toCeilString() {
-        String amount
-        String result
-        amount = StandardConversion.getQuantityValueString(this)
-        amount = amount ? new Fraction(Math.ceil(new Fraction(amount).toFloat())) : ''
-        result = "${amount}${unit ? (' ' + unit?.symbol) : ''}"
-        return result.trim()
-    }
-
     static constraints = {
         value(nullable: true, blank: true)
         unit(nullable: true, blank: true)
@@ -32,6 +23,10 @@ class Quantity {
     }
 
 //TODO: Make it generic unit conversion method add(q1, q2).
+
+    static mapping = {
+        value(sqlType: 'numeric(25, 10)')
+    }
 
     public static Quantity addTime(Quantity q1, Quantity q2) {
         Quantity sum = new Quantity()
@@ -81,5 +76,21 @@ class Quantity {
             resultantQuantity?.unit = displayUnit
         }
         return resultantQuantity
+    }
+
+    public String toBiggestUnitString() {
+//        print "Input/Output:   " + toString()
+        String finalString = ''
+        if (!value) {return finalString}
+
+        StandardConversion standardConversion = StandardConversion.findByTargetUnitAndConversionFactorLessThanEquals(savedUnit, value, [sort: 'conversionFactor', order: 'desc'])
+        if (standardConversion) {
+            Fraction f3 = new Fraction((value.toFloat() / standardConversion.conversionFactor.toFloat()))
+            finalString = (f3.myFormatUsingProperFractionFormat() + " " + standardConversion.sourceUnit)
+        } else {
+            finalString = toString()
+        }
+//        println "           ---           " + finalString
+        return finalString
     }
 }

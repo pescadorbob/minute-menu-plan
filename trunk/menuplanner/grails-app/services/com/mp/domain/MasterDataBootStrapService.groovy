@@ -93,11 +93,6 @@ class MasterDataBootStrapService implements ApplicationContextAware {
         cup.s()
         new StandardConversion(sourceUnit: cup, targetUnit: milliLitres, conversionFactor: UNIT_CUP_CONVERSION_FACTOR).s()
 
-        Unit pint = new Unit(name: UNIT_PINT, symbol: UNIT_PINT_SYMBOL, definition: "This is definition for Pint", metricType: MetricType.METRIC)
-        pint.addToSystemOfUnits(systemOfUnitsUsa)
-        pint.s()
-        new StandardConversion(sourceUnit: pint, targetUnit: milliLitres, conversionFactor: UNIT_PINT_CONVERSION_FACTOR).s()
-
         Unit fifth = new Unit(name: UNIT_FIFTH, symbol: UNIT_FLUID_OUNCE_SYMBOL, definition: "This is definition for fifth", metricType: MetricType.METRIC)
         fifth.addToSystemOfUnits(systemOfUnitsUsa)
         fifth.s()
@@ -157,11 +152,6 @@ class MasterDataBootStrapService implements ApplicationContextAware {
         ounce_20.addToSystemOfUnits(systemOfUnitsUsa)
         ounce_20.s()
         new StandardConversion(sourceUnit: ounce_20, targetUnit: milliLitres, conversionFactor: UNIT_20_OUNCE_PACKAGE_CONVERSION_FACTOR).s()
-
-        Unit ounce = new Unit(name: UNIT_OUNCE, symbol: UNIT_OUNCE_SYMBOL, definition: "This is definition for Ounce", metricType: MetricType.METRIC)
-        ounce.addToSystemOfUnits(systemOfUnitsUsa)
-        ounce.s()
-        new StandardConversion(sourceUnit: ounce, targetUnit: milliLitres, conversionFactor: UNIT_OUNCE_CONVERSION_FACTOR).s()
 
         /* POPULATEING CALORY UNIT: */
         Unit calories = new Unit(name: UNIT_CALORIES, symbol: UNIT_CALORIES_SYMBOL, definition: "This is definition for calories", metricType: MetricType.METRIC)

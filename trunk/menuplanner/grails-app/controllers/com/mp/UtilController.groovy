@@ -1,16 +1,14 @@
 package com.mp
 
 import com.mp.domain.*
-import org.grails.comments.Comment
+
 import static com.mp.MenuConstants.*
 import org.apache.commons.math.fraction.*
-import org.codehaus.groovy.grails.commons.ApplicationHolder
+
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import java.text.FieldPosition
-import org.apache.lucene.document.NumberTools
-import org.springframework.web.multipart.commons.CommonsMultipartFile
-import java.math.MathContext
 
+import org.springframework.web.multipart.commons.CommonsMultipartFile
 
 class UtilController {
     def excelService
@@ -26,47 +24,8 @@ class UtilController {
         render "All recipes deleted!!"
     }
 
-    Quantity doSomething(Quantity q1){
-        StandardConversion x = StandardConversion.get(8)
-        Quantity q2 = new Quantity(value: (3*x.conversionFactor), unit: Unit.get(8), savedUnit: q1.savedUnit).s()
-        Quantity q3 = Quantity.get(q2.id)
-        Float float2 = q2.value.round(3)
-        println "Value 3: " + float2
-        StandardConversion standardConversion = StandardConversion.findByTargetUnitAndConversionFactorLessThanEquals(q2.savedUnit, float2, [sort: 'conversionFactor', order: 'desc'])
-        println "Standard Conversion: ${standardConversion.id}, ${standardConversion.sourceUnit}"
-        Fraction f1 = new Fraction(float2)
-        Fraction f2 = new Fraction(standardConversion.conversionFactor)
-        Fraction f3 = f1.divide(f2)
-        println "F1: " + f1
-        println "F2: " + f2
-        println "New Value: " + f3 + " " + standardConversion.sourceUnit
-        println "F3: " + f3 + "  =  " + new Fraction(f3.toFloat().round(2))
-        println "F3: " + f3 + "  =  " + new Fraction((float2 / standardConversion.conversionFactor).round(2))
-        return q2
-
-        
-
-
-//        println "********* " + x.conversionFactor
-
-
-
-//        def y = StandardConversion.findByConversionFactorLessThanEquals(x.conversionFactor, [sort: 'conversionFactor', order: 'desc'])
-//        def y = StandardConversion.list().find{it.conversionFactor == x.conversionFactor}
-//        println "**y: " + y
-
-
-
-
-
-
-
-        return q1
-    }
-
     def index = {
-        Quantity quantity = Quantity.get(16)
-        render "Quantity: ${doSomething(quantity)}"
+        render "success"
     }
 
     def triggerFacebookSync = {
