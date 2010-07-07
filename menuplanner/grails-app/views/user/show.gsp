@@ -79,8 +79,8 @@
                                 <g:each in="${abusiveRecipesMap?.keySet()}" var="abusiveRecipe">
                                     <li>${abusiveRecipe?.dateCreated?.format('M/d/yy')} &nbsp;<g:link controller="recipe" action="show" id="${abusiveRecipe?.id}" onclick="return confirm('Remove Abuse?');">${abusiveRecipe.name}</g:link>&nbsp;(Abuse Reported ${abusiveRecipesMap[abusiveRecipe]} Times)&nbsp;&nbsp;
                                     <g:if test="${permission.hasPermission(permission: Permission.REMOVE_RECIPE_ABUSE)}">
-                                    <g:link controller="recipe" action="removeRecipeAbuse" id="${abusiveRecipe.id}" params="[userId:user?.id]">Remove</g:link>
-                                        </g:if>
+                                        <g:link controller="recipe" action="removeRecipeAbuse" id="${abusiveRecipe.id}" params="[userId:user?.id]">Remove</g:link>
+                                    </g:if>
                                     </li>
                                 </g:each>
                                 <g:each in="${abusiveCommentsMap?.keySet()}" var="abusiveComment">
@@ -94,11 +94,11 @@
                     </div>
                 </div>
                 <div id="button">
-                    <g:uploadForm name="formUserDetail">
+                    <g:form name="formUserDetail">
                         <g:hiddenField name='id' value='${user?.id}'/>
-                        <g:actionSubmit class='button' controller='user' action='edit' id='${user?.id}' value='Edit Profile' name='edit'/>
-                        <g:actionSubmit class='button' controller='user' action='delete' id='${user?.id}' value='Delete User' name='delete' onclick="return confirm('Are you sure?');"/>
-                    </g:uploadForm>
+                        <g:actionSubmit class='button editUserButtonFT' controller='user' action='edit' id='${user?.id}' value='Edit Profile'/>
+                        <g:actionSubmit class='button' controller='user' action='delete' id='${user?.id}' value='Delete User' onclick="return confirm('Are you sure?');"/>
+                    </g:form>
                 </div>
             </div>
             <div class="bottom-shadow">

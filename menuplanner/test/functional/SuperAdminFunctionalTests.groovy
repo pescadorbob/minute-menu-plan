@@ -5,51 +5,28 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
 
     void goToAccountsPage() {
         loginBySuperAdmin()
-        get('/user/list')
+        byClass('accountsLink').click()
     }
 
     void testSuperAdminLogin() {
         loginBySuperAdmin()
-        get('/recipe/list')
-        assertContentContains 'Hi! superAdmin'
-        assertElementTextContains 'navigation', 'Hi! superAdmin'
+        assertElementTextContains 'navigation', 'superAdmin'
+        assertTitle 'Minute Menu Plan : List Recipe'
         logout()
     }
 
-    void testSuperAdmin_Accounts() {
+    void testSuperAdmin_AccountsLink() {
         goToAccountsPage()
-        assertContentContains 'Accounts :'
-        assertContentContains 'Filter Name :'
-        assertContentContains 'Enabled'
-        assertContentContains 'Disabled'
-        assertContentContains 'Flagged'
-        logout()
-    }
-
-    void testSuperAdmin_UserList() {
-        goToAccountsPage()
-        def superAdminName = byId('userlist').getFirstChild().getFirstChild().getNextSibling().getFirstChild().getFirstChild().getFirstChild().getTextContent()
-        assertEquals('superAdmin', superAdminName)
-        def superAdminEmail = byId('userlist').getFirstChild().getFirstChild().getNextSibling().getFirstChild().getFirstChild().getNextSibling().getTextContent()
-        assertEquals(SUPER_ADMIN, superAdminEmail)
+        assertTitle 'Minute Menu Plan : User List'
         logout()
     }
 
     void testSuperAdmin_AddUserLink() {
         goToAccountsPage()
-        def addUserLink = byName('_action_create')
+        assertTitle 'Minute Menu Plan : User List'
+        def addUserLink = byClass('addUserButtonFT')
         addUserLink.click()
-        assertContentContains 'Admin Profile Add'
-        assertContentContains 'Email'
-        assertContentContains 'Password'
-        assertContentContains 'Confirm Password '
-        assertContentContains 'Name'
-        assertContentContains 'City'
-        assertContentContains 'Mouths to Feed '
-        assertContentContains 'Something about yourself :'
-        assertContentContains 'Minimum 4 characters'
-        assertContentContains 'Public name displayed on recipes'
-        assertContentContains 'City displayed on recipes'
+        assertTitle 'Minute Menu Plan : Add User'
         logout()
     }
 }

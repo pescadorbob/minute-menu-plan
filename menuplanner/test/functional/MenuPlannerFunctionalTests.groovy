@@ -17,7 +17,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
 
     void testSomething() {}
 
-    void userLogin(LoginFormData loginFormData) {
+    void login(LoginFormData loginFormData) {
         get("/login/index")
         form('loginForm') {
             email = loginFormData.email
@@ -26,14 +26,21 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
         }
     }
 
+    void loginToHomepage(LoginFormData loginFormData) {
+        login(loginFormData)
+        get('/recipe/list')
+    }
+
     void logout() {
         def logoutLink = byClass('logoutLink')
         logoutLink.click()
     }
 
+    /*
+    *  Helper method to create a new recipe
+    */
+
     void createRecipe(CreateRecipeData createRecipeData) {
-        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
-        userLogin(loginFormData)
         get("/recipe/create")
         form('formCreateRecipe') {
             name = createRecipeData.name
@@ -50,6 +57,10 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
             click("_action_save")
         }
     }
+
+    /*
+    *  Helper method to create a new user
+    */
 
     void createUser(UserFormData userFormData) {
         get("/user/create")
@@ -70,10 +81,14 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
         }
     }
 
+    /*
+    *  Helper method to create a new shopping list
+    */
+
     void createShoppingList(ShoppingListFormData shoppingListFormData) {
         form('formShoppingList') {
             name = shoppingListFormData.name
-            menuPlanId = byId('menuPlanId').getOption(1).getValueAttribute()
+            menuPlanId = byId('menuPlanId').getOption(0).getValueAttribute()
             servings = shoppingListFormData.servings
             //selecting all weeks  i.e. week-1, week-2, week-3 and week-4
             click('_action_create')
@@ -83,10 +98,10 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
     void createShoppingList_Three_Weeks_Selected(ShoppingListFormData shoppingListFormData) {
         form('formShoppingList') {
             name = shoppingListFormData.name
-            menuPlanId = byId('menuPlanId').getOption(1).getValueAttribute()
+            menuPlanId = byId('menuPlanId').getOption(0).getValueAttribute()
             servings = shoppingListFormData.servings
-            //selecting week-1
-            byId('formShoppingList').getFirstChild().getNextSibling().getNextSibling().getNextSibling().getFirstChild().getFirstChild().click()
+            //unchecking week-1
+            byClass('shoppingWeekFT_1').click()
             click('_action_create')
         }
     }
@@ -102,55 +117,90 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
     void createShoppingList_Blank_Weeks(ShoppingListFormData shoppingListFormData) {
         form('formShoppingList') {
             name = shoppingListFormData.name
-            menuPlanId = byId('menuPlanId').getOption(1).getValueAttribute()
+            menuPlanId = byId('menuPlanId').getOption(0).getValueAttribute()
             servings = shoppingListFormData.servings
-            byId('formShoppingList').getFirstChild().getNextSibling().getNextSibling().getNextSibling().getChildren().each {
-                def checkbox = it.getFirstChild()
-                checkbox.click()
-            }
+            /*       Unchecking all weeks   */
+            byClass('shoppingWeekFT_1').click()
+            byClass('shoppingWeekFT_2').click()
+            byClass('shoppingWeekFT_3').click()
+            byClass('shoppingWeekFT_4').click()
             click('_action_create')
         }
     }
+
+    /*
+    *  Helper method to login using superadmin userId and password
+    */
 
     void loginBySuperAdmin() {
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
         loginFormData.email = SUPER_ADMIN
         loginFormData.password = USER_PASSWORD
-        userLogin(loginFormData)
+        loginToHomepage(loginFormData)
     }
+
+    /*
+    *  Helper method to go directly on create recipe page
+    */
 
     void gotoCreateRecipePage() {
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
-        userLogin(loginFormData)
+        loginToHomepage(loginFormData)
         get('/recipe/create')
     }
 
+    /*
+    *  Helper method to create a new recipe and go to its show page
+    */
+
     void gotoShowRecipePage() {
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginToHomepage(loginFormData)
         CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
         createRecipe(createRecipeData)
     }
 
+    /*
+    *  Helper method to create a new recipe and go to its edit page
+    */
+
     void gotoEditRecipePage() {
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginToHomepage(loginFormData)
         CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
         createRecipe(createRecipeData)
         click('Edit')
     }
 
-    void goToCreateShoppingListPage() {
+    /*
+    *  Helper method to go to generate user's shopping list created in bootstrap
+    */
+
+    void goToGenerateShoppingListPage() {
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
-        userLogin(loginFormData)
-        get('shoppingList/generateShoppingList/4')
+        loginToHomepage(loginFormData)
+        LoginCredential credential = LoginCredential.findByEmail(loginFormData.email)
+        User user = User.findByLoginCredential(credential)
+        ShoppingList shoppingList = ShoppingList.findByUser(user)
+        get("/shoppingList/generateShoppingList/${shoppingList?.id}")
     }
 
-    void goToShoppingListPage() {
+    /*
+    *  Helper method to go to create user's shopping list created in bootstrap
+    */
+
+    void goToCreateShoppingListPage() {
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
-        userLogin(loginFormData)
-        get('shoppingList/generateShoppingList/4')
+        loginToHomepage(loginFormData)
+        LoginCredential credential = LoginCredential.findByEmail(loginFormData.email)
+        User user = User.findByLoginCredential(credential)
+        ShoppingList shoppingList = ShoppingList.findByUser(user)
+        get("/shoppingList/generateShoppingList/${shoppingList?.id}")
         def createLink = byName('_action_create')
         createLink.click()
     }
 
-    /** * Helper method to return a message from the message bundle.                                 ***/
+    /** * Helper method to return a message from the message bundle.                                                   ***/
     String getMessage(String key, def targetArgs = TARGET_ARGS_EMPTY) {
         def keyValue = messageSource.resolveCode(key, locale)
         return keyValue?.format(targetArgs)
