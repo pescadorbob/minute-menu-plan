@@ -64,7 +64,7 @@ class MenuplannerTagLib {
         Long id = attrs['id']
         String noImage = (attrs['noImage']) ? attrs['noImage'] : 'no-img.gif'
         String clas = attrs['class']
-        if(Image.exists(id)) {
+        if (Image.exists(id)) {
             out << "<img class='${clas}' height='${height}' width='${width}' src='" + createLink(controller: 'image', action: 'image', params: [id: id]) + "'/>"
         } else {
             out << "<img class='${clas}' height='${height}' width='${width}' src='" + createLink(controller: 'image', action: 'imageByPath', params: [noImage: noImage]) + "'/>"
@@ -126,11 +126,9 @@ class MenuplannerTagLib {
     }
 
     def firstTimeUser = {attrs, body ->
-        if (session.loggedUserId) {
-            User user = User.get(session.loggedUserId.toLong())
-            if (user.menuPlans.size() == 0) {
-                out << body()
-            }
+        User user = User.currentUser
+        if (user && (user.menuPlans.size() == 0)) {
+            out << body()
         }
     }
 
