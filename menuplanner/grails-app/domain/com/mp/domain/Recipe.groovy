@@ -98,12 +98,12 @@ class Recipe extends Item implements Commentable, Rateable {
 
     String getCaloriesString() {
         RecipeNutrient calories = nutrients?.find {it.nutrient.name == NUTRIENT_CALORIES}
-        return (calories?.quantity?.value) ? NumberTools.longToString(calories?.quantity?.value?.toLong()) : null
+        return (calories?.quantity?.value) ? NumberTools.longToString(calories?.quantity?.value?.toLong()) : NumberTools.longToString(0L)
     }
 
     String getCookingTimeValue() {
         if (cookingTime) {
-            Long time = (cookingTime?.value) ? (cookingTime?.value)?.toLong() : 0l
+            Long time = (cookingTime?.value) ? (cookingTime?.value)?.toLong() : 0L
             return NumberTools.longToString(time)
         } else {
             return null
@@ -112,7 +112,7 @@ class Recipe extends Item implements Commentable, Rateable {
 
     String getPrepTimeValue() {
         if (preparationTime) {
-            Long time = (preparationTime?.value) ? (preparationTime?.value)?.toLong() : 0l
+            Long time = (preparationTime?.value) ? (preparationTime?.value)?.toLong() : 0L
             return NumberTools.longToString(time)
         } else {
             return null
@@ -121,7 +121,7 @@ class Recipe extends Item implements Commentable, Rateable {
 
     String getTotalTimeValue() {
         if (totalTime) {
-            Long time = (totalTime?.value) ? (totalTime?.value)?.toLong() : 0l
+            Long time = (totalTime?.value) ? (totalTime?.value)?.toLong() : 0L
             return NumberTools.longToString(time)
         } else {
             return null
