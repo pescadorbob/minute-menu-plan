@@ -110,6 +110,11 @@ class UserController {
         UserCO userCO = new UserCO(roles: [UserType.User.toString()], isEnabled: true)
         render(view: 'create', model: [userCO: userCO])
     }
+
+    def createUser = {
+        UserCO userCO = new UserCO(roles: [UserType.User.toString()], isEnabled: true)
+        render(view: 'createUser', model: [userCO: userCO])
+    }
     def update = {UserCO userCO ->
         if (userCO.validate()) {
             userCO.updateUser()
@@ -147,11 +152,16 @@ class UserController {
 
     def facebookConnect = {
         String redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true)}"
-        if(userService.updateUserFromFacebook(redirectUrl, params.code)){
+        if (userService.updateUserFromFacebook(redirectUrl, params.code)) {
             render "<script type='text/javascript'>window.opener.facebookConnectSuccess();window.close();</script>"
         } else {
             render "<script type='text/javascript'>window.close()</script>"
         }
+    }
+
+    def checkout = {
+        println '+++++++++++++++++' + params
+        render 'success'
     }
 
 }

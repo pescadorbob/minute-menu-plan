@@ -50,7 +50,7 @@ tempDir = System.getProperty("java.io.tmpdir") + "/mpImages/tempImages"
 recipesRootDir = "/recipes/"
 usersRootDir = "/users/"
 // set per-environment serverURL stem for creating absolute links
-grails{
+grails {
     mail {
         host = "smtp.gmail.com"
         port = 465
@@ -72,25 +72,37 @@ environments {
 //        grails.mail.default.from = '"MinuteMenu" <minutemenu@menuplanner.com>'
         grails.serverURL = "http://www.changeme.com"
         facebookConnect {
-			//These two values need to be grabbed from facebook when you create your application there.
-			// http://www.facebook.com/developers/
-			apiKey = "c7cb03d1076112dfdee19d3e4972c3eb"
-			secretKey = "2f069ab14fb4c6ab88cfe463aa9d4344"
-		}
+            //These two values need to be grabbed from facebook when you create your application there.
+            // http://www.facebook.com/developers/
+            apiKey = "c7cb03d1076112dfdee19d3e4972c3eb"
+            secretKey = "2f069ab14fb4c6ab88cfe463aa9d4344"
+        }
+        googleCheckout {
+            merchantId = "827529108383447"
+            merchantKey = "ScAQ9VNMRniNUR3T5sW2kQ"
+            action="https://checkout.google.com/api/checkout/v2/checkoutForm/Merchant/827529108383447"
+            imageSource="http://checkout.google.com/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
+        }
     }
     development {
-//        mail {
+//        mail {                                                minutemenu
 //            host = "dev.menuplanner.intelligrape.net"
 //            port = 25
 //        }
 //        grails.mail.default.from = '"MinuteMenu" <dev@dev.menuplanner.intelligrape.net>'
         grails.serverURL = "http://localhost:8080/menuplanner"
         facebookConnect {
-			//These two values need to be grabbed from facebook when you create your application there.
-			// http://www.facebook.com/developers/
-			apiKey = "8fc5bc0ed2fe785413bb1c028503a04c"
-			secretKey = "73f7aba0121cc3527e04b02d15da407a"
-		}
+            //These two values need to be grabbed from facebook when you create your application there.
+            // http://www.facebook.com/developers/
+            apiKey = "8fc5bc0ed2fe785413bb1c028503a04c"
+            secretKey = "73f7aba0121cc3527e04b02d15da407a"
+        }
+        googleCheckout {
+            merchantId = "827529108383447"
+            merchantKey = "ScAQ9VNMRniNUR3T5sW2kQ"
+            action="https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/827529108383447"
+            imageSource="http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
+        }
     }
     test {
 //        mail {
@@ -100,11 +112,17 @@ environments {
 //        grails.mail.default.from = '"MinuteMenu" <qa@qa.menuplanner.intelligrape.net>'
         grails.serverURL = "http://qa.menuplanner.intelligrape.net"
         facebookConnect {
-			//These two values need to be grabbed from facebook when you create your application there.
-			// http://www.facebook.com/developers/
+            //These two values need to be grabbed from facebook when you create your application there.
+            // http://www.facebook.com/developers/
             apiKey = "c7cb03d1076112dfdee19d3e4972c3eb"
             secretKey = "2f069ab14fb4c6ab88cfe463aa9d4344"
-		}
+        }
+        googleCheckout {
+            merchantId = "827529108383447"
+            merchantKey = "ScAQ9VNMRniNUR3T5sW2kQ"
+            action="https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/827529108383447"
+            imageSource="http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
+        }
     }
     qa {
 //        mail {
@@ -114,11 +132,17 @@ environments {
 //        grails.mail.default.from = '"MinuteMenu" <qa@qa.menuplanner.intelligrape.net>'
         grails.serverURL = "http://qa.menuplanner.intelligrape.net"
         facebookConnect {
-			//These two values need to be grabbed from facebook when you create your application there.
-			// http://www.facebook.com/developers/
+            //These two values need to be grabbed from facebook when you create your application there.
+            // http://www.facebook.com/developers/
             apiKey = "c7cb03d1076112dfdee19d3e4972c3eb"
             secretKey = "2f069ab14fb4c6ab88cfe463aa9d4344"
-		}
+        }
+        googleCheckout {
+            merchantId = "827529108383447"
+            merchantKey = "ScAQ9VNMRniNUR3T5sW2kQ"
+            action="https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/827529108383447"
+            imageSource="http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
+        }
     }
 
 }
