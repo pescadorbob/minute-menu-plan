@@ -55,9 +55,9 @@
                 <p>"Learn how this Minute Menu Plan will interest picky kids, relieve stressed moms, and make meals enjoyable again!"</p>
                 <h2>"Who Else Wants To Make Every Dinner This Week A Relaxed, Enjoyable Event That Your Family Will Talk About For Weeks - With Almost Zero Effort, 1/2 The Expense Or The Dreaded, "What's For Dinner?" Question?</h2>
                 <div class="clear clearfix">
-                    <g:link controller="user" action="create"><div class="orderbtn"><h3>Order Now</h3> $5/month</div></g:link>
+                    <g:link controller="user" action="createUser"><div class="orderbtn"><h3>Order Now</h3> $5/month</div></g:link>
                     <div id="video-box"><img src="${resource(dir: 'images', file: 'video.png')}"/></div>
-                    <g:link controller="user" action="create"><div class="orderbtn"><h3>Order Now</h3> $5/month</div></g:link>
+                    <g:link controller="user" action="createUser"><div class="orderbtn"><h3>Order Now</h3> $5/month</div></g:link>
                 </div>
                 <p>More and More Text Here...</p>
                 <p>We just keep on telling them how good this product is, and displaying the 'Order Now' Button</p>
@@ -73,12 +73,12 @@
         </div>
         <div class="leftbox clearfix">
             <div id="login">
-                <g:uploadForm name="loginForm">
+                <g:form name="loginForm">
                     <g:hiddenField name="targetUri" value="${params.targetUri}"/>
                     <ul>
                         <li>Username : (Email Address)<div class="search-input">
                             <input name="email" type="text" class="inp  ${hasErrors(bean: loginCO, field: 'email', 'loginExc')}" value="${loginCO?.email}"/></div>
-                            <g:hasErrors bean="${loginCO}" field="email" >
+                            <g:hasErrors bean="${loginCO}" field="email">
                                 <div id="displayEmailError" class="loginError">
                                     <g:renderErrors bean="${loginCO}" field="email"/>
                                 </div>
@@ -86,7 +86,7 @@
                         </li>
                         <li>Password :<div class="search-input">
                             <input name="password" type="password" class="inp  ${hasErrors(bean: loginCO, field: 'password', 'loginExc')}" value=""/></div>
-                            <g:hasErrors bean="${loginCO}"  field="password">
+                            <g:hasErrors bean="${loginCO}" field="password">
                                 <div id="displayPasswordError" class="loginError">
                                     <g:renderErrors bean="${loginCO}" field="password"/>
                                 </div>
@@ -104,13 +104,13 @@
                         <li><g:link controller="login" action="forgotPassword">forgot password or username?</g:link></li>
                         <li class="border"><h2>TESTIMONIAL</h2></li>
                         <li>Minute Menu Plan removed the stress from my evenings and stopped the kids from asking whats for dinner.  We love to plan our meals together, and it takes only a few minutes.  Thanks Minute Menu Plan!
-                        	<label>--Donna, Hamburg, NY</label></li>
+                            <label>--Donna, Hamburg, NY</label></li>
                         <li>Minute Menu Plan removed the stress from my evenings and stopped the kids from asking whats for dinner.  We love to plan our meals together, and it takes only a few minutes.  Thanks Minute Menu Plan!
-                        	<label>--Donna, Hamburg, NY</label></li>
+                            <label>--Donna, Hamburg, NY</label></li>
                         <li>Minute Menu Plan removed the stress from my evenings and stopped the kids from asking whats for dinner.  We love to plan our meals together, and it takes only a few minutes.  Thanks Minute Menu Plan!
-                        	<label>--Donna, Hamburg, NY</label></li>
+                            <label>--Donna, Hamburg, NY</label></li>
                     </ul>
-                </g:uploadForm>
+                </g:form>
             </div>
         </div>
         <div class="bottom-shadow">

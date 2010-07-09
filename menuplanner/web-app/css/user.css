@@ -176,3 +176,33 @@ div.loginError{border:0px;color:red;font-size:12px; margin-bottom:5px;}
 .box-rating ul li.bgcolor{clear:both;cursor:pointer;width:98%;padding:5px 1%;margin-bottom:5px; min-height:70px; border:1px solid #bfc0c4;}
 .box-rating ul li ul li{margin:0 !important;padding:0 !important;background:none  !important; min-height:15px; border:none;}
 /* end Quick Fill Admin */
+
+
+#leftpanelbox {
+color:#616A72;
+float:left;
+font-size:12px;
+margin-top:10px;
+width:38%;
+}
+#rightpanelbox {
+color:#616A72;
+float:right;
+font-size:12px;
+margin-top:10px;
+width:60%;
+text-align:center;
+}
+.boxDiv{clear:both;padding-top:15px;}
+.boxDiv ul li{clear:both; padding:5px;}
+.boxDiv ul li label{float:left; width:45%; text-align:right; display:block;}
+.boxDiv ul li span{float:right;width:50%;text-align:left;display:block;}
+
+#subscription{width:300px;color:#616A72; margin-top:10px; font-size:12px;border-top:1px solid #d3d1d2;border-left:1px solid #d3d1d2; clear:both;}
+#subscription ul li{clear:both;padding:0px; margin:0;border-bottom:1px solid #d3d1d2; overflow:hidden; }
+#subscription ul li.head{ font-weight:bold; background:#e6e6e6;overflow:hidden; clear:both; position:relative;}
+#subscription ul li.alternatecolor{ background:#fafaf6; overflow:hidden; clear:both;  position:relative;}
+#subscription ul li ul li{float:left;width:50px;border-right:1px solid #d3d1d2; clear:none;border-bottom:none; padding:4px; text-align:center;}
+#subscription ul li ul li.bigcluman{float:left;width:173px; clear:none;border-bottom:none; padding:4px; text-align:left;}
+#subscription ul li a{text-decoration:underline;color:#007ad8;}
+#subscription ul li a:hover{text-decoration:none;}
