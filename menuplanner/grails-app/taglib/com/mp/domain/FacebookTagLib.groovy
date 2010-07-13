@@ -6,10 +6,12 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 class FacebookTagLib {
 
     static namespace = 'facebook'
-    def connect = {
-        if (!User.currentUser.facebookAccount) {
+    def connect = {attrs ->
+        Long userId = attrs['userId'] ? attrs['userId'] : 0L
+        User user = userId ? User.get(userId) : null
+        if (!user?.facebookAccount) {
             String apiKey = ConfigurationHolder.config.facebookConnect.apiKey
-            String allowUrl = g.createLink(controller: 'user', action: 'facebookConnect', absolute: true)
+            String allowUrl = g.createLink(controller: 'user', action: 'facebookConnect', absolute: true, params: [userId: userId]).encodeAsURL()
             String applicationUrl = "https://graph.facebook.com/oauth/authorize?client_id=${apiKey}&redirect_uri=${allowUrl}&scope=read_stream,offline_access,user_location"
             out << g.render(template: '/facebook/connectToFacebook', model: [applicationUrl: applicationUrl, apiKey: apiKey])
         }

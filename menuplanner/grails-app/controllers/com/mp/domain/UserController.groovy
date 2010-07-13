@@ -151,10 +151,21 @@ class UserController {
     }
 
     def facebookConnect = {
-        String redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true)}"
-        if (userService.updateUserFromFacebook(redirectUrl, params.code)) {
-            render "<script type='text/javascript'>window.opener.facebookConnectSuccess();window.close();</script>"
-        } else {
+        Long userId = params.long('userId') ? params.long('userId') : 0L
+        User user = userId ? User.get(userId) : null
+        String redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true, params: [userId: userId]).encodeAsURL()}"
+        user = userService.updateUserFromFacebook(redirectUrl, params.code, user)
+        if (user) {
+            if (params.long('userId')) {
+                render "<script type='text/javascript'>window.opener.facebookConnectSuccess();window.close();</script>"
+            } else {
+                user.addToRoles(UserType.User)
+                user.s()
+                session.loggedUserId = user.id.toString()
+                render "<script type='text/javascript'>window.opener.location.href='"+ createLink(controller: 'user', action: 'show', id:user.id) +"';window.close();</script>"
+            }
+        }
+        else {
             render "<script type='text/javascript'>window.close()</script>"
         }
     }

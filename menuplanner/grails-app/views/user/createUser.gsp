@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'user.css')}"/>
 
     <style type="text/css" media="screen">
-    body {
-        font-family: 'MyriadProRegular', 'PalatinoRegular', 'Arial';
-    }
+        #mpFacebookConnectSuccess {width: 80% !important;}
+        .FBConnectButton_Text {width: 80% !important;}
+        .fbconnect_login_button {margin-left: 100px;}
     </style>
 </head>
 <body>
@@ -63,9 +63,7 @@
                             <li>
                                 <input name="" type="radio" value=""/>
                                 Link your account with your facebook account</li>
-                            <li>&nbsp; &nbsp;               <input type="button" value="F -Connect"/>
-                                <br/>
-                            </li>
+                            <li><facebook:connect/></li>
                             <li>
                                 <input name="" type="radio" value=""/>
                                 Create a new account. (You can link it later)</li>

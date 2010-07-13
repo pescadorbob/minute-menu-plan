@@ -30,13 +30,9 @@ class Quantity {
 
     public static Quantity addTime(Quantity q1, Quantity q2) {
         Quantity sum = new Quantity()
-        Float totalMinutes = 0.0
-        if (q1?.value) {
-            totalMinutes += q1?.value
-        }
-        if (q2?.value) {
-            totalMinutes += q2?.value
-        }
+        Float totalMinutes = 0.0f
+        totalMinutes += (q1?.value) ? q1?.value : 0.0f
+        totalMinutes += (q2?.value) ? q2?.value : 0.0f
         sum.unit = q1.savedUnit
         sum.value = totalMinutes
         return sum
