@@ -9,7 +9,7 @@
     <script type="text/javascript">
         jQuery(function() {
             jQuery("#printButton").click(function() {
-                window.open("${createLink(controller:'recipe',action:'printRecipes',params:[ids:recipe?.id])}", 'print_Recipe','width=800, height=800')
+                window.open("${createLink(controller:'recipe',action:'printRecipes',params:[ids:recipe?.id])}", 'print_Recipe', 'width=800, height=800')
                 return false;
             });
         });
@@ -17,7 +17,7 @@
             jQuery(".printMe:first").printElement(options);
         }
     </script>
-   <link rel="stylesheet" href="${resource(dir: 'css', file: 'custom-ratings-inner.css')}"/>
+    <link rel="stylesheet" href="${resource(dir: 'css', file: 'custom-ratings-inner.css')}"/>
 </head>
 <body>
 <div class="clearfix printMe" id="content-wrapper">
@@ -72,7 +72,7 @@
                             <span id="showFavorite" style="text-align:right;"><mp:showFavorite recipeId="${recipe?.id}"/></span>
                         </g:link> &nbsp;&nbsp;
                         <span id="showRecipeAbuse" style="text-align:right;"><mp:showRecipeAbuse recipe="${recipe}"/></span>
-                    </li>                                       
+                    </li>
                 </ul>
                 <mp:comments recipe="${recipe}"/>
             </div>
@@ -80,6 +80,7 @@
         <div class="bottom-shadow"><label></label></div>
     </div>
     <div id="right-panel">
+        <g:render template="/recipe/printInstructions"/>
     </div>
 </div>
 <script type="text/javascript">
@@ -90,5 +91,6 @@
         })
     }
 </script>
+
 </body>
 </html> 
