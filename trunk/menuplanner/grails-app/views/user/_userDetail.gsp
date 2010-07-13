@@ -1,4 +1,5 @@
 <%@ page import="com.mp.domain.Permission; com.mp.domain.UserType" %>
+
 %{--<fb:prompt-permission perms="read_stream,offline_access">Connect with Facebook</fb:prompt-permission>--}%
 
 %{--<fb:login-button onlogin="alert('hello');"></fb:login-button>--}%
@@ -11,8 +12,7 @@
     <ul>
         <g:if test="${userCO.id}">
             <li><span>&nbsp;</span>
-                <label id="mpFacebookConnectButton"><facebook:connect/></label>
-                <label id="mpFacebookConnectSuccess" style="display:none">Your account has been connected with Facebook!!</label>
+                <label><facebook:connect userId="${userCO.id}"/></label>
             </li>
         </g:if>
         <li><span><strong>Email :</strong></span>
@@ -76,9 +76,4 @@
         </g:else>
     </ul>
 </div>
-<script type="text/javascript">
-  function facebookConnectSuccess(){
-     $("#mpFacebookConnectButton").hide();
-     $("#mpFacebookConnectSuccess").show();
-  }
-</script>
+

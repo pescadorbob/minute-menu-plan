@@ -34,11 +34,11 @@ class Recipe extends Item implements Commentable, Rateable {
     Date dateCreated
 
 
-    String getImageDir(){
+    String getImageDir() {
         return (config.imagesRootDir + config.recipesRootDir + this?.id + '/')
     }
 
-    void deleteImage(){
+    void deleteImage() {
         Image image = this?.image
         this.image = null
         image?.delete(flush: true)
@@ -81,12 +81,12 @@ class Recipe extends Item implements Commentable, Rateable {
 
     def beforeInsert = {
         validateTimings()
-        if(!servings){servings=1}
+        if (!servings) {servings = 1}
     }
 
     def beforeUpdate = {
         validateTimings()
-        if(!servings){servings=1}
+        if (!servings) {servings = 1}
     }
 
     static transients = ['categories', 'favouriteForUsers', 'favouriteForUsersString', 'cookingTimeValue', 'totalTimeValue', 'prepTimeValue', 'caloriesString', 'categoriesString', 'contributor', 'imageDir']
@@ -98,34 +98,26 @@ class Recipe extends Item implements Commentable, Rateable {
 
     String getCaloriesString() {
         RecipeNutrient calories = nutrients?.find {it.nutrient.name == NUTRIENT_CALORIES}
-        return (calories?.quantity?.value) ? NumberTools.longToString(calories?.quantity?.value?.toLong()) : NumberTools.longToString(0L)
+        Quantity cal = calories?.quantity
+        return (cal?.value) ? NumberTools.longToString(cal?.value?.toLong()) : NumberTools.longToString(0L)
     }
 
     String getCookingTimeValue() {
-        if (cookingTime) {
-            Long time = (cookingTime?.value) ? (cookingTime?.value)?.toLong() : 0L
-            return NumberTools.longToString(time)
-        } else {
-            return null
-        }
+        Quantity cTime = cookingTime
+        Long time = (cTime?.value) ? (cTime?.value)?.toLong() : 0L
+        return NumberTools.longToString(time)
     }
 
     String getPrepTimeValue() {
-        if (preparationTime) {
-            Long time = (preparationTime?.value) ? (preparationTime?.value)?.toLong() : 0L
-            return NumberTools.longToString(time)
-        } else {
-            return null
-        }
+        Quantity pTime = preparationTime
+        Long time = (pTime?.value) ? (pTime?.value)?.toLong() : 0L
+        return NumberTools.longToString(time)
     }
 
     String getTotalTimeValue() {
-        if (totalTime) {
-            Long time = (totalTime?.value) ? (totalTime?.value)?.toLong() : 0L
-            return NumberTools.longToString(time)
-        } else {
-            return null
-        }
+        Quantity tTime = totalTime
+        Long time = (tTime?.value) ? (tTime?.value)?.toLong() : 0L
+        return NumberTools.longToString(time)
     }
 
     def getCategories() {
@@ -133,14 +125,13 @@ class Recipe extends Item implements Commentable, Rateable {
     }
 
     def getTotalTime() {
-        if (cookingTime && preparationTime) {
-            Quantity sum = Quantity.addTime(cookingTime, preparationTime)
-//            Quantity sum = cookingTime + preparationTime
+        Quantity cTime = cookingTime
+        Quantity pTime = preparationTime
+        if (cTime && pTime) {
+            Quantity sum = Quantity.addTime(cTime, pTime)
             return sum
-        } else if (cookingTime) {
-            return cookingTime
         } else {
-            return preparationTime
+            return (cTime ? cTime : pTime)
         }
     }
 

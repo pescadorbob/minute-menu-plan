@@ -19,7 +19,8 @@ class UserService {
         return false
     }
 
-    public boolean updateUserFromFacebook(String redirectUrl, String code, User user = User.currentUser) {
+    public User updateUserFromFacebook(String redirectUrl, String code, User user) {
+        user = user ? user : new User()
         if (code) {
             Long faceBookToken = code.tokenize("-|")[1]?.toLong()
             if (faceBookToken) {
@@ -30,13 +31,13 @@ class UserService {
                 facebookAccount.uid = faceBookToken
                 facebookAccount.oauthToken = (token - "access_token=")
                 user.facebookAccount = facebookAccount
-                user.s()
-                updateUserPhoto(user)
                 updateUserInfo(user)
-                return true
+                updateUserPhoto(user)
+                user.s()
+                return user
             }
         }
-        return false
+        return null
     }
 
     public void updateProfile(User user){

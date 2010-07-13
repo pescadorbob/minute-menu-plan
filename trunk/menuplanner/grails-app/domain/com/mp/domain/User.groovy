@@ -13,7 +13,7 @@ class User {
     String introduction
     String city
     Date joiningDate
-    LoginCredential loginCredential = new LoginCredential()
+    LoginCredential loginCredential
     FacebookAccount facebookAccount
     Boolean isEnabled = true
     List<UserType> roles = []
@@ -85,12 +85,14 @@ class User {
 
     def beforeInsert = {
         joiningDate = new Date()
+        mouthsToFeed = mouthsToFeed ? mouthsToFeed : 1
     }
 
     static constraints = {
         image(nullable: true, blank: true)
         city(nullable: true, blank: true)
         mouthsToFeed(nullable: true, blank: true)
+        loginCredential(nullable: true)
         facebookAccount(nullable: true)
         joiningDate(nullable: true, blank: true)
         introduction(nullable: true, maxSize: 1000)
