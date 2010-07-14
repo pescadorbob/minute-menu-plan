@@ -77,4 +77,27 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
         assertElementTextContains('flashMsgTst', getMessage('user.updateded.success'))
         logout()
     }
+//
+//    void testAddUser_FromHomePage() {
+//        get('/')
+//        def createUserLink = byClass('createUserLinkFT')
+//        createUserLink.click()
+//        assertTitle 'Minute Menu Plan : Add User'
+//        //TODO: Create user by filling the form
+//    }
+//
+//    void testGoogleCheckOutLink() {
+//        get('/')
+//        def createUserLink = byClass('createUserLinkFT')
+//        createUserLink.click()
+//        def googleCheckoutLink = byClass('googleCheckoutLinkFT')
+//        googleCheckoutLink.click()
+//        redirectEnabled = false
+//        followRedirect()
+//        Thread.sleep(15000)
+//        assertTitle 'Secure checkout with Google'
+//        assertContentContains 'Monthly Subscription'
+//        assertContentContains 'Monthly Subscription of MenuPlanner '
+//        assertContentContains 'Shop confidently with Google Checkout '
+//    }
 }

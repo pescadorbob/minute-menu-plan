@@ -40,7 +40,7 @@
                             <g:hiddenField name="shoppingListName" value="${shoppingList.name}"/>
                             <g:if test="${shoppingListId}">
                                 <g:hiddenField name="shoppingListId" value="${shoppingListId}"/>
-                                <g:actionSubmit class="button" controller="shoppingList" action="update" name="update" id="updateShoppingListButton" value="Update"/>
+                                <g:actionSubmit class="button updateShoppingListButtonFT" controller="shoppingList" action="update" name="update" id="updateShoppingListButton" value="Update"/>
                             </g:if>
                             <g:else>
                                 <g:actionSubmit class="button" controller="shoppingList" action="save" id="createShoppingListButton" name="save" value="Create"/>

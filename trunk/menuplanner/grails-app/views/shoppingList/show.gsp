@@ -48,7 +48,7 @@
                     <ul><li>
 
                     <g:hiddenField name="shoppingListId" value="${shoppingList?.id}"/>
-                    <g:actionSubmit class="button" controller="shoppingList" action="edit" name="edit" value="Edit"/>
+                    <g:actionSubmit class="button editShoppingListButtonFT" controller="shoppingList" action="edit" name="edit" value="Edit"/>
                 </g:form>
             </li></ul>
             </div>
