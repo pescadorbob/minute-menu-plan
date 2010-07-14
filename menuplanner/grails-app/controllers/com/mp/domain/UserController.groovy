@@ -112,7 +112,7 @@ class UserController {
     }
 
     def createUser = {
-        UserCO userCO = new UserCO(roles: [UserType.User.toString()], isEnabled: true)
+        UserCO userCO = new UserCO()
         render(view: 'createUser', model: [userCO: userCO])
     }
     def update = {UserCO userCO ->
@@ -162,7 +162,7 @@ class UserController {
                 user.addToRoles(UserType.User)
                 user.s()
                 session.loggedUserId = user.id.toString()
-                render "<script type='text/javascript'>window.opener.location.href='"+ createLink(controller: 'user', action: 'show', id:user.id) +"';window.close();</script>"
+                render "<script type='text/javascript'>window.opener.location.href='" + createLink(controller: 'user', action: 'show', id: user.id) + "';window.close();</script>"
             }
         }
         else {
@@ -170,9 +170,32 @@ class UserController {
         }
     }
 
-    def checkout = {
-        println '+++++++++++++++++' + params
-        render 'success'
+    def enableUser = {
+        String userId = params['items.item-1.merchant-item-id']
+        User user = User.findById(userId?.toLong())
+        if (user) {
+            user.isEnabled = true
+            user.s()
+            session.loggedUserId = user.id.toString()
+            redirect(action: 'show', id: user?.id)
+        } else {
+            redirect(action: 'createUser', controller: 'user')
+        }
     }
 
+    def newUserCheckout = {UserCO userCO ->
+        userCO.roles.add(UserType.User.name())
+        userCO.isEnabled = false
+        if (userCO.validate()) {
+            User user = userCO.convertToUser()
+            Map data = [:]
+            data['userId'] = user.id
+            redirect(action: 'createSubscription', controller: 'subscription', params: data)
+        } else {
+            userCO.errors.allErrors.each {
+                println it
+            }
+            render(view: 'createUser', model: [userCO: userCO])
+        }
+    }
 }

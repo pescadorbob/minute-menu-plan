@@ -38,7 +38,7 @@
                                 </g:if>
                                 <g:else>
                                     <g:hiddenField name="shoppingListId" value="${shoppingListId}"/>
-                                    <g:actionSubmit controller="shoppingList" action="modifyShoppingList" value="Modify List" class="button" style="width:150px;"/>
+                                    <g:actionSubmit controller="shoppingList" action="modifyShoppingList" value="Modify List" class="button modifyShoppingListButtonFT" style="width:150px;"/>
                                 </g:else>
                             </li>
                         </g:form>

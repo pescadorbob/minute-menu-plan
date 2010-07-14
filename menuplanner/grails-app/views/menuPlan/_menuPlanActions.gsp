@@ -10,7 +10,7 @@
                 <li id="printMonthlyMenuPlanBtn"><a href="">Print Monthly Menu Plan</a></li>
                 %{--<li><a href="">Print Weekly Menu Plan</a></li>--}%
                 <li>
-                    <g:link controller="shoppingList" action="generateShoppingList" id="${menuPlan?.id}">Create Shopping List</g:link>
+                    <g:link controller="shoppingList" class="createShoppingListLinkFT" action="generateShoppingList" id="${menuPlan?.id}">Create Shopping List</g:link>
                 </li>
                 %{--<li><a href="">Delete Menu Plan</a></li>--}%
             </ul>

@@ -201,4 +201,30 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         assertStatus 200
         assertTitleContains 'Minute Menu Plan : Show Recipe'
     }
+
+    void testShowRecipe_RecipeListPage() {
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginToHomepage(loginFormData)
+        def recipeLink = byId('draggableSearchItem_1').getFirstChild()
+        recipeLink.click()
+        assertTitleContains 'Minute Menu Plan : Show Recipe '
+        assertElementTextContains('contectElement', 'Comments')
+    }
+
+//    void testEmailShoppingList() {
+//        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+//        loginToHomepage(loginFormData)
+//        def recipeLink = byId('draggableSearchItem_1')
+//        recipeLink.click()
+//        redirectEnabled = false
+//        followRedirect()
+//        assertTitleContains 'Minute Menu Plan : Show Recipe '
+//
+//        def emailLink = byId('emailShoppingListBtn')
+//        emailLink.click()
+//        assertElementTextContains 'emailShoppingList', 'Send To: '
+//        byId('emailId').setValue('qa.menuplanner@gmail.com')
+//        byId('emailSubmitButton').click()
+
+//    }
 }

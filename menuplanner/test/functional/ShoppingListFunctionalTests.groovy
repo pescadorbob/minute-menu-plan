@@ -7,6 +7,7 @@ class ShoppingListFunctionalTests extends MenuPlannerFunctionalTests {
      * It requires at-least one menuplan bootstrapped for the login user.
      * The test fails if a selected week does not appears on create page / unselected week appears on create page
      */
+
     void testGenerateNewShoppingList_Three_Weeks_Selected() {
         Integer initialCount = ShoppingList.count()
         goToGenerateShoppingListPage()
@@ -36,6 +37,7 @@ class ShoppingListFunctionalTests extends MenuPlannerFunctionalTests {
      * This test validates the generation of shopping list with all text fields blank.
      * The test fails if form validation doesn't works
      */
+
     void testGenerateNewShoppingList_Blank_Text_Fields() {
         Integer initialCount = ShoppingList.count()
         goToGenerateShoppingListPage()
@@ -182,5 +184,137 @@ class ShoppingListFunctionalTests extends MenuPlannerFunctionalTests {
         assertStatus(200)
         Integer finalCount = ShoppingList.count()
         assertTrue('Create shopping list unables to create a new shopping list', (finalCount - initialCount == 1))
+    }
+
+    /*
+    * This test validates the edition of shopping list.
+    * The test fails if edit shopping list page do not appears or link is not working.
+    */
+
+    void testEditShoppingList() {
+        Integer initialCount = ShoppingList.count()
+        goToGenerateShoppingListPage()
+        ShoppingListFormData shoppingListFormData = ShoppingListFormData.getDefaultShoppingListFormData()
+        createShoppingList(shoppingListFormData)
+        assertTitle 'Minute Menu Plan : Shopping List'
+        def saveShoppingListButton = byName('_action_save')
+        saveShoppingListButton.click()
+        redirectEnabled = false
+        followRedirect()
+        assertTitle 'Minute Menu Plan : Show Shopping List'
+        assertStatus(200)
+        Integer finalCount = ShoppingList.count()
+        assertTrue('Create shopping list unables to create a new shopping list', (finalCount - initialCount == 1))
+        def editShoppingList = byClass('editShoppingListButtonFT')
+        editShoppingList.click()
+        assertStatus 200
+        assertTitle 'Minute Menu Plan : Generate Shopping List'
+    }
+
+    /*
+    * This test validates the modification of shopping list.
+    * The test fails if generation of shopping list page is not working.
+    */
+
+    void testModifyShoppingList() {
+        Integer initialCount = ShoppingList.count()
+        goToGenerateShoppingListPage()
+        ShoppingListFormData shoppingListFormData = ShoppingListFormData.getDefaultShoppingListFormData()
+        createShoppingList(shoppingListFormData)
+        assertTitle 'Minute Menu Plan : Shopping List'
+        def saveShoppingListButton = byName('_action_save')
+        saveShoppingListButton.click()
+        redirectEnabled = false
+        followRedirect()
+        assertTitle 'Minute Menu Plan : Show Shopping List'
+        assertStatus(200)
+        Integer finalCount = ShoppingList.count()
+        assertTrue('Create shopping list unables to create a new shopping list', (finalCount - initialCount == 1))
+        def editShoppingList = byClass('editShoppingListButtonFT')
+        editShoppingList.click()
+        assertStatus 200
+        assertTitle 'Minute Menu Plan : Generate Shopping List'
+        def modifyList = byClass('modifyShoppingListButtonFT')
+        modifyList.click()
+        assertStatus 200
+        assertTitle 'Minute Menu Plan : Shopping List'
+
+    }
+    /*
+    * This test validates the updation of shopping list.
+    * The test fails if shopping list is not saved after updating.
+    */
+
+    void testUpdateShoppingList_Default_Values() {
+        Integer initialCount = ShoppingList.count()
+        goToGenerateShoppingListPage()
+        ShoppingListFormData shoppingListFormData = ShoppingListFormData.getDefaultShoppingListFormData()
+        createShoppingList(shoppingListFormData)
+        assertTitle 'Minute Menu Plan : Shopping List'
+        def saveShoppingListButton = byName('_action_save')
+        saveShoppingListButton.click()
+        redirectEnabled = false
+        followRedirect()
+        assertStatus(200)
+        assertTitle 'Minute Menu Plan : Show Shopping List'
+        Integer intermediateCount = ShoppingList.count()
+        assertTrue('Create shopping list unables to create a new shopping list', (intermediateCount - initialCount == 1))
+        def editShoppingList = byClass('editShoppingListButtonFT')
+        editShoppingList.click()
+        assertStatus 200
+        assertTitle 'Minute Menu Plan : Generate Shopping List'
+        def modifyList = byClass('modifyShoppingListButtonFT')
+        modifyList.click()
+        assertStatus 200
+        assertTitle 'Minute Menu Plan : Shopping List'
+        def updateList = byClass('updateShoppingListButtonFT')
+        updateList.click()
+        redirectEnabled = false
+        followRedirect()
+        assertTitle 'Minute Menu Plan : Show Shopping List'
+        assertStatus(200)
+        Integer finalCount = ShoppingList.count()
+        assertTrue('Update shopping list unables to update a shopping list', (finalCount - intermediateCount == 0))
+    }
+    /*
+    * This test validates the updation of shopping list.
+    * The test fails if shopping list is not saved after updating or if the new item is added to shopping list is not saved.
+    */
+
+    void testUpdateShoppingList_With_New_Item_Added() {
+        Integer initialCount = ShoppingList.count()
+        goToGenerateShoppingListPage()
+        ShoppingListFormData shoppingListFormData = ShoppingListFormData.getDefaultShoppingListFormData()
+        createShoppingList(shoppingListFormData)
+        assertTitle 'Minute Menu Plan : Shopping List'
+        def saveShoppingListButton = byName('_action_save')
+        saveShoppingListButton.click()
+        redirectEnabled = false
+        followRedirect()
+        assertStatus(200)
+        assertTitle 'Minute Menu Plan : Show Shopping List'
+        Integer intermediateCount = ShoppingList.count()
+        assertTrue('Create shopping list unables to create a new shopping list', (intermediateCount - initialCount == 1))
+        def editShoppingList = byClass('editShoppingListButtonFT')
+        editShoppingList.click()
+        assertStatus 200
+        assertTitle 'Minute Menu Plan : Generate Shopping List'
+        def modifyList = byClass('modifyShoppingListButtonFT')
+        modifyList.click()
+        assertStatus 200
+        assertTitle 'Minute Menu Plan : Shopping List'
+        String itemText = "Functional Test Item_${System.currentTimeMillis()}"
+        byId('aisleList_0').getOption(6).getValueAttribute()
+        byId('addItemTxt_0').setValue(itemText)
+        byId('addItemBtn_0').click()
+        def updateList = byClass('updateShoppingListButtonFT')
+        updateList.click()
+        redirectEnabled = false
+        followRedirect()
+        assertTitle 'Minute Menu Plan : Show Shopping List'
+        assertStatus(200)
+        Integer finalCount = ShoppingList.count()
+        assertContentContains(itemText)
+        assertTrue('Update shopping list unables to update a shopping list', (finalCount - intermediateCount == 0))
     }
 }

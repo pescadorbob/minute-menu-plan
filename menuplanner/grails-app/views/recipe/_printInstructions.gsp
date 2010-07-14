@@ -7,17 +7,17 @@
 
     <div class="leftbox clearfix">
         <div class="headbox" style="margin:0px;">
-                <h3>Setup your Browser for printing</h3>
-            </div>
+            <h3>Setup your Browser for printing</h3>
+        </div>
         <div id="rightElement">
             <ul>
-                <li>Recipes are printed with your browser.<br/>Prepare your browser to print these recipes by selecting the page setup from the file menu as shown here:</li>
+                <li><g:message code="recipe.print.instructions"/></li>
             </ul>
             <br/>
             <div>
                 <a id="printInstructionLink" href="${resource(dir: 'images', file: 'ie.png')}" title="click to view enlarge image" target="_blank">
-                <img style="border:none;" id="printInstructionImage" width="100%" src="${resource(dir: 'images', file: 'ie.png')}"/>
-                    </a>
+                    <img style="border:none;" id="printInstructionImage" width="100%" src="${resource(dir: 'images', file: 'ie.png')}"/>
+                </a>
             </div>
 
         </div>

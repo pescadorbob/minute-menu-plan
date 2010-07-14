@@ -55,7 +55,7 @@
                 <p>"Learn how this Minute Menu Plan will interest picky kids, relieve stressed moms, and make meals enjoyable again!"</p>
                 <h2>"Who Else Wants To Make Every Dinner This Week A Relaxed, Enjoyable Event That Your Family Will Talk About For Weeks - With Almost Zero Effort, 1/2 The Expense Or The Dreaded, "What's For Dinner?" Question?</h2>
                 <div class="clear clearfix">
-                    <g:link controller="user" action="createUser"><div class="orderbtn"><h3>Order Now</h3> $5/month</div></g:link>
+                    <g:link controller="user" class="createUserLinkFT"  action="createUser"><div class="orderbtn"><h3>Order Now</h3> $5/month</div></g:link>
                     <div id="video-box"><img src="${resource(dir: 'images', file: 'video.png')}"/></div>
                     <g:link controller="user" action="createUser"><div class="orderbtn"><h3>Order Now</h3> $5/month</div></g:link>
                 </div>

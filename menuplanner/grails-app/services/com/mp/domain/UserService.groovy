@@ -89,7 +89,7 @@ class UserCO {
     String city
     String introduction
     Date joiningDate
-    List<String> roles
+    List<String> roles = []
     boolean isEnabled
 
     String id
@@ -136,6 +136,9 @@ class UserCO {
 
     public boolean createUser(User user) {
         user?.name = name
+        if(!user.loginCredential){
+            user?.loginCredential = new LoginCredential()
+        }
         user?.loginCredential?.email = email
         user?.mouthsToFeed = mouthsToFeed
         user?.introduction = introduction
@@ -147,7 +150,7 @@ class UserCO {
         return true
     }
 
-    public boolean setRoles(User user) {
+    public boolean assignRoles(User user) {
         List<UserType> userRoles = []
         roles?.each {String role ->
             userRoles.add(UserType."${role}")
@@ -159,7 +162,7 @@ class UserCO {
     public User convertToUser() {
         User user = new User()
         createUser(user)
-        setRoles(user)
+        assignRoles(user)
         user?.s()
         attachImage(user, selectUserImagePath)
         user?.s()
@@ -169,7 +172,7 @@ class UserCO {
     public User updateUser() {
         User user = User.get(id?.toLong())
         createUser(user)
-        setRoles(user)
+        assignRoles(user)
         user.s()
         attachImage(user, selectUserImagePath)
         user.s()

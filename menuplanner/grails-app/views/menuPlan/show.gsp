@@ -4,17 +4,17 @@
     <meta name="layout" content="menu"/>
     <title>${menuPlan.name}</title>
     <rateable:resources/>
-  <link rel="stylesheet" href="${resource(dir: 'css', file: 'custom-ratings.css')}"/>
-   <style type="text/css">
-.ui-sortable-placeholder {
-    border: 1px dotted black;
-    visibility: visible !important;
-}
+    <link rel="stylesheet" href="${resource(dir: 'css', file: 'custom-ratings.css')}"/>
+    <style type="text/css">
+    .ui-sortable-placeholder {
+        border: 1px dotted black;
+        visibility: visible !important;
+    }
 
-.ui-sortable-placeholder * {
-    visibility: hidden;
-}
-</style>
+    .ui-sortable-placeholder * {
+        visibility: hidden;
+    }
+    </style>
 </head>
 <body>
 <div id="content-wrapper" class="clearfix">
@@ -25,7 +25,7 @@
         <br/>
         <div id="button">
             <ul>
-                <li><g:link action="edit" id="${menuPlan.id}" name="editMenuPlan">
+                <li><g:link action="edit" class="editMenuPlanButtonFT" id="${menuPlan.id}" name="editMenuPlan">
                     <input type="button" class="button" value="Edit" id="edit"/></g:link>
                 </li>
             </ul>
