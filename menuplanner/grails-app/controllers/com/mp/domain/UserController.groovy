@@ -171,8 +171,8 @@ class UserController {
     }
 
     def enableUser = {
-        String userId = params['items.item-1.merchant-item-id']
-        User user = User.findById(userId?.toLong())
+        String userId = params['shopping-cart.items.item-1.merchant-item-id']
+        User user = (userId?.toLong()) ? User.findById(userId?.toLong()) : null
         if (user) {
             user.isEnabled = true
             user.s()
