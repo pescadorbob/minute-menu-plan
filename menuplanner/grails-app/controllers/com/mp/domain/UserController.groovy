@@ -2,6 +2,7 @@ package com.mp.domain
 
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.grails.comments.Comment
+import javax.servlet.http.HttpSession
 
 class UserController {
 
@@ -171,12 +172,14 @@ class UserController {
     }
 
     def enableUser = {
-        String userId = params['shopping-cart.items.item-1.merchant-item-id']
-        User user = (userId?.toLong()) ? User.findById(userId?.toLong()) : null
+        Long userId = params.long('shopping-cart.items.item-1.merchant-item-id')
+        User user = userId ? User.findById(userId) : null
         if (user) {
             user.isEnabled = true
             user.s()
-            session.loggedUserId = user.id.toString()
+            HttpSession currentSession  = ConfigurationHolder.config.sessions.find{it.userId == userId}
+            currentSession.userId = null
+            currentSession.loggedUserId = user.id.toString()
             redirect(action: 'show', id: user?.id)
         } else {
             redirect(action: 'createUser', controller: 'user')
@@ -190,6 +193,7 @@ class UserController {
             User user = userCO.convertToUser()
             Map data = [:]
             data['userId'] = user.id
+            session.userId = user.id
             redirect(action: 'createSubscription', controller: 'subscription', params: data)
         } else {
             userCO.errors.allErrors.each {
