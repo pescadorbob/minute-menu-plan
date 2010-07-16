@@ -3,6 +3,7 @@ package com.mp.domain
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import grails.converters.JSON
 import org.codehaus.groovy.grails.web.json.JSONElement
+import org.springframework.web.context.request.RequestContextHolder as RCH
 
 class UserService {
 
@@ -40,7 +41,7 @@ class UserService {
         return null
     }
 
-    public void updateProfile(User user){
+    public void updateProfile(User user) {
         updateUserPhoto(user)
         updateUserInfo(user)
     }
@@ -56,7 +57,7 @@ class UserService {
                 imageURL.eachByte { out.write it }
             }
             File imageFile = new File(filePath + fileName)
-            if(imageFile.exists()){
+            if (imageFile.exists()) {
                 Image.updateOwnerImage(user, imageFile.absolutePath)
             }
         }
@@ -67,7 +68,7 @@ class UserService {
             URL url = new URL("https://graph.facebook.com/${user.facebookAccount.uid}?access_token=${user.facebookAccount.oauthToken}&fields=name,location")
             JSONElement response = JSON.parse(url.newReader())
             user.name = response.name
-            if(response?.location?.name){
+            if (response?.location?.name) {
                 user.city = response?.location?.name
             }
             user.s()
@@ -122,7 +123,14 @@ class UserCO {
 
     static constraints = {
         id(nullable: true)
-        email(blank: false, nullable: false, email: true)
+        email(blank: false, nullable: false, validator: {val, obj ->
+            if (val) {
+                LoginCredential credential = LoginCredential.findByEmail(val)
+                if (credential && (credential?.id != obj?.id?.toLong())) {
+                    return "userCO.email.unique.error"
+                }
+            }
+        })
         password(nullable: false, blank: false, minSize: 4)
         confirmPassword(nullable: false, blank: false, validator: {val, obj ->
             obj.properties['password'] == val
@@ -136,7 +144,7 @@ class UserCO {
 
     public boolean createUser(User user) {
         user?.name = name
-        if(!user.loginCredential){
+        if (!user.loginCredential) {
             user?.loginCredential = new LoginCredential()
         }
         user?.loginCredential?.email = email

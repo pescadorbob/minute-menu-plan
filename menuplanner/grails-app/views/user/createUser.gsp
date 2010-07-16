@@ -7,9 +7,17 @@
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'user.css')}"/>
 
     <style type="text/css" media="screen">
-        #mpFacebookConnectSuccess {width: 80% !important;}
-        .FBConnectButton_Text {width: 150px !important;}
-        .fbconnect_login_button {margin-left: 100px;}
+    #mpFacebookConnectSuccess {
+        width: 80% !important;
+    }
+
+    .FBConnectButton_Text {
+        width: 150px !important;
+    }
+
+    .fbconnect_login_button {
+        margin-left: 100px;
+    }
     </style>
 </head>
 <body>
@@ -26,7 +34,7 @@
             the subscription period chose and indicated below.<br/>
             <br/>
         </div>
-        <g:form id="googleCheckoutForm" name="googleCheckoutForm" action="newUserCheckout">
+        <g:form name="googleCheckoutForm" action="newUserCheckout">
             <div id="leftpanelbox">
                 <h1>Your subscription</h1>
                 <div id="subscription">
