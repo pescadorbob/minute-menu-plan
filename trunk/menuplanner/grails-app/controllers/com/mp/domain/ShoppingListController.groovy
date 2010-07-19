@@ -9,14 +9,15 @@ class ShoppingListController {
 
     def generateShoppingList = {
         MenuPlan menuPlan = MenuPlan.get(params?.id?.toLong())
-        User user = User.currentUser
+        LoginCredential user = LoginCredential.currentUser
         PrintShoppingListCO pslCO = new PrintShoppingListCO()
         pslCO.name = menuPlan?.name + '-Shopping List'
         pslCO.menuPlanId = params?.id
         pslCO.weeks = ['0', '1', '2', '3']
-        pslCO.servings = user.mouthsToFeed.toString()
-        List<MenuPlan> menuPlans = user?.menuPlans as List
-        render(view: 'generateShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: user.mouthsToFeed])
+        Integer mouthsToFeed = user?.party?.roles?.find{it.userType==UserType.Subscriber}?.mouthsToFeed
+        pslCO.servings = mouthsToFeed?.toString()
+        List<MenuPlan> menuPlans = user?.party?.menuPlans as List
+        render(view: 'generateShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: mouthsToFeed])
     }
 
     def create = {PrintShoppingListCO pslCO ->
@@ -27,9 +28,10 @@ class ShoppingListController {
             pslCO.errors.allErrors.each {
                 println it
             }
-            User user = User.currentUser
-            List<MenuPlan> menuPlans = user?.menuPlans as List
-            render(view: 'generateShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: user.mouthsToFeed])
+            LoginCredential user = LoginCredential.currentUser
+            List<MenuPlan> menuPlans = user?.party?.menuPlans as List
+            Integer mouthsToFeed = user?.party?.roles?.find{it.userType==UserType.Subscriber}?.mouthsToFeed
+            render(view: 'generateShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: mouthsToFeed])
         }
     }
     def show = {
@@ -44,7 +46,7 @@ class ShoppingListController {
         shoppingList.menuPlan = menuPlan
         shoppingList.name = params?.shoppingListName
         shoppingList.servings = params?.servings?.toInteger()
-        shoppingList.user = User.currentUser
+        shoppingList.party = LoginCredential.currentUser?.party
         shoppingList.s()
         weekList.each {String index ->
             WeeklyShoppingList weeklyShoppingList = new WeeklyShoppingList(shoppingList: shoppingList, weekIndex: index.toInteger())
@@ -100,14 +102,15 @@ class ShoppingListController {
 
     def edit = {
         ShoppingList shoppingList = ShoppingList.get(params?.shoppingListId?.toLong())
-        User user = User.currentUser
+        LoginCredential user = LoginCredential.currentUser
         PrintShoppingListCO pslCO = new PrintShoppingListCO()
         pslCO.name = shoppingList?.name
         pslCO.menuPlanId = shoppingList?.menuPlan?.id
         pslCO.servings = shoppingList?.servings
         pslCO.weeks = shoppingList?.weeklyShoppingLists*.weekIndex*.toString()
-        List<MenuPlan> menuPlans = user?.menuPlans as List
-        render(view: 'generateShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, shoppingListId: shoppingList?.id, servings: user.mouthsToFeed, shoppingList: shoppingList])
+        List<MenuPlan> menuPlans = user?.party?.menuPlans as List
+        Integer mouthsToFeed = user?.party?.roles?.find{it.userType==UserType.Subscriber}?.mouthsToFeed
+        render(view: 'generateShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, shoppingListId: shoppingList?.id, servings: mouthsToFeed, shoppingList: shoppingList])
     }
 
     def modifyShoppingList = {PrintShoppingListCO pslCO ->
@@ -121,9 +124,10 @@ class ShoppingListController {
             pslCO.errors.allErrors.each {
                 println it
             }
-            User user = User.currentUser
-            List<MenuPlan> menuPlans = user?.menuPlans as List
-            render(view: 'generateShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: user.mouthsToFeed])
+            LoginCredential user = LoginCredential.currentUser
+            List<MenuPlan> menuPlans = user?.party?.menuPlans as List
+            Integer mouthsToFeed = user?.party?.roles?.find{it.userType==UserType.Subscriber}?.mouthsToFeed
+            render(view: 'generateShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: mouthsToFeed])
         }
     }
 

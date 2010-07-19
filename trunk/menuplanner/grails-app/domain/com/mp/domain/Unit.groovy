@@ -5,10 +5,10 @@ class Unit extends Metric{
 
     static hasMany = [systemOfUnits:SystemOfUnit]
     static belongsTo = SystemOfUnit
-    User user
+    Party party
 
     static constraints = {
-        user(nullable: true)
+        party(nullable: true)
     }
 
     static mapping = {
@@ -17,7 +17,7 @@ class Unit extends Metric{
 
     public static List<Unit> getSortedMetricUnits(){
         List<Unit> units = StandardConversion.listOrderByConversionFactor()?.findAll{it.sourceUnit.metricType == MetricType.METRIC}*.sourceUnit
-        units = units.findAll{((it.user == null) || (it.user == User.currentUser))}
+        units = units.findAll{((it.party == null) || (it.party == LoginCredential.currentUser?.party))}
         return units
     }
 
@@ -30,8 +30,8 @@ class Unit extends Metric{
     }
 
     public static List<Unit> listForCurrentUser(){
-        User currentUser = User.currentUser
-        List<Unit> units = currentUser ? Unit.findAllByUserOrUserIsNull(currentUser) : []
+        LoginCredential currentUser = LoginCredential.currentUser
+        List<Unit> units = currentUser ? Unit.findAllByPartyOrPartyIsNull(currentUser.party) : []
         return units
     }
 

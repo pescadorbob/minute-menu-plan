@@ -3,7 +3,7 @@ package com.mp.domain
 class RecipeAbuse {
 
     Recipe recipe
-    User reporter
+    Party reporter
 
     static constraints = {
     }

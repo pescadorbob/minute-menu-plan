@@ -19,23 +19,23 @@ class MenuplannerTagLib {
 
     def showFavorite = {attrs ->
         Long recipeId = attrs['recipeId']?.toLong()
-        User user = User.currentUser
+        LoginCredential user = LoginCredential.currentUser
         Recipe recipe = Recipe.get(recipeId)
-        out << g.render(template: '/recipe/showAddToFavorite', model: [isAdded: (recipe in user?.favourites)])
+        out << g.render(template: '/recipe/showAddToFavorite', model: [isAdded: (recipe in user?.party?.favourites)])
     }
     def menuPlanDropdown = {
-        User user = User.currentUser
-        List<MenuPlan> menuPlans = MenuPlan.findAllByOwner(user)
+        LoginCredential user = LoginCredential.currentUser
+        List<MenuPlan> menuPlans = MenuPlan.findAllByOwner(user.party)
         out << g.render(template: '/layouts/menuPlanDropdown', model: [menuPlans: menuPlans])
     }
 
     def loggedUserDropDown = {attrs ->
-        out << g.render(template: '/layouts/loggedUserDropDown', model: [loggedUser: User.currentUser])
+        out << g.render(template: '/layouts/loggedUserDropDown', model: [loggedUser: LoginCredential.currentUser])
     }
 
     def shoppingListDropDown = {
-        User user = User.currentUser
-        List<ShoppingList> shoppingLists = ShoppingList.findAllByUser(user)
+        LoginCredential user = LoginCredential.currentUser
+        List<ShoppingList> shoppingLists = ShoppingList.findAllByParty(user?.party)
         out << g.render(template: '/layouts/shoppingListDropDown', model: [shoppingLists: shoppingLists])
     }
 
@@ -106,10 +106,10 @@ class MenuplannerTagLib {
 
     def showRecipeAbuse = {attrs ->
         Recipe recipe = attrs['recipe']
-        User user = User.currentUser
+        LoginCredential user = LoginCredential.currentUser
         Boolean reported = false
 
-        List<RecipeAbuse> recipeAbuses = RecipeAbuse.findAllByReporterAndRecipe(user, recipe)
+        List<RecipeAbuse> recipeAbuses = RecipeAbuse.findAllByReporterAndRecipe(user?.party, recipe)
         if (!recipeAbuses) {
             out << g.render(template: "/recipe/showRecipeAbuse", model: [reported: reported, recipeId: recipe?.id])
         } else {
@@ -120,14 +120,14 @@ class MenuplannerTagLib {
 
     def reportCommentAbuse = {attrs ->
         Comment comment = attrs['comment']
-        User user = User.currentUser
-        Boolean alreadyReported = CommentAbuse.countByCommentAndReporter(comment, user) as Boolean
+        LoginCredential user = LoginCredential.currentUser
+        Boolean alreadyReported = CommentAbuse.countByCommentAndReporter(comment, user?.party) as Boolean
         out << g.render(template: "/recipe/reportCommentAbuse", model: [comment: comment, user: user, alreadyReported: alreadyReported])
     }
 
     def firstTimeUser = {attrs, body ->
-        User user = User.currentUser
-        if (user && (user.menuPlans.size() == 0)) {
+        LoginCredential user = LoginCredential.currentUser
+        if (user && (user?.party?.menuPlans?.size() == 0)) {
             out << body()
         }
     }

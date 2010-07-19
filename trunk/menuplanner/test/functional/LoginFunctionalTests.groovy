@@ -75,7 +75,7 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         loginFormData.email = userFormData.email
         loginFormData.password = userFormData.password
         login(loginFormData)
-        assertEquals('User disabled message not displayed / not displayed on correct location', getMessage('loginCO.user.disabled'), byId('display_WrongPassword_DisabledUser_Error').asText())
+        assertEquals('Subscriber disabled message not displayed / not displayed on correct location', getMessage('loginCO.user.disabled'), byId('display_WrongPassword_DisabledUser_Error').asText())
     }
 
     /*
@@ -104,7 +104,7 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         List<String> urls = ["/user/list", "/recipe/create", "/menuPlan/create", "/recipe/list", "/user/create"]
         Recipe recipe = Recipe.list().first()
         ShoppingList shoppingList = ShoppingList.list().first()
-        User user = User.list().first()
+        Subscriber user = Subscriber.list().first()
         MenuPlan menuPlan = MenuPlan.list().first()
         urls.add("/recipe/show/${recipe.id}")
         urls.add("/recipe/edit/${recipe.id}")

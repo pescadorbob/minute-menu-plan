@@ -4,7 +4,7 @@ class ShoppingList {
 
     String name
     Integer servings
-    User user 
+    Party party
     MenuPlan menuPlan
 
     List<WeeklyShoppingList> weeklyShoppingLists = []

@@ -61,7 +61,8 @@ class BootStrap {
         }
 
         bootstrapMasterData()
-        if ((GrailsUtil.environment != Environment.PRODUCTION) && !User.count()) {
+//        if (false) {
+        if ((GrailsUtil.environment != Environment.PRODUCTION) && !Subscriber.count()) {
             List<String> userNames
             if(GrailsUtil.environment == 'qa'){
                 userNames = ['superAdmin', 'admin1', 'admin2', 'user1', 'user2']
@@ -69,6 +70,7 @@ class BootStrap {
                 userNames = ['superAdmin', 'user1']
             }
             userNames.each {String name ->
+                println "Populating User - ${name}"
                 bootstrapService.populateUser(name)
             }
             println "Populated Users"
@@ -84,8 +86,8 @@ class BootStrap {
             println "Added Comments Favourite And Contributed"
             bootstrapService.addAbusesOnCommentsAndRecipes()
             println "Added abuses on comments & recipes"
-            List<User> users = User.list()
-            users.each {User user ->
+            List<Party> users = Party.list()
+            users.each {Party user ->
                 bootstrapService.populateMenuPlans(user)
             }
             println "Populated Menu Plans"

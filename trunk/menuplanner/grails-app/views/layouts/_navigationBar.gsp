@@ -1,7 +1,7 @@
-<%@ page import="com.mp.domain.Permission; com.mp.domain.User" %>
+<%@ page import="com.mp.domain.LoginCredential; com.mp.domain.Permission;" %>
 <div id="navigation">
     <ul>
-        <g:if test="${User.currentUser}">
+        <g:if test="${LoginCredential.currentUser}">
             <mp:menuPlanDropdown/>
             <mp:shoppingListDropDown/>
             <li><g:link controller="recipe" action="list" class="browse">Browse&nbsp;Recipes</g:link></li>

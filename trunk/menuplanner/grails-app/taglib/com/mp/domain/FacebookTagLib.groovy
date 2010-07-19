@@ -8,7 +8,7 @@ class FacebookTagLib {
     static namespace = 'facebook'
     def connect = {attrs ->
         Long userId = attrs['userId'] ? attrs['userId'] : 0L
-        User user = userId ? User.get(userId) : null
+        Subscriber user = userId ? Subscriber.get(userId) : null
         if (!user?.facebookAccount) {
             String apiKey = ConfigurationHolder.config.facebookConnect.apiKey
             String allowUrl = g.createLink(controller: 'user', action: 'facebookConnect', absolute: true, params: [userId: userId]).encodeAsURL()

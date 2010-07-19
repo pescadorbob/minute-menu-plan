@@ -9,13 +9,13 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
     */
 
     void testCreateUser_VALID() {
-        Integer initialCount = User.count()
+        Integer initialCount = Subscriber.count()
         loginBySuperAdmin()
         UserFormData userFormData = UserFormData.getDefaultUserFormData()
         userFormData.isUser = true
         createUser(userFormData)
         assertStatus 200
-        Integer finalCount = User.count()
+        Integer finalCount = Subscriber.count()
         assertTrue('Add User with valid values failed', (finalCount - initialCount == 1))
         assertTitle 'Minute Menu Plan : Show User'
         assertElementTextContains('flashMsgTst', getMessage('user.created.success'))
@@ -27,14 +27,14 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
     */
 
     void testCreateUser_INVALID_EMAIL() {
-        Integer initialCount = User.count()
+        Integer initialCount = Subscriber.count()
         loginBySuperAdmin()
         UserFormData userFormData = UserFormData.getDefaultUserFormData()
         userFormData.isUser = true
         userFormData.email = "invalidEmailType"
         createUser(userFormData)
         assertStatus 200
-        Integer finalCount = User.count()
+        Integer finalCount = Subscriber.count()
         assertTrue('Add User with invalid values failed', (finalCount - initialCount == 0))
         assertTitle 'Minute Menu Plan : Add User'
         assertElementTextContains('displayUserCOErrors', getMessage('userCO.email.email.error.com.mp.domain.UserCO.email'))
@@ -48,14 +48,14 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
 
     void testCreateUser_PASSWORD_CONFIRMPASSWORD_NOT_MATCHED() {
         loginBySuperAdmin()
-        Integer initialCount = User.count()
+        Integer initialCount = Subscriber.count()
         UserFormData userFormData = UserFormData.getDefaultUserFormData()
         userFormData.isUser = true
         userFormData.password = "1234"
         userFormData.confirmPassword = "abcd"
         createUser(userFormData)
         assertStatus 200
-        Integer finalCount = User.count()
+        Integer finalCount = Subscriber.count()
         assertTrue('User added with password and confirm password with different values', (finalCount - initialCount == 0))
         assertTitle 'Minute Menu Plan : Add User'
         assertElementTextContains('displayUserCOErrors', getMessage('userCO.confirmPassword.validator.invalid.confirmPassword'))

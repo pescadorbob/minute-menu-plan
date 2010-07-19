@@ -3,7 +3,7 @@ package com.mp.domain
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import grails.converters.JSON
 import static com.mp.MenuConstants.*
-import org.codehaus.groovy.grails.commons.ApplicationHolder
+
 import org.grails.comments.Comment
 
 class RecipeController {
@@ -75,11 +75,11 @@ class RecipeController {
 
     def delete = {
         def recipe = Recipe.get(params.id)
-        User loggedUser = User.currentUser
+        LoginCredential loggedUser = LoginCredential.currentUser
         if (recipe) {
             try {
                 flash.message = message(code: 'recipe.deleted.success')
-                recipeService.deleteRecipe(recipe, loggedUser)
+                recipeService.deleteRecipe(recipe, loggedUser?.party)
                 redirect(controller: 'recipe', action: "list")
                 return
             }
@@ -134,10 +134,10 @@ class RecipeController {
 
     def save = {RecipeCO recipeCO ->
         if (recipeCO.validate()) {
-            User loggedUser = User.currentUser
-            Recipe recipe = recipeCO.convertToRecipe(loggedUser)
-            loggedUser.addToContributions(recipe)
-            loggedUser.s()
+            LoginCredential loggedUser = LoginCredential.currentUser
+            Recipe recipe = recipeCO.convertToRecipe(loggedUser?.party)
+            loggedUser?.party?.addToContributions(recipe)
+            loggedUser.party?.s()
             redirect(action: 'show', id: recipe?.id)
         } else {
             recipeCO.errors.allErrors.each {
@@ -153,8 +153,8 @@ class RecipeController {
 
     def addComment = {
         Recipe recipe = Recipe.findById(params?.recipeId)
-        User user = User.currentUser
-        recipe?.addComment(user, params?.comment)
+        LoginCredential user = LoginCredential.currentUser
+        recipe?.addComment(user?.party, params?.comment)
         redirect(action: 'show', controller: 'recipe', params: [id: recipe?.id])
     }
 
@@ -189,9 +189,9 @@ class RecipeController {
     }
 
     def reportCommentAbuse = {
-        User user = User.currentUser
+        LoginCredential user = LoginCredential.currentUser
         Comment comment = Comment.get(params.id)
-        new CommentAbuse(comment: comment, reporter: user).s()
+        new CommentAbuse(comment: comment, reporter: user?.party).s()
         redirect(action: 'show', id: params.recipeId)
     }
     def removeCommentAbuse = {
@@ -215,7 +215,7 @@ class RecipeController {
     def reportRecipeAbuse = {
         RecipeAbuse recipeAbuse = new RecipeAbuse()
         recipeAbuse.recipe = Recipe.get(params?.id?.toLong())
-        recipeAbuse.reporter = User.currentUser
+        recipeAbuse.reporter = LoginCredential.currentUser?.party
         recipeAbuse.s()
         redirect(action: 'show', id: params?.id)
     }

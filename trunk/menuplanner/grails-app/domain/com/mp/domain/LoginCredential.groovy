@@ -1,10 +1,17 @@
 package com.mp.domain
 
 class LoginCredential {
-    User user
+    Party party
     String email
     String password
-    static belongsTo = [user: User]
+    static belongsTo = [party: Party]
+
+    static transients = ['currentUser']
+
+    static LoginCredential getCurrentUser() {
+        Long userId = SessionUtils.session.loggedUserId?.toLong()
+        return ((userId) ? LoginCredential.get(userId) : null)
+    }
 
     static constraints = {
         email(email: true, unique: true)

@@ -1,39 +1,36 @@
 package com.mp.domain
 
 import org.grails.comments.Comment
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
-class User {
-
-    static config = ConfigurationHolder.config
-
+class Party {
     String name
-    Image image
-    Integer mouthsToFeed
-    String introduction
-    String city
     Date joiningDate
-    LoginCredential loginCredential
     FacebookAccount facebookAccount
     Boolean isEnabled = true
-    List<UserType> roles = []
 
-    static hasMany = [roles: UserType, favourites: Recipe, contributions: Recipe, menuPlans:MenuPlan]
-    static transients = ['isEnabledString', 'imageDir']
+    Set<PartyRole> roles = []
+    Set<LoginCredential> loginCredentials = []
 
-    static User getCurrentUser() {
-        Long userId = SessionUtils.session.loggedUserId?.toLong()
-        return ((userId) ? User.get(userId) : null)
+    static transients = ['isEnabledString']
+
+    static hasMany = [favourites: Recipe, contributions: Recipe, menuPlans:MenuPlan,
+            roles: PartyRole, loginCredentials: LoginCredential]
+
+    def beforeInsert = {
+        joiningDate = new Date()
     }
 
-    void deleteImage(){
-        Image image = this?.image
-        this.image = null
-        image?.delete(flush: true)
+    static constraints = {
+        facebookAccount(nullable: true)
+        joiningDate(nullable: true, blank: true)
     }
 
-    String getImageDir(){
-        return (config.imagesRootDir + config.usersRootDir + this?.id + '/')
+    String getIsEnabledString() {
+        return (isEnabled ? 'Enabled' : 'Disabled')
+    }
+
+    def getRoleTypes() {
+        return (roles*.userType)
     }
 
     def getAbusiveCommentsMap() {
@@ -75,27 +72,8 @@ class User {
         return total
     }
 
-    String toString() {
-        return name
-    }
-
-    String getIsEnabledString() {
-        return (isEnabled ? 'Enabled' : 'Disabled')
-    }
-
-    def beforeInsert = {
-        joiningDate = new Date()
-        mouthsToFeed = mouthsToFeed ? mouthsToFeed : 1
-    }
-
-    static constraints = {
-        image(nullable: true, blank: true)
-        city(nullable: true, blank: true)
-        mouthsToFeed(nullable: true, blank: true)
-        loginCredential(nullable: true)
-        facebookAccount(nullable: true)
-        joiningDate(nullable: true, blank: true)
-        introduction(nullable: true, maxSize: 1000)
+    static mapping = {
+        tablePerHierarchy false
     }
 
 }

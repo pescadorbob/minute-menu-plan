@@ -3,7 +3,6 @@ package com.mp.domain
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import grails.converters.JSON
 import org.codehaus.groovy.grails.web.json.JSONElement
-import org.springframework.web.context.request.RequestContextHolder as RCH
 
 class UserService {
 
@@ -12,7 +11,7 @@ class UserService {
     static config = ConfigurationHolder.config
 
     public boolean changeStatus(Long userId) {
-        User user = User.findById(userId)
+        Subscriber user = Subscriber.findById(userId)
         if (user) {
             (user.isEnabled = !(user.isEnabled))
             return true
@@ -20,8 +19,8 @@ class UserService {
         return false
     }
 
-    public User updateUserFromFacebook(String redirectUrl, String code, User user) {
-        user = user ? user : new User()
+    public Subscriber updateUserFromFacebook(String redirectUrl, String code, Subscriber user) {
+        user = user ? user : new Subscriber()
         if (code) {
             Long faceBookToken = code.tokenize("-|")[1]?.toLong()
             if (faceBookToken) {
@@ -41,12 +40,12 @@ class UserService {
         return null
     }
 
-    public void updateProfile(User user) {
+    public void updateProfile(Subscriber user) {
         updateUserPhoto(user)
         updateUserInfo(user)
     }
 
-    private void updateUserPhoto(User user) {
+    private void updateUserPhoto(Subscriber user) {
         if (user.facebookAccount) {
             URL imageURL = new URL("http://graph.facebook.com/${user.facebookAccount.uid}/picture?type=large")
             String filePath = config.tempDir
@@ -63,7 +62,7 @@ class UserService {
         }
     }
 
-    private void updateUserInfo(User user) {
+    private void updateUserInfo(Subscriber user) {
         if (user.facebookAccount) {
             URL url = new URL("https://graph.facebook.com/${user.facebookAccount.uid}?access_token=${user.facebookAccount.oauthToken}&fields=name,location")
             JSONElement response = JSON.parse(url.newReader())
@@ -100,7 +99,7 @@ class UserCO {
 
     }
 
-    UserCO(User user) {
+    UserCO(Subscriber user) {
         id = user?.id?.toString()
         email = user?.loginCredential?.email
         password = user?.loginCredential?.password
@@ -142,7 +141,7 @@ class UserCO {
         roles(nullable: false, blank: false)
     }
 
-    public boolean createUser(User user) {
+    public boolean createUser(Subscriber user) {
         user?.name = name
         if (!user.loginCredential) {
             user?.loginCredential = new LoginCredential()
@@ -158,7 +157,7 @@ class UserCO {
         return true
     }
 
-    public boolean assignRoles(User user) {
+    public boolean assignRoles(Subscriber user) {
         List<UserType> userRoles = []
         roles?.each {String role ->
             userRoles.add(UserType."${role}")
@@ -167,8 +166,8 @@ class UserCO {
         return true
     }
 
-    public User convertToUser() {
-        User user = new User()
+    public Subscriber convertToUser() {
+        Subscriber user = new Subscriber()
         createUser(user)
         assignRoles(user)
         user?.s()
@@ -177,8 +176,8 @@ class UserCO {
         return user
     }
 
-    public User updateUser() {
-        User user = User.get(id?.toLong())
+    public Subscriber updateUser() {
+        Subscriber user = Subscriber.get(id?.toLong())
         createUser(user)
         assignRoles(user)
         user.s()
@@ -187,7 +186,7 @@ class UserCO {
         return user
     }
 
-    public boolean attachImage(User user, def imagePath) {
+    public boolean attachImage(Subscriber user, def imagePath) {
         return Image.updateOwnerImage(user, imagePath)
     }
 }

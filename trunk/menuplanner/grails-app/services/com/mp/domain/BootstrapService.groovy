@@ -1,9 +1,7 @@
 package com.mp.domain
 
-import com.mp.domain.*
 import static com.mp.MenuConstants.*
-import org.springframework.web.multipart.commons.CommonsMultipartFile
-import org.codehaus.groovy.grails.commons.ApplicationHolder
+
 import org.grails.comments.*
 import grails.util.GrailsUtil
 
@@ -16,14 +14,14 @@ class BootstrapService {
     public void addAbusesOnCommentsAndRecipes() {
         (1..15).each {Integer count ->   //  Comment Abuses
             Comment comment = Comment.get(new Random().nextInt(Comment.count()) + 1)
-            User user = User.get(new Random().nextInt(User.count()) + 1)
+            Party user = Party.get(new Random().nextInt(Party.count()) + 1)
             if ((!CommentAbuse.findByCommentAndReporter(comment, user)) && (comment) && (user)) {
                 new CommentAbuse(comment: comment, reporter: user).s()
             }
         }
         (1..10).each {Integer count ->   //  Recipe Abuses
             Recipe recipe = Recipe.get(new Random().nextInt(Recipe?.count()) + 1)
-            User user = User.get(new Random().nextInt(User.count()) + 1)
+            Party user = Party.get(new Random().nextInt(Party.count()) + 1)
             if ((!RecipeAbuse.findByRecipeAndReporter(recipe, user)) && (recipe) && (user)) {
                 new RecipeAbuse(recipe: recipe, reporter: user).s()
             }
@@ -32,20 +30,20 @@ class BootstrapService {
 
     public void addCommentsFavouriteAndContributed() {
         Recipe recipe
-        User user
+        Party user
         (0..Recipe.count() - 1).each {Integer index ->
             recipe = Recipe.list().getAt(index)
 
-            user = User.get(new Random().nextInt(User.count()) + 1)
+            user = Party.get(new Random().nextInt(Party.count()) + 1)
             user.addToContributions(recipe)          // contributed Recipe
 
             (1..(new Random().nextInt(2) + 1)).each {       // comments on Recipe
-                user = User.get(new Random().nextInt(User.count()) + 1)
+                user = Party.get(new Random().nextInt(Party.count()) + 1)
                 String commentText = "Recipe-${recipe.id} Comment-${it} Lorem ipsum  dolor sit amet, consectetur adipiscing elit. Donec ut sem felis, sed rhoncus purus. Donec mauris arcu, auctor sit amet tristique eget, egestas ut dui. Aenean quis eros sit amet tortor ullamcorper cursus ut nec urna. Proin scelerisque imperdiet lacus vel convallis. Morbi vehicula nisl eu mi tristique fringilla rhoncus sapien vulputate."
                 recipe?.addComment(user, commentText)
             }
             (1..(new Random().nextInt(2))).each {      // add to Favorite
-                user = User.get(new Random().nextInt(User.count()) + 1)
+                user = Party.get(new Random().nextInt(Party.count()) + 1)
                 user.addToFavourites(recipe)
             }
             user.s()
@@ -53,20 +51,21 @@ class BootstrapService {
     }
 
     public void populateUser(String name) {
-        User user = new User()
-        Integer intVal = (new Random().nextInt(10) + 1)
-        user.name = name
-        LoginCredential loginCredential = new LoginCredential(email: 'qa.menuplanner+' + name + '@gmail.com', password: '1234'.encodeAsBase64())
-        user.loginCredential = loginCredential
-        user.city = 'city'
-        user.mouthsToFeed = intVal
-        List<UserType> roles = []
-        if (name == 'superAdmin') {roles = [UserType.SuperAdmin]}
-        else if (name.contains('admin')) {roles = [UserType.Admin]}
-        else {roles = [UserType.User]}
-        user.roles = roles
-        user.introduction = 'about ' + user.name
-        user.isEnabled = true
+        println "Doing something"
+        Party party = new Person(name: name).s()
+        party.isEnabled = true
+        LoginCredential loginCredential = new LoginCredential(email: 'qa.menuplanner+' + name + '@gmail.com', password: '1234'.encodeAsBase64(), party: party).s()
+        party.loginCredentials = [loginCredential]
+        party.s()
+
+        Subscriber user = new Subscriber()
+        user.screenName  = name
+        user.city = 'city-' + name
+        user.mouthsToFeed = new Random().nextInt(10) + 1
+        user.introduction = 'about ' + user.screenName
+        user.party = party
+        party.roles = [user]
+        party.s()
         user.s()
     }
 
@@ -170,7 +169,7 @@ class BootstrapService {
         return directions
     }
 
-    public void populateMenuPlans(User user) {
+    public void populateMenuPlans(Party user) {
         (1..((GrailsUtil.environment == 'qa') ? 2 : 1)).each {Integer i ->
             MenuPlan menuPlan = new MenuPlan(name: "${user.name}'s MenuPlan-${i}", owner: user).s()
             menuPlan.weeks = populateWeeks(menuPlan)
@@ -186,7 +185,7 @@ class BootstrapService {
         shoppingList.name = menuPlan.name + '-Shopping List'
         shoppingList.menuPlan = menuPlan
         shoppingList.servings = 4
-        shoppingList.user = menuPlan.owner
+        shoppingList.party = menuPlan.owner
         ['0', '1', '2', '3'].each {String weekIndex ->
             WeeklyShoppingList weeklyShoppingList = shoppingListService.createWeeklyShoppingList(shoppingList, menuPlan, weekIndex)
             shoppingList.addToWeeklyShoppingLists(weeklyShoppingList)
