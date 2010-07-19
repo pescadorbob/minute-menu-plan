@@ -173,24 +173,21 @@ class UserController {
 
     def enableUser = {
         Long userId = params.long('shopping-cart.items.item-1.merchant-item-id')
-        println "1: " + userId
         String serialNumber = params['serial-number']
-        println "2"
         Subscriber user = userId ? Subscriber.findById(userId) : null
-        println "User: " + user
-        println "3"
+        String financialOrderState = params['financial-order-state']
+        println "********************Financial Oder State: " + financialOrderState
         if (user) {
-            println "4"
-            user?.party?.isEnabled = true
-            println "5"
+            if(financialOrderState=='REVIEWING'){
+                user?.party?.isEnabled = true
             user.s()
-            println "6"
             HttpSession currentSession  = ConfigurationHolder.config.sessions.find{it.userId == userId}
             currentSession.userId = null
-            println "7"
             currentSession.loggedUserId = user?.party?.loginCredentials?.toList()?.first()?.id?.toString()
-            render "<?xml version='1.0' encoding='UTF-8'?><notification-acknowledgment xmlns='http://checkout.google.com/schema/2' serial-number='${serialNumber}' />"
-            println "8"
+                render "<?xml version='1.0' encoding='UTF-8'?><notification-acknowledgment xmlns='http://checkout.google.com/schema/2' serial-number='${serialNumber}' />"
+            } else if(financialOrderState=='CHARGEABLE'){
+                render "<?xml version='1.0' encoding='UTF-8'?><notification-acknowledgment xmlns='http://checkout.google.com/schema/2' serial-number='${serialNumber}' />"
+            }
         }
 //        else {
 //            render "<?xml version='1.0' encoding='UTF-8'?><notification-acknowledgment xmlns='http://checkout.google.com/schema/2' serial-number='${serialNumber}' />"
