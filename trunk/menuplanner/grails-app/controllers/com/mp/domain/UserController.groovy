@@ -204,7 +204,7 @@ class UserController {
         }
         else {
             println "*********** No User Found ***********"
-            response.setStatus (500)
+            response.setStatus (200)
             render responseXML
         }
     }
