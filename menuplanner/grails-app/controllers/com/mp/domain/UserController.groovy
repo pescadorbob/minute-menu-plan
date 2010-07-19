@@ -184,14 +184,17 @@ class UserController {
             HttpSession currentSession  = ConfigurationHolder.config.sessions.find{it.userId == userId}
             currentSession.userId = null
             currentSession.loggedUserId = user?.party?.loginCredentials?.toList()?.first()?.id?.toString()
-                render "<?xml version='1.0' encoding='UTF-8'?><notification-acknowledgment xmlns='http://checkout.google.com/schema/2' serial-number='${serialNumber}' />"
+                response.setStatus(200)
+//                render "<?xml version='1.0' encoding='UTF-8'?><notification-acknowledgment xmlns='http://checkout.google.com/schema/2' serial-number='${serialNumber}' />"
             } else if(financialOrderState=='CHARGEABLE'){
-                render "<?xml version='1.0' encoding='UTF-8'?><notification-acknowledgment xmlns='http://checkout.google.com/schema/2' serial-number='${serialNumber}' />"
+                println "************************ Status is CHARGEABLE. Do something here. ************************"
+                response.setStatus(200)
+//                render "<?xml version='1.0' encoding='UTF-8'?><notification-acknowledgment xmlns='http://checkout.google.com/schema/2' serial-number='${serialNumber}' />"
             }
         }
-//        else {
-//            render "<?xml version='1.0' encoding='UTF-8'?><notification-acknowledgment xmlns='http://checkout.google.com/schema/2' serial-number='${serialNumber}' />"
-//        }
+        else {
+            response.setStatus(500)
+        }
     }
 
     def newUserCheckout = {UserCO userCO ->
