@@ -192,7 +192,7 @@ class UserController {
         userCO.roles.add(UserType.Subscriber.name())
         userCO.isEnabled = false
         if (userCO.validate()) {
-            Subscriber user = userCO.convertToUser()
+            Subscriber user = userCO.createSubscriber()
             Map data = [:]
             data['userId'] = user.id
             session.userId = user.id
