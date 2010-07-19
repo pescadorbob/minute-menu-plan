@@ -173,15 +173,24 @@ class UserController {
 
     def enableUser = {
         Long userId = params.long('shopping-cart.items.item-1.merchant-item-id')
+        println "1: " + userId
         String serialNumber = params['serial-number']
+        println "2"
         Subscriber user = userId ? Subscriber.findById(userId) : null
+        println "User: " + user
+        println "3"
         if (user) {
-            user.isEnabled = true
+            println "4"
+            user?.party?.isEnabled = true
+            println "5"
             user.s()
+            println "6"
             HttpSession currentSession  = ConfigurationHolder.config.sessions.find{it.userId == userId}
             currentSession.userId = null
-            currentSession.loggedUserId = user.id.toString()
+            println "7"
+            currentSession.loggedUserId = user?.party?.loginCredentials?.toList()?.first()?.id?.toString()
             render "<?xml version='1.0' encoding='UTF-8'?><notification-acknowledgment xmlns='http://checkout.google.com/schema/2' serial-number='${serialNumber}' />"
+            println "8"
         }
 //        else {
 //            render "<?xml version='1.0' encoding='UTF-8'?><notification-acknowledgment xmlns='http://checkout.google.com/schema/2' serial-number='${serialNumber}' />"
