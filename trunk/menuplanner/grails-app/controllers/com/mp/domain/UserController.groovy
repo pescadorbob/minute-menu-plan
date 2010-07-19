@@ -177,28 +177,28 @@ class UserController {
         String serialNumber = params['serial-number']
         Subscriber user = userId ? Subscriber.findById(userId) : null
         String financialOrderState = params['financial-order-state']
-        String responseXML = '<notification-acknowledgment xmlns="http://checkout.google.com/schema/2" serial-number="' + serialNumber +'"/>'
+        String responseXML = '<notification-acknowledgment xmlns="http://checkout.google.com/schema/2" serial-number="' + serialNumber + '"/>'
         println "********************Order: " + serialNumber
         println "********************Financial Order State: " + financialOrderState
         println "********************User: " + user
         if (user) {
-            if(financialOrderState=='REVIEWING'){
+            if (financialOrderState == 'REVIEWING') {
                 user?.party?.isEnabled = true
-            user.s()
-            HttpSession currentSession  = ConfigurationHolder.config.sessions.find{it.userId == userId}
-            currentSession.userId = null
-            currentSession.loggedUserId = user?.party?.loginCredentials?.toList()?.first()?.id?.toString()
-                response.setStatus(200)
-                render (responseXML as XML)
-            } else if(financialOrderState=='CHARGEABLE'){
+                user?.party?.s()
+                HttpSession currentSession = ConfigurationHolder.config.sessions.find {it.userId == userId}
+                println "Session Id: " + currentSession.id
+                currentSession.userId = null
+                println "Session userId: " + currentSession.userId
+                currentSession.loggedUserId = user?.party?.loginCredentials?.toList()?.first()?.id?.toString()
+                println "Session loggedUserId: " + currentSession.loggedUserId
+                render(responseXML as XML)
+            } else if (financialOrderState == 'CHARGEABLE') {
                 println "************************ Status is CHARGEABLE. Do something here. ************************"
-                response.setStatus(200)
-                render (responseXML as XML)
+                render(responseXML as XML)
             }
         }
         else {
-            response.setStatus(500)
-            render (responseXML as XML)
+            render(responseXML as XML)
         }
     }
 
@@ -210,6 +210,7 @@ class UserController {
             Map data = [:]
             data['userId'] = user.id
             session.userId = user.id
+            println "Session Id: " + session.id
             session.setMaxInactiveInterval(300)
             redirect(action: 'createSubscription', controller: 'subscription', params: data)
         } else {
