@@ -176,7 +176,7 @@ class UserController {
         Long userId = params.long('shopping-cart.items.item-1.merchant-item-id')
         String serialNumber = params['serial-number']
         Subscriber user = userId ? Subscriber.findById(userId) : null
-        String financialOrderState = params['financial-order-state']
+        String financialOrderState = params['order-summary.financial-order-state']
         String responseXML = '<?xml version="1.0" encoding="UTF-8"?><notification-acknowledgment xmlns="http://checkout.google.com/schema/2" serial-number="' + serialNumber + '"/>'
         println "********************Order: " + serialNumber
         println "********************Financial Order State: " + financialOrderState
