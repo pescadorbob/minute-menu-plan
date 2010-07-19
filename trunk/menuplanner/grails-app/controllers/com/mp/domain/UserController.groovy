@@ -4,6 +4,7 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 import javax.servlet.http.HttpSession
 import grails.converters.XML
+import com.mp.google.checkout.FinancialState
 
 class UserController {
 
@@ -182,30 +183,35 @@ class UserController {
         println "********************Financial Order State: " + financialOrderState
         println "********************User: " + user
         response.contentType = 'text/xml'
-        if (user) {
-            response.setStatus (200)
-            if (financialOrderState == 'REVIEWING') {
-                user?.party?.isEnabled = true
-                user?.party?.s()
-                HttpSession currentSession = ConfigurationHolder.config.sessions.find {it.userId == userId}
-                println "Session Id: " + currentSession.id
-                currentSession.userId = null
-                println "Session userId: " + currentSession.userId
-                currentSession.loggedUserId = user?.party?.loginCredentials?.toList()?.first()?.id?.toString()
-                println "Session loggedUserId: " + currentSession.loggedUserId
-                render responseXML
-            } else if (financialOrderState == 'CHARGEABLE') {
-                println "************************ Status is CHARGEABLE. Do something here. ************************"
-                render responseXML
-            } else {
-                println "************************ Status is ${financialOrderState}. Do something here. ************************"
+        response.setStatus(200)
+        if (userId) {
+            if (user) {
+                if (financialOrderState == FinancialState.REVIEWING) {
+                    user?.party?.isEnabled = true
+                    user?.party?.s()
+                    HttpSession currentSession = ConfigurationHolder.config.sessions.find {it.userId == userId}
+                    currentSession.userId = null
+                    currentSession.loggedUserId = user?.party?.loginCredentials?.toList()?.first()?.id?.toString()
+                    render responseXML
+                } else {
+                    println "************************ Status is ${financialOrderState}. Do something here. ************************"
+                    render responseXML
+                }
+            }
+            else {
+                println "*********** No User Found ***********"
                 render responseXML
             }
-        }
-        else {
-            println "*********** No User Found ***********"
-            response.setStatus (200)
-            render responseXML
+        } else {
+            switch(financialOrderState){
+                case FinancialState.CHARGEABLE:
+                    render responseXML
+                    break;
+                default:
+                    println "************************ Status is ${financialOrderState}. Do something here. ************************"
+                    response.setStatus(500)
+                    render responseXML
+            }
         }
     }
 
@@ -218,7 +224,7 @@ class UserController {
             data['userId'] = user.id
             session.userId = user.id
             println "Session Id: " + session.id
-            session.setMaxInactiveInterval(300)
+            session.setMaxInactiveInterval(600)
             redirect(action: 'createSubscription', controller: 'subscription', params: data)
         } else {
             userCO.errors.allErrors.each {
