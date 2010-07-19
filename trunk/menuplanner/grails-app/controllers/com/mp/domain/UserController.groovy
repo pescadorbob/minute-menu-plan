@@ -3,6 +3,7 @@ package com.mp.domain
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 import javax.servlet.http.HttpSession
+import grails.converters.XML
 
 class UserController {
 
@@ -176,7 +177,10 @@ class UserController {
         String serialNumber = params['serial-number']
         Subscriber user = userId ? Subscriber.findById(userId) : null
         String financialOrderState = params['financial-order-state']
-        println "********************Financial Oder State: " + financialOrderState
+        String responseXML = '<notification-acknowledgment xmlns="http://checkout.google.com/schema/2" serial-number="' + serialNumber +'"/>'
+        println "********************Order: " + serialNumber
+        println "********************Financial Order State: " + financialOrderState
+        println "********************User: " + user
         if (user) {
             if(financialOrderState=='REVIEWING'){
                 user?.party?.isEnabled = true
@@ -185,15 +189,16 @@ class UserController {
             currentSession.userId = null
             currentSession.loggedUserId = user?.party?.loginCredentials?.toList()?.first()?.id?.toString()
                 response.setStatus(200)
-//                render "<?xml version='1.0' encoding='UTF-8'?><notification-acknowledgment xmlns='http://checkout.google.com/schema/2' serial-number='${serialNumber}' />"
+                render (responseXML as XML)
             } else if(financialOrderState=='CHARGEABLE'){
                 println "************************ Status is CHARGEABLE. Do something here. ************************"
                 response.setStatus(200)
-//                render "<?xml version='1.0' encoding='UTF-8'?><notification-acknowledgment xmlns='http://checkout.google.com/schema/2' serial-number='${serialNumber}' />"
+                render (responseXML as XML)
             }
         }
         else {
             response.setStatus(500)
+            render (responseXML as XML)
         }
     }
 
