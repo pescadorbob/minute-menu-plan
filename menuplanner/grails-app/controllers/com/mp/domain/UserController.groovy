@@ -177,10 +177,11 @@ class UserController {
         String serialNumber = params['serial-number']
         Subscriber user = userId ? Subscriber.findById(userId) : null
         String financialOrderState = params['financial-order-state']
-        String responseXML = '<notification-acknowledgment xmlns="http://checkout.google.com/schema/2" serial-number="' + serialNumber + '"/>'
+        String responseXML = '<?xml version="1.0" encoding="UTF-8"?><notification-acknowledgment xmlns="http://checkout.google.com/schema/2" serial-number="' + serialNumber + '"/>'
         println "********************Order: " + serialNumber
         println "********************Financial Order State: " + financialOrderState
         println "********************User: " + user
+        response.contentType = 'text/xml'
         if (user) {
             if (financialOrderState == 'REVIEWING') {
                 user?.party?.isEnabled = true
@@ -191,14 +192,14 @@ class UserController {
                 println "Session userId: " + currentSession.userId
                 currentSession.loggedUserId = user?.party?.loginCredentials?.toList()?.first()?.id?.toString()
                 println "Session loggedUserId: " + currentSession.loggedUserId
-                render(responseXML as XML)
+                render responseXML
             } else if (financialOrderState == 'CHARGEABLE') {
                 println "************************ Status is CHARGEABLE. Do something here. ************************"
-                render(responseXML as XML)
+                render responseXML
             }
         }
         else {
-            render(responseXML as XML)
+            render responseXML
         }
     }
 
