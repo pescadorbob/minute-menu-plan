@@ -8,8 +8,8 @@ class FacebookProfileSyncJob {
     def userService
     def execute() {
         println "Executing Facebook Profile Sync Job"
-        List<User> users = User.findAllByUidIsNotNullAndFbOauthTokenIsNotNull()
-        users?.each{User user ->
+        List<Subscriber> users = Subscriber.findAllByUidIsNotNullAndFbOauthTokenIsNotNull()
+        users?.each{Subscriber user ->
             userService.updateProfile(user)
 
         }

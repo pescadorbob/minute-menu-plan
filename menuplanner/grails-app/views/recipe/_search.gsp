@@ -1,4 +1,4 @@
-<%@ page import="com.mp.domain.User" %>
+<%@ page import="com.mp.domain.LoginCredential;" %>
 <div id="left-panel-product">
     <div class="top-shadow">
         <label>&nbsp;</label>
@@ -78,7 +78,7 @@
                     <g:select width="100px" name="qSelect" from="${categoryList}" onchange="submitSearchFormBySelect()" noSelection="[' ': '(Select One)']"/>
                 </li>
                 <li>
-                    <span id="favouriteForUsersString" class="pointer" onclick="submitSearchForm(this, 'favouriteForUsersString', '*${User.currentUser.id}*');">Favourites</span>
+                    <span id="favouriteForUsersString" class="pointer" onclick="submitSearchForm(this, 'favouriteForUsersString', '*${LoginCredential.currentUser.id}*');">Favourites</span>
                 </li>
                 <li>
                     Calories

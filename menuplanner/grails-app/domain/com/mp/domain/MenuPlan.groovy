@@ -6,7 +6,7 @@ class MenuPlan {
     List<Week> weeks = []
 
     static hasMany = [weeks: Week]
-    static belongsTo = [owner: User]
+    static belongsTo = [owner: Party]
 
     static constraints = {
     }

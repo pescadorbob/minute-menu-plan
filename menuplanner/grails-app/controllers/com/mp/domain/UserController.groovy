@@ -1,7 +1,7 @@
 package com.mp.domain
 
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
-import org.grails.comments.Comment
+
 import javax.servlet.http.HttpSession
 
 class UserController {
@@ -16,11 +16,11 @@ class UserController {
     }
 
     def delete = {
-        User user = User.get(params?.id)
+        Party user = Party.get(params?.id)
         if (user) {
             try {
-                Boolean deletingCurrentUser = (user == User.currentUser)
-                User.withTransaction {
+                Boolean deletingCurrentUser = (user == LoginCredential.currentUser?.party)
+                Party.withTransaction {
                     List commentAbuses = CommentAbuse.findAllByReporter(user)
                     List recipeAbuses = RecipeAbuse.findAllByReporter(user)
                     commentAbuses*.delete(flush: true)
@@ -52,8 +52,8 @@ class UserController {
 
     def removeFavorite = {
         Recipe recipe = Recipe.get(params.id)
-        User user = User.currentUser
-        user?.removeFromFavourites(recipe)
+        LoginCredential user = LoginCredential.currentUser
+        user?.party?.removeFromFavourites(recipe)
         user.s()
         recipe.reindex()
         render(view: 'show', model: [user: user])
@@ -61,12 +61,12 @@ class UserController {
 
     def alterFavorite = {
         Recipe recipe = Recipe.get(params.id)
-        User user = User.currentUser
-        if (recipe in user?.favourites) {
-            user?.removeFromFavourites(recipe)
+        LoginCredential user = LoginCredential.currentUser
+        if (recipe in user?.party?.favourites) {
+            user?.party?.removeFromFavourites(recipe)
             user.s()
         } else {
-            user?.addToFavourites(recipe)
+            user?.party?.addToFavourites(recipe)
             user.s()
         }
         recipe.reindex()
@@ -79,7 +79,7 @@ class UserController {
         def userList
         Integer total
         if (name || params?.userStatus) {
-            userList = User.createCriteria().list(max: params.max, offset: 0) {
+            userList = Subscriber.createCriteria().list(max: params.max, offset: 0) {
                 if (name) {
                     ilike('name', "%${name}%")
                 }
@@ -93,8 +93,8 @@ class UserController {
             total = userList.getTotalCount()
         } else {
             params.userStatus = 'all'
-            userList = User.list(params)
-            total = User.count()
+            userList = Subscriber.list(params)
+            total = Subscriber.count()
         }
 
         render(view: 'list', model: [userList: userList, total: total, searchName: name, userStatus: params.userStatus])
@@ -102,13 +102,13 @@ class UserController {
 
     def edit = {
         if (params.id) {
-            User user = User.get(params.long('id'))
+            Subscriber user = Subscriber.get(params.long('id'))
             UserCO userCO = new UserCO(user)
             render(view: 'edit', model: [userCO: userCO])
         }
     }
     def create = {
-        UserCO userCO = new UserCO(roles: [UserType.User.toString()], isEnabled: true)
+        UserCO userCO = new UserCO(roles: [UserType.Subscriber.toString()], isEnabled: true)
         render(view: 'create', model: [userCO: userCO])
     }
 
@@ -130,7 +130,7 @@ class UserController {
     }
     def save = {UserCO userCO ->
         if (userCO.validate()) {
-            User user = userCO.convertToUser()
+            Subscriber user = userCO.convertToUser()
             String message = message(code: 'user.created.success')
             redirect(action: 'show', id: user?.id, params: [message: message])
         } else {
@@ -142,9 +142,9 @@ class UserController {
     }
 
     def show = {
-        User user = User.get(params.id)
-        Map abusiveRecipesMap = user.abusiveRecipesMap
-        Map abusiveCommentsMap = user.abusiveCommentsMap
+        Subscriber user = Subscriber.get(params.id)
+        Map abusiveRecipesMap = user.party.abusiveRecipesMap
+        Map abusiveCommentsMap = user.party.abusiveCommentsMap
         if (params?.message) {
             flash.message = params.message
         }
@@ -153,14 +153,14 @@ class UserController {
 
     def facebookConnect = {
         Long userId = params.long('userId') ? params.long('userId') : 0L
-        User user = userId ? User.get(userId) : null
+        Subscriber user = userId ? Subscriber.get(userId) : null
         String redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true, params: [userId: userId]).encodeAsURL()}"
         user = userService.updateUserFromFacebook(redirectUrl, params.code, user)
         if (user) {
             if (params.long('userId')) {
                 render "<script type='text/javascript'>window.opener.facebookConnectSuccess();window.close();</script>"
             } else {
-                user.addToRoles(UserType.User)
+                user.addToRoles(UserType.Subscriber)
                 user.s()
                 session.loggedUserId = user.id.toString()
                 render "<script type='text/javascript'>window.opener.location.href='" + createLink(controller: 'user', action: 'show', id: user.id) + "';window.close();</script>"
@@ -173,27 +173,30 @@ class UserController {
 
     def enableUser = {
         Long userId = params.long('shopping-cart.items.item-1.merchant-item-id')
-        User user = userId ? User.findById(userId) : null
+        String serialNumber = params['serial-number']
+        Subscriber user = userId ? Subscriber.findById(userId) : null
         if (user) {
             user.isEnabled = true
             user.s()
             HttpSession currentSession  = ConfigurationHolder.config.sessions.find{it.userId == userId}
             currentSession.userId = null
             currentSession.loggedUserId = user.id.toString()
-            redirect(action: 'show', id: user?.id)
-        } else {
-            redirect(action: 'createUser', controller: 'user')
+            render "<?xml version='1.0' encoding='UTF-8'?><notification-acknowledgment xmlns='http://checkout.google.com/schema/2' serial-number='${serialNumber}' />"
         }
+//        else {
+//            render "<?xml version='1.0' encoding='UTF-8'?><notification-acknowledgment xmlns='http://checkout.google.com/schema/2' serial-number='${serialNumber}' />"
+//        }
     }
 
     def newUserCheckout = {UserCO userCO ->
-        userCO.roles.add(UserType.User.name())
+        userCO.roles.add(UserType.Subscriber.name())
         userCO.isEnabled = false
         if (userCO.validate()) {
-            User user = userCO.convertToUser()
+            Subscriber user = userCO.convertToUser()
             Map data = [:]
             data['userId'] = user.id
             session.userId = user.id
+            session.setMaxInactiveInterval(300)
             redirect(action: 'createSubscription', controller: 'subscription', params: data)
         } else {
             userCO.errors.allErrors.each {

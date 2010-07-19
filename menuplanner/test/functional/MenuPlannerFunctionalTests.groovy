@@ -180,8 +180,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
         loginToHomepage(loginFormData)
         LoginCredential credential = LoginCredential.findByEmail(loginFormData.email)
-        User user = User.findByLoginCredential(credential)
-        ShoppingList shoppingList = ShoppingList.findByUser(user)
+        ShoppingList shoppingList = ShoppingList.findByParty(credential.party)
         get("/shoppingList/generateShoppingList/${shoppingList?.id}")
     }
 
@@ -193,7 +192,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
         loginToHomepage(loginFormData)
         LoginCredential credential = LoginCredential.findByEmail(loginFormData.email)
-        User user = User.findByLoginCredential(credential)
+        Subscriber user = Subscriber.findByLoginCredential(credential)
         ShoppingList shoppingList = ShoppingList.findByUser(user)
         get("/shoppingList/generateShoppingList/${shoppingList?.id}")
         def createLink = byName('_action_create')

@@ -1,6 +1,6 @@
 <g:if test="${loggedUser}">
     <li>
-        <a href="#"><span>Hi! ${loggedUser.name}</span></a>
+        <a href="#"><span>Hi! ${loggedUser.party.name}</span></a>
         <ul>
             <li>
                 <g:link name="profileLinkTst" controller="user" action="show" id="${loggedUser?.id}">Profile</g:link>

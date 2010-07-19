@@ -45,15 +45,15 @@ class Recipe extends Item implements Commentable, Rateable {
     }
 
     String getFavouriteForUsersString() {
-        List<User> users = favouriteForUsers
+        List<Party> users = favouriteForUsers
         String s = (users ? users.collect {it.id.toString()}.join(", ") : '')
         return s
     }
 
-    List<User> getFavouriteForUsers() {
-        List<User> users = []
+    List<Party> getFavouriteForUsers() {
+        List<Party> users = []
         if (!config.bootstrapMode) {
-            users = User.createCriteria().list {
+            users = Party.createCriteria().list {
                 favourites {
                     eq('id', this.id)
                 }
@@ -63,7 +63,7 @@ class Recipe extends Item implements Commentable, Rateable {
     }
 
     def getContributor() {
-        return User.createCriteria().get {
+        return Party.createCriteria().get {
             contributions {
                 eq('id', this.id)
             }

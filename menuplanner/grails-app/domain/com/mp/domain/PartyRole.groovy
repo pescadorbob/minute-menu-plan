@@ -1,15 +1,16 @@
 package com.mp.domain
 
-class FacebookAccount {
+class PartyRole {
 
     Party party
-    Long uid
-    String oauthToken
 
     static belongsTo = [party: Party]
 
     static constraints = {
     }
 
+    static mapping = {
+        tablePerHierarchy false
+    }
 
 }

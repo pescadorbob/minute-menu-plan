@@ -27,9 +27,9 @@
                         <mp:image id="${user?.image?.id}" height="150" width="150"/>
                     </div>
                     <ul>
-                        <li>Member since ${user?.joiningDate?.format('MMMM yyyy')}</li>
+                        <li>Member since ${user?.party?.joiningDate?.format('MMMM yyyy')}</li>
                         <li></li><li></li>
-                        <g:each in="${user?.roles}" var="role"><li><strong>${role}</strong></li></g:each>
+                        <g:each in="${user?.party?.roleTypes}" var="roleType"><li><strong>${roleType}</strong></li></g:each>
                         <li><h3>Contributed Recipes</h3></li>
                         <g:each in="${user?.contributions}" var="recipe">
                             <li><a href="${createLink(controller: 'recipe', action: 'show', id: recipe?.id)}">${recipe?.name}</a></li>

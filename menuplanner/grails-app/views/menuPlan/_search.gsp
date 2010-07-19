@@ -1,4 +1,4 @@
-<%@ page import="com.mp.domain.User" %>
+<%@ page import="com.mp.domain.LoginCredential;" %>
 
 <div id="right-panel">
     <div id="search">Quick Recipe Search</div>
@@ -113,7 +113,7 @@
                             <span id="domainProduct" class="pointer" onclick="defineSearchDomainType(this, 'domainType', 'Item');">Include Products</span><br/>
                         </li>
                         <li>
-                            <span id="favourites" class="pointer" onclick="submitSearchForm(this, 'favouriteForUsersString', '*${User.currentUser.id}*');">Show favourites</span><br/>
+                            <span id="favourites" class="pointer" onclick="submitSearchForm(this, 'favouriteForUsersString', '*${LoginCredential.currentUser.id}*');">Show favourites</span><br/>
                         </li>
                         <li>
                             Calories

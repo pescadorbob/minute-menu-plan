@@ -1,15 +1,12 @@
 package com.mp.domain
 
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
-import static com.mp.MenuConstants.*
-import org.apache.commons.math.fraction.Fraction
-import org.codehaus.groovy.grails.commons.ApplicationHolder
 
 class RecipeService {
 
     boolean transactional = true
 
-    public boolean deleteRecipe(Recipe recipe, User user) {
+    public boolean deleteRecipe(Recipe recipe, Party user) {
         try {
             user.removeFromContributions(recipe)
             user.s()
@@ -202,7 +199,7 @@ class RecipeCO {
         return recipe
     }
 
-    public Recipe convertToRecipe(User byUser) {
+    public Recipe convertToRecipe(Party byUser) {
         Recipe recipe = new Recipe()
 
         recipe.name = name

@@ -5,7 +5,7 @@ import org.grails.comments.Comment
 class CommentAbuse {
 
     Comment comment
-    User reporter
+    Party reporter
 
     static constraints = {
     }

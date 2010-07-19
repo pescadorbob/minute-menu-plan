@@ -69,7 +69,7 @@ class Image {
         this.altText = altText
     }
 
-    //ImageOwner could be a Recipe/User
+    //ImageOwner could be a Recipe/Subscriber
     public static boolean updateOwnerImage(def imageOwner, String imagePath){
         if (!imagePath) {
             imageOwner.deleteImage()

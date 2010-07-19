@@ -52,7 +52,7 @@ class MenuPlanController {
             weeks*.delete(flush: true)
         } else {
             menuPlan = new MenuPlan()
-            menuPlan.owner = User.currentUser
+            menuPlan.owner = LoginCredential.currentUser.party
         }
         menuPlan.name = params.menuPlan.name
         (0..3).each {Integer weekIndex ->

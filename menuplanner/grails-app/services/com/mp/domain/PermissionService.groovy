@@ -17,16 +17,16 @@ class PermissionService {
     }
 
     private Boolean validateOwnsRecipe(Recipe recipe) {
-        User user = User.currentUser
-        return (user && (recipe in user.contributions))
+        LoginCredential user = LoginCredential.currentUser
+        return (user && (recipe in user?.party?.contributions))
     }
 
     public Boolean hasPermission(Permission permission, Recipe recipe = null) {
-        User user = User.currentUser
+        LoginCredential user = LoginCredential.currentUser
         if (!user) {
             return false
         }
-        List<SecurityRole> roles = SecurityRole.findAllByNameInList(user.roles*.name)
+        List<SecurityRole> roles = SecurityRole.findAllByNameInList(user.party.roles*.userType.name)
         Boolean result = roles?.any {SecurityRole role ->
             PermissionLevel permissionLevel = PermissionLevel.findByPermissionAndRole(permission, role)
             if (!permissionLevel) {return false}

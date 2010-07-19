@@ -5,7 +5,7 @@ class LoginController {
     def asynchronousMailService
     def index = {
         flash.message = ""
-        if (User.currentUser) {
+        if (LoginCredential.currentUser) {
             redirect(controller: 'recipe', action: 'list')
         } else {
             render(view: 'home')
@@ -44,8 +44,8 @@ class LoginController {
         if (loginCO.validate()) {
             LoginCredential loginCredential = LoginCredential.findByEmailAndPassword(loginCO?.email, loginCO?.password?.encodeAsBase64())
             if (loginCredential) {
-                if (loginCredential.user.isEnabled) {
-                    session.loggedUserId = loginCredential.user.id.toString()
+                if (loginCredential.party.isEnabled) {
+                    session.loggedUserId = loginCredential.id.toString()
                     if (params.targetUri?.size()) {
                         redirect(uri: params.targetUri)
                         params.remove('targetUri')

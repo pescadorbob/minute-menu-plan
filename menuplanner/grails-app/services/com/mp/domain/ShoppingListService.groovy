@@ -1,7 +1,5 @@
 package com.mp.domain
 
-import org.apache.commons.math.fraction.Fraction
-
 class ShoppingListService {
 
     boolean transactional = true
@@ -12,7 +10,7 @@ class ShoppingListService {
         shoppingList.name = shoppingListCO.name
         shoppingList.menuPlan = menuPlan
         shoppingList.servings = shoppingListCO.servings.toInteger()
-        shoppingList.user = User.currentUser
+        shoppingList.party = LoginCredential.currentUser?.party
         shoppingListCO.weeks.each {String weekIndex ->
             WeeklyShoppingList weeklyShoppingList = createWeeklyShoppingList(shoppingList, menuPlan, weekIndex)
             shoppingList.addToWeeklyShoppingLists(weeklyShoppingList)
@@ -26,7 +24,7 @@ class ShoppingListService {
         shoppingList.name = shoppingListCO.name
         shoppingList.menuPlan = menuPlan
         shoppingList.servings = shoppingListCO.servings.toInteger()
-        shoppingList.user = User.currentUser
+        shoppingList.party = LoginCredential.currentUser?.party
         shoppingListCO.weeks.each {String weekIndex ->
             if (weekIndex in shoppingListOld?.weeklyShoppingLists?.weekIndex*.toString()) {
                 shoppingList.addToWeeklyShoppingLists(shoppingListOld?.weeklyShoppingLists?.find {it?.weekIndex == weekIndex.toInteger()})
