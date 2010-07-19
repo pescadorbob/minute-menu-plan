@@ -183,6 +183,7 @@ class UserController {
         println "********************User: " + user
         response.contentType = 'text/xml'
         if (user) {
+            response.setStatus (200)
             if (financialOrderState == 'REVIEWING') {
                 user?.party?.isEnabled = true
                 user?.party?.s()
@@ -196,9 +197,14 @@ class UserController {
             } else if (financialOrderState == 'CHARGEABLE') {
                 println "************************ Status is CHARGEABLE. Do something here. ************************"
                 render responseXML
+            } else {
+                println "************************ Status is ${financialOrderState}. Do something here. ************************"
+                render responseXML
             }
         }
         else {
+            println "*********** No User Found ***********"
+            response.setStatus (500)
             render responseXML
         }
     }
