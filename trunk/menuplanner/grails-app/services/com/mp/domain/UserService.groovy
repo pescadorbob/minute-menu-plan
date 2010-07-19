@@ -101,17 +101,19 @@ class UserCO {
 
     UserCO(Subscriber user) {
         id = user?.id?.toString()
-        email = user?.loginCredential?.email
-        password = user?.loginCredential?.password
-        confirmPassword = user?.loginCredential?.password
-        name = user?.name
+        if(user?.party?.loginCredentials){
+            email = user?.party?.loginCredentials[0]?.email
+            password = user?.party?.loginCredentials[0]?.password
+            confirmPassword = user?.party?.loginCredentials[0]?.password
+        }
+        name = user?.screenName
         mouthsToFeed = user?.mouthsToFeed
         introduction = user?.introduction
         city = user?.city
-        joiningDate = user?.joiningDate
-        isEnabled = user?.isEnabled
+        joiningDate = user?.party?.joiningDate
+        isEnabled = user?.party?.isEnabled
 
-        roles = user?.roles*.name()
+        roles = user?.party?.roleTypes*.name()
 
         if (user?.image) {
             selectUserImagePath = user?.image?.path + user?.image?.storedName
@@ -122,7 +124,7 @@ class UserCO {
 
     static constraints = {
         id(nullable: true)
-        email(blank: false, nullable: false, validator: {val, obj ->
+        email(blank: false, nullable: false, email: true, validator: {val, obj ->
             if (val) {
                 LoginCredential credential = LoginCredential.findByEmail(val)
                 if (credential && (credential?.id != obj?.id?.toLong())) {
@@ -141,28 +143,29 @@ class UserCO {
         roles(nullable: false, blank: false)
     }
 
-    public boolean createUser(Subscriber user) {
-        user?.name = name
-        if (!user.loginCredential) {
-            user?.loginCredential = new LoginCredential()
+    public boolean createUser(Subscriber subscriber) {
+        subscriber?.screenName = name
+        if (!subscriber.party.loginCredentials) {
+            subscriber?.party?.loginCredentials = [new LoginCredential()]
         }
-        user?.loginCredential?.email = email
-        user?.mouthsToFeed = mouthsToFeed
-        user?.introduction = introduction
-        user?.city = city
-        user.isEnabled = isEnabled
-        if (user?.loginCredential?.password != password) {
-            user.loginCredential?.password = password.encodeAsBase64()
+        subscriber?.party?.loginCredentials[0]?.email = email
+        subscriber?.mouthsToFeed = mouthsToFeed
+        subscriber?.introduction = introduction
+        subscriber?.city = city
+        subscriber?.party?.isEnabled = isEnabled
+        if (subscriber?.party?.loginCredentials[0]?.password != password) {
+            subscriber?.party?.loginCredentials[0]?.password = password.encodeAsBase64()
         }
         return true
     }
 
+   //TODO: Change this implementation
     public boolean assignRoles(Subscriber user) {
-        List<UserType> userRoles = []
-        roles?.each {String role ->
-            userRoles.add(UserType."${role}")
-        }
-        user?.roles = userRoles
+//        List<UserType> userRoles = []
+//        roles?.each {String role ->
+//            userRoles.add(UserType."${role}")
+//        }
+//        user?.roles = userRoles
         return true
     }
 
@@ -189,4 +192,24 @@ class UserCO {
     public boolean attachImage(Subscriber user, def imagePath) {
         return Image.updateOwnerImage(user, imagePath)
     }
+
+    public Subscriber createSubscriber(){
+        Party party = new Party(name: name)
+        party.isEnabled = isEnabled
+        LoginCredential loginCredential = new LoginCredential(email: email, password: password.encodeAsBase64(), party: party)
+        party.loginCredentials = [loginCredential]
+        party.s()
+
+        Subscriber subscriber = new Subscriber(screenName: name)
+        subscriber.screenName  = name
+        subscriber.city = city
+        subscriber.mouthsToFeed = mouthsToFeed
+        subscriber.introduction = introduction
+        subscriber.party = party
+        party.roles = [subscriber]
+        party.s()
+        subscriber.s()
+
+    }
+
 }
