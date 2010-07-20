@@ -34,7 +34,7 @@ class GoogleCheckoutService {
         String requestFormUrl = config.googleCheckout.requestFormUrl
 
         URL url = new URL(requestFormUrl)
-        String authString = "${merchantId}:${merchantKey}".bytes.encodeBase64().toString()
+        String authString = "${merchantId}:${merchantKey}".toString().getBytes().encodeBase64().toString()
         URLConnection connection = url.openConnection()
         connection.setRequestMethod("POST")
         connection.setRequestProperty("Authorization", "Basic ${authString}")
