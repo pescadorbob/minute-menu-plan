@@ -3,8 +3,7 @@ package com.mp.domain
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 import javax.servlet.http.HttpSession
-import grails.converters.XML
-import com.mp.google.checkout.FinancialState
+import com.mp.google.checkout.*
 
 class UserController {
 
@@ -12,6 +11,7 @@ class UserController {
     def userService
     def asynchronousMailService
     def facebookConnectService
+    def googleCheckoutService
 
     def index = {
         redirect(action: 'list')
@@ -175,26 +175,43 @@ class UserController {
 
     def enableUser = {
         Long userId = params.long('shopping-cart.items.item-1.merchant-item-id')
-        String serialNumber = params['serial-number']
         Subscriber user = userId ? Subscriber.findById(userId) : null
+
+        String transactionId = params['serial-number']
+        String orderNumber = params['order-summary.google-order-number']
+
         String financialOrderState = params['order-summary.financial-order-state']
-        String responseXML = '<?xml version="1.0" encoding="UTF-8"?><notification-acknowledgment xmlns="http://checkout.google.com/schema/2" serial-number="' + serialNumber + '"/>'
-        println "********************Order: " + serialNumber
+        String responseXML = '<?xml version="1.0" encoding="UTF-8"?><notification-acknowledgment xmlns="http://checkout.google.com/schema/2" serial-number="' + transactionId + '"/>'
+
+        OrderStatus orderStatus = OrderStatus.findByOrderId(orderNumber)
+
+        println "********************Order: " + transactionId
         println "********************Financial Order State: " + financialOrderState
         println "********************User: " + user
+
         response.contentType = 'text/xml'
         response.setStatus(200)
         if (userId) {
             if (user) {
-                if (financialOrderState == FinancialState.REVIEWING) {
+                if (!orderStatus && (financialOrderState == FinancialState.REVIEWING.name)) {
+
+                    orderStatus = new OrderStatus()
+                    orderStatus.orderId = orderNumber
+                    orderStatus.transactionId = transactionId
+                    orderStatus.s()
+
                     user?.party?.isEnabled = true
                     user?.party?.s()
-                    HttpSession currentSession = ConfigurationHolder.config.sessions.find {it.userId == userId}
-                    currentSession.userId = null
-                    currentSession.loggedUserId = user?.party?.loginCredentials?.toList()?.first()?.id?.toString()
+                    try{
+                        HttpSession currentSession = ConfigurationHolder.config.sessions.find {it.userId == userId}
+                        currentSession.userId = null
+                        currentSession.loggedUserId = user?.party?.loginCredentials?.toList()?.first()?.id?.toString()
+                    } catch(Exception e){
+                        e.printStackTrace()
+                    }
                     render responseXML
                 } else {
-                    println "************************ Status is ${financialOrderState}. Do something here. ************************"
+                    println "************************ Unexpected Status: ${financialOrderState} ************************"
                     render responseXML
                 }
             }
@@ -204,11 +221,18 @@ class UserController {
             }
         } else {
             switch(financialOrderState){
-                case FinancialState.CHARGEABLE:
+                case FinancialState.CHARGEABLE.name:
+                    googleCheckoutService.updateFinancialState(orderStatus, FinancialState.CHARGEABLE, transactionId)
+//                    googleCheckoutService.updateFulfillmentState(orderStatus, FulfillmentState.PROCESSING, transactionId)
+                    render responseXML
+                    break;
+                case FinancialState.CHARGED.name:
+                    googleCheckoutService.updateFinancialState(orderStatus, FinancialState.CHARGED, transactionId)
+//                    googleCheckoutService.updateFulfillmentState(orderStatus, FulfillmentState.DELIVERED, transactionId)
                     render responseXML
                     break;
                 default:
-                    println "************************ Status is ${financialOrderState}. Do something here. ************************"
+                    println "************************ Unhandled Status: ${financialOrderState} ************************"
                     response.setStatus(500)
                     render responseXML
             }
