@@ -1,15 +1,17 @@
 package com.mp.google.checkout
 
 public enum FulfillmentState {
-    NEW('NEW'),
-    PROCESSING('PROCESSING'),
-    DELIVERED('DELIVERED'),
-    WILL_NOT_DELIVER('WILL_NOT_DELIVER')
+    NEW('NEW', 'new'),
+    PROCESSING('PROCESSING', 'process-order'),
+    DELIVERED('DELIVERED', 'deliver-order'),
+    WILL_NOT_DELIVER('WILL_NOT_DELIVER', 'cancel-items')
 
     String name
+    String type
 
-    FulfillmentState(String name){
+    FulfillmentState(String name, String type){
         this.name = name
+        this.type = type
     }
 
     String toString(){
