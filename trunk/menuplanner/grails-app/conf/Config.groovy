@@ -83,9 +83,9 @@ environments {
         googleCheckout {
 //            merchantId = "827529108383447"
 //            merchantKey = "ScAQ9VNMRniNUR3T5sW2kQ"
-            requestFormUrl = "https://checkout.google.com/api/checkout/v2/requestForm/Merchant/${merchantId}"
-            action="https://checkout.google.com/api/checkout/v2/checkoutForm/Merchant/${merchantId}"
-            imageSource="http://checkout.google.com/buttons/checkout.gif?merchant_id=${merchantId}&w=180&h=46&style=white&variant=text&loc=en_US"
+//            requestFormUrl = "https://checkout.google.com/api/checkout/v2/requestForm/Merchant/827529108383447"
+//            action="https://checkout.google.com/api/checkout/v2/checkoutForm/Merchant/827529108383447"
+//            imageSource="http://checkout.google.com/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
         }
     }
     development {
@@ -104,7 +104,7 @@ environments {
         googleCheckout {
             merchantId = "827529108383447"
             merchantKey = "ScAQ9VNMRniNUR3T5sW2kQ"
-            requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/${merchantId}"
+            requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/827529108383447"
             action="https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/827529108383447"
             imageSource="http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
         }
@@ -125,7 +125,7 @@ environments {
         googleCheckout {
             merchantId = "827529108383447"
             merchantKey = "ScAQ9VNMRniNUR3T5sW2kQ"
-            requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/${merchantId}"
+            requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/827529108383447"
             action="https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/827529108383447"
             imageSource="http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
         }
@@ -146,7 +146,7 @@ environments {
         googleCheckout {
             merchantId = "827529108383447"
             merchantKey = "ScAQ9VNMRniNUR3T5sW2kQ"
-            requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/${merchantId}"
+            requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/827529108383447"
             action="https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/827529108383447"
             imageSource="http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
         }
