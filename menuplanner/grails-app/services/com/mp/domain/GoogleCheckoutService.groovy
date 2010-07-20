@@ -29,9 +29,9 @@ class GoogleCheckoutService {
 
     private Boolean changeOrderState(String queryString) {
         Integer responseCode
-        String merchantKey = config.merchantKey
-        String merchantId = config.merchantId
-        String requestFormUrl = config.requestFormUrl
+        String merchantKey = config.googleCheckout.merchantKey
+        String merchantId = config.googleCheckout.merchantId
+        String requestFormUrl = config.googleCheckout.requestFormUrl
 
         URL url = new URL(requestFormUrl)
         String authString = "${merchantId}:${merchantKey}".bytes.encodeBase64().toString()
