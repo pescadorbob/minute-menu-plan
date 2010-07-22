@@ -12,43 +12,31 @@ class Party {
     Set<LoginCredential> loginCredentials = []
     Set<Recipe> contributions = []
     Set<MenuPlan> menuPlans = []
-    Set<Recipe> favourites=[]
-    Set<ShoppingList> shoppingLists=[]
+    Set<Recipe> favourites = []
+    Set<ShoppingList> shoppingLists = []
 
-    static transients = ['isEnabledString', 'email','password','userLogin']
+    static transients = ['isEnabledString', 'email', 'password', 'userLogin', 'role', 'administrator', 'superAdmin', 'subscriber']
 
-    static hasMany = [favourites: Recipe, contributions: Recipe, menuPlans:MenuPlan,
-            roles: PartyRole, loginCredentials: LoginCredential, shoppingLists:ShoppingList]
+    static hasMany = [favourites: Recipe, contributions: Recipe, menuPlans: MenuPlan,
+            roles: PartyRole, loginCredentials: LoginCredential, shoppingLists: ShoppingList]
 
     def beforeInsert = {
         joiningDate = new Date()
     }
 
-    String getEmail(){
+    String getEmail() {
         return UserLogin.findByParty(this).email
     }
 
-    void setEmail(String email){
-        userLogin.email = email
-    }
-
-    String getPassword(){
+    String getPassword() {
         return UserLogin.findByParty(this).password
     }
 
-    void setPassword(String password){
-       userLogin.password = password
-    }
-
-    UserLogin getUserLogin(){
-        if(UserLogin.findByParty(this)){
-            return UserLogin.findByParty(this)
-        }else{
-            UserLogin userLogin=this?.loginCredentials?.toList()?.find{LoginCredential loginCredential->
-                return(loginCredential instanceof UserLogin)
-            }
-            return userLogin
+    UserLogin getUserLogin() {
+        UserLogin userLogin = loginCredentials?.toList()?.find {LoginCredential loginCredential ->
+            return (loginCredential instanceof UserLogin)
         }
+        return userLogin
     }
 
     static constraints = {
@@ -60,8 +48,25 @@ class Party {
         return (isEnabled ? 'Enabled' : 'Disabled')
     }
 
+    Subscriber getSubscriber() {
+        return getRole(UserType.Subscriber)
+    }
+
+    Administrator getAdministrator() {
+        return getRole(UserType.Admin)
+    }
+
+    SuperAdmin getSuperAdmin() {
+        return getRole(UserType.SuperAdmin)
+    }
+
+    PartyRole getRole(UserType type) {
+        PartyRole partyRole = roles?.find {it.type == type}
+        return partyRole
+    }
+
     def getRoleTypes() {
-        return (roles*.userType)
+        return (roles*.type)
     }
 
     def getAbusiveCommentsMap() {
@@ -72,9 +77,9 @@ class Party {
             abusiveCommentsList = x*.comment
         }
 
-        Map map = (abusiveCommentsList) ? abusiveCommentsList.groupBy{it} : [:]
-        if(map){
-            map.keySet().each{key ->
+        Map map = (abusiveCommentsList) ? abusiveCommentsList.groupBy {it} : [:]
+        if (map) {
+            map.keySet().each {key ->
                 map[key] = map[key].size()
             }
         }
@@ -87,19 +92,19 @@ class Party {
             List<RecipeAbuse> recipeAbuses = RecipeAbuse.findAllByRecipeInList(this.contributions)
             abusiveRecipesList = recipeAbuses*.recipe
         }
-        Map map = (abusiveRecipesList) ? abusiveRecipesList.groupBy{it} : [:]
-        if(map){
-            map.keySet().each{key ->
+        Map map = (abusiveRecipesList) ? abusiveRecipesList.groupBy {it} : [:]
+        if (map) {
+            map.keySet().each {key ->
                 map[key] = map[key].size()
             }
         }
         return map
     }
 
-    def getInappropriateFlagsCount(){
+    def getInappropriateFlagsCount() {
         Integer total = 0
-        if(abusiveRecipesMap){ total +=abusiveRecipesMap.values()?.sum{it}}
-        if(abusiveCommentsMap){ total +=abusiveCommentsMap.values()?.sum{it}}
+        if (abusiveRecipesMap) { total += abusiveRecipesMap.values()?.sum {it}}
+        if (abusiveCommentsMap) { total += abusiveCommentsMap.values()?.sum {it}}
         return total
     }
 

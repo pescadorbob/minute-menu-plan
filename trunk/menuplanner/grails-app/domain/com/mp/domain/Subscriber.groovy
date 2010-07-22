@@ -6,7 +6,7 @@ class Subscriber extends PartyRole{
 
     static config = ConfigurationHolder.config
 
-    UserType userType = UserType.Subscriber
+    UserType type = UserType.Subscriber
 
     String screenName
     Image image
@@ -14,7 +14,7 @@ class Subscriber extends PartyRole{
     String introduction
     String city
 
-    static transients = ['imageDir', 'userType']
+    static transients = ['imageDir', 'type']
 
     void deleteImage(){
         Image image = this?.image

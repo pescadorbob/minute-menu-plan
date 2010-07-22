@@ -138,28 +138,33 @@ class UserCO {
             obj.properties['password'] == val
         })
         name(nullable: false, blank: false, matches: /[a-zA-Z0-9\s\&]*/)
-        mouthsToFeed(nullable: false, matches: /[0-9]*/)
+        mouthsToFeed(nullable: true, matches: /[0-9]*/, validator: {val, obj ->
+            if(!val && (UserType.Subscriber.name() in obj.roles)){
+                return 'default.blank.message'
+            }
+        })
         introduction(nullable: true, blank: true)
         city(nullable: false, blank: false)
         roles(nullable: false, blank: false)
     }
 
-    public boolean createUser(Subscriber subscriber) {
-        subscriber?.screenName = name
-        if (!subscriber?.party?.loginCredentials) {
-            subscriber?.party?.loginCredentials = [new UserLogin(email:email,password:password,party:subscriber.party)] as Set
-        }
-        subscriber?.party?.email = email
-        subscriber?.mouthsToFeed = mouthsToFeed
-        subscriber?.introduction = introduction
-        subscriber?.city = city
-        subscriber?.party?.isEnabled = isEnabled
-        if (subscriber?.party?.password != password) {
-            subscriber?.party?.password = password.encodeAsBase64()
-        }
-        return true
-    }
-
+//    public boolean createUser(Subscriber subscriber) {
+//        subscriber?.screenName = name
+//        if (!subscriber?.party?.loginCredentials) {
+//            subscriber?.party?.loginCredentials = [new UserLogin(email:email,password:password,party:subscriber.party)] as Set
+//        }
+//
+//        subscriber?.party?.email = email
+//        subscriber?.mouthsToFeed = mouthsToFeed
+//        subscriber?.introduction = introduction
+//        subscriber?.city = city
+//        subscriber?.party?.isEnabled = isEnabled
+//        if (subscriber?.party?.password != password) {
+//            subscriber?.party?.password = password.encodeAsBase64()
+//        }
+//        return true
+//    }
+//
    //TODO: Change this implementation
     public boolean assignRoles(Subscriber user) {
 //        List<UserType> userRoles = []
@@ -170,49 +175,66 @@ class UserCO {
         return true
     }
 
-    public Subscriber convertToUser() {
-        Subscriber user = new Subscriber()
-        user.party = new Party()
-        user.party.name = name
-        createUser(user)
-        assignRoles(user)
-        user?.s()
-        attachImage(user, selectUserImagePath)
-        user?.s()
-        return user
-    }
-
-    public Subscriber updateUser() {
-        Subscriber user = Subscriber.get(id?.toLong())
-        createUser(user)
-        assignRoles(user)
-        user.s()
-        attachImage(user, selectUserImagePath)
-        user.s()
-        return user
-    }
+//    public Subscriber convertToUser() {
+//        Subscriber user = new Subscriber()
+//        user.party = new Party()
+//        user.party.name = name
+//        createParty(user)
+//        assignRoles(user)
+//        user?.s()
+//        attachImage(user, selectUserImagePath)
+//        user?.s()
+//        return user
+//    }
+//
+//    public Subscriber updateUser() {
+//        Subscriber user = Subscriber.get(id?.toLong())
+//        createUser(user)
+//        assignRoles(user)
+//        user.s()
+//        attachImage(user, selectUserImagePath)
+//        user.s()
+//        return user
+//    }
 
     public boolean attachImage(Subscriber user, def imagePath) {
         return Image.updateOwnerImage(user, imagePath)
     }
 
-    public Subscriber createSubscriber(){
+    public Party createParty(){
         Party party = new Party(name: name)
         party.isEnabled = isEnabled
         LoginCredential loginCredential = new UserLogin(email: email, password: password.encodeAsBase64(), party: party)
-        party.loginCredentials = [loginCredential]
+        party.loginCredentials = [loginCredential]  as Set
         party.s()
 
-        Subscriber subscriber = new Subscriber(screenName: name)
-        subscriber.screenName  = name
-        subscriber.city = city
-        subscriber.mouthsToFeed = mouthsToFeed
-        subscriber.introduction = introduction
-        subscriber.party = party
-        party.roles = [subscriber]
-        party.s()
-        subscriber.s()
+        if(UserType.Subscriber.name() in roles){
+            Subscriber subscriber = new Subscriber(screenName: name)
+            subscriber.screenName  = name
+            subscriber.city = city
+            subscriber.mouthsToFeed = mouthsToFeed
+            subscriber.introduction = introduction
+            subscriber.party = party
+//            attachImage(subscriber,selectUserImagePath)
+            party.addToRoles(subscriber)
+            party.s()
+            subscriber.s()
+        }
 
+        if(UserType.Admin.name() in roles){
+            Administrator admin = new Administrator()
+            party.addToRoles(admin)
+            party.s()
+            admin.s()
+        }
+
+        if(UserType.SuperAdmin.name() in roles){
+            SuperAdmin superAdmin = new SuperAdmin()
+            party.addToRoles(superAdmin)
+            party.s()
+            superAdmin.s()
+        }
+     return party
     }
      public void enableAndLoginUser(Subscriber subscriber) {
         subscriber?.party?.isEnabled = true

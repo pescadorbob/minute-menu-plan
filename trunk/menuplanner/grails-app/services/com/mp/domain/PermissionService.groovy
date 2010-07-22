@@ -26,7 +26,7 @@ class PermissionService {
         if (!user) {
             return false
         }
-        List<SecurityRole> roles = SecurityRole.findAllByNameInList(user.party.roles*.userType.name)
+        List<SecurityRole> roles = SecurityRole.findAllByNameInList(user.party.roles*.type.name)
         Boolean result = roles?.any {SecurityRole role ->
             PermissionLevel permissionLevel = PermissionLevel.findByPermissionAndRole(permission, role)
             if (!permissionLevel) {return false}
