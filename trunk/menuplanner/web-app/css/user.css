@@ -73,6 +73,21 @@
     padding-left: 175px;
 }
 
+#right-link-back {
+    clear: both;
+    color: #292e2e;
+    margin-top: 30px;
+    font-size:12px;
+}
+
+#rightpanel-welcome {
+    float: right;
+    width: 100%;
+    margin-top: 10px;
+    color: #616A72;
+    font-size: 14px;
+}
+
 #right-link h3 {
     line-height: 18px;
     font-size: 15px;

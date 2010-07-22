@@ -3,6 +3,7 @@ package com.mp.domain
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import grails.converters.JSON
 import org.codehaus.groovy.grails.web.json.JSONElement
+import javax.servlet.http.HttpSession
 
 class UserService {
 
@@ -211,6 +212,14 @@ class UserCO {
         party.roles = [subscriber]
         party.s()
         subscriber.s()
+
+    }
+     public void enableAndLoginUser(Subscriber subscriber) {
+        subscriber?.party?.isEnabled = true
+        subscriber?.party?.s()
+        HttpSession currentSession = ConfigurationHolder.config.sessions.find {it.userId == subscriber.id}
+        currentSession.userId = null
+        currentSession.loggedUserId = subscriber?.party?.loginCredentials?.toList()?.first()?.id?.toString()
 
     }
 

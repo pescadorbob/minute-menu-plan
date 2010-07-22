@@ -193,22 +193,13 @@ class UserController {
         response.setStatus(200)
         if (userId) {
             if (user) {
-                if (!orderStatus && (financialOrderState == FinancialState.REVIEWING.name)) {
+                if (!orderStatus && (financialOrderState == FinancialState.CHARGEABLE.name)) {
 
                     orderStatus = new OrderStatus()
                     orderStatus.orderId = orderNumber
                     orderStatus.transactionId = transactionId
+                    orderStatus.fulfillmentStatus = FulfillmentState.PROCESSING
                     orderStatus.s()
-
-                    user?.party?.isEnabled = true
-                    user?.party?.s()
-                    try{
-                        HttpSession currentSession = ConfigurationHolder.config.sessions.find {it.userId == userId}
-                        currentSession.userId = null
-                        currentSession.loggedUserId = user?.party?.loginCredentials?.toList()?.first()?.id?.toString()
-                    } catch(Exception e){
-                        e.printStackTrace()
-                    }
                     render responseXML
                 } else {
                     println "************************ Unexpected Status: ${financialOrderState} ************************"
@@ -220,15 +211,27 @@ class UserController {
                 render responseXML
             }
         } else {
-            switch(financialOrderState){
+            switch (financialOrderState) {
                 case FinancialState.CHARGEABLE.name:
                     googleCheckoutService.updateFinancialState(orderStatus, FinancialState.CHARGEABLE, transactionId)
-//                    googleCheckoutService.updateFulfillmentState(orderStatus, FulfillmentState.PROCESSING, transactionId)
                     render responseXML
                     break;
                 case FinancialState.CHARGED.name:
                     googleCheckoutService.updateFinancialState(orderStatus, FinancialState.CHARGED, transactionId)
-//                    googleCheckoutService.updateFulfillmentState(orderStatus, FulfillmentState.DELIVERED, transactionId)
+                    orderStatus.fulfillmentStatus = FulfillmentState.DELIVERED
+                    userService.enableAndLoginUser(user)
+                    render responseXML
+                    break;
+                case FinancialState.CANCELLED.name:
+                    googleCheckoutService.updateFinancialState(orderStatus, FinancialState.CANCELLED, transactionId)
+                    render responseXML
+                    break;
+                case FinancialState.PAYMENT_DECLINED.name:
+                    googleCheckoutService.updateFinancialState(orderStatus, FinancialState.PAYMENT_DECLINED, transactionId)
+                    render responseXML
+                    break;
+                case FinancialState.CANCELLED_BY_GOOGLE.name:
+                    googleCheckoutService.updateFinancialState(orderStatus, FinancialState.CANCELLED_BY_GOOGLE, transactionId)
                     render responseXML
                     break;
                 default:
@@ -248,13 +251,26 @@ class UserController {
             data['userId'] = user.id
             session.userId = user.id
             println "Session Id: " + session.id
-            session.setMaxInactiveInterval(600)
+            session.setMaxInactiveInterval(3600)
             redirect(action: 'createSubscription', controller: 'subscription', params: data)
         } else {
             userCO.errors.allErrors.each {
                 println it
             }
             render(view: 'createUser', model: [userCO: userCO])
+        }
+    }
+
+    def welcome = {
+        if (session.userId) {
+            Subscriber user = Subscriber.get(session.userId)
+            render(view: 'registrationAcknowledgement', model: [user: user])
+        }
+        else if (session.loggedUserId) {
+            Subscriber user = Subscriber.get(session.loggedUserId)
+            redirect(action: 'show', id: user?.id)
+        } else {
+            redirect(uri: '/')
         }
     }
 }

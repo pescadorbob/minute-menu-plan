@@ -30,7 +30,7 @@
                             Email: <g:textField name="email"/> <g:actionSubmit action="resetPassword" controller="login" value="Reset Password"/>
                         </g:form>
                     </g:else>
-                    <p>&nbsp;</p><p>&nbsp;</p><p>Click here to go back to <g:link controller="login" action="index">Home Page</g:link></p>
+                    <p>&nbsp;</p><p>&nbsp;</p><p>Click here to go back to <g:link uri="/">Home Page</g:link></p>
                 </div>
             </div>
             <div class="bottom-shadow">
