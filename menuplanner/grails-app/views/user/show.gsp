@@ -31,11 +31,11 @@
                         <li></li><li></li>
                         <g:each in="${user?.party?.roleTypes}" var="roleType"><li><strong>${roleType}</strong></li></g:each>
                         <li><h3>Contributed Recipes</h3></li>
-                        <g:each in="${user?.contributions}" var="recipe">
+                        <g:each in="${user?.party?.contributions}" var="recipe">
                             <li><a href="${createLink(controller: 'recipe', action: 'show', id: recipe?.id)}">${recipe?.name}</a></li>
                         </g:each>
                         <li><h3>Favorites</h3></li>
-                        <g:each in="${user?.favourites}" var="recipe">
+                        <g:each in="${user?.party?.favourites}" var="recipe">
                             <li><a href="${createLink(controller: 'recipe', action: 'show', id: recipe?.id)}">${recipe?.name}</a>
                                 <a href="${createLink(controller: 'user', action: 'removeFavorite', id: recipe?.id)}">remove</a></li>
                         </g:each>
@@ -43,8 +43,8 @@
                 </div>
                 <div id="rightpanel">
                     <ul>
-                        <li><span><strong>Email :</strong></span><label>${user?.loginCredential?.email}</label></li>
-                        <li><span><strong>Name :</strong></span><label>${user?.name}</label></li>
+                        <li><span><strong>Email :</strong></span><label>${user?.party?.email}</label></li>
+                        <li><span><strong>Name :</strong></span><label>${user?.screenName}</label></li>
                         <li><span><strong>City :</strong></span><label>${user?.city}</label></li>
                         <li><span><strong>Mouths to Feed :</strong></span><label>${user?.mouthsToFeed}</label></li>
                         <li><span><strong>Something about yourself :</strong></span><label>${user?.introduction}</label></li>
@@ -73,7 +73,7 @@
                         %{--</li>--}%
                     </ul>
                     <div id="right-link">
-                        <g:if test="${user?.inappropriateFlagsCount}">
+                        <g:if test="${user?.party?.inappropriateFlagsCount}">
                             <h3>Inappropriate Flags</h3>
                             <ul>
                                 <g:each in="${abusiveRecipesMap?.keySet()}" var="abusiveRecipe">

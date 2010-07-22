@@ -2,8 +2,6 @@ package com.mp.domain
 
 class LoginCredential {
     Party party
-    String email
-    String password
     static belongsTo = [party: Party]
 
     static transients = ['currentUser']
@@ -14,7 +12,10 @@ class LoginCredential {
     }
 
     static constraints = {
-        email(email: true, unique: true)
-        password(nullable: true, blank: true)
     }
+
+    static mapping = {
+        tablePerHierarchy false
+    }
+
 }

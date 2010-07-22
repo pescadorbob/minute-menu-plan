@@ -17,7 +17,7 @@ class LoginController {
     }
 
     def resetPassword = {
-        LoginCredential loginCredential = LoginCredential.findByEmail(params.email)
+        LoginCredential loginCredential = UserLogin.findByEmail(params.email)
         if (loginCredential) {
             String newPassword = UUID?.randomUUID()?.toString()?.split('-')?.getAt(0)
             loginCredential.password = newPassword.encodeAsBase64()
@@ -42,7 +42,7 @@ class LoginController {
 
     def login = {LoginCO loginCO ->
         if (loginCO.validate()) {
-            LoginCredential loginCredential = LoginCredential.findByEmailAndPassword(loginCO?.email, loginCO?.password?.encodeAsBase64())
+            LoginCredential loginCredential = UserLogin.findByEmailAndPassword(loginCO?.email, loginCO?.password?.encodeAsBase64())
             if (loginCredential) {
                 if (loginCredential.party.isEnabled) {
                     session.loggedUserId = loginCredential.id.toString()
