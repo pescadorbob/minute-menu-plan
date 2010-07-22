@@ -14,7 +14,7 @@ class ShoppingListController {
         pslCO.name = menuPlan?.name + '-Shopping List'
         pslCO.menuPlanId = params?.id
         pslCO.weeks = ['0', '1', '2', '3']
-        Integer mouthsToFeed = user?.party?.roles?.find{it.userType==UserType.Subscriber}?.mouthsToFeed
+        Integer mouthsToFeed = user?.party?.subscriber?.mouthsToFeed
         pslCO.servings = mouthsToFeed?.toString()
         List<MenuPlan> menuPlans = user?.party?.menuPlans as List
         render(view: 'generateShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: mouthsToFeed])
@@ -30,7 +30,7 @@ class ShoppingListController {
             }
             LoginCredential user = LoginCredential.currentUser
             List<MenuPlan> menuPlans = user?.party?.menuPlans as List
-            Integer mouthsToFeed = user?.party?.roles?.find{it.userType==UserType.Subscriber}?.mouthsToFeed
+            Integer mouthsToFeed = user?.party?.subscriber?.mouthsToFeed
             render(view: 'generateShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: mouthsToFeed])
         }
     }
@@ -109,7 +109,7 @@ class ShoppingListController {
         pslCO.servings = shoppingList?.servings
         pslCO.weeks = shoppingList?.weeklyShoppingLists*.weekIndex*.toString()
         List<MenuPlan> menuPlans = user?.party?.menuPlans as List
-        Integer mouthsToFeed = user?.party?.roles?.find{it.userType==UserType.Subscriber}?.mouthsToFeed
+        Integer mouthsToFeed = user?.party?.subscriber?.mouthsToFeed
         render(view: 'generateShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, shoppingListId: shoppingList?.id, servings: mouthsToFeed, shoppingList: shoppingList])
     }
 
@@ -126,7 +126,7 @@ class ShoppingListController {
             }
             LoginCredential user = LoginCredential.currentUser
             List<MenuPlan> menuPlans = user?.party?.menuPlans as List
-            Integer mouthsToFeed = user?.party?.roles?.find{it.userType==UserType.Subscriber}?.mouthsToFeed
+            Integer mouthsToFeed = user?.party?.subscriber?.mouthsToFeed
             render(view: 'generateShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: mouthsToFeed])
         }
     }

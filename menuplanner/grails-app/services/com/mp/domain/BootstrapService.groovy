@@ -50,7 +50,7 @@ class BootstrapService {
         }
     }
 
-    public void populateUser(String name) {
+    public void populateUser(String name, List<String> roles) {
         UserCO userCO = new UserCO()
         userCO.name = name
         userCO.isEnabled = true
@@ -59,24 +59,8 @@ class BootstrapService {
         userCO.city = 'city'
         userCO.mouthsToFeed = new Random().nextInt(10) + 1
         userCO.introduction = 'about ' + name
-        userCO.createSubscriber()
-//
-//        println "Doing something"
-//        Party party = new Person(name: name).s()
-//        party.isEnabled = true
-//        LoginCredential loginCredential = new LoginCredential(email: 'qa.menuplanner+' + name + '@gmail.com', password: '1234'.encodeAsBase64(), party: party).s()
-//        party.loginCredentials = [loginCredential]
-//        party.s()
-//
-//        Subscriber user = new Subscriber()
-//        user.screenName  = name
-//        user.city = 'city-' + name
-//        user.mouthsToFeed = new Random().nextInt(10) + 1
-//        user.introduction = 'about ' + user.screenName
-//        user.party = party
-//        party.roles = [user]
-//        party.s()
-//        user.s()
+        userCO.roles = roles
+        userCO.createParty()
     }
 
     public void populateCategory() {

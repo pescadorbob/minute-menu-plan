@@ -63,15 +63,15 @@ class BootStrap {
         bootstrapMasterData()
 //        if (false) {
         if ((GrailsUtil.environment != Environment.PRODUCTION) && !Subscriber.count()) {
-            List<String> userNames
+            Map<String, List<String>> userNames
             if(GrailsUtil.environment == 'qa'){
-                userNames = ['superAdmin', 'admin1', 'admin2', 'user1', 'user2']
+                userNames = ['superAdmin' : ['SuperAdmin'], 'admin1' : ['Admin'], 'admin2' : ['Admin'], 'user1' : ['Admin'], 'user2' : ['Subscriber']]
             } else {
-                userNames = ['superAdmin', 'user1']
+                userNames = ['superAdmin': ['SuperAdmin'], 'user1': ['Subscriber']]
             }
-            userNames.each {String name ->
+            userNames.each {String name, List<String> roles ->
                 println "Populating User - ${name}"
-                bootstrapService.populateUser(name)
+                bootstrapService.populateUser(name, roles)
             }
             println "Populated Users"
             bootstrapService.populateCategory()

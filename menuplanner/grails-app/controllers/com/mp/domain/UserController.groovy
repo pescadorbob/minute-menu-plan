@@ -132,9 +132,9 @@ class UserController {
     }
     def save = {UserCO userCO ->
         if (userCO.validate()) {
-            Subscriber user = userCO.convertToUser()
+            Party party = userCO.createParty()
             String message = message(code: 'user.created.success')
-            redirect(action: 'show', id: user?.id, params: [message: message])
+            redirect(action: 'show', id: party?.subscriber?.id, params: [message: message])
         } else {
             userCO.errors.allErrors.each {
                 println it
