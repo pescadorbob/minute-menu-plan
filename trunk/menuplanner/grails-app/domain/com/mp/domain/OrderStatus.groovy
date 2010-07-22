@@ -4,6 +4,8 @@ import com.mp.google.checkout.*
 
 class OrderStatus {
 
+    Date dateCreated
+    Party party
     String orderId
     String transactionId
     FinancialState financialStatus  = FinancialState.REVIEWING
