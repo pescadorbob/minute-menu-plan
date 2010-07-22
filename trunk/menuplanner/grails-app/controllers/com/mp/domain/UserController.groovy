@@ -213,7 +213,12 @@ class UserController {
             switch (financialOrderState) {
                 case FinancialState.CHARGEABLE.name:
                     googleCheckoutService.updateFinancialState(orderStatus, FinancialState.CHARGEABLE, transactionId)
-                    userService.enableAndLoginUser(orderStatus.party)
+                    user = orderStatus.party
+                    user?.isEnabled = true
+                    user?.s()
+                    HttpSession currentSession = ConfigurationHolder.config.sessions.find {it.userId == user.id}
+                    currentSession.userId = null
+                    currentSession.loggedUserId = user?.loginCredentials?.toList()?.first()?.id?.toString()
                     response.setStatus(200)
                     render responseXML
                     break;
