@@ -248,10 +248,11 @@ class UserController {
         userCO.roles.add(UserType.Subscriber.name())
         userCO.isEnabled = false
         if (userCO.validate()) {
-            Subscriber user = userCO.createSubscriber()
+            Party party = userCO.createParty()
             Map data = [:]
-            data['userId'] = user.id
-            session.userId = user.id
+            data['userId'] = party?.subscriber?.id
+            session.userId = party?.subscriber?.id
+            println "Session UserId: " + session.userId
             println "Session Id: " + session.id
             session.setMaxInactiveInterval(3600)
             redirect(action: 'createSubscription', controller: 'subscription', params: data)
