@@ -198,6 +198,11 @@ class UserController {
                     orderStatus.orderId = orderNumber
                     orderStatus.transactionId = transactionId
                     orderStatus.s()
+                    user?.party?.isEnabled = true
+                    user?.party?.s()
+                    HttpSession currentSession = ConfigurationHolder.config.sessions.find {it.userId == user.id}
+                    currentSession.userId = null
+                    currentSession.loggedUserId = user?.party?.loginCredentials?.toList()?.first()?.id?.toString()
                     render responseXML
                 } else {
                     println "************************ Unexpected Status: ${financialOrderState} ************************"
@@ -212,13 +217,12 @@ class UserController {
             switch (financialOrderState) {
                 case FinancialState.CHARGEABLE.name:
                     googleCheckoutService.updateFinancialState(orderStatus, FinancialState.CHARGEABLE, transactionId)
-                    orderStatus.fulfillmentStatus = FulfillmentState.DELIVERED
-                    userService.enableAndLoginUser(user)
                     response.setStatus(200)
                     render responseXML
                     break;
                 case FinancialState.CHARGED.name:
                     googleCheckoutService.updateFinancialState(orderStatus, FinancialState.CHARGED, transactionId)
+                    orderStatus.fulfillmentStatus = FulfillmentState.DELIVERED
                     response.setStatus(200)
                     render responseXML
                     break;
