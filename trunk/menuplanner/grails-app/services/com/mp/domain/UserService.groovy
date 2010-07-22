@@ -102,7 +102,7 @@ class UserCO {
 
     UserCO(Subscriber user) {
         id = user?.id?.toString()
-        if(user?.party?.email){
+        if (user?.party?.email) {
             email = user?.party?.email
             password = user?.party?.password
             confirmPassword = user?.party?.password
@@ -139,7 +139,7 @@ class UserCO {
         })
         name(nullable: false, blank: false, matches: /[a-zA-Z0-9\s\&]*/)
         mouthsToFeed(nullable: true, matches: /[0-9]*/, validator: {val, obj ->
-            if(!val && (UserType.Subscriber.name() in obj.roles)){
+            if (!val && (UserType.Subscriber.name() in obj.roles)) {
                 return 'default.blank.message'
             }
         })
@@ -165,7 +165,8 @@ class UserCO {
 //        return true
 //    }
 //
-   //TODO: Change this implementation
+    //TODO: Change this implementation
+
     public boolean assignRoles(Subscriber user) {
 //        List<UserType> userRoles = []
 //        roles?.each {String role ->
@@ -201,16 +202,16 @@ class UserCO {
         return Image.updateOwnerImage(user, imagePath)
     }
 
-    public Party createParty(){
+    public Party createParty() {
         Party party = new Party(name: name)
         party.isEnabled = isEnabled
         LoginCredential loginCredential = new UserLogin(email: email, password: password.encodeAsBase64(), party: party)
-        party.loginCredentials = [loginCredential]  as Set
+        party.loginCredentials = [loginCredential] as Set
         party.s()
 
-        if(UserType.Subscriber.name() in roles){
+        if (UserType.Subscriber.name() in roles) {
             Subscriber subscriber = new Subscriber(screenName: name)
-            subscriber.screenName  = name
+            subscriber.screenName = name
             subscriber.city = city
             subscriber.mouthsToFeed = mouthsToFeed
             subscriber.introduction = introduction
@@ -221,27 +222,28 @@ class UserCO {
             subscriber.s()
         }
 
-        if(UserType.Admin.name() in roles){
+        if (UserType.Admin.name() in roles) {
             Administrator admin = new Administrator()
             party.addToRoles(admin)
             party.s()
             admin.s()
         }
 
-        if(UserType.SuperAdmin.name() in roles){
+        if (UserType.SuperAdmin.name() in roles) {
             SuperAdmin superAdmin = new SuperAdmin()
             party.addToRoles(superAdmin)
             party.s()
             superAdmin.s()
         }
-     return party
+        return party
     }
-     public void enableAndLoginUser(Subscriber subscriber) {
-        subscriber?.party?.isEnabled = true
-        subscriber?.party?.s()
+
+    public void enableAndLoginUser(Party party) {
+        party?.isEnabled = true
+        party?.s()
         HttpSession currentSession = ConfigurationHolder.config.sessions.find {it.userId == subscriber.id}
         currentSession.userId = null
-        currentSession.loggedUserId = subscriber?.party?.loginCredentials?.toList()?.first()?.id?.toString()
+        currentSession.loggedUserId = party?.loginCredentials?.toList()?.first()?.id?.toString()
 
     }
 
