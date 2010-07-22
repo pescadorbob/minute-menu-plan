@@ -175,7 +175,7 @@ class UserController {
 
     def enableUser = {
         Long userId = params.long('shopping-cart.items.item-1.merchant-item-id')
-        Subscriber user = userId ? Subscriber.findById(userId) : null
+        Party user = userId ? Party.findById(userId) : null
 
         String transactionId = params['serial-number']
         String orderNumber = params['order-summary.google-order-number']
@@ -196,13 +196,9 @@ class UserController {
                 if (!orderStatus && (financialOrderState == FinancialState.REVIEWING.name)) {
                     orderStatus = new OrderStatus()
                     orderStatus.orderId = orderNumber
+                    orderStatus.party = user
                     orderStatus.transactionId = transactionId
                     orderStatus.s()
-                    user?.party?.isEnabled = true
-                    user?.party?.s()
-                    HttpSession currentSession = ConfigurationHolder.config.sessions.find {it.userId == user.id}
-                    currentSession.userId = null
-                    currentSession.loggedUserId = user?.party?.loginCredentials?.toList()?.first()?.id?.toString()
                     render responseXML
                 } else {
                     println "************************ Unexpected Status: ${financialOrderState} ************************"
@@ -217,6 +213,7 @@ class UserController {
             switch (financialOrderState) {
                 case FinancialState.CHARGEABLE.name:
                     googleCheckoutService.updateFinancialState(orderStatus, FinancialState.CHARGEABLE, transactionId)
+                    userService.enableAndLoginUser(orderStatus.party)
                     response.setStatus(200)
                     render responseXML
                     break;
@@ -258,8 +255,8 @@ class UserController {
         if (userCO.validate()) {
             Party party = userCO.createParty()
             Map data = [:]
-            data['userId'] = party?.subscriber?.id
-            session.userId = party?.subscriber?.id
+            data['userId'] = party?.id
+            session.userId = party?.id
             println "Session UserId: " + session.userId
             println "Session Id: " + session.id
             session.setMaxInactiveInterval(3600)
