@@ -101,10 +101,10 @@ class UserCO {
 
     UserCO(Subscriber user) {
         id = user?.id?.toString()
-        if(user?.party?.loginCredentials){
-            email = user?.party?.loginCredentials[0]?.email
-            password = user?.party?.loginCredentials[0]?.password
-            confirmPassword = user?.party?.loginCredentials[0]?.password
+        if(user?.party?.email){
+            email = user?.party?.email
+            password = user?.party?.password
+            confirmPassword = user?.party?.password
         }
         name = user?.screenName
         mouthsToFeed = user?.mouthsToFeed
@@ -126,7 +126,7 @@ class UserCO {
         id(nullable: true)
         email(blank: false, nullable: false, email: true, validator: {val, obj ->
             if (val) {
-                LoginCredential credential = LoginCredential.findByEmail(val)
+                LoginCredential credential = UserLogin.findByEmail(val)
                 if (credential && (credential?.id != obj?.id?.toLong())) {
                     return "userCO.email.unique.error"
                 }
@@ -145,16 +145,16 @@ class UserCO {
 
     public boolean createUser(Subscriber subscriber) {
         subscriber?.screenName = name
-        if (!subscriber.party.loginCredentials) {
-            subscriber?.party?.loginCredentials = [new LoginCredential()]
+        if (!subscriber?.party?.loginCredentials) {
+            subscriber?.party?.loginCredentials = [new UserLogin(email:email,password:password,party:subscriber.party)] as Set
         }
-        subscriber?.party?.loginCredentials[0]?.email = email
+        subscriber?.party?.email = email
         subscriber?.mouthsToFeed = mouthsToFeed
         subscriber?.introduction = introduction
         subscriber?.city = city
         subscriber?.party?.isEnabled = isEnabled
-        if (subscriber?.party?.loginCredentials[0]?.password != password) {
-            subscriber?.party?.loginCredentials[0]?.password = password.encodeAsBase64()
+        if (subscriber?.party?.password != password) {
+            subscriber?.party?.password = password.encodeAsBase64()
         }
         return true
     }
@@ -171,6 +171,8 @@ class UserCO {
 
     public Subscriber convertToUser() {
         Subscriber user = new Subscriber()
+        user.party = new Party()
+        user.party.name = name
         createUser(user)
         assignRoles(user)
         user?.s()
@@ -196,7 +198,7 @@ class UserCO {
     public Subscriber createSubscriber(){
         Party party = new Party(name: name)
         party.isEnabled = isEnabled
-        LoginCredential loginCredential = new LoginCredential(email: email, password: password.encodeAsBase64(), party: party)
+        LoginCredential loginCredential = new UserLogin(email: email, password: password.encodeAsBase64(), party: party)
         party.loginCredentials = [loginCredential]
         party.s()
 

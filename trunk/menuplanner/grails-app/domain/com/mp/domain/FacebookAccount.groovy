@@ -1,15 +1,15 @@
 package com.mp.domain
 
-class FacebookAccount {
+class FacebookAccount extends LoginCredential {
 
-    Party party
     Long uid
     String oauthToken
-
-    static belongsTo = [party: Party]
 
     static constraints = {
     }
 
+    static mapping = {
+        tablePerHierarchy false
+    }
 
 }

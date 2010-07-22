@@ -10,14 +10,45 @@ class Party {
 
     Set<PartyRole> roles = []
     Set<LoginCredential> loginCredentials = []
+    Set<Recipe> contributions = []
+    Set<MenuPlan> menuPlans = []
+    Set<Recipe> favourites=[]
+    Set<ShoppingList> shoppingLists=[]
 
-    static transients = ['isEnabledString']
+    static transients = ['isEnabledString', 'email','password','userLogin']
 
     static hasMany = [favourites: Recipe, contributions: Recipe, menuPlans:MenuPlan,
-            roles: PartyRole, loginCredentials: LoginCredential]
+            roles: PartyRole, loginCredentials: LoginCredential, shoppingLists:ShoppingList]
 
     def beforeInsert = {
         joiningDate = new Date()
+    }
+
+    String getEmail(){
+        return UserLogin.findByParty(this).email
+    }
+
+    void setEmail(String email){
+        userLogin.email = email
+    }
+
+    String getPassword(){
+        return UserLogin.findByParty(this).password
+    }
+
+    void setPassword(String password){
+       userLogin.password = password
+    }
+
+    UserLogin getUserLogin(){
+        if(UserLogin.findByParty(this)){
+            return UserLogin.findByParty(this)
+        }else{
+            UserLogin userLogin=this?.loginCredentials?.toList()?.find{LoginCredential loginCredential->
+                return(loginCredential instanceof UserLogin)
+            }
+            return userLogin
+        }
     }
 
     static constraints = {

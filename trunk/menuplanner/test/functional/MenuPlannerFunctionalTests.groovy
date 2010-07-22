@@ -72,11 +72,11 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
             city = userFormData.city
             mouthsToFeed = userFormData.mouthsToFeed
             introduction = userFormData.introduction
-            byId('chk_User').click()
+            byId('chk_Subscriber').click()
             if (!userFormData.isEnabled) { byId('chk_Enable').click() }
             if (userFormData.isSuperAdmin) {byId('chk_SuperAdmin').click()}
             if (userFormData.isAdmin) { byId('chk_Admin').click()}
-            if (userFormData.isUser) {byId('chk_User').click()}
+            if (userFormData.isUser) {byId('chk_Subscriber').click()}
             click('_action_save')
         }
     }
@@ -179,7 +179,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
     void goToGenerateShoppingListPage() {
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
         loginToHomepage(loginFormData)
-        LoginCredential credential = LoginCredential.findByEmail(loginFormData.email)
+        LoginCredential credential = UserLogin.findByEmail(loginFormData.email)
         ShoppingList shoppingList = ShoppingList.findByParty(credential.party)
         get("/shoppingList/generateShoppingList/${shoppingList?.id}")
     }
@@ -191,9 +191,9 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
     void goToCreateShoppingListPage() {
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
         loginToHomepage(loginFormData)
-        LoginCredential credential = LoginCredential.findByEmail(loginFormData.email)
-        Subscriber user = Subscriber.findByLoginCredential(credential)
-        ShoppingList shoppingList = ShoppingList.findByUser(user)
+        LoginCredential credential = UserLogin.findByEmail(loginFormData.email)
+        Subscriber user = Subscriber.findByParty(credential.party)
+        ShoppingList shoppingList = ShoppingList.findByParty(user.party)
         get("/shoppingList/generateShoppingList/${shoppingList?.id}")
         def createLink = byName('_action_create')
         createLink.click()

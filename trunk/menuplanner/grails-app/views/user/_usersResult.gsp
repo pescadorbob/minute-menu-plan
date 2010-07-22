@@ -17,16 +17,16 @@
             <ul>
 
                 <li>
-                    <a href="${createLink(action: 'show', controller: 'user', id: user?.id)}">${user?.name}</a>
+                    <a href="${createLink(action: 'show', controller: 'user', id: user?.id)}">${user?.party?.name}</a>
                 </li>
-                <li class="email">${user?.loginCredential?.email}</li>
+                <li class="email">${user?.party?.email}</li>
                 %{--<li>2 day ago</li>--}%
                 <li>To Be Implemented</li>
-                <li id="status${user?.id}">${user?.isEnabledString}</li>
-                <li>${user.inappropriateFlagsCount} Flags</li>
+                <li id="status${user?.id}">${user?.party?.isEnabledString}</li>
+                <li>${user?.party?.inappropriateFlagsCount} Flags</li>
                 <li><g:link controller="user" action="edit" params="[id:user?.id]">Edit</g:link></li>
                 <li><g:remoteLink controller="user" action="changeStatus" onSuccess="invertStatus('${user?.id}');" name="changeStatus${user?.id}"
-                        id="${user?.id}">${(user?.isEnabledString == 'Enabled') ? 'Disable' : 'Enable'}</g:remoteLink></li>
+                        id="${user?.id}">${(user?.party?.isEnabledString == 'Enabled') ? 'Disable' : 'Enable'}</g:remoteLink></li>
             </ul>
         </li>
     </g:each>
