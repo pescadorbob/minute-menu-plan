@@ -193,12 +193,10 @@ class UserController {
         response.setStatus(200)
         if (userId) {
             if (user) {
-                if (!orderStatus && (financialOrderState == FinancialState.CHARGEABLE.name)) {
-
+                if (!orderStatus && (financialOrderState == FinancialState.REVIEWING.name)) {
                     orderStatus = new OrderStatus()
                     orderStatus.orderId = orderNumber
                     orderStatus.transactionId = transactionId
-                    orderStatus.fulfillmentStatus = FulfillmentState.PROCESSING
                     orderStatus.s()
                     render responseXML
                 } else {
@@ -214,6 +212,7 @@ class UserController {
             switch (financialOrderState) {
                 case FinancialState.CHARGEABLE.name:
                     googleCheckoutService.updateFinancialState(orderStatus, FinancialState.CHARGEABLE, transactionId)
+                    orderStatus.fulfillmentStatus = FulfillmentState.PROCESSING
                     render responseXML
                     break;
                 case FinancialState.CHARGED.name:
@@ -224,14 +223,17 @@ class UserController {
                     break;
                 case FinancialState.CANCELLED.name:
                     googleCheckoutService.updateFinancialState(orderStatus, FinancialState.CANCELLED, transactionId)
+                    googleCheckoutService.updateFulfillmentState(orderStatus, FulfillmentState.WILL_NOT_DELIVER, transactionId)
                     render responseXML
                     break;
                 case FinancialState.PAYMENT_DECLINED.name:
                     googleCheckoutService.updateFinancialState(orderStatus, FinancialState.PAYMENT_DECLINED, transactionId)
+                    googleCheckoutService.updateFulfillmentState(orderStatus, FulfillmentState.WILL_NOT_DELIVER, transactionId)
                     render responseXML
                     break;
                 case FinancialState.CANCELLED_BY_GOOGLE.name:
                     googleCheckoutService.updateFinancialState(orderStatus, FinancialState.CANCELLED_BY_GOOGLE, transactionId)
+                    googleCheckoutService.updateFulfillmentState(orderStatus, FulfillmentState.WILL_NOT_DELIVER, transactionId)
                     render responseXML
                     break;
                 default:
