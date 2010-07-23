@@ -18,7 +18,8 @@ class UserController {
     }
 
     def delete = {
-        Party user = Party.get(params?.id)
+        Subscriber subscriber = Subscriber.get(params?.id)
+        Party user = subscriber?.party
         if (user) {
             try {
                 Boolean deletingCurrentUser = (user == LoginCredential.currentUser?.party)
@@ -120,7 +121,7 @@ class UserController {
     }
     def update = {UserCO userCO ->
         if (userCO.validate()) {
-            userCO.updateUser()
+            userCO.updateParty()
             flash.message = message(code: 'user.updateded.success')
             redirect(action: 'show', id: userCO?.id)
         } else {
