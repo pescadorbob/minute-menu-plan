@@ -126,7 +126,7 @@ class UserCO {
     static constraints = {
         id(nullable: true)
         email(blank: false, nullable: false, email: true, validator: {val, obj ->
-            if (val) {
+            if (val && !obj.id) {
                 LoginCredential credential = UserLogin.findByEmail(val)
                 if (credential && (credential?.id != obj?.id?.toLong())) {
                     return "userCO.email.unique.error"
@@ -188,15 +188,46 @@ class UserCO {
 //        return user
 //    }
 //
-//    public Subscriber updateUser() {
-//        Subscriber user = Subscriber.get(id?.toLong())
-//        createUser(user)
-//        assignRoles(user)
-//        user.s()
-//        attachImage(user, selectUserImagePath)
-//        user.s()
-//        return user
-//    }
+    public Party updateParty() {
+        Subscriber subscriber = Subscriber.get(id?.toLong())
+        Party party = subscriber.party
+        if (UserType.Subscriber.name() in roles) {
+            subscriber.screenName = name
+            subscriber.city = city
+            subscriber.mouthsToFeed = mouthsToFeed
+            subscriber.introduction = introduction
+            attachImage(subscriber,selectUserImagePath)
+            party.addToRoles(subscriber)
+            party.s()
+            subscriber.s()
+        }
+
+        if (UserType.Admin.name() in roles && !party.administrator) {
+            Administrator admin = new Administrator()
+            party.addToRoles(admin)
+            party.s()
+            admin.s()
+        }else if (!(UserType.Admin.name() in roles) && party.administrator){
+            Administrator administrator = party.administrator
+            party.removeFromRoles(party.administrator)
+            administrator.delete()            
+            party.s()
+        }
+
+        if (UserType.SuperAdmin.name() in roles &&  !party.superAdmin) {
+            SuperAdmin superAdmin = new SuperAdmin()
+            party.addToRoles(superAdmin)
+            party.s()
+            superAdmin.s()
+        }else if(!(UserType.SuperAdmin.name() in roles) && party.superAdmin){
+            SuperAdmin superAdmin = party.superAdmin
+            party.removeFromRoles(party.superAdmin)
+            superAdmin.delete()
+            party.s()
+        }
+        party.isEnabled=isEnabled        
+        return party
+    }
 
     public boolean attachImage(Subscriber user, def imagePath) {
         return Image.updateOwnerImage(user, imagePath)
@@ -216,7 +247,7 @@ class UserCO {
             subscriber.mouthsToFeed = mouthsToFeed
             subscriber.introduction = introduction
             subscriber.party = party
-//            attachImage(subscriber,selectUserImagePath)
+            attachImage(subscriber,selectUserImagePath)
             party.addToRoles(subscriber)
             party.s()
             subscriber.s()
