@@ -63,13 +63,6 @@ class BootstrapService {
         userCO.createParty()
     }
 
-    public void populateCategory() {
-        List<String> categories = ['Breakfast', 'Lunch', 'Dinner']
-        categories.each {String category ->
-            new Category(name: "${category}").s()
-        }
-    }
-
     public void populateQuantities(Integer count) {
         (1..count).each {Integer index ->
             Quantity quantity = new Quantity()

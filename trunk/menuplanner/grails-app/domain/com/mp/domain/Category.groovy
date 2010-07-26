@@ -3,7 +3,10 @@ package com.mp.domain
 class Category {
 
     String name
-    static hasMany = [recipeCategories: RecipeCategory]
+    Category parent
+    Set<Category> subCategories = []
+
+    static hasMany = [recipeCategories: RecipeCategory, subCategories: Category]
 
     static transients = ['recipes']
 
@@ -26,6 +29,7 @@ class Category {
     }
 
     static constraints = {
-        name(unique: true)
+        name(unique: 'parent')
+        parent(nullable: true)
     }
 }
