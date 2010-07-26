@@ -20,7 +20,8 @@ class MenuConstants {
 
     public static final String UNIT_TABLE_SPOON = "Table spoon"
     public static final String UNIT_TABLE_SPOON_SYMBOL = "T"
-    public static final Float UNIT_TABLE_SPOON_CONVERSION_FACTOR = 14.8
+//    public static final Float UNIT_TABLE_SPOON_CONVERSION_FACTOR = 14.8
+    public static final Float UNIT_TABLE_SPOON_CONVERSION_FACTOR = 15
 
     public static final String UNIT_TEA_SPOON = "Tea spoon"
     public static final String UNIT_TEA_SPOON_SYMBOL = "t"
@@ -96,15 +97,15 @@ class MenuConstants {
 
     public static final String UNIT_MILLI_GRAM = "Milli Grams"
     public static final String UNIT_MILLI_GRAM_SYMBOL = "mg."
-    public static final Float UNIT_MILLI_GRAM_CONVERSION_FACTOR = 1
+    public static final Float UNIT_MILLI_GRAM_CONVERSION_FACTOR = (UNIT_MILLI_LITRE_CONVERSION_FACTOR / 1000)
 
     public static final String UNIT_GRAM = "Grams"
     public static final String UNIT_GRAM_SYMBOL = "g."
-    public static final Float UNIT_GRAM_CONVERSION_FACTOR = 1000
+    public static final Float UNIT_GRAM_CONVERSION_FACTOR = UNIT_MILLI_LITRE_CONVERSION_FACTOR
 
     public static final String UNIT_KILO_GRAM = "Kilo Grams"
     public static final String UNIT_KILO_GRAM_SYMBOL = "Kg."
-    public static final Float UNIT_KILO_GRAM_CONVERSION_FACTOR = 1000000
+    public static final Float UNIT_KILO_GRAM_CONVERSION_FACTOR = (1000 * UNIT_MILLI_LITRE_CONVERSION_FACTOR)
 
     public static final String UNIT_CALORIES = "Calories"
     public static final String UNIT_CALORIES_SYMBOL = "cal."
