@@ -128,24 +128,46 @@ class MenuConstants {
     public static final Long ACCESS_IF_OWNS_RECIPE_PERMISSION_LEVEL = 2
 
 
-    public static final String AISLE_PRODUCE = "produce"
-    public static final String AISLE_FROZEN_FOODS = "frozen food"
-    public static final String AISLE_BULK_FOOD = "bulk food"
-    public static final String AISLE_BAKING = "baking"
-    public static final String AISLE_BREADS = "breads"
-    public static final String AISLE_SEAFOOD = "meat and seafood"
-    public static final String AISLE_DELI = "deli"
-    public static final String AISLE_BAKERY = "bakery"
-    public static final String AISLE_DAIRY = "dairy"
-    public static final String AISLE_BEVERAGES = "beverages"
-    public static final String AISLE_PASTA_AND_RICE = "pasta and rice"
-    public static final String AISLE_ETHNIC_FOODS = "ethnic foods"
-    public static final String AISLE_CANNED_FOODS = "canned foods"
-    public static final String AISLE_CONDIMENTS = "condiments"
-    public static final String AISLE_SNACKS = "snacks"
-    public static final String AISLE_CEREAL = "cereal"
-    public static final String AISLE_HOUSEHOLD_ITEMS = "household items"
-    public static final String AISLE_HEALTH = "health and beauty"
-    public static final String AISLE_PHARMACY = "pharmacy"
+    public static final List<String> AISLES = ["produce", "frozen food", "bulk food", "baking", "breads",
+            "meat and seafood", "deli", "bakery", "dairy", "beverages", "pasta and rice", "ethnic foods",
+            "canned foods", "condiments", "snacks", "cereal", "household items", "health and beauty", "pharmacy"]
+
+    public static final List<String> PREPARATION_METHODS = ['Baking', 'Blanching', 'Boiling', 'Braising', 'Broiling',
+            'Canning', 'Creaming', 'Deep-fry', 'Fermenting', 'Freezing', 'Frying', 'Grilling', 'Outdoor Cooking',
+            'Pickling', 'Poaching', 'Pressure Cooking', 'Roasting', 'Salting', 'Sauteing', 'Scalding', 'Simmering',
+            'Smoking', 'Steaming', 'Stir-frying', 'Tempering']
+
+    public static final List<String> RECIPES = ['Appetizers', 'Beverages', 'Bread', 'Breakfast', 'Confections',
+            'Desserts', 'Meats', 'Pasta', 'Rice', 'Salads', 'Sandwiches', 'Sauces', 'Seafood', 'Side Dishes',
+            'Soups', 'Stews', 'Stocks', 'Sushi', 'Vegan', 'Vegetarian', 'Easy Dinners', 'Camping Recipes',
+            'Holiday Recipes', 'Recipes In Metric Measurements']
+
+    public static final List<String> BASIC_FOOD_GROUPS = ['Dairy Products & Eggs', 'Cereals & Grains', 'Fruit',
+            'Meat & Poultry', 'Fats & Oils', 'Nuts & Seeds', 'Seafood', 'Spices & Herbs', 'Sweeteners', 'Vegetables']
+
+    public static final List<String> NATIONAL_AND_ETHNIC_CUISINES = ['African Cuisines', 'British Cuisines',
+            'Caribbean Cuisines', 'East Asian Cuisines', 'European Cuisines', 'Mediterranean Cuisines',
+            'Middle Eastern Cuisines', 'Pacific Cuisines', 'North American Cuisines', 'South American Cuisines',
+            'South Asian Cuisines', 'South-East Asian Cuisines']
+
+    public static final List<String> SPECIAL_DIETS = ['Low-carb (Atkins, Zone, etc.)', 'Gluten-Free',
+            'Healthful Eating', 'Halal', 'High Protein', 'Kosher', 'Low-Calorie Diet', 'Low-GI Diet (Diabetic)',
+            'Vegan', 'Vegetarian']
+
+
+    public static final List<String> NUTRITION = ['Antioxidants', 'Calories', 'Carbohydrates', 'Fats', 'Fiber',
+            'Minerals', 'Organic', 'Protein', 'Vitamins']
+
+    public static final List<String> INGREDIENTS = ['Baking Soda', 'Beans & Other Legumes', 'Bread', 'Grain', 'Chiles',
+            'Chocolate', 'Coffee', 'Eggs', 'Flour', 'Herbs', 'Jams & Jellies', 'Milk', 'Pasta', 'Peppers', 'Potatoes',
+            'Rice', 'Salt', 'Spices', 'Sugar']
+
+    public static final List<String> CATEGORIES = ['Breakfast', 'Lunch', 'Dinner', 'Cooking Techniques', 'Recipes', 'Basic Food Groups',
+            'National and Ethnic Cuisines', 'Special Diets', 'Nutrition', 'Ingredients']
+
+    public static final Map<String, List<String>> SUB_CATEGORIES = ['Cooking Techniques': PREPARATION_METHODS,
+            'Recipes': RECIPES, 'Basic Food Groups': BASIC_FOOD_GROUPS,
+            'National and Ethnic Cuisines ': NATIONAL_AND_ETHNIC_CUISINES,
+            'Special Diets ': SPECIAL_DIETS, 'Nutrition': NUTRITION, 'Ingredients': INGREDIENTS]
 
 }

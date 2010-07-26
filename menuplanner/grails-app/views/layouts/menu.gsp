@@ -20,7 +20,7 @@
     <script type="text/javascript" src="${resource(dir: 'js', file: 'shoppingList.js')}"></script>
     %{--<script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.corner.js')}"></script>--}%
     <g:layoutHead/>
-    
+
 </head>
 <body>
 <g:setProvider library="jquery"/>
@@ -51,6 +51,28 @@
             jQuery(this).removeClass("sfhover")
         })
     });
+
+    jQuery(document).ready(function() {
+        adjustDropDownWidth();
+    });
+    function adjustDropDownWidth() {
+        if (jQuery.browser.msie) {
+            jQuery('.auto-resize').each(function() {
+                var originalWidth = jQuery(this).css('width');
+                jQuery(this).parent('div').css('overflow', 'hidden');
+                jQuery(this).parent('span').css('overflow', 'hidden');
+                jQuery(this).blur(function() {
+                    jQuery(this).width(originalWidth);
+                });
+                jQuery(this).change(function() {
+                    jQuery(this).width(originalWidth);
+                });
+                jQuery(this).mousedown(function() {
+                    jQuery(this).css("width", "auto");
+                });
+            });
+        }
+    }
 </script>
 </body>
 </html>

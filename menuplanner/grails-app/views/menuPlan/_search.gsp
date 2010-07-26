@@ -107,7 +107,7 @@
                 <div id="country-cate">
                     <ul>
                         <li>
-                            <g:select width="100px" name="qSelect" from="${categoryList}" onchange="submitSearchFormBySelect()" noSelection="[' ': '(Select One)']"/>
+                            <g:select style="width:107px" class="auto-resize" name="qSelect" from="${categoryList}" onchange="submitSearchFormBySelect()" noSelection="[' ': '(Select One)']"/>
                         </li>
                         <li>
                             <span id="domainProduct" class="pointer" onclick="defineSearchDomainType(this, 'domainType', 'Item');">Include Products</span><br/>
