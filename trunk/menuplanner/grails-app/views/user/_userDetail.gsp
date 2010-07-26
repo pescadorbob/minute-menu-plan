@@ -35,6 +35,7 @@
         <li><span><strong>Name :</strong></span>
             <label><input name="name" type="text" class="inpbox  ${hasErrors(bean: userCO, field: 'name', 'errors')}" value="${userCO?.name}"/>&nbsp; Public name displayed on recipes</label>
         </li>
+        <g:if test="${party?.subscriber}">
         <li><span><strong>City :</strong></span>
             <label><input name="city" type="text" class="inpbox  ${hasErrors(bean: userCO, field: 'city', 'errors')}" value="${userCO?.city}"/>&nbsp; City displayed on recipes</label>
         </li>
@@ -44,6 +45,7 @@
         <li><span><strong>Something about yourself :</strong></span>
             <label><g:textArea name="introduction" value="${userCO?.introduction}" class="txtarea  ${hasErrors(bean:userCO,field:'introduction', 'errors')}" rows="4" cols="22"/>&nbsp; Public</label>
         </li>
+        </g:if>
     %{--<li><span>&nbsp;</span>--}%
     %{--<label>--}%
     %{--<input name="" type="checkbox" value=""/>--}%
