@@ -146,8 +146,8 @@ class UserController {
 
     def show = {
         Subscriber user = Subscriber.get(params.id)
-        Map abusiveRecipesMap = user.party.abusiveRecipesMap
-        Map abusiveCommentsMap = user.party.abusiveCommentsMap
+        Map abusiveRecipesMap = user?.party?.abusiveRecipesMap
+        Map abusiveCommentsMap = user?.party?.abusiveCommentsMap
         if (params?.message) {
             flash.message = params.message
         }
