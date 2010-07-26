@@ -89,7 +89,7 @@ class Party {
     def getAbusiveRecipesMap() {
         List<Recipe> abusiveRecipesList = []
         if (this.contributions) {
-            List<RecipeAbuse> recipeAbuses = RecipeAbuse.findAllByRecipeInList(this.contributions)
+            List<RecipeAbuse> recipeAbuses = RecipeAbuse.findAllByRecipeInList(this.contributions?.toList())
             abusiveRecipesList = recipeAbuses*.recipe
         }
         Map map = (abusiveRecipesList) ? abusiveRecipesList.groupBy {it} : [:]
