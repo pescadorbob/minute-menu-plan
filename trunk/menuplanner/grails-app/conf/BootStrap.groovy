@@ -74,8 +74,6 @@ class BootStrap {
                 bootstrapService.populateUser(name, roles)
             }
             println "Populated Users"
-            bootstrapService.populateCategory()
-            println "Populated Categories"
 
 
             String recipeFileName = (GrailsUtil.isDevelopmentEnv()) ? "/bootstrapData/recipeSpreadsheet_test.xls" : "/bootstrapData/recipeSpreadsheet.xls"
@@ -114,7 +112,8 @@ class BootStrap {
             masterDataBootStrapService.populateTimeUnits()
             masterDataBootStrapService.populateUnitsAndStandardConversions()
             masterDataBootStrapService.populateNutrients()
-            masterDataBootStrapService.populateAisle()
+            masterDataBootStrapService.populateAisles()
+            masterDataBootStrapService.populateCategories()
         }
         masterDataBootStrapService.populatePermissions()
     }
