@@ -18,8 +18,14 @@ class UserController {
     }
 
     def delete = {
-        Subscriber subscriber = Subscriber.get(params?.id)
-        Party user = subscriber?.party
+        PartyRole pUser = Subscriber.get(params.long('id'))
+            if(!pUser){
+                pUser = Administrator.get(params.long('id'))
+            }
+            if(!pUser){
+                pUser = SuperAdmin.get(params.long('id'))
+            }
+        Party user = pUser?.party
         if (user) {
             try {
                 Boolean deletingCurrentUser = (user == LoginCredential.currentUser?.party)
@@ -105,9 +111,16 @@ class UserController {
 
     def edit = {
         if (params.id) {
-            Subscriber user = Subscriber.get(params.long('id'))
+            PartyRole user = Subscriber.get(params.long('id'))
+            if(!user){
+                user = Administrator.get(params.long('id'))
+            }
+            if(!user){
+                user = SuperAdmin.get(params.long('id'))
+            }
+            Party party=user?.party
             UserCO userCO = new UserCO(user)
-            render(view: 'edit', model: [userCO: userCO])
+            render(view: 'edit', model: [userCO: userCO,party:party])
         }
     }
     def create = {
@@ -145,13 +158,20 @@ class UserController {
     }
 
     def show = {
-        Subscriber user = Subscriber.get(params.id)
+        PartyRole user = Subscriber.get(params.id)
+        if(!user){
+            user = Administrator.get(params.id)
+        }
+        if(!user){
+            user = SuperAdmin.get(params.id)
+        }
+        Party party=user?.party
         Map abusiveRecipesMap = user?.party?.abusiveRecipesMap
         Map abusiveCommentsMap = user?.party?.abusiveCommentsMap
         if (params?.message) {
             flash.message = params.message
         }
-        render(view: 'show', model: [user: user, abusiveCommentsMap: abusiveCommentsMap, abusiveRecipesMap: abusiveRecipesMap])
+        render(view: 'show', model: [user: user, abusiveCommentsMap: abusiveCommentsMap, abusiveRecipesMap: abusiveRecipesMap,party:party])
     }
 
     def facebookConnect = {

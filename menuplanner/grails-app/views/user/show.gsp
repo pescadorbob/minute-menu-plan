@@ -23,10 +23,12 @@
                 </g:if>
 
                 <div id="leftpanel">
+                  <g:if test="${party?.subscriber}">
                     <div id="photo">
                         <mp:image id="${user?.image?.id}" height="150" width="150"/>
                     </div>
-                    <ul>
+                  </g:if>
+                  <ul>
                         <li>Member since ${user?.party?.joiningDate?.format('MMMM yyyy')}</li>
                         <li></li><li></li>
                         <g:each in="${user?.party?.roleTypes}" var="roleType"><li><strong>${roleType}</strong></li></g:each>
@@ -44,10 +46,12 @@
                 <div id="rightpanel">
                     <ul>
                         <li><span><strong>Email :</strong></span><label>${user?.party?.email}</label></li>
-                        <li><span><strong>Name :</strong></span><label>${user?.screenName}</label></li>
-                        <li><span><strong>City :</strong></span><label>${user?.city}</label></li>
-                        <li><span><strong>Mouths to Feed :</strong></span><label>${user?.mouthsToFeed}</label></li>
-                        <li><span><strong>Something about yourself :</strong></span><label>${user?.introduction}</label></li>
+                        <li><span><strong>Name :</strong></span><label>${user?.party?.name}</label></li>
+                        <g:if test="${party?.subscriber}">
+                          <li><span><strong>City :</strong></span><label>${user?.city?:''}</label></li>
+                          <li><span><strong>Mouths to Feed :</strong></span><label>${user?.mouthsToFeed}</label></li>
+                          <li><span><strong>Something about yourself :</strong></span><label>${user?.introduction}</label></li>
+                        </g:if>
                         %{--<li><span>&nbsp;</span>--}%
                         %{--<label>--}%
                         %{--<input name="" type="checkbox" value=""/>--}%

@@ -100,24 +100,26 @@ class UserCO {
 
     }
 
-    UserCO(Subscriber user) {
+    UserCO(PartyRole user) {
         id = user?.id?.toString()
         if (user?.party?.email) {
             email = user?.party?.email
             password = user?.party?.password
             confirmPassword = user?.party?.password
         }
-        name = user?.screenName
-        mouthsToFeed = user?.mouthsToFeed
-        introduction = user?.introduction
-        city = user?.city
+        name = user?.party?.name
+        if(user?.party?.subscriber){
+            mouthsToFeed = user?.mouthsToFeed
+            introduction = user?.introduction
+            city = user?.city
+        }
         joiningDate = user?.party?.joiningDate
         isEnabled = user?.party?.isEnabled
 
         roles = user?.party?.roleTypes*.name()
 
-        if (user?.image) {
-            selectUserImagePath = user?.image?.path + user?.image?.storedName
+        if (user?.party?.subscriber?.image) {
+            selectUserImagePath = user?.party?.subscriber?.image?.path + user?.party?.subscriber?.image?.storedName
         } else {
             selectUserImagePath = ''
         }
@@ -143,8 +145,16 @@ class UserCO {
                 return 'default.blank.message'
             }
         })
-        introduction(nullable: true, blank: true)
-        city(nullable: false, blank: false)
+        introduction(nullable: true, blank: true,validator: {val, obj ->
+            if (!val && (UserType.Subscriber.name() in obj.roles)) {
+                return 'default.blank.message'
+            }
+        })
+        city(nullable: true, blank: true,validator: {val, obj ->
+            if (!val && (UserType.Subscriber.name() in obj.roles)) {
+                return 'default.blank.message'
+            }
+        })
         roles(nullable: false, blank: false)
     }
 
@@ -189,17 +199,24 @@ class UserCO {
 //    }
 //
     public Party updateParty() {
-        Subscriber subscriber = Subscriber.get(id?.toLong())
-        Party party = subscriber.party
-        if (UserType.Subscriber.name() in roles) {
-            subscriber.screenName = name
-            subscriber.city = city
-            subscriber.mouthsToFeed = mouthsToFeed
-            subscriber.introduction = introduction
-            attachImage(subscriber,selectUserImagePath)
-            party.addToRoles(subscriber)
+        PartyRole user = Subscriber.get(id?.toLong())
+        if(!user){
+            user = Administrator.get(id?.toLong())
+        }
+        if(!user){
+            user = SuperAdmin.get(id?.toLong())
+        }
+        Party party = user?.party
+        party.name=name
+        if ((UserType.Subscriber.name() in roles) && !party.subscriber) {
+            user.screenName = name
+            user.city = city
+            user.mouthsToFeed = mouthsToFeed
+            user.introduction = introduction
+            attachImage(user,selectUserImagePath)
+            party.addToRoles(user)
             party.s()
-            subscriber.s()
+            user.s()
         }
 
         if (UserType.Admin.name() in roles && !party.administrator) {

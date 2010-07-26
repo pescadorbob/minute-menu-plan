@@ -2,6 +2,7 @@
 <head>
     <meta name="layout" content="menu"/>
     <title>Minute Menu Plan</title>
+  <facebook:facebookConnectJavascript/>
 </head>
 <body>
 <div id="content-wrapper" class="clearfix">
@@ -102,6 +103,8 @@
                             <g:actionSubmit controller="login" action="login" value="Login" class="userLoginLink"/>
                         </li>
                         <li><g:link controller="login" action="forgotPassword">forgot password or username?</g:link></li>
+                        <span style="color:#007AD8">Or login using Facebook</span> 
+                      <fb:login-button ></fb:login-button>
                         <li class="border"><h2>TESTIMONIAL</h2></li>
                         <li>Minute Menu Plan removed the stress from my evenings and stopped the kids from asking whats for dinner.  We love to plan our meals together, and it takes only a few minutes.  Thanks Minute Menu Plan!
                             <label>--Donna, Hamburg, NY</label></li>
