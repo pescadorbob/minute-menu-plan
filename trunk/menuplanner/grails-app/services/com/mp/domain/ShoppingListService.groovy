@@ -117,6 +117,9 @@ class ShoppingListService {
                     Float value = (recipeIngredient?.quantity?.value) ? recipeIngredient.quantity.value : 1.0f
                     Integer servings = recipeIngredient.recipe.servings
                     recipeIngredientNew.quantity.value = ((value * shoppingList.servings) / servings).toFloat()
+                    if(!recipeIngredientNew.quantity.savedUnit){
+                        recipeIngredientNew.quantity.value = Math.ceil(recipeIngredientNew.quantity.value)
+                    }
                     ingredients.add(recipeIngredientNew)
                 }
 //                }
