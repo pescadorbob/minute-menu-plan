@@ -180,7 +180,7 @@ class RecipeCO {
         def tempIngredients = recipe.ingredients
         recipe.ingredients = []
         tempIngredients*.delete(flush: true)
-        addIngredientsToRecipe(recipe, ingredientQuantities, ingredientUnitIds, hiddenIngredientProductNames, hiddenIngredientAisleNames,hiddenIngredientPreparationMethodNames)
+        addIngredientsToRecipe(recipe, ingredientQuantities, ingredientUnitIds, hiddenIngredientProductNames, hiddenIngredientAisleNames, hiddenIngredientPreparationMethodNames)
 
         recipe.directions = []
         addDirectionsToRecipe(recipe, directions)
@@ -247,7 +247,7 @@ class RecipeCO {
             RecipeIngredient recipeIngredient = new RecipeIngredient()
             Item product = Item.findByName(productName)
             Unit unit = (unitIds[index]) ? Unit?.get(unitIds[index]?.toLong()) : null
-            Quantity quantity = StandardConversion.getQuantityToSave(amounts?.getAt(index) ? amounts[index] : null, unit)
+            Quantity quantity = StandardConversion.getQuantityToSave(amounts?.getAt(index) ? amounts[index] : null, unit, product.density)
             Aisle aisle = Aisle.findByName(aisleNames[index])
             String preparationMethodString = (preparationMethodNames[index])?.trim()
             PreparationMethod preparationMethod = (preparationMethodString) ? PreparationMethod.findByName(preparationMethodString) : null

@@ -10,7 +10,7 @@ class StandardConversion {
     Unit targetUnit
     Float conversionFactor
 
-    public static Quantity getQuantityToSave(String amountFraction, Unit displayUnit) {
+    public static Quantity getQuantityToSave(String amountFraction, Unit displayUnit, Float density = 1.0f) {
         Quantity result
         Float amount
         if (amountFraction) {
@@ -24,14 +24,18 @@ class StandardConversion {
         }
         if (displayUnit && (amount != null)) {
             StandardConversion standardConversion = StandardConversion.findBySourceUnit(displayUnit)
-            result.value = amount * standardConversion?.conversionFactor
+            if (displayUnit.isWeightUnit) {
+                result.value = ((amount * standardConversion?.conversionFactor) / density)
+            } else {
+                result.value = amount * standardConversion?.conversionFactor
+            }
             result.savedUnit = standardConversion?.targetUnit
             result.unit = displayUnit
         }
         return result
     }
 
-    public static String getQuantityValueString(Quantity sourceQuantity) {
+    public static String getQuantityValueString(Quantity sourceQuantity, Float density = 1.0f) {
         String result = ''
         Float floatValue = sourceQuantity?.value
         Unit unit = sourceQuantity?.unit
@@ -43,7 +47,12 @@ class StandardConversion {
                 StandardConversion.withNewSession {
                     standardConversion = StandardConversion.findBySourceUnit(unit)
                     Float conversionFactor = standardConversion?.conversionFactor
-                    floatValue = floatValue / conversionFactor
+                    if (unit.isWeightUnit) {
+                        floatValue = (floatValue  * density) / conversionFactor
+                    }
+                    else {
+                        floatValue = (floatValue / conversionFactor)
+                    }
                     if (unit.belongsToUsaSystem()) {
                         result = new Fraction(floatValue).myFormatUsingProperFractionFormat()
                     } else {
@@ -56,7 +65,6 @@ class StandardConversion {
     }
 
     static mapping = {
-          conversionFactor (sqlType:'numeric(20, 10)')
-       }
-
+        conversionFactor(sqlType: 'numeric(20, 10)')
+    }
 }

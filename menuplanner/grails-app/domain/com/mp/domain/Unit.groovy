@@ -5,6 +5,8 @@ class Unit extends Metric{
 
     static hasMany = [systemOfUnits:SystemOfUnit]
     static belongsTo = SystemOfUnit
+    Boolean isWeightUnit = false
+    Boolean isConvertible = false
     Party party
 
     static constraints = {
