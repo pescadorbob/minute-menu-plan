@@ -192,9 +192,9 @@ class ExcelService {
                 RecipeIngredient recipeIngredient = new RecipeIngredient()
                 Item item = Item.findByName(itemName)
                 PreparationMethod preparationMethod
-                if(preparationMethodName){
+                if (preparationMethodName) {
                     preparationMethod = PreparationMethod.findByName(preparationMethodName)
-                    if(!preparationMethod){preparationMethod = new PreparationMethod(name: preparationMethodName).s()}
+                    if (!preparationMethod) {preparationMethod = new PreparationMethod(name: preparationMethodName).s()}
                 }
                 recipeIngredient.preparationMethod = preparationMethod
                 if (!item) {
@@ -213,7 +213,7 @@ class ExcelService {
 
                 if (aisleName) {
                     recipeIngredient.aisle = Aisle.findByName(aisleName)
-                } 
+                }
 
                 Quantity quantity = new Quantity()
                 if (ingredientRow.getAt(1) && ingredientRow.getAt(2)) {  // if amount and unit both are Specified:
@@ -223,9 +223,9 @@ class ExcelService {
                     if (!unit) {
                         println "Unknown unit: " + ingredientRow.getAt(2)
                     }
-                    quantity = StandardConversion.getQuantityToSave(ingredientRow.getAt(1), unit)
+                    quantity = StandardConversion.getQuantityToSave(ingredientRow.getAt(1), unit, item.density)
                 } else if (ingredientRow.getAt(1)) {  // only Amount is specified:
-                    quantity = StandardConversion.getQuantityToSave(ingredientRow.getAt(1), null)
+                    quantity = StandardConversion.getQuantityToSave(ingredientRow.getAt(1), null, item.density)
                 }
                 quantity?.s()
                 recipeIngredient.quantity = quantity

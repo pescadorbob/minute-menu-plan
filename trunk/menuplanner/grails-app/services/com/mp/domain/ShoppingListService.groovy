@@ -73,7 +73,7 @@ class ShoppingListService {
                 similarIngredients.each {RecipeIngredient similarIngredient ->
                     total = (total == null) ? similarIngredient.quantity : Quantity.add(total, similarIngredient.quantity)
                 }
-                ShoppingIngredient shoppingIngredient = new ShoppingIngredient(name: "${(total) ? total.toBiggestUnitString() + ' ' : ''}" + differentIngredient.name, aisle: (aisle?.id) ? aisle : null)
+                ShoppingIngredient shoppingIngredient = new ShoppingIngredient(name: "${(total) ? total.toBiggestUnitString(differentIngredient.density) + ' ' : ''}" + differentIngredient.name, aisle: (aisle?.id) ? aisle : null)
                 productListForWeek.add(shoppingIngredient)
             }
         }
@@ -117,7 +117,7 @@ class ShoppingListService {
                     Float value = (recipeIngredient?.quantity?.value) ? recipeIngredient.quantity.value : 1.0f
                     Integer servings = recipeIngredient.recipe.servings
                     recipeIngredientNew.quantity.value = ((value * shoppingList.servings) / servings).toFloat()
-                    if(!recipeIngredientNew.quantity.savedUnit){
+                    if (!recipeIngredientNew.quantity.savedUnit) {
                         recipeIngredientNew.quantity.value = Math.ceil(recipeIngredientNew.quantity.value)
                     }
                     ingredients.add(recipeIngredientNew)

@@ -6,8 +6,7 @@ class Metric {
     String symbol
     String definition
     MetricType metricType
-    Boolean isWeightUnit = false
-    
+
     String toString() {
         return "${name}"
     }

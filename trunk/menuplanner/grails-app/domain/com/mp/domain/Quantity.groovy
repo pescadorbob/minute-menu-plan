@@ -74,19 +74,27 @@ class Quantity {
         return resultantQuantity
     }
 
-    public String toBiggestUnitString() {
-//        print "Input/Output:   " + toString()
+    public String toBiggestUnitString(Float density) {
+        if(unit && !unit.isConvertible){return this.toString()}
         String finalString = ''
         if (!value) {return finalString}
-
-        StandardConversion standardConversion = StandardConversion.findByTargetUnitAndConversionFactorLessThanEquals(savedUnit, value, [sort: 'conversionFactor', order: 'desc'])
+        Float valueWithDensity = ((unit?.isWeightUnit) ? (value * density) : value).toFloat()
+        StandardConversion standardConversion = StandardConversion.createCriteria().get {
+            eq('targetUnit', savedUnit)
+            le('conversionFactor', valueWithDensity)
+            sourceUnit {
+                eq('isWeightUnit', true)
+                eq('isConvertible', true)
+            }
+            order("conversionFactor", "desc")
+            maxResults(1)
+        }
         if (standardConversion) {
-            Fraction f3 = new Fraction((value.toFloat() / standardConversion.conversionFactor.toFloat()))
-            finalString = (f3.myFormatUsingProperFractionFormat() + " " + standardConversion.sourceUnit)
+            Fraction f3 = new Fraction((valueWithDensity / standardConversion.conversionFactor.toFloat()))
+            finalString = (f3.myFormatUsingProperFractionFormat() + " " + standardConversion.sourceUnit?.symbol)
         } else {
             finalString = toString()
         }
-//        println "           ---           " + finalString
         return finalString
     }
 }

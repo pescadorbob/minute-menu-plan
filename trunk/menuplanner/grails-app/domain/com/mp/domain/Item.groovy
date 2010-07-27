@@ -3,6 +3,7 @@ package com.mp.domain
 class Item {
     static searchable = true
 
+    Float density = 1.0f
     String name
     Aisle suggestedAisle
 
@@ -17,6 +18,7 @@ class Item {
     static mapping = {
         tablePerHierarchy false
         sort 'name'
+        density(sqlType: 'numeric(15, 10)')
     }
 
     boolean equals(final Object o) {
