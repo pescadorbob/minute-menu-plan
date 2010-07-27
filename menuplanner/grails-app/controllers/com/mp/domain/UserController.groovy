@@ -125,7 +125,9 @@ class UserController {
     }
     def create = {
         UserCO userCO = new UserCO(roles: [UserType.Subscriber.toString()], isEnabled: true)
-        render(view: 'create', model: [userCO: userCO])
+        Party party = new Party()
+        party.addToRoles(new Subscriber())
+        render(view: 'create', model: [userCO: userCO,party:party])
     }
 
     def createUser = {
