@@ -41,6 +41,9 @@ class ShoppingListService {
         weeklyShoppingList.weekIndex = index.toInteger()
         weeklyShoppingList.products = getProductListForWeekFromMenuPlan(menuPlan, index, shoppingList)
         weeklyShoppingList.groceries = getGroceryListForWeekFromMenuPlan(menuPlan, index)
+        weeklyShoppingList.groceries = weeklyShoppingList.groceries.findAll {grocery ->
+            !weeklyShoppingList.products.any {it.name.endsWith(grocery.name)}
+        }
         return weeklyShoppingList
     }
 
