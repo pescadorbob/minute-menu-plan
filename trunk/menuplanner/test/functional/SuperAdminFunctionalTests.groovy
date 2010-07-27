@@ -5,7 +5,7 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
 
     void goToAccountsPage() {
         loginBySuperAdmin()
-        byClass('accountsLink').click()
+        byClass('accountsLinkFT').click()
     }
 
     void testSuperAdminLogin() {
