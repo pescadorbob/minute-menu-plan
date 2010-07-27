@@ -247,7 +247,6 @@ class RecipeCO {
             RecipeIngredient recipeIngredient = new RecipeIngredient()
             Item product = Item.findByName(productName)
             Unit unit = (unitIds[index]) ? Unit?.get(unitIds[index]?.toLong()) : null
-            Quantity quantity = StandardConversion.getQuantityToSave(amounts?.getAt(index) ? amounts[index] : null, unit, product.density)
             Aisle aisle = Aisle.findByName(aisleNames[index])
             String preparationMethodString = (preparationMethodNames[index])?.trim()
             PreparationMethod preparationMethod = (preparationMethodString) ? PreparationMethod.findByName(preparationMethodString) : null
@@ -264,6 +263,7 @@ class RecipeCO {
                     product = new Product(name: productNames[index], isVisible: false, suggestedAisle: aisle).s()
                 }
             }
+            Quantity quantity = StandardConversion.getQuantityToSave(amounts?.getAt(index) ? amounts[index] : null, unit, product.density)
             quantity?.s()
             recipeIngredient.ingredient = product
             recipeIngredient.quantity = quantity
