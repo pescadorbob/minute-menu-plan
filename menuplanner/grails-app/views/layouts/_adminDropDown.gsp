@@ -5,8 +5,8 @@
         <ul>
             <li>
                 %{--<a>Volume to weight</a>--}%
-                <g:link class="accountsLink"  controller="user" action="list">Accounts</g:link>
-                <g:link class="accountsLink"  controller="quickFill" action="quickFillAdmin">Quick Fill</g:link>
+                <g:link class="accountsLinkFT"  controller="user" action="list">Accounts</g:link>
+                <g:link class="quickFillLinkFT"  controller="quickFill" action="quickFillAdmin">Quick Fill</g:link>
                 %{--<a>Featured plans</a>--}%
             </li>
         </ul>
