@@ -83,7 +83,7 @@ class Image {
             if (sourceImage.exists() && (imagePath != targetImagePath)) {
                 imageOwner.deleteImage()
                 Image.createImageFile(sourceImage.readBytes(), targetImageDirectory, fileName)
-                imageOwner.image = new Image(imagePath, targetImageDirectory, imageOwner?.id?.toString(), imageOwner?.party?.name)
+                imageOwner.image = new Image(imagePath, targetImageDirectory, imageOwner?.id?.toString(), imageOwner?.toString())
                 imageOwner.image.s()
             }
         }
