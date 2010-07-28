@@ -19,12 +19,12 @@ class UserController {
 
     def delete = {
         PartyRole pUser = Subscriber.get(params.long('id'))
-            if(!pUser){
-                pUser = Administrator.get(params.long('id'))
-            }
-            if(!pUser){
-                pUser = SuperAdmin.get(params.long('id'))
-            }
+        if (!pUser) {
+            pUser = Administrator.get(params.long('id'))
+        }
+        if (!pUser) {
+            pUser = SuperAdmin.get(params.long('id'))
+        }
         Party user = pUser?.party
         if (user) {
             try {
@@ -62,10 +62,14 @@ class UserController {
     def removeFavorite = {
         Recipe recipe = Recipe.get(params.id)
         LoginCredential user = LoginCredential.currentUser
-        user?.party?.removeFromFavourites(recipe)
-        user.s()
-        recipe.reindex()
-        render(view: 'show', model: [user: user])
+        if (recipe && user) {
+            user?.party?.removeFromFavourites(recipe)
+            user.s()
+            recipe.reindex()
+            render "true"
+        } else {
+            render "false"
+        }
     }
 
     def alterFavorite = {
@@ -112,22 +116,22 @@ class UserController {
     def edit = {
         if (params.id) {
             PartyRole user = Subscriber.get(params.long('id'))
-            if(!user){
+            if (!user) {
                 user = Administrator.get(params.long('id'))
             }
-            if(!user){
+            if (!user) {
                 user = SuperAdmin.get(params.long('id'))
             }
-            Party party=user?.party
+            Party party = user?.party
             UserCO userCO = new UserCO(user)
-            render(view: 'edit', model: [userCO: userCO,party:party])
+            render(view: 'edit', model: [userCO: userCO, party: party])
         }
     }
     def create = {
         UserCO userCO = new UserCO(roles: [UserType.Subscriber.toString()], isEnabled: true)
         Party party = new Party()
         party.addToRoles(new Subscriber())
-        render(view: 'create', model: [userCO: userCO,party:party])
+        render(view: 'create', model: [userCO: userCO, party: party])
     }
 
     def createUser = {
@@ -161,19 +165,19 @@ class UserController {
 
     def show = {
         PartyRole user = Subscriber.get(params.id)
-        if(!user){
+        if (!user) {
             user = Administrator.get(params.id)
         }
-        if(!user){
+        if (!user) {
             user = SuperAdmin.get(params.id)
         }
-        Party party=user?.party
+        Party party = user?.party
         Map abusiveRecipesMap = user?.party?.abusiveRecipesMap
         Map abusiveCommentsMap = user?.party?.abusiveCommentsMap
         if (params?.message) {
             flash.message = params.message
         }
-        render(view: 'show', model: [user: user, abusiveCommentsMap: abusiveCommentsMap, abusiveRecipesMap: abusiveRecipesMap,party:party])
+        render(view: 'show', model: [user: user, abusiveCommentsMap: abusiveCommentsMap, abusiveRecipesMap: abusiveRecipesMap, party: party])
     }
 
     def facebookConnect = {

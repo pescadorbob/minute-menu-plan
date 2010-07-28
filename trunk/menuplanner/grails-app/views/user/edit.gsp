@@ -9,7 +9,12 @@
     <div id="wrapper" class="clearfix">
         <div id="content-wrapper" class="clearfix">
             <div class="headbox">
-                <h3>Admin Profile Edit</h3>
+                <g:if test="${party?.administrator || party?.superAdmin}">
+                    <h3>Admin Profile Detail</h3>
+                </g:if>
+                <g:else>
+                    <h3>User Profile Detail</h3>
+                </g:else>
             </div>
             <g:hasErrors bean="${userCO}">
                 <div id="displayUserCOErrors" class="errors">

@@ -10,7 +10,12 @@
     <div id="wrapper" class="clearfix">
         <div id="content-wrapper" class="clearfix">
             <div class="headbox">
-                <h3>Admin Profile Detail</h3>
+                <g:if test="${party?.administrator || party?.superAdmin}">
+                    <h3>Admin Profile Detail</h3>
+                </g:if>
+                <g:else>
+                    <h3>User Profile Detail</h3>
+                </g:else>
             </div>
             <div class="top-shadow">
                 <label>&nbsp;</label>
@@ -23,24 +28,20 @@
                 </g:if>
 
                 <div id="leftpanel">
-                  <g:if test="${party?.subscriber}">
-                    <div id="photo">
-                        <mp:image id="${user?.image?.id}" height="150" width="150"/>
-                    </div>
-                  </g:if>
-                  <ul>
+                    <g:if test="${party?.subscriber}">
+                        <div id="photo">
+                            <mp:image id="${user?.image?.id}" height="150" width="150"/>
+                        </div>
+                    </g:if>
+                    <ul>
                         <li>Member since ${user?.party?.joiningDate?.format('MMMM yyyy')}</li>
                         <li></li><li></li>
                         <g:each in="${user?.party?.roleTypes}" var="roleType"><li><strong>${roleType}</strong></li></g:each>
+
                         <li><h3>Contributed Recipes</h3></li>
-                        <g:each in="${user?.party?.contributions}" var="recipe">
-                            <li><a href="${createLink(controller: 'recipe', action: 'show', id: recipe?.id)}">${recipe?.name}</a></li>
-                        </g:each>
+                        <g:render template="/user/contributedRecipes" model="[party:user?.party]"/>
                         <li><h3>Favorites</h3></li>
-                        <g:each in="${user?.party?.favourites}" var="recipe">
-                            <li><a href="${createLink(controller: 'recipe', action: 'show', id: recipe?.id)}">${recipe?.name}</a>
-                                <a href="${createLink(controller: 'user', action: 'removeFavorite', id: recipe?.id)}">remove</a></li>
-                        </g:each>
+                        <g:render template="/user/favoriteRecipes" model="[party:user?.party]"/>
                     </ul>
                 </div>
                 <div id="rightpanel">
@@ -48,33 +49,33 @@
                         <li><span><strong>Email :</strong></span><label>${user?.party?.email}</label></li>
                         <li><span><strong>Name :</strong></span><label>${user?.party?.name}</label></li>
                         <g:if test="${party?.subscriber}">
-                          <li><span><strong>City :</strong></span><label>${user?.city?:''}</label></li>
-                          <li><span><strong>Mouths to Feed :</strong></span><label>${user?.mouthsToFeed}</label></li>
-                          <li><span><strong>Something about yourself :</strong></span><label>${user?.introduction}</label></li>
+                            <li><span><strong>City :</strong></span><label>${user?.city ?: ''}</label></li>
+                            <li><span><strong>Mouths to Feed :</strong></span><label>${user?.mouthsToFeed}</label></li>
+                            <li><span><strong>Something about yourself :</strong></span><label>${user?.introduction}</label></li>
                         </g:if>
-                        %{--<li><span>&nbsp;</span>--}%
-                        %{--<label>--}%
-                        %{--<input name="" type="checkbox" value=""/>--}%
-                        %{--<strong>Automatically renews</strong></label>--}%
-                        %{--</li>--}%
-                        %{--<li><span>&nbsp;</span>--}%
-                        %{--<label>--}%
+                    %{--<li><span>&nbsp;</span>--}%
+                    %{--<label>--}%
+                    %{--<input name="" type="checkbox" value=""/>--}%
+                    %{--<strong>Automatically renews</strong></label>--}%
+                    %{--</li>--}%
+                    %{--<li><span>&nbsp;</span>--}%
+                    %{--<label>--}%
 
-                        %{--<input name="" type="checkbox" value=""/>--}%
-                        %{--<strong>Unlimited subscription</strong></label>--}%
-                        %{--</li>--}%
-                        %{--<li><span>&nbsp;</span>--}%
-                        %{--<label><strong>Last day of subscription</strong> &nbsp;--}%
-                        %{--<input type="text" class="inpboxSmall" value="2 / 2 / 2010"/>--}%
-                        %{--&nbsp;--}%
-                        %{--<img src="${resource(dir: 'images', file: 'calendar.png')}" alt="Calendar " align="absmiddle"/>--}%
-                        %{--</label>--}%
-                        %{--</li>--}%
-                        %{--<li><span>&nbsp;</span>--}%
-                        %{--<label>--}%
-                        %{--<input name="" type="checkbox" value=""/>--}%
-                        %{--<strong>Account enabled</strong></label>--}%
-                        %{--</li>--}%
+                    %{--<input name="" type="checkbox" value=""/>--}%
+                    %{--<strong>Unlimited subscription</strong></label>--}%
+                    %{--</li>--}%
+                    %{--<li><span>&nbsp;</span>--}%
+                    %{--<label><strong>Last day of subscription</strong> &nbsp;--}%
+                    %{--<input type="text" class="inpboxSmall" value="2 / 2 / 2010"/>--}%
+                    %{--&nbsp;--}%
+                    %{--<img src="${resource(dir: 'images', file: 'calendar.png')}" alt="Calendar " align="absmiddle"/>--}%
+                    %{--</label>--}%
+                    %{--</li>--}%
+                    %{--<li><span>&nbsp;</span>--}%
+                    %{--<label>--}%
+                    %{--<input name="" type="checkbox" value=""/>--}%
+                    %{--<strong>Account enabled</strong></label>--}%
+                    %{--</li>--}%
                     </ul>
                     <div id="right-link">
                         <g:if test="${user?.party?.inappropriateFlagsCount}">
