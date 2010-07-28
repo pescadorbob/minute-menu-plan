@@ -18,6 +18,18 @@
         }
     </script>
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'custom-ratings-inner.css')}"/>
+    <style type="text/css">
+    .tooltip {
+        background: transparent url('${resource(dir: 'images', file: '/tooltip/white_arrow-small.png')}');
+        height: 40px;
+        width: 210px;
+    }
+
+    .tooltip.bottom {
+        background: transparent url('${resource(dir: 'images', file: '/tooltip/white_arrow_inverse-small.png')}');
+        height: 30px;
+    }
+    </style>
 </head>
 <body>
 <div class="clearfix printMe" id="content-wrapper">
@@ -34,7 +46,7 @@
                 <span>
                     <mp:showEditRecipe recipeId="${recipe?.id}"/>
                 </span>
-                <span><img src="${resource(dir: 'images', file: 'printer.gif')}"/><a href="#" id="printButton">Print</a></span>
+                <span><img src="${resource(dir: 'images', file: 'printer.gif')}"/><a href="#" id="printButton" title="${g.message(code: 'test.clueTip')}">Print</a></span>
             </div>
         </div>
         <div class="top-shadow"><label></label></div>
@@ -79,7 +91,7 @@
         </div>
         <div class="bottom-shadow"><label></label></div>
     </div>
-    <div id="right-panel">
+    <div id="showPrintInstructions">
         <g:render template="/recipe/printInstructions"/>
     </div>
 </div>
@@ -90,7 +102,19 @@
             e.preventDefault()
         })
     }
+    jQuery(document).ready(function() {
+        jQuery('#showPrintInstructions').hide();
+        $("#printButton").tooltip({events: {
+            input: "focus mouseenter"
+        },
+            effect:'slide',
+            sticky:true
+        }).dynamic({ bottom: { direction: 'down', bounce: false } })
+    });
+    function showPrintInstruction() {
+        jQuery('#showPrintInstructions').show()
+        return false;
+    }
 </script>
-
 </body>
 </html> 

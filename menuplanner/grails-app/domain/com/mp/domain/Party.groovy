@@ -24,6 +24,10 @@ class Party {
         joiningDate = new Date()
     }
 
+    String toString(){
+        return name
+    }
+    
     String getEmail() {
         return UserLogin.findByParty(this).email
     }
