@@ -290,8 +290,12 @@ class UserCO {
         party?.isEnabled = true
         party?.s()
         HttpSession currentSession = ConfigurationHolder.config.sessions.find {it.userId == subscriber.id}
-        currentSession.userId = null
-        currentSession.loggedUserId = party?.loginCredentials?.toList()?.first()?.id?.toString()
+        try{
+            currentSession.userId = null
+            currentSession.loggedUserId = party?.loginCredentials?.toList()?.first()?.id?.toString()
+        } catch(Exception e){
+            println "Cannot login user. Session has already invalidated"
+        }
 
     }
 

@@ -8,7 +8,8 @@ class PermissionTagLib {
     def hasPermission = {attrs, body ->
         Permission permission = attrs['permission']
         Recipe recipe = attrs['recipe']
-        if (permission && permissionService.hasPermission(permission, recipe)) {
+        Party party = attrs['party']
+        if (permission && permissionService.hasPermission(permission, recipe, party)) {
             out << true
         }
     }
