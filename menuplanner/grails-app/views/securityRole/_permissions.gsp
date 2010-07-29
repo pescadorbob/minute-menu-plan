@@ -1,41 +1,17 @@
 <%@ page import="com.mp.MenuConstants" %>
 <li class="dotsLine"><strong>User</strong><br/>
     <ul>
-        <li><span>
-            <g:checkBox value="${MenuConstants.UNRESTRICTED_ACCESS_PERMISSION_LEVEL}" name="LIST_USERS" class="checkbox7"
-                    checked="${permission.isPermissionChecked(role: role, permission: 'LIST_USERS', value: MenuConstants.UNRESTRICTED_ACCESS_PERMISSION_LEVEL)}"/>
-            </span><span>List</span></li>
-        <li><span>
-            <g:checkBox value="${MenuConstants.UNRESTRICTED_ACCESS_PERMISSION_LEVEL}" name="UPDATE_USER_ROLES" class="checkbox7"
-                    checked="${permission.isPermissionChecked(role: role, permission: 'UPDATE_USER_ROLES', value: MenuConstants.UNRESTRICTED_ACCESS_PERMISSION_LEVEL)}"/>
-            </span><span>Update Role</span></li>
-        <li><span>
-            <g:checkBox value="${MenuConstants.UNRESTRICTED_ACCESS_PERMISSION_LEVEL}" name="REMOVE_RECIPE_ABUSE" class="checkbox7"
-                    checked="${permission.isPermissionChecked(role: role, permission: 'REMOVE_RECIPE_ABUSE', value: MenuConstants.UNRESTRICTED_ACCESS_PERMISSION_LEVEL)}"/>
-            </span><span>Remove Recipe Abuse</span></li>
-        <li><span>
-            <g:checkBox value="${MenuConstants.UNRESTRICTED_ACCESS_PERMISSION_LEVEL}" name="REMOVE_COMMENT_ABUSE" class="checkbox7"
-                    checked="${permission.isPermissionChecked(role: role, permission: 'REMOVE_COMMENT_ABUSE', value: MenuConstants.UNRESTRICTED_ACCESS_PERMISSION_LEVEL)}"/>
-            </span><span>Remove Comment Abuse</span></li>
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'List', role: role, permissionName: 'LIST_USERS']" />
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Update Role', role: role, permissionName: 'UPDATE_USER_ROLES']" />
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Remove Recipe Abuse', role: role, permissionName: 'REMOVE_RECIPE_ABUSE']" />
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Remove Comment Abuse', role: role, permissionName: 'REMOVE_COMMENT_ABUSE']" />
     </ul>
 </li>
 <li class="dotsLine">
     <strong>Recipes</strong>
     <ul>
-        <li class="permissionLi">
-            <span>
-                <g:checkBox value="${MenuConstants.UNRESTRICTED_ACCESS_PERMISSION_LEVEL}" name="UPDATE_RECIPE" class="parent-check-box"
-                        checked="${permission.isPermissionChecked(role: role, permission: 'UPDATE_RECIPE', value: MenuConstants.UNRESTRICTED_ACCESS_PERMISSION_LEVEL)}"/>
-                </span>
-            <span>Update</span>
-            <div>
-                <span>
-                    <g:checkBox value="${MenuConstants.ACCESS_IF_OWNS_RECIPE_PERMISSION_LEVEL}" name="UPDATE_RECIPE" class="child-check-box"
-                            checked="${permission.isPermissionChecked(role: role, permission: 'UPDATE_RECIPE', value: MenuConstants.ACCESS_IF_OWNS_RECIPE_PERMISSION_LEVEL)}"/>
-                    </span>
-                <span>If Owned</span>
-            </div>
-        </li>
+        <g:render template="/securityRole/ownsRecipePermissionCheckbox" model="[title: 'Update', role: role, permissionName: 'UPDATE_RECIPE']" />
+        <g:render template="/securityRole/selfUserPermissionCheckbox" model="[title: 'Remove From Favourties', role: role, permissionName: 'REMOVE_RECIPE_FROM_FAVOURITES']" />
     </ul>
 </li>
 <script type="text/javascript">
@@ -48,7 +24,6 @@
             disableChildrenIfUnchecked(this);
         });
     });
-
 
     function disableChildrenIfUnchecked(parent) {
         if (jQuery(parent).is(':checked')) {

@@ -201,6 +201,7 @@ class MasterDataBootStrapService implements ApplicationContextAware {
             println "Populating Security role ${SECURITY_ROLE_SUBSCRIBER}"
             SecurityRole role = new SecurityRole(name: SECURITY_ROLE_SUBSCRIBER, description: 'Subscriber').s()
             new PermissionLevel(role: role, permission: Permission.UPDATE_RECIPE, level: ACCESS_IF_OWNS_RECIPE_PERMISSION_LEVEL).s()
+            new PermissionLevel(role: role, permission: Permission.REMOVE_RECIPE_FROM_FAVOURITES, level: ACCESS_IF_OWNS_USER_PERMISSION_LEVEL).s()
         }
 
     }

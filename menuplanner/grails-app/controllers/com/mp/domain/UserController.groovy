@@ -172,12 +172,16 @@ class UserController {
             user = SuperAdmin.get(params.id)
         }
         Party party = user?.party
+        if(party){
         Map abusiveRecipesMap = user?.party?.abusiveRecipesMap
         Map abusiveCommentsMap = user?.party?.abusiveCommentsMap
         if (params?.message) {
             flash.message = params.message
         }
-        render(view: 'show', model: [user: user, abusiveCommentsMap: abusiveCommentsMap, abusiveRecipesMap: abusiveRecipesMap, party: party])
+            render(view: 'show', model: [user: user, abusiveCommentsMap: abusiveCommentsMap, abusiveRecipesMap: abusiveRecipesMap, party: party])
+        } else {
+            response.sendError(404)
+        }
     }
 
     def facebookConnect = {

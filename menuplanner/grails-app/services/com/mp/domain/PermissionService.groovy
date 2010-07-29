@@ -7,11 +7,13 @@ class PermissionService {
     boolean transactional = true
 
 
-    private Boolean isPermitted(Long level, Recipe recipe) {
+    private Boolean isPermitted(Long level, Recipe recipe, Party party) {
         if (level == UNRESTRICTED_ACCESS_PERMISSION_LEVEL) {
             return true
-        } else if (level == ACCESS_IF_OWNS_RECIPE_PERMISSION_LEVEL) {
+        } else if ((level % ACCESS_IF_OWNS_RECIPE_PERMISSION_LEVEL) == 0) {
             return validateOwnsRecipe(recipe)
+        } else if ((level % ACCESS_IF_OWNS_USER_PERMISSION_LEVEL) == 0) {
+            return validateOwnsUser(party)
         }
         return false
     }
@@ -21,7 +23,12 @@ class PermissionService {
         return (user && (recipe in user?.party?.contributions))
     }
 
-    public Boolean hasPermission(Permission permission, Recipe recipe = null) {
+    private Boolean validateOwnsUser(Party party) {
+        LoginCredential user = LoginCredential.currentUser
+        return (user && (user.party == party))
+    }
+
+    public Boolean hasPermission(Permission permission, Recipe recipe = null, Party party = null) {
         LoginCredential user = LoginCredential.currentUser
         if (!user) {
             return false
@@ -31,7 +38,7 @@ class PermissionService {
             PermissionLevel permissionLevel = PermissionLevel.findByPermissionAndRole(permission, role)
             if (!permissionLevel) {return false}
             Long level = permissionLevel.level
-            return isPermitted(level, recipe)
+            return isPermitted(level, recipe, party)
         }
         return result
     }

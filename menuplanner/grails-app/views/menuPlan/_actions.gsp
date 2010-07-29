@@ -30,8 +30,3 @@
 
     });
 </script>
-<script type="text/javascript">
-    function checkMenuPlanAction(){
-        alert('Hello')
-    }
-</script>

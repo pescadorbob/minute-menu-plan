@@ -1,5 +1,7 @@
 package com.mp
 
+import com.mp.domain.UserType
+
 class MenuConstants {
     public static final String SYSTEM_OF_UNIT_USA = "United States Customary System"
     public static final String SYSTEM_OF_UNIT_USA_STANDARDIZATION_BODY = "EEUU"
@@ -120,13 +122,14 @@ class MenuConstants {
     public static final String NUTRIENT_FIBER = "Fiber"
     public static final String NUTRIENT_PROTEIN = "Protein"
 
-    public static final String SECURITY_ROLE_SUBSCRIBER = "Subscriber"
-    public static final String SECURITY_ROLE_ADMIN = "Admin"
-    public static final String SECURITY_ROLE_SUPER_ADMIN = "Super Admin"
+    public static final String SECURITY_ROLE_SUBSCRIBER = UserType.Subscriber.toString()
+    public static final String SECURITY_ROLE_ADMIN = UserType.Admin.toString()
+    public static final String SECURITY_ROLE_SUPER_ADMIN = UserType.SuperAdmin.toString()
 
     public static final Long NOT_AUTHORIZED_PERMISSION_LEVEL = 0
     public static final Long UNRESTRICTED_ACCESS_PERMISSION_LEVEL = 1
     public static final Long ACCESS_IF_OWNS_RECIPE_PERMISSION_LEVEL = 2
+    public static final Long ACCESS_IF_OWNS_USER_PERMISSION_LEVEL = 3
 
 
     public static final List<String> AISLES = ["produce", "frozen food", "bulk food", "baking", "breads",
