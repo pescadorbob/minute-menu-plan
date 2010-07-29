@@ -74,10 +74,12 @@ class ShoppingListService {
 
 
                 Map similarIngredientsWithSameUnits = similarIngredients.groupBy {
-                    if(!it.quantity.unit.isWeightUnit){
+                    if(!it.quantity.unit){
                         return 1
+                    } else if(!it.quantity.unit.isWeightUnit){
+                        return 2
                     } else {
-                        return ((it.quantity.unit.isConvertible) ? 2 : it.quantity.unit)
+                        return ((it.quantity.unit.isConvertible) ? 3 : it.quantity.unit)
                     }
                 }
                 List<Quantity> ingredientsAggregatedWithSimilarUnits =  []
