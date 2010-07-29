@@ -69,15 +69,29 @@ class ShoppingListService {
             List<RecipeIngredient> ingredientsByAisle = ingredientsGroupByAisles[aisle]
             Map ingredientsGroupByName = ingredientsByAisle.groupBy {it.ingredient}
             Set differentIngredients = ingredientsGroupByName.keySet()
-
             differentIngredients.each {Item differentIngredient ->
-                List similarIngredients = ingredientsGroupByName[differentIngredient]
-                Quantity total = null
-                similarIngredients.each {RecipeIngredient similarIngredient ->
-                    total = (total == null) ? similarIngredient.quantity : Quantity.add(total, similarIngredient.quantity)
+                List<RecipeIngredient> similarIngredients = ingredientsGroupByName[differentIngredient]
+
+
+                Map similarIngredientsWithSameUnits = similarIngredients.groupBy {
+                    if(!it.quantity.unit.isWeightUnit){
+                        return 1
+                    } else {
+                        return ((it.quantity.unit.isConvertible) ? 2 : it.quantity.unit)
+                    }
                 }
-                ShoppingIngredient shoppingIngredient = new ShoppingIngredient(name: "${(total) ? total.toBiggestUnitString(differentIngredient.density) + ' ' : ''}" + differentIngredient.name, aisle: (aisle?.id) ? aisle : null)
-                productListForWeek.add(shoppingIngredient)
+                List<Quantity> ingredientsAggregatedWithSimilarUnits =  []
+                similarIngredientsWithSameUnits.values()?.each {def sameUnitQuantities ->
+                    Quantity totalQuantity = sameUnitQuantities[0].quantity
+                    sameUnitQuantities.tail().each {
+                        totalQuantity = Quantity.add(totalQuantity, it.quantity)
+                    }
+                    ingredientsAggregatedWithSimilarUnits.add(totalQuantity)
+                }
+                ingredientsAggregatedWithSimilarUnits?.each {Quantity quantity ->
+                    ShoppingIngredient shoppingIngredient = new ShoppingIngredient(name: "${(quantity) ? quantity.toBiggestUnitString(differentIngredient.density) + ' ' : ''}" + differentIngredient.name, aisle: (aisle?.id) ? aisle : null)
+                    productListForWeek.add(shoppingIngredient)
+                }
             }
         }
 
