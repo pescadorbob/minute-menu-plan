@@ -75,7 +75,7 @@ class Quantity {
     }
 
     public String toBiggestUnitString(Float density) {
-        if (unit && !unit.isConvertible) {return this.toString()}
+        if (!unit || !unit.isConvertible) {return this.toString()}
         String finalString = ''
         if (!value) {return finalString}
         Float valueWithDensity = ((unit?.isWeightUnit) ? (value * density) : value).toFloat()
