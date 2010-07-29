@@ -10,7 +10,7 @@ class QuickFillController {
 
     def quickFillAdmin = {
         List<Category> categoryList = Category.list()
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        params.max = Math.min(params.max ? params.int('max') : 4, 100)
 
         QuickFill quickFill = new QuickFill(mealItems: [new Meal(type: MealType.DINNER), new Meal(type: MealType.DINNER), new Meal(type: MealType.DINNER), new Meal(type: MealType.DINNER),new Meal(type: MealType.BREAKFAST), new Meal(type: MealType.LUNCH)])
         if (params.id) {
