@@ -232,12 +232,33 @@ class MasterDataBootStrapService implements ApplicationContextAware {
 
     public void populateCategories() {
         CATEGORIES.each {String name ->
-            Category category = new Category(name: name).s()
+            new Category(name: name).s()
         }
     }
 
     void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         ConfigurationHolder.config.applicationContext = applicationContext;
+    }
+
+
+    public void populateProductsWithAisles(File productFile) {
+        Map aislesMap = [:]
+        Map aisleMapFromDomain = [:]
+        List<Aisle> aisles = Aisle.list()
+        String filePath = "/bootstrapData/FD_AISLES.txt"
+        File aisleDataFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath(filePath))
+        aisleDataFile.eachLine {line ->
+            aislesMap[line.tokenize('~')[0]] = line.tokenize('~')[2]
+        }
+        aislesMap.each {key, value ->
+            aisleMapFromDomain[key] = aisles.find{it.name == value}
+        }
+
+        productFile.eachLine {line ->
+            if (aisleMapFromDomain[line.tokenize('~')[2]]) {
+                new Product(name: (line.tokenize('~')[4]).replaceAll("'", ''), suggestedAisle: aisleMapFromDomain[line.tokenize('~')[2]]).s()
+            }
+        }
     }
 
 }

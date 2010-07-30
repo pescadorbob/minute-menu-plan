@@ -133,8 +133,8 @@ class MenuConstants {
 
 
     public static final List<String> AISLES = ["produce", "frozen food", "bulk food", "baking", "breads",
-            "meat and seafood", "deli", "bakery", "dairy", "beverages", "pasta and rice", "ethnic foods",
-            "canned foods", "condiments", "snacks", "cereal", "household items", "health and beauty", "pharmacy"]
+            "meat and seafood", "deli", "bakery", "dairy", "pasta and rice", "ethnic foods", "canned foods",
+            "condiments", "snacks", "cereal", "beverages", "household items", "health and beauty", "spices and herbs"]
 
     public static final List<String> PREPARATION_METHODS = ['Baking', 'Blanching', 'Boiling', 'Braising', 'Broiling',
             'Canning', 'Creaming', 'Deep-fry', 'Fermenting', 'Freezing', 'Frying', 'Grilling', 'Outdoor Cooking',

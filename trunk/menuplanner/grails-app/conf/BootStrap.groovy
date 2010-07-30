@@ -114,6 +114,9 @@ class BootStrap {
             masterDataBootStrapService.populateNutrients()
             masterDataBootStrapService.populateAisles()
             masterDataBootStrapService.populateCategories()
+            String productsFileName = (GrailsUtil.isDevelopmentEnv()) ? "/bootstrapData/FOOD_DES_TEST.txt" : "/bootstrapData/FOOD_DES.txt"
+            File productsFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath(productsFileName))
+            masterDataBootStrapService.populateProductsWithAisles(productsFile)
         }
         masterDataBootStrapService.populatePermissions()
     }
