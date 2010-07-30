@@ -39,10 +39,14 @@
         <g:layoutBody/>
     </div>
     <!--end wrapper start footer -->
+    <span id="ajax_spinner" style="display: none;position:absolute; top:40%; left:50%; z-index:3000;">
+        <img src="${createLinkTo(dir: 'images', file: 'spinner.gif')}"/>
+    </span>
     <div id="footer"></div>
     <!-- end header -->
 </div>
 <script type="text/javascript">
+
     jQuery.each(jQuery('#navigation>ul>li'), function() {
         jQuery(this).mouseover(function() {
             jQuery(this).addClass("sfhover")
@@ -53,8 +57,20 @@
     });
 
     jQuery(document).ready(function() {
-        adjustDropDownWidth();
+        jQuery("#ajax_spinner").ajaxStart(function() {
+            jQuery(this).show();
+        });
+        jQuery("#ajax_spinner").ajaxComplete(function(request, xhr) {
+            var rText = xhr.responseText;
+            if (rText.indexOf("Session TimedOut") > 0) {
+                window.location.href = rText.substring(rText.indexOf("=") + 1, rText.length);
+            }
+            jQuery(this).hide();
+            adjustDropDownWidth();
+        });
+        jQuery.ajaxSetup({cache: false});
     });
+
     function adjustDropDownWidth() {
         if (jQuery.browser.msie) {
             jQuery('.auto-resize').each(function() {
