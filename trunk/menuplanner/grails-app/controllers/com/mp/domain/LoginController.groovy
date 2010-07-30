@@ -13,7 +13,7 @@ class LoginController {
     }
 
     def forgotPassword = {
-        render(view: 'forgotPassword', params:[email:params.email])
+        render(view: 'forgotPassword', params: [email: params.email])
     }
 
     def resetPassword = {
@@ -28,15 +28,15 @@ class LoginController {
                 html g.render(template: '/login/passwordChangedNotification', model: [loginCredential: loginCredential, password: newPassword])
             }
             flash.message = message(code: 'login.password.change.sucessfull')
-            render(view: 'forgotPassword', model:[passwordChanged:true])
+            render(view: 'forgotPassword', model: [passwordChanged: true])
         } else {
             flash.message = message(code: 'login.password.change.unsucessfull')
-            render(view: 'forgotPassword', model:[passwordChanged:false])
+            render(view: 'forgotPassword', model: [passwordChanged: false])
         }
     }
 
     def logout = {
-        session.loggedUserId = null
+        session.invalidate()
         redirect(controller: 'login', action: 'index')
     }
 
