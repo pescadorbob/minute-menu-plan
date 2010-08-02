@@ -7,9 +7,9 @@ class FacebookTagLib {
 
     static namespace = 'facebook'
     def connect = {attrs ->
-        Long userId = attrs['userId'] ? attrs['userId'] : 0L
-        Subscriber user = userId ? Subscriber.get(userId) : null
-        if (!user?.facebookAccount) {
+        Long userId = attrs['userId'] ? attrs['userId'].toLong() : 0L
+        PartyRole user = userId ? PartyRole.get(userId) : null
+        if (!user?.party?.facebookAccount) {
             String apiKey = ConfigurationHolder.config.facebookConnect.apiKey
             String allowUrl = g.createLink(controller: 'user', action: 'facebookConnect', absolute: true, params: [userId: userId]).encodeAsURL()
             String applicationUrl = "https://graph.facebook.com/oauth/authorize?client_id=${apiKey}&redirect_uri=${allowUrl}&scope=read_stream,offline_access,user_location"
