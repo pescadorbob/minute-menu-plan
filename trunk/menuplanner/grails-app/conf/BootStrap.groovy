@@ -63,15 +63,15 @@ class BootStrap {
         bootstrapMasterData()
 //        if (false) {
         if ((GrailsUtil.environment != Environment.PRODUCTION) && !Subscriber.count()) {
-            Map<String, List<String>> userNames
-            if(GrailsUtil.environment == 'qa'){
-                userNames = ['superAdmin' : ['SuperAdmin'], 'admin1' : ['Admin'], 'admin2' : ['Admin'], 'user1' : ['Admin'], 'user2' : ['Subscriber']]
+
+            if (GrailsUtil.environment in ['qa', 'beta']) {
+                bootstrapService.populateBetaUsers()
             } else {
-                userNames = ['superAdmin': ['SuperAdmin'], 'user1': ['Subscriber']]
-            }
-            userNames.each {String name, List<String> roles ->
-                println "Populating User - ${name}"
-                bootstrapService.populateUser(name, roles)
+                Map<String, List<String>> userNames = ['superAdmin': ['SuperAdmin'], 'user1': ['Subscriber']]
+                userNames.each {String name, List<String> roles ->
+                    println "Populating User - ${name}"
+                    bootstrapService.populateUser(name, roles)
+                }
             }
             println "Populated Users"
 
@@ -82,20 +82,22 @@ class BootStrap {
             println "Populated Recipes"
             bootstrapService.addCommentsFavouriteAndContributed()
             println "Added Comments Favourite And Contributed"
-            bootstrapService.addAbusesOnCommentsAndRecipes()
-            println "Added abuses on comments & recipes"
-            List<Party> users = Party.list()
-            users.each {Party user ->
-                bootstrapService.populateMenuPlans(user)
+            if (!(GrailsUtil.environment in ['qa', 'beta'])) {
+                bootstrapService.addAbusesOnCommentsAndRecipes()
+                println "Added abuses on comments & recipes"
+                List<Party> users = Party.list()
+                users.each {Party user ->
+                    bootstrapService.populateMenuPlans(user)
+                }
+                println "Populated Menu Plans"
+                List<MenuPlan> menuPlans = MenuPlan.list()
+                menuPlans.each {MenuPlan menuPlan ->
+                    bootstrapService.populateShoppingList(menuPlan)
+                }
+                println "Populated Shopping Lists"
             }
-            println "Populated Menu Plans"
             bootstrapService.populateQuickFills(5)
             println "Populated Quick Fills"
-            List<MenuPlan> menuPlans = MenuPlan.list()
-            menuPlans.each {MenuPlan menuPlan ->
-                bootstrapService.populateShoppingList(menuPlan)
-            }
-            println "Populated Shopping Lists"
         }
 
         Thread.start {

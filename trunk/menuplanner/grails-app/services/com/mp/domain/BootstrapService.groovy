@@ -29,24 +29,28 @@ class BootstrapService {
     }
 
     public void addCommentsFavouriteAndContributed() {
-        Recipe recipe
-        Party user
-        (0..Recipe.count() - 1).each {Integer index ->
-            recipe = Recipe.list().getAt(index)
-
-            user = Party.get(new Random().nextInt(Party.count()) + 1)
-            user.addToContributions(recipe)          // contributed Recipe
-
-            (1..(new Random().nextInt(2) + 1)).each {       // comments on Recipe
-                user = Party.get(new Random().nextInt(Party.count()) + 1)
-                String commentText = "Recipe-${recipe.id} Comment-${it} Lorem ipsum  dolor sit amet, consectetur adipiscing elit. Donec ut sem felis, sed rhoncus purus. Donec mauris arcu, auctor sit amet tristique eget, egestas ut dui. Aenean quis eros sit amet tortor ullamcorper cursus ut nec urna. Proin scelerisque imperdiet lacus vel convallis. Morbi vehicula nisl eu mi tristique fringilla rhoncus sapien vulputate."
-                recipe?.addComment(user, commentText)
-            }
-            (1..(new Random().nextInt(2))).each {      // add to Favorite
-                user = Party.get(new Random().nextInt(Party.count()) + 1)
-                user.addToFavourites(recipe)
+        if (GrailsUtil.environment in ['qa', 'beta']) {
+            Party user = Party.findByName('Marie Ricks')
+            Recipe.list().each {Recipe recipe ->
+                user.addToContributions(recipe)
             }
             user.s()
+        } else {
+            Recipe.list().each {Recipe recipe ->
+                Party user = Party.get(new Random().nextInt(Party.count()) + 1)
+                user.addToContributions(recipe)          // contributed Recipe
+
+                (1..(new Random().nextInt(2) + 1)).each {       // comments on Recipe
+                    user = Party.get(new Random().nextInt(Party.count()) + 1)
+                    String commentText = "Recipe-${recipe.id} Comment-${it} Lorem ipsum  dolor sit amet, consectetur adipiscing elit. Donec ut sem felis, sed rhoncus purus. Donec mauris arcu, auctor sit amet tristique eget, egestas ut dui. Aenean quis eros sit amet tortor ullamcorper cursus ut nec urna. Proin scelerisque imperdiet lacus vel convallis. Morbi vehicula nisl eu mi tristique fringilla rhoncus sapien vulputate."
+                    recipe?.addComment(user, commentText)
+                }
+                (1..(new Random().nextInt(2))).each {      // add to Favorite
+                    user = Party.get(new Random().nextInt(Party.count()) + 1)
+                    user.addToFavourites(recipe)
+                }
+                user.s()
+            }
         }
     }
 
@@ -61,6 +65,15 @@ class BootstrapService {
         userCO.introduction = 'about ' + name
         userCO.roles = roles
         userCO.createParty()
+    }
+
+    public void populateBetaUsers() {
+        UserCO userCO1 = new UserCO(isEnabled: true, name: 'Brent Fisher', email: 'bc.fisher@yahoo.com', password: 'L3uv3n!', roles: ['SuperAdmin'])
+        UserCO userCO2 = new UserCO(isEnabled: true, name: 'Colleen Fisher', email: 'colleen_fisher@yahoo.com', password: 'L3uv3n!', roles: ['SuperAdmin'])
+        UserCO userCO3 = new UserCO(isEnabled: true, name: 'Marie Ricks', email: 'marie@houseoforder.com', password: 'M4ri3#', roles: ['Subscriber'], mouthsToFeed: 1)
+        UserCO userCO4 = new UserCO(isEnabled: true, name: 'Aman Aggarwal', email: 'aman@intelligrape.com', password: '1234', roles: ['Admin', 'Subscriber'], mouthsToFeed: 1)
+        UserCO userCO5 = new UserCO(isEnabled: true, name: 'Chandan Luthra', email: 'chandan@intelligrape.com', password: '1234', roles: ['Admin', 'Subscriber'], mouthsToFeed: 1,)
+        [userCO1, userCO2, userCO3, userCO4, userCO5].each {it.createParty()}
     }
 
     public void populateQuantities(Integer count) {
@@ -157,7 +170,7 @@ class BootstrapService {
     }
 
     public void populateMenuPlans(Party user) {
-        (1..((GrailsUtil.environment == 'qa') ? 2 : 1)).each {Integer i ->
+        (1..1).each {Integer i ->
             MenuPlan menuPlan = new MenuPlan(name: "${user.name}'s MenuPlan-${i}", owner: user).s()
             menuPlan.weeks = populateWeeks(menuPlan)
             menuPlan.s()
