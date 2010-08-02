@@ -151,6 +151,27 @@ environments {
             imageSource="http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
         }
     }
+    beta {
+//        mail {
+//            host = "qa.menuplanner.intelligrape.net"
+//            port = 25
+//        }
+//        grails.mail.default.from = '"MinuteMenu" <qa@qa.menuplanner.intelligrape.net>'
+        grails.serverURL = "http://beta.menuplanner.intelligrape.net"
+        facebookConnect {
+            //These two values need to be grabbed from facebook when you create your application there.
+            // http://www.facebook.com/developers/
+            apiKey = "c7cb03d1076112dfdee19d3e4972c3eb"
+            secretKey = "2f069ab14fb4c6ab88cfe463aa9d4344"
+        }
+        googleCheckout {
+            merchantId = "827529108383447"
+            merchantKey = "ScAQ9VNMRniNUR3T5sW2kQ"
+            requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/827529108383447"
+            action="https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/827529108383447"
+            imageSource="http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
+        }
+    }
 
 }
 

@@ -42,6 +42,12 @@ environments {
 			url = "jdbc:mysql://localhost:3306/menuplanner_qa?autoReconnect=true"
 		}
 	}
+	beta {
+		dataSource {
+			dbCreate = "update"
+			url = "jdbc:mysql://localhost:3306/menuplanner_beta?autoReconnect=true"
+		}
+	}
 	production {
 		dataSource {
 			dbCreate = "update"

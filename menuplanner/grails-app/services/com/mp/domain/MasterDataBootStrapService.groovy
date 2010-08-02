@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContextAware
 
 class MasterDataBootStrapService implements ApplicationContextAware {
 
-    boolean transactional = true
+    boolean transactional = false
 
     public void populateSystemOfUnits() {
         SystemOfUnit systemOfUnitsUsa = new SystemOfUnit(systemName: SYSTEM_OF_UNIT_USA, standardizationBody: SYSTEM_OF_UNIT_USA_STANDARDIZATION_BODY).s()
@@ -202,6 +202,7 @@ class MasterDataBootStrapService implements ApplicationContextAware {
             SecurityRole role = new SecurityRole(name: SECURITY_ROLE_SUBSCRIBER, description: 'Subscriber').s()
             new PermissionLevel(role: role, permission: Permission.UPDATE_RECIPE, level: ACCESS_IF_OWNS_RECIPE_PERMISSION_LEVEL).s()
             new PermissionLevel(role: role, permission: Permission.REMOVE_RECIPE_FROM_FAVOURITES, level: ACCESS_IF_OWNS_USER_PERMISSION_LEVEL).s()
+            new PermissionLevel(role: role, permission: Permission.UPDATE_USERS, level: ACCESS_IF_OWNS_USER_PERMISSION_LEVEL).s()
         }
 
     }
@@ -241,23 +242,27 @@ class MasterDataBootStrapService implements ApplicationContextAware {
     }
 
 
-    public void populateProductsWithAisles(File productFile) {
-        Map aislesMap = [:]
-        Map aisleMapFromDomain = [:]
-        List<Aisle> aisles = Aisle.list()
-        String filePath = "/bootstrapData/FD_AISLES.txt"
-        File aisleDataFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath(filePath))
-        aisleDataFile.eachLine {line ->
-            aislesMap[line.tokenize('~')[0]] = line.tokenize('~')[2]
-        }
-        aislesMap.each {key, value ->
-            aisleMapFromDomain[key] = aisles.find{it.name == value}
-        }
-
-        productFile.eachLine {line ->
-            if (aisleMapFromDomain[line.tokenize('~')[2]]) {
-                new Product(name: (line.tokenize('~')[4]).replaceAll("'", ''), suggestedAisle: aisleMapFromDomain[line.tokenize('~')[2]]).s()
+    public void populateProductsWithAisles(File productsFile) {
+        File aislesFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/FD_AISLES.txt"))
+        List aislesList = Aisle.list()
+        Map aisles = [:]
+        if (aislesFile.exists()) {
+            aislesFile.readLines().eachWithIndex {String line, Integer index ->
+                List columns = line.tokenize("^")
+                aisles[columns[0]] = aislesList.find{it.name == columns[1].replaceAll('~', '')}
             }
+        }
+        List<Product> products = []
+        if (productsFile.exists()) {
+            println "Reading products"
+            productsFile.readLines().eachWithIndex {String line, Integer index ->
+                List columns = line.tokenize("^")
+                products.add(new Product(suggestedAisle: aisles[columns[1]], name: columns[2]?.replaceAll("~", '')?.replaceAll("'", '')))
+            }
+            products = products.findAll{it.suggestedAisle}
+            println "Saving products"
+            products*.s()
+            println "Saved products"
         }
     }
 
