@@ -186,7 +186,8 @@ class UserController {
 
     def facebookConnect = {
         Long userId = params.long('userId') ? params.long('userId') : 0L
-        Subscriber user = userId ? Subscriber.get(userId) : null
+        PartyRole user = userId ? PartyRole.get(userId) : null
+        println "<><><><><><><><><><><><><><><><><><><: "+user.party
         String redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true, params: [userId: userId]).encodeAsURL()}"
         user = userService.updateUserFromFacebook(redirectUrl, params.code, user)
         if (user) {

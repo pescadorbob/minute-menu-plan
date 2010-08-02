@@ -3,7 +3,12 @@ package com.mp.domain
 class LoginController {
 
     def asynchronousMailService
+
     def index = {
+        if(params.facebookUid){
+            session.loggedUserId=FacebookAccount.findByUid(params.long("facebookUid"))?.id
+            SessionUtils.session=session
+        }
         flash.message = ""
         if (LoginCredential.currentUser) {
             redirect(controller: 'recipe', action: 'list')
