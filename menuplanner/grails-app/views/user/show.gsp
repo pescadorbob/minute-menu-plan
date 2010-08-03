@@ -101,10 +101,10 @@
                 <div id="button">
                     <g:form name="formUserDetail">
                         <g:hiddenField name='id' value='${user?.id}'/>
-                        <g:if test="${permission.hasPermission(permission: Permission.UPDATE_USERS)}">
+                        <g:if test="${permission.hasPermission(permission: Permission.UPDATE_USERS,party:user?.party)}">
                             <g:actionSubmit class='button editUserButtonFT' controller='user' action='edit' id='${user?.id}' value='Edit Profile'/>
                         </g:if>
-                        <g:if test="${permission.hasPermission(permission: Permission.DELETE_USERS)}">
+                        <g:if test="${permission.hasPermission(permission: Permission.DELETE_USERS,party:user?.party)}">
                             <g:actionSubmit class='button' controller='user' action='delete' id='${user?.id}' value='Delete User' onclick="return confirm('Are you sure?');"/>
                         </g:if>
                     </g:form>
