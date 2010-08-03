@@ -1,8 +1,11 @@
+<%@ page import="grails.util.Environment; grails.util.GrailsUtil" %>
 <html>
 <head>
     <meta name="layout" content="menu"/>
     <title>Minute Menu Plan</title>
-    <facebook:facebookConnectJavascript/>
+    <g:if test="${GrailsUtil.environment!=Environment.TEST}">
+      <facebook:facebookConnectJavascript/>
+    </g:if>
 </head>
 <body>
 <div id="content-wrapper" class="clearfix">
@@ -244,7 +247,9 @@
                         </li>
                         <li><g:link controller="login" action="forgotPassword">forgot password or username?</g:link></li>
                         <span style="color:#007AD8">Or login using Facebook</span>
-                      <fb:login-button onlogin="loginToMenuPlanner()" autologoutlink="true">Connect</fb:login-button>
+                      <g:if test="${GrailsUtil.environment!=Environment.TEST}">
+                        <fb:login-button onlogin="loginToMenuPlanner()" autologoutlink="true">Connect</fb:login-button>
+                      </g:if>
                         <li class="border"><h2>TESTIMONIAL</h2></li>
                         <li>Minute Menu Plan removed the stress from my evenings and stopped the kids from asking whats for dinner.  We love to plan our meals together, and it takes only a few minutes.  Thanks Minute Menu Plan!
                             <label>--Donna, Hamburg, NY</label></li>

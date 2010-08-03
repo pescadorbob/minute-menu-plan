@@ -38,7 +38,6 @@ class UserService {
                     facebookAccount.party=user?.party
                 }
                 user?.party?.facebookAccount = facebookAccount
-//                user.s()
                 updateUserInfo(user)
                 updateUserPhoto(user)
                 user.s()
@@ -119,9 +118,9 @@ class UserCO {
         }
         name = user?.party?.name
         if(user?.party?.subscriber){
-            mouthsToFeed = user?.mouthsToFeed
-            introduction = user?.introduction
-            city = user?.city
+            mouthsToFeed = user?.party?.subscriber?.mouthsToFeed
+            introduction = user?.party?.subscriber?.introduction
+            city = user?.party?.subscriber?.city
         }
         joiningDate = user?.party?.joiningDate
         isEnabled = user?.party?.isEnabled

@@ -147,7 +147,8 @@ class UserController {
             println userCO.errors.allErrors.each {
                 println it
             }
-            render(view: 'edit', model: [userCO: userCO])
+            UserLogin userLogin = UserLogin.findByEmail(userCO?.email)
+            render(view: 'edit', model: [userCO: userCO,party:userLogin?.party])
         }
     }
     def save = {UserCO userCO ->
@@ -156,10 +157,18 @@ class UserController {
             String message = message(code: 'user.created.success')
             redirect(action: 'show', id: party?.subscriber?.id, params: [message: message])
         } else {
+            Party party
             userCO.errors.allErrors.each {
                 println it
             }
-            render(view: 'create', model: [userCO: userCO])
+            UserLogin userLogin = UserLogin.findByEmail(userCO?.email)
+            if (userLogin) {
+                party = userLogin.party
+            } else {
+                party = new Party()
+                party.addToRoles(new Subscriber())
+            }
+            render(view: 'create', model: [userCO: userCO,party:party])
         }
     }
 
@@ -187,21 +196,22 @@ class UserController {
     def facebookConnect = {
         Long userId = params.long('userId') ? params.long('userId') : 0L
         PartyRole user = userId ? PartyRole.get(userId) : null
-        println "<><><><><><><><><><><><><><><><><><><: "+user.party
-        String redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true, params: [userId: userId]).encodeAsURL()}"
-        user = userService.updateUserFromFacebook(redirectUrl, params.code, user)
-        if (user) {
-            if (params.long('userId')) {
-                render "<script type='text/javascript'>window.opener.facebookConnectSuccess();window.close();</script>"
-            } else {
-                user.addToRoles(UserType.Subscriber)
-                user.s()
-                session.loggedUserId = user.id.toString()
-                render "<script type='text/javascript'>window.opener.location.href='" + createLink(controller: 'user', action: 'show', id: user.id) + "';window.close();</script>"
+        if(user?.party?.subscriber){
+            String redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true, params: [userId: userId]).encodeAsURL()}"
+            user = userService.updateUserFromFacebook(redirectUrl, params.code, user)
+            if (user) {
+                if (params.long('userId')) {
+                    render "<script type='text/javascript'>window.opener.facebookConnectSuccess();window.close();</script>"
+                } else {
+                    user.addToRoles(UserType.Subscriber)
+                    user.s()
+                    session.loggedUserId = user.id.toString()
+                    render "<script type='text/javascript'>window.opener.location.href='" + createLink(controller: 'user', action: 'show', id: user.id) + "';window.close();</script>"
+                }
             }
-        }
-        else {
-            render "<script type='text/javascript'>window.close()</script>"
+            else {
+                render "<script type='text/javascript'>window.close()</script>"
+            }
         }
     }
 
