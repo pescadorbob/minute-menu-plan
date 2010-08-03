@@ -30,7 +30,7 @@
                 <div id="leftpanel">
                     <g:if test="${party?.subscriber}">
                         <div id="photo">
-                            <mp:image id="${user?.image?.id}" height="150" width="150"/>
+                            <mp:image id="${party?.subscriber?.image?.id}" height="150" width="150"/>
                         </div>
                     </g:if>
                     <ul>
@@ -49,9 +49,9 @@
                         <li><span><strong>Email :</strong></span><label>${user?.party?.email}</label></li>
                         <li><span><strong>Name :</strong></span><label>${user?.party?.name}</label></li>
                         <g:if test="${party?.subscriber}">
-                            <li><span><strong>City :</strong></span><label>${user?.city ?: ''}</label></li>
-                            <li><span><strong>Mouths to Feed :</strong></span><label>${user?.mouthsToFeed}</label></li>
-                            <li><span><strong>Something about yourself :</strong></span><label>${user?.introduction}</label></li>
+                            <li><span><strong>City :</strong></span><label>${party?.subscriber?.city ?: ''}</label></li>
+                            <li><span><strong>Mouths to Feed :</strong></span><label>${party?.subscriber?.mouthsToFeed}</label></li>
+                            <li><span><strong>Something about yourself :</strong></span><label>${party?.subscriber?.introduction}</label></li>
                         </g:if>
                     %{--<li><span>&nbsp;</span>--}%
                     %{--<label>--}%
