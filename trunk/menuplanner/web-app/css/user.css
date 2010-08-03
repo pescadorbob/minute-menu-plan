@@ -156,6 +156,7 @@
 #login ul li h2{line-height:24px;color:#292e2e;font-size:15px;color:#e67432;font-weight:bold;}
 #login ul li a{display:block;text-decoration:none;color:#007ad8;font-weight:normal;clear:both;padding:0px 0px;margin:0px;line-height:14px;}
 #login ul li a:hover{color:#fea000;}
+.fbconnect_login_button{ margin: 5 5 5 5;}
 
 #category{clear:both;font-size:12px;color:#787a7a;}
 #category ul li{clear:both;padding:3px 0px;}
@@ -173,6 +174,8 @@
 #content{ font-size:12px; color:#838888;}
 #content p{ font-size:12px; color:#838888; padding:5px 0px;}
 #content h2{ font-size:24px; color:#292e2e; padding:10px 0px; font-weight:normal; text-align:center;}
+#content li strong {text-align:center; padding:0px 0px 0px 0px;}
+#content li  { padding:5px 5px 5px 5px;}
 div.loginError{border:0px;color:red;font-size:12px; margin-bottom:5px;}
 .userFlashMessage{border:1px solid #eef;color:#787a7a;font-size:12px; margin-bottom:5px; text-align:center;padding:10px;font-weight:bolder;}
 
