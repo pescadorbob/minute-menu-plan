@@ -70,7 +70,7 @@ class Image {
     }
 
     //ImageOwner could be a Recipe/Subscriber
-    public static boolean updateOwnerImage(Subscriber imageOwner, String imagePath){
+    public static boolean updateOwnerImage(def imageOwner, String imagePath){
         if (!imagePath) {
             imageOwner.deleteImage()
             return false
