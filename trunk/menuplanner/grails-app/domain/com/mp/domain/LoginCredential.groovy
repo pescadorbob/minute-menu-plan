@@ -7,7 +7,7 @@ class LoginCredential {
     static transients = ['currentUser']
 
     static LoginCredential getCurrentUser() {
-        Long userId = SessionUtils.session.loggedUserId?.toLong()
+        Long userId = SessionUtils?.session?.loggedUserId?.toLong()
         return ((userId) ? LoginCredential.get(userId) : null)
     }
 
