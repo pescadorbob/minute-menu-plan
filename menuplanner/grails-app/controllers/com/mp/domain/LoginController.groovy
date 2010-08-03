@@ -1,13 +1,19 @@
 package com.mp.domain
 
+import org.springframework.web.context.request.RequestContextHolder
+
 class LoginController {
 
     def asynchronousMailService
 
     def index = {
         if(params.facebookUid){
-            session.loggedUserId=FacebookAccount.findByUid(params.long("facebookUid"))?.id
-            SessionUtils.session=session
+            LoginCredential loginCredential = FacebookAccount.findByUid(params.long("facebookUid"))
+            if (loginCredential) {
+                if (loginCredential.party.isEnabled) {
+                    SessionUtils.session.loggedUserId=FacebookAccount.findByUid(params.long("facebookUid"))?.id?.toString()
+                }
+            }
         }
         flash.message = ""
         if (LoginCredential.currentUser) {
@@ -42,7 +48,7 @@ class LoginController {
 
     def logout = {
         session.invalidate()
-        redirect(controller: 'login', action: 'index')
+        redirect(controller: 'login', action: 'index', params:[fbLogout:true])
     }
 
     def login = {LoginCO loginCO ->
