@@ -18,45 +18,48 @@ class UserController {
     }
 
     def delete = {
-        PartyRole pUser = Subscriber.get(params.long('id'))
-        if (!pUser) {
-            pUser = Administrator.get(params.long('id'))
-        }
-        if (!pUser) {
-            pUser = SuperAdmin.get(params.long('id'))
-        }
-        Party user = pUser?.party
-        if (user) {
+        Party party = Party.get(params.long('id'))
+        if (party) {
             try {
-                Boolean deletingCurrentUser = (user == LoginCredential.currentUser?.party)
+                Boolean deletingCurrentUser = (party == LoginCredential.currentUser?.party)
                 Party.withTransaction {
-                    List commentAbuses = CommentAbuse.findAllByReporter(user)
-                    List recipeAbuses = RecipeAbuse.findAllByReporter(user)
+                    List commentAbuses = CommentAbuse.findAllByReporter(party)
+                    List recipeAbuses = RecipeAbuse.findAllByReporter(party)
                     commentAbuses*.delete(flush: true)
                     recipeAbuses*.delete(flush: true)
-                    user.delete(flush: true)
+                    party.delete(flush: true)
                     flash.message = message(code: 'user.delete.successful')
                 }
                 if (deletingCurrentUser) {
-                    redirect(action: "logout", controller: 'login')
-                } else {
+                    session.invalidate()
+                    redirect(uri: '/')
+               } else {
                     redirect(controller: 'user', action: "list")
                 }
-                return
             } catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = message(code: 'user.delete.unsuccessful')
                 redirect(action: "show", id: params.id)
-                return
             }
         } else {
             flash.message = message(code: 'no.such.user.exists')
             redirect(action: "list")
-            return
         }
     }
 
     def changeStatus = {
-        render "" + userService.changeStatus(params?.id?.toLong())
+        Party party = Party.findById(params.long('id'))
+        if (party) {
+            (party.isEnabled = !(party.isEnabled))
+            if (!party.isEnabled && (party == LoginCredential.currentUser.party)) {
+                SessionUtils?.session?.invalidate()
+                String text = "The Session TimedOut url=" + ConfigurationHolder.config.grails.serverURL
+                render(text: text, contentType: 'text/plain')
+            } else {
+                render "true"
+            }
+        } else {
+            render "false"
+        }
     }
 
     def removeFavorite = {
@@ -92,7 +95,7 @@ class UserController {
         def userList
         Integer total
         if (name || params?.userStatus) {
-            userList = Subscriber.createCriteria().list(max: params.max, offset: 0) {
+            userList = Party.createCriteria().list(max: params.max, offset: 0) {
                 if (name) {
                     ilike('name', "%${name}%")
                 }
@@ -106,25 +109,19 @@ class UserController {
             total = userList.getTotalCount()
         } else {
             params.userStatus = 'all'
-            userList = Subscriber.list(params)
-            total = Subscriber.count()
+            userList = Party.list(params)
+            total = Party.count()
         }
-
-        render(view: 'list', model: [userList: userList, total: total, searchName: name, userStatus: params.userStatus])
+        render(view: 'list', model: [parties: userList, total: total, searchName: name, userStatus: params.userStatus])
     }
 
     def edit = {
         if (params.id) {
-            PartyRole user = Subscriber.get(params.long('id'))
-            if (!user) {
-                user = Administrator.get(params.long('id'))
-            }
-            if (!user) {
-                user = SuperAdmin.get(params.long('id'))
-            }
-            Party party = user?.party
-            UserCO userCO = new UserCO(user)
+            Party party = Party.get(params.long('id'))
+            UserCO userCO = new UserCO(party)
             render(view: 'edit', model: [userCO: userCO, party: party])
+        } else {
+            response.sendError(404)
         }
     }
     def create = {
@@ -144,18 +141,18 @@ class UserController {
             flash.message = message(code: 'user.updateded.success')
             redirect(action: 'show', id: userCO?.id)
         } else {
-            println userCO.errors.allErrors.each {
+            userCO.errors.allErrors.each {
                 println it
             }
             UserLogin userLogin = UserLogin.findByEmail(userCO?.email)
-            render(view: 'edit', model: [userCO: userCO,party:userLogin?.party])
+            render(view: 'edit', model: [userCO: userCO, party: userLogin?.party])
         }
     }
     def save = {UserCO userCO ->
         if (userCO.validate()) {
             Party party = userCO.createParty()
-            String message = message(code: 'user.created.success')
-            redirect(action: 'show', id: party?.subscriber?.id, params: [message: message])
+            flash.message = message(code: 'user.created.success')
+            redirect(action: 'show', id: party?.id)
         } else {
             Party party
             userCO.errors.allErrors.each {
@@ -168,26 +165,16 @@ class UserController {
                 party = new Party()
                 party.addToRoles(new Subscriber())
             }
-            render(view: 'create', model: [userCO: userCO,party:party])
+            render(view: 'create', model: [userCO: userCO, party: party])
         }
     }
 
     def show = {
-        PartyRole user = Subscriber.get(params.id)
-        if (!user) {
-            user = Administrator.get(params.id)
-        }
-        if (!user) {
-            user = SuperAdmin.get(params.id)
-        }
-        Party party = user?.party
-        if(party){
-        Map abusiveRecipesMap = user?.party?.abusiveRecipesMap
-        Map abusiveCommentsMap = user?.party?.abusiveCommentsMap
-        if (params?.message) {
-            flash.message = params.message
-        }
-            render(view: 'show', model: [user: user, abusiveCommentsMap: abusiveCommentsMap, abusiveRecipesMap: abusiveRecipesMap, party: party])
+        Party party = Party.get(params.long('id'))
+        if (party) {
+            Map abusiveRecipesMap = party?.abusiveRecipesMap
+            Map abusiveCommentsMap = party?.abusiveCommentsMap
+            render(view: 'show', model: [abusiveCommentsMap: abusiveCommentsMap, abusiveRecipesMap: abusiveRecipesMap, party: party])
         } else {
             response.sendError(404)
         }
@@ -196,7 +183,7 @@ class UserController {
     def facebookConnect = {
         Long userId = params.long('userId') ? params.long('userId') : 0L
         PartyRole user = userId ? PartyRole.get(userId) : null
-        if(user?.party?.subscriber){
+        if (user?.party?.subscriber) {
             String redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true, params: [userId: userId]).encodeAsURL()}"
             user = userService.updateUserFromFacebook(redirectUrl, params.code, user)
             if (user) {

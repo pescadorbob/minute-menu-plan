@@ -21,9 +21,11 @@
                 </g:if>
             </g:each>
         </g:else>
-        <li><h3>Contributed Recipes</h3></li>
-        <g:render template="/user/contributedRecipes" model="[party:party]"/>
-        <li><h3>Favorites</h3></li>
-        <g:render template="/user/favoriteRecipes" model="[party:party]"/>
+        <g:if test="${params.action != 'create'}">
+            <li><h3>Contributed Recipes</h3></li>
+            <g:render template="/user/contributedRecipes" model="[party:party]"/>
+            <li><h3>Favorites</h3></li>
+            <g:render template="/user/favoriteRecipes" model="[party:party]"/>
+        </g:if>
     </ul>
 </div>

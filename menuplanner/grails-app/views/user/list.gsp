@@ -45,7 +45,7 @@
                     </ul>
                 </div>
                 <div id="userlist" class="clearfix">
-                    <g:render template="/user/usersResult" mode="[userLise:userList]"/>
+                    <g:render template="/user/usersResult" mode="[parties:parties]"/>
                 </div>
                 <div class="paginateButtons">
                     <g:paginate controller="user" action="list" total="${total}"/>

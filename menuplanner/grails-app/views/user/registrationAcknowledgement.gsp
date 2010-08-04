@@ -10,7 +10,7 @@
     <div id="wrapper" class="clearfix">
         <div id="content-wrapper" class="clearfix">
             <div class="headbox">
-                <h3>Welcome &nbsp;${user?.screenName}</h3>
+                <h3>Welcome &nbsp;${user?.name}</h3>
             </div>
             <div class="top-shadow">
                 <label>&nbsp;</label>

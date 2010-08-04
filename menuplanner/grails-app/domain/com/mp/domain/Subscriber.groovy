@@ -8,7 +8,6 @@ class Subscriber extends PartyRole{
 
     UserType type = UserType.Subscriber
 
-    String screenName
     Image image
     Integer mouthsToFeed
     String introduction
@@ -27,7 +26,7 @@ class Subscriber extends PartyRole{
     }
 
     String toString() {
-        return screenName
+        return party.name
     }
 
     def beforeInsert = {
@@ -38,7 +37,7 @@ class Subscriber extends PartyRole{
         image(nullable: true, blank: true)
         city(nullable: true, blank: true)
         mouthsToFeed(nullable: true, blank: true)
-        introduction(nullable: true, maxSize: 1000)
+        introduction(nullable: true, blank: true, maxSize: 1000)
     }
 
     static mapping = {

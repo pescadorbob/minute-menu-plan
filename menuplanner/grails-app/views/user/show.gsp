@@ -34,20 +34,20 @@
                         </div>
                     </g:if>
                     <ul>
-                        <li>Member since ${user?.party?.joiningDate?.format('MMMM yyyy')}</li>
+                        <li>Member since ${party?.joiningDate?.format('MMMM yyyy')}</li>
                         <li></li><li></li>
-                        <g:each in="${user?.party?.roleTypes}" var="roleType"><li><strong>${roleType}</strong></li></g:each>
+                        <g:each in="${party?.roleTypes}" var="roleType"><li><strong>${roleType}</strong></li></g:each>
 
                         <li><h3>Contributed Recipes</h3></li>
-                        <g:render template="/user/contributedRecipes" model="[party:user?.party]"/>
+                        <g:render template="/user/contributedRecipes" model="[party:party]"/>
                         <li><h3>Favorites</h3></li>
-                        <g:render template="/user/favoriteRecipes" model="[party:user?.party]"/>
+                        <g:render template="/user/favoriteRecipes" model="[party:party]"/>
                     </ul>
                 </div>
                 <div id="rightpanel">
                     <ul>
-                        <li><span><strong>Email :</strong></span><label>${user?.party?.email}</label></li>
-                        <li><span><strong>Name :</strong></span><label>${user?.party?.name}</label></li>
+                        <li><span><strong>Email :</strong></span><label>${party?.email}</label></li>
+                        <li><span><strong>Name :</strong></span><label>${party?.name}</label></li>
                         <g:if test="${party?.subscriber}">
                             <li><span><strong>City :</strong></span><label>${party?.subscriber?.city ?: ''}</label></li>
                             <li><span><strong>Mouths to Feed :</strong></span><label>${party?.subscriber?.mouthsToFeed}</label></li>
@@ -78,20 +78,20 @@
                     %{--</li>--}%
                     </ul>
                     <div id="right-link">
-                        <g:if test="${user?.party?.inappropriateFlagsCount}">
+                        <g:if test="${party?.inappropriateFlagsCount}">
                             <h3>Inappropriate Flags</h3>
                             <ul>
                                 <g:each in="${abusiveRecipesMap?.keySet()}" var="abusiveRecipe">
                                     <li>${abusiveRecipe?.dateCreated?.format('M/d/yy')} &nbsp;<g:link controller="recipe" action="show" id="${abusiveRecipe?.id}" onclick="return confirm('Remove Abuse?');">${abusiveRecipe.name}</g:link>&nbsp;(Abuse Reported ${abusiveRecipesMap[abusiveRecipe]} Times)&nbsp;&nbsp;
                                     <g:if test="${permission.hasPermission(permission: Permission.REMOVE_RECIPE_ABUSE)}">
-                                        <g:link controller="recipe" action="removeRecipeAbuse" id="${abusiveRecipe.id}" params="[userId:user?.id]">Remove</g:link>
+                                        <g:link controller="recipe" action="removeRecipeAbuse" id="${abusiveRecipe.id}" params="[userId:party?.id]">Remove</g:link>
                                     </g:if>
                                     </li>
                                 </g:each>
                                 <g:each in="${abusiveCommentsMap?.keySet()}" var="abusiveComment">
                                     <li>${abusiveComment?.dateCreated?.format('M/d/yy')} &nbsp;${abusiveComment.body}&nbsp;(Abuse Reported ${abusiveCommentsMap[abusiveComment]} Times)&nbsp;&nbsp;
                                     <g:if test="${permission.hasPermission(permission: Permission.REMOVE_COMMENT_ABUSE)}">
-                                        <g:link controller="recipe" action="removeCommentAbuse" id="${abusiveComment?.id}" params="[userId:user?.id]" onclick="return confirm('Remove Abuse?');">Remove</g:link></li>
+                                        <g:link controller="recipe" action="removeCommentAbuse" id="${abusiveComment?.id}" params="[userId:party?.id]" onclick="return confirm('Remove Abuse?');">Remove</g:link></li>
                                     </g:if>
                                 </g:each>
                             </ul>
@@ -100,12 +100,12 @@
                 </div>
                 <div id="button">
                     <g:form name="formUserDetail">
-                        <g:hiddenField name='id' value='${user?.id}'/>
-                        <g:if test="${permission.hasPermission(permission: Permission.UPDATE_USERS,party:user?.party)}">
-                            <g:actionSubmit class='button editUserButtonFT' controller='user' action='edit' id='${user?.id}' value='Edit Profile'/>
+                        <g:hiddenField name='id' value='${party?.id}'/>
+                        <g:if test="${permission.hasPermission(permission: Permission.UPDATE_USERS,party:party)}">
+                            <g:actionSubmit class='button editUserButtonFT' controller='user' action='edit' id='${party?.id}' value='Edit Profile'/>
                         </g:if>
-                        <g:if test="${permission.hasPermission(permission: Permission.DELETE_USERS,party:user?.party)}">
-                            <g:actionSubmit class='button' controller='user' action='delete' id='${user?.id}' value='Delete User' onclick="return confirm('Are you sure?');"/>
+                        <g:if test="${permission.hasPermission(permission: Permission.DELETE_USERS,party:party)}">
+                            <g:actionSubmit class='button' controller='user' action='delete' id='${party?.id}' value='Delete User' onclick="return confirm('Are you sure?');"/>
                         </g:if>
                     </g:form>
                 </div>
