@@ -9,7 +9,6 @@ class QuickFillController {
     }
 
     def quickFillAdmin = {
-        List<Category> categoryList = Category.list()
         params.max = Math.min(params.max ? params.int('max') : 4, 100)
 
         QuickFill quickFill = new QuickFill(mealItems: [new Meal(type: MealType.DINNER), new Meal(type: MealType.DINNER), new Meal(type: MealType.DINNER), new Meal(type: MealType.DINNER),new Meal(type: MealType.BREAKFAST), new Meal(type: MealType.LUNCH)])
@@ -17,7 +16,7 @@ class QuickFillController {
             quickFill = QuickFill.get(params.long("id"))
         }
         List<Recipe> recipeList = Recipe.list(params)
-        [categoryList: categoryList, itemList: recipeList, itemTotal: Recipe.count(), quickFill: quickFill, quickFillList: QuickFill.list(max: params.max, offset: params?.offset), quickFillTotal: QuickFill.count()]
+        [categories: Category.list(), itemList: recipeList, itemTotal: Recipe.count(), quickFill: quickFill, quickFillList: QuickFill.list(max: params.max, offset: params?.offset), quickFillTotal: QuickFill.count()]
     }
 
     def saveAndUpdateQuickFill = {

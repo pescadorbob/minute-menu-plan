@@ -9,10 +9,10 @@
         </div>
         <h2>You have Selected</h2>
         <table id="tableOption" style="border:0px; font-size:12px;">
-            <tr id="categoriesStringRow" style="display:none;">
+            <tr id="subCategoriesStringRow" style="display:none;">
                 <td width="100px;"></td>
                 <td>
-                    <span class="searchOptionTexts" id="categoriesStringDisplay"></span>
+                    <span class="searchOptionTexts" id="subCategoriesStringDisplay"></span>
                 </td>
             </tr>
             <tr id="favouriteForUsersStringRow" style="display:none;">
@@ -75,7 +75,16 @@
         <div id="country-cate">
             <ul>
                 <li>
-                    <g:select style="width:107px" class="auto-resize" name="qSelect" from="${categoryList}" onchange="submitSearchFormBySelect()" noSelection="[' ': '(Select One)']"/>
+                    <select name="qSelect" id="qSelect" style="width:170px" class="auto-resize" onchange="submitSearchFormBySelect()">
+                        <optgroup label="--"><option value="">(Select One)</option></optgroup>
+                        <g:each in="${categories}" var="category">
+                            <optgroup label="${category.name}">
+                                <g:each in="${category.subCategories}" var="subCategory">
+                                    <option value="${subCategory}">${subCategory}</option>
+                                </g:each>
+                            </optgroup>
+                        </g:each>
+                    </select>
                 </li>
                 <li>
                     <span id="favouriteForUsersString" class="pointer" onclick="submitSearchForm(this, 'favouriteForUsersString', '*${LoginCredential.currentUser.id}*');">Favourites</span>

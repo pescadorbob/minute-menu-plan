@@ -62,13 +62,18 @@
                             <li><g:if test="${recipe?.difficulty}"><span>Difficulty Level: ${recipe?.difficulty}</span></g:if>
                                 <g:if test="${recipe?.servings}"><span>Servings: ${recipe?.servings}</span></g:if>
                             </li>
+                            %{--<li>--}%
+                                %{--${recipe?.isAlcoholic ? 'Recipe contains Alcoholic contents' : 'Recipe is Non-Alcoholic'}--}%
+                            %{--</li>--}%
                             <g:if test="${recipe?.ingredients}">
                                 <li id="showAllIngredientsHereTst"><g:each in="${recipe?.ingredients}" var="ingredient"><span><strong>${ingredient}</strong></span></g:each></li>
                             </g:if>
                             <g:if test="${recipe?.directions}">
                                 <li id="showAllStepsHereTst">${recipe?.directions*.toString().join(" ")}</li>
                             </g:if>
-                            <g:if test="${recipe?.categories}"><li>Categories: ${recipe?.categories?.join(", ")}</li></g:if>
+                            <g:if test="${recipe?.subCategories}">
+                                <li style="width: 500px;">Categories: ${recipe?.subCategories?.join(", ")}</li>
+                            </g:if>
                             <g:if test="${recipe?.nutrients}">
                                 <li><span id="showNutrientsTst" style="width:auto;">Nutritional Facts per serving: ${recipe?.nutrients?.join(", ")}</span></li>
                             </g:if>

@@ -13,8 +13,9 @@ class RecipeController {
     static allowedMethods = [save: "POST", update: "POST"]
 
     def index = {
-        redirect(action: "list", params: params)
+        redirect(action: "list")
     }
+
     def getMatchingProducts = {
         List<Product> products = Product.findAllByNameIlike("%${params.query}%")
         List productsJson = products.collect { [id: it.id, name: it.name] }
@@ -26,6 +27,7 @@ class RecipeController {
         List categoriesJson = categories.collect { [id: it.id, name: it.name] }
         render(categoriesJson as JSON)
     }
+
     def getMatchingItems = {
         List<Item> items = Item.findAllByNameIlike("%${params.q}%")
         String itemsJson = ''
@@ -36,11 +38,9 @@ class RecipeController {
     }
 
     def list = {
-        Integer listSize = Recipe.count()
         params.max = Math.min(params.max ? params.int('max') : 15, 150)
-        List<Category> categoryList = Category.list()
         List<Recipe> recipeList = Recipe.list(params)
-        render(view: 'list', model: [recipeList: recipeList, categoryList: categoryList, recipeTotal: Recipe.count()])
+        render(view: 'list', model: [recipeList: recipeList, categories: Category.list(), recipeTotal: Recipe.count()])
     }
 
     def search = {
@@ -54,8 +54,8 @@ class RecipeController {
         }
         List<Recipe> results = []
         String query = allQueries?.join(" ")?.tokenize(", ")?.join(" ")
-        if(query.startsWith('[')){
-            query = query.substring(1, query.length()-1)
+        if (query.startsWith('[')) {
+            query = query.substring(1, query.length() - 1)
         }
 
         Integer total
@@ -99,9 +99,8 @@ class RecipeController {
     def create = {
         SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
         List<Nutrient> nutrients = Nutrient.list()
-        List<Category> categories = Category.list()
         render(view: 'create', model: [timeUnits: sys.timeUnits, metricUnits: Unit.sortedMetricUnits, nutrients: nutrients,
-                categories: categories, aisles: Aisle.list(), preparationMethods: PreparationMethod.list()])
+                categories: Category.list(), aisles: Aisle.list(), preparationMethods: PreparationMethod.list()])
     }
 
     def edit = {
@@ -110,14 +109,18 @@ class RecipeController {
             RecipeCO recipeCO = new RecipeCO(recipe)
             SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
             List<Nutrient> nutrients = Nutrient.list()
-            List<Category> categories = Category.list()
             render(view: 'edit', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits: Unit.sortedMetricUnits, nutrients: nutrients,
-                    categories: categories, aisles: Aisle.list(), preparationMethods: PreparationMethod.list()])
+                    categories: Category.list(), aisles: Aisle.list(), preparationMethods: PreparationMethod.list()])
         }
     }
 
     def update = {RecipeCO recipeCO ->
         if (recipeCO.validate()) {
+//            List<String> elementNames = params.list('hiddenIngredientProductNames')
+//            List<String> serveWithNames = params.list('serveWithItems')
+//            elementNames = elementNames*.toLowerCase()
+//            serveWithNames = serveWithNames*.toLowerCase()
+//            recipeCO.updateRecipe(elementNames, serveWithNames)
             recipeCO.updateRecipe()
             redirect(action: 'show', id: recipeCO?.id)
         } else {
@@ -126,15 +129,19 @@ class RecipeController {
             }
             SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
             List<Nutrient> nutrients = Nutrient.list()
-            List<Category> categories = Category.list()
             render(view: 'edit', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits: Unit.sortedMetricUnits, nutrients: nutrients,
-                    categories: categories, aisles: Aisle.list(), preparationMethods: PreparationMethod.list()])
+                    categories: Category.list(), aisles: Aisle.list(), preparationMethods: PreparationMethod.list()])
         }
     }
 
     def save = {RecipeCO recipeCO ->
         if (recipeCO.validate()) {
             LoginCredential loggedUser = LoginCredential.currentUser
+//            List<String> elementNames = params.list('hiddenIngredientProductNames')
+//            List<String> serveWithNames = params.list('serveWithItems')
+//            elementNames = elementNames*.toLowerCase()
+//            serveWithNames = serveWithNames*.toLowerCase()
+//            Recipe recipe = recipeCO.convertToRecipe(loggedUser?.party, elementNames, serveWithNames)
             Recipe recipe = recipeCO.convertToRecipe(loggedUser?.party)
             loggedUser?.party?.addToContributions(recipe)
             loggedUser.party?.s()
@@ -145,9 +152,8 @@ class RecipeController {
             }
             SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
             List<Nutrient> nutrients = Nutrient.list()
-            List<Category> categories = Category.list()
             render(view: 'create', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits: Unit.sortedMetricUnits, nutrients: nutrients,
-                    categories: categories, aisles: Aisle.list(), preparationMethods: PreparationMethod.list()])
+                    categories: Category.list(), aisles: Aisle.list(), preparationMethods: PreparationMethod.list()])
         }
     }
 

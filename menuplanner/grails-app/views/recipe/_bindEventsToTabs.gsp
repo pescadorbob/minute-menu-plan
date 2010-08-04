@@ -102,6 +102,4 @@
         });
         jQuery('#preview').click()
     })
-    function checkCategory() {
-    }
 </script>

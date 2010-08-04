@@ -37,7 +37,7 @@ class ExcelService {
         List<List<String>> recipe = []
         List<List<String>> directions = []
         List<List<String>> ingredients = []
-        String categories = []
+        String subCategories = []
         (0..5).eachWithIndex {Integer position, Integer index ->
             String valueOne = sheet.getCell(0, position).contents.toString().trim()
             String valueTwo = sheet.getCell(1, position).contents.toString().trim()
@@ -46,7 +46,7 @@ class ExcelService {
                 recipe.add([valueOne, valueTwo, valueThree])
             }
         }
-        categories = sheet.getCell(1, 6).contents.toString().trim()
+        subCategories = sheet.getCell(1, 6).contents.toString().trim()
         (10..19).eachWithIndex {Integer position, Integer index ->
             String valueOne = sheet.getCell(0, position).contents.toString().trim()
             String valueTwo = sheet.getCell(1, position).contents.toString().trim()
@@ -65,10 +65,10 @@ class ExcelService {
                 directions.add([valueOne, valueTwo])
             }
         }
-        Recipe recipeObj = makeRecipe(recipe, directions, ingredients, categories)
+        Recipe recipeObj = makeRecipe(recipe, directions, ingredients, subCategories)
     }
 
-    public Recipe makeRecipe(List<List<String>> recipe, List<List<String>> directions, List<List<String>> ingredients, String categories) {
+    public Recipe makeRecipe(List<List<String>> recipe, List<List<String>> directions, List<List<String>> ingredients, String subCategories) {
         try {
             Recipe recipeInstance = new Recipe()
             recipeInstance.name = recipe[0].getAt(1)
@@ -122,7 +122,7 @@ class ExcelService {
                 recipeInstance.shareWithCommunity = (recipe[5].getAt(1).toLowerCase() == 'yes')
             }
 
-            createCategories(categories, recipeInstance)
+            createSubCategories(subCategories, recipeInstance)
             createDirections(directions, recipeInstance)
             createIngredients(ingredients, recipeInstance)
 
@@ -147,16 +147,13 @@ class ExcelService {
         }
     }
 
-    public boolean createCategories(String categories, Recipe recipe) {
+    public boolean createSubCategories(String categories, Recipe recipe) {
         try {
             Set<String> categoryList = categories?.tokenize(',') as Set
             categoryList.each {String categoryName ->
-                Category category = Category.findByName(categoryName)
-                if (category) {
-                    RecipeCategory recipeCategory = new RecipeCategory()
-                    recipeCategory.recipe = recipe
-                    recipeCategory.category = category
-                    recipe.addToRecipeCategories(recipeCategory)
+                SubCategory subCategory = SubCategory.findByName(categoryName)
+                if (subCategory) {
+                  recipe.addToSubCategories(subCategory) 
                 }
             }
         }

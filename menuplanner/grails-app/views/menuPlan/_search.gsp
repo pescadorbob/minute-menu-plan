@@ -22,10 +22,10 @@
                     <h2>You've Selected</h2>
 
                     <table id="tableOption" style="border:0px;">
-                        <tr id="categoriesStringRow" style="display:none;">
+                        <tr id="subCategoriesStringRow" style="display:none;">
                             <td width="100px;"></td>
                             <td>
-                                <span id="categoriesStringDisplay" class="searchOptionTexts"></span>
+                                <span id="subCategoriesStringDisplay" class="searchOptionTexts"></span>
                             </td>
                         </tr>
                         <tr id="domainTypeRow" style="display:none;">
@@ -107,7 +107,16 @@
                 <div id="country-cate">
                     <ul>
                         <li>
-                            <g:select style="width:107px" class="auto-resize" name="qSelect" from="${categoryList}" onchange="submitSearchFormBySelect()" noSelection="[' ': '(Select One)']"/>
+                            <select name="qSelect" id="qSelect" style="width:107px" class="auto-resize" onchange="submitSearchFormBySelect()">
+                                <optgroup label="--"><option value="">(Select One)</option></optgroup>
+                                <g:each in="${categories}" var="category">
+                                    <optgroup label="${category.name}">
+                                        <g:each in="${category.subCategories}" var="subCategory">
+                                            <option value="${subCategory}">${subCategory}</option>
+                                        </g:each>
+                                    </optgroup>
+                                </g:each>
+                            </select>
                         </li>
                         <li>
                             <span id="domainProduct" class="pointer" onclick="defineSearchDomainType(this, 'domainType', 'Item');">Include Products</span><br/>

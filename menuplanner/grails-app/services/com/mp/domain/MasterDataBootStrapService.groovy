@@ -232,8 +232,11 @@ class MasterDataBootStrapService implements ApplicationContextAware {
     }
 
     public void populateCategories() {
-        CATEGORIES.each {String name ->
-            new Category(name: name).s()
+        SUB_CATEGORIES.each {key, value ->
+            Category category = new Category(name: key).s()
+            value.each {String name ->
+                new SubCategory(name: name, category: category).s()
+            }
         }
     }
 
@@ -249,7 +252,7 @@ class MasterDataBootStrapService implements ApplicationContextAware {
         if (aislesFile.exists()) {
             aislesFile.readLines().eachWithIndex {String line, Integer index ->
                 List columns = line.tokenize("^")
-                aisles[columns[0]] = aislesList.find{it.name == columns[1].replaceAll('~', '')}
+                aisles[columns[0]] = aislesList.find {it.name == columns[1].replaceAll('~', '')}
             }
         }
         List<Product> products = []
@@ -259,7 +262,7 @@ class MasterDataBootStrapService implements ApplicationContextAware {
                 List columns = line.tokenize("^")
                 products.add(new Product(suggestedAisle: aisles[columns[1]], name: columns[2]?.replaceAll("~", '')?.replaceAll("'", '')))
             }
-            products = products.findAll{it.suggestedAisle}
+            products = products.findAll {it.suggestedAisle}
             println "Saving products"
             products*.s()
             println "Saved products"

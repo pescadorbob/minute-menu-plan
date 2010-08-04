@@ -1,16 +1,16 @@
 package com.mp.domain
 
+import static com.mp.MenuConstants.*
+
 class MenuPlanController {
 
     def index = { }
 
     def show = {
         params.max = Math.min(params.max ? params.int('max') : 4, 150)
-        List<Category> categoryList = Category.list()
         List<Recipe> recipeList = Recipe.list(params)
-
         MenuPlan menuPlan = MenuPlan.get(params.long("id"))
-        render(view: 'show', model: [menuPlan: menuPlan, categoryList: categoryList, itemList: recipeList, itemTotal: Recipe.count()])
+        render(view: 'show', model: [menuPlan: menuPlan, categoryList: Category.list(), itemList: recipeList, itemTotal: Recipe.count()])
     }
 
     def create = {
@@ -29,18 +29,15 @@ class MenuPlanController {
                 menuPlan.addToWeeks(week)
             }
         }
-        List<Category> categoryList = Category.list()
         List<Recipe> recipeList = Recipe.list(params)
-        render(view: 'create', model: [menuPlan: menuPlan, categoryList: categoryList, itemList: recipeList, itemTotal: Recipe.count()])
+        render(view: 'create', model: [menuPlan: menuPlan, categories: Category.list(), itemList: recipeList, itemTotal: Recipe.count()])
     }
 
     def edit = {
         params.max = Math.min(params.max ? params.int('max') : 4, 150)
-        List<Category> categoryList = Category.list()
         List<Recipe> recipeList = Recipe.list(params)
-
         MenuPlan menuPlan = MenuPlan.get(params.long("id"))
-        render(view: 'edit', model: [menuPlan: menuPlan, categoryList: categoryList, itemList: recipeList, itemTotal: Recipe.count()])
+        render(view: 'edit', model: [menuPlan: menuPlan, categoryList: Category.list(), itemList: recipeList, itemTotal: Recipe.count()])
     }
 
     def saveAndUpdate = {
@@ -95,8 +92,8 @@ class MenuPlanController {
         }
         List<Recipe> results = []
         String query = allQueries?.join(" ")?.tokenize(", ")?.join(" ")
-        if(query.startsWith('[')){
-            query = query.substring(1, query.length()-1)
+        if (query.startsWith('[')) {
+            query = query.substring(1, query.length() - 1)
         }
         Integer total
 
