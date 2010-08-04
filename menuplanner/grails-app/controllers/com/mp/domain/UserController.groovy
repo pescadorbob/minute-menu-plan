@@ -33,7 +33,7 @@ class UserController {
                 if (deletingCurrentUser) {
                     session.invalidate()
                     redirect(uri: '/')
-               } else {
+                } else {
                     redirect(controller: 'user', action: "list")
                 }
             } catch (org.springframework.dao.DataIntegrityViolationException e) {
@@ -182,23 +182,21 @@ class UserController {
 
     def facebookConnect = {
         Long userId = params.long('userId') ? params.long('userId') : 0L
-        PartyRole user = userId ? PartyRole.get(userId) : null
-        if (user?.party?.subscriber) {
-            String redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true, params: [userId: userId]).encodeAsURL()}"
-            user = userService.updateUserFromFacebook(redirectUrl, params.code, user)
-            if (user) {
-                if (params.long('userId')) {
-                    render "<script type='text/javascript'>window.opener.facebookConnectSuccess();window.close();</script>"
-                } else {
-                    user.addToRoles(UserType.Subscriber)
-                    user.s()
-                    session.loggedUserId = user.id.toString()
-                    render "<script type='text/javascript'>window.opener.location.href='" + createLink(controller: 'user', action: 'show', id: user.id) + "';window.close();</script>"
-                }
+        Party party = Party.get(userId)
+        String redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true, params: [userId: userId]).encodeAsURL()}"
+        party = userService.updateUserFromFacebook(redirectUrl, params.code, party)
+        if (party) {
+            if (params.long('userId')) {
+                render "<script type='text/javascript'>window.opener.facebookConnectSuccess();window.close();</script>"
+            } else {
+                user.addToRoles(UserType.Subscriber)
+                user.s()
+                session.loggedUserId = user.id.toString()
+                render "<script type='text/javascript'>window.opener.location.href='" + createLink(controller: 'user', action: 'show', id: user.id) + "';window.close();</script>"
             }
-            else {
-                render "<script type='text/javascript'>window.close()</script>"
-            }
+        }
+        else {
+            render "<script type='text/javascript'>window.close()</script>"
         }
     }
 
