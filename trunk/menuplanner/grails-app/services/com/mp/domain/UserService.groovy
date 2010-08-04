@@ -12,9 +12,12 @@ class UserService {
     static config = ConfigurationHolder.config
 
     public boolean changeStatus(Long userId) {
-        Subscriber user = Subscriber.findById(userId)
-        if (user) {
-            (user.isEnabled = !(user.isEnabled))
+        Party party = Party.findById(userId)
+        if (party) {
+            (party.isEnabled = !(party.isEnabled))
+            if (!party.isEnabled && (party == LoginCredential.currentUser.party)) {
+                SessionUtils?.session?.invalidate()
+            }
             return true
         }
         return false
@@ -28,14 +31,14 @@ class UserService {
                 String urlString = "https://graph.facebook.com/oauth/access_token?client_id=${config.facebookConnect.apiKey}&redirect_uri=${redirectUrl}&client_secret=${config.facebookConnect.secretKey}&code=${code}"
                 URL url = new URL(urlString)
                 String token = url.getText()
-                if(!user?.party){
-                    user?.party=new Party()
+                if (!user?.party) {
+                    user?.party = new Party()
                 }
                 FacebookAccount facebookAccount = (user?.party?.facebookAccount) ? user?.party?.facebookAccount : new FacebookAccount()
                 facebookAccount.uid = faceBookToken
                 facebookAccount.oauthToken = (token - "access_token=")
-                if(user?.party){
-                    facebookAccount.party=user?.party
+                if (user?.party) {
+                    facebookAccount.party = user?.party
                 }
                 user?.party?.facebookAccount = facebookAccount
                 updateUserInfo(user)
@@ -64,7 +67,7 @@ class UserService {
             }
             File imageFile = new File(filePath + fileName)
             if (imageFile.exists()) {
-                Image.updateOwnerImage((Subscriber)user, imageFile.absolutePath)
+                Image.updateOwnerImage((Subscriber) user, imageFile.absolutePath)
             }
         }
     }
@@ -74,8 +77,7 @@ class UserService {
             URL url = new URL("https://graph.facebook.com/${user?.party?.facebookAccount?.uid}?access_token=${user?.party?.facebookAccount?.oauthToken}&fields=name,location")
             JSONElement response = JSON.parse(url.newReader())
             user?.party?.name = response.name
-            if (user.instanceOf(Subscriber.class)){
-                user?.screenName = response.name
+            if (user.instanceOf(Subscriber.class)) {
                 if (response?.location?.name) {
                     user?.city = response?.location?.name
                 }
@@ -109,26 +111,26 @@ class UserCO {
 
     }
 
-    UserCO(PartyRole user) {
-        id = user?.id?.toString()
-        if (user?.party?.email) {
-            email = user?.party?.email
-            password = user?.party?.password
-            confirmPassword = user?.party?.password
+    UserCO(Party party) {
+        id = party?.id?.toString()
+        if (party?.email) {
+            email = party?.email
+            password = party?.password
+            confirmPassword = party?.password
         }
-        name = user?.party?.name
-        if(user?.party?.subscriber){
-            mouthsToFeed = user?.party?.subscriber?.mouthsToFeed
-            introduction = user?.party?.subscriber?.introduction
-            city = user?.party?.subscriber?.city
+        name = party?.name
+        if (party?.subscriber) {
+            mouthsToFeed = party?.subscriber?.mouthsToFeed
+            introduction = party?.subscriber?.introduction
+            city = party?.subscriber?.city
         }
-        joiningDate = user?.party?.joiningDate
-        isEnabled = user?.party?.isEnabled
+        joiningDate = party?.joiningDate
+        isEnabled = party?.isEnabled
 
-        roles = user?.party?.roleTypes*.name()
+        roles = party?.roleTypes*.name()
 
-        if (user?.party?.subscriber?.image) {
-            selectUserImagePath = user?.party?.subscriber?.image?.path + user?.party?.subscriber?.image?.storedName
+        if (party?.subscriber?.image) {
+            selectUserImagePath = party?.subscriber?.image?.path + party?.subscriber?.image?.storedName
         } else {
             selectUserImagePath = ''
         }
@@ -149,41 +151,12 @@ class UserCO {
             obj.properties['password'] == val
         })
         name(nullable: false, blank: false, matches: /[a-zA-Z0-9\s\&]*/)
-        mouthsToFeed(nullable: true, matches: /[0-9]*/, validator: {val, obj ->
-            if (!val && (UserType.Subscriber.name() in obj.roles)) {
-                return 'default.blank.message'
-            }
-        })
-        introduction(nullable: true, blank: true,validator: {val, obj ->
-            if (!val && (UserType.Subscriber.name() in obj.roles)) {
-                return 'default.blank.message'
-            }
-        })
-        city(nullable: true, blank: true,validator: {val, obj ->
-            if (!val && (UserType.Subscriber.name() in obj.roles)) {
-                return 'default.blank.message'
-            }
-        })
+        mouthsToFeed(nullable: true, blank: true, matches: /[0-9]*/)
+        introduction(nullable: true, blank: true)
+        city(nullable: true, blank: true)
         roles(nullable: false, blank: false)
     }
 
-//    public boolean createUser(Subscriber subscriber) {
-//        subscriber?.screenName = name
-//        if (!subscriber?.party?.loginCredentials) {
-//            subscriber?.party?.loginCredentials = [new UserLogin(email:email,password:password,party:subscriber.party)] as Set
-//        }
-//
-//        subscriber?.party?.email = email
-//        subscriber?.mouthsToFeed = mouthsToFeed
-//        subscriber?.introduction = introduction
-//        subscriber?.city = city
-//        subscriber?.party?.isEnabled = isEnabled
-//        if (subscriber?.party?.password != password) {
-//            subscriber?.party?.password = password.encodeAsBase64()
-//        }
-//        return true
-//    }
-//
     //TODO: Change this implementation
 
     public boolean assignRoles(Subscriber user) {
@@ -207,51 +180,50 @@ class UserCO {
 //        return user
 //    }
 //
+
     public Party updateParty() {
-        PartyRole user = Subscriber.get(id?.toLong())
-        if(!user){
-            user = Administrator.get(id?.toLong())
-        }
-        if(!user){
-            user = SuperAdmin.get(id?.toLong())
-        }
-        Party party = user?.party
-        party.name=name
-        if ((UserType.Subscriber.name() in roles) && !party.subscriber) {
-            user.screenName = name
-            user.city = city
-            user.mouthsToFeed = mouthsToFeed
-            user.introduction = introduction
-            attachImage(user,selectUserImagePath)
-            party.addToRoles(user)
-            party.s()
-            user.s()
+        Party party = Party.get(id?.toLong())
+
+        //Delete unchecked roles first
+        if (party.subscriber && !(UserType.Subscriber.name() in roles)) {
+            Subscriber subscriber = party.subscriber
+            party.removeFromRoles(subscriber)
+            subscriber.delete(flush: true)
         }
 
-        if (UserType.Admin.name() in roles && !party.administrator) {
-            Administrator admin = new Administrator()
-            party.addToRoles(admin)
-            party.s()
-            admin.s()
-        }else if (!(UserType.Admin.name() in roles) && party.administrator){
-            Administrator administrator = party.administrator
-            party.removeFromRoles(party.administrator)
-            administrator.delete()            
-            party.s()
-        }
-
-        if (UserType.SuperAdmin.name() in roles &&  !party.superAdmin) {
-            SuperAdmin superAdmin = new SuperAdmin()
-            party.addToRoles(superAdmin)
-            party.s()
-            superAdmin.s()
-        }else if(!(UserType.SuperAdmin.name() in roles) && party.superAdmin){
+        if (party.superAdmin && !(UserType.SuperAdmin.name() in roles)) {
             SuperAdmin superAdmin = party.superAdmin
-            party.removeFromRoles(party.superAdmin)
-            superAdmin.delete()
-            party.s()
+            party.removeFromRoles(superAdmin)
+            superAdmin.delete(flush: true)
         }
-        party.isEnabled=isEnabled        
+
+        if (party.administrator && !(UserType.Admin.name() in roles)) {
+            Administrator administrator = party.administrator
+            party.removeFromRoles(administrator)
+            administrator.delete(flush: true)
+        }
+
+        party.name = name
+        if ((UserType.Subscriber.name() in roles)) {
+            Subscriber subscriber = party.subscriber ? party.subscriber : new Subscriber()
+            println "Updated City: " + city
+            subscriber.city = city
+            subscriber.mouthsToFeed = mouthsToFeed
+            subscriber.introduction = introduction
+            attachImage(subscriber, selectUserImagePath)
+            subscriber.party = party
+            subscriber.s()
+        }
+
+        if ((UserType.Admin.name() in roles) && !party.administrator) {
+            new Administrator(party: party).s()
+        }
+
+        if (UserType.SuperAdmin.name() in roles && !party.superAdmin) {
+            new SuperAdmin(party: party).s()
+        }
+
+        party.isEnabled = isEnabled
         return party
     }
 
@@ -267,13 +239,12 @@ class UserCO {
         party.s()
 
         if (UserType.Subscriber.name() in roles) {
-            Subscriber subscriber = new Subscriber(screenName: name)
-            subscriber.screenName = name
+            Subscriber subscriber = new Subscriber()
             subscriber.city = city
             subscriber.mouthsToFeed = mouthsToFeed
             subscriber.introduction = introduction
             subscriber.party = party
-            attachImage(subscriber,selectUserImagePath)
+            attachImage(subscriber, selectUserImagePath)
             party.addToRoles(subscriber)
             party.s()
             subscriber.s()
@@ -299,10 +270,10 @@ class UserCO {
         party?.isEnabled = true
         party?.s()
         HttpSession currentSession = ConfigurationHolder.config.sessions.find {it.userId == subscriber.id}
-        try{
+        try {
             currentSession.userId = null
             currentSession.loggedUserId = party?.loginCredentials?.toList()?.first()?.id?.toString()
-        } catch(Exception e){
+        } catch (Exception e) {
             println "Cannot login user. Session has already invalidated"
         }
 
