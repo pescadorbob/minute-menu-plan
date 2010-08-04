@@ -23,41 +23,36 @@ class UserService {
         return false
     }
 
-    public Subscriber updateUserFromFacebook(String redirectUrl, String code, PartyRole user) {
-        user = user ? user : new Subscriber()
+    public Party updateUserFromFacebook(String redirectUrl, String code, Party party) {
+        party = party ? party : new Party()
         if (code) {
             Long faceBookToken = code.tokenize("-|")[1]?.toLong()
             if (faceBookToken) {
                 String urlString = "https://graph.facebook.com/oauth/access_token?client_id=${config.facebookConnect.apiKey}&redirect_uri=${redirectUrl}&client_secret=${config.facebookConnect.secretKey}&code=${code}"
                 URL url = new URL(urlString)
                 String token = url.getText()
-                if (!user?.party) {
-                    user?.party = new Party()
-                }
-                FacebookAccount facebookAccount = (user?.party?.facebookAccount) ? user?.party?.facebookAccount : new FacebookAccount()
+                FacebookAccount facebookAccount = (party?.facebookAccount) ? party?.facebookAccount : new FacebookAccount()
                 facebookAccount.uid = faceBookToken
                 facebookAccount.oauthToken = (token - "access_token=")
-                if (user?.party) {
-                    facebookAccount.party = user?.party
-                }
-                user?.party?.facebookAccount = facebookAccount
-                updateUserInfo(user)
-                updateUserPhoto(user)
-                user.s()
-                return user
+                facebookAccount.party = party
+                party?.facebookAccount = facebookAccount
+                updateUserInfo(party)
+                updateUserPhoto(party)
+                party.s()
+                return party
             }
         }
         return null
     }
 
-    public void updateProfile(PartyRole user) {
-        updateUserPhoto(user)
-        updateUserInfo(user)
+    public void updateProfile(Party party) {
+        updateUserPhoto(party)
+        updateUserInfo(party)
     }
 
-    private void updateUserPhoto(PartyRole user) {
-        if (user?.party?.facebookAccount) {
-            URL imageURL = new URL("http://graph.facebook.com/${user?.party?.facebookAccount.uid}/picture?type=large")
+    private void updateUserPhoto(Party party) {
+        if (party?.subscriber && party?.facebookAccount) {
+            URL imageURL = new URL("http://graph.facebook.com/${party?.facebookAccount.uid}/picture?type=large")
             String filePath = config.tempDir
             File dirs = new File(filePath)
             dirs.mkdirs()
@@ -67,22 +62,20 @@ class UserService {
             }
             File imageFile = new File(filePath + fileName)
             if (imageFile.exists()) {
-                Image.updateOwnerImage((Subscriber) user, imageFile.absolutePath)
+                Image.updateOwnerImage(party.subscriber, imageFile.absolutePath)
             }
         }
     }
 
-    private void updateUserInfo(PartyRole user) {
-        if (user?.party?.facebookAccount) {
-            URL url = new URL("https://graph.facebook.com/${user?.party?.facebookAccount?.uid}?access_token=${user?.party?.facebookAccount?.oauthToken}&fields=name,location")
+    private void updateUserInfo(Party party) {
+        if (party?.facebookAccount) {
+            URL url = new URL("https://graph.facebook.com/${party?.facebookAccount?.uid}?access_token=${party?.facebookAccount?.oauthToken}&fields=name,location")
             JSONElement response = JSON.parse(url.newReader())
-            user?.party?.name = response.name
-            if (user.instanceOf(Subscriber.class)) {
-                if (response?.location?.name) {
-                    user?.city = response?.location?.name
-                }
+            party?.name = response.name
+            if (party.subscriber && response?.location?.name) {
+                party.subscriber.city = response?.location?.name
             }
-            user.s()
+            party.s()
         }
     }
 
