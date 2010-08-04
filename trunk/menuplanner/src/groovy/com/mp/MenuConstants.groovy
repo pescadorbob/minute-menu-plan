@@ -169,7 +169,8 @@ class MenuConstants {
     public static final List<String> CATEGORIES = ['Breakfast', 'Lunch', 'Dinner', 'Cooking Techniques', 'Recipes', 'Basic Food Groups',
             'National and Ethnic Cuisines', 'Special Diets', 'Nutrition', 'Ingredients']
 
-    public static final Map<String, List<String>> SUB_CATEGORIES = ['Cooking Techniques': PREPARATION_METHODS,
+    public static final Map<String, List<String>> SUB_CATEGORIES = ['Meal Types' : ['Breakfast', 'Lunch', 'Dinner'],
+            'Cooking Techniques': PREPARATION_METHODS,
             'Recipes': RECIPES, 'Basic Food Groups': BASIC_FOOD_GROUPS,
             'National and Ethnic Cuisines ': NATIONAL_AND_ETHNIC_CUISINES,
             'Special Diets ': SPECIAL_DIETS, 'Nutrition': NUTRITION, 'Ingredients': INGREDIENTS]

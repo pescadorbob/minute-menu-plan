@@ -1,6 +1,10 @@
 package com.mp.domain
 
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import jxl.WorkbookSettings
+import org.codehaus.groovy.grails.commons.ApplicationHolder
+import jxl.Workbook
+import jxl.Sheet
 
 class RecipeService {
 
@@ -28,6 +32,7 @@ class RecipeCO {
     String name
     String difficulty
     Boolean shareWithCommunity
+    Boolean isAlcoholic
     Integer makesServing
     Integer preparationTime
     Long preparationUnitId
@@ -36,8 +41,7 @@ class RecipeCO {
     def selectRecipeImage
     def selectRecipeImagePath
 
-
-    Set<Long> categoryIds = []
+    Set<Long> subCategoryIds = []
     Set<String> categoryNames = []
 
     Set<String> serveWithItems = []
@@ -81,7 +85,7 @@ class RecipeCO {
         cookUnitId = recipe?.cookingTime?.unit?.id
         cookTime = recipe?.cookingTime ? StandardConversion.getQuantityValueString(recipe?.cookingTime)?.toInteger() : null
 
-        categoryIds = recipe?.categories*.id as Set
+        subCategoryIds = recipe?.subCategories*.id as Set
         directions = recipe?.directions
 
         hiddenIngredientProductNames = recipe?.ingredients*.ingredient?.name
@@ -161,10 +165,19 @@ class RecipeCO {
         })
     }
 
+//    public Recipe updateRecipe(List<String> elementNames, List<String> serveWithElements) {
     public Recipe updateRecipe() {
         Recipe recipe = Recipe.get(id)
         recipe.name = name
         recipe.shareWithCommunity = shareWithCommunity
+//        List<String> elementsFromList = alcoholicContentList()
+//        elementsFromList.each {String name ->
+//            if (name) {
+//                if (name.toLowerCase() in elementNames || name in serveWithElements) {
+//                    recipe.isAlcoholic = true
+//                }
+//            }
+//        }
         recipe.servings = makesServing
         if (difficulty) {
             recipe.difficulty = RecipeDifficulty."${difficulty}"
@@ -172,10 +185,8 @@ class RecipeCO {
         recipe.preparationTime = makeTimeQuantity(preparationTime, preparationUnitId)
         recipe.cookingTime = makeTimeQuantity(cookTime, cookUnitId)
 
-        def tempRecipeCategories = recipe.recipeCategories
-        recipe.recipeCategories = []
-        tempRecipeCategories*.delete(flush: true)
-        addCategoriesToRecipe(recipe, categoryIds)
+        recipe.subCategories = []
+        addSubCategoriesToRecipe(recipe, subCategoryIds)
 
         def tempIngredients = recipe.ingredients
         recipe.ingredients = []
@@ -199,6 +210,7 @@ class RecipeCO {
         return recipe
     }
 
+//    public Recipe convertToRecipe(Party byUser, List<String> elementNames, List<String> serveWithElements) {
     public Recipe convertToRecipe(Party byUser) {
         Recipe recipe = new Recipe()
 
@@ -209,7 +221,15 @@ class RecipeCO {
         recipe.preparationTime = makeTimeQuantity(preparationTime, preparationUnitId)
         recipe.cookingTime = makeTimeQuantity(cookTime, cookUnitId)
 
-        addCategoriesToRecipe(recipe, categoryIds)
+//        List<String> elements = alcoholicContentList()
+//        elements.each {String name ->
+//            if (name) {
+//                if (name.toLowerCase() in elementNames || name in serveWithElements) {
+//                    recipe.isAlcoholic = true
+//                }
+//            }
+//        }
+        addSubCategoriesToRecipe(recipe, subCategoryIds)
         addDirectionsToRecipe(recipe, directions)
         addIngredientsToRecipe(recipe, ingredientQuantities, ingredientUnitIds, hiddenIngredientProductNames, ingredientAisleIds, hiddenIngredientPreparationMethodNames)
         addServeWithToRecipe(recipe, serveWithItems)
@@ -334,25 +354,31 @@ class RecipeCO {
         return true
     }
 
-    public List<RecipeCategory> recipeCategoryList(Set<Long> categoryIds) {
-
-        List<RecipeCategory> recipeCategories = []
-        categoryIds.each {Long categoryId ->
+    public boolean addSubCategoriesToRecipe(Recipe recipe, Set<Long> subCategoryIds) {
+        subCategoryIds.each {Long categoryId ->
             if (categoryId) {
-                RecipeCategory category = new RecipeCategory()
-                category.category = Category.get(categoryId)
-                recipeCategories.add(category)
+                SubCategory category = SubCategory.get(categoryId)
+                recipe.addToSubCategories(category)
             }
-        }
-        return recipeCategories
-    }
-
-    public boolean addCategoriesToRecipe(Recipe recipe, Set<Long> categoryIds) {
-        List<RecipeCategory> categories = recipeCategoryList(categoryIds)
-        categories.each {RecipeCategory category ->
-            category.recipe = recipe
-            recipe.addToRecipeCategories(category)
         }
         return true
     }
+
+//    public List<String> alcoholicContentList() {
+//        String filterFileName = "/bootstrapData/alcoholic_filtering.xls"
+//        File filterExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath(filterFileName))
+//        List<String> elements = []
+//        WorkbookSettings workbookSettings
+//        Workbook workbook
+//        workbookSettings = new WorkbookSettings();
+//        workbookSettings.setLocale(new Locale("en", "EN"));
+//        workbook = Workbook.getWorkbook(filterExcelFile, workbookSettings);
+//        workbook?.sheets?.each {Sheet sheet ->
+//            sheet.rows.times {Integer index ->
+//                String valueOne = sheet.getCell(0, index).contents.toString().trim()
+//                elements.add(valueOne)
+//            }
+//        }
+//        return elements
+//    }
 }

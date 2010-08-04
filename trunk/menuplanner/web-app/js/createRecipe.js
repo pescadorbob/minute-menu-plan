@@ -75,7 +75,7 @@ function reflectInPreviewPanel() {
 
     var myCategory = ''
     var myCategoryList = []
-    jQuery.each(jQuery('select[name=categoryIds][value!=""]'), function(indx, elem) {
+    jQuery.each(jQuery('select[name=subCategoryIds][value!=""]'), function(indx, elem) {
         var myCategoryId = jQuery(this).val()
         jQuery.each(jQuery('#categoryTable td:contains(' + myCategoryId + ')'), function() {
             if (jQuery(this).html() == myCategoryId) {

@@ -16,9 +16,25 @@
                         <span><g:textField class="inpbox ${hasErrors(bean:recipeCO,field:'name', 'errors')}" name="name" value="${recipeCO?.name}"/></span></li>
                     <li><label>Categories</label>
                         <span>
-                            <g:select class="inpbox" name="categoryIds" from="${categories}" value="${(recipeCO?.categoryIds)? recipeCO?.categoryIds?.toList()[0] :null}" optionKey="id" onchange="checkCategory()" noSelection="['': '(Select One)']"/> <br/><br/>
-                            <g:select class="inpbox" optionKey="id" name="categoryIds" from="${categories}" value="${(recipeCO?.categoryIds?.size() > 1)? recipeCO?.categoryIds?.toList()[1] :null}" onchange="checkCategory()" noSelection="['': '(Select One)']"/> <br/><br/>
-                            <g:select class="inpbox" optionKey="id" name="categoryIds" from="${categories}" value="${(recipeCO?.categoryIds?.size() > 2)? recipeCO?.categoryIds?.toList()[2] :null}" onchange="checkCategory()" noSelection="['': '(Select One)']"/> <br/><br/>
+                           <g:each in="${(0..2)}" var="index">
+                            <select class="inpbox" name="subCategoryIds">
+                                <optgroup label="--"><option value="">(Select One)</option></optgroup>
+                                <g:each in="${categories}" var="category">
+                                    <optgroup label="${category}">
+                                        <g:each in="${category.subCategories}" var="subCategory">
+                                            <g:if test="${(recipeCO?.subCategoryIds) && recipeCO?.subCategoryIds?.toList()[index]==subCategory?.id}">
+                                                <option selected="true" value="${subCategory?.id}">${subCategory}</option>
+                                            </g:if>
+                                            <g:else>
+                                                <option value="${subCategory?.id}">${subCategory}</option>
+                                            </g:else>
+                                        </g:each>
+                                    </optgroup>
+                                </g:each>
+                            </select>
+                            <br/>
+                            <br/>
+                           </g:each>
                         </span></li>
                     <li><label>Prep Time</label>
                         <span>
@@ -51,7 +67,7 @@
             </li>
             <li>
                 <div id="myImageDiv" style="text-align:right;">
-                    <img id="recipeImage" border="0" width="200" height="200" src="${g.createLink(controller: 'image', action: 'imageByPath', params: [imagePath: recipeCO?.selectRecipeImagePath, noImage:'no-img.gif'])}"/>
+                    <img id="recipeImage" border="0" width="200" height="200" src="${g.createLink(controller: 'image', action: 'imageByPath', params: [imagePath: recipeCO?.selectRecipeImagePath, noImage: 'no-img.gif'])}"/>
                 </div>
                 <input type="hidden" name="selectRecipeImagePath" id="selectRecipeImagePath" value="${recipeCO?.selectRecipeImagePath}"/>
             </li>

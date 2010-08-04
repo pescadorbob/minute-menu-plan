@@ -159,7 +159,7 @@
     </script>
     <!--  end left-panel start right-panel -->
 
-    <g:render template="/menuPlan/search" model='[categoryList:categoryList, itemTotal:itemTotal]'/>
+    <g:render template="/menuPlan/search" model='[categories:categories, itemTotal:itemTotal]'/>
 
 </div>
 </body>

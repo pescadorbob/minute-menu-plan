@@ -16,19 +16,20 @@ class Recipe extends Item implements Commentable, Rateable {
 
     RecipeDifficulty difficulty
     Boolean shareWithCommunity = false
+    Boolean isAlcoholic = false
     Image image
     Integer servings
 
     Quantity preparationTime
     Quantity cookingTime
-    Set<RecipeCategory> recipeCategories = [] as Set
     List<String> directions = []
     List<RecipeIngredient> ingredients = []
+    Set<SubCategory> subCategories = []
 
     String cookingTimeValue
     String prepTimeValue
     String totalTimeValue
-    String categoriesString
+    String subCategoriesString
     String caloriesString
     String favouriteForUsersString
     Date dateCreated
@@ -89,11 +90,11 @@ class Recipe extends Item implements Commentable, Rateable {
         if (!servings) {servings = 1}
     }
 
-    static transients = ['categories', 'favouriteForUsers', 'favouriteForUsersString', 'cookingTimeValue', 'totalTimeValue', 'prepTimeValue', 'caloriesString', 'categoriesString', 'contributor', 'imageDir']
-    static hasMany = [ingredients: RecipeIngredient, directions: String, recipeCategories: RecipeCategory, nutrients: RecipeNutrient, items: Item]
+    static transients = ['favouriteForUsers', 'favouriteForUsersString', 'cookingTimeValue', 'totalTimeValue', 'prepTimeValue', 'caloriesString', 'subCategoriesString', 'contributor', 'imageDir']
+    static hasMany = [ingredients: RecipeIngredient, directions: String, nutrients: RecipeNutrient, items: Item, subCategories: SubCategory]
 
-    String getCategoriesString() {
-        return (categories ? categories*.name.join(", ") : '')
+    String getSubCategoriesString() {
+        return (subCategories ? subCategories : '')
     }
 
     String getCaloriesString() {
@@ -120,10 +121,6 @@ class Recipe extends Item implements Commentable, Rateable {
         return NumberTools.longToString(time)
     }
 
-    def getCategories() {
-        return ((recipeCategories) ? ((recipeCategories?.collect {it.category}).sort {it.name}) : [])
-    }
-
     def getTotalTime() {
         Quantity cTime = cookingTime
         Quantity pTime = preparationTime
@@ -133,16 +130,6 @@ class Recipe extends Item implements Commentable, Rateable {
         } else {
             return (cTime ? cTime : pTime)
         }
-    }
-
-    def addToCategories(Category category) {
-        RecipeCategory.link(this, category)
-        return categories
-    }
-
-    List<Category> removeFromCategories(Category category) {
-        RecipeCategory.unlink(this, category)
-        return categories
     }
 
     String toString() {

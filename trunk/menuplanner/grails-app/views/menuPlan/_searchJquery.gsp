@@ -13,15 +13,15 @@
         jQuery('#' + fieldName + 'Row').show()
         if (element) {
             jQuery('#' + fieldName + 'Row td:eq(1)').html(jQuery(element).text())
-        } 
+        }
         document.getElementById('searchForm').onsubmit();
         return false;
     }
     function submitSearchFormBySelect() {
         var fieldValue = '*' + jQuery('[name=qSelect] :selected').text() + '*';
-        var fieldName = 'categoriesString';
+        var fieldName = 'subCategoriesString';
         if (fieldValue == '*(Select One)*') {
-            jQuery('[value^=categoriesString]').remove();
+            jQuery('[value^=subCategoriesString]').remove();
             fieldName = 'name';
             fieldValue = '*';
         }
