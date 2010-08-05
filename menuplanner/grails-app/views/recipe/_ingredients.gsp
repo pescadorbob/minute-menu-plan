@@ -147,7 +147,7 @@
     })
 
     $(".showToolTip").tooltip({events: {
-        input: "focus mouseenter,blur mouseleave"
+        input: "focus,blur"
     },
         effect:'slide'
     }).dynamic({ bottom: { direction: 'down', bounce: true } })
