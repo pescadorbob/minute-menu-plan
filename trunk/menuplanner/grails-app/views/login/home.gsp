@@ -3,9 +3,6 @@
 <head>
     <meta name="layout" content="menu"/>
     <title>Minute Menu Plan</title>
-    <g:if test="${GrailsUtil.environment!=Environment.TEST}">
-      <facebook:facebookConnectJavascript/>
-    </g:if>
 </head>
 <body>
 <div id="content-wrapper" class="clearfix">
@@ -35,26 +32,26 @@
                     <li class="border"><strong>Recipes Categories Include:</strong></li>
                     <li class="border"><strong>Cooking Techniques</strong></li>
                     <li>Baking | Blanching
-    | Boiling
-    | more... </li>
-                 <li ><strong>Recipe Types</strong></li>
-                    <li> Appetizers
-    | Beverages
-    | Bread
-    | Breakfast
-    | more...</li>
-                  <li><strong>Basic Food Groups</strong></li>
+                    | Boiling
+                    | more...</li>
+                    <li><strong>Recipe Types</strong></li>
+                    <li>Appetizers
+                    | Beverages
+                    | Bread
+                    | Breakfast
+                    | more...</li>
+                    <li><strong>Basic Food Groups</strong></li>
                     <li>Dairy Products & Eggs | more...
-    </li>
+                    </li>
 
-                  <li><strong>National and Ethnic Cuisines</strong></li>
+                    <li><strong>National and Ethnic Cuisines</strong></li>
 
-                  <li><strong>Special Diets </strong></li>
+                    <li><strong>Special Diets</strong></li>
 
-                  <li><strong>Nutrition</strong></li>
+                    <li><strong>Nutrition</strong></li>
 
-                  <li><strong>Ingredients</strong></li>
-                  <li><strong>More...</strong></li>
+                    <li><strong>Ingredients</strong></li>
+                    <li><strong>More...</strong></li>
 
                 </ul>
             </div>
@@ -75,135 +72,135 @@
                 <div class="clear clearfix">
                     <div class="orderbtn"><h3>Order Now</h3> in beta</div>
                     <div id="video-box"><img src="${resource(dir: 'images', file: 'video.png')}"/></div>
-                  <div class="orderbtn"><h3>Order Now</h3> in beta</div>
+                    <div class="orderbtn"><h3>Order Now</h3> in beta</div>
                 </div>
                 <h2>Find recipes from tons of categories including...</h2>
-               <div>
-                 <ul><li></li>
-                    <li ><strong>Cooking Techniques</strong></li>
-                    <li>Baking | Blanching
-    | Boiling
-    | Braising
-    | Broiling
-    | Canning
-    | Creaming
-    | Deep-fry
-    | Fermenting
-    | Freezing
-    | Frying
-    | Grilling
-    | Outdoor Cooking
-    | Pickling
-    | Poaching
-    | Pressure Cooking
-    | Roasting
-    | Salting
-    | Sauteing
-    | Scalding
-    | Simmering
-    | Smoking
-    | Steaming
-    | Stir-frying
-    | Tempering </li>
-                 <li ><strong>Recipe Types</strong></li>
-                    <li> Appetizers
-    | Beverages
-    | Bread
-    | Breakfast
-    | Confections
-    | Desserts
-    | Meats
-    | Pasta
-    | Rice
-    | Salads
-    | Sandwiches
-    | Sauces
-    | Seafood
-    | Side Dishes
-    | Soups
-    | Stews
-    | Stocks
-    | Sushi
-    | Vegan
-    | Vegetarian
-    | Easy Dinners
-    | Camping Recipes
-    | Holiday Recipes
-    | Recipes In Metric Measurements </li>
-                  <li ><strong>Basic Food Groups</strong></li>
-                    <li>
-    | Dairy Products & Eggs
-    | Cereals & Grains
-    | Fruit
-    | Meat & Poultry
-    | Fats & Oils
-    | Nuts & Seeds
-    | Seafood
-    | Spices & Herbs
-    | Sweeteners
-    | Vegetables </li>
+                <div>
+                    <ul><li></li>
+                        <li><strong>Cooking Techniques</strong></li>
+                        <li>Baking | Blanching
+                        | Boiling
+                        | Braising
+                        | Broiling
+                        | Canning
+                        | Creaming
+                        | Deep-fry
+                        | Fermenting
+                        | Freezing
+                        | Frying
+                        | Grilling
+                        | Outdoor Cooking
+                        | Pickling
+                        | Poaching
+                        | Pressure Cooking
+                        | Roasting
+                        | Salting
+                        | Sauteing
+                        | Scalding
+                        | Simmering
+                        | Smoking
+                        | Steaming
+                        | Stir-frying
+                        | Tempering</li>
+                        <li><strong>Recipe Types</strong></li>
+                        <li>Appetizers
+                        | Beverages
+                        | Bread
+                        | Breakfast
+                        | Confections
+                        | Desserts
+                        | Meats
+                        | Pasta
+                        | Rice
+                        | Salads
+                        | Sandwiches
+                        | Sauces
+                        | Seafood
+                        | Side Dishes
+                        | Soups
+                        | Stews
+                        | Stocks
+                        | Sushi
+                        | Vegan
+                        | Vegetarian
+                        | Easy Dinners
+                        | Camping Recipes
+                        | Holiday Recipes
+                        | Recipes In Metric Measurements</li>
+                        <li><strong>Basic Food Groups</strong></li>
+                        <li>
+                            | Dairy Products & Eggs
+                            | Cereals & Grains
+                            | Fruit
+                            | Meat & Poultry
+                            | Fats & Oils
+                            | Nuts & Seeds
+                            | Seafood
+                            | Spices & Herbs
+                            | Sweeteners
+                            | Vegetables</li>
 
-                  <li ><strong>National and Ethnic Cuisines</strong></li>
-                    <li>
-        | African Cuisines
-    | British Cuisines
-    | Caribbean Cuisines
-    | East Asian Cuisines
-    | European Cuisines
-    | Mediterranean Cuisines
-    | Middle Eastern Cuisines
-    | Pacific Cuisines
-    | North American Cuisines
-    | South American Cuisines
-    | South Asian Cuisines
-    | South-East Asian Cuisines  </li>
-                  <li ><strong>Special Diets</strong></li>
-                    <li>
-             Low-carb (Atkins, Zone, etc.)
-    | Gluten-Free
-    | Healthful Eating
-    | Halal
-    | High Protein
-    | Kosher
-    | Low-Calorie Diet
-    | Low-GI Diet (Diabetic)
-    | Vegan
-    | Vegetarian  </li>
-                  <li ><strong>Nutrition</strong></li>
-                    <li>
-                  Antioxidants
-    | Calories
-    | Carbohydrates
-    | Fats
-    | Fiber
-    | Minerals
-    | Organic
-    | Protein
-    | Vitamins   </li>
-                  <li ><strong>Ingredients</strong></li>
-                    <li>
-                      Baking Soda
-    | Beans & Other Legumes
-    | Bread
-    | Grain
-    | Chiles
-    | Chocolate
-    | Coffee
-    | Eggs
-    | Flour
-    | Herbs
-    | Jams & Jellies
-    | Milk
-    | Pasta
-    | Peppers
-    | Potatoes
-    | Rice
-    | Salt
-    | Spices
-    | Sugar    </li>
+                        <li><strong>National and Ethnic Cuisines</strong></li>
+                        <li>
+                            | African Cuisines
+                            | British Cuisines
+                            | Caribbean Cuisines
+                            | East Asian Cuisines
+                            | European Cuisines
+                            | Mediterranean Cuisines
+                            | Middle Eastern Cuisines
+                            | Pacific Cuisines
+                            | North American Cuisines
+                            | South American Cuisines
+                            | South Asian Cuisines
+                            | South-East Asian Cuisines</li>
+                        <li><strong>Special Diets</strong></li>
+                        <li>
+                            Low-carb (Atkins, Zone, etc.)
+                            | Gluten-Free
+                            | Healthful Eating
+                            | Halal
+                            | High Protein
+                            | Kosher
+                            | Low-Calorie Diet
+                            | Low-GI Diet (Diabetic)
+                            | Vegan
+                            | Vegetarian</li>
+                        <li><strong>Nutrition</strong></li>
+                        <li>
+                            Antioxidants
+                            | Calories
+                            | Carbohydrates
+                            | Fats
+                            | Fiber
+                            | Minerals
+                            | Organic
+                            | Protein
+                            | Vitamins</li>
+                        <li><strong>Ingredients</strong></li>
+                        <li>
+                            Baking Soda
+                            | Beans & Other Legumes
+                            | Bread
+                            | Grain
+                            | Chiles
+                            | Chocolate
+                            | Coffee
+                            | Eggs
+                            | Flour
+                            | Herbs
+                            | Jams & Jellies
+                            | Milk
+                            | Pasta
+                            | Peppers
+                            | Potatoes
+                            | Rice
+                            | Salt
+                            | Spices
+                            | Sugar</li>
 
-                </ul>
-               </div>             
+                    </ul>
+                </div>
             </div>
 
         </div>
@@ -247,9 +244,9 @@
                         </li>
                         <li><g:link controller="login" action="forgotPassword">forgot password or username?</g:link></li>
                         <span style="color:#007AD8">Or login using Facebook</span>
-                      <g:if test="${GrailsUtil.environment!=Environment.TEST}">
-                        <fb:login-button onlogin="loginToMenuPlanner()" autologoutlink="true">Connect</fb:login-button>
-                      </g:if>
+                        <g:if test="${!GrailsUtil.environment in ['test']}">
+                            <fb:login-button onlogin="loginToMenuPlanner()" autologoutlink="true">Connect</fb:login-button>
+                        </g:if>
                         <li class="border"><h2>TESTIMONIAL</h2></li>
                         <li>Minute Menu Plan removed the stress from my evenings and stopped the kids from asking whats for dinner.  We love to plan our meals together, and it takes only a few minutes.  Thanks Minute Menu Plan!
                             <label>--Donna, Hamburg, NY</label></li>
@@ -266,27 +263,28 @@
         </div>
     </div>
 </div>
+<g:if test="${!GrailsUtil.environment in ['test']}">
+    <facebook:facebookConnectJavascript/>
+    <script type="text/javascript">
+        function getUid() {
+            while (FB.Connect.get_loggedInUser() == null) {
+            }
+            return FB.Connect.get_loggedInUser()
+        }
 
-<script type="text/javascript">
+        function logoutFB() {
+            FB.Connect.logout()
+        }
 
-  function getUid() {
-    while (FB.Connect.get_loggedInUser()==null){}
-    return FB.Connect.get_loggedInUser()
-  }
+        function loginToMenuPlanner() {
+            var facebookUid = getUid()
+            self.location.href = "${createLink(controller:'login',action:'index')}?facebookUid=" + facebookUid
+        }
 
-  function logoutFB(){
-    FB.Connect.logout()    
-  }
-
-  function loginToMenuPlanner(){
-    var facebookUid = getUid()
-    self.location.href="${createLink(controller:'login',action:'index')}?facebookUid=" + facebookUid
-  }
-
-  <g:if test="${params.fbLogout}">
-  logoutFB();
-  </g:if>
-</script>
-
+        <g:if test="${params.fbLogout}">
+        logoutFB();
+        </g:if>
+    </script>
+</g:if>
 </body>
 </html>
