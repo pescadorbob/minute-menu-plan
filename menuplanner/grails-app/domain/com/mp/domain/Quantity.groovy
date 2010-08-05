@@ -26,6 +26,11 @@ class Quantity {
 
     static mapping = {
         value(sqlType: 'numeric(25, 10)')
+        columns {
+            value lazy: false
+            unit lazy: false
+            savedUnit lazy: false
+        }
     }
 
     public static Quantity addTime(Quantity q1, Quantity q2) {

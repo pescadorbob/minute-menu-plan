@@ -37,8 +37,8 @@
                                 <input name="searchName" type="text" class="inpbox" value="${searchName}"/>
                                 &nbsp;&nbsp;&nbsp;&nbsp;Show&nbsp;
                                 <input type="radio" name="userStatus" ${(userStatus == 'all') ? 'checked="checked"' : ''} value="all" onClick="usersByStatus()"/> All
-                                <input type="radio" name="userStatus" ${(userStatus == 'enabled') ? 'checked="checked"' : ''} value="enabled" onClick="usersByStatus()"/> Enabled
-                                <input type="radio" name="userStatus" ${(userStatus == 'disabled') ? 'checked="checked"' : ''} value="disabled" onClick="usersByStatus()"/> Disabled
+                                <input type="radio" class="enabledUsersFT" name="userStatus" ${(userStatus == 'enabled') ? 'checked="checked"' : ''} value="enabled" onClick="usersByStatus()"/> Enabled
+                                <input type="radio" class="disabledUsersFT" name="userStatus" ${(userStatus == 'disabled') ? 'checked="checked"' : ''} value="disabled" onClick="usersByStatus()"/> Disabled
                             &nbsp;  &nbsp; &nbsp; Flagged :<input name="flags" type="text" class="inpboxSmall" value="${flags}">
                             </li>
                         </g:form>

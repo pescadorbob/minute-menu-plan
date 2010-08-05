@@ -66,10 +66,8 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
         loginToHomepage(loginFormData)
         byName('profileLinkTst').click()
-        Thread.sleep(100000)
         assertTitle 'Minute Menu Plan : Show User'
         byClass('editUserButtonFT').click()
-        Thread.sleep(100000)
         assertTitle 'Minute Menu Plan : Edit User'
         byClass('updateUserButtonFT').click()
         redirectEnabled = false

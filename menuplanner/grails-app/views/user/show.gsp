@@ -36,7 +36,7 @@
                     <ul>
                         <li>Member since ${party?.joiningDate?.format('MMMM yyyy')}</li>
                         <li></li><li></li>
-                        <g:each in="${party?.roleTypes}" var="roleType"><li><strong>${roleType}</strong></li></g:each>
+                        <g:each in="${party?.roleTypes}" var="roleType"><li class="userRolesFT"><strong>${roleType}</strong></li></g:each>
 
                         <li><h3>Contributed Recipes</h3></li>
                         <g:render template="/user/contributedRecipes" model="[party:party]"/>
