@@ -244,7 +244,7 @@
                         </li>
                         <li><g:link controller="login" action="forgotPassword">forgot password or username?</g:link></li>
                         <span style="color:#007AD8">Or login using Facebook</span>
-                        <g:if test="${!GrailsUtil.environment in ['test']}">
+                        <g:if test="${!(GrailsUtil.environment in ['test'])}">
                             <fb:login-button onlogin="loginToMenuPlanner()" autologoutlink="true">Connect</fb:login-button>
                         </g:if>
                         <li class="border"><h2>TESTIMONIAL</h2></li>
@@ -263,12 +263,14 @@
         </div>
     </div>
 </div>
-<g:if test="${!GrailsUtil.environment in ['test']}">
+<g:if test="${!(GrailsUtil.environment in ['test'])}">
     <facebook:facebookConnectJavascript/>
     <script type="text/javascript">
+
+//      FB.ensure_init(function(){
+//         alert("hello")
+//      });
         function getUid() {
-            while (FB.Connect.get_loggedInUser() == null) {
-            }
             return FB.Connect.get_loggedInUser()
         }
 
@@ -276,13 +278,23 @@
             FB.Connect.logout()
         }
 
-        function loginToMenuPlanner() {
-            var facebookUid = getUid()
-            self.location.href = "${createLink(controller:'login',action:'index')}?facebookUid=" + facebookUid
-        }
+//        function loginToMenuPlanner() {
+//            var facebookUid = getUid()
+            %{--self.location.href = "${createLink(controller:'login',action:'index')}?facebookUid=" + facebookUid--}%
+//        }
 
         <g:if test="${params.fbLogout}">
         logoutFB();
+        </g:if>
+        
+        <g:if test="${!params.fbLogout}">
+        function loginToMenuPlanner(){
+          FB.Facebook.get_sessionState().waitUntilReady(function(session){
+            if(session){
+              self.location.href="${createLink(controller:'login',action:'index')}?facebookUid=" + getUid()
+            }
+          });
+        }
         </g:if>
     </script>
 </g:if>

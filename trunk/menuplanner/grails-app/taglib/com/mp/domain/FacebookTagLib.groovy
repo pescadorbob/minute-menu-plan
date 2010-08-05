@@ -26,7 +26,7 @@ class FacebookTagLib {
     //Base attribute is optional.
     //Secure attribute is optional.  You should set it to true if your site uses ssl
     def facebookConnectJavascript = {attrs, body ->
-        if (!GrailsUtil.environment in ['test']) {
+        if (!(GrailsUtil.environment in ['test'])) {
             out << '''\n'''
             out << '''\n'''
             out << '''\n'''
