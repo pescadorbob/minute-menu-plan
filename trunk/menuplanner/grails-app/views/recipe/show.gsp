@@ -29,6 +29,7 @@
         background: transparent url('${resource(dir: 'images', file: '/tooltip/white_arrow_inverse-small.png')}');
         height: 30px;
     }
+
     </style>
 </head>
 <body>
@@ -53,20 +54,24 @@
         <div class="leftbox clearfix">
             <div id="contectElement">
                 <ul>
-                    <li>
+                    <li id="leftLiElements">
                         <ul>
                             <li id="prepAndCookTimesTst">
                                 <g:if test="${recipe?.preparationTime}">Prep - ${recipe?.preparationTime}</g:if><br/>
                                 <g:if test="${recipe?.cookingTime}">Cook - ${recipe?.cookingTime}</g:if><br/>
                             </li>
-                            <li><g:if test="${recipe?.difficulty}"><span>Difficulty Level: ${recipe?.difficulty}</span></g:if>
+                            <li><g:if test="${recipe?.difficulty}"><span>Difficulty Level: ${recipe?.difficulty}</span><br/></g:if>
                                 <g:if test="${recipe?.servings}"><span>Servings: ${recipe?.servings}</span></g:if>
                             </li>
                             %{--<li>--}%
                                 %{--${recipe?.isAlcoholic ? 'Recipe contains Alcoholic contents' : 'Recipe is Non-Alcoholic'}--}%
                             %{--</li>--}%
                             <g:if test="${recipe?.ingredients}">
-                                <li id="showAllIngredientsHereTst"><g:each in="${recipe?.ingredients}" var="ingredient"><span><strong>${ingredient}</strong></span></g:each></li>
+                                <li id="showAllIngredientsHereTst">
+                                    <g:each in="${recipe?.ingredients}" var="ingredient">
+                                        <span><strong>${ingredient}</strong></span><br/>
+                                    </g:each>
+                                </li>
                             </g:if>
                             <g:if test="${recipe?.directions}">
                                 <li id="showAllStepsHereTst">${recipe?.directions*.toString().join(" ")}</li>
@@ -83,7 +88,7 @@
                             <li></li>
                         </ul>
                     </li>
-                    <li style="text-align: right;">
+                    <li  id="rightLiElements">
                         <mp:image id="${recipe?.image?.id}" height="160" width="160"/><br/>
                         <g:link controller="user" action="alterFavorite" name="changeFavorite" id="${recipe?.id}">
                             <span id="showFavorite" style="text-align:right;"><mp:showFavorite recipeId="${recipe?.id}"/></span>

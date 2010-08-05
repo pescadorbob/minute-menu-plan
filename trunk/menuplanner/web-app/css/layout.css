@@ -59,8 +59,10 @@
 .formElement ul li ul li{float:none;clear:both;padding-bottom:10px;height:25px;}
 .formElement ul li ul li label{float:left;width:100px;}
 .formElement ul li ul li span{float:left;width:190px;}
+#leftLiElements{width:370px;}
+#rightLiElements{width:210px;text-align: right;}
 #contectElement{clear:both;padding-top:20px;color:#616a72;}
-#contectElement ul li{float:left;width:290px;font-size:12px;}
+#contectElement ul li{float:left;font-size:12px;}
 #contectElement ul li a{color:#2aa3b4;text-decoration:none;}
 #contectElement ul li a:hover{text-decoration:underline;}
 #contectElement ul li ul li{float:none;clear:both;padding:10px 0;}
