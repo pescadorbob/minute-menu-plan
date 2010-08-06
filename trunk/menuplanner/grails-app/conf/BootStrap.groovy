@@ -76,13 +76,13 @@ class BootStrap {
             println "Populated Users"
 
 
-            String recipeFileName = (GrailsUtil.isDevelopmentEnv()) ? "/bootstrapData/recipeSpreadsheet_test.xls" : "/bootstrapData/recipeSpreadsheet.xls"
+            String recipeFileName = (GrailsUtil.environment in ['qa', 'beta']) ? "/bootstrapData/recipeSpreadsheet.xls" : "/bootstrapData/recipeSpreadsheet_test.xls"
             File recipeExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath(recipeFileName))
             List<String> recipeLog = excelService.createLineItems(recipeExcelFile)
             println "Populated Recipes"
             bootstrapService.addCommentsFavouriteAndContributed()
             println "Added Comments Favourite And Contributed"
-            if (!(GrailsUtil.environment in ['qa', 'beta'])) {
+            if (GrailsUtil.environment == 'test') {
                 bootstrapService.addAbusesOnCommentsAndRecipes()
                 println "Added abuses on comments & recipes"
                 List<Party> users = Party.list()
@@ -116,7 +116,7 @@ class BootStrap {
             masterDataBootStrapService.populateNutrients()
             masterDataBootStrapService.populateAisles()
             masterDataBootStrapService.populateCategories()
-            String productsFileName = (GrailsUtil.isDevelopmentEnv()) ? "/bootstrapData/FOOD_DES_TEST.txt" : "/bootstrapData/FOOD_DES.txt"
+            String productsFileName = (GrailsUtil.environment in ['qa', 'beta']) ? "/bootstrapData/FOOD_DES.txt" : "/bootstrapData/FOOD_DES_TEST.txt"
             File productsFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath(productsFileName))
             masterDataBootStrapService.populateProductsWithAisles(productsFile)
         }

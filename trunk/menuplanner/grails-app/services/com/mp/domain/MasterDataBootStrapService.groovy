@@ -264,7 +264,20 @@ class MasterDataBootStrapService implements ApplicationContextAware {
             }
             products = products.findAll {it.suggestedAisle}
             println "Saving products"
-            products*.s()
+            Date d1 = new Date()
+            products.eachWithIndex {product, index ->
+                Product.withSession {session ->
+                    product.s()
+                    if (index % 100 == 0) {
+                        session.flush();
+                        session.clear();
+                    }
+                }
+
+
+            }
+            Date d2 = new Date()
+            println "Time Taken: " + (d2.time - d1.time) / 1000
             println "Saved products"
         }
     }

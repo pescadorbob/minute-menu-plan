@@ -13,12 +13,12 @@
             <li class="liForToolBoxes">
                 <span id="AddItemToolBox" class="toolBoxes" style="width:545px;">
                     <span id="itemToBeAdded">
-                    <input class="inpbox" id="serveWithItems1" name="serveWithItems"
-                            value="${(recipeCO?.serveWithItems)? recipeCO?.serveWithItems?.toList()?.first() : null}"/><br/><br/>
-                    <input class="inpbox" id="serveWithItems2" name="serveWithItems"
-                            value="${(recipeCO?.serveWithItems?.size() > 1)? recipeCO?.serveWithItems?.toList()[1] : null}"/><br/><br/>
-                    <input class="inpbox" id="serveWithItems3" name="serveWithItems"
-                            value="${(recipeCO?.serveWithItems?.size() > 2)? recipeCO?.serveWithItems?.toList()[2] : null}"/>
+                        <input class="inpbox" id="serveWithItems1" name="serveWithItems"
+                                value="${(recipeCO?.serveWithItems) ? recipeCO?.serveWithItems?.toList()?.first() : null}"/><br/><br/>
+                        <input class="inpbox" id="serveWithItems2" name="serveWithItems"
+                                value="${(recipeCO?.serveWithItems?.size() > 1) ? recipeCO?.serveWithItems?.toList()[1] : null}"/><br/><br/>
+                        <input class="inpbox" id="serveWithItems3" name="serveWithItems"
+                                value="${(recipeCO?.serveWithItems?.size() > 2) ? recipeCO?.serveWithItems?.toList()[2] : null}"/>
                     </span>
 
                 </span>
@@ -29,30 +29,33 @@
 
 <script type="text/javascript">
     $("#serveWithItems1").autocomplete("${createLink(action: 'getMatchingItems', controller: 'recipe')}", {
-            width: 300,
-            multiple: false,
-            matchContains: true,
-        });
+        width: 300,
+        minChars: 3,
+        multiple: false,
+        selectFirst: false
+    });
 
     $("#serveWithItems1").result(function(event, data, formatted) {
         jQuery(this).val(data[0]);
     })
 
     $("#serveWithItems2").autocomplete("${createLink(action: 'getMatchingItems', controller: 'recipe')}", {
-            width: 300,
-            multiple: false,
-            matchContains: true,
-        });
+        width: 300,
+        minChars: 3,
+        multiple: false,
+        selectFirst: false
+    });
 
     $("#serveWithItems2").result(function(event, data, formatted) {
         jQuery(this).val(data[0]);
     })
 
     $("#serveWithItems3").autocomplete("${createLink(action: 'getMatchingItems', controller: 'recipe')}", {
-            width: 300,
-            multiple: false,
-            matchContains: true,
-        });
+        width: 300,
+        minChars: 3,
+        multiple: false,
+        selectFirst: false
+    });
 
     $("#serveWithItems3").result(function(event, data, formatted) {
         jQuery(this).val(data[0]);
