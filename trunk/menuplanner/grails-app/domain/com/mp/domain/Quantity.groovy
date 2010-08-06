@@ -1,5 +1,6 @@
 package com.mp.domain
 
+import static com.mp.MenuConstants.*
 import org.apache.commons.math.fraction.Fraction
 
 class Quantity {
@@ -27,9 +28,8 @@ class Quantity {
     static mapping = {
         value(sqlType: 'numeric(25, 10)')
         columns {
-            value lazy: false
-            unit lazy: false
-            savedUnit lazy: false
+            unit fetch: 'join'
+            savedUnit fetch: 'join'
         }
     }
 
@@ -77,6 +77,18 @@ class Quantity {
             resultantQuantity?.unit = displayUnit
         }
         return resultantQuantity
+    }
+
+    public String toReadableTimeString() {
+        Unit minutes = Unit.findByName(TIME_UNIT_MINUTES)
+        Unit hours = Unit.findByName(TIME_UNIT_HOURS)
+
+        if (value >= 60f) {
+            Integer integerValue = value.toInteger()
+            String readableString = (value / 60).toInteger() + " ${hours.symbol}" + ((integerValue % 60) ? " ${(integerValue % 60)} ${minutes.symbol}" : '')
+            return readableString
+        }
+        return this.toString()
     }
 
     public String toBiggestUnitString(Float density) {
