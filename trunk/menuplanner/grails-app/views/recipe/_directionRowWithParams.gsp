@@ -13,5 +13,6 @@
     </td>
     <td>
         <span class="direction">${direction}</span>
+      <input class="DD" type="text" value="${direction}" name="dummyDirections" style="display:none;"/>      
     </td>
 </tr>

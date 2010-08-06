@@ -21,6 +21,7 @@ function AddDirection(direction) {
     var addDirection = sampleDirectionRowHTML;
     jQuery('#tableDirections tbody').append(addDirection)
     jQuery('.directionRowNew .D').val(direction);
+    jQuery('.directionRowNew .DD').val(direction);
     jQuery('.directionRowNew .direction').html(direction)
     jQuery('.directionRowNew').attr('class', 'directionRow')
 }
@@ -40,6 +41,19 @@ function bindEventsFor(DOM_ID, DOM_CLASS) {
         jQuery(this).click(function() {
             jQuery(this).parents('tr').remove();
             bindEventsFor(DOM_ID, DOM_CLASS);
+        })
+    })
+    jQuery.each(jQuery(domId + ' .direction'), function() {
+        jQuery(this).click(function() {
+            jQuery(this).next().show().focus();
+            jQuery(this).hide();
+        })      
+    })
+    jQuery.each(jQuery(domId + ' .DD'), function() {
+        jQuery(this).blur(function() {
+            jQuery(this).prev().text(jQuery(this).val()).show();
+            jQuery('.D',jQuery(this).parents('tr')).val(jQuery(this).val());            
+            jQuery(this).hide();
         })
     })
     jQuery.each(jQuery(domId + ' .btnDown'), function() {
