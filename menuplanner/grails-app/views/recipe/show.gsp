@@ -57,8 +57,8 @@
                     <li id="leftLiElements">
                         <ul>
                             <li id="prepAndCookTimesTst">
-                                <g:if test="${recipe?.preparationTime}">Prep - ${recipe?.preparationTime}</g:if><br/>
-                                <g:if test="${recipe?.cookingTime}">Cook - ${recipe?.cookingTime}</g:if><br/>
+                                <g:if test="${recipe?.preparationTime}">Prep - ${recipe.preparationTime.toReadableTimeString()}</g:if><br/>
+                                <g:if test="${recipe?.cookingTime}">Cook - ${recipe.cookingTime.toReadableTimeString()}</g:if><br/>
                             </li>
                             <li><g:if test="${recipe?.difficulty}"><span>Difficulty Level: ${recipe?.difficulty}</span><br/></g:if>
                                 <g:if test="${recipe?.servings}"><span>Servings: ${recipe?.servings}</span></g:if>

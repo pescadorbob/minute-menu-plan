@@ -8,7 +8,7 @@
         <li>
             <ul>
                 <li><rateable:ratings bean='${item}' active="false"/></li>
-                <g:if test="${item?.totalTime}"><li>${item?.totalTime}</li></g:if>
+                <g:if test="${item?.totalTime}"><li>${item.totalTime.toReadableTimeString()}</li></g:if>
                 <g:if test="${item?.difficulty}">
                     <li class="difficultyBlue" style="background-color:#eee!important;color:#000;">${item?.difficulty}</li>
                 </g:if>
