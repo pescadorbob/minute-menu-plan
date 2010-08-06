@@ -8,7 +8,7 @@ class FacebookTagLib {
 
     static namespace = 'facebook'
     def connect = {attrs ->
-        if (!GrailsUtil.environment in ['test']) {
+        if (!(GrailsUtil.environment in ['test'])) {
             Long userId = attrs['userId'] ? attrs['userId'].toLong() : 0L
             PartyRole user = userId ? PartyRole.get(userId) : null
             if (!user?.party?.facebookAccount) {
