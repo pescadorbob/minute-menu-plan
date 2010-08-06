@@ -68,15 +68,8 @@ grails {
 
 environments {
     production {
-//        mail {
-//            host = "www.menuplanner.com"
-//            port = 25
-//        }
-//        grails.mail.default.from = '"MinuteMenu" <minutemenu@menuplanner.com>'
         grails.serverURL = "http://www.changeme.com"
         facebookConnect {
-            //These two values need to be grabbed from facebook when you create your application there.
-            // http://www.facebook.com/developers/
             apiKey = "c7cb03d1076112dfdee19d3e4972c3eb"
             secretKey = "2f069ab14fb4c6ab88cfe463aa9d4344"
         }
@@ -89,15 +82,8 @@ environments {
         }
     }
     development {
-//        mail {                                                minutemenu
-//            host = "dev.menuplanner.intelligrape.net"
-//            port = 25
-//        }
-//        grails.mail.default.from = '"MinuteMenu" <dev@dev.menuplanner.intelligrape.net>'
         grails.serverURL = "http://localhost:8080/menuplanner"
         facebookConnect {
-            //These two values need to be grabbed from facebook when you create your application there.
-            // http://www.facebook.com/developers/
             apiKey = "8fc5bc0ed2fe785413bb1c028503a04c"
             secretKey = "73f7aba0121cc3527e04b02d15da407a"
         }
@@ -110,15 +96,8 @@ environments {
         }
     }
     test {
-//        mail {
-//            host = "qa.menuplanner.intelligrape.net"
-//            port = 25
-//        }
-//        grails.mail.default.from = '"MinuteMenu" <qa@qa.menuplanner.intelligrape.net>'
         grails.serverURL = "http://qa.menuplanner.intelligrape.net"
         facebookConnect {
-            //These two values need to be grabbed from facebook when you create your application there.
-            // http://www.facebook.com/developers/
             apiKey = "c7cb03d1076112dfdee19d3e4972c3eb"
             secretKey = "2f069ab14fb4c6ab88cfe463aa9d4344"
         }
@@ -131,17 +110,10 @@ environments {
         }
     }
     qa {
-//        mail {
-//            host = "qa.menuplanner.intelligrape.net"
-//            port = 25
-//        }
-//        grails.mail.default.from = '"MinuteMenu" <qa@qa.menuplanner.intelligrape.net>'
         grails.serverURL = "http://qa.menuplanner.intelligrape.net"
         facebookConnect {
-            //These two values need to be grabbed from facebook when you create your application there.
-            // http://www.facebook.com/developers/
-            apiKey = "c7cb03d1076112dfdee19d3e4972c3eb"
-            secretKey = "2f069ab14fb4c6ab88cfe463aa9d4344"
+            apiKey = "3698f2a4398c83d0ddccc887777e5b36"
+            secretKey = "bd031859be42a47634407b881b9db474"
         }
         googleCheckout {
             merchantId = "827529108383447"
@@ -152,15 +124,8 @@ environments {
         }
     }
     beta {
-//        mail {
-//            host = "qa.menuplanner.intelligrape.net"
-//            port = 25
-//        }
-//        grails.mail.default.from = '"MinuteMenu" <qa@qa.menuplanner.intelligrape.net>'
         grails.serverURL = "http://beta.menuplanner.intelligrape.net"
         facebookConnect {
-            //These two values need to be grabbed from facebook when you create your application there.
-            // http://www.facebook.com/developers/
             apiKey = "c7cb03d1076112dfdee19d3e4972c3eb"
             secretKey = "2f069ab14fb4c6ab88cfe463aa9d4344"
         }
