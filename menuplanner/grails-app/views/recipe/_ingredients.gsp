@@ -69,10 +69,10 @@
 
 <script type="text/javascript">
     $("#optionIngredientProductIds").autocomplete("${createLink(action: 'getMatchingItems', controller: 'recipe')}", {
-        width: 300,
-        multiple: false,
-        matchContains: true
-    })
+        width : 300,
+        minChars: 3,
+        selectFirst: false
+    });
 
     var itemsJson = {
         <g:each in="${Item.list()}" var="itemVar">
@@ -114,7 +114,7 @@
     aisles.push('${aisle}')
     </g:each>
     $("#optionIngredientAisleIds").autocomplete(aisles, {
-        matchContains: true,
+        selectFirst: false,
         minChars: 0,
         max:0,
         mustMatch:false
@@ -125,7 +125,7 @@
     preparationMethods.push('${preparationMethod}')
     </g:each>
     $("#optionIngredientPreparationMethodIds").autocomplete(preparationMethods, {
-        matchContains: true,
+        selectFirst: false,
         minChars: 0,
         max:0,
         mustMatch:false
