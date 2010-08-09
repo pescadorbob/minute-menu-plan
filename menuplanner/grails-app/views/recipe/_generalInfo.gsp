@@ -17,7 +17,7 @@
                     <li><label>Categories</label>
                         <span>
                            <g:each in="${(0..2)}" var="index">
-                            <select class="inpbox" name="subCategoryIds" style="width:190px;" class="auto-resize">
+                            <select class="inpbox auto-resize" name="subCategoryIds" style="width:190px;" >
                                 <optgroup label="--"><option value="">(Select One)</option></optgroup>
                                 <g:each in="${categories}" var="category">
                                     <optgroup label="${category}">
@@ -26,7 +26,7 @@
                                                 <option selected="true" value="${subCategory?.id}">${subCategory}</option>
                                             </g:if>
                                             <g:else>
-                                                <option value="${subCategory?.id}">${subCategory}</option>
+                                                <option rel="${category?.id}" value="${subCategory?.id}">${subCategory}</option>
                                             </g:else>
                                         </g:each>
                                     </optgroup>
