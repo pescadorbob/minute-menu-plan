@@ -5,6 +5,9 @@
     <title>Minute Menu Plan</title>
 </head>
 <body>
+<g:if test="${!(GrailsUtil.environment in ['test'])}">
+    <facebook:facebookConnectJavascript/>
+  </g:if>
 <div id="content-wrapper" class="clearfix">
     <div id="left-panel-product">
         <div class="top-shadow">
@@ -264,9 +267,12 @@
     </div>
 </div>
 <g:if test="${!(GrailsUtil.environment in ['test'])}">
-    <facebook:facebookConnectJavascript/>
+    %{--<facebook:facebookConnectJavascript/>--}%
     <script type="text/javascript">
 
+      <g:if test="${!(params.fbLogout)}">
+      setTimeout("loginToMenuPlanner()",2000);
+      </g:if>
 //      FB.ensure_init(function(){
 //         alert("hello")
 //      });
@@ -284,10 +290,9 @@
 //        }
 
         <g:if test="${params.fbLogout}">
-        logoutFB();
+        setTimeout("logoutFB()",2000);
         </g:if>
         
-        <g:if test="${!params.fbLogout}">
         function loginToMenuPlanner(){
           FB.Facebook.get_sessionState().waitUntilReady(function(session){
             if(session){
@@ -295,7 +300,6 @@
             }
           });
         }
-        </g:if>
     </script>
 </g:if>
 </body>
