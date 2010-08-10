@@ -6,7 +6,7 @@ import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import com.mp.domain.*
 import liquibase.Liquibase
-import liquibase.ClassLoaderFileOpener
+import liquibase.FileSystemFileOpener
 import liquibase.database.DatabaseFactory
 
 class BootStrap {
@@ -104,9 +104,9 @@ class BootStrap {
             println "Populated Quick Fills"
         }
 
-        if (!(Environment.current in [Environment.DEVELOPMENT, Environment.TEST])) {
+//        if (!(Environment.current in [Environment.DEVELOPMENT, Environment.TEST])) {
             executeLiquibase()
-        }
+//        }
 
         Thread.start {
             searchableService.index()
@@ -118,16 +118,17 @@ class BootStrap {
     }
 
     private void executeLiquibase() {
+        
         Liquibase liquibase = null
         try {
             def c = dataSource.getConnection()
             if (c == null) {
                 throw new RuntimeException("Connection could not be created.");
             }
-            def fileOpener = new ClassLoaderFileOpener()
+            def fileOpener = new FileSystemFileOpener()
             def database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(c)
             database.setDefaultSchemaName(c.catalog)
-            liquibase = new Liquibase("changelog.xml", fileOpener, database);
+            liquibase = new Liquibase("grails-app/migrations/changelog.xml", fileOpener, database);
             liquibase.update(null)
         }
         finally {
