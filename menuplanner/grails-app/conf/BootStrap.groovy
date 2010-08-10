@@ -12,6 +12,7 @@ import liquibase.database.DatabaseFactory
 class BootStrap {
 
     def dataSource
+	def grailsApplication
     def bootstrapService
     def masterDataBootStrapService
     def excelService
@@ -128,7 +129,8 @@ class BootStrap {
             def fileOpener = new FileSystemFileOpener()
             def database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(c)
             database.setDefaultSchemaName(c.catalog)
-            liquibase = new Liquibase("grails-app/migrations/changelog.xml", fileOpener, database);
+			String filePath=grailsApplication.isWarDeployed() ? ApplicationHolder.application.parentContext.servletContext.getRealPath("migrations/changelog.xml") : "grails-app/migrations/changelog.xml"
+            liquibase = new Liquibase(filePath, fileOpener, database);
             liquibase.update(null)
         }
         finally {
