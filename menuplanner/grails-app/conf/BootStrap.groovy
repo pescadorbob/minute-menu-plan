@@ -8,6 +8,7 @@ import com.mp.domain.*
 import liquibase.Liquibase
 import liquibase.ClassLoaderFileOpener
 import liquibase.database.DatabaseFactory
+
 class BootStrap {
 
     def dataSource
@@ -103,7 +104,7 @@ class BootStrap {
             println "Populated Quick Fills"
         }
 
-        if(!(Environment.current in [Environment.DEVELOPMENT, Environment.TEST])){
+        if (!(Environment.current in [Environment.DEVELOPMENT, Environment.TEST])) {
             executeLiquibase()
         }
 
@@ -116,7 +117,7 @@ class BootStrap {
     def destroy = {
     }
 
-    private void executeLiquibase(){
+    private void executeLiquibase() {
         Liquibase liquibase = null
         try {
             def c = dataSource.getConnection()
@@ -138,14 +139,18 @@ class BootStrap {
 
     private void bootstrapMasterData() {
         if (!SystemOfUnit.count()) {masterDataBootStrapService.populateSystemOfUnits()}
-            if (!Time.count()) {masterDataBootStrapService.populateTimeUnits()}
-            if (!StandardConversion.count()) {masterDataBootStrapService.populateUnitsAndStandardConversions()}
-            if (!Nutrient.count()) {masterDataBootStrapService.populateNutrients()}
-            if (!Aisle.count()) {masterDataBootStrapService.populateAisles()}
-            masterDataBootStrapService.populateCategories()
-            String productsFileName = (GrailsUtil.environment in ['qa', 'beta']) ? "/bootstrapData/FOOD_DES.txt" : "/bootstrapData/FOOD_DES_TEST.txt"
-            File productsFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath(productsFileName))
-            if (!Product.count()) {masterDataBootStrapService.populateProductsWithAisles(productsFile)}
-            if (!SecurityRole.count()) {masterDataBootStrapService.populatePermissions()}
+        if (!Time.count()) {masterDataBootStrapService.populateTimeUnits()}
+        println "Standard Conversion: " + StandardConversion.count()
+        if (StandardConversion.count() < 3) {
+            println "Bootstrapping units"
+            masterDataBootStrapService.populateUnitsAndStandardConversions()
+        }
+        if (!Nutrient.count()) {masterDataBootStrapService.populateNutrients()}
+        if (!Aisle.count()) {masterDataBootStrapService.populateAisles()}
+        masterDataBootStrapService.populateCategories()
+        String productsFileName = (GrailsUtil.environment in ['qa', 'beta']) ? "/bootstrapData/FOOD_DES.txt" : "/bootstrapData/FOOD_DES_TEST.txt"
+        File productsFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath(productsFileName))
+        if (!Product.count()) {masterDataBootStrapService.populateProductsWithAisles(productsFile)}
+        if (!SecurityRole.count()) {masterDataBootStrapService.populatePermissions()}
     }
 }
