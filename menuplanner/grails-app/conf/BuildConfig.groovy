@@ -31,5 +31,5 @@ grails.project.dependency.resolution = {
 
 }
 grails.war.resources = { stagingDir, args ->
-    copy file: "grails-app/migrations/changelog.xml", tofile: "${stagingDir}/WEB-INF/migrations/changelog.xml", overwrite: true
+    copy file: "grails-app/migrations/changelog.xml", tofile: "${stagingDir}/migrations/changelog.xml", overwrite: true
 }
