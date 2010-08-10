@@ -105,9 +105,9 @@ class BootStrap {
             println "Populated Quick Fills"
         }
 
-//        if (!(Environment.current in [Environment.DEVELOPMENT, Environment.TEST])) {
+        if (!(Environment.current in [Environment.DEVELOPMENT, Environment.TEST])) {
             executeLiquibase()
-//        }
+        }
 
         Thread.start {
             searchableService.index()

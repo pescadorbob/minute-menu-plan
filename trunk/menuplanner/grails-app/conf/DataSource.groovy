@@ -25,14 +25,14 @@ hibernate {
 environments {
 	development {
 		dataSource {
-//			dbCreate = "create" // one of 'create', 'create-drop','update'
-            dbCreate = "update"
+			dbCreate = "create" // one of 'create', 'create-drop','update'
+//            dbCreate = "update"
 			url = "jdbc:mysql://localhost:3306/menuplanner?autoReconnect=true"
 		}
 	}
 	test {
 		dataSource {
-			dbCreate = "create-drop"
+			dbCreate = "create"
 			url = "jdbc:mysql://localhost:3306/menuplanner_test?autoReconnect=true"
 		}
 	}
