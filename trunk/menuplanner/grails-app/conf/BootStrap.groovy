@@ -140,9 +140,7 @@ class BootStrap {
     private void bootstrapMasterData() {
         if (!SystemOfUnit.count()) {masterDataBootStrapService.populateSystemOfUnits()}
         if (!Time.count()) {masterDataBootStrapService.populateTimeUnits()}
-        println "Standard Conversion: " + StandardConversion.count()
         if (StandardConversion.count() < 3) {
-            println "Bootstrapping units"
             masterDataBootStrapService.populateUnitsAndStandardConversions()
         }
         if (!Nutrient.count()) {masterDataBootStrapService.populateNutrients()}
