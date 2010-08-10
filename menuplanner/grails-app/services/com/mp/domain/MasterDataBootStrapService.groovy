@@ -235,7 +235,9 @@ class MasterDataBootStrapService implements ApplicationContextAware {
         SUB_CATEGORIES.each {key, value ->
             Category category = Category.findByName(key) ?: new Category(name: key).s()
             value.each {String name ->
-                new SubCategory(name: name, category: category).s()
+                if(!SubCategory.countByNameAndCategory(name, category)){
+                    new SubCategory(name: name, category: category).s()
+                }
             }
         }
     }
