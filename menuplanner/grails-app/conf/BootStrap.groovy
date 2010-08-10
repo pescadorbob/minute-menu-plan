@@ -5,9 +5,12 @@ import grails.util.Environment
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import com.mp.domain.*
-
+import liquibase.Liquibase
+import liquibase.ClassLoaderFileOpener
+import liquibase.database.DatabaseFactory
 class BootStrap {
 
+    def dataSource
     def bootstrapService
     def masterDataBootStrapService
     def excelService
@@ -100,26 +103,49 @@ class BootStrap {
             println "Populated Quick Fills"
         }
 
+        if(!(Environment.current in [Environment.DEVELOPMENT, Environment.TEST])){
+            executeLiquibase()
+        }
+
         Thread.start {
             searchableService.index()
         }
+
         config.bootstrapMode = false
     }
     def destroy = {
     }
 
+    private void executeLiquibase(){
+        Liquibase liquibase = null
+        try {
+            def c = dataSource.getConnection()
+            if (c == null) {
+                throw new RuntimeException("Connection could not be created.");
+            }
+            def fileOpener = new ClassLoaderFileOpener()
+            def database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(c)
+            database.setDefaultSchemaName(c.catalog)
+            liquibase = new Liquibase("changelog.xml", fileOpener, database);
+            liquibase.update(null)
+        }
+        finally {
+            if (liquibase && liquibase.database) {
+                liquibase.database.close()
+            }
+        }
+    }
+
     private void bootstrapMasterData() {
-        if (!SystemOfUnit.count()) {
-            masterDataBootStrapService.populateSystemOfUnits()
-            masterDataBootStrapService.populateTimeUnits()
-            masterDataBootStrapService.populateUnitsAndStandardConversions()
-            masterDataBootStrapService.populateNutrients()
-            masterDataBootStrapService.populateAisles()
+        if (!SystemOfUnit.count()) {masterDataBootStrapService.populateSystemOfUnits()}
+            if (!Time.count()) {masterDataBootStrapService.populateTimeUnits()}
+            if (!StandardConversion.count()) {masterDataBootStrapService.populateUnitsAndStandardConversions()}
+            if (!Nutrient.count()) {masterDataBootStrapService.populateNutrients()}
+            if (!Aisle.count()) {masterDataBootStrapService.populateAisles()}
             masterDataBootStrapService.populateCategories()
             String productsFileName = (GrailsUtil.environment in ['qa', 'beta']) ? "/bootstrapData/FOOD_DES.txt" : "/bootstrapData/FOOD_DES_TEST.txt"
             File productsFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath(productsFileName))
-            masterDataBootStrapService.populateProductsWithAisles(productsFile)
-        }
-        masterDataBootStrapService.populatePermissions()
+            if (!Product.count()) {masterDataBootStrapService.populateProductsWithAisles(productsFile)}
+            if (!SecurityRole.count()) {masterDataBootStrapService.populatePermissions()}
     }
 }

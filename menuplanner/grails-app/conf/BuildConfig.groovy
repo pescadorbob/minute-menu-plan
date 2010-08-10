@@ -28,4 +28,8 @@ grails.project.dependency.resolution = {
         // runtime 'mysql:mysql-connector-java:5.1.5'
     }
 
+
+}
+grails.war.resources = { stagingDir, args ->
+    copy file: "grails-app/migrations/changelog.xml", tofile: "${stagingDir}/WEB-INF/migrations/changelog.xml", overwrite: true
 }
