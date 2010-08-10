@@ -6,6 +6,8 @@ class FacebookAccount extends LoginCredential {
     String oauthToken
 
     static constraints = {
+        uid(nullable:false,blank:false,unique:true)
+        oauthToken(nullable:false,blank:false)
     }
 
     static mapping = {

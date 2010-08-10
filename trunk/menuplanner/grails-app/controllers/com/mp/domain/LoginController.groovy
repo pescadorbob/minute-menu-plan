@@ -11,7 +11,7 @@ class LoginController {
             LoginCredential loginCredential = FacebookAccount.findByUid(params.long("facebookUid"))
             if (loginCredential) {
                 if (loginCredential.party.isEnabled) {
-                    SessionUtils.session.loggedUserId=FacebookAccount.findByUid(params.long("facebookUid"))?.id?.toString()
+                    SessionUtils.session.loggedUserId=FacebookAccount.findByUid(params.long("facebookUid"))?.party?.id
                 }
             }
         }
