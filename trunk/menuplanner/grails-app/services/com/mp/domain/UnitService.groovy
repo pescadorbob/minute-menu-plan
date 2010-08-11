@@ -13,8 +13,8 @@ class UnitService {
         unit.metricType=MetricType.METRIC
         unit.addToSystemOfUnits(SystemOfUnit.get(systemOfUnit))
         unit.definition="Subscriber Created Unit"
-        unit.user=LoginCredential.currentUser?.party  
-        unit.save()
+        unit.party=LoginCredential.currentUser?.party
+        unit.s()
         Unit sourceUnit = Unit.findById(unitId)
         Unit targetUnit = Unit.findByName(UNIT_MILLI_LITRE)
         conversionFactor = conversionFactor * StandardConversion.findBySourceUnit(sourceUnit).conversionFactor
