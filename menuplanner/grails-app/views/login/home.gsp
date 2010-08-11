@@ -270,7 +270,7 @@
     %{--<facebook:facebookConnectJavascript/>--}%
     <script type="text/javascript">
 
-      <g:if test="${!(params.fbLogout)}">
+      <g:if test="${!(params.fbLogout) && !(params.facebookUid)}">
       setTimeout("loginToMenuPlanner()",2000);
       </g:if>
 //      FB.ensure_init(function(){
@@ -292,7 +292,7 @@
         <g:if test="${params.fbLogout}">
         setTimeout("logoutFB()",2000);
         </g:if>
-        
+
         function loginToMenuPlanner(){
           FB.Facebook.get_sessionState().waitUntilReady(function(session){
             if(session){
