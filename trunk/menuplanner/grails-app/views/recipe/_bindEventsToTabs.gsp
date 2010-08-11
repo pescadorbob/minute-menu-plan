@@ -60,7 +60,7 @@
             var fractionRegex = /^\d+(\s)*(\d*(\s)*\/(\s)*\d+(\s)*)*$/;
 
             if ((prodName.length > 0) && (intRegex.test(quantity) || fractionRegex.test(quantity) || quantity == '')) {
-                AddIngredient(quantity, unitId, productId, unitName, prodName, unitSymbol, aisleId,preparationMethodId)
+                AddIngredient(quantity, unitId, productId, unitName, prodName, unitSymbol, aisleId, preparationMethodId)
                 /* Reset Add Ingredient ToolBox.... */
                 jQuery('#optionIngredientQuantities').attr('value', '')
                 jQuery('#optionIngredientUnitIds').val(1)
@@ -70,6 +70,12 @@
                 jQuery('#optionIngredientAisleIds').val('')
             }
             bindEventsFor("tableIngredients", "ingredientRow");
+            jQuery('#optionIngredientQuantities').unbind('blur')
+            jQuery('#optionIngredientQuantities').unbind('focus')
+            jQuery('#optionIngredientUnitIds').unbind('blur')
+            jQuery('#combobox_optionIngredientUnitIds').unbind('focus')
+            jQuery('#optionIngredientProductIds').unbind('blur')
+            jQuery('#optionIngredientProductIds').unbind('focus')
         })
         /* ADD DIRECTION:  function to be executed when btnAddDirection is Clicked... */
         jQuery('#btnAddDirection').click(function() {
