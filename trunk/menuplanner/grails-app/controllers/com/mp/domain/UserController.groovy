@@ -313,4 +313,16 @@ class UserController {
             redirect(uri: '/')
         }
     }
+
+    def unlinkFacebookAccount = {
+        Party party = Party.get(params.id.toLong())
+        if (party) {
+            FacebookAccount facebookAccount = party.facebookAccount
+            party.facebookAccount = null
+            facebookAccount.delete(flush: true)
+            render "Your account has been unlinked"
+        } else {
+            render "Unable to unlinked the account"
+        }
+    }
 }

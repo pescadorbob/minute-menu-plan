@@ -15,7 +15,10 @@ class FacebookTagLib {
                 String apiKey = ConfigurationHolder.config.facebookConnect.apiKey
                 String allowUrl = g.createLink(controller: 'user', action: 'facebookConnect', absolute: true, params: [userId: userId]).encodeAsURL()
                 String applicationUrl = "https://graph.facebook.com/oauth/authorize?client_id=${apiKey}&redirect_uri=${allowUrl}&scope=read_stream,offline_access,user_location"
-                out << g.render(template: '/facebook/connectToFacebook', model: [applicationUrl: applicationUrl, apiKey: apiKey])
+                out << g.render(template: '/facebook/connectToFacebook', model: [applicationUrl: applicationUrl, apiKey: apiKey, user: user?.party])
+            } else {
+                out << g.render(template: '/facebook/disconnectFromFacebook', model: [user: user?.party])
+
             }
         }
     }
