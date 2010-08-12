@@ -267,32 +267,19 @@
     </div>
 </div>
 <g:if test="${!(GrailsUtil.environment in ['test'])}">
-    %{--<facebook:facebookConnectJavascript/>--}%
     <script type="text/javascript">
-
       <g:if test="${!(params.fbLogout) && !(params.facebookUid)}">
       setTimeout("loginToMenuPlanner()",2000);
       </g:if>
-//      FB.ensure_init(function(){
-//         alert("hello")
-//      });
         function getUid() {
             return FB.Connect.get_loggedInUser()
         }
-
         function logoutFB() {
             FB.Connect.logout()
         }
-
-//        function loginToMenuPlanner() {
-//            var facebookUid = getUid()
-            %{--self.location.href = "${createLink(controller:'login',action:'index')}?facebookUid=" + facebookUid--}%
-//        }
-
         <g:if test="${params.fbLogout}">
         setTimeout("logoutFB()",2000);
         </g:if>
-
         function loginToMenuPlanner(){
           FB.Facebook.get_sessionState().waitUntilReady(function(session){
             if(session){
