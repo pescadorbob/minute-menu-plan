@@ -147,11 +147,8 @@ class BootStrap {
             masterDataBootStrapService.populateUnitsAndStandardConversions()
         }
         if (!Nutrient.count()) {masterDataBootStrapService.populateNutrients()}
-        if (!Aisle.count()) {masterDataBootStrapService.populateAisles()}
         masterDataBootStrapService.populateCategories()
-        String productsFileName = (GrailsUtil.environment in ['qa', 'beta']) ? "/bootstrapData/FOOD_DES.txt" : "/bootstrapData/FOOD_DES_TEST.txt"
-        File productsFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath(productsFileName))
-        if (!Product.count()) {masterDataBootStrapService.populateProductsWithAisles(productsFile)}
+        masterDataBootStrapService.populateProductsWithAisles()
         if (!SecurityRole.count()) {masterDataBootStrapService.populatePermissions()}
     }
 }
