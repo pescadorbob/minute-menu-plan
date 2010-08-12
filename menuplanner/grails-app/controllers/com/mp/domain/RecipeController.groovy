@@ -180,6 +180,7 @@ class RecipeController {
                     recipes += (params.fullWeek2) ? menuPlan?.weeks?.get(params.int('fullWeek2') - 1)?.recipes : []
                     recipes += (params.fullWeek3) ? menuPlan?.weeks?.get(params.int('fullWeek3') - 1)?.recipes : []
                     recipes += (params.fullWeek4) ? menuPlan?.weeks?.get(params.int('fullWeek4') - 1)?.recipes : []
+                    recipes = Recipe.getAll(recipes*.id)
                     printOneRecipePerPage = false
                     break;
                 case "PRINT_SELECTED_RECIPES":
@@ -191,7 +192,8 @@ class RecipeController {
             printOneRecipePerPage = false
         }
         recipes = recipes?.unique {it.id}
-        [recipes: recipes, printOneRecipePerPage: printOneRecipePerPage]
+        Integer customServings = LoginCredential.currentUser.party?.subscriber?.mouthsToFeed 
+        [recipes: recipes, printOneRecipePerPage: printOneRecipePerPage, customServings: customServings]
     }
 
     def reportCommentAbuse = {

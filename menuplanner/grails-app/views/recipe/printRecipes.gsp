@@ -56,7 +56,7 @@
             </div>
             <div class="top-shadow"><label></label></div>
             <div class="leftbox clearfix">
-                <g:render template="/recipe/showRecipeDetails" model="[recipe: recipe]"/>
+                <g:render template="/recipe/showRecipeDetails" model="[recipe: recipe,customServings:customServings]"/>
             </div>
             <div class="bottom-shadow"><label></label></div>
         </div>
