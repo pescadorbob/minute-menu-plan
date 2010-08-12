@@ -69,7 +69,7 @@
 #contectElement ul li ul li a{color:#2aa3b4;text-decoration:none;}
 #contectElement ul li ul li a:hover{text-decoration:underline;}
 #contectElement ul li ul li label{float:left;width:100px;}
-#contectElement ul li ul li span{float:left;width:190px;}
+#contectElement ul li ul li span{float:left;}
 /* end right-panel listing page */
 #right-head{clear:both;background:url(../images/left-close1.gif) no-repeat top left;height:30px;padding-left:10px;line-height:28px;font-size:12px;margin:0px 10px;}
 #right-head-without-image{clear:both;height:30px;padding-left:10px;line-height:28px;font-size:12px;margin:0px 10px;}

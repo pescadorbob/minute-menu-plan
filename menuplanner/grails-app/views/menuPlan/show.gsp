@@ -35,7 +35,11 @@
 </div>
 <script type="text/javascript">
     $("#printMonthlyMenuPlanBtn").click(function() {
-        window.open("${createLink(controller:'menuPlan',action:'printerFriendlyMenuPlan',id:menuPlan.id)}", 'printShoppingList', 'width=800,height=800,scrollbars=yes')
+        window.open("${createLink(controller:'menuPlan',action:'printerFriendlyMenuPlan',id:menuPlan.id)}", 'printShoppingList', 'width=1100,height=600,left=100,top=100,scrollbars=yes')
+        return false;
+    })
+    $("#printMenuPlanRecipesBtn").click(function() {
+        window.location.replace("${createLink(controller:'recipe',action:'selectRecipesToPrint',id:menuPlan.id)}");
         return false;
     })
 </script>

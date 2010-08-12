@@ -2,93 +2,75 @@
 <%@ page import="com.mp.MenuConstants.*" %>
 <html>
 <head>
-  <title>Recipe Book List</title>
-  <meta name="layout" content="printRecipelayout"/>
-  <style>
-  <g:if test="${printOneRecipePerPage}">
-  .break {
-    page-break-after: always;
-  }
-  </g:if>
-  body {
-    color : #000000;
-    background : #ffffff;
-    font-family : "Times New Roman", Times, serif;
-    font-size : 12pt;
-  }
-  a {
-    text-decoration : underline;
-    color : #0000ff;
-  }
-  </style>
-  <g:javascript src="jquery.printElement.min.js"/>
-  <rateable:resources/>
-  <script type="text/javascript">
-    window.onload = print()
-  </script>
+    <title>Recipe Book List</title>
+    <meta name="layout" content="printRecipelayout"/>
+    <style type="text/css">
+    <
+    g:if
+
+    test
+    =
+    "
+    ${
+    printOneRecipePerPage
+    }
+    "
+    >
+    .break {
+        page-break-after: always;
+    }
+
+    </
+    g:if
+    >
+    body {
+        color: #000000;
+        background: #ffffff;
+        font-family: "Times New Roman", Times, serif;
+        font-size: 12pt;
+    }
+
+    a {
+        text-decoration: underline;
+        color: #0000ff;
+    }
+    </style>
+    <g:javascript src="jquery.printElement.min.js"/>
+    <rateable:resources/>
+    <script type="text/javascript">
+        window.onload = print()
+    </script>
 </head>
 <body>
 <g:each in="${recipes}" var="recipe">
-  <div class="clearfix printMe break" id="content-wrapper">
-    <div id="left-panel">
-      <div id="right-head">
-        <div id="leftpart">
-          <label id="recipeNameTst">${recipe?.name}</label>
-          <span id="spanRateable">
-          </span>
+    <div class="clearfix printMe break" id="content-wrapper">
+        <div id="left-panel">
+            <div id="right-head">
+                <div id="leftpart">
+                    <label id="recipeNameTst">${recipe?.name}</label>
+                    <span id="spanRateable">
+                    </span>
+                </div>
+                <div id="rightpart">
+                </div>
+            </div>
+            <div class="top-shadow"><label></label></div>
+            <div class="leftbox clearfix">
+                <g:render template="/recipe/showRecipeDetails" model="[recipe: recipe]"/>
+            </div>
+            <div class="bottom-shadow"><label></label></div>
         </div>
-        <div id="rightpart">
+        <div id="right-panel">
         </div>
-      </div>
-      <div class="top-shadow"><label></label></div>
-      <div class="leftbox clearfix">
-        <div id="contectElement">
-          <ul>
-            <li>
-              <ul>
-                <li id="prepAndCookTimesTst">
-                  <g:if test="${recipe?.preparationTime}">Prep - ${recipe?.preparationTime}</g:if><br/>
-                  <g:if test="${recipe?.cookingTime}">Cook - ${recipe?.cookingTime}</g:if><br/>
-                </li>
-                <li><g:if test="${recipe?.difficulty}"><span>Difficulty Level: ${recipe?.difficulty}</span></g:if>
-                  <g:if test="${recipe?.servings}"><span>Servings: ${recipe?.servings}</span></g:if>
-                </li>
-                <g:if test="${recipe?.ingredients}">
-                  <li id="showAllIngredientsHereTst"><g:each in="${recipe?.ingredients}" var="ingredient"><span><strong>${ingredient}</strong></span></g:each></li>
-                </g:if>
-                <g:if test="${recipe?.directions}">
-                  <li id="showAllStepsHereTst">${recipe?.directions*.toString().join(" ")}</li>
-                </g:if>
-                <g:if test="${recipe?.categories}"><li>Categories: ${recipe?.categories?.join(", ")}</li></g:if>
-                <g:if test="${recipe?.nutrients}">
-                  <li><span id="showNutrientsTst" style="width:auto;">Nutritional Facts per serving: ${recipe?.nutrients?.join(", ")}</span></li>
-                </g:if>
-                <g:if test="${recipe?.items}">
-                  <li><span id="showServeWithTst">Serve With: ${recipe?.items?.join(", ")}</span></li>
-                </g:if>
-                <li></li>
-
-              </ul>
-            </li>
-            <li style="text-align: right;">
-              <mp:image id="${recipe?.image?.id}" height="160" width="160"/><br/>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="bottom-shadow"><label></label></div>
     </div>
-    <div id="right-panel">
-    </div>
-  </div>
 </g:each>
 <script type="text/javascript">
-  window.onload = preventRatingClickEvent;
-  function preventRatingClickEvent() {
-    $(".rating a").click(function(e) {
-      e.preventDefault()
-    })
-  }
+    window.onload = preventRatingClickEvent;
+    function preventRatingClickEvent() {
+        $(".rating a").click(function(e) {
+            e.preventDefault()
+        })
+    }
 </script>
 </body>
 </html> 
