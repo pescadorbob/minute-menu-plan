@@ -7,16 +7,14 @@
                     <g:if test="${recipe?.cookingTime}">Cook - ${recipe.cookingTime.toReadableTimeString()}</g:if><br/>
                 </li>
                 <li><g:if test="${recipe?.difficulty}"><span>Difficulty Level: ${recipe?.difficulty}</span><br/></g:if>
-                    <g:if test="${recipe?.servings}"><span>Servings: ${recipe?.servings}</span></g:if>
+                    <g:if test="${recipe?.servings}"><span>Servings: ${customServings ? customServings : recipe?.servings}</span></g:if>
                 </li>
-                %{--<li>--}%
-                    %{--${recipe?.isAlcoholic ? 'Recipe contains Alcoholic contents' : 'Recipe is Non-Alcoholic'}--}%
-                %{--</li>--}%
+            %{--<li>--}%
+            %{--${recipe?.isAlcoholic ? 'Recipe contains Alcoholic contents' : 'Recipe is Non-Alcoholic'}--}%
+            %{--</li>--}%
                 <g:if test="${recipe?.ingredients}">
                     <li id="showAllIngredientsHereTst">
-                        <g:each in="${recipe?.ingredients}" var="ingredient">
-                            <span><strong>${ingredient}</strong></span><br/>
-                        </g:each>
+                        <mp:recipeIngredients recipeId="${recipe?.id}" customServings="${customServings}"/>
                     </li>
                 </g:if>
                 <g:if test="${recipe?.directions}">

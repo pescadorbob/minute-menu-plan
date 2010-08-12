@@ -139,4 +139,31 @@ class MenuplannerTagLib {
         List<String> menuplanActions = ['Print Monthly Menu Plan', 'Print Weekly Menu Plan', 'Create Shopping List', 'Delete Menu Plan']
         out << g.render(template: "/menuPlan/menuPlanActions", model: [menuplanActions: menuplanActions])
     }
+
+    def recipeIngredients = {attrs ->
+        Recipe recipe = Recipe.get(attrs['recipeId'])
+        Integer customServings = attrs['customServings']
+        List<RecipeIngredient> recipeIngredients = []
+        if (recipe) {
+            recipe.ingredients.each {RecipeIngredient recipeIngredient ->
+                RecipeIngredient recipeIngredientNew = new RecipeIngredient()
+                recipeIngredientNew.ingredient = recipeIngredient?.ingredient
+                recipeIngredientNew.aisle = recipeIngredient.aisle
+                recipeIngredientNew.quantity = recipeIngredient?.quantity
+                recipeIngredientNew.preparationMethod = recipeIngredient?.preparationMethod
+                if (customServings && recipeIngredient.quantity && recipeIngredient.quantity.value) {
+                    Float value = (recipeIngredientNew?.quantity?.value) ? recipeIngredientNew.quantity.value : 1.0f
+                    Integer servings = recipeIngredient.recipe.servings
+                    recipeIngredientNew.quantity.value = ((customServings * value) / servings).toFloat()
+                    if (!recipeIngredientNew.quantity.savedUnit) {
+                        recipeIngredientNew.quantity.value = Math.ceil(recipeIngredientNew.quantity.value)
+                    }
+                    recipeIngredients.add(recipeIngredientNew)
+                } else {
+                    recipeIngredients.add(recipeIngredient)
+                }
+            }
+            out << g.render(template: "/recipe/recipeIngredients", model: [ingredients: recipeIngredients])
+        }
+    }
 }
