@@ -14,27 +14,30 @@
                 <ul>
                     <li><label>Name</label>
                         <span><g:textField class="inpbox ${hasErrors(bean:recipeCO,field:'name', 'errors')}" name="name" value="${recipeCO?.name}"/></span></li>
+                    <li><label>Description</label></li>
+                    <li><span><g:textArea class="inpbox ${hasErrors(bean:recipeCO,field:'description', 'errors')}" name="description" rows="4" cols="37" value="${recipeCO?.description}"/></span><br/></li>
+                   <li></li>
                     <li><label>Categories</label>
                         <span>
-                           <g:each in="${(0..2)}" var="index">
-                            <select class="inpbox auto-resize" name="subCategoryIds" style="width:190px;" >
-                                <optgroup label="--"><option value="">(Select One)</option></optgroup>
-                                <g:each in="${categories}" var="category">
-                                    <optgroup label="${category}">
-                                        <g:each in="${category.subCategories}" var="subCategory">
-                                            <g:if test="${(recipeCO?.subCategoryIds) && recipeCO?.subCategoryIds?.toList()[index]==subCategory?.id}">
-                                                <option selected="true" value="${subCategory?.id}">${subCategory}</option>
-                                            </g:if>
-                                            <g:else>
-                                                <option rel="${category?.id}" value="${subCategory?.id}">${subCategory}</option>
-                                            </g:else>
-                                        </g:each>
-                                    </optgroup>
-                                </g:each>
-                            </select>
-                            <br/>
-                            <br/>
-                           </g:each>
+                            <g:each in="${(0..2)}" var="index">
+                                <select class="inpbox auto-resize" name="subCategoryIds" style="width:190px;">
+                                    <optgroup label="--"><option value="">(Select One)</option></optgroup>
+                                    <g:each in="${categories}" var="category">
+                                        <optgroup label="${category}">
+                                            <g:each in="${category.subCategories}" var="subCategory">
+                                                <g:if test="${(recipeCO?.subCategoryIds) && recipeCO?.subCategoryIds?.toList()[index]==subCategory?.id}">
+                                                    <option selected="true" value="${subCategory?.id}">${subCategory}</option>
+                                                </g:if>
+                                                <g:else>
+                                                    <option rel="${category?.id}" value="${subCategory?.id}">${subCategory}</option>
+                                                </g:else>
+                                            </g:each>
+                                        </optgroup>
+                                    </g:each>
+                                </select>
+                                <br/>
+                                <br/>
+                            </g:each>
                         </span></li>
                     <li><label>Prep Time</label>
                         <span>

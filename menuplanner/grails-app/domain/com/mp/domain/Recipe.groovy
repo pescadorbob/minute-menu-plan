@@ -26,6 +26,7 @@ class Recipe extends Item implements Commentable, Rateable {
     List<RecipeIngredient> ingredients = []
     Set<SubCategory> subCategories = []
 
+    String description
     String cookingTimeValue
     String prepTimeValue
     String totalTimeValue
@@ -142,6 +143,7 @@ class Recipe extends Item implements Commentable, Rateable {
         cookingTime(nullable: true, blank: true)
         servings(nullable: true, blank: true)
         difficulty(nullable: true, blank: true)
+        description(nullable: true, blank: true)
         image(nullable: true, blank: true)
     }
 

@@ -31,6 +31,7 @@ class RecipeCO {
     Long id
     String name
     String difficulty
+    String description
     Boolean shareWithCommunity
     Boolean isAlcoholic
     Integer makesServing
@@ -66,6 +67,7 @@ class RecipeCO {
         id = recipe?.id
         imageId = recipe?.image?.id
         name = recipe?.name
+        description = recipe?.description
 
         if (recipe?.image) {
             selectRecipeImagePath = recipe?.image?.path + recipe?.image?.storedName
@@ -132,6 +134,7 @@ class RecipeCO {
         name(blank: false, matches: /[a-zA-Z0-9\s\&]*/)
 
         difficulty(blank: true, nullable: true)
+        description(blank: true, nullable: true)
         makesServing(nullable: true, blank: true)
         selectRecipeImagePath(nullable: true, blank: true)
         selectRecipeImage(nullable: true, blank: true)
@@ -166,9 +169,11 @@ class RecipeCO {
     }
 
 //    public Recipe updateRecipe(List<String> elementNames, List<String> serveWithElements) {
+
     public Recipe updateRecipe() {
         Recipe recipe = Recipe.get(id)
         recipe.name = name
+        recipe.description = description
         recipe.shareWithCommunity = shareWithCommunity
 //        List<String> elementsFromList = alcoholicContentList()
 //        elementsFromList.each {String name ->
@@ -215,6 +220,7 @@ class RecipeCO {
         Recipe recipe = new Recipe()
 
         recipe.name = name
+        recipe.description = description
         recipe.shareWithCommunity = shareWithCommunity
         recipe.servings = makesServing
         recipe.difficulty = RecipeDifficulty."${difficulty}"
