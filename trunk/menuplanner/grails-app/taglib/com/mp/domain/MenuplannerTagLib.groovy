@@ -90,8 +90,10 @@ class MenuplannerTagLib {
 
 
     def comments = {attrs ->
-        Recipe recipe = attrs['recipe']
-        List<Comment> nonAbusiveComments = recipe.comments
+        println "Id: " + attrs['recipeId']
+        Recipe recipe = Recipe.get(attrs['recipeId'])
+        println "Recipe: " + recipe
+        List<Comment> nonAbusiveComments = recipe?.comments
         List<Comment> abusiveComments = []
         if (recipe.comments) {
             abusiveComments = CommentAbuse.findAllByCommentInList(recipe.comments)
@@ -105,7 +107,8 @@ class MenuplannerTagLib {
     }
 
     def showRecipeAbuse = {attrs ->
-        Recipe recipe = attrs['recipe']
+
+        Recipe recipe = Recipe.get(attrs['recipeId'])
         LoginCredential user = LoginCredential.currentUser
         Boolean reported = false
 
