@@ -1,4 +1,4 @@
-function AddIngredient(quantity, unitId, productId, unitName, prodName, unitSymbol, aisleId,preparationMethodId) {
+function AddIngredient(quantity, unitId, productId, unitName, prodName, unitSymbol, aisleId, preparationMethodId) {
     var addIngredient = sampleIngredientRowHTML;
     jQuery('#tableIngredients tbody').append(addIngredient)
     jQuery('.ingredientRowNew .Q').val(quantity);
@@ -47,12 +47,12 @@ function bindEventsFor(DOM_ID, DOM_CLASS) {
         jQuery(this).click(function() {
             jQuery(this).next().show().focus();
             jQuery(this).hide();
-        })      
+        })
     })
     jQuery.each(jQuery(domId + ' .DD'), function() {
         jQuery(this).blur(function() {
             jQuery(this).prev().text(jQuery(this).val()).show();
-            jQuery('.D',jQuery(this).parents('tr')).val(jQuery(this).val());            
+            jQuery('.D', jQuery(this).parents('tr')).val(jQuery(this).val());
             jQuery(this).hide();
         })
     })
@@ -85,12 +85,12 @@ function colorRowAlternate() {
 }
 function reflectInPreviewPanel() {
 
-    jQuery('#displayRecipeImage').attr('src',jQuery('#recipeImage').attr('src'))
+    jQuery('#displayRecipeImage').attr('src', jQuery('#recipeImage').attr('src'))
 
     var myCategory = ''
     var myCategoryList = []
     jQuery.each(jQuery('select[name=subCategoryIds][value!=""]'), function(indx, elem) {
-        var myCategoryId = jQuery('option',jQuery(this)).eq(jQuery(this)[0].selectedIndex).attr('rel')
+        var myCategoryId = jQuery('option', jQuery(this)).eq(jQuery(this)[0].selectedIndex).attr('rel')
         jQuery.each(jQuery('#categoryTable td:contains(' + myCategoryId + ')'), function() {
             if (jQuery(this).html() == myCategoryId) {
                 myCategoryList.push(jQuery(this).next().html())
@@ -103,6 +103,13 @@ function reflectInPreviewPanel() {
     }
     jQuery('#displayCategory').html(myCategory)
     jQuery('#displayName').html(getPlainText('name'))
+
+    var showDesc = ''
+    if (getPlainText('description').length) {
+        showDesc = 'Description: ' + getPlainText('description')
+    }
+    jQuery('#displayDescription').html(showDesc)
+
     var showPrep = ''
     if (getPlainText('preparationTime').length) {
         showPrep = 'Prep - ' + getPlainText('preparationTime')
@@ -126,7 +133,7 @@ function reflectInPreviewPanel() {
     }
     jQuery('#displayCookTime').html(showCook)
     var myDifficulty = 'Difficulty Level: '
-    myDifficulty += jQuery('input[name=difficulty]').filter(':checked').val().substr(0,1);
+    myDifficulty += jQuery('input[name=difficulty]').filter(':checked').val().substr(0, 1);
     myDifficulty += jQuery('input[name=difficulty]').filter(':checked').val().toLowerCase().substr(1);
     jQuery('#displayDifficulty').html(myDifficulty)
     var myMakeServing = ''
@@ -142,7 +149,7 @@ function reflectInPreviewPanel() {
         var myIngredients = jQuery('input[name="ingredientQuantities"]:eq(' + i + ')').attr('value') +
             //                            ' ' + jQuery('input[name="hiddenIngredientUnitNames"]:eq(' + i + ')').attr('value') +
                             ' ' + jQuery('input[name="hiddenIngredientUnitSymbols"]:eq(' + i + ')').attr('value') +
-                            ' ' + jQuery('input[name="hiddenIngredientProductNames"]:eq(' + i + ')').attr('value') + (preparationMethod ? ' ('+preparationMethod + ')' : '') + '<br>'
+                            ' ' + jQuery('input[name="hiddenIngredientProductNames"]:eq(' + i + ')').attr('value') + (preparationMethod ? ' (' + preparationMethod + ')' : '') + '<br>'
         jQuery('#displayIngredients').append(myIngredients)
     }
     jQuery('#displayDirections').html('')
@@ -154,7 +161,7 @@ function reflectInPreviewPanel() {
     var myServeWith = ''
     var myServeWithList = []
     jQuery.each(jQuery('input[name^="serveWithItems"][value!=""]'), function() {
-            myServeWithList.push(jQuery(this).attr('value'))
+        myServeWithList.push(jQuery(this).attr('value'))
     })
     myServeWith = myServeWithList.join(', ')
     if (myServeWith.length > 0) {

@@ -25,6 +25,8 @@
             <div style="float:right; width:150px;">
                 <img id="displayRecipeImage" src="" width="150" height="150"/>
             </div>
+            <span id="displayDescription"></span>
+            <br/>
             <span id="displayPrepTime"></span>
             <br/>
             <span id="displayCookTime"></span>
