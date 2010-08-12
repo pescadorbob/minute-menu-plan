@@ -6,6 +6,9 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.springframework.beans.BeansException
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
+import jxl.Workbook
+import jxl.WorkbookSettings
+import jxl.Sheet
 
 class MasterDataBootStrapService implements ApplicationContextAware {
 
@@ -235,7 +238,7 @@ class MasterDataBootStrapService implements ApplicationContextAware {
         SUB_CATEGORIES.each {key, value ->
             Category category = Category.findByName(key) ?: new Category(name: key).s()
             value.each {String name ->
-                if(!SubCategory.countByNameAndCategory(name, category)){
+                if (!SubCategory.countByNameAndCategory(name, category)) {
                     new SubCategory(name: name, category: category).s()
                 }
             }
@@ -247,41 +250,25 @@ class MasterDataBootStrapService implements ApplicationContextAware {
     }
 
 
-    public void populateProductsWithAisles(File productsFile) {
-        File aislesFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/bootstrapData/FD_AISLES.txt"))
-        List aislesList = Aisle.list()
-        Map aisles = [:]
-        if (aislesFile.exists()) {
-            aislesFile.readLines().eachWithIndex {String line, Integer index ->
-                List columns = line.tokenize("^")
-                aisles[columns[0]] = aislesList.find {it.name == columns[1].replaceAll('~', '')}
+    public void populateProductsWithAisles() {
+        String productsFileName = "/bootstrapData/store-items.xls"
+        File productsFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath(productsFileName))
+        WorkbookSettings workbookSettings
+        Workbook workbook
+        workbookSettings = new WorkbookSettings();
+        workbookSettings.setLocale(new Locale("en", "EN"));
+        workbook = Workbook.getWorkbook(productsFile, workbookSettings);
+        Date d1 = new Date()
+        workbook?.sheets?.each {Sheet sheet ->
+            sheet.rows.times {Integer index ->
+                String aisleString = sheet.getCell(0, index).contents.toString().trim()
+                String itemString = sheet.getCell(1, index).contents.toString().replace("'", "").trim()
+                Aisle aisle = Aisle.findByName(aisleString) ?: new Aisle(name: aisleString).s()
+                Item.findByName(itemString) ?: new Product(name: itemString, suggestedAisle: aisle).s()
             }
         }
-        List<Product> products = []
-        if (productsFile.exists()) {
-            println "Reading products"
-            productsFile.readLines().eachWithIndex {String line, Integer index ->
-                List columns = line.tokenize("^")
-                products.add(new Product(suggestedAisle: aisles[columns[1]], name: columns[2]?.replaceAll("~", '')?.replaceAll("'", '')))
-            }
-            products = products.findAll {it.suggestedAisle}
-            println "Saving products"
-            Date d1 = new Date()
-            products.eachWithIndex {product, index ->
-                Product.withSession {session ->
-                    product.s()
-                    if (index % 100 == 0) {
-                        session.flush();
-                        session.clear();
-                    }
-                }
-
-
-            }
-            Date d2 = new Date()
-            println "Time Taken: " + (d2.time - d1.time) / 1000
-            println "Saved products"
-        }
+        Date d2 = new Date()
+        println "Time Taken: " + (d2.time - d1.time) / 1000
     }
 
 }

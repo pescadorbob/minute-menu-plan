@@ -1377,4 +1377,7 @@
     <changeSet author="aman (generated)" id="1281344986756-145">
         <dropColumn tableName="subscriber" columnName="screen_name"/>
     </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-146">
+        <sql>delete from item where id NOT in (select item_id from meal_item UNION select ingredient_id from recipe_ingredient UNION select item_id from recipe_item) and id &lt; 6701;</sql>
+    </changeSet>
 </databaseChangeLog>
