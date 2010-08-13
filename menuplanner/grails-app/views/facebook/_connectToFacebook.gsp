@@ -7,7 +7,7 @@
     </span>
 </a>
 <span id="mpFacebookConnectSuccess" style="display:none;">Your account has been connected with Facebook!
-<g:render template="/facebook/disconnectFromFacebook" model="[user:LoginCredential.currentUser.party]"/>
+<g:render template="/facebook/disconnectFromFacebook" model="[party:LoginCredential.currentUser.party]"/>
 </span>
 <script type="text/javascript">
     function facebookConnectSuccess() {

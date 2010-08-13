@@ -10,14 +10,15 @@ class FacebookTagLib {
     def connect = {attrs ->
         if (!(GrailsUtil.environment in ['test'])) {
             Long userId = attrs['userId'] ? attrs['userId'].toLong() : 0L
-            PartyRole user = userId ? PartyRole.get(userId) : null
-            if (!user?.party?.facebookAccount) {
+            Party party = userId ? Party.get(userId) : null
+            println "User.name: " + party.name
+            if (!party?.facebookAccount) {
                 String apiKey = ConfigurationHolder.config.facebookConnect.apiKey
                 String allowUrl = g.createLink(controller: 'user', action: 'facebookConnect', absolute: true, params: [userId: userId]).encodeAsURL()
                 String applicationUrl = "https://graph.facebook.com/oauth/authorize?client_id=${apiKey}&redirect_uri=${allowUrl}&scope=read_stream,offline_access,user_location"
-                out << g.render(template: '/facebook/connectToFacebook', model: [applicationUrl: applicationUrl, apiKey: apiKey, user: user?.party])
+                out << g.render(template: '/facebook/connectToFacebook', model: [applicationUrl: applicationUrl, apiKey: apiKey, party: party])
             } else {
-                out << g.render(template: '/facebook/disconnectFromFacebook', model: [user: user?.party])
+                out << g.render(template: '/facebook/disconnectFromFacebook', model: [party: party])
 
             }
         }

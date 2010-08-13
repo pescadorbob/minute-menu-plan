@@ -1,5 +1,5 @@
 <span>
-    <a href="#" onclick="return unlinkFacebookAccount(this, '${createLink(controller: 'user', action: 'unlinkFacebookAccount', id: user?.id)}')">Unlink Account</a>
+    <a href="#" onclick="return unlinkFacebookAccount(this, '${createLink(controller: 'user', action: 'unlinkFacebookAccount', id: party?.id)}')">Unlink Account</a>
 </span>
 <script type="text/javascript">
     function unlinkFacebookAccount(elementToRemove, ajaxUrl) {
