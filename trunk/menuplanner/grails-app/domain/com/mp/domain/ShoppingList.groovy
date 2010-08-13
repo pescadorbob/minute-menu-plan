@@ -10,7 +10,9 @@ class ShoppingList {
     List<WeeklyShoppingList> weeklyShoppingLists = []
 
     static hasMany = [weeklyShoppingLists: WeeklyShoppingList]
-    
+    static belongsTo = [party: Party]
+
     static constraints = {
+        menuPlan(nullable: true)
     }
 }

@@ -1380,4 +1380,13 @@
     <changeSet author="aman (generated)" id="1281344986756-146">
         <sql>delete from item where id NOT in (select item_id from meal_item UNION select ingredient_id from recipe_ingredient UNION select item_id from recipe_item) and id &lt; 6701;</sql>
     </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-147">
+        <dropNotNullConstraint tableName="shopping_list" columnName="menu_plan_id" columnDataType="BIGINT"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-148">
+        <addForeignKeyConstraint baseColumnNames="party_id"
+            baseTableName="shopping_list"
+            constraintName="FKA4FDB56737EDC341" deferrable="false"
+            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="party"/>
+    </changeSet>
 </databaseChangeLog>
