@@ -21,15 +21,9 @@ class UserController {
         Party party = Party.get(params.long('id'))
         if (party) {
             try {
-                Boolean deletingCurrentUser = (party == LoginCredential.currentUser?.party)
-                Party.withTransaction {
-                    List commentAbuses = CommentAbuse.findAllByReporter(party)
-                    List recipeAbuses = RecipeAbuse.findAllByReporter(party)
-                    commentAbuses*.delete(flush: true)
-                    recipeAbuses*.delete(flush: true)
+                    Boolean deletingCurrentUser = (party == LoginCredential.currentUser?.party)
                     party.delete(flush: true)
                     flash.message = message(code: 'user.delete.successful')
-                }
                 if (deletingCurrentUser) {
                     session.invalidate()
                     redirect(uri: '/')
@@ -37,6 +31,7 @@ class UserController {
                     redirect(controller: 'user', action: "list")
                 }
             } catch (org.springframework.dao.DataIntegrityViolationException e) {
+                e.printStackTrace()
                 flash.message = message(code: 'user.delete.unsuccessful')
                 redirect(action: "show", id: params.id)
             }

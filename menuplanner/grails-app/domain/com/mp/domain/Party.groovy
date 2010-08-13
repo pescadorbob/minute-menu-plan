@@ -24,6 +24,19 @@ class Party {
         joiningDate = new Date()
     }
 
+    def beforeDelete = {
+        def shoppingLists1 = ShoppingList.getAll(shoppingLists*.id)
+        def menuPlans1 = MenuPlan.getAll(menuPlans*.id)
+        this.menuPlans = []
+        this.shoppingLists = []
+        shoppingLists1*.delete(flush: true)
+        menuPlans1*.delete(flush: true)
+        List commentAbuses = CommentAbuse.findAllByReporter(this)
+        List recipeAbuses = RecipeAbuse.findAllByReporter(this)
+        commentAbuses*.delete(flush: true)
+        recipeAbuses*.delete(flush: true)
+    }
+
     String toString(){
         return name
     }
