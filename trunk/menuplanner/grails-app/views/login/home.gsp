@@ -248,7 +248,7 @@
                         <li><g:link controller="login" action="forgotPassword">forgot password or username?</g:link></li>
                         <span style="color:#007AD8">Or login using Facebook</span>
                         <g:if test="${!(GrailsUtil.environment in ['test'])}">
-                            <fb:login-button onlogin="loginToMenuPlanner()" autologoutlink="true">Connect</fb:login-button>
+                            <fb:login-button onlogin="loginToMenuPlanner()" autologoutlink="true">Login</fb:login-button>
                         </g:if>
                         <li class="border"><h2>TESTIMONIAL</h2></li>
                         <li>Minute Menu Plan removed the stress from my evenings and stopped the kids from asking whats for dinner.  We love to plan our meals together, and it takes only a few minutes.  Thanks Minute Menu Plan!
@@ -268,7 +268,7 @@
 </div>
 <g:if test="${!(GrailsUtil.environment in ['test'])}">
     <script type="text/javascript">
-      <g:if test="${!(params.fbLogout) && !(params.facebookUid)}">
+      <g:if test="${!(params.fbLogout)}">
       setTimeout("loginToMenuPlanner()",2000);
       </g:if>
         function getUid() {
@@ -277,13 +277,16 @@
         function logoutFB() {
             FB.Connect.logout()
         }
-        <g:if test="${params.fbLogout}">
-        setTimeout("logoutFB()",2000);
-        </g:if>
         function loginToMenuPlanner(){
           FB.Facebook.get_sessionState().waitUntilReady(function(session){
             if(session){
-              self.location.href="${createLink(controller:'login',action:'index')}?facebookUid=" + getUid()
+              $.post("${createLink(controller:'login',action:'isFacebookConnected')}",{'facebookUid':getUid()},function(data){
+                if(data=="true"){
+                  window.location.reload();
+                }else{
+                  alert("Your account is not connected with Facebook.");
+                }
+              })
             }
           });
         }

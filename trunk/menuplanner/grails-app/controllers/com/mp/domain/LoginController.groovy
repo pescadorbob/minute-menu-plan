@@ -7,14 +7,6 @@ class LoginController {
     def asynchronousMailService
 
     def index = {
-        if(params.facebookUid){
-            LoginCredential loginCredential = FacebookAccount.findByUid(params.long("facebookUid"))
-            if (loginCredential) {
-                if (loginCredential.party.isEnabled) {
-                    SessionUtils.session.loggedUserId=FacebookAccount.findByUid(params.long("facebookUid"))?.party?.id
-                }
-            }
-        }
         flash.message = ""
         if (LoginCredential.currentUser) {
             redirect(controller: 'recipe', action: 'list')
@@ -74,6 +66,22 @@ class LoginController {
         } else {
             render(view: 'home', model: [loginCO: loginCO])
         }
+    }
+
+    def isFacebookConnected = {
+        if(request.method=="POST"){
+            if(params.facebookUid){
+                LoginCredential loginCredential = FacebookAccount.findByUid(params.long("facebookUid"))
+                if (loginCredential) {
+                    if (loginCredential.party.isEnabled) {
+                        SessionUtils.session.loggedUserId=FacebookAccount.findByUid(params.long("facebookUid"))?.party?.id
+                        render "true"
+                        return 
+                    }
+                }
+            }
+        }
+        render "false"
     }
 }
 
