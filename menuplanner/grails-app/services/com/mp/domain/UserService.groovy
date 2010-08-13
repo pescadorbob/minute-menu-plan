@@ -199,7 +199,6 @@ class UserCO {
         party.name = name
         if ((UserType.Subscriber.name() in roles)) {
             Subscriber subscriber = party.subscriber ? party.subscriber : new Subscriber()
-            println "Updated City: " + city
             subscriber.city = city
             subscriber.mouthsToFeed = mouthsToFeed
             subscriber.introduction = introduction
@@ -214,6 +213,17 @@ class UserCO {
 
         if (UserType.SuperAdmin.name() in roles && !party.superAdmin) {
             new SuperAdmin(party: party).s()
+        }
+
+        if(party.userLogin){
+            UserLogin login = party.userLogin
+            login.email = email
+            if(login.password != password){
+                login.password = password.encodeAsBase64()
+            }
+            login.s()
+        } else if(email){
+            new UserLogin(email: email, password: password.encodeAsBase64(), party: party).s()
         }
 
         party.isEnabled = isEnabled
