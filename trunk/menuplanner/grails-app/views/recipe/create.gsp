@@ -4,6 +4,7 @@
     <meta name="layout" content="menu"/>
     <title>Add Recipe</title>
     <rateable:resources/>
+    <tinyMce:importJs/>
 </head>
 <body>
 
@@ -28,24 +29,18 @@
                         <g:renderErrors bean="${recipeCO}"/>
                     </div>
                 </g:hasErrors>
-                <div id="menu">
-                    <ul>
-                        <li><a class="tabs current" id="tabGeneralInfo" style="${mp.checkGeneralInfoTabError(bean: recipeCO, fields: ['name', 'makesServing', 'preparationTime', 'cookTime', 'difficulty', 'categoryIds'])}"><span>General&nbsp;Info</span></a></li>
-                        <li><a class="tabs" id="tabIngredients" style="${hasErrors(bean: recipeCO, field: 'hiddenIngredientProductNames', 'color:red;')}"><span>Ingredients</span></a></li>
-                        <li><a class="tabs" id="tabCookingSteps" style="${hasErrors(bean: recipeCO, field: 'directions', 'color:red;')}"><span>Cooking&nbsp;Steps</span></a></li>
-                        <li><a class="tabs" id="tabServeWith"><span>Serve&nbsp;With</span></a></li>
-                        <li><a class="tabs" id="tabNutritionFacts" style="${hasErrors(bean: recipeCO, field: 'nutrientQuantities', 'color:red;')}"><span>Nutrition&nbsp;Facts</span></a></li>
-                    </ul>
-                </div>
+          <div class="top-shadow">
+            <label> </label>
+          </div>
 
                 <g:uploadForm name="formCreateRecipe">
-
+                  <div class="tabPanel leftbox clearfix" id=panelGeneralInfo>                    
                     <g:render template="/recipe/generalInfo" model="[recipeCO: recipeCO, timeUnits: timeUnits]"/>
-                    <g:render template="/recipe/ingredients" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
+                    <g:render template="/recipe/ingredients" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>                      
                     <g:render template="/recipe/cookingSteps" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
                     <g:render template="/recipe/serveWith" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
                     <g:render template="/recipe/nutrientFacts" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
-
+                  </div>
                     <div class="bottom-shadow">
                         <label>&nbsp;</label>
                     </div>

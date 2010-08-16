@@ -3,41 +3,8 @@
     var sampleDirectionRowHTML = jQuery('#sampleDirectionRow>tbody').html();
 
     jQuery(document).ready(function() {
-        jQuery('#tabGeneralInfo').click(function() {
-            jQuery('.tabPanel').css('display', 'none');
-            jQuery('.tabs').removeClass('current');
-            jQuery('#tabGeneralInfo').addClass('current');
-            jQuery('#panelGeneralInfo').show()
-        })
-        jQuery('#tabIngredients').click(function() {
-            jQuery('.tabPanel').css('display', 'none');
-            jQuery('.tabs').removeClass('current');
-            jQuery('#tabIngredients').addClass('current');
-            jQuery('#panelIngredients').show()
-            bindEventsFor("tableIngredients", "ingredientRow");
-            bindEventsFor("tableDirections", "directionRow")
-        })
-        jQuery('#tabCookingSteps').click(function() {
-            jQuery('.tabPanel').css('display', 'none');
-            jQuery('.tabs').removeClass('current');
-            jQuery('#tabCookingSteps').addClass('current');
-            jQuery('#panelCookingSteps').show()
-            bindEventsFor("tableIngredients", "ingredientRow");
-            bindEventsFor("tableDirections", "directionRow")
-        })
-        jQuery('#tabServeWith').click(function() {
-            jQuery('.tabPanel').css('display', 'none');
-            jQuery('.tabs').removeClass('current');
-            jQuery('#tabServeWith').addClass('current');
-            jQuery('#panelServeWith').show()
-        })
-        jQuery('#tabNutritionFacts').click(function() {
-            jQuery('.tabPanel').css('display', 'none');
-            jQuery('.tabs').removeClass('current');
-            jQuery('#tabNutritionFacts').addClass('current');
-            jQuery('#panelNutritionFacts').show()
-        })
-        /* ADD INGREDIENT:  function to be executed when btnAddIngredient is Clicked... */
+        /* ADD INGREDIENT:  function to be executed when btnAddIngredient is Clicked or optionIngredientAisleIds is blured... */
+        jQuery("#optionIngredientAisleIds").blur(function(){jQuery('#btnAddIngredient').click()})
         jQuery('#btnAddIngredient').click(function() {
             var quantity = jQuery('#optionIngredientQuantities').attr('value')
             var unitId = jQuery('#optionIngredientUnitIds').attr('value')
@@ -76,6 +43,7 @@
             jQuery('#combobox_optionIngredientUnitIds').unbind('focus')
             jQuery('#optionIngredientProductIds').unbind('blur')
             jQuery('#optionIngredientProductIds').unbind('focus')
+            jQuery('#optionIngredientQuantities').focus()
         })
         /* ADD DIRECTION:  function to be executed when btnAddDirection is Clicked... */
         jQuery('#btnAddDirection').click(function() {

@@ -1,5 +1,7 @@
 <%@ page import="com.mp.domain.*" %>
-<div class="tabPanel leftbox clearfix" id=panelIngredients style="display:none;">
+
+<div class="clearfix" id=panelIngredients>
+    <div class="recipeSubhead" style="${hasErrors(bean: recipeCO, field: 'hiddenIngredientProductNames', 'color:red;')}">Ingredients:</div>
     <div class="formElement">
         <div class="showIngredientsHere">
             <table id="unitTable" style="display:none;">
@@ -12,9 +14,9 @@
             </table>
             <table id="tableIngredients" cellspacing="0px" cellpadding="0px" width="100%" class="menuplannerTab">
                 <tr id="tableIngredientsHeader" class="mnuTableHeader">
-                    <td width="25">&nbsp;</td>
-                    <td width="25">&nbsp;</td>
-                    <td width="30">&nbsp;</td>
+                    <td width="">&nbsp;</td>
+                    <td width="">&nbsp;</td>
+                    <td width="">&nbsp;</td>
                     <td width="65"><strong>Amount</strong></td>
                     <td width="105"><strong>Unit</strong></td>
                     <td width="105"><strong>Ingredient</strong></td>
@@ -136,6 +138,7 @@
         if (currentUnit == 'Other...') {
             $("#optionIngredientUnitIds").val('')
             $("#unitAddPopup").show()
+            $("#unitName").focus();
         } else {
             $("#optionIngredientUnitIds").children().each(function() {
                 if ($(this).text() == currentUnit) {
