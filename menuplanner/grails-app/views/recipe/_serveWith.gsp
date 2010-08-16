@@ -1,4 +1,5 @@
-<div class="tabPanel leftbox clearfix" id=panelServeWith style="display:none;">
+<div class="clearfix" id=panelServeWith >
+   <div class="recipeSubhead">Serve With:</div>
     <div class="formElement">
         <div>
             <table class="menuplannerTab" cellspacing="0px" cellpadding="0px" width="100%">

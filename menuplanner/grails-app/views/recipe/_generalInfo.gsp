@@ -1,5 +1,4 @@
 <%@ page import="com.mp.domain.RecipeDifficulty" %>
-<div class="tabPanel leftbox clearfix" id=panelGeneralInfo>
     <table id="categoryTable" style="display:none;">
         <g:each in="${categories}">
             <tr>
@@ -15,7 +14,10 @@
                     <li><label>Name</label>
                         <span><g:textField class="inpbox ${hasErrors(bean:recipeCO,field:'name', 'errors')}" name="name" value="${recipeCO?.name}"/></span></li>
                     <li><label>Description</label></li>
-                    <li><span><g:textArea class="inpbox ${hasErrors(bean:recipeCO,field:'description', 'errors')}" name="description" rows="4" cols="37" value="${recipeCO?.description}"/></span><br/></li>
+                    <li><span>
+                        %{--<g:textArea class="inpbox ${hasErrors(bean:recipeCO,field:'description', 'errors')}" name="description" rows="4" cols="37" value="${recipeCO?.description}"/>--}%
+                        <tinyMce:renderEditor type="simple" style="width:100px"  name="decription" >${recipeCO?.description}</tinyMce:renderEditor>
+                    </span><br/></li>
                    <li></li>
                     <li><label>Categories</label>
                         <span>
@@ -76,4 +78,4 @@
             </li>
         </ul>
     </div>
-</div>
+

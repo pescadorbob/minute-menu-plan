@@ -43,3 +43,4 @@ html[xmlns] .clearfix {display: block;}
 /* end wrapper start footer */
 #footer{background:url(../images/footer-bg.gif) no-repeat top center; height:126px;}
 /* end footer */
+.recipeSubhead{clear:both;padding-top:20px;font-weight:bold;font-size:13px}

@@ -58,7 +58,7 @@
 .formElement ul li.browsebox{text-align:right;}
 .formElement ul li ul li{float:none;clear:both;padding-bottom:10px;height:25px;}
 .formElement ul li ul li label{float:left;width:100px;}
-.formElement ul li ul li span{float:left;width:190px;}
+.formElement ul li ul li>span{float:left;width:190px;}
 #leftLiElements{width:370px;}
 #rightLiElements{width:210px;text-align: right;}
 #contectElement{clear:both;padding-top:20px;color:#616a72;}

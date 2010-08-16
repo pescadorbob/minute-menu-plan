@@ -1,5 +1,6 @@
 <%@ page import="com.mp.domain.RecipeDifficulty" %>
-<div class="tabPanel leftbox clearfix" id=panelNutritionFacts style="display:none;">
+<div class="clearfix" id=panelNutritionFacts>
+   <div class="recipeSubhead" style="${hasErrors(bean: recipeCO, field: 'nutrientQuantities', 'color:red;')}">Nutrition&nbsp;Facts:</div>
     <div class="formElement">
         <div style="background-color:#ddd;">
             <table cellspacing="0px" cellpadding="0px" width="100%" class="menuplannerTab">
