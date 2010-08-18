@@ -193,7 +193,7 @@ class RecipeController {
         }
         recipes = recipes?.unique {it.id}
         Integer customServings = LoginCredential.currentUser.party?.subscriber?.mouthsToFeed 
-        [recipes: recipes, printOneRecipePerPage: printOneRecipePerPage, customServings: customServings]
+        [recipes: recipes, printOneRecipePerPage: printOneRecipePerPage, customServings: customServings, isPrintable: true]
     }
 
     def reportCommentAbuse = {
