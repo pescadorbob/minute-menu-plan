@@ -64,10 +64,15 @@ class MenuplannerTagLib {
         Long id = attrs['id']
         String noImage = (attrs['noImage']) ? attrs['noImage'] : 'no-img.gif'
         String clas = attrs['class']
+        String imgTag = "<img "
+	if(clas){imgTag += "class='${clas}' "}
+	if(height){imgTag += "height='${height}' "}
+	if(width){imgTag += "width='${width}' "}	
+	imgTag += "src='" 
         if (Image.exists(id)) {
-            out << "<img class='${clas}' height='${height}' width='${width}' src='" + createLink(controller: 'image', action: 'image', params: [id: id]) + "'/>"
+            out << imgTag + createLink(controller: 'image', action: 'image', params: [id: id]) + "'/>"
         } else {
-            out << "<img class='${clas}' height='${height}' width='${width}' src='" + createLink(controller: 'image', action: 'imageByPath', params: [noImage: noImage]) + "'/>"
+            out << imgTag + createLink(controller: 'image', action: 'imageByPath', params: [noImage: noImage]) + "'/>"
         }
     }
 
@@ -90,9 +95,7 @@ class MenuplannerTagLib {
 
 
     def comments = {attrs ->
-        println "Id: " + attrs['recipeId']
         Recipe recipe = Recipe.get(attrs['recipeId'])
-        println "Recipe: " + recipe
         List<Comment> nonAbusiveComments = recipe?.comments
         List<Comment> abusiveComments = []
         if (recipe.comments) {
@@ -106,8 +109,33 @@ class MenuplannerTagLib {
         out << g.render(template: "/recipe/comments", model: [recipe: recipe, comments: nonAbusiveComments])
     }
 
-    def showRecipeAbuse = {attrs ->
+    def commentsForPrinting = {attrs ->
+        Recipe recipe = Recipe.get(attrs['recipeId'])
+        List<Comment> nonAbusiveComments = recipe?.comments
+        List<Comment> abusiveComments = []
+        List<Comment> lastThreeComments = []
+        if (recipe.comments) {
+            abusiveComments = CommentAbuse.findAllByCommentInList(recipe.comments)
+            if (abusiveComments) {
+                Map x = abusiveComments.groupBy {it.comment.id}
+                abusiveComments = abusiveComments?.findAll {(x[it.id]?.size()) >= 3}
+                nonAbusiveComments = recipe.comments.findAll {(!(it.id in abusiveComments.id))}
+            }
+            Integer listSize = nonAbusiveComments.size()
+            if (listSize > 3) {
+                ((listSize - 2)..listSize).each {
+                    lastThreeComments.add(nonAbusiveComments[it - 1])
+                }
+            } else {
+                nonAbusiveComments.each {Comment comment ->
+                    lastThreeComments.add(comment)
+                }
+            }
+            out << g.render(template: "/recipe/comments", model: [recipe: recipe, comments: lastThreeComments, isPrintable: true])
+        }
+    }
 
+    def showRecipeAbuse = {attrs ->
         Recipe recipe = Recipe.get(attrs['recipeId'])
         LoginCredential user = LoginCredential.currentUser
         Boolean reported = false
@@ -123,9 +151,10 @@ class MenuplannerTagLib {
 
     def reportCommentAbuse = {attrs ->
         Comment comment = attrs['comment']
+        Recipe recipe = Recipe.get(attrs['recipeId'])
         LoginCredential user = LoginCredential.currentUser
         Boolean alreadyReported = CommentAbuse.countByCommentAndReporter(comment, user?.party) as Boolean
-        out << g.render(template: "/recipe/reportCommentAbuse", model: [comment: comment, user: user, alreadyReported: alreadyReported])
+        out << g.render(template: "/recipe/reportCommentAbuse", model: [comment: comment, user: user, recipe: recipe, alreadyReported: alreadyReported])
     }
 
     def firstTimeUser = {attrs, body ->

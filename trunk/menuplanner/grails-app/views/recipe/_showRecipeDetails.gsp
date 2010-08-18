@@ -34,12 +34,20 @@
             </ul>
         </li>
         <li id="rightLiElements">
-            <mp:image id="${recipe?.image?.id}" height="160" width="160"/><br/>
+            <div id="photo200" class="scaleImageSize">
+                <mp:image id="${recipe?.image?.id}"/>
+            </div>
+            <br/>
             <g:link controller="user" action="alterFavorite" name="changeFavorite" id="${recipe?.id}">
                 <span id="showFavorite" style="text-align:right;"><mp:showFavorite recipeId="${recipe?.id}"/></span>
             </g:link> &nbsp;&nbsp;
             <span id="showRecipeAbuse" style="text-align:right;"><mp:showRecipeAbuse recipeId="${recipe?.id}"/></span>
         </li>
     </ul>
-    <mp:comments recipeId="${recipe?.id}"/>
+    <g:if test="${isPrintable}">
+        <mp:commentsForPrinting recipeId="${recipe?.id}"/>
+    </g:if>
+    <g:else>
+        <mp:comments recipeId="${recipe?.id}"/>
+    </g:else>
 </div>
