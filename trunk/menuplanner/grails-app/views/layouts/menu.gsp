@@ -19,6 +19,7 @@
     <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.autocomplete.min.js')}"></script>
     <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.tools.min.js')}"></script>
     <script type="text/javascript" src="${resource(dir: 'js', file: 'shoppingList.js')}"></script>
+    <script type="text/javascript" src="${resource(dir: 'js', file: 'menuplanner.js')}"></script>
     %{--<script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.corner.js')}"></script>--}%
     <g:layoutHead/>
 
@@ -58,6 +59,7 @@
     });
 
     jQuery(document).ready(function() {
+        scaleImageSize();
         jQuery("#ajax_spinner").ajaxStart(function() {
             jQuery(this).show();
         });
