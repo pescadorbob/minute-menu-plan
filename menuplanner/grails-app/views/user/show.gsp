@@ -29,8 +29,8 @@
 
                 <div id="leftpanel">
                     <g:if test="${party?.subscriber}">
-                        <div id="photo">
-                            <mp:image id="${party?.subscriber?.image?.id}" height="150" width="150"/>
+                        <div id="photo200" class="scaleImageSize">
+                            <mp:image id="${party?.subscriber?.image?.id}"/>
                         </div>
                     </g:if>
                     <ul>
