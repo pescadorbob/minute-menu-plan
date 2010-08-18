@@ -36,10 +36,12 @@
                 </div>
                 <g:uploadForm name="formEditRecipe">
                     <g:hiddenField name='id' value='${recipeCO?.id}'/>
-                    <g:render template="/recipe/generalInfo" model="[recipeCO: recipeCO, timeUnits: timeUnits]"/>
-                    <g:render template="/recipe/cookingSteps" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
-                    <g:render template="/recipe/serveWith" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
-                    <g:render template="/recipe/nutrientFacts" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
+                    <div class="tabPanel leftbox clearfix" id=panelGeneralInfo>
+                        <g:render template="/recipe/generalInfo" model="[recipeCO: recipeCO, timeUnits: timeUnits]"/>
+                        <g:render template="/recipe/cookingSteps" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
+                        <g:render template="/recipe/serveWith" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
+                        <g:render template="/recipe/nutrientFacts" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
+                    </div>
                     <div class="bottom-shadow">
                         <label>&nbsp;</label>
                     </div>

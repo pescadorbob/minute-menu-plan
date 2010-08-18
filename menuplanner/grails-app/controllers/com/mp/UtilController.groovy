@@ -15,6 +15,7 @@ class UtilController {
     def userService
     def asynchronousMailService
     def facebookConnectService
+    def utilService
 
     static config = ConfigurationHolder.config
 
@@ -31,6 +32,21 @@ class UtilController {
     def triggerFacebookSync = {
         FacebookProfileSyncJob.triggerNow()
         render "Job Triggered"
+    }
+
+    def testIngredientParser = {
+
+    }
+
+    def testIngredientParserSubmit = {
+        println ">>>>>>>>>>>>>>>>>>>>>>>>>>>Go It"
+        Map model=[:]
+
+        List<IngredientItemVO> ingredientItemVOs= utilService.parseIngredients(params.ingredients)
+        model.ingredientItemVOs=ingredientItemVOs
+
+        render (view:'testIngredientParser',model:model)
+
     }
 
     def test = {
@@ -162,4 +178,12 @@ class UtilController {
         }
         return resultantQuantity
     }
+}
+
+class IngredientItemVO{
+    String amount;
+    String measure
+    String ingredient
+    String preparationMethod
+    String aisle
 }
