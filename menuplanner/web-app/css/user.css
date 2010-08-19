@@ -38,7 +38,7 @@
     border: 2px solid #d6d4d5;
     width: 190px;
 }
-#photo200{width:200px; height:200px;border: 2px solid #d6d4d5;}
+#photo200{width:200px; height:200px;border: 2px solid #d6d4d5; text-align:left;}
 
 /* end leftpanel start rightpanel  */
 #rightpanel {

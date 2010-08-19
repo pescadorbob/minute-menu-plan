@@ -1,6 +1,7 @@
 package com.mp.domain
 
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import org.grails.plugins.imagetools.ImageTool
 
 class Image {
 
@@ -17,19 +18,28 @@ class Image {
 //        storedName(unique: 'path')
     }
 
-    public static String createTempImage(byte[] fileContents, String extension){
+    public static String createTempImage(byte[] fileContents, String extension) {
         String filePath = config.tempDir
         String fileName = 'Img_' + System.currentTimeMillis()?.toString() + '.' + extension
-        String path = createImageFile(fileContents, filePath, fileName).absolutePath as String
+        String path = createImageFile(fileContents, filePath, fileName)
         return path
     }
 
-    public static File createImageFile(byte[] fileContents, String filePath, String fileName){
+    public static String createImageFile(byte[] fileContents, String filePath, String fileName) {
         File file = new File(filePath)
         file.mkdirs()
         File actualFile = new File(file, fileName)
         actualFile.withOutputStream {out -> out.write fileContents }
-        return actualFile
+        resizeImage(filePath + fileName)
+        return actualFile.absolutePath
+    }
+
+    private static void resizeImage(String completeFilePath, Integer imageSize = config.imageSize) {
+        ImageTool imageTool = new ImageTool()
+        imageTool.load(completeFilePath)
+        imageTool.thumbnail(imageSize)
+        imageTool.writeResult(completeFilePath, "JPEG")
+        imageTool.swapSource()
     }
 
     public static Image createFile(Long id, String relativePath, String fileName, byte[] fileContents, String altText) {
@@ -62,7 +72,7 @@ class Image {
 
     public Image(String recipeImagePath, String targetPath, String recipeId, String altText = "Some alt text") {
         File imageFile = new File(recipeImagePath)
-        storedName = recipeId + '.' +imageFile.name.tokenize('.').tail().join('.')
+        storedName = recipeId + '.' + imageFile.name.tokenize('.').tail().join('.')
         actualName = imageFile.name.tokenize('.').first()
         extension = imageFile.name.tokenize('.').tail().join('.')
         path = targetPath
@@ -70,7 +80,8 @@ class Image {
     }
 
     //ImageOwner could be a Recipe/Subscriber
-    public static boolean updateOwnerImage(def imageOwner, String imagePath){
+
+    public static boolean updateOwnerImage(def imageOwner, String imagePath) {
         if (!imagePath) {
             imageOwner.deleteImage()
             return false

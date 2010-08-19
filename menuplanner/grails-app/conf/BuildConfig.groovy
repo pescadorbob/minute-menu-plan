@@ -3,6 +3,7 @@ grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir	= "target/test-reports"
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 grails.plugin.location.'tiny-mce'="custom-plugins/tiny-mce-0.1"
+grails.plugin.location.'image-tools'="custom-plugins/image-tools-1.0.4"
 grails.project.dependency.resolution = {
     // inherit Grails' default dependencies
     inherits( "global" ) {
