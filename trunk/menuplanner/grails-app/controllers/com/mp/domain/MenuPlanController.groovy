@@ -10,7 +10,9 @@ class MenuPlanController {
         params.max = Math.min(params.max ? params.int('max') : 4, 150)
         List<Recipe> recipeList = Recipe.list(params)
         MenuPlan menuPlan = MenuPlan.get(params.long("id"))
-        render(view: 'show', model: [menuPlan: menuPlan, categoryList: Category.list(), itemList: recipeList, itemTotal: Recipe.count()])
+        List<SubCategory> subCategories = (Recipe.list()*.subCategories)?.flatten()?.unique {it.id}?.sort {it.name}
+        List<Category> categories = (subCategories*.category)?.flatten()?.unique {it.id}?.sort {it.name}
+        render(view: 'show', model: [menuPlan: menuPlan, categories: categories, subCategories: subCategories, itemList: recipeList, itemTotal: Recipe.count()])
     }
 
     def create = {
@@ -30,14 +32,18 @@ class MenuPlanController {
             }
         }
         List<Recipe> recipeList = Recipe.list(params)
-        render(view: 'create', model: [menuPlan: menuPlan, categories: Category.list(), itemList: recipeList, itemTotal: Recipe.count()])
+        List<SubCategory> subCategories = (Recipe.list()*.subCategories)?.flatten()?.unique {it.id}?.sort {it.name}
+        List<Category> categories = (subCategories*.category)?.flatten()?.unique {it.id}?.sort {it.name}
+        render(view: 'create', model: [menuPlan: menuPlan, categories: categories, subCategories: subCategories, itemList: recipeList, itemTotal: Recipe.count()])
     }
 
     def edit = {
         params.max = Math.min(params.max ? params.int('max') : 4, 150)
         List<Recipe> recipeList = Recipe.list(params)
         MenuPlan menuPlan = MenuPlan.get(params.long("id"))
-        render(view: 'edit', model: [menuPlan: menuPlan, categoryList: Category.list(), itemList: recipeList, itemTotal: Recipe.count()])
+        List<SubCategory> subCategories = (Recipe.list()*.subCategories)?.flatten()?.unique {it.id}?.sort {it.name}
+        List<Category> categories = (subCategories*.category)?.flatten()?.unique {it.id}?.sort {it.name}
+        render(view: 'edit', model: [menuPlan: menuPlan, categories: categories, subCategories: subCategories, itemList: recipeList, itemTotal: Recipe.count()])
     }
 
     def saveAndUpdate = {
@@ -81,15 +87,41 @@ class MenuPlanController {
     }
 
     def search = {
-        String searchDomainName = (params.searchByDomainName != 'null') ? ('com.mp.domain.' + params.searchByDomainName) : ('com.mp.domain.Recipe')
         List<String> allQueries = []
-        params.query = (params.query == 'null') ? '' : params.query
-        params?.list("query")?.eachWithIndex {String myQ, Integer index ->
-            allQueries.push(myQ)
+        List<String> subCategoriesString = []
+        String subQueryString
+        if (!params.query || (params.query == 'null')) {
+            params.query = ''
+        }
+        if ((params.query instanceof String) && params.query.startsWith('[')) {
+            params.query = params.query.substring(1, params.query.length() - 1).tokenize(',')
+        }
+        List queryList = params.list('query').flatten()
+        queryList = queryList.findAll {it?.trim()}
+
+        queryList?.eachWithIndex {String myQ, Integer index ->
+
+            if (myQ.contains('subCategoriesString')) {
+                String categoryString = myQ.split(":").flatten().get(1)
+                if (categoryString.endsWith(']')) {
+                    categoryString = categoryString.substring(0, categoryString.length() - 1)
+                }
+                subCategoriesString.add(categoryString)
+
+            } else {
+                allQueries.push(myQ)
+            }
             if (!(myQ.contains(':'))) {
                 allQueries[index] = '*' + myQ + '*'
             }
         }
+
+        if (subCategoriesString) {
+            subQueryString = subCategoriesString.join('" OR "')
+            subQueryString = '"' + subQueryString + '"'
+            allQueries.push('subCategoriesString:' + subQueryString)
+        }
+
         List<Recipe> results = []
         String query = allQueries?.join(" ")?.tokenize(", ")?.join(" ")
         if (query.startsWith('[')) {
@@ -98,18 +130,24 @@ class MenuPlanController {
         Integer total
 
         if (query && (query != 'null')) {
-            Class clazz = grailsApplication.getClassForName(searchDomainName)
-            def searchList = clazz.search([reload: true, max: 4, offset: params.offset ? params.long('offset') : 0]) {
-                must(queryString(query))
+            def searchList
+            if (params.searchByDomainName == 'Item') {
+                searchList = Item.search([reload: true, max: 4, offset: params.offset ? params.long('offset') : 0]) {
+                    must(queryString(query))
+                }
+            } else {
+                searchList = Recipe.search([reload: true, max: 4, offset: params.offset ? params.long('offset') : 0]) {
+                    must(queryString(query))
+                }
             }
             results = searchList?.results
             total = searchList?.total
         } else {
             params.max = 4
-            results = Item.list(params)
-            total = Item.count()
+            results = Recipe.list(params)
+            total = Recipe.count()
         }
-        render(template: '/menuPlan/searchResultMenuPlan', model: [itemList: results, itemTotal: total, query: params.query])
+        render(template: '/menuPlan/searchResultMenuPlan', model: [itemList: results, itemTotal: total, query: queryList])
     }
 
     def printerFriendlyMenuPlan = {

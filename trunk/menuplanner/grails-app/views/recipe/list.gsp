@@ -16,7 +16,7 @@
                     update="rightContainer">
                 <span id="searchParams" style="display:none;"></span>
                 <span style="display:none;"><input type="submit"/></span>
-                <g:render template="/recipe/search" model="['categoryList':categoryList]"/>
+                <g:render template="/recipe/search" model="[categories: categories, subCategories: subCategories]"/>
             </g:formRemote>
             <div id="right-panel-product">
                 <g:if test="${flash.message}">
