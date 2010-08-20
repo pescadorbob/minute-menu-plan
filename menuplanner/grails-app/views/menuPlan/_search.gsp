@@ -20,17 +20,14 @@
                 </div>
                 <div id="youhave">
                     <h2>You've Selected</h2>
-
+                    <div>
+                        <ul id="categoryList" style="cursor:pointer;font-size:12px; padding-left:4px;">
+                        </ul>
+                    </div>
                     <table id="tableOption" style="border:0px;">
-                        <tr id="subCategoriesStringRow" style="display:none;">
-                            <td width="100px;"></td>
-                            <td>
-                                <span id="subCategoriesStringDisplay" class="searchOptionTexts"></span>
-                            </td>
-                        </tr>
                         <tr id="domainTypeRow" style="display:none;">
                             <td width="100px;">
-                                <img onclick="noDomainSpecified('domainType', 'Recipe')" id="dimainTypeRemove" src="${resource(dir: 'images', file: 'delete-icon.jpg')}" align="top" style="cursor:pointer;"/>
+                                <img onclick="noDomainSpecified('domainType', 'Recipe')" id="domainTypeRemove" src="${resource(dir: 'images', file: 'delete-icon.jpg')}" align="top" style="cursor:pointer;"/>
                             </td>
                             <td>
                                 <span id="domainTypeDisplay" class="searchOptionTexts"></span>
@@ -107,16 +104,16 @@
                 <div id="country-cate">
                     <ul>
                         <li>
-                            <select name="qSelect" id="qSelect" style="width:107px" class="auto-resize" onchange="submitSearchFormBySelect()">
-                                <optgroup label="--"><option value="">(Select One)</option></optgroup>
-                                <g:each in="${categories}" var="category">
-                                    <optgroup label="${category.name}">
-                                        <g:each in="${category.subCategories}" var="subCategory">
-                                            <option value="${subCategory}">${subCategory}</option>
-                                        </g:each>
-                                    </optgroup>
-                                </g:each>
-                            </select>
+                            <g:each in="${categories}" var="category">
+                                <span class="pointer" onclick="showSubCategoryDivMenuPlan('${category?.id}');">< ${category}</span><br/>
+                                <div id="category${category?.id}" class="categoryMenuPlan">
+                                    <a href="javascript:void(0);" onclick="jQuery(this).parent().hide();" style="float:right;">Close</a>
+                                    <g:each in="${category.subCategories.findAll{it.id in subCategories*.id}}" var="${subCategory}">
+                                        <span class="pointer" onclick="submitSearchForm(this, 'subCategoriesString', '${subCategory}');
+                                        jQuery(this).parent().hide();">${subCategory}</span><br/>
+                                    </g:each>
+                                </div>
+                            </g:each>
                         </li>
                         <li>
                             <span id="domainProduct" class="pointer" onclick="defineSearchDomainType(this, 'domainType', 'Item');">Include Products</span><br/>

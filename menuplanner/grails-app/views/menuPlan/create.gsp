@@ -28,7 +28,7 @@
         </div>
         </div>
     </g:form>
-    <g:render template="/menuPlan/search"/>
+    <g:render template="/menuPlan/search" model="[categories:categories,subCategories:subCategories]"/>
 </div>
 <mp:firstTimeUser>
     <div class="tooltip" id="draggingBaloonTip" style="display: none; visibility: visible; position: absolute; top: 155px; left: 650px;">

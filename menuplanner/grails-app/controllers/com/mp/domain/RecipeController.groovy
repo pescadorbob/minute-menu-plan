@@ -40,27 +40,54 @@ class RecipeController {
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 15, 150)
         List<Recipe> recipeList = Recipe.list(params)
-        render(view: 'list', model: [recipeList: recipeList, categories: Category.list(), recipeTotal: Recipe.count()])
+        List<SubCategory> subCategories = (Recipe.list()*.subCategories)?.flatten()?.unique {it.id}?.sort {it.name}
+        List<Category> categories = (subCategories*.category)?.flatten()?.unique {it.id}?.sort {it.name}
+        render(view: 'list', model: [recipeList: recipeList, categories: categories, subCategories: subCategories, recipeTotal: Recipe.count()])
     }
 
     def search = {
         List<String> allQueries = []
-        params.query = (params.query == 'null') ? '' : params.query
-        params?.list("query")?.eachWithIndex {String myQ, Integer index ->
-            allQueries.push(myQ)
+        List<String> subCategoriesString = []
+        String subQueryString
+        if (!params.query || (params.query == 'null')) {
+            params.query = ''
+        }
+        if ((params.query instanceof String) && params.query.startsWith('[')) {
+            params.query = params.query.substring(1, params.query.length() - 1).tokenize(',')
+        }
+        List queryList = params.list('query').flatten()
+        queryList = queryList.findAll {it?.trim()}
+        queryList?.eachWithIndex {String myQ, Integer index ->
+
+            if (myQ.contains('subCategoriesString')) {
+                String categoryString = myQ.split(":").flatten().get(1)
+                if (categoryString.endsWith(']')) {
+                    categoryString = categoryString.substring(0, categoryString.length() - 1)
+                }
+                subCategoriesString.add(categoryString)
+
+            } else {
+                allQueries.push(myQ)
+            }
             if (!(myQ.contains(':'))) {
                 allQueries[index] = '*' + myQ + '*'
             }
+        }
+
+        if (subCategoriesString) {
+            subQueryString = subCategoriesString.join('" OR "')
+            subQueryString = '"' + subQueryString + '"'
+            allQueries.push('subCategoriesString:' + subQueryString)
         }
         List<Recipe> results = []
         String query = allQueries?.join(" ")?.tokenize(", ")?.join(" ")
         if (query.startsWith('[')) {
             query = query.substring(1, query.length() - 1)
         }
-
         Integer total
+
         if (query && (query != 'null')) {
-            def searchList = Recipe.search([reload: true, max: 15, offset: params.offset ?: 0]) {
+            def searchList = Recipe.search([reload: true, max: 15, offset: params.offset ? params.long('offset') : 0]) {
                 must(queryString(query))
             }
             results = searchList?.results
@@ -192,7 +219,7 @@ class RecipeController {
             printOneRecipePerPage = false
         }
         recipes = recipes?.unique {it.id}
-        Integer customServings = LoginCredential.currentUser.party?.subscriber?.mouthsToFeed 
+        Integer customServings = LoginCredential.currentUser.party?.subscriber?.mouthsToFeed
         [recipes: recipes, printOneRecipePerPage: printOneRecipePerPage, customServings: customServings, isPrintable: true]
     }
 

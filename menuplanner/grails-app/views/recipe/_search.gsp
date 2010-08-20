@@ -8,13 +8,11 @@
             <input name="query" type="text" class="inp" value=""/>
         </div>
         <h2>You have Selected</h2>
+        <div>
+            <ul id="categoryList" style="cursor:pointer;font-size:12px; padding-left:4px;">
+            </ul>
+        </div>
         <table id="tableOption" style="border:0px; font-size:12px;">
-            <tr id="subCategoriesStringRow" style="display:none;">
-                <td width="100px;"></td>
-                <td>
-                    <span class="searchOptionTexts" id="subCategoriesStringDisplay"></span>
-                </td>
-            </tr>
             <tr id="favouriteForUsersStringRow" style="display:none;">
                 <td width="100px;">
                     <img onclick="removeSearchOption('favouriteForUsersString')" id="favouriteForUsersStringRemove" src="${resource(dir: 'images', file: 'delete-icon.jpg')}" align="top" style="cursor:pointer;"/>
@@ -30,7 +28,7 @@
                     Calories:
                 </td>
                 <td>
-                    <span id="nutrientsDisplay" class="searchOptionTexts"></span>
+                    <span id="caloriesDisplay" class="searchOptionTexts"></span>
                 </td>
             </tr>
             <tr id="difficultyRow" style="display:none;">
@@ -75,16 +73,16 @@
         <div id="country-cate">
             <ul>
                 <li>
-                    <select name="qSelect" id="qSelect" style="width:170px" class="auto-resize" onchange="submitSearchFormBySelect()">
-                        <optgroup label="--"><option value="">(Select One)</option></optgroup>
-                        <g:each in="${categories}" var="category">
-                            <optgroup label="${category.name}">
-                                <g:each in="${category.subCategories}" var="subCategory">
-                                    <option value="${subCategory}">${subCategory}</option>
-                                </g:each>
-                            </optgroup>
-                        </g:each>
-                    </select>
+                    <g:each in="${categories}" var="category">
+                        <span class="pointer" onclick="showSubCategoryDiv('${category?.id}');">${category} ></span><br/>
+                        <div id="category${category?.id}" class="categoryMenu">
+                            <a href="javascript:void(0);" onclick="jQuery(this).parent().hide();" style="float:right;">Close</a>
+                            <g:each in="${category.subCategories.findAll{it.id in subCategories*.id}}" var="${subCategory}">
+                                <span class="pointer" onclick="submitSearchForm(this, 'subCategoriesString', '${subCategory}');
+                                jQuery(this).parent().hide();">${subCategory}</span><br/>
+                            </g:each>
+                        </div>
+                    </g:each>
                 </li>
                 <li>
                     <span id="favouriteForUsersString" class="pointer" onclick="submitSearchForm(this, 'favouriteForUsersString', '*${LoginCredential.currentUser.id}*');">Favourites</span>
