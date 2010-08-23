@@ -1389,4 +1389,70 @@
             constraintName="FKA4FDB56737EDC341" deferrable="false"
             initiallyDeferred="false" referencedColumnNames="id" referencedTableName="party"/>
     </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-149">
+        <modifyColumn tableName="recipe_directions">
+            <column name="directions_string" type="varchar(5000)"/>
+        </modifyColumn>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-150">
+        <modifyColumn tableName="recipe">
+            <column name="description" type="varchar(5000)"/>
+        </modifyColumn>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-151">
+        <delete tableName="system_of_unit_units">
+            <where>unit_id in (select id from metric where symbol in ('drop', 'shots'))</where>
+        </delete>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-152">
+        <delete tableName="standard_conversion">
+            <where>source_unit_id in (select id from metric where symbol in ('drop', 'shots'))</where>
+        </delete>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-153">
+        <delete tableName="standard_conversion">
+            <where>target_unit_id in (select id from metric where symbol in ('drop', 'shots'))</where>
+        </delete>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-154">
+        <delete tableName="unit">
+            <where>id in (select id from metric where symbol in ('drop', 'shots'))</where>
+        </delete>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-155">
+        <delete tableName="metric">
+            <where>symbol in ('drop', 'shots')</where>
+        </delete>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-156">
+        <sql>update quantity set unit_id=(select id from metric where symbol='can') where unit_id in (select id from metric where symbol like '% can');</sql>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-157">
+        <sql>update measurable_product set preferred_unit_id=(select id from metric where symbol='can') where preferred_unit_id in (select id from metric where symbol like '% can');</sql>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-158">
+        <delete tableName="system_of_unit_units">
+            <where>unit_id in (select id from metric where symbol like '% can%')</where>
+        </delete>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-159">
+        <delete tableName="standard_conversion">
+            <where>source_unit_id in (select id from metric where symbol like '% can%')</where>
+        </delete>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-160">
+        <delete tableName="standard_conversion">
+            <where>target_unit_id in (select id from metric where symbol like '% can%')</where>
+        </delete>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-161">
+        <delete tableName="unit">
+            <where>id in (select id from metric where symbol like '% can%')</where>
+        </delete>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-162">
+        <delete tableName="metric">
+            <where>symbol like '% can%'</where>
+        </delete>
+    </changeSet>
 </databaseChangeLog>

@@ -109,6 +109,22 @@ class MenuConstants {
     public static final String UNIT_KILO_GRAM_SYMBOL = "Kg."
     public static final Float UNIT_KILO_GRAM_CONVERSION_FACTOR = (1000 * UNIT_MILLI_LITRE_CONVERSION_FACTOR)
 
+    public static final String UNIT_SMALL = "Small"
+    public static final String UNIT_SMALL_SYMBOL = "small"
+    public static final Float UNIT_SMALL_CONVERSION_FACTOR = (100 * UNIT_MILLI_LITRE_CONVERSION_FACTOR)
+
+    public static final String UNIT_MEDIUM = "Medium"
+    public static final String UNIT_MEDIUM_SYMBOL = "medium"
+    public static final Float UNIT_MEDIUM_CONVERSION_FACTOR = (500 * UNIT_MILLI_LITRE_CONVERSION_FACTOR)
+
+    public static final String UNIT_LARGE = "Large"
+    public static final String UNIT_LARGE_SYMBOL = "large"
+    public static final Float UNIT_LARGE_CONVERSION_FACTOR = (1000 * UNIT_MILLI_LITRE_CONVERSION_FACTOR)
+
+    public static final String UNIT_EACH = "Each"
+    public static final String UNIT_EACH_SYMBOL = "each"
+    public static final Float UNIT_EACH_CONVERSION_FACTOR = (1000 * UNIT_MILLI_LITRE_CONVERSION_FACTOR)
+
     public static final String UNIT_CALORIES = "Calories"
     public static final String UNIT_CALORIES_SYMBOL = "cal."
     public static final Float UNIT_CALORIES_CONVERSION_FACTOR = 1

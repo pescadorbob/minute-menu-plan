@@ -38,6 +38,37 @@ class MasterDataBootStrapService implements ApplicationContextAware {
 
     }
 
+    public void populateNewUnitsAndStandardConversions() {
+
+        SystemOfUnit systemOfUnitsMetric = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_METRIC)
+        SystemOfUnit systemOfUnitsUsa = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
+        Unit milliLitres = Unit.findByName(UNIT_MILLI_LITRE)
+
+        Unit eachUnit = new Unit(name: UNIT_EACH, symbol: UNIT_EACH_SYMBOL, definition: "This is definition for each", metricType: MetricType.METRIC, isWeightUnit: true, isConvertible: false)
+        eachUnit.addToSystemOfUnits(systemOfUnitsUsa)
+        eachUnit.addToSystemOfUnits(systemOfUnitsMetric)
+        eachUnit.s()
+        new StandardConversion(sourceUnit: eachUnit, targetUnit: milliLitres, conversionFactor: UNIT_EACH_CONVERSION_FACTOR).s()
+
+        Unit small = new Unit(name: UNIT_SMALL, symbol: UNIT_SMALL_SYMBOL, definition: "This is definition for small", metricType: MetricType.METRIC, isWeightUnit: true, isConvertible: false)
+        small.addToSystemOfUnits(systemOfUnitsUsa)
+        small.addToSystemOfUnits(systemOfUnitsMetric)
+        small.s()
+        new StandardConversion(sourceUnit: small, targetUnit: milliLitres, conversionFactor: UNIT_SMALL_CONVERSION_FACTOR).s()
+
+        Unit medium = new Unit(name: UNIT_MEDIUM, symbol: UNIT_MEDIUM_SYMBOL, definition: "This is definition for medium", metricType: MetricType.METRIC, isWeightUnit: true, isConvertible: false)
+        medium.addToSystemOfUnits(systemOfUnitsUsa)
+        medium.addToSystemOfUnits(systemOfUnitsMetric)
+        medium.s()
+        new StandardConversion(sourceUnit: medium, targetUnit: milliLitres, conversionFactor: UNIT_MEDIUM_CONVERSION_FACTOR).s()
+
+        Unit large = new Unit(name: UNIT_LARGE, symbol: UNIT_LARGE_SYMBOL, definition: "This is definition for large", metricType: MetricType.METRIC, isWeightUnit: true, isConvertible: false)
+        large.addToSystemOfUnits(systemOfUnitsUsa)
+        large.addToSystemOfUnits(systemOfUnitsMetric)
+        large.s()
+        new StandardConversion(sourceUnit: large, targetUnit: milliLitres, conversionFactor: UNIT_LARGE_CONVERSION_FACTOR).s()
+
+    }
     public void populateUnitsAndStandardConversions() {
 
         /* POPULATEING METRIC UNITS: */
