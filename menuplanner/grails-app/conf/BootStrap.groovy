@@ -8,6 +8,7 @@ import com.mp.domain.*
 import liquibase.Liquibase
 import liquibase.FileSystemFileOpener
 import liquibase.database.DatabaseFactory
+import static com.mp.MenuConstants.*
 
 class BootStrap {
 
@@ -145,6 +146,9 @@ class BootStrap {
         if (!Time.count()) {masterDataBootStrapService.populateTimeUnits()}
         if (StandardConversion.count() < 3) {
             masterDataBootStrapService.populateUnitsAndStandardConversions()
+        }
+        if(!Unit.findByName(UNIT_EACH)){
+            masterDataBootStrapService.populateNewUnitsAndStandardConversions()
         }
         if (!Nutrient.count()) {masterDataBootStrapService.populateNutrients()}
         masterDataBootStrapService.populateCategories()

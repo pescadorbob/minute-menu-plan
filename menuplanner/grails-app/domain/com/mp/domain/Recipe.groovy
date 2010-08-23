@@ -143,7 +143,7 @@ class Recipe extends Item implements Commentable, Rateable {
         cookingTime(nullable: true, blank: true)
         servings(nullable: true, blank: true)
         difficulty(nullable: true, blank: true)
-        description(nullable: true, blank: true)
+        description(nullable: true, blank: true, maxSize: 5000)
         image(nullable: true, blank: true)
     }
 
