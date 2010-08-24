@@ -1,10 +1,6 @@
 <script type="text/javascript">
-    var sampleIngredientRowHTML = jQuery('#sampleIngredientRow>tbody').html();
-    var sampleDirectionRowHTML = jQuery('#sampleDirectionRow>tbody').html();
-
     jQuery(document).ready(function() {
         /* ADD INGREDIENT:  function to be executed when btnAddIngredient is Clicked or optionIngredientAisleIds is blured... */
-        jQuery("#optionIngredientAisleIds").blur(function(){jQuery('#btnAddIngredient').click()})
         jQuery('#btnAddIngredient').click(function() {
             var quantity = jQuery('#optionIngredientQuantities').attr('value')
             var unitId = jQuery('#optionIngredientUnitIds').attr('value')
@@ -27,7 +23,6 @@
             var fractionRegex = /^\d+(\s)*(\d*(\s)*\/(\s)*\d+(\s)*)*$/;
 
             if ((prodName.length > 0) && (intRegex.test(quantity) || fractionRegex.test(quantity) || quantity == '')) {
-                AddIngredient(quantity, unitId, productId, unitName, prodName, unitSymbol, aisleId, preparationMethodId)
                 /* Reset Add Ingredient ToolBox.... */
                 jQuery('#optionIngredientQuantities').attr('value', '')
                 jQuery('#optionIngredientUnitIds').val(1)
@@ -46,15 +41,6 @@
             jQuery('#optionIngredientQuantities').focus()
         })
         /* ADD DIRECTION:  function to be executed when btnAddDirection is Clicked... */
-        jQuery('#btnAddDirection').click(function() {
-            var direction = jQuery('#optionDirections').attr('value')
-            if (direction.length > 0) {
-                AddDirection(direction)
-                /* Reset Add Direction ToolBox.... */
-                jQuery('#optionDirections').attr('value', '')
-            }
-            bindEventsFor("tableDirections", "directionRow")
-        })
         jQuery('#preview').click(function() {
             reflectInPreviewPanel()
         })

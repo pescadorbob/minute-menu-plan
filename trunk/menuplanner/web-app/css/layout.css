@@ -107,7 +107,7 @@
 /* 30 April */
 .menuplannerTab tr{height:30px;font-family:verdana,arial,helvetica,sans-serif;font-size:11px;}
 .mnuTableHeader{background:#ddd;}
-.liForToolBoxes{margin-top:10px;border:1px solid #eee;width:554px !important;padding-left:30px;padding-top:10px;padding-bottom:10px;}
+.liForToolBoxes{margin-top:10px;/*border:1px solid #eee*/;width:554px !important;padding-left:30px;padding-top:10px;padding-bottom:10px;}
 .nutrientRow0{background:#fff;}
 .nutrientRow1{background:#eee;}
 input.errors{border:red 1px solid;}

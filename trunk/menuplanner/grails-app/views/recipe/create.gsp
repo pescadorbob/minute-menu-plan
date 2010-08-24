@@ -8,13 +8,6 @@
 </head>
 <body>
 
-<table id="sampleIngredientRow" style="display:none;">
-    <g:render template="ingredientRow"/>
-</table>
-<table id="sampleDirectionRow" style="display:none;">
-    <g:render template="directionRow"/>
-</table>
-
 <div id="container">
     <div id="wrapper" class="clearfix">
         <div id="content-wrapper" class="clearfix">
