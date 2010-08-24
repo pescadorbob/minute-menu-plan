@@ -44,17 +44,22 @@
                     <span class="toolBoxes addIngredientBox" style="width:400px;">
                         <span id="ingredientToBeAdded">
                             <div style="float:left;">
-                                <g:textField class="inpboxSmall showToolTip iAmount" name="iAmounts" value="" title="${g.message(code:'toolTip.recipe.amount')}" style="width:40px;"/>
-                                <input name="iUnits" class="inpbox showToolTip iUnit" title="${g.message(code: 'toolTip.recipe.unit')}" style="width:90px;">
+                                <g:textField class="inpboxSmall showToolTip iAmount" name="ingredientQuantities" value="" title="${g.message(code:'toolTip.recipe.amount')}" style="width:40px;"/>
+                                <input name="hiddenIngredientUnitNames" class="inpbox showToolTip iUnit" title="${g.message(code: 'toolTip.recipe.unit')}" style="width:90px;">
+                                <input type="hidden" value="" name="ingredientUnitIds"/>
+                                <input type="hidden" name="hiddenIngredientUnitSymbols" value=""/>
                             </div>
                             <div style="float:left; padding-left:5px;">
-                                <input class="inpbox showToolTip iProduct" name="iProducts" value="" title="${g.message(code: 'toolTip.recipe.ingredient')}" style="width:90px;"/>
+                                <input class="inpbox showToolTip iProduct" name="hiddenIngredientProductNames" value="" title="${g.message(code: 'toolTip.recipe.ingredient')}" style="width:90px;"/>
+                                <input type="hidden" value="" name="ingredientProductIds"/>
                             </div>
                             <div style="float:left; padding-left:5px;">
-                                <input class="inpbox iPreparationMethod" name="iPreparationMethods" value="" style="width:90px;"/>
+                                <input class="inpbox iPreparationMethod" name="hiddenIngredientPreparationMethodNames" value="" style="width:90px;"/>
+                                <input type="hidden" value="" name="ingredientPreparationMethodIds"/>
                             </div>
                             <div style="float:left; padding-left:5px;">
-                                <input class="inpbox iAisle" name="iAsiles" value="" style="width:90px;"/>
+                                <input class="inpbox iAisle" name="hiddenIngredientAisleNames" value="" style="width:90px;"/>
+                                <input type="hidden" value="" name="ingredientAisleIds"/>
                             </div>
                         </span>
                     </span>
@@ -71,7 +76,7 @@
 <script type="text/javascript">
     var itemsJson = {
         <g:each in="${Item.list()}" var="itemVar">
-        '${itemVar?.name}':'${itemVar?.suggestedAisle?.name}',
+        '${itemVar?.name}':['${itemVar?.suggestedAisle?.name}','${itemVar?.suggestedAisle?.id}'],
         </g:each>
     }
 
@@ -99,6 +104,7 @@
             max:0,
             mustMatch:true
         }).result(function(event, data, formatted) {
+            var unitId = data[1];
             var currentUnit = jQuery(this).val()
             if (currentUnit == 'Other...') {
                 $(this).val('');
@@ -106,12 +112,13 @@
                 $("#unitAddPopup").show();
                 $("#unitName").focus();
             } else {
-                /*$("#optionIngredientUnitIds").children().each(function() {
-                 if ($(this).text() == currentUnit) {
-                 $(this).attr('selected', 'selected')
-                 $("#unitAddPopup").hide()
-                 }
-                 })*/
+                $(this).next().val(unitId);
+            }
+            if (jQuery('#unitTable td:contains(' + currentUnit + ')')) {
+                if (jQuery('#unitTable td:contains(' + currentUnit + ')').eq(0).text() == currentUnit) {
+                    var unitSymbol = jQuery('#unitTable td:contains(' + currentUnit + ')').eq(0).next().html()
+                    $(this).next().next().val(unitSymbol)
+                }
             }
         })
     }
@@ -124,8 +131,10 @@
             selectFirst: false
         }).result(function(event, data, formatted) {
             $(this).val(data[0]);
-            if (itemsJson[data[0]] != '') {
-                $(".iAisle", $(this).parents(".addIngredientBox")).val(itemsJson[data[0]])
+            $(this).next().val(data[1])
+            if (itemsJson[data[0]]) {
+                $(".iAisle", $(this).parents(".addIngredientBox")).val(itemsJson[data[0]][0])
+                $(".iAisle", $(this).parents(".addIngredientBox")).next().val(itemsJson[data[0]][1])
             } else {
                 $(".iAisle", $(this).parents(".addIngredientBox")).val('')
 
@@ -136,7 +145,9 @@
             minChars: 0,
             max:0,
             mustMatch:false
-        });
+        }).result(function(event, data, formatted) {
+            $(this).next().val(data[1])
+        })
 
 
         $(".iAisle").unautocomplete().autocomplete(aisles, {
@@ -144,7 +155,9 @@
             minChars: 0,
             max:0,
             mustMatch:false
-        });
+        }).result(function(event, data, formatted) {
+            $(this).next().val(data[1])
+        })
         showNewLineOnLastFocus();
         bindEventUpDownIngredientArrow()
     }
@@ -158,22 +171,6 @@
 
 
 %{--<script type="text/javascript">
-    $("#combobox_optionIngredientUnitIds").result(function(event, data, formatted) {
-        var currentUnit = jQuery(this).val()
-        if (currentUnit == 'Other...') {
-            $("#optionIngredientUnitIds").val('')
-            $("#unitAddPopup").show()
-            $("#unitName").focus();
-        } else {
-            $("#optionIngredientUnitIds").children().each(function() {
-                if ($(this).text() == currentUnit) {
-                    $(this).attr('selected', 'selected')
-                    $("#unitAddPopup").hide()
-                }
-            })
-        }
-    })
-
     $(".showToolTip").tooltip({events: {
         input: "focus,blur"
     },
