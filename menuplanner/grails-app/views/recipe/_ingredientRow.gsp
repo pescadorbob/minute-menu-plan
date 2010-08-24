@@ -2,18 +2,18 @@
     <td>
         <img class="btnDelete" src="${resource(dir: 'images', file: 'remove1.gif')}" hspace="2" vspace="2"/>
         <span class="optionImages">
-            <input class='Q' type="hidden" value="" name="ingredientQuantities"/>
-            <input class='U' type="hidden" value="" name="ingredientUnitIds"/>
-            <input class='P' type="hidden" value="" name="ingredientProductIds"/>
-            <input class='R' type="hidden" value="" name="ingredientAisleIds"/>
-            <input class='S' type="hidden" value="" name="ingredientPreparationMethodIds"/>
+            %{--<input class='Q' type="hidden" value="" name="ingredientQuantities"/>--}%
+            %{--<input class='U' type="hidden" value="" name="ingredientUnitIds"/>--}%
+            %{--<input class='P' type="hidden" value="" name="ingredientProductIds"/>--}%
+            %{--<input class='R' type="hidden" value="" name="ingredientAisleIds"/>--}%
+            %{--<input class='S' type="hidden" value="" name="ingredientPreparationMethodIds"/>--}%
         </span>
         <span class="hiddenTextIngredient">
-            <input class='UN' type="hidden" name="hiddenIngredientUnitNames" value=""/>
+            %{--<input class='UN' type="hidden" name="hiddenIngredientUnitNames" value=""/>--}%
             <input class='US' type="hidden" name="hiddenIngredientUnitSymbols" value=""/>
-            <input class='PN' type="hidden" name="hiddenIngredientProductNames" value=""/>
-            <input class='R' type="hidden" name="hiddenIngredientAisleNames" value=""/>
-            <input class='S' type="hidden" name="hiddenIngredientPreparationMethodNames" value=""/>
+            %{--<input class='PN' type="hidden" name="hiddenIngredientProductNames" value=""/>--}%
+            %{--<input class='R' type="hidden" name="hiddenIngredientAisleNames" value=""/>--}%
+            %{--<input class='S' type="hidden" name="hiddenIngredientPreparationMethodNames" value=""/>--}%
         </span>
     </td>
     <td>
