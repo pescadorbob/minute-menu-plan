@@ -1,5 +1,4 @@
 <%@ page import="com.mp.domain.*" %>
-
 <div class="clearfix" id=panelIngredients>
     <div class="recipeSubhead" style="${hasErrors(bean: recipeCO, field: 'hiddenIngredientProductNames', 'color:red;')}">Ingredients:</div>
     <div class="formElement">
@@ -24,7 +23,7 @@
                     <td><strong>Aisle</strong></td>
                 </tr>
                 <!-- Show Ingredients Here -->
-                <g:each status="i" in="${recipeCO?.hiddenIngredientProductNames}" var="x">
+                %{--<g:each status="i" in="${recipeCO?.hiddenIngredientProductNames}" var="x">
                     <g:render template="ingredientRowWithParams"
                             model="[hiddenIngredientUnitNames:recipeCO?.hiddenIngredientUnitNames[i],
                             hiddenIngredientProductNames:recipeCO?.hiddenIngredientProductNames[i],
@@ -36,103 +35,129 @@
                             ingredientAisleId:recipeCO?.ingredientAisleIds[i],
                             ingredientPreparationMethodId:recipeCO?.ingredientPreparationMethodIds[i],
                              hiddenIngredientUnitSymbol:recipeCO?.hiddenIngredientUnitSymbols[i]]"/>
-                </g:each>
+                </g:each>--}%
             </table>
         </div>
-        <ul class="ingredients">
-            <li class="liForToolBoxes">
-                <span id="AddIngredientToolBox" class="toolBoxes" style="width:400px;">
-                    <img class="imagePointer" id="btnAddIngredient" src="${resource(dir: 'images', file: 'plus-add.jpg')}" hspace="4" align="left" border="0"/>
-                    <span id="ingredientToBeAdded">
-                        <div style="float:left;">
-                            <g:textField class="inpboxSmall showToolTip" id='optionIngredientQuantities' name="optionIngredientQuantities" value="" title="${g.message(code:'toolTip.recipe.amount')}" style="width:40px;"/>
-                            <g:select class="inpbox" id='optionIngredientUnitIds' noSelection="['':'(No Unit)']" name="optionIngredientUnitIds" from="${metricUnits}" optionKey="id" style="width:105px;display:none;"/>
-                            <input name="combobox_optionIngredientUnitIds" class="inpbox showToolTip" id="combobox_optionIngredientUnitIds" title="${g.message(code: 'toolTip.recipe.unit')}" style="width:90px;">
-                        </div>
-                        <div style="float:left; padding-left:5px;">
-                            <input class="inpbox showToolTip" id="optionIngredientProductIds" name="optionIngredientProductIds" value="" title="${g.message(code: 'toolTip.recipe.ingredient')}" style="width:90px;"/>
-                        </div>
-                        <div style="float:left; padding-left:5px;">
-                            <g:select class="inpbox" id='select_optionIngredientPreparationMethodIds' noSelection="['':'(No Preparation Method)']"
-                                    name="select_optionIngredientPreparationMethodIds" from="${preparationMethods}" optionKey="id" style="width:105px;display:none;"/>
-                            <input class="inpbox" id="optionIngredientPreparationMethodIds" name="optionIngredientPreparationMethodIds" value="" style="width:90px;"/>
-                        </div>
-                        <div style="float:left; padding-left:5px;">
-                            <g:select class="inpbox" id='select_optionIngredientAisleIds' noSelection="['':'(No Aisle)']"
-                                    name="select_optionIngredientAisleIds" from="${aisles}" optionKey="id" style="width:1905px;display:none;"/>
-                            <input class="inpbox" id="optionIngredientAisleIds" name="optionIngredientAisleIds" value="" style="width:90px;"/>
-                        </div>
+        <ul class="ingredients" id="ingredientGrid">
+            <g:each in="${(1..6)}" var="i">
+                <li style="width:554px;display:${(i == 1) ? 'none' : ''}">
+                    <span class="toolBoxes addIngredientBox" style="width:400px;">
+                        <span id="ingredientToBeAdded">
+                            <div style="float:left;">
+                                <g:textField class="inpboxSmall showToolTip iAmount" name="iAmounts" value="" title="${g.message(code:'toolTip.recipe.amount')}" style="width:40px;"/>
+                                <input name="iUnits" class="inpbox showToolTip iUnit" title="${g.message(code: 'toolTip.recipe.unit')}" style="width:90px;">
+                            </div>
+                            <div style="float:left; padding-left:5px;">
+                                <input class="inpbox showToolTip iProduct" name="iProducts" value="" title="${g.message(code: 'toolTip.recipe.ingredient')}" style="width:90px;"/>
+                            </div>
+                            <div style="float:left; padding-left:5px;">
+                                <input class="inpbox iPreparationMethod" name="iPreparationMethods" value="" style="width:90px;"/>
+                            </div>
+                            <div style="float:left; padding-left:5px;">
+                                <input class="inpbox iAisle" name="iAsiles" value="" style="width:90px;"/>
+                            </div>
+                        </span>
                     </span>
-                </span>
-            </li>
+                    <img class="btnUp" src="${resource(dir: 'images', file: 'arw-up.gif')}" hspace="2" vspace="2"/>
+                    <img class="btnDown" src="${resource(dir: 'images', file: 'arw-dwn.gif')}" vspace="2" hspace="2"/>
+                </li>
+            </g:each>
         </ul>
     </div>
 </div>
 
-<script type="text/javascript">
-    $("#optionIngredientProductIds").autocomplete("${createLink(action: 'getMatchingItems', controller: 'recipe')}", {
-        width : 300,
-        minChars: 3,
-        selectFirst: false
-    });
 
+
+<script type="text/javascript">
     var itemsJson = {
         <g:each in="${Item.list()}" var="itemVar">
         '${itemVar?.name}':'${itemVar?.suggestedAisle?.name}',
         </g:each>
     }
 
-    $("#optionIngredientProductIds").result(function(event, data, formatted) {
-        jQuery(this).val(data[0]);
-        if (itemsJson[data[0]] != '') {
-            jQuery("#optionIngredientAisleIds").val(itemsJson[data[0]])
-        } else {
-            jQuery("#optionIngredientAisleIds").val('')
-
-        }
-    })
-    $("#optionIngredientAisleIds").focus(function() {
-        if (itemsJson[jQuery("#optionIngredientAisleIds").val()] != 'undefined') {
-            jQuery("#optionIngredientAisleIds").val(jQuery("#optionIngredientAisleIds").val())
-        } else {
-            jQuery("#optionIngredientAisleIds").val('')
-
-        }
-    })
     var metricUnits = []
     <g:each in="${metricUnits}" var="metricUnit">
-    metricUnits.push('${metricUnit}')
+    metricUnits.push(['${metricUnit}','${metricUnit.id}'])
     </g:each>
     metricUnits.push('Other...')
-    $("#combobox_optionIngredientUnitIds").autocomplete(metricUnits, {
-        matchContains: true,
-        minChars: 0,
-        max:0,
-        mustMatch:true
-    });
-
-    var aisles = []
-    <g:each in="${aisles}" var="aisle">
-    aisles.push('${aisle}')
-    </g:each>
-    $("#optionIngredientAisleIds").autocomplete(aisles, {
-        selectFirst: false,
-        minChars: 0,
-        max:0,
-        mustMatch:false
-    });
 
     var preparationMethods = []
     <g:each in="${preparationMethods}" var="preparationMethod">
-    preparationMethods.push('${preparationMethod}')
+    preparationMethods.push(['${preparationMethod}','${preparationMethod.id}'])
     </g:each>
-    $("#optionIngredientPreparationMethodIds").autocomplete(preparationMethods, {
-        selectFirst: false,
-        minChars: 0,
-        max:0,
-        mustMatch:false
-    });
 
+    var aisles = []
+    <g:each in="${aisles}" var="aisle">
+    aisles.push(['${aisle}','${aisle.id}'])
+    </g:each>
+    var unitPopupCaller;
+
+    function resetUnitAutocomplete() {
+        $(".iUnit").unautocomplete().autocomplete(metricUnits, {
+            matchContains: true,
+            minChars: 0,
+            max:0,
+            mustMatch:true
+        }).result(function(event, data, formatted) {
+            var currentUnit = jQuery(this).val()
+            if (currentUnit == 'Other...') {
+                $(this).val('');
+                unitPopupCaller = this;
+                $("#unitAddPopup").show();
+                $("#unitName").focus();
+            } else {
+                /*$("#optionIngredientUnitIds").children().each(function() {
+                 if ($(this).text() == currentUnit) {
+                 $(this).attr('selected', 'selected')
+                 $("#unitAddPopup").hide()
+                 }
+                 })*/
+            }
+        })
+    }
+    function resetIngredients() {
+
+        resetUnitAutocomplete()
+        $(".iProduct").unautocomplete().autocomplete("${createLink(action: 'getMatchingItems', controller: 'recipe')}", {
+            width : 300,
+            minChars: 3,
+            selectFirst: false
+        }).result(function(event, data, formatted) {
+            $(this).val(data[0]);
+            if (itemsJson[data[0]] != '') {
+                $(".iAisle", $(this).parents(".addIngredientBox")).val(itemsJson[data[0]])
+            } else {
+                $(".iAisle", $(this).parents(".addIngredientBox")).val('')
+
+            }
+        })
+        $(".iPreparationMethod").unautocomplete().autocomplete(preparationMethods, {
+            selectFirst: false,
+            minChars: 0,
+            max:0,
+            mustMatch:false
+        });
+
+
+        $(".iAisle").unautocomplete().autocomplete(aisles, {
+            selectFirst: false,
+            minChars: 0,
+            max:0,
+            mustMatch:false
+        });
+        showNewLineOnLastFocus();
+        bindEventUpDownIngredientArrow()
+    }
+
+
+    $(function() {
+        resetIngredients();
+    })
+
+</script>
+
+
+%{--<script type="text/javascript">
     $("#combobox_optionIngredientUnitIds").result(function(event, data, formatted) {
         var currentUnit = jQuery(this).val()
         if (currentUnit == 'Other...') {
@@ -155,4 +180,4 @@
         effect:'slide'
     }).dynamic({ bottom: { direction: 'down', bounce: true } })
 
-</script>
+</script>--}%

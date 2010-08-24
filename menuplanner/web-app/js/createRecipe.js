@@ -17,72 +17,7 @@ function AddIngredient(quantity, unitId, productId, unitName, prodName, unitSymb
     jQuery('.ingredientRowNew').attr('class', 'ingredientRow')
 }
 
-function AddDirection(direction) {
-    var addDirection = sampleDirectionRowHTML;
-    jQuery('#tableDirections tbody').append(addDirection)
-    jQuery('.directionRowNew .D').val(direction);
-    jQuery('.directionRowNew .DD').val(direction);
-    jQuery('.directionRowNew .direction').html(direction)
-    jQuery('.directionRowNew').attr('class', 'directionRow')
-}
 
-function bindEventsFor(DOM_ID, DOM_CLASS) {
-    colorRowAlternate()
-    domId = "#" + DOM_ID
-    domClass = "." + DOM_CLASS
-    jQuery(domId + ' .btnUp').css('visibility', 'visible');
-    jQuery(domId + ' .btnUp:first').css('visibility', 'hidden');
-    jQuery(domId + ' .btnDown').css('visibility', 'visible');
-    jQuery(domId + ' .btnDown:last').css('visibility', 'hidden');
-    jQuery(domId + ' .btnDelete').unbind();
-    jQuery(domId + ' .btnDown').unbind();
-    jQuery(domId + ' .btnUp').unbind();
-    jQuery.each(jQuery(domId + ' .btnDelete'), function() {
-        jQuery(this).click(function() {
-            jQuery(this).parents('tr').remove();
-            bindEventsFor(DOM_ID, DOM_CLASS);
-        })
-    })
-    jQuery.each(jQuery(domId + ' .direction'), function() {
-        jQuery(this).click(function() {
-            jQuery(this).next().show().focus();
-            jQuery(this).hide();
-        })
-    })
-    jQuery.each(jQuery(domId + ' .DD'), function() {
-        jQuery(this).blur(function() {
-            jQuery(this).prev().text(jQuery(this).val()).show();
-            jQuery('.D', jQuery(this).parents('tr')).val(jQuery(this).val());
-            jQuery(this).hide();
-        })
-    })
-    jQuery.each(jQuery(domId + ' .btnDown'), function() {
-        jQuery(this).click(function() {
-            var a = jQuery(this).parents('tr').html()
-            var b = jQuery(this).parents('tr').next().html()
-            var temp = a
-            jQuery(this).parents('tr').next().html(temp)
-            jQuery(this).parents('tr').html(b)
-            bindEventsFor(DOM_ID, DOM_CLASS);
-        })
-    })
-    jQuery.each(jQuery(domId + ' .btnUp'), function() {
-        jQuery(this).click(function() {
-            var a = jQuery(this).parents('tr').html()
-            var b = jQuery(this).parents('tr').prev().html()
-            var temp = a
-            jQuery(this).parents('tr').prev().html(temp)
-            jQuery(this).parents('tr').html(b)
-            bindEventsFor(DOM_ID, DOM_CLASS);
-        })
-    })
-}
-function colorRowAlternate() {
-    jQuery('#tableIngredients .ingredientRow:odd').css('backgroundColor', '#eee')
-    jQuery('#tableDirections .directionRow:odd').css('backgroundColor', '#eee')
-    jQuery('#tableIngredients .ingredientRow:even').css('backgroundColor', '#fff')
-    jQuery('#tableDirections .directionRow:even').css('backgroundColor', '#fff')
-}
 function reflectInPreviewPanel() {
 
     jQuery('#displayRecipeImage').attr('src', jQuery('#recipeImage').attr('src'))
@@ -148,8 +83,8 @@ function reflectInPreviewPanel() {
         var preparationMethod = jQuery('input[name="hiddenIngredientPreparationMethodNames"]:eq(' + i + ')').attr('value')
         var myIngredients = jQuery('input[name="ingredientQuantities"]:eq(' + i + ')').attr('value') +
             //                            ' ' + jQuery('input[name="hiddenIngredientUnitNames"]:eq(' + i + ')').attr('value') +
-                            ' ' + jQuery('input[name="hiddenIngredientUnitSymbols"]:eq(' + i + ')').attr('value') +
-                            ' ' + jQuery('input[name="hiddenIngredientProductNames"]:eq(' + i + ')').attr('value') + (preparationMethod ? ' (' + preparationMethod + ')' : '') + '<br>'
+                ' ' + jQuery('input[name="hiddenIngredientUnitSymbols"]:eq(' + i + ')').attr('value') +
+                ' ' + jQuery('input[name="hiddenIngredientProductNames"]:eq(' + i + ')').attr('value') + (preparationMethod ? ' (' + preparationMethod + ')' : '') + '<br>'
         jQuery('#displayIngredients').append(myIngredients)
     }
     jQuery('#displayDirections').html('')
@@ -173,8 +108,8 @@ function reflectInPreviewPanel() {
     for (i = 0; i < jQuery('input[name="nutrientIds"]').size(); i++) {
         if (getPlainTextFromHtml(jQuery('input[name="nutrientQuantities"]:eq(' + i + ')').attr('value')) != '') {
             myNutrients += getPlainTextFromHtml(jQuery('input[name="nutrientQuantities"]:eq(' + i + ')').attr('value')) +
-                           ' ' + getPlainTextFromHtml(jQuery('input[name="nutrientUnitSymbols"]:eq(' + i + ')').attr('value')) +
-                           ' ' + getPlainTextFromHtml(jQuery('input[name="nutrientNames"]:eq(' + i + ')').attr('value'))
+                    ' ' + getPlainTextFromHtml(jQuery('input[name="nutrientUnitSymbols"]:eq(' + i + ')').attr('value')) +
+                    ' ' + getPlainTextFromHtml(jQuery('input[name="nutrientNames"]:eq(' + i + ')').attr('value'))
             if (i < jQuery('input[name="nutrientIds"]').size() - 2) {
                 myNutrients += ', '
             }
@@ -204,4 +139,34 @@ function getPlainTextFromHtml(htmlText) {
         returnText = returnText.substring(0, 28) + '...'
     }
     return returnText;
+}
+
+function resetUpDownIngredientArrow() {
+    $(".btnUp").css('visibility', 'visible')
+    $(".btnDown").css('visibility', 'visible')
+    $(".btnUp:eq(1)").css('visibility', 'hidden');
+    $(".btnDown:last").css('visibility', 'hidden');
+}
+
+function bindEventUpDownIngredientArrow() {
+    resetUpDownIngredientArrow()
+    $('btnUp').unbind('click');
+    $('btnDown').unbind('click');
+    $('.btnUp').click(function() {
+        $(this).parent().prev().before($(this).parent())
+        resetUpDownIngredientArrow()
+    })
+    $('.btnDown').click(function() {
+        $(this).parent().next().after($(this).parent())
+        resetUpDownIngredientArrow()
+    })
+}
+
+function showNewLineOnLastFocus() {
+    $("#ingredientGrid>li:visible:last input").focus(function() {
+        $("#ingredientGrid").append($("ul.ingredients li:first").clone().show());
+        $(this).parents('li').find('input').unbind('focus');
+        resetIngredients();
+        showNewLineOnLastFocus()
+    })
 }
