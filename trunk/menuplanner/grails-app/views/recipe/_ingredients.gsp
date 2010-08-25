@@ -13,12 +13,9 @@
             </table>
             <table id="tableIngredients" cellspacing="0px" cellpadding="0px" width="100%" class="menuplannerTab">
                 <tr id="tableIngredientsHeader" class="mnuTableHeader">
-                    <td width="">&nbsp;</td>
-                    <td width="">&nbsp;</td>
-                    <td width="">&nbsp;</td>
-                    <td width="65"><strong>Amount</strong></td>
+                    <td width="75" align="center"><strong>Amount</strong></td>
                     <td width="105"><strong>Unit</strong></td>
-                    <td width="105"><strong>Ingredient</strong></td>
+                    <td width="115"><strong>Ingredient</strong></td>
                     <td width="110"><strong>Preparation</strong></td>
                     <td><strong>Aisle</strong></td>
                 </tr>
