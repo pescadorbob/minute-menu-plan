@@ -144,7 +144,7 @@ function bindEventUpDownIngredientArrow() {
 }
 
 function showNewLineOnLastFocus() {
-    $("#ingredientGrid>li:visible:last input").focus(function() {
+    $("#ingredientGrid>li:visible:last").prev().find('input:visible').focus(function() {
         $("#ingredientGrid").append($("ul.ingredients li:first").clone().show());
         $(this).parents('li').find('input').unbind('focus');
         resetIngredients();
