@@ -283,8 +283,9 @@
               $.post("${createLink(controller:'login',action:'isFacebookConnected')}",{'facebookUid':getUid()},function(data){
                 if(data=="true"){
                   window.location.reload();
-                }else{
-                  alert("Your account is not connected with Facebook.");
+                }
+                else{
+                  alert("Your Facebook account is not connected with Menu Planner website.\n Please login and connect your facebook account.");
                 }
               })
             }
