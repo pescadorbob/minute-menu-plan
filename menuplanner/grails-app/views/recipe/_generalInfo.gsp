@@ -14,9 +14,10 @@
                     <li><label>Name</label>
                         <span><g:textField class="inpbox ${hasErrors(bean:recipeCO,field:'name', 'errors')}" name="name" value="${recipeCO?.name}"/></span></li>
                     <li><label>Description</label></li>
-                    <li><span>
+                    <li>
+                        <span>
                         %{--<g:textArea class="inpbox ${hasErrors(bean:recipeCO,field:'description', 'errors')}" name="description" rows="4" cols="37" value="${recipeCO?.description}"/>--}%
-                        <tinyMce:renderEditor type="simple" style="width:100px"  name="decription" >${recipeCO?.description}</tinyMce:renderEditor>
+                        <tinyMce:renderEditor type="simple" style="width:100px"  name="description" >${recipeCO?.description}</tinyMce:renderEditor>
                     </span><br/></li>
                    <li></li>
                     <li><label>Categories</label>
