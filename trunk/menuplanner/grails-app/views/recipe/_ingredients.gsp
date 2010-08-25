@@ -36,34 +36,28 @@
             </table>
         </div>
         <ul class="ingredients" id="ingredientGrid">
-            <g:each in="${(1..6)}" var="i">
-                <li style="width:554px;display:${(i == 1) ? 'none' : ''}">
-                    <span class="toolBoxes addIngredientBox" style="width:400px;">
-                        <span id="ingredientToBeAdded">
-                            <div style="float:left;">
-                                <g:textField class="inpboxSmall showToolTip iAmount" name="ingredientQuantities" value="" title="${g.message(code:'toolTip.recipe.amount')}" style="width:40px;"/>
-                                <input name="hiddenIngredientUnitNames" class="inpbox showToolTip iUnit" title="${g.message(code: 'toolTip.recipe.unit')}" style="width:90px;">
-                                <input type="hidden" value="" name="ingredientUnitIds"/>
-                                <input type="hidden" name="hiddenIngredientUnitSymbols" value=""/>
-                            </div>
-                            <div style="float:left; padding-left:5px;">
-                                <input class="inpbox showToolTip iProduct" name="hiddenIngredientProductNames" value="" title="${g.message(code: 'toolTip.recipe.ingredient')}" style="width:90px;"/>
-                                <input type="hidden" value="" name="ingredientProductIds"/>
-                            </div>
-                            <div style="float:left; padding-left:5px;">
-                                <input class="inpbox iPreparationMethod" name="hiddenIngredientPreparationMethodNames" value="" style="width:90px;"/>
-                                <input type="hidden" value="" name="ingredientPreparationMethodIds"/>
-                            </div>
-                            <div style="float:left; padding-left:5px;">
-                                <input class="inpbox iAisle" name="hiddenIngredientAisleNames" value="" style="width:90px;"/>
-                                <input type="hidden" value="" name="ingredientAisleIds"/>
-                            </div>
-                        </span>
-                    </span>
-                    <img class="btnUp" src="${resource(dir: 'images', file: 'arw-up.gif')}" hspace="2" vspace="2"/>
-                    <img class="btnDown" src="${resource(dir: 'images', file: 'arw-dwn.gif')}" vspace="2" hspace="2"/>
-                </li>
-            </g:each>
+            <g:render template="ingredientRow" model="[display:'none']"/>
+            <g:if test="${recipeCO?.hiddenIngredientProductNames}">
+                <g:each status="i" in="${recipeCO?.hiddenIngredientProductNames}" var="x">
+                    <g:render template="ingredientRow" model="[hiddenIngredientUnitNames:recipeCO?.hiddenIngredientUnitNames[i],
+                            hiddenIngredientProductNames:recipeCO?.hiddenIngredientProductNames[i],
+                            hiddenIngredientAisleNames:recipeCO?.hiddenIngredientAisleNames[i],
+                            hiddenIngredientPreparationMethodNames:recipeCO?.hiddenIngredientPreparationMethodNames[i],
+                            ingredientQuantity:recipeCO?.ingredientQuantities[i],
+                            ingredientUnitId:recipeCO?.ingredientUnitIds[i],
+                            ingredientProductId:recipeCO?.ingredientProductIds[i],
+                            ingredientAisleId:recipeCO?.ingredientAisleIds[i],
+                            ingredientPreparationMethodId:recipeCO?.ingredientPreparationMethodIds[i],
+                             hiddenIngredientUnitSymbol:recipeCO?.hiddenIngredientUnitSymbols[i]]" />                    
+                </g:each>
+                <g:render template="ingredientRow"/>                
+            </g:if>
+            <g:else>
+                <g:each in="${(1..5)}" var="i">
+                    <g:render template="ingredientRow"/>
+                </g:each>
+            </g:else>
+
         </ul>
     </div>
 </div>
@@ -81,7 +75,7 @@
     <g:each in="${metricUnits}" var="metricUnit">
     metricUnits.push(['${metricUnit}','${metricUnit.id}'])
     </g:each>
-    metricUnits.push('Other...')
+//    metricUnits.push('Other...')
 
     var preparationMethods = []
     <g:each in="${preparationMethods}" var="preparationMethod">
@@ -92,7 +86,7 @@
     <g:each in="${aisles}" var="aisle">
     aisles.push(['${aisle}','${aisle.id}'])
     </g:each>
-    var unitPopupCaller;
+//    var unitPopupCaller;
 
     function resetUnitAutocomplete() {
         $(".iUnit").unautocomplete().autocomplete(metricUnits, {
@@ -103,14 +97,14 @@
         }).result(function(event, data, formatted) {
             var unitId = data[1];
             var currentUnit = jQuery(this).val()
-            if (currentUnit == 'Other...') {
-                $(this).val('');
-                unitPopupCaller = this;
-                $("#unitAddPopup").show();
-                $("#unitName").focus();
-            } else {
+//            if (currentUnit == 'Other...') {
+//                $(this).val('');
+//                unitPopupCaller = this;
+//                $("#unitAddPopup").show();
+//                $("#unitName").focus();
+//            } else {
                 $(this).next().val(unitId);
-            }
+//            }
             if (jQuery('#unitTable td:contains(' + currentUnit + ')')) {
                 if (jQuery('#unitTable td:contains(' + currentUnit + ')').eq(0).text() == currentUnit) {
                     var unitSymbol = jQuery('#unitTable td:contains(' + currentUnit + ')').eq(0).next().html()
