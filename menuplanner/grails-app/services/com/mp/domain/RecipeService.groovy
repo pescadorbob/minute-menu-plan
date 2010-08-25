@@ -155,7 +155,7 @@ class RecipeCO {
             if (val.size() < 1) {
                 return 'recipeCO.ingredient.not.Provided.message'
             }
-            if (val.size() != tempProd?.unique()?.size()) {
+            if ((val.size() != tempProd?.unique()?.size()) && !(val.contains(''))) {
                 return 'recipeCO.ingredientProduct.Repeated.message'
             }
         })
@@ -270,32 +270,34 @@ class RecipeCO {
     public List<RecipeIngredient> recipeIngredientList(List<String> amounts, List<String> unitIds, List<String> productNames, List<String> aisleNames, List<String> preparationMethodNames) {
         List<RecipeIngredient> recipeIngredients = []
         productNames?.eachWithIndex {String productName, Integer index ->
-            RecipeIngredient recipeIngredient = new RecipeIngredient()
-            Item product = Item.findByName(productName)
-            Unit unit = (unitIds[index]) ? Unit?.get(unitIds[index]?.toLong()) : null
-            Aisle aisle = Aisle.findByName(aisleNames[index])
-            String preparationMethodString = (preparationMethodNames[index])?.trim()
-            PreparationMethod preparationMethod = (preparationMethodString) ? PreparationMethod.findByName(preparationMethodString) : null
-            if (!aisle) {
-                aisle = new Aisle(name: aisleNames[index]).s()
-            }
-            if (!preparationMethod && preparationMethodString) {
-                preparationMethod = new PreparationMethod(name: preparationMethodString).s()
-            }
-            if (!product) {
-                if (unit) {
-                    product = new MeasurableProduct(name: productNames[index], isVisible: false, preferredUnit: unit, suggestedAisle: aisle).s()
-                } else {
-                    product = new Product(name: productNames[index], isVisible: false, suggestedAisle: aisle).s()
+            if(productName){
+                RecipeIngredient recipeIngredient = new RecipeIngredient()
+                Item product = Item.findByName(productName)
+                Unit unit = (unitIds[index]) ? Unit?.get(unitIds[index]?.toLong()) : null
+                Aisle aisle = Aisle.findByName(aisleNames[index])
+                String preparationMethodString = (preparationMethodNames[index])?.trim()
+                PreparationMethod preparationMethod = (preparationMethodString) ? PreparationMethod.findByName(preparationMethodString) : null
+                if (!aisle) {
+                    aisle = new Aisle(name: aisleNames[index]).s()
                 }
+                if (!preparationMethod && preparationMethodString) {
+                    preparationMethod = new PreparationMethod(name: preparationMethodString).s()
+                }
+                if (!product) {
+                    if (unit) {
+                        product = new MeasurableProduct(name: productNames[index], isVisible: false, preferredUnit: unit, suggestedAisle: aisle).s()
+                    } else {
+                        product = new Product(name: productNames[index], isVisible: false, suggestedAisle: aisle).s()
+                    }
+                }
+                Quantity quantity = StandardConversion.getQuantityToSave(amounts?.getAt(index) ? amounts[index] : null, unit, product.density)
+                quantity?.s()
+                recipeIngredient.ingredient = product
+                recipeIngredient.quantity = quantity
+                recipeIngredient.preparationMethod = preparationMethod
+                recipeIngredient.aisle = aisle
+                recipeIngredients.add(recipeIngredient)
             }
-            Quantity quantity = StandardConversion.getQuantityToSave(amounts?.getAt(index) ? amounts[index] : null, unit, product.density)
-            quantity?.s()
-            recipeIngredient.ingredient = product
-            recipeIngredient.quantity = quantity
-            recipeIngredient.preparationMethod = preparationMethod
-            recipeIngredient.aisle = aisle
-            recipeIngredients.add(recipeIngredient)
         }
         return recipeIngredients
     }
