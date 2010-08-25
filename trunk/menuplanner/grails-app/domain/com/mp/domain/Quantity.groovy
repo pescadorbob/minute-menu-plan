@@ -102,6 +102,9 @@ class Quantity {
             sourceUnit {
                 eq('isWeightUnit', unit.isWeightUnit)
                 eq('isConvertible', true)
+                systemOfUnits {
+                    'in'('id', unit.systemOfUnits*.id)
+                }
             }
             order("conversionFactor", "desc")
             maxResults(1)
