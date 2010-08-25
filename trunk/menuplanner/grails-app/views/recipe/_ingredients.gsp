@@ -48,9 +48,9 @@
                             ingredientProductId:recipeCO?.ingredientProductIds[i],
                             ingredientAisleId:recipeCO?.ingredientAisleIds[i],
                             ingredientPreparationMethodId:recipeCO?.ingredientPreparationMethodIds[i],
-                             hiddenIngredientUnitSymbol:recipeCO?.hiddenIngredientUnitSymbols[i]]" />                    
+                             hiddenIngredientUnitSymbol:recipeCO?.hiddenIngredientUnitSymbols[i]]"/>
                 </g:each>
-                <g:render template="ingredientRow"/>                
+                <g:render template="ingredientRow"/>
             </g:if>
             <g:else>
                 <g:each in="${(1..5)}" var="i">
@@ -75,7 +75,7 @@
     <g:each in="${metricUnits}" var="metricUnit">
     metricUnits.push(['${metricUnit}','${metricUnit.id}'])
     </g:each>
-//    metricUnits.push('Other...')
+    //    metricUnits.push('Other...')
 
     var preparationMethods = []
     <g:each in="${preparationMethods}" var="preparationMethod">
@@ -86,7 +86,7 @@
     <g:each in="${aisles}" var="aisle">
     aisles.push(['${aisle}','${aisle.id}'])
     </g:each>
-//    var unitPopupCaller;
+    //    var unitPopupCaller;
 
     function resetUnitAutocomplete() {
         $(".iUnit").unautocomplete().autocomplete(metricUnits, {
@@ -97,14 +97,14 @@
         }).result(function(event, data, formatted) {
             var unitId = data[1];
             var currentUnit = jQuery(this).val()
-//            if (currentUnit == 'Other...') {
-//                $(this).val('');
-//                unitPopupCaller = this;
-//                $("#unitAddPopup").show();
-//                $("#unitName").focus();
-//            } else {
-                $(this).next().val(unitId);
-//            }
+            //            if (currentUnit == 'Other...') {
+            //                $(this).val('');
+            //                unitPopupCaller = this;
+            //                $("#unitAddPopup").show();
+            //                $("#unitName").focus();
+            //            } else {
+            $(this).next().val(unitId);
+            //            }
             if (jQuery('#unitTable td:contains(' + currentUnit + ')')) {
                 if (jQuery('#unitTable td:contains(' + currentUnit + ')').eq(0).text() == currentUnit) {
                     var unitSymbol = jQuery('#unitTable td:contains(' + currentUnit + ')').eq(0).next().html()
@@ -158,14 +158,15 @@
         resetIngredients();
     })
 
-</script>
-
-
-%{--<script type="text/javascript">
-    $(".showToolTip").tooltip({events: {
+    $("#ingredientGrid>li:eq(1) input:visible[value='']").tooltip({events: {
         input: "focus,blur"
     },
         effect:'slide'
     }).dynamic({ bottom: { direction: 'down', bounce: true } })
 
-</script>--}%
+    $("#ingredientGrid>li:eq(1) input:visible[value='']").keydown(function(){
+        $(this).unbind('focus').unbind('blur');
+        $(".tooltip").hide();
+    })
+
+</script>
