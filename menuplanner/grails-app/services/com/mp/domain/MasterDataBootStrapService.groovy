@@ -44,25 +44,25 @@ class MasterDataBootStrapService implements ApplicationContextAware {
         SystemOfUnit systemOfUnitsUsa = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
         Unit milliLitres = Unit.findByName(UNIT_MILLI_LITRE)
 
-        Unit eachUnit = new Unit(name: UNIT_EACH, symbol: UNIT_EACH_SYMBOL, definition: "This is definition for each", metricType: MetricType.METRIC, isWeightUnit: true, isConvertible: false)
+        Unit eachUnit = new Unit(name: UNIT_EACH, symbol: UNIT_EACH_SYMBOL, definition: "This is definition for each", metricType: MetricType.METRIC, isWeightUnit: false, isConvertible: false)
         eachUnit.addToSystemOfUnits(systemOfUnitsUsa)
         eachUnit.addToSystemOfUnits(systemOfUnitsMetric)
         eachUnit.s()
         new StandardConversion(sourceUnit: eachUnit, targetUnit: milliLitres, conversionFactor: UNIT_EACH_CONVERSION_FACTOR).s()
 
-        Unit small = new Unit(name: UNIT_SMALL, symbol: UNIT_SMALL_SYMBOL, definition: "This is definition for small", metricType: MetricType.METRIC, isWeightUnit: true, isConvertible: false)
+        Unit small = new Unit(name: UNIT_SMALL, symbol: UNIT_SMALL_SYMBOL, definition: "This is definition for small", metricType: MetricType.METRIC, isWeightUnit: false, isConvertible: false)
         small.addToSystemOfUnits(systemOfUnitsUsa)
         small.addToSystemOfUnits(systemOfUnitsMetric)
         small.s()
         new StandardConversion(sourceUnit: small, targetUnit: milliLitres, conversionFactor: UNIT_SMALL_CONVERSION_FACTOR).s()
 
-        Unit medium = new Unit(name: UNIT_MEDIUM, symbol: UNIT_MEDIUM_SYMBOL, definition: "This is definition for medium", metricType: MetricType.METRIC, isWeightUnit: true, isConvertible: false)
+        Unit medium = new Unit(name: UNIT_MEDIUM, symbol: UNIT_MEDIUM_SYMBOL, definition: "This is definition for medium", metricType: MetricType.METRIC, isWeightUnit: false, isConvertible: false)
         medium.addToSystemOfUnits(systemOfUnitsUsa)
         medium.addToSystemOfUnits(systemOfUnitsMetric)
         medium.s()
         new StandardConversion(sourceUnit: medium, targetUnit: milliLitres, conversionFactor: UNIT_MEDIUM_CONVERSION_FACTOR).s()
 
-        Unit large = new Unit(name: UNIT_LARGE, symbol: UNIT_LARGE_SYMBOL, definition: "This is definition for large", metricType: MetricType.METRIC, isWeightUnit: true, isConvertible: false)
+        Unit large = new Unit(name: UNIT_LARGE, symbol: UNIT_LARGE_SYMBOL, definition: "This is definition for large", metricType: MetricType.METRIC, isWeightUnit: false, isConvertible: false)
         large.addToSystemOfUnits(systemOfUnitsUsa)
         large.addToSystemOfUnits(systemOfUnitsMetric)
         large.s()
@@ -97,11 +97,6 @@ class MasterDataBootStrapService implements ApplicationContextAware {
         /* POPULATEING USA UNITS: */
         SystemOfUnit systemOfUnitsUsa = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
 
-        Unit drop = new Unit(name: UNIT_DROP, symbol: UNIT_DROP_SYMBOL, definition: "This is definition for drop", metricType: MetricType.METRIC, isWeightUnit: false, isConvertible: true)
-        drop.addToSystemOfUnits(systemOfUnitsUsa)
-        drop.s()
-        new StandardConversion(sourceUnit: drop, targetUnit: milliLitres, conversionFactor: UNIT_DROP_CONVERSION_FACTOR).s()
-
         Unit teaspoon = new Unit(name: UNIT_TEA_SPOON, symbol: UNIT_TEA_SPOON_SYMBOL, definition: "This is definition for Teaspoon", metricType: MetricType.METRIC, isWeightUnit: false, isConvertible: true)
         teaspoon.addToSystemOfUnits(systemOfUnitsUsa)
         teaspoon.s()
@@ -116,11 +111,6 @@ class MasterDataBootStrapService implements ApplicationContextAware {
         fluidOunce.addToSystemOfUnits(systemOfUnitsUsa)
         fluidOunce.s()
         new StandardConversion(sourceUnit: fluidOunce, targetUnit: milliLitres, conversionFactor: UNIT_FLUID_OUNCE_CONVERSION_FACTOR).s()
-
-        Unit jigger = new Unit(name: UNIT_JIGGER, symbol: UNIT_JIGGER_SYMBOL, definition: "This is definition for jigger", metricType: MetricType.METRIC, isWeightUnit: false, isConvertible: true)
-        jigger.addToSystemOfUnits(systemOfUnitsUsa)
-        jigger.s()
-        new StandardConversion(sourceUnit: jigger, targetUnit: milliLitres, conversionFactor: UNIT_JIGGER_CONVERSION_FACTOR).s()
 
         Unit cup = new Unit(name: UNIT_CUP, symbol: UNIT_CUP_SYMBOL, definition: "This is definition for Cup", metricType: MetricType.METRIC, isWeightUnit: false, isConvertible: true)
         cup.addToSystemOfUnits(systemOfUnitsUsa)

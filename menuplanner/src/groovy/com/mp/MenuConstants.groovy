@@ -16,10 +16,6 @@ class MenuConstants {
     public static final String TIME_UNIT_MINUTES_SYMBOL = "mins"
     public static final Float TIME_UNIT_HOURS_TO_MINUTES_CONVERSION_FACTOR = 60
 
-    public static final String UNIT_DROP = "Drop"
-    public static final String UNIT_DROP_SYMBOL = "drop"
-    public static final Float UNIT_DROP_CONVERSION_FACTOR = 0.05
-
     public static final String UNIT_TABLE_SPOON = "Table spoon"
     public static final String UNIT_TABLE_SPOON_SYMBOL = "T"
 //    public static final Float UNIT_TABLE_SPOON_CONVERSION_FACTOR = 14.8
@@ -32,10 +28,6 @@ class MenuConstants {
     public static final String UNIT_FLUID_OUNCE = "Fluid Ounce"
     public static final String UNIT_FLUID_OUNCE_SYMBOL = "fl.oz."
     public static final Float UNIT_FLUID_OUNCE_CONVERSION_FACTOR = (2 * UNIT_TABLE_SPOON_CONVERSION_FACTOR)
-
-    public static final String UNIT_JIGGER = "Jigger"
-    public static final String UNIT_JIGGER_SYMBOL = "shots"
-    public static final Float UNIT_JIGGER_CONVERSION_FACTOR = (3 * UNIT_TABLE_SPOON_CONVERSION_FACTOR)
 
     public static final String UNIT_GILL = "gill"
     public static final String UNIT_GILL_SYMBOL = "gi."
@@ -111,19 +103,19 @@ class MenuConstants {
 
     public static final String UNIT_SMALL = "Small"
     public static final String UNIT_SMALL_SYMBOL = "small"
-    public static final Float UNIT_SMALL_CONVERSION_FACTOR = (100 * UNIT_MILLI_LITRE_CONVERSION_FACTOR)
+    public static final Float UNIT_SMALL_CONVERSION_FACTOR = UNIT_MILLI_LITRE_CONVERSION_FACTOR
 
     public static final String UNIT_MEDIUM = "Medium"
     public static final String UNIT_MEDIUM_SYMBOL = "medium"
-    public static final Float UNIT_MEDIUM_CONVERSION_FACTOR = (500 * UNIT_MILLI_LITRE_CONVERSION_FACTOR)
+    public static final Float UNIT_MEDIUM_CONVERSION_FACTOR = UNIT_MILLI_LITRE_CONVERSION_FACTOR
 
     public static final String UNIT_LARGE = "Large"
     public static final String UNIT_LARGE_SYMBOL = "large"
-    public static final Float UNIT_LARGE_CONVERSION_FACTOR = (1000 * UNIT_MILLI_LITRE_CONVERSION_FACTOR)
+    public static final Float UNIT_LARGE_CONVERSION_FACTOR = UNIT_MILLI_LITRE_CONVERSION_FACTOR
 
     public static final String UNIT_EACH = "Each"
     public static final String UNIT_EACH_SYMBOL = "each"
-    public static final Float UNIT_EACH_CONVERSION_FACTOR = (1000 * UNIT_MILLI_LITRE_CONVERSION_FACTOR)
+    public static final Float UNIT_EACH_CONVERSION_FACTOR = UNIT_MILLI_LITRE_CONVERSION_FACTOR
 
     public static final String UNIT_CALORIES = "Calories"
     public static final String UNIT_CALORIES_SYMBOL = "cal."
@@ -185,7 +177,7 @@ class MenuConstants {
     public static final List<String> CATEGORIES = ['Breakfast', 'Lunch', 'Dinner', 'Cooking Techniques', 'Recipes', 'Basic Food Groups',
             'National and Ethnic Cuisines', 'Special Diets', 'Nutrition', 'Ingredients']
 
-    public static final Map<String, List<String>> SUB_CATEGORIES = ['Meal Types' : ['Breakfast', 'Lunch', 'Dinner'],
+    public static final Map<String, List<String>> SUB_CATEGORIES = ['Meal Types': ['Breakfast', 'Lunch', 'Dinner'],
             'Cooking Techniques': PREPARATION_METHODS,
             'Recipes': RECIPES, 'Basic Food Groups': BASIC_FOOD_GROUPS,
             'National and Ethnic Cuisines ': NATIONAL_AND_ETHNIC_CUISINES,
