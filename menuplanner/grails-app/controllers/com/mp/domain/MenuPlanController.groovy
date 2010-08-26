@@ -4,6 +4,7 @@ import static com.mp.MenuConstants.*
 
 class MenuPlanController {
 
+    def recipeService
     def index = { }
 
     def show = {
@@ -90,6 +91,7 @@ class MenuPlanController {
         List<String> allQueries = []
         List<String> subCategoriesString = []
         String subQueryString
+        String searchKeyword = ''
         if (!params.query || (params.query == 'null')) {
             params.query = ''
         }
@@ -113,6 +115,7 @@ class MenuPlanController {
             }
             if (!(myQ.contains(':'))) {
                 allQueries[index] = '*' + myQ + '*'
+                searchKeyword = myQ
             }
         }
 
@@ -135,13 +138,37 @@ class MenuPlanController {
                 searchList = Item.search([reload: true, max: 4, offset: params.offset ? params.long('offset') : 0]) {
                     must(queryString(query))
                 }
+                results = searchList?.results
+                total = searchList?.total
+                if (!results) {
+                    String newQuery = recipeService.fuzzySearchQuery(query, searchKeyword)
+                    searchList = Item.search([reload: true, max: 4, offset: params.offset ? params.long('offset') : 0]) {
+                        must(queryString(newQuery))
+                    }
+                    results = searchList?.results
+                    total = searchList?.total
+                }
+
             } else {
                 searchList = Recipe.search([reload: true, max: 4, offset: params.offset ? params.long('offset') : 0]) {
                     must(queryString(query))
                 }
+                results = searchList?.results
+                total = searchList?.total
+                if (!results) {
+                    String newQuery = recipeService.fuzzySearchQuery(query, searchKeyword)
+                    searchList = Recipe.search([reload: true, max: 4, offset: params.offset ? params.long('offset') : 0]) {
+                        must(queryString(newQuery))
+                    }
+                    results = searchList?.results
+                    total = searchList?.total
+                }
             }
-            results = searchList?.results
-            total = searchList?.total
+        } else if (params.searchByDomainName == "Item") {
+            params.max = 4
+            results = Item.list(params).sort {it}
+            total = Item.count()
+
         } else {
             params.max = 4
             results = Recipe.list(params)

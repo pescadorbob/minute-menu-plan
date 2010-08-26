@@ -21,6 +21,15 @@ class RecipeService {
         }
         return true
     }
+
+    public String fuzzySearchQuery(String query, String searchKeyword) {
+        int firstIndex = query.indexOf('*')
+        int lastIndex = query.lastIndexOf('*')
+        String query1 = query.substring(0, firstIndex)
+        String query2 = query.substring(lastIndex + 1, query.length())
+        String newQuery = query1 + query2 + " ${searchKeyword}~"
+        return newQuery
+    }
 }
 
 class RecipeCO {
