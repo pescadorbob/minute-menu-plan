@@ -122,10 +122,10 @@
             selectFirst: false
         }).result(function(event, data, formatted) {
             $(this).val(data[0]);
-            $(this).next().val(data[1])
+            $(this).next().val(data[0])
             if (itemsJson[data[0]]) {
                 $(".iAisle", $(this).parents(".addIngredientBox")).val(itemsJson[data[0]][0])
-                $(".iAisle", $(this).parents(".addIngredientBox")).next().val(itemsJson[data[0]][1])
+                $(".iAisle", $(this).parents(".addIngredientBox")).next().val(itemsJson[data[0]][0])
             } else {
                 $(".iAisle", $(this).parents(".addIngredientBox")).val('')
 
@@ -137,7 +137,7 @@
             max:0,
             mustMatch:false
         }).result(function(event, data, formatted) {
-            $(this).next().val(data[1])
+            $(this).next().val(data[0])
         })
 
 
@@ -147,7 +147,7 @@
             max:0,
             mustMatch:false
         }).result(function(event, data, formatted) {
-            $(this).next().val(data[1])
+            $(this).next().val(data[0])
         })
         showNewLineOnLastFocus();
         bindEventUpDownIngredientArrow()

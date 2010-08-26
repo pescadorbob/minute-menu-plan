@@ -152,7 +152,7 @@ class RecipeCO {
         hiddenIngredientProductNames(validator: {val, obj ->
             List<String> tempProd = []
             val.each { tempProd.add(it) }
-            if (val.size() < 1) {
+            if (!val.any{it}) {
                 return 'recipeCO.ingredient.not.Provided.message'
             }
             if ((val.size() != tempProd?.unique()?.size()) && !(val.contains(''))) {
