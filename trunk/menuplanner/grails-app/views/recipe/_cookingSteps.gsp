@@ -16,7 +16,7 @@
             <li class="liForToolBoxes">
                 <span id="AddDirectionToolBox" class="toolBoxes">
                     <span id="directionToBeAdded">
-                        <tinyMce:renderEditor type="simple" id="optionDirections" name="directions" style="width:500px" >${recipeCO?.directions?.join(' ')}</tinyMce:renderEditor>
+                        <tinyMce:renderEditor type="simple" id="directions" name="directions" style="width:500px" >${recipeCO?.directions?.join(' ')}</tinyMce:renderEditor>
                 </span>
                 </span>
             </li>

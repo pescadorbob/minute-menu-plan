@@ -1,4 +1,3 @@
-
 function reflectInPreviewPanel() {
 
     jQuery('#displayRecipeImage').attr('src', jQuery('#recipeImage').attr('src'))
@@ -20,9 +19,10 @@ function reflectInPreviewPanel() {
     jQuery('#displayCategory').html(myCategory)
     jQuery('#displayName').html(getPlainText('name'))
 
+    jQuery('#displayDescription').html('')
     var showDesc = ''
-    if (getPlainText('description').length) {
-        showDesc = 'Description: ' + getPlainText('description')
+    if (tinyMCE.get('description').getContent().length) {
+        showDesc = 'Description: ' + tinyMCE.get('description').getContent();
     }
     jQuery('#displayDescription').html(showDesc)
 
@@ -68,10 +68,14 @@ function reflectInPreviewPanel() {
                 ' ' + jQuery('input[name="hiddenIngredientProductNames"]:eq(' + i + ')').attr('value') + (preparationMethod ? ' (' + preparationMethod + ')' : '') + '<br>'
         jQuery('#displayIngredients').append(myIngredients)
     }
+
     jQuery('#displayDirections').html('')
-    for (i = 1; i < jQuery('input[name="directions"]').size(); i++) {
-        jQuery('#displayDirections').append(jQuery('input[name="directions"]:eq(' + i + ')').attr('value') + ' ')
+    var showDirection = ''
+    if (tinyMCE.get('directions').getContent().length) {
+        showDirection = 'Directions: ' + tinyMCE.get('directions').getContent();
     }
+    jQuery('#displayDirections').html(showDirection)
+
     jQuery('#showPreviewRecipeImage').attr('src', jQuery('#recipeImage').attr('src'))
 
     var myServeWith = ''
