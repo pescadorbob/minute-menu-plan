@@ -1425,34 +1425,74 @@
         </delete>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-156">
-        <sql>update quantity set unit_id=(select id from metric where symbol='can') where unit_id in (select id from metric where symbol like '% can');</sql>
+        <sql>update quantity set value=value/(select conversion_factor from standard_conversion where source_unit_id=unit_id) where unit_id in (select id from metric where name like '%can%');</sql>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-157">
-        <sql>update measurable_product set preferred_unit_id=(select id from metric where symbol='can') where preferred_unit_id in (select id from metric where symbol like '% can');</sql>
+        <sql>update quantity set unit_id=(select id from metric where symbol='can') where unit_id in (select id from metric where symbol like '% can');</sql>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-158">
+        <sql>update measurable_product set preferred_unit_id=(select id from metric where symbol='can') where preferred_unit_id in (select id from metric where symbol like '% can');</sql>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-159">
         <delete tableName="system_of_unit_units">
             <where>unit_id in (select id from metric where symbol like '% can%')</where>
         </delete>
     </changeSet>
-    <changeSet author="aman (generated)" id="1281344986756-159">
+    <changeSet author="aman (generated)" id="1281344986756-160">
         <delete tableName="standard_conversion">
             <where>source_unit_id in (select id from metric where symbol like '% can%')</where>
         </delete>
     </changeSet>
-    <changeSet author="aman (generated)" id="1281344986756-160">
+    <changeSet author="aman (generated)" id="1281344986756-161">
         <delete tableName="standard_conversion">
             <where>target_unit_id in (select id from metric where symbol like '% can%')</where>
         </delete>
     </changeSet>
-    <changeSet author="aman (generated)" id="1281344986756-161">
+    <changeSet author="aman (generated)" id="1281344986756-162">
         <delete tableName="unit">
             <where>id in (select id from metric where symbol like '% can%')</where>
         </delete>
     </changeSet>
-    <changeSet author="aman (generated)" id="1281344986756-162">
+    <changeSet author="aman (generated)" id="1281344986756-163">
         <delete tableName="metric">
             <where>symbol like '% can%'</where>
+        </delete>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-164">
+        <sql>update quantity set value=value/(select conversion_factor from standard_conversion where source_unit_id=unit_id) where unit_id in (select id from metric where name like '%package%');</sql>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-165">
+        <sql>delete from standard_conversion where source_unit_id in (select id from unit where is_convertible=false);</sql>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-166">
+        <sql>update quantity set unit_id=(select id from metric where symbol='package') where unit_id in (select id from metric where symbol like '% package');</sql>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-167">
+        <sql>update measurable_product set preferred_unit_id=(select id from metric where symbol='package') where preferred_unit_id in (select id from metric where symbol like '% package');</sql>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-168">
+        <delete tableName="system_of_unit_units">
+            <where>unit_id in (select id from metric where symbol like '% package%')</where>
+        </delete>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-169">
+        <delete tableName="standard_conversion">
+            <where>source_unit_id in (select id from metric where symbol like '% package%')</where>
+        </delete>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-170">
+        <delete tableName="standard_conversion">
+            <where>target_unit_id in (select id from metric where symbol like '% package%')</where>
+        </delete>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-171">
+        <delete tableName="unit">
+            <where>id in (select id from metric where symbol like '% package%')</where>
+        </delete>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-172">
+        <delete tableName="metric">
+            <where>symbol like '% package%'</where>
         </delete>
     </changeSet>
 </databaseChangeLog>
