@@ -60,6 +60,9 @@
                 jQuery('#myImageDiv').html('<img id="recipeImage" border="0" height="200" width="200" src="${createLink(action:'imageByPath', controller:'image')}?imagePath=' + response + '&noImage=no-img.gif"/>')
             }
         });
-        jQuery('#preview').click()
     })
+
+    function mpInitCallback() {
+        jQuery('#preview').click()
+    }
 </script>
