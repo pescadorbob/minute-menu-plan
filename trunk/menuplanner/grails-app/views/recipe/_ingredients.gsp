@@ -19,27 +19,16 @@
                     <td width="110"><strong>Preparation</strong></td>
                     <td><strong>Aisle</strong></td>
                 </tr>
-                <!-- Show Ingredients Here -->
-                %{--<g:each status="i" in="${recipeCO?.hiddenIngredientProductNames}" var="x">
-                    <g:render template="ingredientRowWithParams"
-                            model="[hiddenIngredientUnitNames:recipeCO?.hiddenIngredientUnitNames[i],
-                            hiddenIngredientProductNames:recipeCO?.hiddenIngredientProductNames[i],
-                            hiddenIngredientAisleNames:recipeCO?.hiddenIngredientAisleNames[i],
-                            hiddenIngredientPreparationMethodNames:recipeCO?.hiddenIngredientPreparationMethodNames[i],
-                            ingredientQuantity:recipeCO?.ingredientQuantities[i],
-                            ingredientUnitId:recipeCO?.ingredientUnitIds[i],
-                            ingredientProductId:recipeCO?.ingredientProductIds[i],
-                            ingredientAisleId:recipeCO?.ingredientAisleIds[i],
-                            ingredientPreparationMethodId:recipeCO?.ingredientPreparationMethodIds[i],
-                             hiddenIngredientUnitSymbol:recipeCO?.hiddenIngredientUnitSymbols[i]]"/>
-                </g:each>--}%
             </table>
         </div>
         <ul class="ingredients" id="ingredientGrid">
             <g:render template="ingredientRow" model="[display:'none']"/>
             <g:if test="${recipeCO?.hiddenIngredientProductNames}">
-                <g:each status="i" in="${recipeCO?.hiddenIngredientProductNames}" var="x">
-                    <g:render template="ingredientRow" model="[hiddenIngredientUnitNames:recipeCO?.hiddenIngredientUnitNames[i],
+                <g:set var="ingredientCounter" value="0"/>
+                <g:each status="i" in="${recipeCO?.hiddenIngredientProductNames}" var="productName">
+                    <g:if test="${productName?.trim()}">
+                        <g:set var="ingredientCounter" value="${ingredientCounter.toInteger()+1}"/>
+                        <g:render template="ingredientRow" model="[hiddenIngredientUnitNames:recipeCO?.hiddenIngredientUnitNames[i],
                             hiddenIngredientProductNames:recipeCO?.hiddenIngredientProductNames[i],
                             hiddenIngredientAisleNames:recipeCO?.hiddenIngredientAisleNames[i],
                             hiddenIngredientPreparationMethodNames:recipeCO?.hiddenIngredientPreparationMethodNames[i],
@@ -48,9 +37,17 @@
                             ingredientProductId:recipeCO?.ingredientProductIds[i],
                             ingredientAisleId:recipeCO?.ingredientAisleIds[i],
                             ingredientPreparationMethodId:recipeCO?.ingredientPreparationMethodIds[i],
-                             hiddenIngredientUnitSymbol:recipeCO?.hiddenIngredientUnitSymbols[i]]"/>
+                            hiddenIngredientUnitSymbol:recipeCO?.hiddenIngredientUnitSymbols[i]]"/>
+                    </g:if>
                 </g:each>
-                <g:render template="ingredientRow"/>
+                <g:if test="${ingredientCounter.toInteger()>=4}">
+                    <g:render template="ingredientRow"/>
+                </g:if>
+                <g:else>
+                    <g:each in="${(1..(5-ingredientCounter.toInteger()))}" var="i">
+                        <g:render template="ingredientRow"/>
+                    </g:each>
+                </g:else>
             </g:if>
             <g:else>
                 <g:each in="${(1..5)}" var="i">
@@ -164,7 +161,7 @@
         effect:'slide'
     }).dynamic({ bottom: { direction: 'down', bounce: true } })
 
-    $("#ingredientGrid>li:eq(1) input:visible[value='']").keydown(function(){
+    $("#ingredientGrid>li:eq(1) input:visible[value='']").keydown(function() {
         $(this).unbind('focus').unbind('blur');
         $(".tooltip").hide();
     })
