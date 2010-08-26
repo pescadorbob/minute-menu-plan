@@ -49,6 +49,7 @@ class RecipeController {
         List<String> allQueries = []
         List<String> subCategoriesString = []
         String subQueryString
+        String searchKeyword = ''
         if (!params.query || (params.query == 'null')) {
             params.query = ''
         }
@@ -71,6 +72,7 @@ class RecipeController {
             }
             if (!(myQ.contains(':'))) {
                 allQueries[index] = '*' + myQ + '*'
+                searchKeyword = myQ
             }
         }
 
@@ -92,6 +94,14 @@ class RecipeController {
             }
             results = searchList?.results
             total = searchList?.total
+            if (!results) {
+                String newQuery = recipeService.fuzzySearchQuery(query, searchKeyword)
+                searchList = Recipe.search([reload: true, max: 15, offset: params.offset ? params.long('offset') : 0]) {
+                    must(queryString(newQuery))
+                }
+                results = searchList?.results
+                total = searchList?.total
+            }
         } else {
             params.max = 15
             results = Recipe.list(params)
