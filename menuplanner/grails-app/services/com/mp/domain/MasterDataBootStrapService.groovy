@@ -48,25 +48,26 @@ class MasterDataBootStrapService implements ApplicationContextAware {
         eachUnit.addToSystemOfUnits(systemOfUnitsUsa)
         eachUnit.addToSystemOfUnits(systemOfUnitsMetric)
         eachUnit.s()
-        new StandardConversion(sourceUnit: eachUnit, targetUnit: milliLitres, conversionFactor: UNIT_EACH_CONVERSION_FACTOR).s()
 
         Unit small = new Unit(name: UNIT_SMALL, symbol: UNIT_SMALL_SYMBOL, definition: "This is definition for small", metricType: MetricType.METRIC, isWeightUnit: false, isConvertible: false)
         small.addToSystemOfUnits(systemOfUnitsUsa)
         small.addToSystemOfUnits(systemOfUnitsMetric)
         small.s()
-        new StandardConversion(sourceUnit: small, targetUnit: milliLitres, conversionFactor: UNIT_SMALL_CONVERSION_FACTOR).s()
 
         Unit medium = new Unit(name: UNIT_MEDIUM, symbol: UNIT_MEDIUM_SYMBOL, definition: "This is definition for medium", metricType: MetricType.METRIC, isWeightUnit: false, isConvertible: false)
         medium.addToSystemOfUnits(systemOfUnitsUsa)
         medium.addToSystemOfUnits(systemOfUnitsMetric)
         medium.s()
-        new StandardConversion(sourceUnit: medium, targetUnit: milliLitres, conversionFactor: UNIT_MEDIUM_CONVERSION_FACTOR).s()
 
         Unit large = new Unit(name: UNIT_LARGE, symbol: UNIT_LARGE_SYMBOL, definition: "This is definition for large", metricType: MetricType.METRIC, isWeightUnit: false, isConvertible: false)
         large.addToSystemOfUnits(systemOfUnitsUsa)
         large.addToSystemOfUnits(systemOfUnitsMetric)
         large.s()
-        new StandardConversion(sourceUnit: large, targetUnit: milliLitres, conversionFactor: UNIT_LARGE_CONVERSION_FACTOR).s()
+
+        Unit pkg = new Unit(name: UNIT_PACKAGE, symbol: UNIT_PACKAGE_SYMBOL, definition: "This is definition for package", metricType: MetricType.METRIC, isWeightUnit: false, isConvertible: false)
+        pkg.addToSystemOfUnits(systemOfUnitsUsa)
+        pkg.addToSystemOfUnits(systemOfUnitsMetric)
+        pkg.s()
 
     }
     public void populateUnitsAndStandardConversions() {
@@ -140,42 +141,6 @@ class MasterDataBootStrapService implements ApplicationContextAware {
         Unit can = new Unit(name: UNIT_CAN, symbol: UNIT_CAN_SYMBOL, definition: "This is definition for Can", metricType: MetricType.METRIC, isWeightUnit: false, isConvertible: false)
         can.addToSystemOfUnits(systemOfUnitsUsa)
         can.s()
-        new StandardConversion(sourceUnit: can, targetUnit: milliLitres, conversionFactor: UNIT_CAN_CONVERSION_FACTOR).s()
-
-        Unit can_8 = new Unit(name: UNIT_8_CAN, symbol: UNIT_8_CAN_SYMBOL, definition: "This is definition for 8 Can", metricType: MetricType.METRIC, isWeightUnit: false, isConvertible: false)
-        can_8.addToSystemOfUnits(systemOfUnitsUsa)
-        can_8.s()
-        new StandardConversion(sourceUnit: can_8, targetUnit: milliLitres, conversionFactor: UNIT_8_CAN_CONVERSION_FACTOR).s()
-
-        Unit ounce_10_3_4 = new Unit(name: UNIT_10_3_4_OUNCE_CAN, symbol: UNIT_10_3_4_OUNCE_CAN_SYMBOL, definition: "This is definition for 10 3/4 ounce can", metricType: MetricType.METRIC, isWeightUnit: true, isConvertible: false)
-        ounce_10_3_4.addToSystemOfUnits(systemOfUnitsUsa)
-        ounce_10_3_4.s()
-        new StandardConversion(sourceUnit: ounce_10_3_4, targetUnit: milliLitres, conversionFactor: UNIT_10_3_4_OUNCE_CAN_CONVERSION_FACTOR).s()
-
-        Unit ounce_6 = new Unit(name: UNIT_6_OUNCE_CAN, symbol: UNIT_6_OUNCE_CAN_SYMBOL, definition: "This is definition for 6 ounce can", metricType: MetricType.METRIC, isWeightUnit: true, isConvertible: false)
-        ounce_6.addToSystemOfUnits(systemOfUnitsUsa)
-        ounce_6.s()
-        new StandardConversion(sourceUnit: ounce_6, targetUnit: milliLitres, conversionFactor: UNIT_6_OUNCE_CAN_CONVERSION_FACTOR).s()
-
-        Unit ounce_8 = new Unit(name: UNIT_8_OUNCE_CAN, symbol: UNIT_8_OUNCE_CAN_SYMBOL, definition: "This is definition for 8 ounce can", metricType: MetricType.METRIC, isWeightUnit: true, isConvertible: false)
-        ounce_8.addToSystemOfUnits(systemOfUnitsUsa)
-        ounce_8.s()
-        new StandardConversion(sourceUnit: ounce_8, targetUnit: milliLitres, conversionFactor: UNIT_8_OUNCE_CAN_CONVERSION_FACTOR).s()
-
-        Unit ounce_10 = new Unit(name: UNIT_10_OUNCE_PACKAGE, symbol: UNIT_10_OUNCE_PACKAGE_SYMBOL, definition: "This is definition for 10 ounce package", metricType: MetricType.METRIC, isWeightUnit: true, isConvertible: false)
-        ounce_10.addToSystemOfUnits(systemOfUnitsUsa)
-        ounce_10.s()
-        new StandardConversion(sourceUnit: ounce_10, targetUnit: milliLitres, conversionFactor: UNIT_10_OUNCE_PACKAGE_CONVERSION_FACTOR).s()
-
-        Unit ounce_16 = new Unit(name: UNIT_16_OUNCE_CAN, symbol: UNIT_16_OUNCE_CAN_SYMBOL, definition: "This is definition for 16 ounce can", metricType: MetricType.METRIC, isWeightUnit: true, isConvertible: false)
-        ounce_16.addToSystemOfUnits(systemOfUnitsUsa)
-        ounce_16.s()
-        new StandardConversion(sourceUnit: ounce_16, targetUnit: milliLitres, conversionFactor: UNIT_16_OUNCE_CAN_CONVERSION_FACTOR).s()
-
-        Unit ounce_20 = new Unit(name: UNIT_20_OUNCE_PACKAGE, symbol: UNIT_20_OUNCE_PACKAGE_SYMBOL, definition: "This is definition for 20 ounce can", metricType: MetricType.METRIC, isWeightUnit: true, isConvertible: false)
-        ounce_20.addToSystemOfUnits(systemOfUnitsUsa)
-        ounce_20.s()
-        new StandardConversion(sourceUnit: ounce_20, targetUnit: milliLitres, conversionFactor: UNIT_20_OUNCE_PACKAGE_CONVERSION_FACTOR).s()
 
         /* POPULATEING CALORY UNIT: */
         Unit calories = new Unit(name: UNIT_CALORIES, symbol: UNIT_CALORIES_SYMBOL, definition: "This is definition for calories", metricType: MetricType.METRIC)

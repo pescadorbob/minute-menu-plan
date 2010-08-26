@@ -46,7 +46,7 @@ class StandardConversion {
                 StandardConversion standardConversion
                 StandardConversion.withNewSession {
                     standardConversion = StandardConversion.findBySourceUnit(unit)
-                    Float conversionFactor = standardConversion?.conversionFactor
+                    Float conversionFactor = (standardConversion) ? standardConversion.conversionFactor : 1.0f
                     if (unit.isWeightUnit) {
                         floatValue = (floatValue  * density) / conversionFactor
                     }
