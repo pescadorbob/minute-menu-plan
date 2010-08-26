@@ -24,6 +24,7 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
 
     void testSuperAdmin_AddUserLink() {
         goToAccountsPage()
+        javaScriptEnabled = false
         assertTitle 'Minute Menu Plan : User List'
         def addUserLink = byClass('addUserButtonFT')
         addUserLink.click()
@@ -36,11 +37,11 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
         def firstElement = byName('changeStatus2')
         String initialText = firstElement.asText()
         byName('changeStatus2').click()
-        Thread.sleep(10000)
+        Thread.sleep(1000)
         assertStatus 200
         assertFalse(initialText + ' link did not change', (initialText == byName('changeStatus2').asText()))
         byName('changeStatus2').click()
-        Thread.sleep(10000)
+        Thread.sleep(1000)
         assertStatus 200
         assertTrue(initialText + ' link did not change again', (initialText == byName('changeStatus2').asText()))
     }

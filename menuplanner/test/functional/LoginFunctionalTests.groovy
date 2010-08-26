@@ -101,6 +101,7 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
 
     void testAllUrls() {
         loginBySuperAdmin()
+        javaScriptEnabled = false
         List<String> urls = ["/user/list", "/recipe/create", "/menuPlan/create", "/recipe/list", "/user/create"]
         Recipe recipe = Recipe.list().first()
         ShoppingList shoppingList = ShoppingList.list().first()

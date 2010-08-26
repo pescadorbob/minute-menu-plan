@@ -40,7 +40,8 @@ class TinyMceTagLib {
                                 mode : "${mode}",
                                 theme : "${theme}",
                                 editor_selector : "${editor_selector}",
-                                theme_advanced_toolbar_location : "${toolbarPos}"
+                                theme_advanced_toolbar_location : "${toolbarPos}",
+                                init_instance_callback : "mpInitCallback"
                             });"""
 
         return initString
