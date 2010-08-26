@@ -41,16 +41,15 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
     */
 
     void createRecipe(CreateRecipeData createRecipeData) {
+        javaScriptEnabled = false
         get("/recipe/create")
         form('formCreateRecipe') {
             name = createRecipeData.name
             preparationTime = createRecipeData.prepTime
             cookTime = createRecipeData.cookTime
             makesServing = createRecipeData.servings
-            optionIngredientProductIds = createRecipeData.productName_1
-            click "btnAddIngredient"
-            optionDirections = createRecipeData.step_1
-            click "btnAddDirection"
+            hiddenIngredientProductNames = createRecipeData.productName_1
+            directions = createRecipeData.step_1
             byId('serveWithItems1').setValue(createRecipeData.serveWith_1)
             byId('serveWithItems2').setValue(createRecipeData.serveWith_2)
             byId('txtCalories').setValue(createRecipeData.calories)
@@ -146,6 +145,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
     void gotoCreateRecipePage() {
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
         loginToHomepage(loginFormData)
+        javaScriptEnabled = false
         get('/recipe/create')
     }
 
@@ -199,7 +199,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
         createLink.click()
     }
 
-    /** * Helper method to return a message from the message bundle.                                                   ***/
+    /** * Helper method to return a message from the message bundle.                                                        ***/
     String getMessage(String key, def targetArgs = TARGET_ARGS_EMPTY) {
         def keyValue = messageSource.resolveCode(key, locale)
         return keyValue?.format(targetArgs)

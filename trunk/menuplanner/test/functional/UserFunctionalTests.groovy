@@ -9,6 +9,7 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
     */
 
     void testCreateUser_VALID() {
+        javaScriptEnabled = false
         Integer initialCount = Subscriber.count()
         loginBySuperAdmin()
         UserFormData userFormData = UserFormData.getDefaultUserFormData()
@@ -27,6 +28,7 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
     */
 
     void testCreateUser_INVALID_EMAIL() {
+        javaScriptEnabled = false
         Integer initialCount = Subscriber.count()
         loginBySuperAdmin()
         UserFormData userFormData = UserFormData.getDefaultUserFormData()
@@ -65,6 +67,7 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
     void testEditUser() {
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
         loginToHomepage(loginFormData)
+        javaScriptEnabled = false
         byName('profileLinkTst').click()
         assertTitle 'Minute Menu Plan : Show User'
         byClass('editUserButtonFT').click()
