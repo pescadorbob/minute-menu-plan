@@ -135,8 +135,8 @@ function resetUpDownIngredientArrow() {
 
 function bindEventUpDownIngredientArrow() {
     resetUpDownIngredientArrow()
-    $('btnUp').unbind('click');
-    $('btnDown').unbind('click');
+    $('.btnUp').unbind();
+    $('.btnDown').unbind();
     $('.btnUp').click(function() {
         $(this).parent().prev().before($(this).parent())
         resetUpDownIngredientArrow()
