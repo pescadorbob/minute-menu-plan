@@ -4,6 +4,8 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import grails.converters.JSON
 import org.codehaus.groovy.grails.web.json.JSONElement
 import javax.servlet.http.HttpSession
+import static com.mp.MenuConstants.*
+
 
 class UserService {
 
@@ -62,7 +64,8 @@ class UserService {
             }
             File imageFile = new File(filePath + fileName)
             if (imageFile.exists()) {
-                Image.updateOwnerImage(party.subscriber, imageFile.absolutePath)
+                List<Integer> userImageSizes = USER_IMAGE_SIZES
+                Image.updateOwnerImage(party.subscriber, imageFile.absolutePath, userImageSizes)
             }
         }
     }
@@ -123,7 +126,9 @@ class UserCO {
         roles = party?.roleTypes*.name()
 
         if (party?.subscriber?.image) {
-            selectUserImagePath = party?.subscriber?.image?.path + party?.subscriber?.image?.storedName
+            int firstIndex = party?.subscriber?.image?.storedName?.indexOf('.')
+            String name = party?.subscriber?.image?.storedName?.substring(0, firstIndex)
+            selectUserImagePath = party?.subscriber?.image?.path + name + "_200.jpg"
         } else {
             selectUserImagePath = ''
         }
@@ -215,14 +220,14 @@ class UserCO {
             new SuperAdmin(party: party).s()
         }
 
-        if(party.userLogin){
+        if (party.userLogin) {
             UserLogin login = party.userLogin
             login.email = email
-            if(login.password != password){
+            if (login.password != password) {
                 login.password = password.encodeAsBase64()
             }
             login.s()
-        } else if(email){
+        } else if (email) {
             new UserLogin(email: email, password: password.encodeAsBase64(), party: party).s()
         }
 
@@ -231,7 +236,8 @@ class UserCO {
     }
 
     public boolean attachImage(Subscriber user, def imagePath) {
-        return Image.updateOwnerImage(user, imagePath)
+        List<Integer> imageSizes = USER_IMAGE_SIZES
+        return Image.updateOwnerImage(user, imagePath, imageSizes)
     }
 
     public Party createParty() {

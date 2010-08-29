@@ -35,7 +35,7 @@
         </li>
         <li id="rightLiElements">
             <div id="photo200" class="scaleImageSize">
-                <mp:image id="${recipe?.image?.id}"/>
+                <mp:image class="recipeImage" size="${imageSize}" id="${recipe?.image?.id}"/>
             </div>
             <br/>
             <g:link controller="user" action="alterFavorite" name="changeFavorite" id="${recipe?.id}">

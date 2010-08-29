@@ -16,6 +16,7 @@
     <script type="text/javascript" src="${resource(dir: 'js', file: 'createRecipe.js')}"></script>
     <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.autocomplete.min.js')}"></script>
     <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.tools.min.js')}"></script>
+    <script type="text/javascript" src="${resource(dir: 'js', file: 'menuplanner.js')}"></script>
     <g:layoutHead/>
 </head>
 <body>

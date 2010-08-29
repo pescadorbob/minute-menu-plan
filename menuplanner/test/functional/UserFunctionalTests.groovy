@@ -49,6 +49,7 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
     */
 
     void testCreateUser_PASSWORD_CONFIRMPASSWORD_NOT_MATCHED() {
+        javaScriptEnabled = false
         loginBySuperAdmin()
         Integer initialCount = Subscriber.count()
         UserFormData userFormData = UserFormData.getDefaultUserFormData()

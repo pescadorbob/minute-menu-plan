@@ -61,16 +61,17 @@ class MenuplannerTagLib {
     def image = {attrs ->
         String height = attrs['height']
         String width = attrs['width']
+        String size = attrs['size']
         Long id = attrs['id']
         String noImage = (attrs['noImage']) ? attrs['noImage'] : 'no-img.gif'
         String clas = attrs['class']
         String imgTag = "<img "
-	if(clas){imgTag += "class='${clas}' "}
-	if(height){imgTag += "height='${height}' "}
-	if(width){imgTag += "width='${width}' "}	
-	imgTag += "src='" 
+        if (clas) {imgTag += "class='${clas}' "}
+        if (height) {imgTag += "height='${height}' "}
+        if (width) {imgTag += "width='${width}' "}
+        imgTag += "src='"
         if (Image.exists(id)) {
-            out << imgTag + createLink(controller: 'image', action: 'image', params: [id: id]) + "'/>"
+            out << imgTag + createLink(controller: 'image', action: 'image', params: [id: id, size: size]) + "'/>"
         } else {
             out << imgTag + createLink(controller: 'image', action: 'imageByPath', params: [noImage: noImage]) + "'/>"
         }

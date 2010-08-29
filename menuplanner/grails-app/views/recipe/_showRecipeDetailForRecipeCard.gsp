@@ -4,7 +4,7 @@
     <li><h3 class="recipeName"><a href="${createLink(action: 'show', controller: 'recipe', id: item?.id)}">${item.name}</a></h3></li>
     <li><ul>
         <li  style="padding:4px;"><div class="frame-corner">&nbsp;</div>
-            <mp:image class="imgbor" id="${item?.image?.id}"/>
+            <mp:image class="imgbor" size="100" id="${item?.image?.id}"/>
         <li>
             <ul>
                 <li><rateable:ratings bean='${item}' active="false"/></li>

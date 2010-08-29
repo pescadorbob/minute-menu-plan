@@ -56,7 +56,7 @@
             </div>
             <div class="top-shadow"><label></label></div>
             <div class="leftbox clearfix">
-                <g:render template="/recipe/showRecipeDetails" model="[recipe: recipe,customServings:customServings,isPrintable:isPrintable]"/>
+                <g:render template="/recipe/showRecipeDetails" model="[recipe: recipe,customServings:customServings,isPrintable:isPrintable,imageSize:1080]"/>
             </div>
             <div class="bottom-shadow"><label></label></div>
         </div>
@@ -70,6 +70,7 @@
         $(".rating a").click(function(e) {
             e.preventDefault()
         })
+        scaleImageSize()
     }
 </script>
 </body>

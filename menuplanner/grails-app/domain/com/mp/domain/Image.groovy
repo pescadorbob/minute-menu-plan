@@ -25,46 +25,38 @@ class Image {
         return path
     }
 
-    public static String createImageFile(byte[] fileContents, String filePath, String fileName) {
+    public static String createImageFile(byte[] fileContents, String filePath, String fileName, List<Integer> imageSizes = null) {
         File file = new File(filePath)
         file.mkdirs()
-        File actualFile = new File(file, fileName)
-        actualFile.withOutputStream {out -> out.write fileContents }
-        resizeImage(filePath + fileName)
-        return actualFile.absolutePath
+        generateResizedImages(fileContents, filePath, fileName, imageSizes)
+        return filePath
     }
 
-    private static void resizeImage(String completeFilePath, Integer imageSize = config.imageSize) {
+    private static void generateResizedImages(byte[] fileContents, String filePath, String fileName, List<Integer> imageSizes) {
         ImageTool imageTool = new ImageTool()
-        imageTool.load(completeFilePath)
-        imageTool.thumbnail(imageSize)
-        imageTool.writeResult(completeFilePath, "JPEG")
-        imageTool.swapSource()
-    }
-
-    public static Image createFile(Long id, String relativePath, String fileName, byte[] fileContents, String altText) {
-        String filePath = config.imagesRootDir + relativePath
-        File file = new File(filePath)
-        file.mkdirs()
-        File actualFile = new File(file, id.toString())
-        actualFile.withOutputStream {out ->
-            out.write fileContents
+        imageTool.load(fileContents)
+        int firstIndex = fileName.indexOf('.')
+        String name = fileName.substring(0, firstIndex)
+        imageSizes.each { Integer size ->
+            String newFileCompletePath = filePath + name + "_${size}.jpg"
+            imageTool.thumbnail(size)
+            imageTool.writeResult(newFileCompletePath, "JPEG")
         }
-        Image image = Image.findByStoredNameAndPath(id.toString(), filePath)
-        if (!image) {image = new Image()}
-        image.storedName = id.toString()
-        image.actualName = fileName.tokenize('.').first()
-        image.extension = fileName.tokenize('.').tail().join('.')
-        image.path = filePath
-        image.altText = (altText) ? altText : image.actualName
-        image.s()
-        return image
     }
 
-    public byte[] readFile() {
+    public byte[] readFile(String size = null) {
         String filePath = path
-        File file = new File(filePath)
-        File actualFile = new File(file, storedName)
+        File actualFile
+        if (size) {
+            int firstIndex = storedName.indexOf('.')
+            String newName = (storedName.substring(0, firstIndex)) + "_${size}.jpg"
+            actualFile = new File(filePath + newName)
+            if (!actualFile.exists()) {
+                actualFile = new File(filePath + storedName)
+            }
+        } else {
+            actualFile = new File(filePath + storedName)
+        }
         return actualFile.readBytes()
     }
 
@@ -81,7 +73,7 @@ class Image {
 
     //ImageOwner could be a Recipe/Subscriber
 
-    public static boolean updateOwnerImage(def imageOwner, String imagePath) {
+    public static boolean updateOwnerImage(def imageOwner, String imagePath, List<Integer> imageSizes) {
         if (!imagePath) {
             imageOwner.deleteImage()
             return false
@@ -93,7 +85,7 @@ class Image {
             String targetImagePath = targetImageDirectory + fileName
             if (sourceImage.exists() && (imagePath != targetImagePath)) {
                 imageOwner.deleteImage()
-                Image.createImageFile(sourceImage.readBytes(), targetImageDirectory, fileName)
+                Image.createImageFile(sourceImage.readBytes(), targetImageDirectory, fileName, imageSizes)
                 imageOwner.image = new Image(imagePath, targetImageDirectory, imageOwner?.id?.toString(), imageOwner?.toString())
                 imageOwner.image.s()
             }

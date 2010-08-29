@@ -157,4 +157,7 @@ class MenuConstants {
             'National and Ethnic Cuisines ': NATIONAL_AND_ETHNIC_CUISINES,
             'Special Diets ': SPECIAL_DIETS, 'Nutrition': NUTRITION, 'Ingredients': INGREDIENTS]
 
+    public static final List<Integer> RECIPE_IMAGE_SIZES = [100, 200, 1080]
+
+    public static final List<Integer> USER_IMAGE_SIZES = [200]
 }
