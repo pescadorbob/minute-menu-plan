@@ -9,6 +9,7 @@ import liquibase.Liquibase
 import liquibase.FileSystemFileOpener
 import liquibase.database.DatabaseFactory
 import static com.mp.MenuConstants.*
+import org.apache.commons.lang.StringUtils
 
 class BootStrap {
 
@@ -104,6 +105,14 @@ class BootStrap {
             }
             bootstrapService.populateQuickFills(5)
             println "Populated Quick Fills"
+        }
+
+        Aisle.list().each{Aisle aisle ->
+            String capitalizedName = StringUtils.capitaliseAllWords(aisle.name)
+            if(capitalizedName != aisle.name){
+                aisle.name = capitalizedName
+                aisle.s()
+            }
         }
 
         if (!(Environment.current in [Environment.DEVELOPMENT, Environment.TEST])) {

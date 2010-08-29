@@ -286,7 +286,7 @@ class RecipeCO {
                 Aisle aisle = Aisle.findByName(aisleNames[index])
                 String preparationMethodString = (preparationMethodNames[index])?.trim()
                 PreparationMethod preparationMethod = (preparationMethodString) ? PreparationMethod.findByName(preparationMethodString) : null
-                if (!aisle) {
+                if (!aisle && aisleNames[index]?.trim()) {
                     aisle = new Aisle(name: aisleNames[index]).s()
                 }
                 if (!preparationMethod && preparationMethodString) {

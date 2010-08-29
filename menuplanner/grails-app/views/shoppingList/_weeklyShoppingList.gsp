@@ -1,4 +1,4 @@
-<%@ page import="com.mp.domain.*" %>
+<%@ page import="com.mp.domain.Aisle" %>
 <div class="clearfix">
     <div class="winter-week" id="shoppingWeek${weeklyShoppingList.weekIndex}">
         <div class="winterButton"><h3><strong>Week ${weeklyShoppingList.weekIndex + 1}</strong></h3></div>
@@ -33,7 +33,7 @@
         <div class="addProductItem">
             <ul>
                 <li><h3>Add items to Shopping List</h3></li>
-                <li><g:select name="aisleList_${weekIndex}" from="${Aisle.list()}" optionKey="id" optionValue="${it?.name}" noSelection="['':'-Select Aisle-']"/></li>
+                <li><g:select name="aisleList_${weekIndex}" from="${Aisle.listOrderByName()}" optionKey="id" optionValue="${it?.name}" noSelection="['':'-Select Aisle-']"/></li>
                 <li><input name="addItemTxt_${weekIndex}" class="inpbox" id="addItemTxt_${weekIndex}" title="${g.message(code: 'toolTip.recipe.unit')}"></li>
                 <li><input type="button" name="addItemBtn_${weekIndex}" id="addItemBtn_${weekIndex}" value="Add Item"/></li>
             </ul></div>
