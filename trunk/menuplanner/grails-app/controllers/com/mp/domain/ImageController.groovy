@@ -16,8 +16,9 @@ class ImageController {
         byte[] fileContent
         String extension = image?.extension
         if (image) {
-            fileContent = image.readFile()
-        } else if(params.noImage){
+            fileContent = image.readFile(params?.size)
+        }
+        else if (params.noImage) {
             File noImageFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/images/${params?.noImage}"))
             if (noImageFile.exists()) {
                 fileContent = noImageFile.readBytes()
@@ -37,7 +38,7 @@ class ImageController {
         File imageFile
         if (params.imagePath) {
             imageFile = new File(params.imagePath)
-        } else if(params.noImage){
+        } else if (params.noImage) {
             imageFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/images/${params.noImage}"))
         }
         if (imageFile.exists()) {

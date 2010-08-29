@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'user.css')}"/>
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'securityRole.css')}"/>
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'jquery.autocomplete.css')}"/>
+    <link rel="stylesheet" href="${resource(dir: 'css', file: 'jquery.lightbox-0.5.css')}"/>
     %{--<link rel="stylesheet" href="${resource(dir: 'css', file: 'token-input-facebook.css')}"/>--}%
     <g:javascript library="jquery"/>
     <g:setProvider library="jquery"/>
@@ -20,7 +21,7 @@
     <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.tools.min.js')}"></script>
     <script type="text/javascript" src="${resource(dir: 'js', file: 'shoppingList.js')}"></script>
     <script type="text/javascript" src="${resource(dir: 'js', file: 'menuplanner.js')}"></script>
-    %{--<script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.corner.js')}"></script>--}%
+    <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.lightbox-0.5.js')}"></script>
     <g:layoutHead/>
 
 </head>

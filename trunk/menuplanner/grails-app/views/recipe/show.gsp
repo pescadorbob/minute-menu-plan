@@ -52,7 +52,7 @@
         </div>
         <div class="top-shadow"><label></label></div>
         <div class="leftbox clearfix">
-            <g:render template="/recipe/showRecipeDetails" model="[recipe: recipe]"/>
+            <g:render template="/recipe/showRecipeDetails" model="[recipe: recipe,imageSize:200]"/>
         </div>
         <div class="bottom-shadow"><label></label></div>
     </div>
@@ -76,10 +76,22 @@
             sticky:true
         }).dynamic({ bottom: { direction: 'down', bounce: false } })
     });
+
     function showPrintInstruction() {
         jQuery('#showPrintInstructions').show()
         return false;
     }
+
+    jQuery(function() {
+        var path = jQuery('.recipeImage').attr('src')
+        var imagePath = path.substring("0", path.lastIndexOf("="))
+        imagePath = imagePath + '=1080';
+        jQuery('.recipeImage').wrap('<a  class="lightbox" href=' + imagePath + '></a>')
+        jQuery('.recipeImage').css('border', 'none')
+        jQuery('.lightbox').lightBox({
+            imageBtnClose:"${resource(dir: 'images', file: 'lightbox-btn-close.gif')}"
+        });
+    });
 </script>
 </body>
 </html> 

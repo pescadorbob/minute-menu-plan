@@ -139,9 +139,10 @@ class ExcelService {
     public boolean attachImageToRecipe(Recipe recipe) {
         try {
             String bootStrapDirectory = "/bootstrapData/recipeImages/"
-            String fileName = recipe?.name.trim() + '.jpg'
+            String fileName = recipe?.name?.trim() + '.jpg'
             String absoluteFilePath = ApplicationHolder.application.parentContext.servletContext.getRealPath(bootStrapDirectory + fileName)
-            return com.mp.domain.Image.updateOwnerImage(recipe, absoluteFilePath)
+            List<Integer> imageSizes=RECIPE_IMAGE_SIZES
+            return com.mp.domain.Image.updateOwnerImage(recipe, absoluteFilePath,imageSizes)
         } catch (ex) {
             return false
         }
@@ -199,7 +200,7 @@ class ExcelService {
                     item.isVisible = true
                     if (aisleName) {
                         Aisle aisle = Aisle.findByName(aisleName)
-                        if (!aisle && aisleName) {
+                        if (!aisle) {
                             aisle = new Aisle(name: aisleName).s()
                         }
                         item.suggestedAisle = aisle

@@ -51,7 +51,6 @@ imagesRootDir = System.getProperty("java.io.tmpdir") + "/mpImages"
 tempDir = System.getProperty("java.io.tmpdir") + "/mpImages/tempImages"
 recipesRootDir = "/recipes/"
 usersRootDir = "/users/"
-imageSize=200
 sessions = []
 // set per-environment serverURL stem for creating absolute links
 grails {

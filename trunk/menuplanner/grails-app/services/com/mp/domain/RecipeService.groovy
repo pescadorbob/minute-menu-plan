@@ -5,6 +5,8 @@ import jxl.WorkbookSettings
 import org.codehaus.groovy.grails.commons.ApplicationHolder
 import jxl.Workbook
 import jxl.Sheet
+import static com.mp.MenuConstants.*
+
 
 class RecipeService {
 
@@ -79,7 +81,9 @@ class RecipeCO {
         description = recipe?.description
 
         if (recipe?.image) {
-            selectRecipeImagePath = recipe?.image?.path + recipe?.image?.storedName
+            int firstIndex = recipe?.image?.storedName?.indexOf('.')
+            String name = recipe?.image?.storedName?.substring(0, firstIndex)
+            selectRecipeImagePath = recipe?.image?.path + name + "_200.jpg"
         } else {
             selectRecipeImagePath = ''
         }
@@ -161,7 +165,7 @@ class RecipeCO {
         hiddenIngredientProductNames(validator: {val, obj ->
             List<String> tempProd = []
             val.each { tempProd.add(it) }
-            if (!val.any{it}) {
+            if (!val.any {it}) {
                 return 'recipeCO.ingredient.not.Provided.message'
             }
             if ((val.size() != tempProd?.unique()?.size()) && !(val.contains(''))) {
@@ -225,6 +229,7 @@ class RecipeCO {
     }
 
 //    public Recipe convertToRecipe(Party byUser, List<String> elementNames, List<String> serveWithElements) {
+
     public Recipe convertToRecipe(Party byUser) {
         Recipe recipe = new Recipe()
 
@@ -258,7 +263,8 @@ class RecipeCO {
     }
 
     public boolean attachImage(Recipe recipe, String imagePath) {
-        return Image.updateOwnerImage(recipe, imagePath)
+        List<Integer> imageSizes = RECIPE_IMAGE_SIZES
+        return Image.updateOwnerImage(recipe, imagePath, imageSizes)
     }
 
     public Quantity makeTimeQuantity(Integer minutes, Long unitId) {
@@ -279,14 +285,14 @@ class RecipeCO {
     public List<RecipeIngredient> recipeIngredientList(List<String> amounts, List<String> unitIds, List<String> productNames, List<String> aisleNames, List<String> preparationMethodNames) {
         List<RecipeIngredient> recipeIngredients = []
         productNames?.eachWithIndex {String productName, Integer index ->
-            if(productName){
+            if (productName) {
                 RecipeIngredient recipeIngredient = new RecipeIngredient()
                 Item product = Item.findByName(productName)
                 Unit unit = (unitIds[index]) ? Unit?.get(unitIds[index]?.toLong()) : null
                 Aisle aisle = Aisle.findByName(aisleNames[index])
                 String preparationMethodString = (preparationMethodNames[index])?.trim()
                 PreparationMethod preparationMethod = (preparationMethodString) ? PreparationMethod.findByName(preparationMethodString) : null
-                if (!aisle && aisleNames[index]?.trim()) {
+                if (!aisle) {
                     aisle = new Aisle(name: aisleNames[index]).s()
                 }
                 if (!preparationMethod && preparationMethodString) {
