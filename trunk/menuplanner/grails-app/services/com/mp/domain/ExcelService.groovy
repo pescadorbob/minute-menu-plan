@@ -199,7 +199,7 @@ class ExcelService {
                     item.isVisible = true
                     if (aisleName) {
                         Aisle aisle = Aisle.findByName(aisleName)
-                        if (!aisle) {
+                        if (!aisle && aisleName) {
                             aisle = new Aisle(name: aisleName).s()
                         }
                         item.suggestedAisle = aisle

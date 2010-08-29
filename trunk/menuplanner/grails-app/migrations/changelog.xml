@@ -1495,4 +1495,15 @@
             <where>symbol like '% package%'</where>
         </delete>
     </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-173">
+        <sql>update recipe_ingredient set aisle_id=NULL where aisle_id=(select id from aisle where name='');</sql>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-174">
+        <sql>update item set suggested_aisle_id=NULL where suggested_aisle_id=(select id from aisle where name='');</sql>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-175">
+        <delete tableName="aisle">
+            <where>name=''</where>
+        </delete>
+    </changeSet>
 </databaseChangeLog>
