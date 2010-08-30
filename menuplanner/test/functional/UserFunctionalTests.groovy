@@ -1,5 +1,7 @@
 import com.gargoylesoftware.htmlunit.html.*
 import com.mp.domain.*
+import static com.mp.domain.TestConstants.*
+
 
 class UserFunctionalTests extends MenuPlannerFunctionalTests {
 
@@ -80,6 +82,17 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
         assertElementTextContains('flashMsgTst', getMessage('user.updateded.success'))
         logout()
     }
+
+    void test_User_ChangePassword() {
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        javaScriptEnabled = false
+        loginToHomepage(loginFormData)
+        changePasswordAndLogin('newpassword')
+        loginToHomepage(loginFormData)
+        assertTitle 'Minute Menu Plan : List Recipe'
+        changePasswordAndLogin(USER_PASSWORD)
+
+    }
 //
 //    void testAddUser_FromHomePage() {
 //        get('/')
@@ -103,4 +116,19 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
 //        assertContentContains 'Monthly Subscription of MenuPlanner '
 //        assertContentContains 'Shop confidently with Google Checkout '
 //    }
+
+    public void changePasswordAndLogin(String newPassword) {
+        byName('profileLinkTst').click()
+        assertTitle 'Minute Menu Plan : Show User'
+        byClass('editUserButtonFT').click()
+        assertTitle 'Minute Menu Plan : Edit User'
+        byName('password').setValue(newPassword)
+        byName('confirmPassword').setValue(newPassword)
+        byClass('updateUserButtonFT').click()
+        redirectEnabled = false
+        followRedirect()
+        assertTitle 'Minute Menu Plan : Show User'
+        assertElementTextContains('flashMsgTst', getMessage('user.updateded.success'))
+        logout()
+    }
 }

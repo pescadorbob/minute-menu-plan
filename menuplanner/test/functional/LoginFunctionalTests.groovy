@@ -62,6 +62,7 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
     */
 
     void testLogin_BY_DISABLED_USER() {
+        javaScriptEnabled = false
         loginBySuperAdmin()
         UserFormData userFormData = UserFormData.getDefaultUserFormData()
         userFormData.isEnabled = false
