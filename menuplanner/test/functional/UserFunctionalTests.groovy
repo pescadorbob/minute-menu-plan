@@ -87,11 +87,12 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
         javaScriptEnabled = false
         loginToHomepage(loginFormData)
-        changePasswordAndLogin('newpassword')
+        loginFormData.password='newpassword'
+        changePasswordAndLogin(loginFormData.password)
         loginToHomepage(loginFormData)
         assertTitle 'Minute Menu Plan : List Recipe'
-        changePasswordAndLogin(USER_PASSWORD)
-
+        loginFormData.password=USER_PASSWORD
+        changePasswordAndLogin(loginFormData.password)
     }
 //
 //    void testAddUser_FromHomePage() {
