@@ -21,8 +21,11 @@ class Image {
     public static String createTempImage(byte[] fileContents, String extension) {
         String filePath = config.tempDir
         String fileName = 'Img_' + System.currentTimeMillis()?.toString() + '.' + extension
-        String path = createImageFile(fileContents, filePath, fileName)
-        return path
+        File file = new File(filePath)
+        file.mkdirs()
+        File actualFile = new File(file, fileName)
+        actualFile.withOutputStream {out -> out.write fileContents }
+        return actualFile.absolutePath
     }
 
     public static String createImageFile(byte[] fileContents, String filePath, String fileName, List<Integer> imageSizes = null) {
