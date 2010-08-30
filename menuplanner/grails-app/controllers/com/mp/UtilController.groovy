@@ -49,38 +49,6 @@ class UtilController {
 
     }
 
-    def test = {
-
-        Unit unit1 = Unit.findByName(UNIT_16_OUNCE_CAN)
-        Unit unit2 = Unit.findByName(UNIT_16_OUNCE_CAN)
-        String val1 = '2'
-        String val2 = '3'
-
-        unit1 = null
-        unit2 = Unit.findByName(UNIT_16_OUNCE_CAN)
-        val1 = ''
-        val2 = '3'
-
-        Quantity q1 = StandardConversion.getQuantityToSave(val1, unit1)
-        render "Q1: ${q1} <br/>"
-
-        Quantity q2 = StandardConversion.getQuantityToSave(val2, unit2)
-        render "Q2: ${q2} <br/>"
-
-        Quantity q = addQuantities(val1, unit1, val2, unit2)
-        render "SUM: ${q.toString() ? q : 'QUANTITIES CAN NOT BE ADDED..'} <br/>"
-        /*
-        asynchronousMailService.sendAsynchronousMail {
-            to 'aman@intelligrape.com'
-            subject 'created your profile! grails.'
-            html '<body><u>XYZ</u></body>'
-        }
-
-        Long l = 30l
-        render "metric: " + NumberTools.longToString(l)
-        */
-    }
-
     def uploadRecipes = {
         render(view: 'uploadRecipes')
     }

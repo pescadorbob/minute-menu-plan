@@ -24,12 +24,13 @@ class StandardConversion {
         }
         if (displayUnit && (amount != null)) {
             StandardConversion standardConversion = StandardConversion.findBySourceUnit(displayUnit)
+            Float conversionFactor = standardConversion ? standardConversion.conversionFactor : 1.0f
             if (displayUnit.isWeightUnit) {
-                result.value = ((amount * standardConversion?.conversionFactor) / density)
+                result.value = ((amount * conversionFactor) / density)
             } else {
-                result.value = amount * standardConversion?.conversionFactor
+                result.value = amount * conversionFactor
             }
-            result.savedUnit = standardConversion?.targetUnit
+            result.savedUnit = standardConversion ? standardConversion?.targetUnit : displayUnit
             result.unit = displayUnit
         }
         return result
