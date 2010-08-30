@@ -18,9 +18,8 @@ class Unit extends Metric{
     }
 
     public static List<Unit> getSortedMetricUnits(){
-        List<Unit> units = StandardConversion.listOrderByConversionFactor()?.findAll{it.sourceUnit.metricType == MetricType.METRIC}*.sourceUnit
-        units = units.findAll{((it.party == null) || (it.party == LoginCredential.currentUser?.party))}
-        return units
+        List<Unit> units = Unit.list().findAll{(it.metricType == MetricType.METRIC) && ((it.party == null) || (it.party == LoginCredential.currentUser?.party))}
+        return units.sort{it.name}
     }
 
     Boolean belongsToMetricSystem(){
