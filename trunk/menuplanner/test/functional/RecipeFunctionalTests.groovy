@@ -227,4 +227,18 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
 //        byId('emailSubmitButton').click()
 
 //    }
+
+    void testAddRecipeIngredientTableCount(){
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginToHomepage(loginFormData)
+        byName('addNewRecipeLink').click()
+        def unitInitialCount= byClass('iUnit')
+        println ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Initial" + unitInitialCount.size()
+        unitInitialCount[unitInitialCount.size()-2].click()
+        def unitFinalCount= byClass('iUnit')
+        println ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Final" + unitFinalCount.size()
+        assertEquals unitInitialCount.size()+1,unitFinalCount.size() 
+    }
+
+   
 }
