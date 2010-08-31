@@ -251,7 +251,7 @@ class RecipeCO {
 //        }
         addSubCategoriesToRecipe(recipe, subCategoryIds)
         addDirectionsToRecipe(recipe, directions)
-        addIngredientsToRecipe(recipe, ingredientQuantities, ingredientUnitIds, hiddenIngredientProductNames, ingredientAisleIds, hiddenIngredientPreparationMethodNames)
+        addIngredientsToRecipe(recipe, ingredientQuantities, ingredientUnitIds, hiddenIngredientProductNames, hiddenIngredientAisleNames, hiddenIngredientPreparationMethodNames)
         addServeWithToRecipe(recipe, serveWithItems)
         addNutrientsToRecipe(recipe, nutrientQuantities, nutrientIds)
 
