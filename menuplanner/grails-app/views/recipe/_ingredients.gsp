@@ -42,9 +42,10 @@
                 </g:each>
                 <g:if test="${ingredientCounter.toInteger()>=4}">
                     <g:render template="ingredientRow"/>
+                    <g:render template="ingredientRow"/>
                 </g:if>
                 <g:else>
-                    <g:each in="${(1..(5-ingredientCounter.toInteger()))}" var="i">
+                    <g:each in="${(0..(5-ingredientCounter.toInteger()))}" var="i">
                         <g:render template="ingredientRow"/>
                     </g:each>
                 </g:else>
