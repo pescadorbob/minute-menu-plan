@@ -1,3 +1,4 @@
+<%@ page import="com.mp.domain.Recipe" %>
 <div id="contectElement">
     <ul>
         <li id="leftLiElements">
@@ -19,7 +20,7 @@
                     </li>
                 </g:if>
                 <g:if test="${recipe?.directions}">
-                    <li id="showAllStepsHereTst">${recipe?.directions*.toString().join(" ")}</li>
+                    <li id="showAllStepsHereTst">Directions: ${recipe?.directions*.toString().join(" ")}</li>
                 </g:if>
                 <g:if test="${recipe?.subCategories}">
                     <li style="width: 500px;">Categories: ${recipe?.subCategories?.join(", ")}</li>
@@ -28,7 +29,17 @@
                     <li><span id="showNutrientsTst" style="width:auto;">Nutritional Facts per serving: ${recipe?.nutrients?.join(", ")}</span></li>
                 </g:if>
                 <g:if test="${recipe?.items}">
-                    <li><span id="showServeWithTst">Serve With: ${recipe?.items?.join(", ")}</span></li>
+                    <li><span id="showServeWithTst">Serve With:
+                    <g:each in="${recipe?.items}" var="item" status="i">
+                        <g:if test="${item?.instanceOf(Recipe)}">
+                            <g:link class="recipeServeWithFT" action="show" controller="recipe" id="${item?.id}">${item}</g:link>
+                            <g:if test="${i < recipe?.items?.size()-1}">,</g:if>
+                        </g:if>
+                        <g:else>
+                            ${item}<g:if test="${i < recipe?.items?.size()-1}">,</g:if>
+                        </g:else>
+                    </g:each>
+                    </span></li>
                 </g:if>
                 <li></li>
             </ul>
