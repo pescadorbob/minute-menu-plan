@@ -289,11 +289,21 @@ class RecipeCO {
                 RecipeIngredient recipeIngredient = new RecipeIngredient()
                 Item product = Item.findByName(productName)
                 Unit unit = (unitIds[index]) ? Unit?.get(unitIds[index]?.toLong()) : null
-                Aisle aisle = Aisle.findByName(aisleNames[index])
+                List<Aisle> aislesForUser = Aisle.getAislesForCurrentUser()
+                Aisle aisle = aislesForUser.find {it.name == aisleNames[index].toString()}
+
                 String preparationMethodString = (preparationMethodNames[index])?.trim()
                 PreparationMethod preparationMethod = (preparationMethodString) ? PreparationMethod.findByName(preparationMethodString) : null
                 if (!aisle) {
-                    aisle = new Aisle(name: aisleNames[index]).s()
+                    Aisle aisleInList = Aisle.list().find {it.name == aisleNames[index].toString()}
+                    if (aisleInList) {
+                        aisleInList.addToOwners(LoginCredential.currentUser?.party)
+                        aisleInList.s()
+                    } else {
+                        aisle = new Aisle(name: aisleNames[index])
+                        aisle.addToOwners(LoginCredential.currentUser?.party)
+                        aisle.s()
+                    }
                 }
                 if (!preparationMethod && preparationMethodString) {
                     preparationMethod = new PreparationMethod(name: preparationMethodString).s()

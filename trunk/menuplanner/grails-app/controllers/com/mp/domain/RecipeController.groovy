@@ -137,7 +137,7 @@ class RecipeController {
         SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
         List<Nutrient> nutrients = Nutrient.list()
         render(view: 'create', model: [timeUnits: sys.timeUnits, metricUnits: Unit.sortedMetricUnits, nutrients: nutrients,
-                categories: Category.list(), aisles: Aisle.list(), preparationMethods: PreparationMethod.list()])
+                categories: Category.list(), aisles: Aisle.getAislesForCurrentUser(), preparationMethods: PreparationMethod.list()])
     }
 
     def edit = {
@@ -147,7 +147,7 @@ class RecipeController {
             SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
             List<Nutrient> nutrients = Nutrient.list()
             render(view: 'edit', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits: Unit.sortedMetricUnits, nutrients: nutrients,
-                    categories: Category.list(), aisles: Aisle.list(), preparationMethods: PreparationMethod.list()])
+                    categories: Category.list(), aisles: Aisle.getAislesForCurrentUser(), preparationMethods: PreparationMethod.list()])
         }
     }
 
@@ -167,7 +167,7 @@ class RecipeController {
             SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
             List<Nutrient> nutrients = Nutrient.list()
             render(view: 'edit', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits: Unit.sortedMetricUnits, nutrients: nutrients,
-                    categories: Category.list(), aisles: Aisle.list(), preparationMethods: PreparationMethod.list()])
+                    categories: Category.list(), aisles: Aisle.getAislesForCurrentUser(), preparationMethods: PreparationMethod.list()])
         }
     }
 
@@ -190,7 +190,7 @@ class RecipeController {
             SystemOfUnit sys = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
             List<Nutrient> nutrients = Nutrient.list()
             render(view: 'create', model: [recipeCO: recipeCO, timeUnits: sys.timeUnits, metricUnits: Unit.sortedMetricUnits, nutrients: nutrients,
-                    categories: Category.list(), aisles: Aisle.list(), preparationMethods: PreparationMethod.list()])
+                    categories: Category.list(), aisles: Aisle.getAislesForCurrentUser(), preparationMethods: PreparationMethod.list()])
         }
     }
 

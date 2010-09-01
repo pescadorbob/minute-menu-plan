@@ -57,6 +57,24 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
         }
     }
 
+    void createRecipeWithNewAisle(CreateRecipeData createRecipeData, String aisle) {
+        javaScriptEnabled = false
+        get("/recipe/create")
+        form('formCreateRecipe') {
+            name = createRecipeData.name
+            preparationTime = createRecipeData.prepTime
+            cookTime = createRecipeData.cookTime
+            makesServing = createRecipeData.servings
+            hiddenIngredientProductNames = createRecipeData.productName_1
+            hiddenIngredientAisleNames = aisle
+            directions = createRecipeData.step_1
+            byId('serveWithItems1').setValue(createRecipeData.serveWith_1)
+            byId('serveWithItems2').setValue(createRecipeData.serveWith_2)
+            byId('txtCalories').setValue(createRecipeData.calories)
+            click("_action_save")
+        }
+    }
+
     /*
     *  Helper method to create a new user
     */
@@ -199,7 +217,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
         createLink.click()
     }
 
-    /** * Helper method to return a message from the message bundle.                                                        ***/
+    /** * Helper method to return a message from the message bundle.                                                         ***/
     String getMessage(String key, def targetArgs = TARGET_ARGS_EMPTY) {
         def keyValue = messageSource.resolveCode(key, locale)
         return keyValue?.format(targetArgs)
