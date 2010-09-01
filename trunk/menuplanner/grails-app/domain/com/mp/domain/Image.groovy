@@ -13,6 +13,7 @@ class Image {
     String extension
     String altText
 
+    static transients = ['fileToBeRead']
 
     static constraints = {
 //        storedName(unique: 'path')
@@ -47,20 +48,31 @@ class Image {
         }
     }
 
-    public byte[] readFile(String size = null) {
+    public File getFileToBeRead(String size = null) {
         String filePath = path
         File actualFile
+        int firstIndex = storedName.indexOf('.')
         if (size) {
-            int firstIndex = storedName.indexOf('.')
             String newName = (storedName.substring(0, firstIndex)) + "_${size}.jpg"
             actualFile = new File(filePath + newName)
+            if (!actualFile.exists()) {
+                actualFile = new File(filePath + (storedName.substring(0, firstIndex) + "_1080.jpg"))
+            }
             if (!actualFile.exists()) {
                 actualFile = new File(filePath + storedName)
             }
         } else {
-            actualFile = new File(filePath + storedName)
+            actualFile = new File(filePath + (storedName.substring(0, firstIndex) + "_1080.jpg"))
+            if (!actualFile.exists()) {
+                actualFile = new File(filePath + storedName)
+            }
         }
-        return actualFile.readBytes()
+        return actualFile
+    }
+
+    public byte[] readFile(String size = null) {
+        File file = getFileToBeRead(size)
+        return file.readBytes()
     }
 
     public Image() {}

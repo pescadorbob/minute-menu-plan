@@ -34,21 +34,52 @@ class ImageController {
             out.close()
         }
     }
+
     def imageByPath = {
         File imageFile
-        if (params.imagePath) {
-            imageFile = new File(params.imagePath)
-        } else if (params.noImage) {
-            imageFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/images/${params.noImage}"))
+        String imagePath = params.imagePath
+        String noImage = params.noImage
+        if (imagePath) {
+            imageFile = new File(imagePath)
+        } else if (noImage) {
+            imageFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/images/${noImage}"))
         }
+        byte[] imageFileContent = getImageBytes(imageFile, imagePath)
+        response.setContentLength(imageFileContent.size())
+        response.setContentType("image/${imageFile.name.tokenize('.').tail().join('.')}")
+        OutputStream out = response.getOutputStream()
+        out.write(imageFileContent)
+        out.flush()
+        out.close()
+
+    }
+
+    public byte[] getImageBytes(File imageFile, String imagePath) {
+        File file = getImageFileToRead(imageFile, imagePath)
+        return file.readBytes()
+    }
+
+    public File getImageFileToRead(File imageFile, String imagePath) {
         if (imageFile.exists()) {
-            byte[] fileContent = imageFile?.readBytes()
-            response.setContentLength(fileContent.size())
-            response.setContentType("image/${imageFile.name.tokenize('.').tail().join('.')}")
-            OutputStream out = response.getOutputStream()
-            out.write(fileContent)
-            out.flush()
-            out.close()
+            return imageFile
+        } else {
+            int lastIndex1 = imagePath?.indexOf('_')
+            int lastIndex2 = imagePath?.indexOf('.')
+            if (lastIndex1 > 0) {
+                String newPath1 = (imagePath?.substring(0, lastIndex1)) + "_1080.jpg"
+                imageFile = new File(newPath1)
+            } else {
+                String newPath1 = (imagePath?.substring(0, lastIndex2)) + "_1080.jpg"
+                imageFile = new File(newPath1)
+            }
+            if (imageFile.exists()) {
+                return imageFile
+            } else {
+                int lastIndex = (lastIndex1 > 0) ? lastIndex1 : lastIndex2
+                String newPath2 = (imagePath.substring(0, lastIndex)) + ".jpg"
+                imageFile = new File(newPath2)
+                return imageFile
+            }
         }
     }
 
