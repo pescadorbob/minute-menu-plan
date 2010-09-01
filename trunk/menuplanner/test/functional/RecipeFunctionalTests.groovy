@@ -211,34 +211,30 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         assertElementTextContains('contectElement', 'Comments')
     }
 
-//    void testEmailShoppingList() {
-//        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
-//        loginToHomepage(loginFormData)
-//        def recipeLink = byId('draggableSearchItem_1')
-//        recipeLink.click()
-//        redirectEnabled = false
-//        followRedirect()
-//        assertTitleContains 'Minute Menu Plan : Show Recipe '
-//
-//        def emailLink = byId('emailShoppingListBtn')
-//        emailLink.click()
-//        assertElementTextContains 'emailShoppingList', 'Send To: '
-//        byId('emailId').setValue('qa.menuplanner@gmail.com')
-//        byId('emailSubmitButton').click()
 
-//    }
+    void test_Links_To_Serve_With_On_Show_Recipe() {
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginToHomepage(loginFormData)
+        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
+        String servings_1 = Recipe.list().first()
+        createRecipeData.serveWith_1 = servings_1
+        createRecipe(createRecipeData)
+        assertTitleContains 'Minute Menu Plan : Show Recipe '
+        def servingsLink = byClass('recipeServeWithFT')
+        servingsLink.click()
+        assertTitleContains 'Minute Menu Plan : Show Recipe '
+        assertElementTextContains('leftpart', servings_1)
+    }
 
-    void testAddRecipeIngredientTableCount(){
+    void testAddRecipeIngredientTableCount() {
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
         loginToHomepage(loginFormData)
         byName('addNewRecipeLink').click()
-        def unitInitialCount= byClass('iUnit')
+        def unitInitialCount = byClass('iUnit')
         println ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Initial" + unitInitialCount.size()
-        unitInitialCount[unitInitialCount.size()-2].click()
-        def unitFinalCount= byClass('iUnit')
+        unitInitialCount[unitInitialCount.size() - 2].click()
+        def unitFinalCount = byClass('iUnit')
         println ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Final" + unitFinalCount.size()
-        assertEquals unitInitialCount.size()+1,unitFinalCount.size() 
+        assertEquals unitInitialCount.size() + 1, unitFinalCount.size()
     }
-
-   
 }
