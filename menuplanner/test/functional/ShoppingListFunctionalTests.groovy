@@ -317,4 +317,30 @@ class ShoppingListFunctionalTests extends MenuPlannerFunctionalTests {
         assertContentContains(itemText)
         assertTrue('Update shopping list unables to update a shopping list', (finalCount - intermediateCount == 0))
     }
+
+    void test_Add_New_AisleWithUser() {
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginToHomepage(loginFormData)
+        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
+        String aisle = "NewAisle-${System.currentTimeMillis()}"
+        Integer initialCount = Recipe.count()
+        Integer initialAisleCount = Aisle.count()
+        createRecipeWithNewAisle(createRecipeData, aisle)
+        Integer finalCount = Recipe.count()
+        Integer finalAisleCount = Aisle.count()
+
+        assertEquals 'Unable to create Aisle ', finalAisleCount, initialAisleCount + 1
+        LoginCredential credential = UserLogin.findByEmail(loginFormData.email)
+        ShoppingList shoppingList = ShoppingList.findByParty(credential.party)
+        get("/shoppingList/generateShoppingList/${shoppingList?.id}")
+        ShoppingListFormData shoppingListFormData = ShoppingListFormData.getDefaultShoppingListFormData()
+        createShoppingList(shoppingListFormData)
+
+        List<String> aislesInList = []
+        byId('aisleList_0').getChildElements().each {
+            aislesInList.add(it.asText())
+        }
+        assertTrue(aislesInList.contains(aisle))
+    }
+
 }
