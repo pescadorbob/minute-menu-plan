@@ -66,6 +66,9 @@
 #contectElement ul li a{color:#2aa3b4;text-decoration:none;}
 #contectElement ul li a:hover{text-decoration:underline;}
 #contectElement ul li ul li{float:none;clear:both;padding:10px 0;}
+#contectElement ul li ul li ol {padding:0; margin-left:20px;}
+#contectElement ul li ul li ol li {float:none;clear:both;padding:0px 0; margin:0}
+#contectElement ul li ul li ul li {float:none;clear:both;padding:0px 0; margin:0}
 #contectElement ul li ul li a{color:#2aa3b4;text-decoration:none;}
 #contectElement ul li ul li a:hover{text-decoration:underline;}
 #contectElement ul li ul li label{float:left;width:100px;}
