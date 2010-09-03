@@ -237,4 +237,26 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         println ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Final" + unitFinalCount.size()
         assertEquals unitInitialCount.size() + 1, unitFinalCount.size()
     }
+
+    void test_CreateRecipe_With_Different_Names() {
+        // test that recipe name accepts any character other than single quote
+        List<String> names = ['AAAAA "highlited Name"', '*name', '*()/&*', 'Ä_new_recipe', 'ÄËÎÆzqÅ']
+        String currentString
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginToHomepage(loginFormData)
+        Integer initialCount = Recipe.count()
+        Integer intermediateCount = initialCount
+
+        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
+        names.each {String name ->
+            currentString = name
+            createRecipeData.name = name
+            createRecipe(createRecipeData)
+            intermediateCount++
+            assertEquals "Recipe creation failed with name input: " + currentString, intermediateCount, Recipe.count()
+            assertTitleContains 'Minute Menu Plan : Show Recipe '
+        }
+        Integer finalCount = Recipe.count()
+        assertEquals "Recipe creation failed with name input: " + currentString, finalCount, initialCount + names.size()
+    }
 }
