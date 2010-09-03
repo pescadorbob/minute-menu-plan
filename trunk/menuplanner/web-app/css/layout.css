@@ -269,5 +269,5 @@ div.errors{border:red 1px solid;font-size:smaller;color:red;padding:10px;margin-
 #rightElementPreview ul li{list-style:disc outside none;}
 #rightElementPreview ul li #prev-pic{float:right;width:150px;}
 #rightElementPreview ul li a{color:#2aa4b1;text-decoration:none;}
-#rightElementPreview p{line-height:20px !important; padding:5px 0px; }
+#rightElementPreview p{padding:5px 0px; }
 #rightElementPreview ul li a:hover{text-decoration:underline;}
