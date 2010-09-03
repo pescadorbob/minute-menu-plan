@@ -144,7 +144,14 @@ class RecipeCO {
 
     static constraints = {
         id(nullable: true)
-        name(blank: false, matches: /[a-zA-Z0-9\s\&]*/)
+        name(validator:{val->
+            if(!val){
+                return 'recipeCO.name.blank.error.name'
+            }
+            if(val.contains("'")){
+                return 'recipeCO.name.singleQuote.error.message'
+            }
+        })
 
         difficulty(blank: true, nullable: true)
         description(blank: true, nullable: true)
