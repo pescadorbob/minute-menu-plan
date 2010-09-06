@@ -1,54 +1,50 @@
+<%@ page import="grails.util.GrailsUtil; org.codehaus.groovy.grails.commons.GrailsApplication" %>
 <html>
-  <head>
-	  <title>Grails Runtime Exception</title>
-	  <style type="text/css">
-	  		.message {
-	  			border: 1px solid black;
-	  			padding: 5px;
-	  			background-color:#E9E9E9;
-	  		}
-	  		.stack {
-	  			border: 1px solid black;
-	  			padding: 5px;
-	  			overflow:auto;
-	  			height: 300px;
-	  		}
-	  		.snippet {
-	  			padding: 5px;
-	  			background-color:white;
-	  			border:1px solid black;
-	  			margin:3px;
-	  			font-family:courier;
-	  		}
-	  </style>
-  </head>
+<head>
+    <title>Error Page</title>
+    <meta name="layout" content="menu"/>
+</head>
+<body>
+<div id="content-wrapper" class="clearfix" style="height:1000px;">
+    <div class="headbox">
+        <h3>Oops .. there is an error</h3>
+        <br/>
+        <div class="top-shadow"><label>&nbsp;</label></div>
+        <div class="leftbox clearfix">
+            <div id="adduser">
+                <h2>Looks like there is some problem serving your request. This can be because of various reasons such as:</h2><br/><br/>
+                <h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# You are trying to access a page which does not exist.</h4><br/>
+                <h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# You do-not have necessary rights to access the page you are trying to reach.</h4><br/>
+                <h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# We are experiencing some problem at our server side.</h4><br/><br/>
+                <g:if test="${GrailsUtil.environment != GrailsApplication.ENV_PRODUCTION}">
 
-  <body>
-    <h1>Grails Runtime Exception</h1>
-    <h2>Error Details</h2>
+                    <br/><h2><u>Following stack trace is not displayed in production enviroment</u></h2><br/>
 
-  	<div class="message">
-		<strong>Error ${request.'javax.servlet.error.status_code'}:</strong> ${request.'javax.servlet.error.message'.encodeAsHTML()}<br/>
-		<strong>Servlet:</strong> ${request.'javax.servlet.error.servlet_name'}<br/>
-		<strong>URI:</strong> ${request.'javax.servlet.error.request_uri'}<br/>
-		<g:if test="${exception}">
-	  		<strong>Exception Message:</strong> ${exception.message?.encodeAsHTML()} <br />
-	  		<strong>Caused by:</strong> ${exception.cause?.message?.encodeAsHTML()} <br />
-	  		<strong>Class:</strong> ${exception.className} <br />
-	  		<strong>At Line:</strong> [${exception.lineNumber}] <br />
-	  		<strong>Code Snippet:</strong><br />
-	  		<div class="snippet">
-	  			<g:each var="cs" in="${exception.codeSnippet}">
-	  				${cs?.encodeAsHTML()}<br />
-	  			</g:each>
-	  		</div>
-		</g:if>
-  	</div>
-	<g:if test="${exception}">
-	    <h2>Stack Trace</h2>
-	    <div class="stack">
-	      <pre><g:each in="${exception.stackTraceLines}">${it.encodeAsHTML()}<br/></g:each></pre>
-	    </div>
-	</g:if>
-  </body>
+                    <h4>
+                        <div class="message">
+                            <strong>Message:</strong> ${exception?.message?.encodeAsHTML()} <br/>
+                            <strong>Caused by:</strong> ${exception?.cause?.message?.encodeAsHTML()} <br/>
+                            <strong>Class:</strong> ${exception?.className} <br/>
+                            <strong>At Line:</strong> [${exception?.lineNumber}] <br/>
+                            <strong>Code Snippet:</strong><br/><br/>
+                            <div class="snippet">
+                                <g:each var="cs" in="${exception?.codeSnippet}">
+                                    ${cs?.encodeAsHTML()}<br/>
+                                </g:each>
+                            </div>
+                        </div>
+                    </h4><br/>
+                    <h2>Stack Trace</h2><br/>
+                    <g:each in="${exception?.stackTraceLines}">
+                        <h4>${it?.encodeAsHTML()}<br/></h4>
+                    </g:each>
+                </g:if>
+            </div>
+        </div>
+        <div class="bottom-shadow">
+            <label>&nbsp;</label>
+        </div>
+    </div>
+</div>
+</body>
 </html>
