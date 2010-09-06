@@ -8,13 +8,20 @@ class LoginCredential {
 
     static LoginCredential getCurrentUser() {
         Long userId = SessionUtils?.session?.loggedUserId?.toLong()
-        return ((userId) ? LoginCredential.get(userId) : null)
+        LoginCredential current
+        if(userId){
+            LoginCredential.withSession{
+                current = LoginCredential.get(userId)
+            }
+        }
+        return current
     }
 
     static constraints = {
     }
 
     static mapping = {
+        party lazy: false
         tablePerHierarchy false
     }
 
