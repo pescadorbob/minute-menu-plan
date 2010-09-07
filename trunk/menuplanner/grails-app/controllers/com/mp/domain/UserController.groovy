@@ -21,11 +21,12 @@ class UserController {
         Party party = Party.get(params.long('id'))
         if (party) {
             try {
-                    Boolean deletingCurrentUser = (party == LoginCredential.currentUser?.party)
-                    party.delete(flush: true)
-                    flash.message = message(code: 'user.delete.successful')
+                Boolean deletingCurrentUser = (party == LoginCredential.currentUser?.party)
+                userService.deleteAislesOfUser(party)
+                party.delete()
+                flash.message = message(code: 'user.delete.successful')
                 if (deletingCurrentUser) {
-                    session.invalidate()
+                    SessionUtils?.session?.invalidate()
                     redirect(uri: '/')
                 } else {
                     redirect(controller: 'user', action: "list")

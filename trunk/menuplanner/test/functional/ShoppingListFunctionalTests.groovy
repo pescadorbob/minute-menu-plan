@@ -1,4 +1,5 @@
 import com.mp.domain.*
+import static com.mp.domain.TestConstants.*
 
 class ShoppingListFunctionalTests extends MenuPlannerFunctionalTests {
 
@@ -343,4 +344,68 @@ class ShoppingListFunctionalTests extends MenuPlannerFunctionalTests {
         assertTrue(aislesInList.contains(aisle))
     }
 
+    void test_Added_New_Aisle_Invisible_To_Another_User() {
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginToHomepage(loginFormData)
+        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
+        String aisle = "NewTestAisle-${System.currentTimeMillis()}"
+        Integer initialCount = Recipe.count()
+        Integer initialAisleCount = Aisle.count()
+        createRecipeWithNewAisle(createRecipeData, aisle)
+        Integer finalCount = Recipe.count()
+        Integer finalAisleCount = Aisle.count()
+        assertEquals "Unable to create Recipe ", initialCount + 1, finalCount
+        assertEquals "Unable to create Recipe ", initialAisleCount + 1, finalAisleCount
+        logout()
+        loginBySuperAdmin()
+        LoginCredential credential = UserLogin.findByEmail(SUPER_ADMIN)
+        ShoppingList shoppingList = ShoppingList.findByParty(credential.party)
+        get("/shoppingList/generateShoppingList/${shoppingList?.id}")
+        ShoppingListFormData shoppingListFormData = ShoppingListFormData.getDefaultShoppingListFormData()
+        createShoppingList(shoppingListFormData)
+        List<String> aislesInList = []
+        byId('aisleList_0').getChildElements().each {
+            aislesInList.add(it.asText())
+        }
+        if (aislesInList.contains(aisle)) {
+            fail("Unexpected Aisle found in user Aisle list...")
+        }
+    }
+
+    void test_Add_User_Create_Aisle_Delete_User_Aisle_Deleted() {
+        javaScriptEnabled = false
+        Integer initialCount = Subscriber.count()
+        loginBySuperAdmin()
+        UserFormData userFormData = UserFormData.getDefaultUserFormData()
+        userFormData.email = 'userTest@email.com'
+        userFormData.isUser = true
+        createUser(userFormData)
+        assertStatus 200
+        Integer finalCount = Subscriber.count()
+        assertTrue('Add User with valid values failed', (finalCount - initialCount == 1))
+        logout()
+
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginFormData.email = userFormData.email
+        loginToHomepage(loginFormData)
+        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
+        String aisle = "NewUserTestAisle-${System.currentTimeMillis()}"
+        Integer initialAisleCount = Aisle.count()
+        createRecipeWithNewAisle(createRecipeData, aisle)
+        Integer finalAisleCount = Aisle.count()
+        assertEquals "Unable to create Aisle for Recipe ", initialAisleCount + 1, finalAisleCount
+        logout()
+
+        loginBySuperAdmin()
+        UserLogin userLogin = UserLogin.findByEmail(loginFormData.email)
+        get("/user/show/${userLogin?.party?.id}")
+        Integer userInitialCount = Subscriber.count()
+        Integer initCount = Aisle.count()
+        def deleteUserButton = byClass('deleteUserButtonFT')
+        deleteUserButton.click()
+        Integer finCount = Aisle.count()
+        Integer userFinalCount = Subscriber.count()
+        assertEquals "Unable to Delete Aisle of User, when user is deleted", finCount + 1, initCount
+        assertEquals "Unable to delete User", userFinalCount + 1, userInitialCount
+    }
 }

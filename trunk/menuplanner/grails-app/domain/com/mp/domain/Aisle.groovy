@@ -3,20 +3,28 @@ package com.mp.domain
 class Aisle {
 
     String name
-    List<Party> owners = []
-
-    static hasMany = [owners: Party]
+    Boolean ownedByUser = false
 
     String toString() {
         return name
     }
 
     static constraints = {
-        name(unique: true)
+        name(unique: true, blank: false, nullable: false)
     }
 
     public static List<Aisle> getAislesForCurrentUser() {
-        List<Aisle> aisles = Aisle.list().findAll {(!it.owners) || (LoginCredential.currentUser?.party?.id in it.owners*.id)}
+        Party party = LoginCredential.currentUser?.party
+        List<Aisle> aislesByUser = getAislesForUser(party)
+        return aislesByUser
+    }
+
+    public static List<Aisle> getAislesForUser(Party party) {
+        List<Aisle> aisles = Aisle.list().findAll {(!it.ownedByUser)} as List
+        List<Aisle> aislesByUser = party?.aisles
+        aislesByUser.each {Aisle aisle ->
+            aisles.add(aisle)
+        }
         return aisles.sort {it.name}
     }
 }
