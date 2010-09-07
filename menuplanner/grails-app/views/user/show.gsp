@@ -105,7 +105,7 @@
                             <g:actionSubmit class='button editUserButtonFT' controller='user' action='edit' id='${party?.id}' value='Edit Profile'/>
                         </g:if>
                         <g:if test="${permission.hasPermission(permission: Permission.DELETE_USERS,party:party)}">
-                            <g:actionSubmit class='button' controller='user' action='delete' id='${party?.id}' value='Delete User' onclick="return confirm('Are you sure?');"/>
+                            <g:actionSubmit class='button deleteUserButtonFT' controller='user' action='delete' id='${party?.id}' value='Delete User' onclick="return confirm('Are you sure?');"/>
                         </g:if>
                     </g:form>
                 </div>

@@ -82,6 +82,40 @@ class UserService {
         }
     }
 
+    public void deleteAislesOfUser(Party party) {
+        List<Aisle> aislesByUser = party?.aisles
+        List<Aisle> aisleToRemove = []
+        List<Party> partiesOfAisle = []
+        aislesByUser.each { Aisle aisle ->
+            partiesOfAisle = Party.createCriteria().list {
+                aisles {
+                    eq('id', aisle.id)
+                }
+            }
+            if (partiesOfAisle.size() == 1) {
+                aisleToRemove.add(aisle)
+            }
+        }
+        aisleToRemove.each {Aisle aisle ->
+            List<Item> items = Item.findAllBySuggestedAisle(aisle)
+            items.each {Item item ->
+                item.suggestedAisle = null
+                item.s()
+            }
+            List<RecipeIngredient> ingredients = RecipeIngredient.findAllByAisle(aisle)
+            ingredients.each {
+                it.aisle = null
+                it.s()
+            }
+            party.removeFromAisles(aisle)
+            try {
+                aisle.delete()
+            } catch (Exception e) {
+                flash.message = message(code: 'aisle.delete.unsuccessful')
+            }
+        }
+
+    }
 }
 
 class UserCO {

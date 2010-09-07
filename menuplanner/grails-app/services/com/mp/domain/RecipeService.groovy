@@ -144,11 +144,11 @@ class RecipeCO {
 
     static constraints = {
         id(nullable: true)
-        name(validator:{val->
-            if(!val){
+        name(validator: {val ->
+            if (!val) {
                 return 'recipeCO.name.blank.error.name'
             }
-            if(val.contains("'")){
+            if (val.contains("'")) {
                 return 'recipeCO.name.singleQuote.error.message'
             }
         })
@@ -293,42 +293,24 @@ class RecipeCO {
         List<RecipeIngredient> recipeIngredients = []
         productNames?.eachWithIndex {String productName, Integer index ->
             if (productName) {
+                Party party = LoginCredential.currentUser?.party
                 RecipeIngredient recipeIngredient = new RecipeIngredient()
-                Item product = Item.findByName(productName)
                 Unit unit = (unitIds[index]) ? Unit?.get(unitIds[index]?.toLong()) : null
-                List<Aisle> aislesForUser = Aisle.getAislesForCurrentUser()
-                Aisle aisle = aislesForUser.find {it.name == aisleNames[index].toString()}
-
-                String preparationMethodString = (preparationMethodNames[index])?.trim()
-                PreparationMethod preparationMethod = (preparationMethodString) ? PreparationMethod.findByName(preparationMethodString) : null
-                if (!aisle) {
-                    Aisle aisleInList = Aisle.list().find {it.name == aisleNames[index].toString()}
-                    if (aisleInList) {
-                        aisleInList.addToOwners(LoginCredential.currentUser?.party)
-                        aisleInList.s()
-                    } else {
-                        aisle = new Aisle(name: aisleNames[index])
-                        aisle.addToOwners(LoginCredential.currentUser?.party)
-                        aisle.s()
-                    }
+                Aisle aisle = null
+                if (aisleNames[index]) {
+                    aisle = getAisleForRecipeIngredient(aisleNames[index], party)
                 }
-                if (!preparationMethod && preparationMethodString) {
-                    preparationMethod = new PreparationMethod(name: preparationMethodString).s()
+                if (productName) {
+                    Item product = getProductForRecipeIngredient(productName, party, unit, aisle)
+                    PreparationMethod preparationMethod = getPreparationMethodForRecipeIngredient(preparationMethodNames[index])
+                    Quantity quantity = StandardConversion.getQuantityToSave(amounts?.getAt(index) ? amounts[index] : null, unit, product.density)
+                    quantity?.s()
+                    recipeIngredient.ingredient = product
+                    recipeIngredient.quantity = quantity
+                    recipeIngredient.preparationMethod = preparationMethod
+                    recipeIngredient.aisle = aisle
+                    recipeIngredients.add(recipeIngredient)
                 }
-                if (!product) {
-                    if (unit) {
-                        product = new MeasurableProduct(name: productNames[index], isVisible: false, preferredUnit: unit, suggestedAisle: aisle).s()
-                    } else {
-                        product = new Product(name: productNames[index], isVisible: false, suggestedAisle: aisle).s()
-                    }
-                }
-                Quantity quantity = StandardConversion.getQuantityToSave(amounts?.getAt(index) ? amounts[index] : null, unit, product.density)
-                quantity?.s()
-                recipeIngredient.ingredient = product
-                recipeIngredient.quantity = quantity
-                recipeIngredient.preparationMethod = preparationMethod
-                recipeIngredient.aisle = aisle
-                recipeIngredients.add(recipeIngredient)
             }
         }
         return recipeIngredients
@@ -402,6 +384,49 @@ class RecipeCO {
             }
         }
         return true
+    }
+
+    public Item getProductForRecipeIngredient(String productName, Party party, Unit unit, Aisle aisle) {
+        Item product = Item.findByName(productName)
+        if (!product) {
+            if (unit) {
+                product = new MeasurableProduct(name: productName, isVisible: false, preferredUnit: unit, suggestedAisle: aisle)
+                product.s()
+            } else {
+                product = new Product(name: productName, isVisible: false, suggestedAisle: aisle)
+                product.s()
+            }
+        }
+        return product
+    }
+
+    public Aisle getAisleForRecipeIngredient(String aisleName, Party party) {
+        List<Aisle> aislesForUser = Aisle.getAislesForCurrentUser()
+        Aisle aisle = aislesForUser.find {it.name == aisleName}
+        if (!aisle) {
+            Aisle aisleInList = Aisle.list().find {it.name == aisleName}
+            if (aisleInList) {
+                aisleInList.ownedByUser = true
+                aisleInList.s()
+                party.addToAisles(aisleInList)
+                party.s()
+            } else {
+                aisle = new Aisle(name: aisleName, ownedByUser: true)
+                aisle.s()
+                party.addToAisles(aisle)
+                party.s()
+            }
+        }
+        return aisle
+    }
+
+    public PreparationMethod getPreparationMethodForRecipeIngredient(String methodString) {
+        String preparationMethodString = methodString?.trim()
+        PreparationMethod preparationMethod = (preparationMethodString) ? PreparationMethod.findByName(preparationMethodString) : null
+        if (!preparationMethod && preparationMethodString) {
+            preparationMethod = new PreparationMethod(name: preparationMethodString).s()
+        }
+        return preparationMethod
     }
 
 //    public List<String> alcoholicContentList() {
