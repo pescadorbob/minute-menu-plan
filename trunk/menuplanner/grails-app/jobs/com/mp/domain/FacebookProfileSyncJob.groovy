@@ -11,9 +11,9 @@ class FacebookProfileSyncJob {
         println "Executing Facebook Profile Sync Job"
         List facebookUsers = FacebookAccount.list()
         if (facebookUsers) {
-            List<Subscriber> users = facebookUsers*.party.subscriber
-            users?.each {Subscriber user ->
-                userService.updateProfile(user)
+            List<Party> parties = facebookUsers*.party
+            parties?.each {Party party ->
+                userService.updateProfile(party)
             }
         }
 
