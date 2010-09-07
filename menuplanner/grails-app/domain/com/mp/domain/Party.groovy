@@ -14,10 +14,11 @@ class Party {
     Set<MenuPlan> menuPlans = []
     Set<Recipe> favourites = []
     Set<ShoppingList> shoppingLists = []
+    List<Aisle> aisles = []
 
     static transients = ['isEnabledString', 'email', 'password', 'userLogin', 'role', 'administrator', 'superAdmin', 'subscriber']
 
-    static hasMany = [favourites: Recipe, contributions: Recipe, menuPlans: MenuPlan,
+    static hasMany = [favourites: Recipe, contributions: Recipe, menuPlans: MenuPlan, aisles: Aisle,
             roles: PartyRole, loginCredentials: LoginCredential, shoppingLists: ShoppingList]
 
     def beforeInsert = {
@@ -25,22 +26,28 @@ class Party {
     }
 
     def beforeDelete = {
-        def shoppingLists1 = ShoppingList.getAll(shoppingLists*.id)
-        def menuPlans1 = MenuPlan.getAll(menuPlans*.id)
-        this.menuPlans = []
-        this.shoppingLists = []
-        shoppingLists1*.delete(flush: true)
-        menuPlans1*.delete(flush: true)
+        List shoppingLists1 = ShoppingList.findAllByParty(this)
+        if (shoppingLists1?.size()) {
+            this.shoppingLists = []
+            shoppingLists1*.delete()
+        }
+        List menuPlans1 = MenuPlan.findAllByOwner(this)
+        if (menuPlans1.size()) {
+            this.menuPlans = []
+            menuPlans1*.delete()
+        }
         List commentAbuses = CommentAbuse.findAllByReporter(this)
         List recipeAbuses = RecipeAbuse.findAllByReporter(this)
-        commentAbuses*.delete(flush: true)
-        recipeAbuses*.delete(flush: true)
+        List credentials = LoginCredential.findAllByParty(this)
+        commentAbuses*.delete()
+        recipeAbuses*.delete()
+        credentials*.delete()
     }
 
-    String toString(){
+    String toString() {
         return name
     }
-    
+
     String getEmail() {
         return UserLogin.findByParty(this).email
     }
@@ -129,4 +136,11 @@ class Party {
         tablePerHierarchy false
     }
 
+    boolean equals(final Object o) {
+        if (this.is(o)) return true;
+        if (o == null) return false;
+        if (!getClass().isAssignableFrom(o.getClass())) return false;
+        final Party other = Party.class.cast(o);
+        return id == null ? false : id.equals(other.id);
+    }
 }
