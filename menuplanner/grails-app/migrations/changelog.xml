@@ -1511,7 +1511,7 @@
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-178">
         <update tableName="item">
-            <column name="share_with_community" value="true"/>
+            <column name="share_with_community" valueBoolean="true" />
         </update>
     </changeSet>
 </databaseChangeLog>
