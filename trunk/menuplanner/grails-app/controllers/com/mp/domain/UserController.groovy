@@ -131,6 +131,12 @@ class UserController {
         UserCO userCO = new UserCO()
         render(view: 'createUser', model: [userCO: userCO])
     }
+
+    def createFreeUser = {
+        UserCO userCO = new UserCO()
+        render(view: 'createFreeUser', model: [userCO: userCO])
+    }
+
     def update = {UserCO userCO ->
         if (userCO.validate()) {
             userCO.updateParty()
@@ -294,6 +300,28 @@ class UserController {
                 println it
             }
             render(view: 'createUser', model: [userCO: userCO])
+        }
+    }
+
+    def newFreeUserSignUp = {UserCO userCO ->
+        userCO.roles.add(UserType.Subscriber.name())
+        userCO.isEnabled = true
+        if (userCO.validate()) {
+            Party party = userCO.createParty()
+            Map data = [:]
+            data['userId'] = party?.id
+            session.userId = party?.id
+            println "Session UserId: " + session.userId
+            println "Session Id: " + session.id
+            println "Session Id: " + session.id
+            session.setMaxInactiveInterval(3600)
+            session.loggedUserId=party?.id
+            redirect(action: 'list', controller: 'recipe')
+        } else {
+            userCO.errors.allErrors.each {
+                println it
+            }
+            render(view: 'createFreeUser', model: [userCO: userCO])
         }
     }
 
