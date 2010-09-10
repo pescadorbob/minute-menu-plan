@@ -5,6 +5,7 @@ import grails.converters.JSON
 import static com.mp.MenuConstants.*
 
 import org.grails.comments.Comment
+import org.apache.lucene.document.NumberTools
 
 class RecipeController {
     static config = ConfigurationHolder.config
@@ -29,7 +30,7 @@ class RecipeController {
     }
 
     def getMatchingItems = {
-        List<Item> items = Item.findAllByNameIlike("%${params.q}%")
+        List<Item> items = Item.getItemsForCurrentUser("%${params.q}%")
         String itemsJson = ''
         items.each {
             itemsJson += it.name + "|" + it.id + "\n"
@@ -39,17 +40,26 @@ class RecipeController {
 
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 15, 150)
-        List<Recipe> recipeList = Recipe.list(params)
+        params.offset = Math.min(params.offset ? params.int('offset') : 0, 100)
+        println "1"
+        List<Recipe> filteredResults = recipeService.getFilteredRecipeList(params.max, params.long('offset'))
+        println "3"
+        Integer total = recipeService.getFilteredRecipeCount()
+        println "4"
         List<SubCategory> subCategories = (Recipe.list()*.subCategories)?.flatten()?.unique {it.id}?.sort {it.name}
+        println "5"
         List<Category> categories = (subCategories*.category)?.flatten()?.unique {it.id}?.sort {it.name}
-        render(view: 'list', model: [recipeList: recipeList, categories: categories, subCategories: subCategories, recipeTotal: Recipe.count()])
+        println "6"
+        render(view: 'list', model: [recipeList: filteredResults, categories: categories, subCategories: subCategories, recipeTotal: total])
     }
 
     def search = {
+        Long currentUserId = LoginCredential.currentUser.party.id
         List<String> allQueries = []
         List<String> subCategoriesString = []
         String subQueryString
-        String searchKeyword = ''
+        List<Recipe> results = []
+
         if (!params.query || (params.query == 'null')) {
             params.query = ''
         }
@@ -59,7 +69,6 @@ class RecipeController {
         List queryList = params.list('query').flatten()
         queryList = queryList.findAll {it?.trim()}
         queryList?.eachWithIndex {String myQ, Integer index ->
-
             if (myQ.contains('subCategoriesString')) {
                 String categoryString = myQ.split(":").flatten().get(1)
                 if (categoryString.endsWith(']')) {
@@ -70,42 +79,37 @@ class RecipeController {
             } else {
                 allQueries.push(myQ)
             }
-            if (!(myQ.contains(':'))) {
-                allQueries[index] = '*' + myQ + '*'
-                searchKeyword = myQ
-            }
         }
-
         if (subCategoriesString) {
             subQueryString = subCategoriesString.join('" OR "')
             subQueryString = '"' + subQueryString + '"'
             allQueries.push('subCategoriesString:' + subQueryString)
         }
-        List<Recipe> results = []
+
+        String keyword = allQueries.find {!(it.contains(':'))}
+        allQueries = allQueries.findAll {(it.contains(':'))}
+        if (keyword) {
+            allQueries.add("*${keyword}*")
+        }
         String query = allQueries?.join(" ")?.tokenize(", ")?.join(" ")
         if (query.startsWith('[')) {
             query = query.substring(1, query.length() - 1)
         }
         Integer total
+        query += " (shareWithCommunity:true OR contributorsString:${NumberTools.longToString(currentUserId)})"
+        def searchList = Recipe.search([reload: true, max: 15, offset: params.offset ? params.long('offset') : 0]) {
+            must(queryString(query))
+        }
+        results = searchList?.results
+        total = searchList?.total
 
-        if (query && (query != 'null')) {
-            def searchList = Recipe.search([reload: true, max: 15, offset: params.offset ? params.long('offset') : 0]) {
-                must(queryString(query))
+        if (!results && keyword) {
+            String newQuery = recipeService.fuzzySearchQuery(query, keyword)
+            searchList = Recipe.search([reload: true, max: 15, offset: params.offset ? params.long('offset') : 0]) {
+                must(queryString(newQuery))
             }
             results = searchList?.results
             total = searchList?.total
-            if (!results) {
-                String newQuery = recipeService.fuzzySearchQuery(query, searchKeyword)
-                searchList = Recipe.search([reload: true, max: 15, offset: params.offset ? params.long('offset') : 0]) {
-                    must(queryString(newQuery))
-                }
-                results = searchList?.results
-                total = searchList?.total
-            }
-        } else {
-            params.max = 15
-            results = Recipe.list(params)
-            total = Recipe.count()
         }
         render(template: '/recipe/searchResultRecipe', model: [recipeList: results, recipeTotal: total, query: params.query])
     }
@@ -272,9 +276,6 @@ class RecipeController {
                 flash.message = "Removed recipe abuse"
                 recipeAbuse.delete(flush: true)
             } catch (ex) {
-                recipeAbuse.errors.allErrors.each {
-                    println it
-                }
                 flash.message = "Could not removed abuse on recipe"
             }
         } else {

@@ -69,174 +69,146 @@ class ExcelService {
     }
 
     public Recipe makeRecipe(List<List<String>> recipe, List<List<String>> directions, List<List<String>> ingredients, String subCategories) {
-        try {
-            Recipe recipeInstance = new Recipe()
-            recipeInstance.name = recipe[0].getAt(1)
+        Recipe recipeInstance = new Recipe()
+        recipeInstance.name = recipe[0].getAt(1)
 
-            recipeInstance.servings = null
-            if (recipe[1].getAt(1)) {
-                recipeInstance.servings = recipe[1].getAt(1).toInteger()
-            }
-
-            recipeInstance.preparationTime = null
-            if (recipe[2].getAt(1)) {
-                Quantity prep
-                Unit unit
-                if (recipe[2].getAt(2).toLowerCase() == 'mins.') {
-                    unit = Unit.findByName(TIME_UNIT_MINUTES)
-                }
-                else if (recipe[2].getAt(2).toLowerCase() == 'hrs.') {
-                    unit = Unit.findByName(TIME_UNIT_HOURS)
-                }
-                prep = StandardConversion.getQuantityToSave(recipe[2].getAt(1), unit)
-                prep?.s()
-                recipeInstance.preparationTime = prep
-            }
-
-            recipeInstance.cookingTime = null
-            if (recipe[3].getAt(1)) {
-                Quantity cook
-                Unit unit
-                if (recipe[3].getAt(2).toLowerCase() == 'mins.') {
-                    unit = Unit.findByName(TIME_UNIT_MINUTES)
-                }
-                else if (recipe[3].getAt(2).toLowerCase() == 'hrs.') {
-                    unit = Unit.findByName(TIME_UNIT_HOURS)
-                }
-                cook = StandardConversion.getQuantityToSave(recipe[3].getAt(1), unit)
-                cook?.s()
-                recipeInstance.cookingTime = cook
-            }
-
-            recipeInstance.difficulty = null
-            if (recipe[4].getAt(1).toLowerCase() == 'easy') {
-                recipeInstance.difficulty = RecipeDifficulty.EASY
-            }
-            else if (recipe[4].getAt(1).toLowerCase() == 'medium') {
-                recipeInstance.difficulty = RecipeDifficulty.MEDIUM
-            }
-            else if (recipe[4].getAt(1).toLowerCase() == 'hard') {
-                    recipeInstance.difficulty = RecipeDifficulty.HARD
-                }
-            if ((recipe[5].getAt(1).toLowerCase() == 'yes') || (recipe[5].getAt(1).toLowerCase() == 'no')) {
-                recipeInstance.shareWithCommunity = (recipe[5].getAt(1).toLowerCase() == 'yes')
-            }
-
-            createSubCategories(subCategories, recipeInstance)
-            createDirections(directions, recipeInstance)
-            createIngredients(ingredients, recipeInstance)
-
-            recipeInstance.s()
-            attachImageToRecipe(recipeInstance)
-            return recipeInstance
+        recipeInstance.servings = null
+        if (recipe[1].getAt(1)) {
+            recipeInstance.servings = recipe[1].getAt(1).toInteger()
         }
-        catch (Exception e) {
-            e.printStackTrace()
-            return null
+
+        recipeInstance.preparationTime = null
+        if (recipe[2].getAt(1)) {
+            Quantity prep
+            Unit unit
+            if (recipe[2].getAt(2).toLowerCase() == 'mins.') {
+                unit = Unit.findByName(TIME_UNIT_MINUTES)
+            }
+            else if (recipe[2].getAt(2).toLowerCase() == 'hrs.') {
+                unit = Unit.findByName(TIME_UNIT_HOURS)
+            }
+            prep = StandardConversion.getQuantityToSave(recipe[2].getAt(1), unit)
+            prep?.s()
+            recipeInstance.preparationTime = prep
         }
+
+        recipeInstance.cookingTime = null
+        if (recipe[3].getAt(1)) {
+            Quantity cook
+            Unit unit
+            if (recipe[3].getAt(2).toLowerCase() == 'mins.') {
+                unit = Unit.findByName(TIME_UNIT_MINUTES)
+            }
+            else if (recipe[3].getAt(2).toLowerCase() == 'hrs.') {
+                unit = Unit.findByName(TIME_UNIT_HOURS)
+            }
+            cook = StandardConversion.getQuantityToSave(recipe[3].getAt(1), unit)
+            cook?.s()
+            recipeInstance.cookingTime = cook
+        }
+
+        recipeInstance.difficulty = null
+        if (recipe[4].getAt(1).toLowerCase() == 'easy') {
+            recipeInstance.difficulty = RecipeDifficulty.EASY
+        }
+        else if (recipe[4].getAt(1).toLowerCase() == 'medium') {
+            recipeInstance.difficulty = RecipeDifficulty.MEDIUM
+        }
+        else if (recipe[4].getAt(1).toLowerCase() == 'hard') {
+            recipeInstance.difficulty = RecipeDifficulty.HARD
+        }
+        recipeInstance.shareWithCommunity = true
+
+        createSubCategories(subCategories, recipeInstance)
+        createDirections(directions, recipeInstance)
+        createIngredients(ingredients, recipeInstance)
+
+        recipeInstance.s()
+        attachImageToRecipe(recipeInstance)
+        return recipeInstance
+
     }
 
     public boolean attachImageToRecipe(Recipe recipe) {
-        try {
-            String bootStrapDirectory = "/bootstrapData/recipeImages/"
-            String fileName = recipe?.name?.trim() + '.jpg'
-            String absoluteFilePath = ApplicationHolder.application.parentContext.servletContext.getRealPath(bootStrapDirectory + fileName)
-            List<Integer> imageSizes=RECIPE_IMAGE_SIZES
-            return com.mp.domain.Image.updateOwnerImage(recipe, absoluteFilePath,imageSizes)
-        } catch (ex) {
-            return false
-        }
+        String bootStrapDirectory = "/bootstrapData/recipeImages/"
+        String fileName = recipe?.name?.trim() + '.jpg'
+        String absoluteFilePath = ApplicationHolder.application.parentContext.servletContext.getRealPath(bootStrapDirectory + fileName)
+        List<Integer> imageSizes = RECIPE_IMAGE_SIZES
+        return com.mp.domain.Image.updateOwnerImage(recipe, absoluteFilePath, imageSizes)
     }
 
     public boolean createSubCategories(String categories, Recipe recipe) {
-        try {
-            Set<String> categoryList = categories?.tokenize(',') as Set
-            categoryList.each {String categoryName ->
-                SubCategory subCategory = SubCategory.findByName(categoryName)
-                if (subCategory) {
-                  recipe.addToSubCategories(subCategory) 
-                }
+        Set<String> categoryList = categories?.tokenize(',') as Set
+        categoryList.each {String categoryName ->
+            SubCategory subCategory = SubCategory.findByName(categoryName)
+            if (subCategory) {
+                recipe.addToSubCategories(subCategory)
             }
-        }
-        catch (ex) {
-            return false
         }
         return true
     }
 
     public boolean createDirections(List<List<String>> directions, Recipe recipe) {
-        try {
-            List<String> directionList = []
-            directions.eachWithIndex {List<String> directionRow, Integer index ->
-                directionList.add(directionRow.getAt(1))
-            }
-            recipe.directions = directionList
+        List<String> directionList = []
+        directions.eachWithIndex {List<String> directionRow, Integer index ->
+            directionList.add(directionRow.getAt(1))
         }
-        catch (ex) {
-            return false
-        }
+        recipe.directions = directionList
         return true
     }
 
     public boolean createIngredients(List<List<String>> ingredients, Recipe recipe) {
-        try {
-            List<RecipeIngredient> recipeIngredients = []
-            ingredients.eachWithIndex {List<String> ingredientRow, Integer i ->
+        List<RecipeIngredient> recipeIngredients = []
+        ingredients.eachWithIndex {List<String> ingredientRow, Integer i ->
 
-                String itemName = ingredientRow.getAt(3)
-                String preparationMethodName = ingredientRow.getAt(4)
-                String aisleName = ingredientRow.getAt(5)
+            String itemName = ingredientRow.getAt(3)
+            String preparationMethodName = ingredientRow.getAt(4)
+            String aisleName = ingredientRow.getAt(5)
 
-                RecipeIngredient recipeIngredient = new RecipeIngredient()
-                Item item = Item.findByName(itemName)
-                PreparationMethod preparationMethod
-                if (preparationMethodName) {
-                    preparationMethod = PreparationMethod.findByName(preparationMethodName)
-                    if (!preparationMethod) {preparationMethod = new PreparationMethod(name: preparationMethodName).s()}
-                }
-                recipeIngredient.preparationMethod = preparationMethod
-                if (!item) {
-                    item = new Product(name: itemName)
-                    item.isVisible = true
-                    if (aisleName) {
-                        Aisle aisle = Aisle.findByName(aisleName)
-                        if (!aisle) {
-                            aisle = new Aisle(name: aisleName).s()
-                        }
-                        item.suggestedAisle = aisle
-                    }
-                    item.s()
-                }
-                recipeIngredient.ingredient = item
-
+            RecipeIngredient recipeIngredient = new RecipeIngredient()
+            Item item = Item.findByName(itemName)
+            PreparationMethod preparationMethod
+            if (preparationMethodName) {
+                preparationMethod = PreparationMethod.findByName(preparationMethodName)
+                if (!preparationMethod) {preparationMethod = new PreparationMethod(name: preparationMethodName).s()}
+            }
+            recipeIngredient.preparationMethod = preparationMethod
+            if (!item) {
+                item = new Product(name: itemName, isVisible: true, shareWithCommunity: true)
                 if (aisleName) {
-                    recipeIngredient.aisle = Aisle.findByName(aisleName)
-                }
-
-                Quantity quantity = new Quantity()
-                if (ingredientRow.getAt(1) && ingredientRow.getAt(2)) {  // if amount and unit both are Specified:
-
-                    Unit unit = Unit.findBySymbol(ingredientRow.getAt(2))
-                    if (!unit) { unit = Unit.findByName(ingredientRow.getAt(2)) }
-                    if (!unit) {
-                        println "Unknown unit: " + ingredientRow.getAt(2)
+                    Aisle aisle = Aisle.findByName(aisleName)
+                    if (!aisle) {
+                        aisle = new Aisle(name: aisleName).s()
                     }
-                    quantity = StandardConversion.getQuantityToSave(ingredientRow.getAt(1), unit, item.density)
-                } else if (ingredientRow.getAt(1)) {  // only Amount is specified:
-                    quantity = StandardConversion.getQuantityToSave(ingredientRow.getAt(1), null, item.density)
+                    item.suggestedAisle = aisle
                 }
-                quantity?.s()
-                recipeIngredient.quantity = quantity
-                recipeIngredients.add(recipeIngredient)
+                item.s()
             }
-            recipeIngredients?.eachWithIndex {RecipeIngredient recipeIngredient, Integer index ->
-                recipeIngredient.recipe = recipe
-                recipe.addToIngredients(recipeIngredient)
+            recipeIngredient.ingredient = item
+
+            if (aisleName) {
+                recipeIngredient.aisle = Aisle.findByName(aisleName)
             }
+
+            Quantity quantity = new Quantity()
+            if (ingredientRow.getAt(1) && ingredientRow.getAt(2)) {  // if amount and unit both are Specified:
+
+                Unit unit = Unit.findBySymbol(ingredientRow.getAt(2))
+                if (!unit) { unit = Unit.findByName(ingredientRow.getAt(2)) }
+                if (!unit) {
+                    println "Unknown unit: " + ingredientRow.getAt(2)
+                }
+                quantity = StandardConversion.getQuantityToSave(ingredientRow.getAt(1), unit, item.density)
+            } else if (ingredientRow.getAt(1)) {  // only Amount is specified:
+                quantity = StandardConversion.getQuantityToSave(ingredientRow.getAt(1), null, item.density)
+            }
+            quantity?.s()
+            recipeIngredient.quantity = quantity
+            recipeIngredients.add(recipeIngredient)
         }
-        catch (ex) {
-            ex.printStackTrace()
-            return false
+        recipeIngredients?.eachWithIndex {RecipeIngredient recipeIngredient, Integer index ->
+            recipeIngredient.recipe = recipe
+            recipe.addToIngredients(recipeIngredient)
         }
         return true
     }

@@ -44,11 +44,11 @@ class QuickFillController {
         quickFill.addToMealItems(meal4)
         quickFill.addToMealItems(meal5)
         quickFill.addToMealItems(meal6)
-        try{
+//        try{
             quickFill.s()
-        }catch(ex){
-
-        }
+//        }catch(ex){
+//
+//        }
         flash.message = (params.id) ? "Record updated to database." : "Record saved to database."
         redirect(action: "quickFillAdmin")
     }

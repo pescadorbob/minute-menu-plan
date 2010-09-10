@@ -13,24 +13,74 @@ class RecipeService {
     boolean transactional = true
 
     public boolean deleteRecipe(Recipe recipe, Party user) {
-        try {
-            user.removeFromContributions(recipe)
-            user.s()
-            recipe.delete()
-        } catch (e) {
-            e.printStackTrace()
-            println "************************ Problem while Deleting recipe: ${recipe?.name}....."
-        }
+        user.removeFromContributions(recipe)
+        user.s()
+        recipe.delete()
         return true
     }
 
     public String fuzzySearchQuery(String query, String searchKeyword) {
-        int firstIndex = query.indexOf('*')
-        int lastIndex = query.lastIndexOf('*')
-        String query1 = query.substring(0, firstIndex)
-        String query2 = query.substring(lastIndex + 1, query.length())
-        String newQuery = query1 + query2 + " ${searchKeyword}~"
-        return newQuery
+        String oldKeyword = '*' + searchKeyword + '*'
+        String newKeyword = searchKeyword + '~'
+        return query.replace(oldKeyword, newKeyword)
+    }
+
+    public List<Recipe> getFilteredRecipeList(Integer max = 15, Long offset = 0) {
+        Set<Recipe> currentUserRecipes = LoginCredential.currentUser?.party?.contributions
+        List<Recipe> recipes = Recipe.createCriteria().list {
+            or {
+                eq('shareWithCommunity', true)
+                if (currentUserRecipes) {
+                    'in'('id', currentUserRecipes*.id)
+                }
+            }
+            maxResults(max)
+            firstResult(offset.toInteger())
+        }
+        return recipes
+    }
+
+    public Integer getFilteredRecipeCount() {
+        Set<Recipe> currentUserRecipes = LoginCredential.currentUser?.party?.contributions
+        Integer count = Recipe.createCriteria().count {
+            or {
+                eq('shareWithCommunity', true)
+                if (currentUserRecipes) {
+                    'in'('id', currentUserRecipes*.id)
+                }
+            }
+        }
+        return count
+    }
+
+    public List<Item> getFilteredItemList(Integer max = 15, Long offset = 0) {
+        Party currentParty = LoginCredential.currentUser?.party
+        Set<Item> currentUserItems = []
+        currentUserItems.addAll(currentParty?.contributions)
+        currentUserItems.addAll(currentParty?.ingredients)
+        List<Item> items = Item.createCriteria().list {
+            or {
+                eq('shareWithCommunity', true)
+                'in'('id', currentUserItems*.id)
+            }
+            maxResults(max)
+            firstResult(offset.toInteger())
+        }
+        return items
+    }
+
+    public Integer getFilteredItemCount() {
+        Party currentParty = LoginCredential.currentUser?.party
+        Set<Item> currentUserItems = []
+        currentUserItems.addAll(currentParty?.contributions)
+        currentUserItems.addAll(currentParty?.ingredients)
+        Integer count = Item.createCriteria().count {
+            or {
+                eq('shareWithCommunity', true)
+                'in'('id', currentUserItems*.id)
+            }
+        }
+        return count
     }
 }
 
@@ -387,14 +437,25 @@ class RecipeCO {
     }
 
     public Item getProductForRecipeIngredient(String productName, Party party, Unit unit, Aisle aisle) {
-        Item product = Item.findByName(productName)
+        List<Item> products = Item.getItemsForCurrentUser()
+        Item product = products.find {it.name == productName}
         if (!product) {
-            if (unit) {
-                product = new MeasurableProduct(name: productName, isVisible: false, preferredUnit: unit, suggestedAisle: aisle)
-                product.s()
+            product = Product.findByName(productName)
+            if (product) {
+                party.addToIngredients(product)
+                party.s()
             } else {
-                product = new Product(name: productName, isVisible: false, suggestedAisle: aisle)
-                product.s()
+                if (unit) {
+                    product = new MeasurableProduct(name: productName, isVisible: false, preferredUnit: unit, suggestedAisle: aisle)
+                    product.s()
+                    party.addToIngredients(product)
+                    party.s()
+                } else {
+                    product = new Product(name: productName, isVisible: false, suggestedAisle: aisle)
+                    product.s()
+                    party.addToIngredients(product)
+                    party.s()
+                }
             }
         }
         return product

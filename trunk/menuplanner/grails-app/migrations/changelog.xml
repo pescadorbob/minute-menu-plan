@@ -1506,4 +1506,12 @@
             <where>name=''</where>
         </delete>
     </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-177">
+        <dropColumn tableName="recipe" columnName="share_with_community" />
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-178">
+        <update tableName="item">
+            <column name="share_with_community" value="true"/>
+        </update>
+    </changeSet>
 </databaseChangeLog>

@@ -9,13 +9,11 @@ import org.grails.rateable.*
 
 class Recipe extends Item implements Commentable, Rateable {
 
-    static searchable = {
-        ingredients component: true
-    }
+    static searchable = true
+    
     static config = ConfigurationHolder.config
 
     RecipeDifficulty difficulty
-    Boolean shareWithCommunity = false
     Boolean isAlcoholic = false
     Image image
     Integer servings
@@ -35,7 +33,6 @@ class Recipe extends Item implements Commentable, Rateable {
     String favouriteForUsersString
     Date dateCreated
 
-
     String getImageDir() {
         return (config.imagesRootDir + config.recipesRootDir + this?.id + '/')
     }
@@ -44,6 +41,10 @@ class Recipe extends Item implements Commentable, Rateable {
         Image image = this?.image
         this.image = null
         image?.delete(flush: true)
+    }
+
+    String getIngredientsString(){
+        return (ingredients ? ingredients.collect {it.ingredient.name.toString()}.join(", ") : '')
     }
 
     String getFavouriteForUsersString() {
@@ -62,6 +63,15 @@ class Recipe extends Item implements Commentable, Rateable {
             }
         }
         return users
+    }
+
+    String getContributorsString(){
+        String searchString = ''
+        if (!config.bootstrapMode) {
+            Party p = contributor
+            searchString = (p) ? NumberTools.longToString(p?.id) : NumberTools.longToString(0L)
+        }
+        return searchString
     }
 
     def getContributor() {
@@ -91,7 +101,7 @@ class Recipe extends Item implements Commentable, Rateable {
         if (!servings) {servings = 1}
     }
 
-    static transients = ['favouriteForUsers', 'favouriteForUsersString', 'cookingTimeValue', 'totalTimeValue', 'prepTimeValue', 'caloriesString', 'subCategoriesString', 'contributor', 'imageDir']
+    static transients = ['ingredientsString', 'contributorsString', 'favouriteForUsers', 'favouriteForUsersString', 'cookingTimeValue', 'totalTimeValue', 'prepTimeValue', 'caloriesString', 'subCategoriesString', 'contributor', 'imageDir']
     static hasMany = [ingredients: RecipeIngredient, directions: String, nutrients: RecipeNutrient, items: Item, subCategories: SubCategory]
 
     String getSubCategoriesString() {

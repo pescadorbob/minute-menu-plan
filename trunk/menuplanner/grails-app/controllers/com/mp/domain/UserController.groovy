@@ -22,8 +22,8 @@ class UserController {
         if (party) {
             try {
                 Boolean deletingCurrentUser = (party == LoginCredential.currentUser?.party)
-                userService.deleteAislesOfUser(party)
-                party.delete()
+                party = Party.get(party.id)
+                userService.deleteParty(party)
                 flash.message = message(code: 'user.delete.successful')
                 if (deletingCurrentUser) {
                     SessionUtils?.session?.invalidate()

@@ -1,9 +1,6 @@
 package com.mp.domain
 
 class RecipeIngredient {
-    static searchable = {
-        ingredient component: true
-    }
 
     Item ingredient
     Quantity quantity

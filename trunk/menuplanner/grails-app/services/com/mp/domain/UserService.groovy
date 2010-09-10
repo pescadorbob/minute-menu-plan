@@ -82,40 +82,87 @@ class UserService {
         }
     }
 
-    public void deleteAislesOfUser(Party party) {
-        List<Aisle> aislesByUser = party?.aisles
+    public void deleteParty(Party party) {
+        List shoppingLists1 = ShoppingList.findAllByParty(party)
+        if (shoppingLists1?.size()) {
+            party.shoppingLists = []
+            shoppingLists1*.delete()
+        }
+        List menuPlans1 = MenuPlan.findAllByOwner(party)
+        if (menuPlans1.size()) {
+            party.menuPlans = []
+            menuPlans1*.delete()
+        }
+
+        List commentAbuses = CommentAbuse.findAllByReporter(party)
+        List recipeAbuses = RecipeAbuse.findAllByReporter(party)
+        List credentials = LoginCredential.findAllByParty(party)
+        commentAbuses*.delete(flush: true)
+        recipeAbuses*.delete(flush: true)
+        credentials*.delete(flush: true)
+
+        List<Product> productsByUser = party?.ingredients
+        List<Product> productsToCheckInRecipeIngredient = []
+        Integer partiesOfItem
+        productsByUser.each { Product product ->
+            partiesOfItem = Party.createCriteria().count {
+                ingredients {
+                    eq('id', product.id)
+                }
+            }
+            if (partiesOfItem == 1) {
+                productsToCheckInRecipeIngredient.add(product)
+            }
+        }
+
+        Integer recipeIngredientsCount
+        List<Product> productsToRemove = []
+        productsToCheckInRecipeIngredient.each {Product product ->
+            recipeIngredientsCount = RecipeIngredient.createCriteria().count {
+                ingredient {
+                    eq('id', product.id)
+                }
+            }
+            if (recipeIngredientsCount == 0) {
+                productsToRemove.add(product)
+            }
+        }
+
+        party.ingredients = []
+        productsToRemove*.delete(flush: true)
+
         List<Aisle> aisleToRemove = []
-        List<Party> partiesOfAisle = []
-        aislesByUser.each { Aisle aisle ->
-            partiesOfAisle = Party.createCriteria().list {
+        Integer partiesOfAisle
+        party?.aisles?.each { Aisle aisle ->
+            partiesOfAisle = Party.createCriteria().count {
                 aisles {
                     eq('id', aisle.id)
                 }
             }
-            if (partiesOfAisle.size() == 1) {
+            if (partiesOfAisle == 1) {
                 aisleToRemove.add(aisle)
             }
         }
-        aisleToRemove.each {Aisle aisle ->
-            List<Item> items = Item.findAllBySuggestedAisle(aisle)
-            items.each {Item item ->
-                item.suggestedAisle = null
-                item.s()
-            }
-            List<RecipeIngredient> ingredients = RecipeIngredient.findAllByAisle(aisle)
-            ingredients.each {
+        List<RecipeIngredient> ri = (aisleToRemove) ? RecipeIngredient.findAllByAisleInList(aisleToRemove) : []
+        ri.each {
+            it.aisle = null
+            it.s()
+        }
+
+        (aisleToRemove) ? Item.executeUpdate("update Item i set i.suggestedAisle=NULL where i.suggestedAisle in (:aislesToRemove)", [aislesToRemove: aisleToRemove]) : []
+
+        if (aisleToRemove) {
+            List si = ShoppingIngredient.findAllByAisleInList(aisleToRemove)
+            si.each {
                 it.aisle = null
                 it.s()
             }
-            party.removeFromAisles(aisle)
-            try {
-                aisle.delete()
-            } catch (Exception e) {
-                flash.message = message(code: 'aisle.delete.unsuccessful')
-            }
         }
-
+        party.aisles = []
+        aisleToRemove*.delete()
+        party.delete(flush: true)
     }
+
 }
 
 class UserCO {
@@ -313,12 +360,8 @@ class UserCO {
         party?.isEnabled = true
         party?.s()
         HttpSession currentSession = ConfigurationHolder.config.sessions.find {it.userId == subscriber.id}
-        try {
-            currentSession.userId = null
-            currentSession.loggedUserId = party?.loginCredentials?.toList()?.first()?.id?.toString()
-        } catch (Exception e) {
-            println "Cannot login user. Session has already invalidated"
-        }
+        currentSession.userId = null
+        currentSession.loggedUserId = party?.loginCredentials?.toList()?.first()?.id?.toString()
 
     }
 

@@ -1,6 +1,7 @@
 package com.mp.domain
 
 import static com.mp.MenuConstants.*
+import org.apache.lucene.document.NumberTools
 
 class MenuPlanController {
 
@@ -17,7 +18,6 @@ class MenuPlanController {
     }
 
     def create = {
-        params.max = Math.min(params.max ? params.int('max') : 4, 150)
         MenuPlan menuPlan
         if (params.menuPlanId) {
             menuPlan = MenuPlan.get(params.long("menuPlanId"))
@@ -32,19 +32,24 @@ class MenuPlanController {
                 menuPlan.addToWeeks(week)
             }
         }
-        List<Recipe> recipeList = Recipe.list(params)
+        params.max = 4
+        List<Recipe> results = []
+        results = recipeService.getFilteredRecipeList(4, 0)
+        Integer total = recipeService.getFilteredRecipeCount()
         List<SubCategory> subCategories = (Recipe.list()*.subCategories)?.flatten()?.unique {it.id}?.sort {it.name}
         List<Category> categories = (subCategories*.category)?.flatten()?.unique {it.id}?.sort {it.name}
-        render(view: 'create', model: [menuPlan: menuPlan, categories: categories, subCategories: subCategories, itemList: recipeList, itemTotal: Recipe.count()])
+        render(view: 'create', model: [menuPlan: menuPlan, categories: categories, subCategories: subCategories, itemList: results, itemTotal: total])
     }
 
     def edit = {
-        params.max = Math.min(params.max ? params.int('max') : 4, 150)
-        List<Recipe> recipeList = Recipe.list(params)
+        params.max = 4
+        List<Recipe> results = []
+        results = recipeService.getFilteredRecipeList(4, 0)
+        Integer total = recipeService.getFilteredRecipeCount()
         MenuPlan menuPlan = MenuPlan.get(params.long("id"))
         List<SubCategory> subCategories = (Recipe.list()*.subCategories)?.flatten()?.unique {it.id}?.sort {it.name}
         List<Category> categories = (subCategories*.category)?.flatten()?.unique {it.id}?.sort {it.name}
-        render(view: 'edit', model: [menuPlan: menuPlan, categories: categories, subCategories: subCategories, itemList: recipeList, itemTotal: Recipe.count()])
+        render(view: 'edit', model: [menuPlan: menuPlan, categories: categories, subCategories: subCategories, itemList: results, itemTotal: total])
     }
 
     def saveAndUpdate = {
@@ -88,10 +93,16 @@ class MenuPlanController {
     }
 
     def search = {
+        Long offset = params.offset ? params.long('offset') : 0
+        List<Item> results = []
+        Long currentUserId = LoginCredential.currentUser.party.id
         List<String> allQueries = []
         List<String> subCategoriesString = []
         String subQueryString
+        Integer total
+        def searchList
         String searchKeyword = ''
+
         if (!params.query || (params.query == 'null')) {
             params.query = ''
         }
@@ -102,7 +113,6 @@ class MenuPlanController {
         queryList = queryList.findAll {it?.trim()}
 
         queryList?.eachWithIndex {String myQ, Integer index ->
-
             if (myQ.contains('subCategoriesString')) {
                 String categoryString = myQ.split(":").flatten().get(1)
                 if (categoryString.endsWith(']')) {
@@ -113,66 +123,54 @@ class MenuPlanController {
             } else {
                 allQueries.push(myQ)
             }
-            if (!(myQ.contains(':'))) {
-                allQueries[index] = '*' + myQ + '*'
-                searchKeyword = myQ
-            }
         }
-
         if (subCategoriesString) {
             subQueryString = subCategoriesString.join('" OR "')
             subQueryString = '"' + subQueryString + '"'
             allQueries.push('subCategoriesString:' + subQueryString)
         }
 
-        List<Recipe> results = []
+        String keyword = allQueries.find {!(it.contains(':'))}
+        allQueries = allQueries.findAll {(it.contains(':'))}
+        if (keyword) {
+            allQueries.add("*${keyword}*")
+        }
         String query = allQueries?.join(" ")?.tokenize(", ")?.join(" ")
         if (query.startsWith('[')) {
             query = query.substring(1, query.length() - 1)
         }
-        Integer total
+        query += " (shareWithCommunity:true OR contributorsString:${NumberTools.longToString(currentUserId)})"
 
-        if (query && (query != 'null')) {
-            def searchList
-            if (params.searchByDomainName == 'Item') {
-                searchList = Item.search([reload: true, max: 4, offset: params.offset ? params.long('offset') : 0]) {
-                    must(queryString(query))
-                }
-                results = searchList?.results
-                total = searchList?.total
-                if (!results) {
-                    String newQuery = recipeService.fuzzySearchQuery(query, searchKeyword)
-                    searchList = Item.search([reload: true, max: 4, offset: params.offset ? params.long('offset') : 0]) {
-                        must(queryString(newQuery))
-                    }
-                    results = searchList?.results
-                    total = searchList?.total
-                }
 
-            } else {
-                searchList = Recipe.search([reload: true, max: 4, offset: params.offset ? params.long('offset') : 0]) {
-                    must(queryString(query))
-                }
-                results = searchList?.results
-                total = searchList?.total
-                if (!results) {
-                    String newQuery = recipeService.fuzzySearchQuery(query, searchKeyword)
-                    searchList = Recipe.search([reload: true, max: 4, offset: params.offset ? params.long('offset') : 0]) {
-                        must(queryString(newQuery))
-                    }
-                    results = searchList?.results
-                    total = searchList?.total
-                }
+        if (params.searchByDomainName == 'Item') {
+            searchList = Item.search([reload: true, max: 4, offset: offset]) {
+                must(queryString(query))
             }
-        } else if (params.searchByDomainName == "Item") {
-            params.max = 4
-            results = Item.list(params).sort {it}
-            total = Item.count()
+            results = searchList?.results
+            total = searchList?.total
+            if (!results) {
+                String newQuery = recipeService.fuzzySearchQuery(query, searchKeyword)
+                searchList = Item.search([reload: true, max: 4, offset: offset]) {
+                    must(queryString(newQuery))
+                }
+                results = searchList?.results
+                total = searchList?.total
+            }
 
         } else {
-            params.max = 4
-            results = Recipe.list(params)
-            total = Recipe.count()
+            searchList = Recipe.search([reload: true, max: 4, offset: offset]) {
+                must(queryString(query))
+            }
+            results = searchList?.results
+            total = searchList?.total
+            if (!results && keyword) {
+                String newQuery = recipeService.fuzzySearchQuery(query, searchKeyword)
+                searchList = Recipe.search([reload: true, max: 4, offset: offset]) {
+                    must(queryString(newQuery))
+                }
+                results = searchList?.results
+                total = searchList?.total
+            }
         }
         render(template: '/menuPlan/searchResultMenuPlan', model: [itemList: results, itemTotal: total, query: queryList])
     }

@@ -15,33 +15,22 @@ class Party {
     Set<Recipe> favourites = []
     Set<ShoppingList> shoppingLists = []
     List<Aisle> aisles = []
+    List<Product> ingredients = []
 
     static transients = ['isEnabledString', 'email', 'password', 'userLogin', 'role', 'administrator', 'superAdmin', 'subscriber']
 
-    static hasMany = [favourites: Recipe, contributions: Recipe, menuPlans: MenuPlan, aisles: Aisle,
+    static hasMany = [favourites: Recipe, contributions: Recipe, menuPlans: MenuPlan, aisles: Aisle, ingredients: Product,
             roles: PartyRole, loginCredentials: LoginCredential, shoppingLists: ShoppingList]
 
     def beforeInsert = {
         joiningDate = new Date()
     }
 
+    Boolean canViewItem(Item item) {
+        return (item.shareWithCommunity || (item in contributions) || (item in ingredients))
+    }
+
     def beforeDelete = {
-        List shoppingLists1 = ShoppingList.findAllByParty(this)
-        if (shoppingLists1?.size()) {
-            this.shoppingLists = []
-            shoppingLists1*.delete()
-        }
-        List menuPlans1 = MenuPlan.findAllByOwner(this)
-        if (menuPlans1.size()) {
-            this.menuPlans = []
-            menuPlans1*.delete()
-        }
-        List commentAbuses = CommentAbuse.findAllByReporter(this)
-        List recipeAbuses = RecipeAbuse.findAllByReporter(this)
-        List credentials = LoginCredential.findAllByParty(this)
-        commentAbuses*.delete()
-        recipeAbuses*.delete()
-        credentials*.delete()
     }
 
     String toString() {
