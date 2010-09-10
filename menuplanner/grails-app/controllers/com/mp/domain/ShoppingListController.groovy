@@ -138,11 +138,7 @@ class ShoppingListController {
         List<WeeklyShoppingList> weeklyShoppingLists = shoppingList.weeklyShoppingLists
         shoppingList.weeklyShoppingLists = []
         weeklyShoppingLists.each {WeeklyShoppingList weeklyShoppingList ->
-            try {
                 weeklyShoppingList.delete(flush: true)
-            } catch (Exception e) {
-                e.printStackTrace()
-            }
         }
 
         weekList.each {String index ->

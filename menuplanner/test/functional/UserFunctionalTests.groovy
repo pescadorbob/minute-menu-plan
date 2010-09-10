@@ -87,11 +87,11 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
         javaScriptEnabled = false
         loginToHomepage(loginFormData)
-        loginFormData.password='newpassword'
+        loginFormData.password = 'newpassword'
         changePasswordAndLogin(loginFormData.password)
         loginToHomepage(loginFormData)
         assertTitle 'Minute Menu Plan : List Recipe'
-        loginFormData.password=USER_PASSWORD
+        loginFormData.password = USER_PASSWORD
         changePasswordAndLogin(loginFormData.password)
     }
 //
@@ -132,4 +132,92 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
         assertElementTextContains('flashMsgTst', getMessage('user.updateded.success'))
         logout()
     }
+
+
+    void test_Add_User_Create_Custom_Product_Delete_User_Recipe_Not_Deleted() {
+        javaScriptEnabled = false
+        Integer initialCount = Subscriber.count()
+        loginBySuperAdmin()
+        UserFormData userFormData = UserFormData.getDefaultUserFormData()
+        userFormData.email = 'user@email.com'
+        userFormData.isUser = true
+        createUser(userFormData)
+        assertStatus 200
+        Integer finalCount = Subscriber.count()
+        assertTrue('Add User with valid values failed', (finalCount - initialCount == 1))
+        logout()
+        get('/')
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginFormData.email = userFormData.email
+        loginToHomepage(loginFormData)
+        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
+        createRecipeData.productName_1 = "NewCustomProduct-${System.currentTimeMillis()}"
+        createRecipeData.serveWith_1 = "NewServeWithProduct-${System.currentTimeMillis()}"
+        createRecipeData.serveWith_2 = "NewServeProduct-${System.currentTimeMillis()}"
+        Integer initialProductCount = Product.count()
+        createRecipe(createRecipeData)
+        Integer finalProductCount = Product.count()
+        assertEquals "Unable to create Product for Recipe ", initialProductCount + 3, finalProductCount
+        logout()
+
+        loginBySuperAdmin()
+        UserLogin userLogin = UserLogin.findByEmail(loginFormData.email)
+        get("/user/show/${userLogin?.party?.id}")
+        Integer userInitialCount = Subscriber.count()
+        Integer initCount = Product.count()
+        def deleteUserButton = byClass('deleteUserButtonFT')
+        deleteUserButton.click()
+        Integer finCount = Product.count()
+        Integer userFinalCount = Subscriber.count()
+        assertEquals "Unable to Delete Product of User, when user is deleted", finCount, initCount
+        assertEquals "Unable to delete User", userFinalCount + 1, userInitialCount
+    }
+
+    void test_Add_User_Create_Custom_Product_Delete_Recipe_Delete_User_Product_Deleted() {
+        javaScriptEnabled = false
+        Integer initialCount = Subscriber.count()
+        loginBySuperAdmin()
+        UserFormData userFormData = UserFormData.getDefaultUserFormData()
+        userFormData.email = 'user@email.com'
+        userFormData.isUser = true
+        createUser(userFormData)
+        assertStatus 200
+        Integer finalCount = Subscriber.count()
+        assertTrue('Add User with valid values failed', (finalCount - initialCount == 1))
+        logout()
+
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginFormData.email = userFormData.email
+        loginToHomepage(loginFormData)
+        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
+        createRecipeData.productName_1 = "NewCustomTestProduct-${System.currentTimeMillis()}"
+        createRecipeData.serveWith_1 = "NewServeWithTestProduct-${System.currentTimeMillis()}"
+        createRecipeData.serveWith_2 = "NewServeTestProduct-${System.currentTimeMillis()}"
+        Integer initialProductCount = Product.count()
+        createRecipe(createRecipeData)
+        Integer finalProductCount = Product.count()
+        assertEquals "Unable to create Product for Recipe ", initialProductCount + 3, finalProductCount
+        click('Edit')
+        def deleteRecipeButton = byName('_action_delete')
+        deleteRecipeButton.click()
+        redirectEnabled = false
+        followRedirect()
+        logout()
+
+        loginBySuperAdmin()
+        UserLogin userLogin = UserLogin.findByEmail(loginFormData.email)
+        get("/user/show/${userLogin?.party?.id}")
+        Integer userInitialCount = Subscriber.count()
+        Integer initCount = Product.count()
+        def deleteUserButton = byClass('deleteUserButtonFT')
+        deleteUserButton.click()
+        redirectEnabled = false
+        followRedirect()
+        Thread.sleep(10000)
+        Integer finCount = Product.count()
+        Integer userFinalCount = Subscriber.count()
+        assertEquals "Unable to Delete Product of User, when user is deleted", finCount + 1, initCount
+        assertEquals "Unable to delete User", userFinalCount + 1, userInitialCount
+    }
+
 }

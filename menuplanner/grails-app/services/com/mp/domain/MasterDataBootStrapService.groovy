@@ -250,7 +250,7 @@ class MasterDataBootStrapService implements ApplicationContextAware {
                 String aisleString = sheet.getCell(0, index).contents.toString().trim()
                 String itemString = sheet.getCell(1, index).contents.toString().replace("'", "").trim()
                 Aisle aisle = (aisleString && Aisle.findByName(aisleString)) ? Aisle.findByName(aisleString) : new Aisle(name: aisleString).s()
-                Item.findByName(itemString) ?: new Product(name: itemString, suggestedAisle: aisle).s()
+                    Item.findByName(itemString) ?: new Product(name: itemString, suggestedAisle: aisle, shareWithCommunity: true).s()
             }
         }
         Date d2 = new Date()
