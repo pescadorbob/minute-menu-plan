@@ -80,6 +80,9 @@ environments {
 //            action="https://checkout.google.com/api/checkout/v2/checkoutForm/Merchant/827529108383447"
 //            imageSource="http://checkout.google.com/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
         }
+         externalKeys{
+            shareThisKey="d50f28c4-1205-472e-93eb-ca6165bb6cf9"
+        }
     }
     development {
         grails.serverURL = "http://localhost:8080/menuplanner"
@@ -93,6 +96,9 @@ environments {
             requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/827529108383447"
             action="https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/827529108383447"
             imageSource="http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
+        }
+        externalKeys{
+            shareThisKey="d50f28c4-1205-472e-93eb-ca6165bb6cf9"
         }
     }
     test {
@@ -108,6 +114,9 @@ environments {
             action="https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/827529108383447"
             imageSource="http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
         }
+         externalKeys{
+            shareThisKey="d50f28c4-1205-472e-93eb-ca6165bb6cf9"
+        }
     }
     qa {
         grails.serverURL = "http://qa.menuplanner.intelligrape.net"
@@ -122,6 +131,9 @@ environments {
             action="https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/827529108383447"
             imageSource="http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
         }
+         externalKeys{
+            shareThisKey="d50f28c4-1205-472e-93eb-ca6165bb6cf9"
+        }
     }
     beta {
         grails.serverURL = "http://beta.menuplanner.intelligrape.net"
@@ -135,6 +147,9 @@ environments {
             requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/827529108383447"
             action="https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/827529108383447"
             imageSource="http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
+        }
+         externalKeys{
+            shareThisKey="d50f28c4-1205-472e-93eb-ca6165bb6cf9"
         }
     }
 

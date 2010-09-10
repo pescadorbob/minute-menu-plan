@@ -119,7 +119,9 @@
                             <span id="domainProduct" class="pointer" onclick="defineSearchDomainType(this, 'domainType', 'Item');">Include Products</span><br/>
                         </li>
                         <li>
-                            <span id="favourites" class="pointer" onclick="submitSearchForm(this, 'favouriteForUsersString', '*${LoginCredential.currentUser.id}*');">Show favourites</span><br/>
+                            <g:if test="${LoginCredential.currentUser}">
+                                <span id="favourites" class="pointer" onclick="submitSearchForm(this, 'favouriteForUsersString', '*${LoginCredential.currentUser.id}*');">Show favourites</span><br/>
+                            </g:if>
                         </li>
                         <li>
                             Calories
