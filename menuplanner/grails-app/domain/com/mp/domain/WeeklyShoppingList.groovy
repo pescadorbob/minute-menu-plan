@@ -10,6 +10,11 @@ class WeeklyShoppingList {
     static hasMany = [products: ShoppingIngredient, groceries: ShoppingIngredient]
     static belongsTo = [shoppingList: ShoppingList]
 
+    static mapping = {
+        products casade: 'all-delete-orphan'
+        groceries casade: 'all-delete-orphan'
+    }
+
     List<Aisle> getAisles(){
         List<Aisle> aisles = []
         products?.each{

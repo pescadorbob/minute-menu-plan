@@ -11,6 +11,10 @@ class MenuPlan {
     static constraints = {
     }
 
+    static mapping = {
+        weeks casade: 'all-delete-orphan'
+    }
+
     String toString() {
         return name
     }

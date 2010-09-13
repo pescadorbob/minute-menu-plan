@@ -259,4 +259,28 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         Integer finalCount = Recipe.count()
         assertEquals "Recipe creation failed with name input: " + currentString, finalCount, initialCount + names.size()
     }
+
+    void test_Add_Recipe_Add_Custom_Ingredient_Invisible_To_Other_User() {
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginToHomepage(loginFormData)
+        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
+        createRecipeData.name = "MySharableRecipe"
+        String servings_1 = "Custom_Serve_With-${System.currentTimeMillis()}"
+        createRecipeData.serveWith_1 = servings_1
+        createRecipe(createRecipeData)
+        assertTitleContains 'Minute Menu Plan : Show Recipe '
+        Recipe recipe = Recipe.list().last()
+        logout()
+
+        loginBySuperAdmin()
+        get("/recipe/show/${recipe?.id}")
+        assertElementTextContains('recipeNameTst', createRecipeData.name)
+        List<String> riInList = []
+        byId('showAllIngredientsHereTst').getChildElements().each {
+            riInList.add(it.asText())
+        }
+        if (riInList.contains(servings_1)) {
+            fail("Unexpected Ingredient found in Ingredient list...")
+        }
+    }
 }

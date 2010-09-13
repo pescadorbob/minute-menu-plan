@@ -13,7 +13,4 @@ class ShoppingIngredient {
         aisle(nullable: true, blank: true)
     }
 
-    static mapping = {
-        cascade: 'all, delete-orphan'
-    }
 }

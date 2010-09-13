@@ -22,6 +22,7 @@ class Recipe extends Item implements Commentable, Rateable {
     Quantity cookingTime
     List<String> directions = []
     List<RecipeIngredient> ingredients = []
+    Set<Item> items = []
     Set<SubCategory> subCategories = []
 
     String description
@@ -159,6 +160,8 @@ class Recipe extends Item implements Commentable, Rateable {
 
     static mapping = {
         tablePerHierarchy false
+        directions cascade: 'all-delete-orphan'
+        ingredients cascade: 'all-delete-orphan'
     }
 
     boolean equals(final Object o) {

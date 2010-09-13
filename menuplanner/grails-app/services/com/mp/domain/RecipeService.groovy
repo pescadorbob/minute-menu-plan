@@ -82,6 +82,33 @@ class RecipeService {
         }
         return count
     }
+
+    List getRecipeIngredientsWithCustomServings(Recipe recipe, int customServings) {
+        List<RecipeIngredient> newRecipeIngredients = []
+        Party party = LoginCredential.currentUser?.party
+        Item item
+        List<RecipeIngredient> visibleItems = recipe.ingredients.findAll {party.canViewItem(it.ingredient)} as List
+        visibleItems.each {RecipeIngredient recipeIngredient ->
+            item = recipeIngredient.ingredient
+            RecipeIngredient recipeIngredientNew = new RecipeIngredient()
+            recipeIngredientNew.ingredient = recipeIngredient?.ingredient
+            recipeIngredientNew.aisle = recipeIngredient.aisle
+            recipeIngredientNew.quantity = recipeIngredient?.quantity
+            recipeIngredientNew.preparationMethod = recipeIngredient?.preparationMethod
+            if (customServings && recipeIngredient.quantity && recipeIngredient.quantity.value) {
+                Float value = (recipeIngredientNew?.quantity?.value) ? recipeIngredientNew.quantity.value : 1.0f
+                Integer servings = recipeIngredient.recipe.servings
+                recipeIngredientNew.quantity.value = ((customServings * value) / servings).toFloat()
+                if (!recipeIngredientNew.quantity.savedUnit) {
+                    recipeIngredientNew.quantity.value = Math.ceil(recipeIngredientNew.quantity.value)
+                }
+                newRecipeIngredients.add(recipeIngredientNew)
+            } else {
+                newRecipeIngredients.add(recipeIngredient)
+            }
+        }
+        return newRecipeIngredients
+    }
 }
 
 class RecipeCO {
@@ -416,10 +443,19 @@ class RecipeCO {
 
     public boolean addServeWithToRecipe(Recipe recipe, Set<String> itemIds) {
         Set<Item> items = []
+        Party party = LoginCredential.currentUser?.party
+        Item item
         itemIds.each {String itemName ->
             if (itemName) {
-                Item item = Item.countByName(itemName) ? Item.findByName(itemName) : new Product(name: itemName).s()
-                items.add(item)
+                item = Recipe.findByName(itemName)
+                if (item) {
+                    items.add(item)
+                } else {
+                    item = Item.countByName(itemName) ? Item.findByName(itemName) : new Product(name: itemName).s()
+                    party.addToIngredients(item)
+                    party.s()
+                    items.add(item)
+                }
             }
         }
         recipe.items = items
