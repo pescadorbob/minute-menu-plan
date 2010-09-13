@@ -169,7 +169,7 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
         deleteUserButton.click()
         Integer finCount = Product.count()
         Integer userFinalCount = Subscriber.count()
-        assertEquals "Unable to Delete Product of User, when user is deleted", finCount, initCount
+        assertEquals "Unable to Delete Product of User, when user is deleted", finCount + 2, initCount
         assertEquals "Unable to delete User", userFinalCount + 1, userInitialCount
     }
 
@@ -216,7 +216,7 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
         Thread.sleep(10000)
         Integer finCount = Product.count()
         Integer userFinalCount = Subscriber.count()
-        assertEquals "Unable to Delete Product of User, when user is deleted", finCount + 1, initCount
+        assertEquals "Unable to Delete Product of User, when user is deleted", finCount + 3, initCount
         assertEquals "Unable to delete User", userFinalCount + 1, userInitialCount
     }
 
