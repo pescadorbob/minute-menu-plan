@@ -96,9 +96,11 @@ class UserService {
         CommentAbuse.executeUpdate("delete from CommentAbuse as ca where ca.reporter = (:party)", [party: party])
         RecipeAbuse.executeUpdate("delete from RecipeAbuse as ra where ra.reporter = (:party)", [party: party])
 
-        String selectQuery = "select product_id from party_product where party_ingredients_id=${partyId} and not product_id in ( select product_id from party_product where party_ingredients_id !=${partyId})"
+        String selectQuery = "select product_id from party_product where party_ingredients_id=${partyId} and not product_id in ( select product_id from party_product where party_ingredients_id !=${partyId}) and not product_id in (select ingredient_id from recipe_ingredient)"
         String deleteQuery = "delete from recipe_item where item_id in (${selectQuery})"
         sql.executeUpdate(deleteQuery)
+            deleteQuery = "delete from item where id in (${selectQuery})"
+            sql.executeUpdate(deleteQuery)
 
         def aisleIdsToBeDeleted = []
         sql.eachRow("select aisle_id from party_aisle where party_aisles_id=${partyId} and not aisle_id in ( select aisle_id from party_aisle where party_aisles_id !=${partyId});", {
