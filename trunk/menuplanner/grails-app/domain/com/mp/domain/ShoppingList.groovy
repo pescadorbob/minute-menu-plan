@@ -12,6 +12,10 @@ class ShoppingList {
     static hasMany = [weeklyShoppingLists: WeeklyShoppingList]
     static belongsTo = [party: Party]
 
+    static mapping = {
+        weeklyShoppingLists casade: 'all-delete-orphan'
+    }
+
     static constraints = {
         menuPlan(nullable: true)
     }

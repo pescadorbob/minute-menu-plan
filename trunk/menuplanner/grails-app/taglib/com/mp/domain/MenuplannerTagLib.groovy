@@ -8,6 +8,7 @@ class MenuplannerTagLib {
 
     static namespace = 'mp'
     def permissionService
+    def recipeService
 
     def showEditRecipe = {attrs ->
         Long recipeId = attrs['recipeId']?.toLong()
@@ -173,27 +174,39 @@ class MenuplannerTagLib {
     def recipeIngredients = {attrs ->
         Recipe recipe = Recipe.get(attrs['recipeId'])
         Integer customServings = attrs['customServings']
-        List<RecipeIngredient> recipeIngredients = []
+        customServings = customServings ? customServings : 0
         if (recipe) {
-            recipe.ingredients.each {RecipeIngredient recipeIngredient ->
-                RecipeIngredient recipeIngredientNew = new RecipeIngredient()
-                recipeIngredientNew.ingredient = recipeIngredient?.ingredient
-                recipeIngredientNew.aisle = recipeIngredient.aisle
-                recipeIngredientNew.quantity = recipeIngredient?.quantity
-                recipeIngredientNew.preparationMethod = recipeIngredient?.preparationMethod
-                if (customServings && recipeIngredient.quantity && recipeIngredient.quantity.value) {
-                    Float value = (recipeIngredientNew?.quantity?.value) ? recipeIngredientNew.quantity.value : 1.0f
-                    Integer servings = recipeIngredient.recipe.servings
-                    recipeIngredientNew.quantity.value = ((customServings * value) / servings).toFloat()
-                    if (!recipeIngredientNew.quantity.savedUnit) {
-                        recipeIngredientNew.quantity.value = Math.ceil(recipeIngredientNew.quantity.value)
-                    }
-                    recipeIngredients.add(recipeIngredientNew)
-                } else {
-                    recipeIngredients.add(recipeIngredient)
+            List<RecipeIngredient> customRecipeIngredients = recipeService.getRecipeIngredientsWithCustomServings(recipe, customServings)
+            out << g.render(template: "/recipe/recipeIngredients", model: [ingredients: customRecipeIngredients])
+        }
+    }
+    def recipeIngredientsForRecipeCard = {attrs ->
+        Recipe recipe = Recipe.get(attrs['recipeId'])
+        Party party = LoginCredential.currentUser?.party
+        List<Item> items = []
+        Item item
+        if (recipe) {
+            recipe.ingredients.each { RecipeIngredient recipeIngredient ->
+                item = recipeIngredient?.ingredient
+                if (party.canViewItem(item)) {
+                    items.add(item)
                 }
             }
-            out << g.render(template: "/recipe/recipeIngredients", model: [ingredients: recipeIngredients])
+            out << g.render(template: "/recipe/recipeIngredientsForRecipeCard", model: [items: items])
+        }
+    }
+
+    def serveWithItems = {attrs ->
+        Recipe recipe = Recipe.get(attrs['recipeId'])
+        Party party = LoginCredential.currentUser?.party
+        List<Item> items = []
+        if (recipe) {
+            recipe.items.each {Item item1 ->
+                if (party.canViewItem(item1)) {
+                    items.add(item1)
+                }
+            }
+            out << g.render(template: "/recipe/serveWithItems", model: [items: items])
         }
     }
 }

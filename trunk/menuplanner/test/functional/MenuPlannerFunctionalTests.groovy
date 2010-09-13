@@ -50,6 +50,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
             makesServing = createRecipeData.servings
             hiddenIngredientProductNames = createRecipeData.productName_1
             directions = createRecipeData.step_1
+            byId('shareWithCommunity').click()
             byId('serveWithItems1').setValue(createRecipeData.serveWith_1)
             byId('serveWithItems2').setValue(createRecipeData.serveWith_2)
             byId('txtCalories').setValue(createRecipeData.calories)
@@ -217,7 +218,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
         createLink.click()
     }
 
-    /** * Helper method to return a message from the message bundle.                                                         ***/
+    /** * Helper method to return a message from the message bundle.                                                          ***/
     String getMessage(String key, def targetArgs = TARGET_ARGS_EMPTY) {
         def keyValue = messageSource.resolveCode(key, locale)
         return keyValue?.format(targetArgs)

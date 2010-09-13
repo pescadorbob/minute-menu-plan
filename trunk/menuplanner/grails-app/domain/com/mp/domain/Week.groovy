@@ -7,6 +7,10 @@ class Week {
     static belongsTo = [menuPlan: MenuPlan]
     static hasMany = [days: Day]
 
+    static mapping = {
+        days casade: 'all-delete-orphan'
+    }
+
     static constraints = {
     }
 

@@ -5,11 +5,13 @@ import grails.converters.JSON
 import org.codehaus.groovy.grails.web.json.JSONElement
 import javax.servlet.http.HttpSession
 import static com.mp.MenuConstants.*
+import groovy.sql.Sql
 
 
 class UserService {
 
     boolean transactional = true
+    def dataSource
     def facebookConnectService
     static config = ConfigurationHolder.config
 
@@ -82,87 +84,43 @@ class UserService {
         }
     }
 
-    public void deleteParty(Party party) {
-        List shoppingLists1 = ShoppingList.findAllByParty(party)
-        if (shoppingLists1?.size()) {
-            party.shoppingLists = []
-            shoppingLists1*.delete()
-        }
-        List menuPlans1 = MenuPlan.findAllByOwner(party)
-        if (menuPlans1.size()) {
-            party.menuPlans = []
-            menuPlans1*.delete()
-        }
-
-        List commentAbuses = CommentAbuse.findAllByReporter(party)
-        List recipeAbuses = RecipeAbuse.findAllByReporter(party)
-        List credentials = LoginCredential.findAllByParty(party)
-        commentAbuses*.delete(flush: true)
-        recipeAbuses*.delete(flush: true)
-        credentials*.delete(flush: true)
-
-        List<Product> productsByUser = party?.ingredients
-        List<Product> productsToCheckInRecipeIngredient = []
-        Integer partiesOfItem
-        productsByUser.each { Product product ->
-            partiesOfItem = Party.createCriteria().count {
-                ingredients {
-                    eq('id', product.id)
-                }
-            }
-            if (partiesOfItem == 1) {
-                productsToCheckInRecipeIngredient.add(product)
-            }
-        }
-
-        Integer recipeIngredientsCount
-        List<Product> productsToRemove = []
-        productsToCheckInRecipeIngredient.each {Product product ->
-            recipeIngredientsCount = RecipeIngredient.createCriteria().count {
-                ingredient {
-                    eq('id', product.id)
-                }
-            }
-            if (recipeIngredientsCount == 0) {
-                productsToRemove.add(product)
-            }
-        }
-
-        party.ingredients = []
-        productsToRemove*.delete(flush: true)
-
-        List<Aisle> aisleToRemove = []
-        Integer partiesOfAisle
-        party?.aisles?.each { Aisle aisle ->
-            partiesOfAisle = Party.createCriteria().count {
-                aisles {
-                    eq('id', aisle.id)
-                }
-            }
-            if (partiesOfAisle == 1) {
-                aisleToRemove.add(aisle)
-            }
-        }
-        List<RecipeIngredient> ri = (aisleToRemove) ? RecipeIngredient.findAllByAisleInList(aisleToRemove) : []
-        ri.each {
-            it.aisle = null
-            it.s()
-        }
-
-        (aisleToRemove) ? Item.executeUpdate("update Item i set i.suggestedAisle=NULL where i.suggestedAisle in (:aislesToRemove)", [aislesToRemove: aisleToRemove]) : []
-
-        if (aisleToRemove) {
-            List si = ShoppingIngredient.findAllByAisleInList(aisleToRemove)
-            si.each {
-                it.aisle = null
-                it.s()
-            }
-        }
-        party.aisles = []
-        aisleToRemove*.delete()
-        party.delete(flush: true)
+    def fetchSqlConnection() {
+        def sql = new Sql(dataSource.getConnection())
+        return sql;
     }
 
+    public void deleteParty(Party party) {
+        Long partyId = party.id
+        def sql = fetchSqlConnection()
+
+        CommentAbuse.executeUpdate("delete from CommentAbuse as ca where ca.reporter = (:party)", [party: party])
+        RecipeAbuse.executeUpdate("delete from RecipeAbuse as ra where ra.reporter = (:party)", [party: party])
+
+        String selectQuery = "select product_id from party_product where party_ingredients_id=${partyId} and not product_id in ( select product_id from party_product where party_ingredients_id !=${partyId})"
+        String deleteQuery = "delete from recipe_item where item_id in (${selectQuery})"
+        sql.executeUpdate(deleteQuery)
+
+        def aisleIdsToBeDeleted = []
+        sql.eachRow("select aisle_id from party_aisle where party_aisles_id=${partyId} and not aisle_id in ( select aisle_id from party_aisle where party_aisles_id !=${partyId});", {
+            aisleIdsToBeDeleted.add(it.aisle_id)
+        })
+        if (aisleIdsToBeDeleted) {
+            List<Aisle> aisleToRemove = Aisle.getAll(aisleIdsToBeDeleted)
+            RecipeIngredient.findAllByAisleInList(aisleToRemove).each {RecipeIngredient ri ->
+                ri.aisle = null
+                ri.s()
+            }
+            Item.executeUpdate("update Item i set i.suggestedAisle=NULL where i.suggestedAisle in (:aislesToRemove)", [aislesToRemove: aisleToRemove])
+            List shoppingIngredients = ShoppingIngredient.findAllByAisleInList(aisleToRemove)
+            shoppingIngredients.each {ShoppingIngredient si ->
+                si.aisle = null
+                si.s()
+            }
+            party.aisles = []
+            aisleToRemove*.delete()
+        }
+        party.delete(flush: true)
+    }
 }
 
 class UserCO {

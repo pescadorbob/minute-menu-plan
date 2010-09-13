@@ -41,15 +41,10 @@ class RecipeController {
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 15, 150)
         params.offset = Math.min(params.offset ? params.int('offset') : 0, 100)
-        println "1"
         List<Recipe> filteredResults = recipeService.getFilteredRecipeList(params.max, params.long('offset'))
-        println "3"
         Integer total = recipeService.getFilteredRecipeCount()
-        println "4"
         List<SubCategory> subCategories = (Recipe.list()*.subCategories)?.flatten()?.unique {it.id}?.sort {it.name}
-        println "5"
         List<Category> categories = (subCategories*.category)?.flatten()?.unique {it.id}?.sort {it.name}
-        println "6"
         render(view: 'list', model: [recipeList: filteredResults, categories: categories, subCategories: subCategories, recipeTotal: total])
     }
 

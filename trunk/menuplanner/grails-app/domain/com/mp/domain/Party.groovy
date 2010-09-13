@@ -27,7 +27,7 @@ class Party {
     }
 
     Boolean canViewItem(Item item) {
-        return (item.shareWithCommunity || (item in contributions) || (item in ingredients))
+        return (item.shareWithCommunity || (item?.id in contributions*.id) || (item?.id in ingredients*.id))
     }
 
     def beforeDelete = {
@@ -50,6 +50,13 @@ class Party {
             return (loginCredential instanceof UserLogin)
         }
         return userLogin
+    }
+
+    static mapping = {
+        tablePerHierarchy false
+        menuPlans cascade: "all-delete-orphan"
+        shoppingLists cascade: "all-delete-orphan"
+        loginCredentials cascade: "all-delete-orphan"
     }
 
     static constraints = {
@@ -119,10 +126,6 @@ class Party {
         if (abusiveRecipesMap) { total += abusiveRecipesMap.values()?.sum {it}}
         if (abusiveCommentsMap) { total += abusiveCommentsMap.values()?.sum {it}}
         return total
-    }
-
-    static mapping = {
-        tablePerHierarchy false
     }
 
     boolean equals(final Object o) {

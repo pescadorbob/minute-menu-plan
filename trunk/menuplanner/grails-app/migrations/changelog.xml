@@ -1514,4 +1514,9 @@
             <column name="share_with_community" valueBoolean="true" />
         </update>
     </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-178">
+        <update tableName="aisle">
+            <column name="owned_by_user" valueBoolean="false" />
+        </update>
+    </changeSet>
 </databaseChangeLog>
