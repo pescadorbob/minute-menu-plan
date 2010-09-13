@@ -1,3 +1,4 @@
+<%@ page import="org.codehaus.groovy.grails.commons.ConfigurationHolder" %>
 <div id="viewmenu">
 
     <ul>
@@ -14,6 +15,9 @@
                         <li id="printMenuPlanRecipesBtn"><a href="">Print Menu Plan Recipes</a></li>
                         <li>
                             <g:link controller="shoppingList" class="createShoppingListLinkFT" action="generateShoppingList" id="${menuPlan?.id}">Create Shopping List</g:link>
+                        </li>
+                        <li>
+                            <mp:shareThis  shareUrl="${createLink(controller:'menuPlan',action:'show',id:menuPlan.id,absolute:true)}"/>
                         </li>
                         %{--<li><a href="">Delete Menu Plan</a></li>--}%
                     </ul>

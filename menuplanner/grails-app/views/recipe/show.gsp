@@ -1,4 +1,4 @@
-<%@ page import="org.codehaus.groovy.grails.commons.ConfigurationHolder; com.mp.domain.*" %>
+<%@ page import="com.mp.domain.*" %>
 <%@ page import="com.mp.MenuConstants.*" %>
 <html>
 <head>
@@ -31,8 +31,6 @@
     }
 
     </style>
-    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script><script type="text/javascript">
-    stLight.options({publisher:'${ConfigurationHolder.config.externalKeys.shareThisKey}',popup:true});</script>
 </head>
 <body>
 <div class="clearfix printMe" id="content-wrapper">
@@ -47,10 +45,7 @@
             </div>
             <div id="rightpart">
                 <span>
-                    <span class="st_email"></span>
-                    <span class="st_facebook"></span>
-                    <span class="st_twitter"></span>
-                    <span class="st_sharethis" displayText="ShareThis" st_url="${createLink(controller:'recipe',action:'show',id:recipe.id,absolute:true)}?guestVisitor=true"></span>
+                   <mp:shareThis shareUrl="${createLink(controller:'recipe',action:'show',id:recipe.id,absolute:true)}"/>
                 </span>
                 <span>
                     <mp:showEditRecipe recipeId="${recipe?.id}"/>

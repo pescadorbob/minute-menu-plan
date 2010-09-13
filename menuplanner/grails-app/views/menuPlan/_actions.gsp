@@ -6,7 +6,7 @@
         </g:else>
     </div>
     <div class="menuPlanActions">
-      <mp:menuPlanActions/>
+      <mp:menuPlanActions menuPlan="${menuPlan}"/>
     </div>
    
 </div>

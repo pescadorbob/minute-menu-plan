@@ -3,9 +3,14 @@
 <head>
     <meta name="layout" content="menu"/>
     <title>Show Shopping List</title>
-    <style>.winterButton ul {
+    <style>
+    .winterButton ul {
         margin-bottom: 10px;
-    }</style>
+    }
+    .wintertop ul li {
+        width:24%;
+    }
+    </style>
 </head>
 <body>
 <div id="container">
@@ -27,6 +32,9 @@
                         </li>
                         <li style="cursor:pointer" id="printShoppingListBtn">
                             <img src="${resource(dir: 'images', file: 'printer.gif')}" alt="print" align="absmiddle"/> &nbsp; Print Shopping List
+                        </li>
+                        <li style="cursor:pointer" id="shareThisUrl">
+                            <mp:shareThis shareUrl="${createLink(controller:'shoppingList',action:'show',id:shoppingList.id,absolute:true)}"/>
                         </li>
                     </ul>
                 </div>

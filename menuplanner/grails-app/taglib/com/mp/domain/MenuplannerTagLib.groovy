@@ -2,6 +2,7 @@ package com.mp.domain
 
 import grails.converters.JSON
 import org.grails.comments.Comment
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 
 class MenuplannerTagLib {
@@ -208,5 +209,11 @@ class MenuplannerTagLib {
             }
             out << g.render(template: "/recipe/serveWithItems", model: [items: items])
         }
+    }
+
+    def shareThis = { attrs->
+        out<< """<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script><script type="text/javascript">
+                                stLight.options({publisher:'${ConfigurationHolder.config.externalKeys.shareThisKey}',popup:true});</script>
+                            <span class="st_sharethis" displayText="ShareThis" st_url="${attrs['shareUrl']}?guestVisitor=true"></span> """
     }
 }

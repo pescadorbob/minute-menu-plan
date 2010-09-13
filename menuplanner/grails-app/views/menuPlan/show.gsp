@@ -14,12 +14,16 @@
     .ui-sortable-placeholder * {
         visibility: hidden;
     }
+    .sharethis{
+        color:#ffffff;
+        }
     </style>
+    
 </head>
 <body>
 <div id="content-wrapper" class="clearfix">
     <div id="left-panel">
-        <g:render template="/menuPlan/actions"/>
+        <g:render template="/menuPlan/actions" model="[menuPlan:menuPlan]"/>
         <g:render template="/quickFill/quickFills"/>
         <g:render template="/menuPlan/menuPlanData" model="[menuPlan:menuPlan]"/>
         <br/>
