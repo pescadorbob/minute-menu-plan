@@ -49,7 +49,7 @@
                                 <li>
                                     <input name="" type="radio" value=""/>
                                     Link your account with your Facebook account</li>
-                                <li>&nbsp; &nbsp;               %{--<facebook:connect/>--}%<br/></li>
+                                <li>&nbsp; &nbsp;<facebook:freeUserConnect/><br/></li>
                                 <li><input name="" type="radio" value=""/>Create a new account. (You can link it later) </li>
                                 <li>
                                     <g:hasErrors bean="${userCO}">
