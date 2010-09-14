@@ -6,8 +6,10 @@
         <fb:intl>Connect with Facebook</fb:intl>
     </span>
 </a>
-<span id="mpFacebookConnectSuccess" style="display:none;">Your account has been connected with Facebook!
-<g:render template="/facebook/disconnectFromFacebook" model="[party:LoginCredential.currentUser.party]"/>
+<g:if test="${params.action!='createFreeUser'}">
+    <span id="mpFacebookConnectSuccess" style="display:none;">Your account has been connected with Facebook!
+    <g:render template="/facebook/disconnectFromFacebook" model="[party:LoginCredential.currentUser.party]"/>
+</g:if>
 </span>
 <script type="text/javascript">
     function facebookConnectSuccess() {

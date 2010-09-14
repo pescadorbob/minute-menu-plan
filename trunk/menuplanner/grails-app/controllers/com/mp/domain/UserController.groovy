@@ -184,17 +184,21 @@ class UserController {
 
     def facebookConnect = {
         Long userId = params.long('userId') ? params.long('userId') : 0L
-        Party party = Party.get(userId)
-        String redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true, params: [userId: userId]).encodeAsURL()}"
+        Party party = Party.get(userId)?:new Party(name:'menuPlanner_user').s()
+        String redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true).encodeAsURL()}"
         party = userService.updateUserFromFacebook(redirectUrl, params.code, party)
         if (party) {
             if (params.long('userId')) {
                 render "<script type='text/javascript'>window.opener.facebookConnectSuccess();window.close();</script>"
             } else {
-                user.addToRoles(UserType.Subscriber)
-                user.s()
-                session.loggedUserId = user.id.toString()
-                render "<script type='text/javascript'>window.opener.location.href='" + createLink(controller: 'user', action: 'show', id: user.id) + "';window.close();</script>"
+//                party.addToRoles(party?.subscriber)
+                party.s()
+                session.loggedUserId = party.id.toString()
+                if(party?.facebookAccount){
+                    render "<script type='text/javascript'>window.opener.location.href='" + createLink(controller: 'recipe', action: 'list') + "';window.close();</script>"
+                }else{
+                    render "<script type='text/javascript'>window.opener.location.href='" + createLink(controller: 'user', action: 'show', id: party.id) + "';window.close();</script>"
+                }
             }
         }
         else {

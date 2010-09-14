@@ -38,7 +38,7 @@ class Party {
     }
 
     String getEmail() {
-        return UserLogin.findByParty(this).email
+        return UserLogin.findByParty(this)?.email
     }
 
     String getPassword() {
