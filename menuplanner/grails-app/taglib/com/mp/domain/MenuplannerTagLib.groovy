@@ -177,7 +177,10 @@ class MenuplannerTagLib {
         Integer customServings = attrs['customServings']
         customServings = customServings ? customServings : 0
         if (recipe) {
-            List<RecipeIngredient> customRecipeIngredients = recipeService.getRecipeIngredientsWithCustomServings(recipe, customServings)
+            List<RecipeIngredient> customRecipeIngredients = recipe.ingredients
+            if(LoginCredential.currentUser){
+                customRecipeIngredients = recipeService.getRecipeIngredientsWithCustomServings(recipe, customServings)                
+            }
             out << g.render(template: "/recipe/recipeIngredients", model: [ingredients: customRecipeIngredients])
         }
     }
