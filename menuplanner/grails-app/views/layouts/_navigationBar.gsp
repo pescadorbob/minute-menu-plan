@@ -13,5 +13,9 @@
         %{--<li><a>Help</a></li>--}%
             <mp:adminDropDown/>
         </g:if>
+        <g:else>
+            <li><g:link controller="menuPlan" action="create">Create Your Own Menu Plan</g:link></li>
+            <li><g:link controller="recipe" action="list" class="browse">Browse&nbsp;Recipes</g:link></li>
+        </g:else>
     </ul>
 </div>

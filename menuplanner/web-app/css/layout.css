@@ -271,3 +271,5 @@ div.errors{border:red 1px solid;font-size:smaller;color:red;padding:10px;margin-
 #rightElementPreview ul li a{color:#2aa4b1;text-decoration:none;}
 #rightElementPreview p{padding:5px 0px; }
 #rightElementPreview ul li a:hover{text-decoration:underline;}
+.sharedLinkUserRecipeLink{clear:both;font-size:12px;width:378px}
+.sharedLinkUserRecipeLink a{color:#fff !important;padding-left:63px}
