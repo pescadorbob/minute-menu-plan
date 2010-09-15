@@ -141,7 +141,7 @@ class MenuPlanController {
             query = query.substring(1, query.length() - 1)
         }
         query += " (shareWithCommunity:true OR contributorsString:${NumberTools.longToString(currentUserId)})"
-        if (!currentUser.showAlcoholicContent) {query += "  isAlcoholic:false)"}
+        if (!currentUser.showAlcoholicContent) {query += "  isAlcoholic:false"}
 
         if (params.searchByDomainName == 'Item') {
             searchList = Item.search([reload: true, max: 4, offset: offset]) {
