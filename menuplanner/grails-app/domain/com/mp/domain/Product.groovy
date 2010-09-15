@@ -21,7 +21,18 @@ class Product extends Item {
         tablePerHierarchy false
     }
 
-    static transients = ['contributorsString', 'contributors']
+    def beforeInsert = {
+        if (!isAlcoholic) {
+            isAlcoholic = isProductAlcoholic()
+        }
+    }
+
+    def beforeUpdate = {
+        if (!isAlcoholic) {
+            isAlcoholic = isProductAlcoholic()
+        }
+    }
+    static transients = ['detailString', 'contributorsString', 'contributors']
 
     String getContributorsString() {
         String searchString = ''
@@ -32,7 +43,7 @@ class Product extends Item {
                 parties.each {Party p ->
                     searchList.add(NumberTools.longToString(p?.id))
                 }
-                searchString = searchList.join(', ')
+                searchString = searchList.join(' , ')
             } else {
                 searchString = NumberTools.longToString(0L)
             }
@@ -46,6 +57,29 @@ class Product extends Item {
                 eq('id', this.id)
             }
         }
+    }
+
+
+    Boolean isProductAlcoholic() {
+        Boolean result = false
+        String productString = getDetailString()
+        List<String> alcoholicStrings = config.alcoholicContentList ? config.alcoholicContentList : []
+        alcoholicStrings = alcoholicStrings*.toLowerCase()
+        result = alcoholicStrings.any {
+            def pattern = /\b${it}\b/
+            def matcher = productString =~ pattern
+            return matcher.getCount() ? true : false
+        }
+        return result
+    }
+
+    String getDetailString() {
+        List<String> allStrings = []
+        String detailedString = ''
+        allStrings.add(name)
+        allStrings.add(suggestedAisle.toString())
+        detailedString = allStrings.join(' , ')
+        return detailedString.toLowerCase()
     }
 
     boolean equals(final Object o) {

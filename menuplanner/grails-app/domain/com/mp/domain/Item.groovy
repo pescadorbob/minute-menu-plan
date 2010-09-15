@@ -9,6 +9,7 @@ class Item {
     String name
     Aisle suggestedAisle
     Boolean shareWithCommunity = false
+    Boolean isAlcoholic = false
 
     String toString() {
         return name
@@ -39,11 +40,22 @@ class Item {
     }
 
     public static List<Item> getItemsForUser(Party party, String matchString = "%%") {
+        Boolean showAlcoholicContent = party.showAlcoholicContent
         List<Item> totalItems = []
-        List<Item> items = Item?.findAllByNameIlike(matchString)?.findAll {it?.shareWithCommunity} as List
-        matchString = matchString.replace("%", ".*")
-        List<Item> itemsByUser = party?.ingredients?.findAll {it?.name?.matches(Pattern.compile(matchString, Pattern.CASE_INSENSITIVE))} as List
-        List<Item> recipesByUser = (party?.contributions as List).findAll {!it.shareWithCommunity && it?.name?.matches(Pattern.compile(matchString, Pattern.CASE_INSENSITIVE))} as List
+        List<Item> items = []
+        List<Item> itemsByUser = []
+        List<Item> recipesByUser = []
+        if (!party.showAlcoholicContent) {
+            items = Item?.findAllByNameIlikeAndIsAlcoholic(matchString, false)?.findAll {it?.shareWithCommunity} as List
+            matchString = matchString.replace("%", ".*")
+            itemsByUser = party?.ingredients?.findAll {it?.name?.matches(Pattern.compile(matchString, Pattern.CASE_INSENSITIVE)) && (!it.isAlcoholic)} as List
+            recipesByUser = (party?.contributions as List).findAll {!it.shareWithCommunity && it?.name?.matches(Pattern.compile(matchString, Pattern.CASE_INSENSITIVE)) && (!it.isAlcoholic)} as List
+        } else {
+            items = Item?.findAllByNameIlike(matchString)?.findAll {it?.shareWithCommunity} as List
+            matchString = matchString.replace("%", ".*")
+            itemsByUser = party?.ingredients?.findAll {it?.name?.matches(Pattern.compile(matchString, Pattern.CASE_INSENSITIVE))} as List
+            recipesByUser = (party?.contributions as List).findAll {!it.shareWithCommunity && it?.name?.matches(Pattern.compile(matchString, Pattern.CASE_INSENSITIVE))} as List
+        }
         totalItems = items + itemsByUser + recipesByUser
         return totalItems.sort {it.name}
     }

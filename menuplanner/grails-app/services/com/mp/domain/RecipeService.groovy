@@ -1,15 +1,12 @@
 package com.mp.domain
 
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
-import jxl.WorkbookSettings
-import org.codehaus.groovy.grails.commons.ApplicationHolder
-import jxl.Workbook
-import jxl.Sheet
 import static com.mp.MenuConstants.*
 
 
 class RecipeService {
 
+    static config = ConfigurationHolder.config
     boolean transactional = true
 
     public boolean deleteRecipe(Recipe recipe, Party user) {
@@ -26,13 +23,17 @@ class RecipeService {
     }
 
     public List<Recipe> getFilteredRecipeList(Integer max = 15, Long offset = 0) {
-        Set<Recipe> currentUserRecipes = LoginCredential.currentUser?.party?.contributions
+        Party currentUser = LoginCredential.currentUser?.party
+        Set<Recipe> currentUserRecipes = currentUser?.contributions
         List<Recipe> recipes = Recipe.createCriteria().list {
             or {
                 eq('shareWithCommunity', true)
                 if (currentUserRecipes) {
                     'in'('id', currentUserRecipes*.id)
                 }
+            }
+            if (!currentUser.showAlcoholicContent) {
+                eq('isAlcoholic', false)
             }
             maxResults(max)
             firstResult(offset.toInteger())
@@ -41,13 +42,17 @@ class RecipeService {
     }
 
     public Integer getFilteredRecipeCount() {
-        Set<Recipe> currentUserRecipes = LoginCredential.currentUser?.party?.contributions
+        Party currentUser = LoginCredential.currentUser?.party
+        Set<Recipe> currentUserRecipes = currentUser?.contributions
         Integer count = Recipe.createCriteria().count {
             or {
                 eq('shareWithCommunity', true)
                 if (currentUserRecipes) {
                     'in'('id', currentUserRecipes*.id)
                 }
+            }
+            if (!currentUser.showAlcoholicContent) {
+                eq('isAlcoholic', false)
             }
         }
         return count
@@ -62,6 +67,9 @@ class RecipeService {
             or {
                 eq('shareWithCommunity', true)
                 'in'('id', currentUserItems*.id)
+            }
+            if (!currentParty.showAlcoholicContent) {
+                eq('isAlcoholic', false)
             }
             maxResults(max)
             firstResult(offset.toInteger())
@@ -78,6 +86,9 @@ class RecipeService {
             or {
                 eq('shareWithCommunity', true)
                 'in'('id', currentUserItems*.id)
+            }
+            if (!currentParty.showAlcoholicContent) {
+                eq('isAlcoholic', false)
             }
         }
         return count
@@ -109,10 +120,45 @@ class RecipeService {
         }
         return newRecipeIngredients
     }
+
+    boolean isRecipeAlcoholic(Long recipeId) {
+        Boolean result = false
+        Recipe recipe1 = Recipe.get(recipeId)
+        String recipeString = getDetailRecipeString(recipe1)
+        List<String> alcoholicStrings = config.alcoholicContentList ? config.alcoholicContentList : []
+        alcoholicStrings = alcoholicStrings*.toLowerCase()
+        result = alcoholicStrings.any {
+            def pattern = /\b${it}\b/
+            def matcher = recipeString =~ pattern
+            return matcher.getCount() ? true : false
+        }
+        return result
+    }
+
+    String getDetailRecipeString(Recipe recipe) {
+        List<String> allStrings = []
+        String detailedString = ''
+        String name = recipe.toString()
+        allStrings.add(name)
+        allStrings.add(recipe?.ingredientsString)
+        allStrings.add(recipe?.serveWithString)
+        allStrings.add(recipe?.subCategoriesString)
+        allStrings.add(recipe?.aislesString)
+        allStrings.add(recipe?.preparationMethodString)
+        if (recipe?.directions?.size()) {
+            allStrings.add(recipe?.directions?.join(','))
+        }
+        if (recipe?.description) {
+            allStrings.add(recipe?.description)
+        }
+        detailedString = allStrings.join(',')
+        return detailedString.toLowerCase()
+    }
 }
 
 class RecipeCO {
     static config = ConfigurationHolder.config
+    def recipeService
 
     RecipeCO() {} //constructor
     Long imageId
@@ -169,6 +215,7 @@ class RecipeCO {
         shareWithCommunity = recipe?.shareWithCommunity
         makesServing = recipe?.servings
         serveWithItems = (recipe?.items) ? (recipe?.items*.name) : []
+        isAlcoholic = recipe?.isAlcoholic
 
 
         preparationUnitId = recipe?.preparationTime?.unit?.id
@@ -265,21 +312,12 @@ class RecipeCO {
         })
     }
 
-//    public Recipe updateRecipe(List<String> elementNames, List<String> serveWithElements) {
-
     public Recipe updateRecipe() {
         Recipe recipe = Recipe.get(id)
         recipe.name = name
         recipe.description = description
         recipe.shareWithCommunity = shareWithCommunity
-//        List<String> elementsFromList = alcoholicContentList()
-//        elementsFromList.each {String name ->
-//            if (name) {
-//                if (name.toLowerCase() in elementNames || name in serveWithElements) {
-//                    recipe.isAlcoholic = true
-//                }
-//            }
-//        }
+        recipe.isAlcoholic = isAlcoholic
         recipe.servings = makesServing
         if (difficulty) {
             recipe.difficulty = RecipeDifficulty."${difficulty}"
@@ -307,12 +345,13 @@ class RecipeCO {
 
         recipe.s()
         attachImage(recipe, selectRecipeImagePath)
+        if (!recipe.isAlcoholic) {
+            recipe.isAlcoholic = recipeService.isRecipeAlcoholic(recipe?.id)
+        }
         recipe.s()
 
         return recipe
     }
-
-//    public Recipe convertToRecipe(Party byUser, List<String> elementNames, List<String> serveWithElements) {
 
     public Recipe convertToRecipe(Party byUser) {
         Recipe recipe = new Recipe()
@@ -324,15 +363,7 @@ class RecipeCO {
         recipe.difficulty = RecipeDifficulty."${difficulty}"
         recipe.preparationTime = makeTimeQuantity(preparationTime, preparationUnitId)
         recipe.cookingTime = makeTimeQuantity(cookTime, cookUnitId)
-
-//        List<String> elements = alcoholicContentList()
-//        elements.each {String name ->
-//            if (name) {
-//                if (name.toLowerCase() in elementNames || name in serveWithElements) {
-//                    recipe.isAlcoholic = true
-//                }
-//            }
-//        }
+        recipe.isAlcoholic = isAlcoholic
         addSubCategoriesToRecipe(recipe, subCategoryIds)
         addDirectionsToRecipe(recipe, directions)
         addIngredientsToRecipe(recipe, ingredientQuantities, ingredientUnitIds, hiddenIngredientProductNames, hiddenIngredientAisleNames, hiddenIngredientPreparationMethodNames)
@@ -341,8 +372,10 @@ class RecipeCO {
 
         recipe.s()
         attachImage(recipe, selectRecipeImagePath)
+        if (!recipe.isAlcoholic) {
+            recipe.isAlcoholic = recipeService.isRecipeAlcoholic(recipe?.id)
+        }
         recipe.s()
-
         return recipe
     }
 
@@ -525,22 +558,4 @@ class RecipeCO {
         }
         return preparationMethod
     }
-
-//    public List<String> alcoholicContentList() {
-//        String filterFileName = "/bootstrapData/alcoholic_filtering.xls"
-//        File filterExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath(filterFileName))
-//        List<String> elements = []
-//        WorkbookSettings workbookSettings
-//        Workbook workbook
-//        workbookSettings = new WorkbookSettings();
-//        workbookSettings.setLocale(new Locale("en", "EN"));
-//        workbook = Workbook.getWorkbook(filterExcelFile, workbookSettings);
-//        workbook?.sheets?.each {Sheet sheet ->
-//            sheet.rows.times {Integer index ->
-//                String valueOne = sheet.getCell(0, index).contents.toString().trim()
-//                elements.add(valueOne)
-//            }
-//        }
-//        return elements
-//    }
 }

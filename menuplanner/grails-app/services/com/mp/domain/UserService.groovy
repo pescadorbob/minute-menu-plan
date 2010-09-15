@@ -109,8 +109,8 @@ class UserService {
         String selectQuery = "select product_id from party_product where party_ingredients_id=${partyId} and not product_id in ( select product_id from party_product where party_ingredients_id !=${partyId}) and not product_id in (select ingredient_id from recipe_ingredient)"
         String deleteQuery = "delete from recipe_item where item_id in (${selectQuery})"
         sql.executeUpdate(deleteQuery)
-            deleteQuery = "delete from item where id in (${selectQuery})"
-            sql.executeUpdate(deleteQuery)
+        deleteQuery = "delete from item where id in (${selectQuery})"
+        sql.executeUpdate(deleteQuery)
 
         def aisleIdsToBeDeleted = []
         sql.eachRow("select aisle_id from party_aisle where party_aisles_id=${partyId} and not aisle_id in ( select aisle_id from party_aisle where party_aisles_id !=${partyId});", {
@@ -150,6 +150,7 @@ class UserCO {
     Date joiningDate
     List<String> roles = []
     boolean isEnabled
+    boolean showAlcoholicContent = false
 
     String id
     def selectUserImagePath
@@ -173,6 +174,7 @@ class UserCO {
         }
         joiningDate = party?.joiningDate
         isEnabled = party?.isEnabled
+        showAlcoholicContent = party?.showAlcoholicContent
 
         roles = party?.roleTypes*.name()
 
@@ -260,6 +262,7 @@ class UserCO {
             subscriber.introduction = introduction
             attachImage(subscriber, selectUserImagePath)
             subscriber.party = party
+            subscriber.party.showAlcoholicContent = showAlcoholicContent
             subscriber.s()
         }
 
@@ -304,6 +307,7 @@ class UserCO {
             subscriber.mouthsToFeed = mouthsToFeed
             subscriber.introduction = introduction
             subscriber.party = party
+            subscriber.party.showAlcoholicContent = showAlcoholicContent
             attachImage(subscriber, selectUserImagePath)
             party.addToRoles(subscriber)
             party.s()

@@ -52,6 +52,7 @@
                             <li><span><strong>City :</strong></span><label>${party?.subscriber?.city ?: ''}</label></li>
                             <li><span><strong>Mouths to Feed :</strong></span><label>${party?.subscriber?.mouthsToFeed}</label></li>
                             <li><span><strong>Something about yourself :</strong></span><label>${party?.subscriber?.introduction}</label></li>
+                            <li><span><strong>Show Alcoholic Content :</strong></span><label>${party?.showAlcoholicContent ? "Yes" : "No"}</label></li>
                         </g:if>
                     %{--<li><span>&nbsp;</span>--}%
                     %{--<label>--}%

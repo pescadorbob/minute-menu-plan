@@ -283,4 +283,106 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
             fail("Unexpected Ingredient found in Ingredient list...")
         }
     }
+
+    void test_Add_Recipe_With_AlcoholicName_Recipe_Invisible_To_User() {
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginToHomepage(loginFormData)
+        Integer initialCount = Recipe.count()
+        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
+        createRecipeData.name = "Alcohol"
+        createRecipe(createRecipeData)
+        assertTitleContains 'Minute Menu Plan : Show Recipe '
+        Integer finalCount = Recipe.count()
+        assertEquals('Unable to create Recipe', finalCount, initialCount + 1)
+        byClass('recipeListFT').click()
+        List<String> riInList = []
+        byId('rightContainer').getChildElements().each {
+            riInList.add(it.asText())
+        }
+        if (riInList.contains(createRecipeData.name)) {
+            fail("Unexpected Recipe found in Recipe list...")
+        }
+    }
+
+    void test_Add_Recipe_With_AlcoholicIngredient_Recipe_Invisible_To_User() {
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginToHomepage(loginFormData)
+        Integer initialCount = Recipe.count()
+        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
+        createRecipeData.name = "New_Test_Recipe_${System.currentTimeMillis()}"
+        createRecipeData.productName_1 = "Vodka"
+        createRecipe(createRecipeData)
+        assertTitleContains 'Minute Menu Plan : Show Recipe '
+        Integer finalCount = Recipe.count()
+        assertEquals('Unable to create Recipe', finalCount, initialCount + 1)
+        byClass('recipeListFT').click()
+        List<String> riInList = []
+        byId('rightContainer').getChildElements().each {
+            riInList.add(it.asText())
+        }
+        if (riInList.contains(createRecipeData.name)) {
+            fail("Unexpected Recipe found in Recipe list...")
+        }
+    }
+
+    void test_Add_Recipe_With_Alcoholic_Content_Checked_Recipe_Invisible_To_User() {
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginToHomepage(loginFormData)
+        Integer initialCount = Recipe.count()
+        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
+        createRecipeData.name = "New_Test_Check_Recipe_${System.currentTimeMillis()}"
+        createRecipe(createRecipeData, true)
+        assertTitleContains 'Minute Menu Plan : Show Recipe '
+        Integer finalCount = Recipe.count()
+        assertEquals('Unable to create Recipe', finalCount, initialCount + 1)
+        byClass('recipeListFT').click()
+        List<String> riInList = []
+        byId('rightContainer').getChildElements().each {
+            riInList.add(it.asText())
+        }
+        if (riInList.contains(createRecipeData.productName_1)) {
+            fail("Unexpected Recipe found in Recipe list...")
+        }
+    }
+
+    // This test won't run independently...it depends on the data produced by above tests
+
+    void test_Add_AlcoholicRecipe_Invisible_To_User_Change_User_Preference_Recipe_Visible() {
+        javaScriptEnabled = false
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginToHomepage(loginFormData)
+        Integer initialCount = Recipe.count()
+        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
+        createRecipeData.name = "Test_Check_Recipe_${System.currentTimeMillis()}"
+        createRecipe(createRecipeData, true)
+        assertTitleContains 'Minute Menu Plan : Show Recipe '
+        Integer finalCount = Recipe.count()
+        assertEquals('Unable to create Recipe', finalCount, initialCount + 1)
+        byClass('recipeListFT').click()
+        List<String> riInList = []
+        byId('rightContainer').getChildElements().each {
+            riInList.add(it.asText())
+        }
+        if (riInList.contains(createRecipeData.productName_1)) {
+            fail("Unexpected Recipe found in Recipe list...")
+        }
+        logout()
+
+        loginBySuperAdmin()
+        UserLogin userLogin = UserLogin.findByEmail(loginFormData.email)
+        get("/user/show/${userLogin?.party?.id}")
+        byClass('editUserButtonFT').click()
+        byId('showAlcoholicContent').click()
+        byClass('updateUserButtonFT').click()
+        redirectEnabled = false
+        followRedirect()
+        logout()
+
+        loginToHomepage(loginFormData)
+        get('/recipe/list?offset=30&max=15&query=')
+        if (!byId('draggableSearchItem_1').asText().contains(createRecipeData.name)) {
+            fail("Expected Recipe not found in Recipe list...")
+        }
+    }
+
 }
