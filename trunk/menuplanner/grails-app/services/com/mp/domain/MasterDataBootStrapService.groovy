@@ -13,6 +13,7 @@ import jxl.Sheet
 class MasterDataBootStrapService implements ApplicationContextAware {
 
     boolean transactional = false
+    static config = ConfigurationHolder.config
 
     public void populateSystemOfUnits() {
         SystemOfUnit systemOfUnitsUsa = new SystemOfUnit(systemName: SYSTEM_OF_UNIT_USA, standardizationBody: SYSTEM_OF_UNIT_USA_STANDARDIZATION_BODY).s()
@@ -257,4 +258,25 @@ class MasterDataBootStrapService implements ApplicationContextAware {
         println "Time Taken: " + (d2.time - d1.time) / 1000
     }
 
+    public List<String> populateAlcoholicContentList() {
+        String filterFileName = "/bootstrapData/alcoholic_filtering.xls"
+        File filterExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath(filterFileName))
+        List<String> elements = []
+        WorkbookSettings workbookSettings
+        Workbook workbook
+        workbookSettings = new WorkbookSettings();
+        workbookSettings.setLocale(new Locale("en", "EN"));
+        workbook = Workbook.getWorkbook(filterExcelFile, workbookSettings);
+        workbook?.sheets?.each {Sheet sheet ->
+            sheet.rows.times {Integer index ->
+                String valueOne = sheet.getCell(0, index).contents.toString().trim()
+                if (valueOne) {
+                    elements.add(valueOne)
+                }
+            }
+        }
+        println 'Alcoholic elements:-' + elements
+        config.alcoholicContentList = elements
+        return elements
+    }
 }

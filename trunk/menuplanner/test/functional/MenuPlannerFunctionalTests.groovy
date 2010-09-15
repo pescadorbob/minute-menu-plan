@@ -40,7 +40,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
     *  Helper method to create a new recipe
     */
 
-    void createRecipe(CreateRecipeData createRecipeData) {
+    void createRecipe(CreateRecipeData createRecipeData, Boolean isAlcoholic = false) {
         javaScriptEnabled = false
         get("/recipe/create")
         form('formCreateRecipe') {
@@ -54,6 +54,9 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
             byId('serveWithItems1').setValue(createRecipeData.serveWith_1)
             byId('serveWithItems2').setValue(createRecipeData.serveWith_2)
             byId('txtCalories').setValue(createRecipeData.calories)
+            if (isAlcoholic) {
+                byId('isAlcoholic').click()
+            }
             click("_action_save")
         }
     }

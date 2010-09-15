@@ -1519,4 +1519,13 @@
             <column name="owned_by_user" valueBoolean="false" />
         </update>
     </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-179">
+        <update tableName="party">
+            <column name="show_alcoholic_content" valueBoolean="true" />
+        </update>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-180">
+        <dropColumn tableName="recipe" columnName="is_alcoholic" />
+    </changeSet>
+    
 </databaseChangeLog>

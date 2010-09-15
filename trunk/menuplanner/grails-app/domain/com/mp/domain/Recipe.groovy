@@ -10,11 +10,10 @@ import org.grails.rateable.*
 class Recipe extends Item implements Commentable, Rateable {
 
     static searchable = true
-    
+
     static config = ConfigurationHolder.config
 
     RecipeDifficulty difficulty
-    Boolean isAlcoholic = false
     Image image
     Integer servings
 
@@ -44,13 +43,41 @@ class Recipe extends Item implements Commentable, Rateable {
         image?.delete(flush: true)
     }
 
-    String getIngredientsString(){
-        return (ingredients ? ingredients.collect {it.ingredient.name.toString()}.join(", ") : '')
+    String getIngredientsString() {
+        return (ingredients ? ingredients.collect {it.ingredient.name.toString()}.join(",") : '')
+    }
+
+    String getAislesString() {
+        String aisleString = ''
+        if (ingredients) {
+            List<String> aisleList = []
+            ingredients.each {RecipeIngredient ingredient ->
+                if (ingredient?.aisle) {
+                    aisleList.add(ingredient?.aisle?.toString())
+                }
+            }
+            aisleString = aisleList.join(',')
+        }
+        return aisleString
+    }
+
+    String getPreparationMethodString() {
+        String preparationString = ''
+        if (ingredients) {
+            List<String> pList = []
+            ingredients.each {RecipeIngredient ingredient ->
+                if (ingredient?.preparationMethod) {
+                    pList.add(ingredient?.preparationMethod?.toString())
+                }
+            }
+            preparationString = pList.join(',')
+        }
+        return preparationString
     }
 
     String getFavouriteForUsersString() {
         List<Party> users = favouriteForUsers
-        String s = (users ? users.collect {it.id.toString()}.join(", ") : '')
+        String s = (users ? users.collect {it.id.toString()}.join(",") : '')
         return s
     }
 
@@ -66,7 +93,7 @@ class Recipe extends Item implements Commentable, Rateable {
         return users
     }
 
-    String getContributorsString(){
+    String getContributorsString() {
         String searchString = ''
         if (!config.bootstrapMode) {
             Party p = contributor
@@ -102,11 +129,11 @@ class Recipe extends Item implements Commentable, Rateable {
         if (!servings) {servings = 1}
     }
 
-    static transients = ['ingredientsString', 'contributorsString', 'favouriteForUsers', 'favouriteForUsersString', 'cookingTimeValue', 'totalTimeValue', 'prepTimeValue', 'caloriesString', 'subCategoriesString', 'contributor', 'imageDir']
+    static transients = ['preparationMethodString', 'aislesString', 'serveWithString', 'ingredientsString', 'contributorsString', 'favouriteForUsers', 'favouriteForUsersString', 'cookingTimeValue', 'totalTimeValue', 'prepTimeValue', 'caloriesString', 'subCategoriesString', 'contributor', 'imageDir']
     static hasMany = [ingredients: RecipeIngredient, directions: String, nutrients: RecipeNutrient, items: Item, subCategories: SubCategory]
 
     String getSubCategoriesString() {
-        return (subCategories ? subCategories : '')
+        return (subCategories ? subCategories.collect {it.name}.join(", ") : '')
     }
 
     String getCaloriesString() {
@@ -131,6 +158,10 @@ class Recipe extends Item implements Commentable, Rateable {
         Quantity tTime = totalTime
         Long time = (tTime?.value) ? (tTime?.value)?.toLong() : 0L
         return NumberTools.longToString(time)
+    }
+
+    String getServeWithString() {
+        return (items ? items.collect {it.name.toString()}.join(",") : '')
     }
 
     def getTotalTime() {

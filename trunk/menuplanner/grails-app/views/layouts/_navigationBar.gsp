@@ -4,7 +4,7 @@
         <g:if test="${LoginCredential.currentUser}">
             <mp:menuPlanDropdown/>
             <mp:shoppingListDropDown/>
-            <li><g:link controller="recipe" action="list" class="browse">Browse&nbsp;Recipes</g:link></li>
+            <li><g:link controller="recipe" action="list" class="browse recipeListFT">Browse&nbsp;Recipes</g:link></li>
             <g:if test="${((params.controller =='menuPlan') && (params.action in ['show','saveAndUpdate']))}">
             </g:if>
             <mp:loggedUserDropDown/>

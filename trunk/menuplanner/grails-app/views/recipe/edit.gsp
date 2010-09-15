@@ -33,6 +33,7 @@
                         <g:render template="/recipe/cookingSteps" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
                         <g:render template="/recipe/serveWith" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
                         <g:render template="/recipe/nutrientFacts" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
+                        <g:render template="/recipe/usesAlcohol" model="[recipeCO: recipeCO]"/>
                     </div>
                     <div class="bottom-shadow">
                         <label>&nbsp;</label>

@@ -95,7 +95,8 @@ class MenuPlanController {
     def search = {
         Long offset = params.offset ? params.long('offset') : 0
         List<Item> results = []
-        Long currentUserId = LoginCredential.currentUser.party.id
+        Party currentUser = LoginCredential.currentUser.party
+        Long currentUserId = currentUser?.id
         List<String> allQueries = []
         List<String> subCategoriesString = []
         String subQueryString
@@ -140,7 +141,7 @@ class MenuPlanController {
             query = query.substring(1, query.length() - 1)
         }
         query += " (shareWithCommunity:true OR contributorsString:${NumberTools.longToString(currentUserId)})"
-
+        if (!currentUser.showAlcoholicContent) {query += "  isAlcoholic:false)"}
 
         if (params.searchByDomainName == 'Item') {
             searchList = Item.search([reload: true, max: 4, offset: offset]) {
@@ -148,8 +149,8 @@ class MenuPlanController {
             }
             results = searchList?.results
             total = searchList?.total
-            if (!results) {
-                String newQuery = recipeService.fuzzySearchQuery(query, searchKeyword)
+            if (!results && keyword) {
+                String newQuery = recipeService.fuzzySearchQuery(query, keyword)
                 searchList = Item.search([reload: true, max: 4, offset: offset]) {
                     must(queryString(newQuery))
                 }
@@ -164,7 +165,7 @@ class MenuPlanController {
             results = searchList?.results
             total = searchList?.total
             if (!results && keyword) {
-                String newQuery = recipeService.fuzzySearchQuery(query, searchKeyword)
+                String newQuery = recipeService.fuzzySearchQuery(query, keyword)
                 searchList = Recipe.search([reload: true, max: 4, offset: offset]) {
                     must(queryString(newQuery))
                 }

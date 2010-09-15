@@ -16,6 +16,10 @@ class ItemTests extends GrailsUnitTestCase {
         party1.save()
         Party party2 = new Party(name: "party_2")
         party2.save()
+        Party partyAlcoholic = new Party(name: "party_Alcoholic", showAlcoholicContent: true)
+        partyAlcoholic.save()
+        Party partyNonAlcoholic = new Party(name: "party_Alcoholic", showAlcoholicContent: false)
+        partyNonAlcoholic.save()
         Item item = new Item(name: "TestItem")
         item.save()
     }
@@ -120,11 +124,58 @@ class ItemTests extends GrailsUnitTestCase {
         assertEquals "Unable to create Instances for user", 40, totalItems.size()
     }
 
-    void createRecipeInstances(Integer count, Party party, Boolean shareWithCommunity = false) {
+
+    void test_getItemsForUser_All_Items_Alcoholic() {
+        Party partyAlcoholic = Party.get(3)
+        createProductInstances(10, partyAlcoholic, true)
+        createItemInstances(20, true)
+        List<Item> totalItems = Item.getItemsForUser(partyAlcoholic)
+        assertEquals "Unable to get Items for user", 30, totalItems.size()
+    }
+
+    void test_getItemsForUser_All_Items_Non_Alcoholic() {
+        Party partyAlcoholic = Party.get(3)
+        createProductInstances(10, partyAlcoholic, false)
+        createItemInstances(20, true)
+        List<Item> totalItems = Item.getItemsForUser(partyAlcoholic)
+        assertEquals "Unable to get Items for user", 30, totalItems.size()
+    }
+
+    void test_getItemsForUser_All_Items_Alcoholic_Party_Non_Alcoholic() {
+        Party partyNonAlcoholic = Party.get(4)
+        createProductInstances(10, partyNonAlcoholic, true)
+        createItemInstances(20, true, true)
+        List<Item> totalItems = Item.getItemsForUser(partyNonAlcoholic)
+        assertEquals "Got wrong items for user", 0, totalItems.size()
+    }
+
+    void test_getItemsForUser_All_Items_NonAlcoholic_Party_NonAlcoholic() {
+        Party partyNonAlcoholic = Party.get(4)
+        createProductInstances(10, partyNonAlcoholic, false)
+        createItemInstances(20, true, false)
+        List<Item> totalItems = Item.getItemsForUser(partyNonAlcoholic)
+        assertEquals "Got wrong items for user", 30, totalItems.size()
+    }
+
+    void test_getItemsForUser_Recipe_Alcoholic_Party_NonAlcoholic() {
+        Party partyNonAlcoholic = Party.get(4)
+        createRecipeInstances(10, partyNonAlcoholic, true, true)
+        List<Item> totalItems = Item.getItemsForUser(partyNonAlcoholic)
+        assertEquals "Got wrong recipes for user", 0, totalItems.size()
+    }
+
+    void test_getItemsForUser_Recipe_Non_Alcoholic_Party_NonAlcoholic() {
+        Party partyNonAlcoholic = Party.get(4)
+        createRecipeInstances(10, partyNonAlcoholic, true, false)
+        List<Item> totalItems = Item.getItemsForUser(partyNonAlcoholic)
+        assertEquals "Got wrong recipes for user", 10, totalItems.size()
+    }
+
+    void createRecipeInstances(Integer count, Party party, Boolean shareWithCommunity = false, Boolean containsAlcohol = false) {
         (1..count).each {
             Item item = Item.get(1)
             RecipeIngredient recipeIngredient = new RecipeIngredient(ingredient: item)
-            Recipe recipe = new Recipe(name: "testRecipe_${it}", servings: 2, ingredients: [recipeIngredient], directions: ['How To Cook'])
+            Recipe recipe = new Recipe(name: "testRecipe_${it}", servings: 2, ingredients: [recipeIngredient], directions: ['How To Cook'], isAlcoholic: containsAlcohol)
             if (shareWithCommunity) {
                 recipe.shareWithCommunity = true
             }
@@ -138,9 +189,9 @@ class ItemTests extends GrailsUnitTestCase {
         }
     }
 
-    void createProductInstances(Integer count, Party party) {
+    void createProductInstances(Integer count, Party party, Boolean containsAlcohol = false) {
         (1..count).each {
-            Product product = new Product(name: "Product_${it}")
+            Product product = new Product(name: "Product_${it}", isAlcoholic: containsAlcohol)
             product.save()
             party.ingredients += product
         }
@@ -155,9 +206,9 @@ class ItemTests extends GrailsUnitTestCase {
         }
     }
 
-    void createItemInstances(Integer count, Boolean shareWithCommunity = false) {
+    void createItemInstances(Integer count, Boolean shareWithCommunity = false, Boolean containsAlcohol = false) {
         (1..count).each {
-            Item item = new Item(name: "Item_${it}")
+            Item item = new Item(name: "Item_${it}", isAlcoholic: containsAlcohol)
             if (shareWithCommunity) {
                 item.shareWithCommunity = true
             }

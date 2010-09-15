@@ -7,6 +7,7 @@ class Party {
     Date joiningDate
     FacebookAccount facebookAccount
     Boolean isEnabled = true
+    Boolean showAlcoholicContent = false
 
     Set<PartyRole> roles = []
     Set<LoginCredential> loginCredentials = []

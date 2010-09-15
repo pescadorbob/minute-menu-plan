@@ -10,6 +10,7 @@ import org.apache.lucene.document.NumberTools
 class RecipeController {
     static config = ConfigurationHolder.config
     def recipeService
+    def masterDataBootStrapService
 
     static allowedMethods = [save: "POST", update: "POST"]
 
@@ -49,7 +50,8 @@ class RecipeController {
     }
 
     def search = {
-        Long currentUserId = LoginCredential.currentUser.party.id
+        Party currentUser = LoginCredential.currentUser.party
+        Long currentUserId = currentUser?.id
         List<String> allQueries = []
         List<String> subCategoriesString = []
         String subQueryString
@@ -92,6 +94,7 @@ class RecipeController {
         }
         Integer total
         query += " (shareWithCommunity:true OR contributorsString:${NumberTools.longToString(currentUserId)})"
+        if (!currentUser.showAlcoholicContent) { query += "  isAlcoholic:false" }
         def searchList = Recipe.search([reload: true, max: 15, offset: params.offset ? params.long('offset') : 0]) {
             must(queryString(query))
         }
@@ -152,11 +155,6 @@ class RecipeController {
 
     def update = {RecipeCO recipeCO ->
         if (recipeCO.validate()) {
-//            List<String> elementNames = params.list('hiddenIngredientProductNames')
-//            List<String> serveWithNames = params.list('serveWithItems')
-//            elementNames = elementNames*.toLowerCase()
-//            serveWithNames = serveWithNames*.toLowerCase()
-//            recipeCO.updateRecipe(elementNames, serveWithNames)
             recipeCO.updateRecipe()
             redirect(action: 'show', id: recipeCO?.id)
         } else {
@@ -173,11 +171,6 @@ class RecipeController {
     def save = {RecipeCO recipeCO ->
         if (recipeCO.validate()) {
             LoginCredential loggedUser = LoginCredential.currentUser
-//            List<String> elementNames = params.list('hiddenIngredientProductNames')
-//            List<String> serveWithNames = params.list('serveWithItems')
-//            elementNames = elementNames*.toLowerCase()
-//            serveWithNames = serveWithNames*.toLowerCase()
-//            Recipe recipe = recipeCO.convertToRecipe(loggedUser?.party, elementNames, serveWithNames)
             Recipe recipe = recipeCO.convertToRecipe(loggedUser?.party)
             loggedUser?.party?.addToContributions(recipe)
             loggedUser.party?.s()
@@ -283,5 +276,10 @@ class RecipeController {
         MenuPlan menuPlan = MenuPlan.get(params.id)
         [menuPlan: menuPlan]
 
+    }
+
+    def refreshAlcoholicContentList = {
+        List<String> elements = masterDataBootStrapService.populateAlcoholicContentList()
+        render "Alcoholic Items List Updated"
     }
 }

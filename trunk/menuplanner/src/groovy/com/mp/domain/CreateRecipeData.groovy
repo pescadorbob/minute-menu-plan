@@ -13,14 +13,14 @@ class CreateRecipeData {
 
     public static CreateRecipeData getDefaultCreateRecipeData() {
         CreateRecipeData createRecipeData = new CreateRecipeData()
-        createRecipeData.name = 'New Recipe'
+        createRecipeData.name = "Recipe-${System.currentTimeMillis().toString()}"
         createRecipeData.step_1 = 'Step One'
         createRecipeData.productName_1 = 'Product One'
         createRecipeData.cookTime = ''
         createRecipeData.prepTime = ''
         createRecipeData.servings = 2
-        createRecipeData.serveWith_1 = "Item-${System.currentTimeMillis().toString().substring(1, 5)}"
-        createRecipeData.serveWith_2 = "Item-${System.currentTimeMillis().toString().substring(1, 4)}"
+        createRecipeData.serveWith_1 = "Item_1-${System.currentTimeMillis().toString()}"
+        createRecipeData.serveWith_2 = "Item_2-${System.currentTimeMillis().toString()}"
         createRecipeData.calories = "350"
         return createRecipeData
     }

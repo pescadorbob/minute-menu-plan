@@ -19,7 +19,7 @@
             <label>
                 <span id="displayEmailAsLabel"></span>
                 <input name="email" type="text" class="inpbox ${hasErrors(bean: userCO, field: 'email', 'errors')}" value="${(userCO) ? (userCO.email) : ''}" autocomplete="false"/>
-                <input class="passwordSection" type="button" id="btnChangePassword"  name="changePassword" value="Change Password" onclick="ChangePassword()" style="display:none;"/>
+                <input class="passwordSection" type="button" id="btnChangePassword" name="changePassword" value="Change Password" onclick="ChangePassword()" style="display:none;"/>
             </label>
         </li>
         <li class="passwordSection">
@@ -30,21 +30,24 @@
         </li>
         <li class="passwordSection">
             <span><strong>Confirm Password :</strong></span>
-            <label><input name="confirmPassword" type="password"  autocomplete="false" class="inpbox  ${hasErrors(bean: userCO, field: 'confirmPassword', 'errors')}" value="${userCO?.confirmPassword}"/>&nbsp; Same as password</label>
+            <label><input name="confirmPassword" type="password" autocomplete="false" class="inpbox  ${hasErrors(bean: userCO, field: 'confirmPassword', 'errors')}" value="${userCO?.confirmPassword}"/>&nbsp; Same as password</label>
         </li>
         <li><span><strong>Name :</strong></span>
             <label><input name="name" type="text" class="inpbox  ${hasErrors(bean: userCO, field: 'name', 'errors')}" value="${userCO?.name}"/>&nbsp; Public name displayed on recipes</label>
         </li>
         <g:if test="${party?.subscriber}">
-        <li><span><strong>City :</strong></span>
-            <label><input name="city" type="text" class="inpbox  ${hasErrors(bean: userCO, field: 'city', 'errors')}" value="${userCO?.city}"/>&nbsp; City displayed on recipes</label>
-        </li>
-        <li><span><strong>Mouths to Feed :</strong></span>
-            <label><input name="mouthsToFeed" type="text" class="inpboxSmall  ${hasErrors(bean: userCO, field: 'mouthsToFeed', 'errors')}" value="${userCO?.mouthsToFeed}"/></label>
-        </li>
-        <li><span><strong>Something about yourself :</strong></span>
-            <label><g:textArea name="introduction" value="${userCO?.introduction}" class="txtarea  ${hasErrors(bean:userCO,field:'introduction', 'errors')}" rows="4" cols="22"/>&nbsp; Public</label>
-        </li>
+            <li><span><strong>City :</strong></span>
+                <label><input name="city" type="text" class="inpbox  ${hasErrors(bean: userCO, field: 'city', 'errors')}" value="${userCO?.city}"/>&nbsp; City displayed on recipes</label>
+            </li>
+            <li><span><strong>Mouths to Feed :</strong></span>
+                <label><input name="mouthsToFeed" type="text" class="inpboxSmall  ${hasErrors(bean: userCO, field: 'mouthsToFeed', 'errors')}" value="${userCO?.mouthsToFeed}"/></label>
+            </li>
+            <li><span><g:checkBox name="showAlcoholicContent" value="${userCO?.showAlcoholicContent}"/></span>
+                <label><strong>Opt-in for Content Featuring Alcohol</strong></label>
+            </li>
+            <li><span><strong>Something about yourself :</strong></span>
+                <label><g:textArea name="introduction" value="${userCO?.introduction}" class="txtarea  ${hasErrors(bean:userCO,field:'introduction', 'errors')}" rows="4" cols="22"/>&nbsp; Public</label>
+            </li>
         </g:if>
     %{--<li><span>&nbsp;</span>--}%
     %{--<label>--}%

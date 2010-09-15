@@ -14,11 +14,12 @@ import org.apache.commons.lang.StringUtils
 class BootStrap {
 
     def dataSource
-	def grailsApplication
+    def grailsApplication
     def bootstrapService
     def masterDataBootStrapService
     def excelService
     def searchableService
+    def recipeService
     static config = ConfigurationHolder.config
 
     def init = {servletContext ->
@@ -107,9 +108,9 @@ class BootStrap {
             println "Populated Quick Fills"
         }
 
-        Aisle.list().each{Aisle aisle ->
+        Aisle.list().each {Aisle aisle ->
             String capitalizedName = StringUtils.capitaliseAllWords(aisle.name)
-            if(capitalizedName != aisle.name){
+            if (capitalizedName != aisle.name) {
                 aisle.name = capitalizedName
                 aisle.s()
             }
@@ -119,9 +120,16 @@ class BootStrap {
             executeLiquibase()
         }
 
+        Recipe.list().each {Recipe recipe ->
+            recipe.isAlcoholic = recipeService.isRecipeAlcoholic(recipe?.id)
+            recipe.s()
+        }
+        Product.list()*.s()
+
         Thread.start {
             searchableService.index()
         }
+
 
         config.bootstrapMode = false
     }
@@ -129,7 +137,7 @@ class BootStrap {
     }
 
     private void executeLiquibase() {
-        
+
         Liquibase liquibase = null
         try {
             def c = dataSource.getConnection()
@@ -139,7 +147,7 @@ class BootStrap {
             def fileOpener = new FileSystemFileOpener()
             def database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(c)
             database.setDefaultSchemaName(c.catalog)
-			String filePath=grailsApplication.isWarDeployed() ? ApplicationHolder.application.parentContext.servletContext.getRealPath("migrations/changelog.xml") : "grails-app/migrations/changelog.xml"
+            String filePath = grailsApplication.isWarDeployed() ? ApplicationHolder.application.parentContext.servletContext.getRealPath("migrations/changelog.xml") : "grails-app/migrations/changelog.xml"
             liquibase = new Liquibase(filePath, fileOpener, database);
             liquibase.update(null)
         }
@@ -151,12 +159,13 @@ class BootStrap {
     }
 
     private void bootstrapMasterData() {
+        masterDataBootStrapService.populateAlcoholicContentList()
         if (!SystemOfUnit.count()) {masterDataBootStrapService.populateSystemOfUnits()}
         if (!Time.count()) {masterDataBootStrapService.populateTimeUnits()}
         if (StandardConversion.count() < 3) {
             masterDataBootStrapService.populateUnitsAndStandardConversions()
         }
-        if(!Unit.findByName(UNIT_EACH)){
+        if (!Unit.findByName(UNIT_EACH)) {
             masterDataBootStrapService.populateNewUnitsAndStandardConversions()
         }
         if (!Nutrient.count()) {masterDataBootStrapService.populateNutrients()}

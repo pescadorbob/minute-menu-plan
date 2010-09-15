@@ -99,6 +99,12 @@
                                         <input name="mouthsToFeed" type="text" class="inpbox  ${hasErrors(bean: userCO, field: 'mouthsToFeed', 'errors')}" value="${userCO?.mouthsToFeed}"/>
                                     </span>
                                 </li>
+                                <li>
+                                    <label></label>
+                                    <span>
+                                        <g:checkBox name="showAlcoholicContent" value="${userCO?.showAlcoholicContent}"/><strong>Opt-in for Content Featuring Alcohol</strong>
+                                    </span>
+                                </li>
 
                             </ul>
                         </div></div>
