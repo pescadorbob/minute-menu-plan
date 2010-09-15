@@ -28,7 +28,6 @@ class UserService {
     }
 
     public Party updateUserFromFacebook(String redirectUrl, String code, Party party) {
-//        party = party?:new Party()
         if (code) {
             Long faceBookToken = code.tokenize("-|")[1]?.toLong()
             if (faceBookToken) {
@@ -37,14 +36,10 @@ class UserService {
                 String token = url.getText()
                 FacebookAccount facebookAccount = (party?.facebookAccount) ? party?.facebookAccount : new FacebookAccount()
                 facebookAccount.uid = faceBookToken
-                println token
-                println "" + (token - "access_token=")
                 facebookAccount.oauthToken = (token - "access_token=")
                 facebookAccount.party = party                
-                facebookAccount.party = party
                 party?.facebookAccount=facebookAccount
                 def subscriber=updateUserInfo(party)
-                println "Party name>>>>>>>>>>>>>>>>>>>>>>>>."+party?.name
                 party.s()
                 if (subscriber){
                     subscriber.s()
@@ -54,7 +49,6 @@ class UserService {
                 return party
             }
         }
-        println "KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKJJJ"
         return null
     }
 
@@ -85,10 +79,7 @@ class UserService {
         if (party?.facebookAccount) {
             URL url = new URL("https://graph.facebook.com/${party?.facebookAccount?.uid}?access_token=${party?.facebookAccount?.oauthToken}&fields=name,location")
             JSONElement response = JSON.parse(url.newReader())
-            println ">>>>>>>>>>>>:response" + response
-            println ">>>>>>>>>>>>:response.name" + response.name
             party?.name = response.name
-            println ">::::::::::::::::::::::::::::::::::::"+ response.name
             if (response?.location?.name) {
                 if (party.subscriber){
                     party.subscriber.city = response?.location?.name
@@ -96,12 +87,10 @@ class UserService {
                     Subscriber subscriber = new Subscriber()
                     subscriber.party = party
                     subscriber.city=response?.location?.name
-//                    subscriber.s()
                     party.addToRoles(subscriber)
                     return subscriber
                 }
             }
-//            party.s()
         }
     }
 

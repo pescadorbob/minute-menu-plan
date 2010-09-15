@@ -191,7 +191,6 @@ class UserController {
             if (params.long('userId')) {
                 render "<script type='text/javascript'>window.opener.facebookConnectSuccess();window.close();</script>"
             } else {
-//                party.addToRoles(party?.subscriber)
                 party.s()
                 session.loggedUserId = party.id.toString()
                 if(party?.facebookAccount){
