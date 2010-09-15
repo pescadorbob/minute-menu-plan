@@ -6,7 +6,7 @@
         <fb:intl>Connect with Facebook</fb:intl>
     </span>
 </a>
-<g:if test="${params.action!='createFreeUser'}">
+<g:if test="${LoginCredential?.currentUser}">
     <span id="mpFacebookConnectSuccess" style="display:none;">Your account has been connected with Facebook!
     <g:render template="/facebook/disconnectFromFacebook" model="[party:LoginCredential.currentUser.party]"/>
 </g:if>
