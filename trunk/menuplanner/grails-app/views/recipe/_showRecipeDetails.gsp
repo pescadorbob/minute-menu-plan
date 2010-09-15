@@ -1,4 +1,4 @@
-<%@ page import="com.mp.domain.Recipe" %>
+<%@ page import="com.mp.domain.LoginCredential; com.mp.domain.Recipe" %>
 <div id="contectElement">
     <ul>
         <li id="leftLiElements">
@@ -41,16 +41,29 @@
                 <mp:image class="recipeImage" size="${imageSize}" id="${recipe?.image?.id}"/>
             </div>
             <br/>
-            <g:link controller="user" action="alterFavorite" name="changeFavorite" id="${recipe?.id}">
-                <span id="showFavorite" style="text-align:right;"><mp:showFavorite recipeId="${recipe?.id}"/></span>
-            </g:link> &nbsp;&nbsp;
-            <span id="showRecipeAbuse" style="text-align:right;"><mp:showRecipeAbuse recipeId="${recipe?.id}"/></span>
+            <g:if test="${LoginCredential.currentUser}">
+                <g:link controller="user" action="alterFavorite" name="changeFavorite" id="${recipe?.id}">
+                    <span id="showFavorite" style="text-align:right;"><mp:showFavorite recipeId="${recipe?.id}"/></span>
+                </g:link> &nbsp;&nbsp;
+                <span id="showRecipeAbuse" style="text-align:right;"><mp:showRecipeAbuse recipeId="${recipe?.id}"/></span>
+            </g:if>
+            <g:else>
+                <g:link controller="user" action="createFreeUser" style="color:#fff"><img src="${resource(dir: 'images', file: 'click-FreeUserSignup.jpg')}"></g:link>
+            </g:else>
         </li>
     </ul>
-    <g:if test="${isPrintable}">
-        <mp:commentsForPrinting recipeId="${recipe?.id}"/>
+    <g:if test="${LoginCredential.currentUser}">
+        <g:if test="${isPrintable}">
+            <mp:commentsForPrinting recipeId="${recipe?.id}"/>
+        </g:if>
+        <g:else>
+            <mp:comments recipeId="${recipe?.id}"/>
+        </g:else>
     </g:if>
     <g:else>
-        <mp:comments recipeId="${recipe?.id}"/>
+        <div class="sharedLinkUserRecipeLink">
+            <div class="boxDiv" > The Minute Menu plan is an online community based software service offered to you with our compliments. Create a free account now and take it for a spin, and let us know what you think. </div>
+            <g:link controller="user" action="createFreeUser"><img src="${resource(dir: 'images', file: 'click-FreeUserSignup.jpg')}"></g:link>
+        </div>
     </g:else>
 </div>
