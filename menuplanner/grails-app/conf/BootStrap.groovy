@@ -124,7 +124,10 @@ class BootStrap {
             recipe.isAlcoholic = recipeService.isRecipeAlcoholic(recipe?.id)
             recipe.s()
         }
-        Product.list()*.s()
+        Product.list().each{Product product ->
+            product.isAlcoholic = product.isAlcoholic ? true : false
+            product.s()
+        }
 
         Thread.start {
             searchableService.index()
