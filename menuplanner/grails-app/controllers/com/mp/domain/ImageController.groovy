@@ -66,10 +66,10 @@ class ImageController {
             int lastIndex1 = imagePath?.indexOf('_')
             int lastIndex2 = imagePath?.indexOf('.')
             if (lastIndex1 > 0) {
-                String newPath1 = (imagePath?.substring(0, lastIndex1)) + "_1080.jpg"
+                String newPath1 = (imagePath?.substring(0, lastIndex1)) + "_640.jpg"
                 imageFile = new File(newPath1)
             } else {
-                String newPath1 = (imagePath?.substring(0, lastIndex2)) + "_1080.jpg"
+                String newPath1 = (imagePath?.substring(0, lastIndex2)) + "_640.jpg"
                 imageFile = new File(newPath1)
             }
             if (imageFile.exists()) {
