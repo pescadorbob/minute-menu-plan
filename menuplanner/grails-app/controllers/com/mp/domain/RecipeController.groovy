@@ -199,8 +199,11 @@ class RecipeController {
     }
 
     def printRecipes = {
+        Integer noOfServings = params?.long("noOfServings")
+        String customServingChecked = params?.customServings
         List<Recipe> recipes = []
         Boolean printOneRecipePerPage = true
+        Integer customServings
         if (request.method == "POST") {
             switch (params.printRecipe) {
                 case "PRINT_SELECTED_WEEKS":
@@ -221,7 +224,9 @@ class RecipeController {
             printOneRecipePerPage = false
         }
         recipes = recipes?.unique {it.id}
-        Integer customServings = LoginCredential.currentUser.party?.subscriber?.mouthsToFeed
+        if (noOfServings && customServingChecked) {
+            customServings = noOfServings
+        }
         [recipes: recipes, printOneRecipePerPage: printOneRecipePerPage, customServings: customServings, isPrintable: true]
     }
 
@@ -274,7 +279,7 @@ class RecipeController {
 
     def selectRecipesToPrint = {
         MenuPlan menuPlan = MenuPlan.get(params.id)
-        [menuPlan: menuPlan]
+        [menuPlan: menuPlan, noOfServings: LoginCredential.currentUser?.party?.subscriber?.mouthsToFeed ?: 1]
 
     }
 

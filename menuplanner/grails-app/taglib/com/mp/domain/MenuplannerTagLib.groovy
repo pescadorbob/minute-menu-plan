@@ -173,13 +173,13 @@ class MenuplannerTagLib {
     }
 
     def recipeIngredients = {attrs ->
-        Recipe recipe = Recipe.get(attrs['recipeId'])
+        Recipe recipe = Recipe.read(attrs['recipeId'])
         Integer customServings = attrs['customServings']
-        customServings = customServings ? customServings : 0
+        customServings = customServings ? customServings : recipe?.servings
         if (recipe) {
-            List<RecipeIngredient> customRecipeIngredients = recipe.ingredients
-            if(LoginCredential.currentUser){
-                customRecipeIngredients = recipeService.getRecipeIngredientsWithCustomServings(recipe, customServings)                
+            List<RecipeIngredient> customRecipeIngredients = []
+            if (LoginCredential.currentUser) {
+                customRecipeIngredients = recipeService.getRecipeIngredientsWithCustomServings(recipe, customServings)
             }
             out << g.render(template: "/recipe/recipeIngredients", model: [ingredients: customRecipeIngredients])
         }
@@ -214,8 +214,8 @@ class MenuplannerTagLib {
         }
     }
 
-    def shareThis = { attrs->
-        out<< """<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script><script type="text/javascript">
+    def shareThis = { attrs ->
+        out << """<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script><script type="text/javascript">
                                 stLight.options({publisher:'${ConfigurationHolder.config.externalKeys.shareThisKey}',popup:true});</script>
                             <span class="st_sharethis" displayText="ShareThis" st_url="${attrs['shareUrl']}?guestVisitor=true"></span> """
     }
