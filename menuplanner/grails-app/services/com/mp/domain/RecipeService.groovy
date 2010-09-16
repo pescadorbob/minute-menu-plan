@@ -350,9 +350,7 @@ class RecipeCO {
 
         recipe.s()
         attachImage(recipe, selectRecipeImagePath)
-        if (!recipe.isAlcoholic) {
-            recipe.isAlcoholic = recipeService.isRecipeAlcoholic(recipe?.id)
-        }
+        recipe.isAlcoholic = recipe.isAlcoholic ? true : recipeService.isRecipeAlcoholic(recipe?.id)
         recipe.s()
 
         return recipe
@@ -377,9 +375,7 @@ class RecipeCO {
 
         recipe.s()
         attachImage(recipe, selectRecipeImagePath)
-        if (!recipe.isAlcoholic) {
-            recipe.isAlcoholic = recipeService.isRecipeAlcoholic(recipe?.id)
-        }
+        recipe.isAlcoholic = recipe.isAlcoholic ? true : recipeService.isRecipeAlcoholic(recipe?.id)
         recipe.s()
         return recipe
     }
