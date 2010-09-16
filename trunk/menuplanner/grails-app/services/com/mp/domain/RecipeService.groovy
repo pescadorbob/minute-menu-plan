@@ -107,15 +107,15 @@ class RecipeService {
 
             Quantity quantity = new Quantity()
             quantity.unit = recipeIngredient?.quantity?.unit
-            quantity.value = recipeIngredient.quantity.value
-            quantity.savedUnit = recipeIngredient.quantity?.savedUnit
+            quantity.value = recipeIngredient?.quantity?.value
+            quantity.savedUnit = recipeIngredient?.quantity?.savedUnit
             recipeIngredientNew.quantity = quantity
 
             recipeIngredientNew.aisle = recipeIngredient.aisle
             recipeIngredientNew.preparationMethod = recipeIngredient?.preparationMethod
-            if (customServings && recipeIngredient.quantity && recipeIngredient.quantity.value && (customServings != recipe.servings)) {
+            if (customServings && recipeIngredient?.quantity && recipeIngredient?.quantity?.value && (customServings != recipe?.servings)) {
                 Float value = (recipeIngredientNew?.quantity?.value) ? recipeIngredientNew.quantity.value : 1.0f
-                Integer servings = recipeIngredient.recipe.servings
+                Integer servings = recipeIngredient?.recipe?.servings
                 recipeIngredientNew.quantity.value = ((customServings * value) / servings).toFloat()
                 if (!recipeIngredientNew.quantity.savedUnit || !recipeIngredientNew.quantity.savedUnit.isConvertible) {
                     recipeIngredientNew.quantity.value = Math.ceil(recipeIngredientNew.quantity.value)

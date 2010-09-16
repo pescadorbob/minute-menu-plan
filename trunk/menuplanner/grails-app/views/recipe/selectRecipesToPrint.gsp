@@ -141,7 +141,7 @@
 
     function showRecipeServingsConfirmBox() {
         if (jQuery('#customServings').attr('checked')) {
-            return confirm('Warning: Only the quantities of ingredients will be scaled. Directions will appear as mentioned in actual recipe.');
+            return confirm('<g:message code="print.scaled.recipes.warning"/>');
         } else {
             return true;
         }
