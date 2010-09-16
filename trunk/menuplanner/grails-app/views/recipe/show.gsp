@@ -91,7 +91,7 @@
     jQuery(function() {
         var path = jQuery('.recipeImage').attr('src')
         var imagePath = path.substring("0", path.lastIndexOf("="))
-        imagePath = imagePath + '=1080';
+        imagePath = imagePath + '=640';
         jQuery('.recipeImage').wrap('<a  class="lightbox" href=' + imagePath + '></a>')
         jQuery('.recipeImage').css('border', 'none')
         jQuery('.lightbox').lightBox({

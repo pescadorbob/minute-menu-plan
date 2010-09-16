@@ -34,7 +34,7 @@ class ImageControllerTests extends ImageTests {
     }
 
     void test_getImageBytes_Valid_Values_Folder2() {
-        String actualFileName = getActualFileNameForFolder(image2_1080, folder2Path)
+        String actualFileName = getActualFileNameForFolder(image2_640, folder2Path)
 
         ImageController imageController = new ImageController()
         File file2 = new File(folder2Path)
@@ -45,7 +45,7 @@ class ImageControllerTests extends ImageTests {
     }
 
     void test_getImageBytes_Actual_File_Null_Folder2() {
-        String actualFileName = getActualFileNameForFolder(image2_1080, folder2Path)
+        String actualFileName = getActualFileNameForFolder(image2_640, folder2Path)
 
         ImageController imageController = new ImageController()
         File file2 = new File(folder2Path)
@@ -55,12 +55,12 @@ class ImageControllerTests extends ImageTests {
         assertEquals file.name, actualFileName
     }
 
-    void test_getImageBytes_Valid_Values_Image_1080_Folder2() {
-        String actualFileName = getActualFileNameForFolder(image2_1080, folder2Path)
+    void test_getImageBytes_Valid_Values_Image_640_Folder2() {
+        String actualFileName = getActualFileNameForFolder(image2_640, folder2Path)
 
         ImageController imageController = new ImageController()
         File file2 = new File(folder2Path)
-        File actualFile2 = new File(file2, image2_1080)
+        File actualFile2 = new File(file2, image2_640)
 
         File file = imageController.getImageFileToRead(actualFile2, folder2Path + image2)
         assertEquals file.name, actualFileName
@@ -77,19 +77,19 @@ class ImageControllerTests extends ImageTests {
         assertEquals file.name, actualFileName
     }
 
-    void test_getImageBytes_Actual_File_Null_And_Image1080_Path_Folder2() {
-        String actualFileName = getActualFileNameForFolder(image2_1080, folder2Path)
+    void test_getImageBytes_Actual_File_Null_And_Image640_Path_Folder2() {
+        String actualFileName = getActualFileNameForFolder(image2_640, folder2Path)
 
         ImageController imageController = new ImageController()
         File file2 = new File(folder2Path)
         File actualFile2 = new File(file2, 'abc.jpg')
 
-        File file = imageController.getImageFileToRead(actualFile2, folder2Path + image2_1080)
+        File file = imageController.getImageFileToRead(actualFile2, folder2Path + image2_640)
         assertEquals file.name, actualFileName
     }
 
     void test_getImageBytes_Actual_File_Null_And_Image200_Path_Folder2() {
-        String actualFileName = getActualFileNameForFolder(image2_1080, folder2Path)
+        String actualFileName = getActualFileNameForFolder(image2_640, folder2Path)
 
         ImageController imageController = new ImageController()
         File file2 = new File(folder2Path)

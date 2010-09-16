@@ -2,6 +2,7 @@ package com.mp.domain
 
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.grails.plugins.imagetools.ImageTool
+import static com.mp.MenuConstants.*
 
 class Image {
 
@@ -43,7 +44,11 @@ class Image {
         String name = fileName.substring(0, firstIndex)
         imageSizes.each { Integer size ->
             String newFileCompletePath = filePath + name + "_${size}.jpg"
-            imageTool.thumbnail(size)
+            if(size==640){
+                imageTool.thumbnailSpecial(640,480,IMAGE_INTER_POLATION_TYPE ,IMAGE_RENDERING_TYPE)
+            }else{
+                imageTool.thumbnail(size)
+            }
             imageTool.writeResult(newFileCompletePath, "JPEG")
         }
     }
@@ -56,13 +61,13 @@ class Image {
             String newName = (storedName.substring(0, firstIndex)) + "_${size}.jpg"
             actualFile = new File(filePath + newName)
             if (!actualFile.exists()) {
-                actualFile = new File(filePath + (storedName.substring(0, firstIndex) + "_1080.jpg"))
+                actualFile = new File(filePath + (storedName.substring(0, firstIndex) + "_640.jpg"))
             }
             if (!actualFile.exists()) {
                 actualFile = new File(filePath + storedName)
             }
         } else {
-            actualFile = new File(filePath + (storedName.substring(0, firstIndex) + "_1080.jpg"))
+            actualFile = new File(filePath + (storedName.substring(0, firstIndex) + "_640.jpg"))
             if (!actualFile.exists()) {
                 actualFile = new File(filePath + storedName)
             }
