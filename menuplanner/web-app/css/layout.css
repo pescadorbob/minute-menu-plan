@@ -273,3 +273,4 @@ div.errors{border:red 1px solid;font-size:smaller;color:red;padding:10px;margin-
 #rightElementPreview ul li a:hover{text-decoration:underline;}
 .sharedLinkUserRecipeLink{clear:both;font-size:12px;width:378px}
 .sharedLinkUserRecipeLink a{color:#fff !important;padding-left:63px}
+.boxDivcenter{text-align:left; width:60%; margin:auto;}

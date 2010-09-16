@@ -2,7 +2,7 @@
 <%@ page import="com.mp.MenuConstants.*" %>
 <html>
 <head>
-    <title>Show Recipe ${recipe?.name}</title>
+    <title>${recipe?.name}</title>
     <meta name="layout" content="menu"/>
     <g:javascript src="jquery.printElement.min.js"/>
     <rateable:resources/>

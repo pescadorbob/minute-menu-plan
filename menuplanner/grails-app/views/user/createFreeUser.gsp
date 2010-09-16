@@ -26,10 +26,17 @@
         <div class="headbox">
             <h3>Free Signup</h3>
         </div>
+
+                                    <g:hasErrors bean="${userCO}">
+                                        <div id="displayUserCOErrors" class="errors">
+                                            <g:renderErrors bean="${userCO}" as="list"/>
+                                        </div>
+                                    </g:hasErrors>
         <div class="top-shadow">
             <label>&nbsp;</label>
         </div>
         <g:form name="freeSignupForm" action="newFreeUserSignUp">
+            
             <div class="leftbox clearfix">
                 <div id="leftpanelbox">
                     <div class="boxDiv">
@@ -43,7 +50,7 @@
                 <div id="rightpanelbox" style="border-left:1px solid #ddd;">
 
                     <div class="clearfix">
-                        <div class="boxDiv">
+                        <div class="boxDiv  boxDivcenter">
                             <h1>Profile Information</h1>
                             <ul>
                                 <li>
@@ -51,13 +58,6 @@
                                     Link your account with your Facebook account</li>
                                 <li>&nbsp; &nbsp;<facebook:freeUserConnect/><br/></li>
                                 <li><input name="" type="radio" value=""/>Create a new account. (You can link it later) </li>
-                                <li>
-                                    <g:hasErrors bean="${userCO}">
-                                        <div id="displayUserCOErrors" class="errors">
-                                            <g:renderErrors bean="${userCO}" as="list"/>
-                                        </div>
-                                    </g:hasErrors>
-                                </li>
                             </ul>
                         </div>
                         <div class="boxDiv">
