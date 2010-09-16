@@ -21,8 +21,17 @@
                 <div class="leftbox clearfix">
                     <div id="selectedWeeksBox">
                         <div class="winterWeek">
+                            Select the options to  use to print the recipes from your menu plan
+                        </div>
+                        <div class="winterWeek">
+                            <g:checkBox name="customServings" value="0" checked="false"/> Scale recipes to
+                            &nbsp;<input type="text" name="noOfServings" value="${noOfServings}" style="width:40px"> &nbsp;servings (Otherwise, recipes are printed using the original serving yield)
+                        </div>
+
+                        <div class="winterWeek">
                             <input name="printRecipe" type="radio" value="PRINT_SELECTED_WEEKS" checked=""/>
-                            Print your recipes correlated to meals ( Great to use on a weekly basis, keeping all of your recipes at ready reference)</div>
+                            Print your recipes correlated to meals ( Great to use on a weekly basis, keeping all of your recipes at ready reference)
+                        </div>
                         <div class="winterWeek">
                             <ul>
                                 <li>
@@ -84,7 +93,7 @@
                             </ul>
                         </div>
                     </div>       <div class="winterWeek">
-                    <input type="submit" value="Print Recipes"/>
+                    <input type="submit" value="Print Recipes" onclick="return showRecipeServingsConfirmBox()"/>
                     <input id="backToMenuPlanLink" type="button" value="Back to Menu Plan"/>
                 </div>
                 </div>
@@ -113,15 +122,15 @@
     });
     jQuery('#printSelectedRecipesBox input').click(function() {
         if (jQuery(this).is(':checked')) {
-           jQuery('#selectedWeeksBox input').filter(':checked').removeAttr('checked');
-            jQuery('#printSelectedRecipesBox :radio').attr('checked','checked');
+            jQuery('#selectedWeeksBox input').filter(':checked').removeAttr('checked');
+            jQuery('#printSelectedRecipesBox :radio').attr('checked', 'checked');
         }
     });
 
     jQuery('#selectedWeeksBox input').click(function() {
         if (jQuery(this).is(':checked')) {
-           jQuery('#printSelectedRecipesBox input').filter(':checked').removeAttr('checked');
-           jQuery('#selectedWeeksBox :radio').attr('checked','checked');
+            jQuery('#printSelectedRecipesBox input').filter(':checked').removeAttr('checked');
+            jQuery('#selectedWeeksBox :radio').attr('checked', 'checked');
         }
     })
     $(".oddEvenColor:even").addClass("alternatecolor");
@@ -129,6 +138,14 @@
         window.location.replace("${createLink(controller:'menuPlan',action:'show',id:menuPlan.id)}");
         return false;
     })
+
+    function showRecipeServingsConfirmBox() {
+        if (jQuery('#customServings').attr('checked')) {
+            return confirm('Warning: Only the quantities of ingredients will be scaled. Directions will appear as mentioned in actual recipe.');
+        } else {
+            return true;
+        }
+    }
 </script>
 </body>
 </html>

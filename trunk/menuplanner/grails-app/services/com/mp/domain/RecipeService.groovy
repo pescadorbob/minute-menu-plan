@@ -97,26 +97,31 @@ class RecipeService {
     List getRecipeIngredientsWithCustomServings(Recipe recipe, int customServings) {
         List<RecipeIngredient> newRecipeIngredients = []
         Party party = LoginCredential.currentUser?.party
-        Item item
+
         List<RecipeIngredient> visibleItems = recipe.ingredients.findAll {party.canViewItem(it.ingredient)} as List
         visibleItems.each {RecipeIngredient recipeIngredient ->
-            item = recipeIngredient.ingredient
             RecipeIngredient recipeIngredientNew = new RecipeIngredient()
-            recipeIngredientNew.ingredient = recipeIngredient?.ingredient
+            Item ingredient = new Item()
+            ingredient.name = recipeIngredient?.ingredient?.name
+            recipeIngredientNew.ingredient = ingredient
+
+            Quantity quantity = new Quantity()
+            quantity.unit = recipeIngredient?.quantity?.unit
+            quantity.value = recipeIngredient.quantity.value
+            quantity.savedUnit = recipeIngredient.quantity?.savedUnit
+            recipeIngredientNew.quantity = quantity
+
             recipeIngredientNew.aisle = recipeIngredient.aisle
-            recipeIngredientNew.quantity = recipeIngredient?.quantity
             recipeIngredientNew.preparationMethod = recipeIngredient?.preparationMethod
-            if (customServings && recipeIngredient.quantity && recipeIngredient.quantity.value) {
+            if (customServings && recipeIngredient.quantity && recipeIngredient.quantity.value && (customServings != recipe.servings)) {
                 Float value = (recipeIngredientNew?.quantity?.value) ? recipeIngredientNew.quantity.value : 1.0f
                 Integer servings = recipeIngredient.recipe.servings
                 recipeIngredientNew.quantity.value = ((customServings * value) / servings).toFloat()
-                if (!recipeIngredientNew.quantity.savedUnit) {
+                if (!recipeIngredientNew.quantity.savedUnit || !recipeIngredientNew.quantity.savedUnit.isConvertible) {
                     recipeIngredientNew.quantity.value = Math.ceil(recipeIngredientNew.quantity.value)
                 }
-                newRecipeIngredients.add(recipeIngredientNew)
-            } else {
-                newRecipeIngredients.add(recipeIngredient)
             }
+            newRecipeIngredients.add(recipeIngredientNew)
         }
         return newRecipeIngredients
     }
