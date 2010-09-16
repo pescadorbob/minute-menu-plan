@@ -22,15 +22,11 @@ class Product extends Item {
     }
 
     def beforeInsert = {
-        if (!isAlcoholic) {
-            isAlcoholic = isProductAlcoholic()
-        }
+        isAlcoholic = isProductAlcoholic()
     }
 
     def beforeUpdate = {
-        if (!isAlcoholic) {
-            isAlcoholic = isProductAlcoholic()
-        }
+        isAlcoholic = isProductAlcoholic()
     }
     static transients = ['detailString', 'contributorsString', 'contributors']
 
