@@ -202,15 +202,24 @@ class MenuplannerTagLib {
 
     def serveWithItems = {attrs ->
         Recipe recipe = Recipe.get(attrs['recipeId'])
-        Party party = LoginCredential.currentUser?.party
+        Party party
         List<Item> items = []
         if (recipe) {
-            recipe.items.each {Item item1 ->
-                if (party.canViewItem(item1)) {
-                    items.add(item1)
+            if (LoginCredential?.currentUser) {
+                party=LoginCredential.currentUser?.party                
+                recipe.items.each {Item item1 ->
+                    if (party.canViewItem(item1)) {
+                        items.add(item1)
+                    }
+                }
+            } else {
+                recipe.items.each {Item item1 ->
+                    if (item1.shareWithCommunity) {
+                        items.add(item1)
+                    }
                 }
             }
-            out << g.render(template: "/recipe/serveWithItems", model: [items: items])
+            out << g.render(template: "/recipe/serveWithItems", model: [items: items])        
         }
     }
 
