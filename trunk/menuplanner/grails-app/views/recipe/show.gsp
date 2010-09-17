@@ -32,7 +32,7 @@
 
     </style>
     <meta name="title" content="Minute Menu Plan : ${recipe?.name}" />
-    <meta name="description" content="${recipe?.description}" />
+    <meta name="description" content="${(recipe?.description ? recipe?.description : '')}" />
     <link rel="image_src" href="${createLink(controller: 'image', action: 'image', params: [id: recipe?.image?.id, size: 200],absolute:true)}" />
 </head>
 <body>
