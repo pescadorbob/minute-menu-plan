@@ -11,7 +11,7 @@
                 <li><g:if test="${recipe?.difficulty}"><span>Difficulty Level: ${recipe?.difficulty}</span><br/></g:if>
                     <g:if test="${recipe?.servings}"><span>Servings: ${customServings ? customServings : recipe?.servings}</span></g:if>
                 </li>
-                <li><strong>${recipe?.isAlcoholic ? 'Recipe contains Alcoholic contents' : 'Recipe is Non-Alcoholic'}</strong></li>
+                <li><strong>${recipe?.isAlcoholic ? 'Contains Alcohol' : ''}</strong></li>
                 <g:if test="${recipe?.ingredients}">
                     <li id="showAllIngredientsHereTst">
                         <mp:recipeIngredients recipeId="${recipe?.id}" customServings="${customServings}"/>
@@ -28,7 +28,7 @@
                 </g:if>
                 <g:if test="${recipe?.items}">
                     <li>
-                    <mp:serveWithItems recipeId="${recipe?.id}"/>
+                        <mp:serveWithItems recipeId="${recipe?.id}"/>
                     </li>
                 </g:if>
                 <li></li>
@@ -60,7 +60,7 @@
     </g:if>
     <g:else>
         <div class="sharedLinkUserRecipeLink">
-            <div class="boxDiv" > The Minute Menu plan is an online community based software service offered to you with our compliments. Create a free account now and take it for a spin, and let us know what you think. </div>
+            <div class="boxDiv">The Minute Menu plan is an online community based software service offered to you with our compliments. Create a free account now and take it for a spin, and let us know what you think.</div>
             <g:link controller="user" action="createFreeUser"><img src="${resource(dir: 'images', file: 'click-FreeUserSignup.jpg')}"></g:link>
         </div>
     </g:else>
