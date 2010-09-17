@@ -73,9 +73,9 @@
                 <p>"Learn how this Minute Menu Plan will interest picky kids, relieve stressed moms, and make meals enjoyable again!"</p>
                 <h2>"Who Else Wants To Make Every Dinner This Week A Relaxed, Enjoyable Event That Your Family Will Talk About For Weeks - With Almost Zero Effort, 1/2 The Expense Or The Dreaded, "What's For Dinner?" Question?</h2>
                 <div class="clear clearfix">
-                    <div class="orderbtn"><h3>Order Now</h3> in beta</div>
+                    <g:link controller="user" action="createFreeUser"><div class="orderbtn"><h3>Free</h3>Sign Up Now</div></g:link>
                     <div id="video-box"><img src="${resource(dir: 'images', file: 'video.png')}"/></div>
-                    <div class="orderbtn"><h3>Order Now</h3> in beta</div>
+                    <g:link controller="user" action="createFreeUser"><div class="orderbtn"><h3>Free</h3>Sign Up Now</div></g:link>
                 </div>
                 <h2>Find recipes from tons of categories including...</h2>
                 <div>
