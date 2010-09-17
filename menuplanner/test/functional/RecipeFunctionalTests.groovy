@@ -178,28 +178,31 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
     }
 
     void testEditRecipeLink() {
-        gotoEditRecipePage()
+        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
+        gotoEditRecipePage(createRecipeData)
         assertStatus 200
         assertTitleContains 'Minute Menu Plan : Edit Recipe'
     }
 
     void testCancelEditRecipe() {
-        gotoEditRecipePage()
+        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
+        gotoEditRecipePage(createRecipeData)
         assertStatus 200
         byName('_action_show').click()
         assertStatus 200
-        assertTitleContains 'Minute Menu Plan : Show Recipe'
+        assertTitleContains "Minute Menu Plan : ${createRecipeData.name}"
     }
 
     void testEditRecipe() {
-        gotoEditRecipePage()
+        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
+        gotoEditRecipePage(createRecipeData)
         form('formEditRecipe') {
             name = "Changed Recipe Name"
             click("_action_update")
         }
         assertElementTextContainsStrict('recipeNameTst', "Changed Recipe Name")
         assertStatus 200
-        assertTitleContains 'Minute Menu Plan : Show Recipe'
+        assertTitleContains "Minute Menu Plan : Changed Recipe Name"
     }
 
     void testShowRecipe_RecipeListPage() {
@@ -207,7 +210,6 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         loginToHomepage(loginFormData)
         def recipeLink = byId('draggableSearchItem_1').getFirstChild()
         recipeLink.click()
-        assertTitleContains 'Minute Menu Plan : Show Recipe '
         assertElementTextContains('contectElement', 'Comments')
     }
 
@@ -219,10 +221,10 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         String servings_1 = Recipe.list().first()
         createRecipeData.serveWith_1 = servings_1
         createRecipe(createRecipeData)
-        assertTitleContains 'Minute Menu Plan : Show Recipe '
+        assertTitleContains "Minute Menu Plan : ${createRecipeData.name}"
         def servingsLink = byClass('recipeServeWithFT')
         servingsLink.click()
-        assertTitleContains 'Minute Menu Plan : Show Recipe '
+        assertTitleContains "Minute Menu Plan : ${servings_1}"
         assertElementTextContains('leftpart', servings_1)
     }
 
@@ -254,7 +256,6 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
             createRecipe(createRecipeData)
             intermediateCount++
             assertEquals "Recipe creation failed with name input: " + currentString, intermediateCount, Recipe.count()
-            assertTitleContains 'Minute Menu Plan : Show Recipe '
         }
         Integer finalCount = Recipe.count()
         assertEquals "Recipe creation failed with name input: " + currentString, finalCount, initialCount + names.size()
@@ -268,7 +269,7 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         String servings_1 = "Custom_Serve_With-${System.currentTimeMillis()}"
         createRecipeData.serveWith_1 = servings_1
         createRecipe(createRecipeData)
-        assertTitleContains 'Minute Menu Plan : Show Recipe '
+        assertTitleContains "Minute Menu Plan : ${createRecipeData.name}"
         Recipe recipe = Recipe.list().last()
         logout()
 
@@ -291,7 +292,7 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
         createRecipeData.name = "Alcohol"
         createRecipe(createRecipeData)
-        assertTitleContains 'Minute Menu Plan : Show Recipe '
+        assertTitleContains "Minute Menu Plan : ${createRecipeData.name}"
         Integer finalCount = Recipe.count()
         assertEquals('Unable to create Recipe', finalCount, initialCount + 1)
         byClass('recipeListFT').click()
@@ -312,7 +313,7 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         createRecipeData.name = "New_Test_Recipe_${System.currentTimeMillis()}"
         createRecipeData.productName_1 = "Vodka"
         createRecipe(createRecipeData)
-        assertTitleContains 'Minute Menu Plan : Show Recipe '
+        assertTitleContains "Minute Menu Plan : ${createRecipeData.name}"
         Integer finalCount = Recipe.count()
         assertEquals('Unable to create Recipe', finalCount, initialCount + 1)
         byClass('recipeListFT').click()
@@ -332,7 +333,7 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
         createRecipeData.name = "New_Test_Check_Recipe_${System.currentTimeMillis()}"
         createRecipe(createRecipeData, true)
-        assertTitleContains 'Minute Menu Plan : Show Recipe '
+        assertTitleContains "Minute Menu Plan : ${createRecipeData.name}"
         Integer finalCount = Recipe.count()
         assertEquals('Unable to create Recipe', finalCount, initialCount + 1)
         byClass('recipeListFT').click()

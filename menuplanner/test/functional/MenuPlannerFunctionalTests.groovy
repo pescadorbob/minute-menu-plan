@@ -186,10 +186,9 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
     *  Helper method to create a new recipe and go to its edit page
     */
 
-    void gotoEditRecipePage() {
+    void gotoEditRecipePage(CreateRecipeData createRecipeData) {
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
         loginToHomepage(loginFormData)
-        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
         createRecipe(createRecipeData)
         click('Edit')
     }

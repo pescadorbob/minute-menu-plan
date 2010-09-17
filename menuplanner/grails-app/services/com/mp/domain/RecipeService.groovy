@@ -211,7 +211,7 @@ class RecipeCO {
         if (recipe?.image) {
             int firstIndex = recipe?.image?.storedName?.indexOf('.')
             String name = recipe?.image?.storedName?.substring(0, firstIndex)
-            selectRecipeImagePath = recipe?.image?.path + name + "_200.jpg"
+            selectRecipeImagePath = recipe?.image?.path + name + "_640.jpg"
         } else {
             selectRecipeImagePath = ''
         }
