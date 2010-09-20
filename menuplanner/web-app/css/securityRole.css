@@ -41,7 +41,7 @@
 /* end winterButton  */
 .wintertop{clear:both; width:100%; font-size:12px; color:#616A72;}
 .wintertop ul li{ float:left; width:33%;}
-#shopping-list{border:1px solid #d3d1d2; clear:both; width:380px; margin:auto;}
+#shopping-list{border:1px solid #d3d1d2; color:#616A72; clear:both; width:900px; margin:auto;}
 #shopping-list h2{border-bottom:1px solid #d3d1d2; font-size:14px; color:#616A72; padding:2px 5px; margin-bottom:15px;}
 #shopping-list ul li{clear:both; padding:5px; font-size:12px;}
 #shopping-list ul li p{clear:both; padding:2px;}

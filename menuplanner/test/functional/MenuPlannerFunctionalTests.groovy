@@ -111,8 +111,21 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
             name = shoppingListFormData.name
             menuPlanId = byId('menuPlanId').getOption(0).getValueAttribute()
             servings = shoppingListFormData.servings
-            //selecting all weeks  i.e. week-1, week-2, week-3 and week-4
-            click('_action_create')
+            click('_action_createOriginal')
+        }
+    }
+
+    void createShoppingListBlankServings(ShoppingListFormData shoppingListFormData) {
+        form('formShoppingList') {
+            name = shoppingListFormData.name
+            menuPlanId = byId('menuPlanId').getOption(0).getValueAttribute()
+            byId('servings').setValue("")
+            byClass('listWithWeeksFT').click()
+            byClass('shoppingWeekFT_1').click()
+            byClass('shoppingWeekFT_2').click()
+            byClass('shoppingWeekFT_3').click()
+            byClass('shoppingWeekFT_4').click()
+            click('_action_createScaled')
         }
     }
 
@@ -121,9 +134,11 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
             name = shoppingListFormData.name
             menuPlanId = byId('menuPlanId').getOption(0).getValueAttribute()
             servings = shoppingListFormData.servings
-            //unchecking week-1
-            byClass('shoppingWeekFT_1').click()
-            click('_action_create')
+            byClass('listWithWeeksFT').click()
+            byClass('shoppingWeekFT_2').click()
+            byClass('shoppingWeekFT_3').click()
+            byClass('shoppingWeekFT_4').click()
+            click('_action_createScaled')
         }
     }
 
@@ -131,7 +146,8 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
         form('formShoppingList') {
             name = ""
             servings = ""
-            click('_action_create')
+            byClass('listWithWeeksFT').click()
+            click('_action_createScaled')
         }
     }
 
@@ -140,12 +156,8 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
             name = shoppingListFormData.name
             menuPlanId = byId('menuPlanId').getOption(0).getValueAttribute()
             servings = shoppingListFormData.servings
-            /*       Unchecking all weeks   */
-            byClass('shoppingWeekFT_1').click()
-            byClass('shoppingWeekFT_2').click()
-            byClass('shoppingWeekFT_3').click()
-            byClass('shoppingWeekFT_4').click()
-            click('_action_create')
+            byClass('listWithWeeksFT').click()
+            click('_action_createScaled')
         }
     }
 
@@ -220,7 +232,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
         createLink.click()
     }
 
-    /** * Helper method to return a message from the message bundle.                                                          ***/
+    /** * Helper method to return a message from the message bundle.                                                           ***/
     String getMessage(String key, def targetArgs = TARGET_ARGS_EMPTY) {
         def keyValue = messageSource.resolveCode(key, locale)
         return keyValue?.format(targetArgs)

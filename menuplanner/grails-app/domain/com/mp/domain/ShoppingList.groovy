@@ -6,6 +6,7 @@ class ShoppingList {
     Integer servings
     Party party
     MenuPlan menuPlan
+    Boolean isWeeklyShoppingList = false
 
     List<WeeklyShoppingList> weeklyShoppingLists = []
 

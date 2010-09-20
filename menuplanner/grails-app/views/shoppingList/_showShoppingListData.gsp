@@ -1,5 +1,11 @@
 <g:each in="${shoppingList?.weeklyShoppingLists}" var="weeklyShoppingList">
-    <div c class="winterButton"  style="width:406px;"><h3>Week ${weeklyShoppingList?.weekIndex + 1}</h3></div>
+    <br/>
+    <g:if test="${!shoppingList?.isWeeklyShoppingList}">
+        <div c class="winterButton" style="width:406px;"><h3>Complete List</h3></div>
+    </g:if>
+    <g:else>
+        <div c class="winterButton" style="width:406px;"><h3>Week ${weeklyShoppingList?.weekIndex + 1}</h3></div>
+    </g:else>
     <g:each in="${weeklyShoppingList.aisles + null}" var="aisle">
         <g:if test="${aisle}">
             <div class="winter-week clearfix" style="width:406px;">
