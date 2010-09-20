@@ -8,7 +8,6 @@ jQuery.each(jQuery('#navigation>ul>li'), function() {
 });
 
 jQuery(document).ready(function() {
-    scaleImageSize();
     jQuery("#ajax_spinner").ajaxStart(function() {
         jQuery(this).show();
     });
@@ -23,6 +22,9 @@ jQuery(document).ready(function() {
     jQuery.ajaxSetup({cache: false});
 });
 
+jQuery('.scaleImageSize img').load(function() {
+    scaleImageSize();
+});
 function scaleImageSize() {
     var imgH = jQuery('.scaleImageSize img').height();
     var imgW = jQuery('.scaleImageSize img').width();
