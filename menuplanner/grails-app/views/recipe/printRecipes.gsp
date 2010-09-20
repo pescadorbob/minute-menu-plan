@@ -9,10 +9,15 @@
     g:if
 
     test
+
     =
     "
     ${
+
+
     printOneRecipePerPage
+
+
     }
     "
     >
@@ -20,7 +25,9 @@
         page-break-after: always;
     }
 
-    </
+    <
+
+    /
     g:if
     >
     body {
@@ -70,8 +77,10 @@
         $(".rating a").click(function(e) {
             e.preventDefault()
         })
-        scaleImageSize()
     }
+    jQuery('.recipeImage').load(function() {
+        scaleImageSize();
+    });
 </script>
 </body>
 </html> 
