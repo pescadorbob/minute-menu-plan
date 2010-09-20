@@ -4,7 +4,7 @@
     <meta name="layout" content="menu"/>
     <title>${menuPlan.name}</title>
     <rateable:resources/>
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'custom-ratings.css')}"/>
+    <p:css name='custom-ratings'/>
     <style type="text/css">
     .ui-sortable-placeholder {
         border: 1px dotted black;

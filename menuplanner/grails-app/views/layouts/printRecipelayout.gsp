@@ -3,20 +3,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
     <title>Minute Menu Plan : <g:layoutTitle default="Minute Menu Plan"/></title>
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'common.css')}"/>
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'layout.css')}"/>
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'user.css')}"/>
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'securityRole.css')}"/>
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'jquery.autocomplete.css')}"/>
-    %{--<link rel="stylesheet" href="${resource(dir: 'css', file: 'token-input-facebook.css')}"/>--}%
+    <p:css name="allPrintRecipeCss"/>
     <g:javascript library="jquery"/>
     <g:setProvider library="jquery"/>
-    <script type="text/javascript" src="${resource(dir: 'jquery.uploadify-v2.1.0', file: 'swfobject.js')}"></script>
-    <script type="text/javascript" src="${resource(dir: 'jquery.uploadify-v2.1.0', file: 'jquery.uploadify.v2.1.0.min.js')}"></script>
-    <script type="text/javascript" src="${resource(dir: 'js', file: 'createRecipe.js')}"></script>
-    <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.autocomplete.min.js')}"></script>
-    <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.tools.min.js')}"></script>
-    <script type="text/javascript" src="${resource(dir: 'js', file: 'menuplanner.js')}"></script>
+    <p:javascript src="allPrintRecipeJquery"/>
     <g:layoutHead/>
 </head>
 <body>
@@ -25,7 +15,7 @@
     <!-- start header -->
     <div id="header">
         <div id="logo"><a href="${resource(dir: '/')}">
-            <img src="${resource(dir: 'images', file: 'logo.gif')}" border="0"/>
+            <p:image src='logo.gif'/>
         </a>
             <h1></h1>
         </div>

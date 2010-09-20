@@ -66,6 +66,54 @@ grails {
     }
 }
 
+uiperformance {
+    html.compress = true
+    keepOriginals = true
+    processImages = false
+    html.includeContentTypes = ['text/html', 'text/xml', 'text/plain', 'application/json']
+}
+
+uiperformance.bundles = [
+        [type: 'js',
+                name: 'allMenuJquery',
+                files: [
+                        'jquery/jquery-1.4.1.min',
+                        'tiny_mce/tiny_mce',
+                        'createRecipe',
+                        'jquery.autocomplete.min',
+                        'jquery.tools.min',
+                        'shoppingList',
+                        'jquery.uploadify-v2.1.0/swfobject',
+                        'jquery.uploadify-v2.1.0/jquery.uploadify.v2.1.0.min',
+                        'jquery.lightbox-0.5']],
+
+        [type: 'css',
+                name: 'allMenuCss',
+                files: ['common',
+                        'layout',
+                        'menuPlan',
+                        'user',
+                        'securityRole',
+                        'jquery.autocomplete',
+                        'jquery.lightbox-0.5']],
+
+        [type: 'js',
+                name: 'allPrintRecipeJquery',
+                files: ['createRecipe',
+                        'jquery.autocomplete.min',
+                        'jquery.tools.min',
+                        'menuplanner']],
+
+        [type: 'css',
+                name: 'allPrintRecipeCss',
+                files: ['common',
+                        'layout',
+                        'user',
+                        'jquery.autocomplete',
+                        'securityRole']]
+
+]
+
 environments {
     production {
         grails.serverURL = "http://www.changeme.com"
@@ -80,8 +128,8 @@ environments {
 //            action="https://checkout.google.com/api/checkout/v2/checkoutForm/Merchant/827529108383447"
 //            imageSource="http://checkout.google.com/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
         }
-         externalKeys{
-            shareThisKey="d50f28c4-1205-472e-93eb-ca6165bb6cf9"
+        externalKeys {
+            shareThisKey = "d50f28c4-1205-472e-93eb-ca6165bb6cf9"
         }
     }
     development {
@@ -94,12 +142,13 @@ environments {
             merchantId = "827529108383447"
             merchantKey = "ScAQ9VNMRniNUR3T5sW2kQ"
             requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/827529108383447"
-            action="https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/827529108383447"
-            imageSource="http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
+            action = "https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/827529108383447"
+            imageSource = "http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
         }
-        externalKeys{
-            shareThisKey="d50f28c4-1205-472e-93eb-ca6165bb6cf9"
+        externalKeys {
+            shareThisKey = "d50f28c4-1205-472e-93eb-ca6165bb6cf9"
         }
+        uiperformance.enabled = false
     }
     test {
         grails.serverURL = "http://qa.menuplanner.intelligrape.net"
@@ -111,11 +160,11 @@ environments {
             merchantId = "827529108383447"
             merchantKey = "ScAQ9VNMRniNUR3T5sW2kQ"
             requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/827529108383447"
-            action="https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/827529108383447"
-            imageSource="http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
+            action = "https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/827529108383447"
+            imageSource = "http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
         }
-         externalKeys{
-            shareThisKey="d50f28c4-1205-472e-93eb-ca6165bb6cf9"
+        externalKeys {
+            shareThisKey = "d50f28c4-1205-472e-93eb-ca6165bb6cf9"
         }
     }
     qa {
@@ -128,11 +177,11 @@ environments {
             merchantId = "827529108383447"
             merchantKey = "ScAQ9VNMRniNUR3T5sW2kQ"
             requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/827529108383447"
-            action="https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/827529108383447"
-            imageSource="http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
+            action = "https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/827529108383447"
+            imageSource = "http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
         }
-         externalKeys{
-            shareThisKey="d50f28c4-1205-472e-93eb-ca6165bb6cf9"
+        externalKeys {
+            shareThisKey = "d50f28c4-1205-472e-93eb-ca6165bb6cf9"
         }
     }
     beta {
@@ -145,11 +194,11 @@ environments {
             merchantId = "827529108383447"
             merchantKey = "ScAQ9VNMRniNUR3T5sW2kQ"
             requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/827529108383447"
-            action="https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/827529108383447"
-            imageSource="http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
+            action = "https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/827529108383447"
+            imageSource = "http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
         }
-         externalKeys{
-            shareThisKey="d50f28c4-1205-472e-93eb-ca6165bb6cf9"
+        externalKeys {
+            shareThisKey = "d50f28c4-1205-472e-93eb-ca6165bb6cf9"
         }
     }
 

@@ -27,11 +27,11 @@
                     <ul>
                         <li><strong>&nbsp;</strong></li>
                         <li id="emailShoppingListBtn" style="cursor:pointer">
-                            <img src="${resource(dir: 'images', file: 'emailMe.jpeg')}" alt="" align="absmiddle" style="width:29px;height:23px">
+                            <p:image src='emailMe.jpeg' alt="" align="absmiddle" style="width:29px;height:23px"/>
                             Email the Shopping List
                         </li>
                         <li style="cursor:pointer" id="printShoppingListBtn">
-                            <img src="${resource(dir: 'images', file: 'printer.gif')}" alt="print" align="absmiddle"/> &nbsp; Print Shopping List
+                            <p:image src='printer.gif' alt="print" align="absmiddle"/> &nbsp; Print Shopping List
                         </li>
                         <li style="cursor:pointer" id="shareThisUrl">
                             <mp:shareThis shareUrl="${createLink(controller:'shoppingList',action:'show',id:shoppingList.id,absolute:true)}"/>
