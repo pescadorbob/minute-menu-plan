@@ -76,8 +76,7 @@ uiperformance {
 uiperformance.bundles = [
         [type: 'js',
                 name: 'allMenuJquery',
-                files: [
-                        'jquery/jquery-1.4.1.min',
+                files: ['jquery/jquery-1.4.1.min',
                         'tiny_mce/tiny_mce',
                         'createRecipe',
                         'jquery.autocomplete.min',
@@ -166,6 +165,7 @@ environments {
         externalKeys {
             shareThisKey = "d50f28c4-1205-472e-93eb-ca6165bb6cf9"
         }
+        uiperformance.enabled = false
     }
     qa {
         grails.serverURL = "http://qa.menuplanner.intelligrape.net"
