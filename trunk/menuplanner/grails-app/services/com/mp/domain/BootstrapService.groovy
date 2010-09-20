@@ -187,7 +187,7 @@ class BootstrapService {
         shoppingList.servings = 4
         shoppingList.party = menuPlan.owner
         ['0', '1', '2', '3'].each {String weekIndex ->
-            WeeklyShoppingList weeklyShoppingList = shoppingListService.createWeeklyShoppingList(shoppingList, menuPlan, weekIndex)
+            WeeklyShoppingList weeklyShoppingList = shoppingListService.createWeeklyShoppingList(shoppingList, menuPlan, weekIndex,true)
             shoppingList.addToWeeklyShoppingLists(weeklyShoppingList)
         }
         shoppingList.s()

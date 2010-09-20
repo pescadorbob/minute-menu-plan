@@ -18,7 +18,6 @@
                 </table>
                 <g:form name="formDetailShoppingList">
                     <g:if test="${shoppingListId}">
-                        %{--<g:hiddenField name="shoppingListId" value="${shoppingListId}"/>--}%
                         <input type="submit" class="button" name="Update" value="Update" onclick="$('#updateShoppingListButton').click();
                         return false;"/>
                         <g:actionSubmit class="button" controller="shoppingList" action="cancelDetailShoppingList" name="cancel" value="Cancel"/>
@@ -28,9 +27,8 @@
                         return false;"/>
                         <g:actionSubmit class="button" controller="shoppingList" action="cancelDetailShoppingList" name="cancel" value="Cancel"/>
                     </g:else>
-
                     <g:each in="${shoppingList.weeklyShoppingLists}" var="weeklyShoppingList">
-                        <g:render template="/shoppingList/weeklyShoppingList" model="[weeklyShoppingList: weeklyShoppingList]"/>
+                        <g:render template="/shoppingList/weeklyShoppingList" model="[weeklyShoppingList: weeklyShoppingList ,shoppingList:shoppingList]"/>
                     </g:each>
                     <div class="winterButton">
                         <ul><li>
@@ -38,6 +36,7 @@
                             <g:hiddenField name="weekList" value="${shoppingList?.weeklyShoppingLists*.weekIndex}"/>
                             <g:hiddenField name="servings" value="${shoppingList?.servings}"/>
                             <g:hiddenField name="shoppingListName" value="${shoppingList.name}"/>
+                            <g:hiddenField name="isWeeklyShoppingList" value="${shoppingList?.isWeeklyShoppingList}"/>
                             <g:if test="${shoppingListId}">
                                 <g:hiddenField name="shoppingListId" value="${shoppingListId}"/>
                                 <g:actionSubmit class="button updateShoppingListButtonFT" controller="shoppingList" action="update" name="update" id="updateShoppingListButton" value="Update"/>

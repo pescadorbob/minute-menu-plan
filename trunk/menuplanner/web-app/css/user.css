@@ -211,7 +211,7 @@ margin-top:10px;
 width:60%;
 text-align:center;
 }
-.boxDiv{clear:both;padding-top:15px;}
+.boxDiv{clear:both;padding-top:15px;color:#616A72;}
 .boxDiv ul li{clear:both; padding:5px;}
 .boxDiv ul li label{float:left; width:45%; text-align:right; display:block;}
 .boxDiv ul li span{float:right;width:50%;text-align:left;display:block;}

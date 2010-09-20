@@ -1527,5 +1527,10 @@
     <changeSet author="aman (generated)" id="1281344986756-180">
         <dropColumn tableName="recipe" columnName="is_alcoholic" />
     </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-181">
+        <update tableName="shopping_list">
+            <column name="is_weekly_shopping_list" valueBoolean="true" />
+        </update>
+    </changeSet>
     
 </databaseChangeLog>

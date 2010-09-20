@@ -1,7 +1,13 @@
 <%@ page import="com.mp.domain.Aisle" %>
 <div class="clearfix">
     <div class="winter-week" id="shoppingWeek${weeklyShoppingList.weekIndex}">
-        <div class="winterButton"><h3><strong>Week ${weeklyShoppingList.weekIndex + 1}</strong></h3></div>
+        <br/>
+        <g:if test="${!shoppingList?.isWeeklyShoppingList}">
+            <div class="winterButton"><h3><strong>Complete List</strong></h3></div>
+        </g:if>
+        <g:else>
+            <div class="winterButton"><h3><strong>Week ${weeklyShoppingList.weekIndex + 1}</strong></h3></div>
+        </g:else>
         <g:each in="${weeklyShoppingList.aisles + null}" var="aisle">
             <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${(aisle ? aisle : 'Others')}</strong>
             <span id="products_${weeklyShoppingList.weekIndex}" class="grocery">

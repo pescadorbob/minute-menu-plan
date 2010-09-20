@@ -97,8 +97,7 @@ class ShoppingListFunctionalTests extends MenuPlannerFunctionalTests {
         Integer initialCount = ShoppingList.count()
         goToGenerateShoppingListPage()
         ShoppingListFormData shoppingListFormData = ShoppingListFormData.getDefaultShoppingListFormData()
-        shoppingListFormData.servings = ""
-        createShoppingList(shoppingListFormData)
+        createShoppingListBlankServings(shoppingListFormData)
         assertTitle('Minute Menu Plan : Generate Shopping List')
         assertStatus(200)
         Integer finalCount = ShoppingList.count()
@@ -235,7 +234,7 @@ class ShoppingListFunctionalTests extends MenuPlannerFunctionalTests {
         editShoppingList.click()
         assertStatus 200
         assertTitle 'Minute Menu Plan : Generate Shopping List'
-        def modifyList = byClass('modifyShoppingListButtonFT')
+        def modifyList = byClass('modifyShoppingListScaledFT')
         modifyList.click()
         assertStatus 200
         assertTitle 'Minute Menu Plan : Shopping List'
@@ -264,7 +263,7 @@ class ShoppingListFunctionalTests extends MenuPlannerFunctionalTests {
         editShoppingList.click()
         assertStatus 200
         assertTitle 'Minute Menu Plan : Generate Shopping List'
-        def modifyList = byClass('modifyShoppingListButtonFT')
+        def modifyList = byClass('modifyShoppingListScaledFT')
         modifyList.click()
         assertStatus 200
         assertTitle 'Minute Menu Plan : Shopping List'
@@ -300,7 +299,7 @@ class ShoppingListFunctionalTests extends MenuPlannerFunctionalTests {
         editShoppingList.click()
         assertStatus 200
         assertTitle 'Minute Menu Plan : Generate Shopping List'
-        def modifyList = byClass('modifyShoppingListButtonFT')
+        def modifyList = byClass('modifyShoppingListScaledFT')
         modifyList.click()
         assertStatus 200
         assertTitle 'Minute Menu Plan : Shopping List'
