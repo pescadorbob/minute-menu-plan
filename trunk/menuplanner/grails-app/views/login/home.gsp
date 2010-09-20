@@ -74,7 +74,7 @@
                 <h2>"Who Else Wants To Make Every Dinner This Week A Relaxed, Enjoyable Event That Your Family Will Talk About For Weeks - With Almost Zero Effort, 1/2 The Expense Or The Dreaded, "What's For Dinner?" Question?</h2>
                 <div class="clear clearfix">
                     <g:link controller="user" action="createFreeUser"><div class="orderbtn"><h3>Free</h3>Sign Up Now</div></g:link>
-                    <div id="video-box"><img src="${resource(dir: 'images', file: 'video.png')}"/></div>
+                    <div id="video-box"><p:image src='video.png'/></div>
                     <g:link controller="user" action="createFreeUser"><div class="orderbtn"><h3>Free</h3>Sign Up Now</div></g:link>
                 </div>
                 <h2>Find recipes from tons of categories including...</h2>
@@ -268,28 +268,28 @@
 </div>
 <g:if test="${!(GrailsUtil.environment in ['test'])}">
     <script type="text/javascript">
-      <g:if test="${!(params.fbLogout)}">
-      setTimeout("loginToMenuPlanner()",2000);
-      </g:if>
+        <g:if test="${!(params.fbLogout)}">
+        setTimeout("loginToMenuPlanner()", 2000);
+        </g:if>
         function getUid() {
             return FB.Connect.get_loggedInUser()
         }
         function logoutFB() {
             FB.Connect.logout()
         }
-        function loginToMenuPlanner(){
-          FB.Facebook.get_sessionState().waitUntilReady(function(session){
-            if(session){
-              $.post("${createLink(controller:'login',action:'isFacebookConnected')}",{'facebookUid':getUid()},function(data){
-                if(data=="true"){
-                  window.location.reload();
+        function loginToMenuPlanner() {
+            FB.Facebook.get_sessionState().waitUntilReady(function(session) {
+                if (session) {
+                    $.post("${createLink(controller:'login',action:'isFacebookConnected')}", {'facebookUid':getUid()}, function(data) {
+                        if (data == "true") {
+                            window.location.reload();
+                        }
+                        else {
+                            alert("Your Facebook account is not connected with Menu Planner website.\n Please login and connect your facebook account.");
+                        }
+                    })
                 }
-                else{
-                  alert("Your Facebook account is not connected with Menu Planner website.\n Please login and connect your facebook account.");
-                }
-              })
-            }
-          });
+            });
         }
     </script>
 </g:if>

@@ -1,4 +1,4 @@
-<li style="width:554px;display:${display?:''}">
+<li style="width:554px;display:${display ?: ''}">
     <span class="toolBoxes addIngredientBox" style="width:400px;">
         <span id="ingredientToBeAdded">
             <div style="float:left;">
@@ -21,6 +21,6 @@
             </div>
         </span>
     </span>
-    <img class="btnUp" src="${resource(dir: 'images', file: 'arw-up.gif')}" hspace="2" vspace="2"/>
-    <img class="btnDown" src="${resource(dir: 'images', file: 'arw-dwn.gif')}" vspace="2" hspace="2"/>
+    <p:image src='arw-up.gif' class="btnUp" hspace="2" vspace="2"/>
+    <p:image src='arw-dwn.gif' class="btnDown" vspace="2" hspace="2"/>
 </li>

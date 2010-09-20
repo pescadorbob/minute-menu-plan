@@ -4,7 +4,7 @@
 <head>
     <title>${recipe?.name}</title>
     <meta name="layout" content="menu"/>
-    <g:javascript src="jquery.printElement.min.js"/>
+    <p:javascript src="jquery.printElement.min.js"/>
     <rateable:resources/>
     <script type="text/javascript">
         jQuery(function() {
@@ -17,7 +17,7 @@
             jQuery(".printMe:first").printElement(options);
         }
     </script>
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'custom-ratings-inner.css')}"/>
+    <p:css name='custom-ratings-inner'/>
     <style type="text/css">
     .tooltip {
         background: transparent url('${resource(dir: 'images', file: '/tooltip/white_arrow-small.png')}');
@@ -31,9 +31,9 @@
     }
 
     </style>
-    <meta name="title" content="Minute Menu Plan : ${recipe?.name}" />
-    <meta name="description" content="${(recipe?.description ? recipe?.description : '')}" />
-    <link rel="image_src" href="${createLink(controller: 'image', action: 'image', params: [id: recipe?.image?.id, size: 200],absolute:true)}" />
+    <meta name="title" content="Minute Menu Plan : ${recipe?.name}"/>
+    <meta name="description" content="${(recipe?.description ? recipe?.description : '')}"/>
+    <link rel="image_src" href="${createLink(controller: 'image', action: 'image', params: [id: recipe?.image?.id, size: 200], absolute: true)}"/>
 </head>
 <body>
 <div class="clearfix printMe" id="content-wrapper">
@@ -48,12 +48,12 @@
             </div>
             <div id="rightpart">
                 <span>
-                   <mp:shareThis shareUrl="${createLink(controller:'recipe',action:'show',id:recipe.id,absolute:true)}"/>
+                    <mp:shareThis shareUrl="${createLink(controller:'recipe',action:'show',id:recipe.id,absolute:true)}"/>
                 </span>
                 <span>
                     <mp:showEditRecipe recipeId="${recipe?.id}"/>
                 </span>
-                <span><img src="${resource(dir: 'images', file: 'printer.gif')}"/><a href="#" id="printButton" title="${g.message(code: 'test.clueTip')}">Print</a></span>
+                <span><p:image src='printer.gif'/><a href="#" id="printButton" title="${g.message(code: 'test.clueTip')}">Print</a></span>
             </div>
         </div>
         <div class="top-shadow"><label></label></div>
@@ -66,28 +66,8 @@
         <g:render template="/recipe/printInstructions"/>
     </div>
 </div>
+<p:javascript src="recipe"/>
 <script type="text/javascript">
-    window.onload = preventRatingClickEvent;
-    function preventRatingClickEvent() {
-        $(".rating a").click(function(e) {
-            e.preventDefault()
-        })
-    }
-    jQuery(document).ready(function() {
-        jQuery('#showPrintInstructions').hide();
-        $("#printButton").tooltip({events: {
-            input: "focus mouseenter"
-        },
-            effect:'slide',
-            sticky:true
-        }).dynamic({ bottom: { direction: 'down', bounce: false } })
-    });
-
-    function showPrintInstruction() {
-        jQuery('#showPrintInstructions').show()
-        return false;
-    }
-
     jQuery(function() {
         var path = jQuery('.recipeImage').attr('src')
         var imagePath = path.substring("0", path.lastIndexOf("="))

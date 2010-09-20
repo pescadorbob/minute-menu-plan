@@ -7,10 +7,10 @@
         })
         /* jQuery for Image Upload. */
         jQuery('#selectUserImage').uploadify({
-            'uploader': "${resource(dir:'jquery.uploadify-v2.1.0', file:'uploadify.swf')}",
+            'uploader': "${resource(dir:'js/jquery.uploadify-v2.1.0', file:'uploadify.swf')}",
             'script': "${createLink(controller:'image', action:'uploadImage')}",
             'auto': true,
-            'buttonImg': "${resource(dir:'jquery.uploadify-v2.1.0', file:'browser.jpg')}",
+            'buttonImg': "${resource(dir:'js/jquery.uploadify-v2.1.0', file:'browser.jpg')}",
             'width': 130,
             onComplete: function(event, queId, fileObj, response, data) {
                 jQuery('#selectUserImagePath').val(response);

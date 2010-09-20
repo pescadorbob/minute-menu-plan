@@ -7,7 +7,7 @@
     <g:javascript library="ui.core"/>
     <g:javascript library="ui.sortable"/>
     <g:javascript src="menuPlan.js"/>
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'custom-ratings.css')}"/>
+    <p:css name='custom-ratings'/>
     <script type="text/javascript">
         setCrossImagePath("${resource(dir:'images',file:'delete.jpg')}")
     </script>

@@ -3,27 +3,11 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
     <title>Minute Menu Plan : <g:layoutTitle default="Minute Menu Plan"/></title>
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'common.css')}"/>
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'layout.css')}"/>
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'menuPlan.css')}"/>
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'user.css')}"/>
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'securityRole.css')}"/>
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'jquery.autocomplete.css')}"/>
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'jquery.lightbox-0.5.css')}"/>
-    %{--<link rel="stylesheet" href="${resource(dir: 'css', file: 'token-input-facebook.css')}"/>--}%
+    <p:css name='allMenuCss'/>
     <g:javascript library="jquery"/>
     <g:setProvider library="jquery"/>
-    <script type="text/javascript" src="${resource(dir: '/js/tiny_mce', file: 'tiny_mce.js')}"></script
-    <script type="text/javascript" src="${resource(dir: 'jquery.uploadify-v2.1.0', file: 'swfobject.js')}"></script>
-    <script type="text/javascript" src="${resource(dir: 'jquery.uploadify-v2.1.0', file: 'jquery.uploadify.v2.1.0.min.js')}"></script>
-    <script type="text/javascript" src="${resource(dir: 'js', file: 'createRecipe.js')}"></script>
-    <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.autocomplete.min.js')}"></script>
-    <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.tools.min.js')}"></script>
-    <script type="text/javascript" src="${resource(dir: 'js', file: 'shoppingList.js')}"></script>
-    <script type="text/javascript" src="${resource(dir: 'js', file: 'menuplanner.js')}"></script>
-    <script type="text/javascript" src="${resource(dir: 'js', file: 'jquery.lightbox-0.5.js')}"></script>
+    <p:javascript src='allMenuJquery'/>
     <g:layoutHead/>
-
 </head>
 <body>
 <g:setProvider library="jquery"/>
@@ -31,7 +15,7 @@
     <!-- start header -->
     <div id="header">
         <div id="logo"><a href="${resource(dir: '/')}">
-            <img src="${resource(dir: 'images', file: 'logo.gif')}" border="0"/>
+            <p:image src='logo.gif'/>
         </a>
             <h1><nobr>Plan Your Month's Menu in a Minute!</nobr></h1>
         </div>
@@ -43,78 +27,11 @@
     </div>
     <!--end wrapper start footer -->
     <span id="ajax_spinner" style="display: none;position:absolute; top:40%; left:50%; z-index:3000;">
-        <img src="${createLinkTo(dir: 'images', file: 'spinner.gif')}"/>
+        <p:image src='spinner.gif'/>
     </span>
     <div id="footer"></div>
     <!-- end header -->
 </div>
-<script type="text/javascript">
-
-    jQuery.each(jQuery('#navigation>ul>li'), function() {
-        jQuery(this).mouseover(function() {
-            jQuery(this).addClass("sfhover")
-        })
-        jQuery(this).mouseout(function() {
-            jQuery(this).removeClass("sfhover")
-        })
-    });
-
-    jQuery(document).ready(function() {
-        scaleImageSize();
-        jQuery("#ajax_spinner").ajaxStart(function() {
-            jQuery(this).show();
-        });
-        jQuery("#ajax_spinner").ajaxComplete(function(request, xhr) {
-            var rText = xhr.responseText;
-            if (rText.indexOf("Session TimedOut") > 0) {
-                window.location.href = rText.substring(rText.indexOf("=") + 1, rText.length);
-            }
-            jQuery(this).hide();
-            adjustDropDownWidth();
-        });
-        jQuery.ajaxSetup({cache: false});
-    });
-
-    function scaleImageSize(){
-              var imgH = jQuery('.scaleImageSize img').height();
-              var imgW = jQuery('.scaleImageSize img').width();
-              var divH = jQuery('.scaleImageSize').height();
-              var divW = jQuery('.scaleImageSize').width();
-              var imgRatio = imgH / imgW
-              var divRatio = divH / divW
-              if (imgRatio > divRatio)
-              {
-                  jQuery('.scaleImageSize img').attr('height', divH);
-                  imgW = jQuery('.scaleImageSize img').width();
-                  var marginLeft = (divW - imgW) / 2
-                  jQuery('.scaleImageSize img').css('margin-left', marginLeft);
-              }
-              else {
-                  jQuery('.scaleImageSize img').attr('width', divW);
-                  imgH = jQuery('.scaleImageSize img').height();
-                  var marginTop = (divH - imgH) / 2
-                  jQuery('.scaleImageSize img').css('margin-top', marginTop);
-              }
-    }
-
-    function adjustDropDownWidth() {
-        if (jQuery.browser.msie) {
-            jQuery('.auto-resize').each(function() {
-                var originalWidth = jQuery(this).css('width');
-                jQuery(this).parent('div').css('overflow', 'hidden');
-                jQuery(this).parent('span').css('overflow', 'hidden');
-                jQuery(this).blur(function() {
-                    jQuery(this).width(originalWidth);
-                });
-                jQuery(this).change(function() {
-                    jQuery(this).width(originalWidth);
-                });
-                jQuery(this).mousedown(function() {
-                    jQuery(this).css("width", "auto");
-                });
-            });
-        }
-    }
-</script>
+<p:javascript src='menuplanner'/>
 </body>
 </html>
