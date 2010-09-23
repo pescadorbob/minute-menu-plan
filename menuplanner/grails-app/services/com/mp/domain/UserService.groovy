@@ -37,11 +37,11 @@ class UserService {
                 FacebookAccount facebookAccount = (party?.facebookAccount) ? party?.facebookAccount : new FacebookAccount()
                 facebookAccount.uid = faceBookToken
                 facebookAccount.oauthToken = (token - "access_token=")
-                facebookAccount.party = party                
-                party?.facebookAccount=facebookAccount
-                def subscriber=updateUserInfo(party)
+                facebookAccount.party = party
+                party?.facebookAccount = facebookAccount
+                def subscriber = updateUserInfo(party)
                 party.s()
-                if (subscriber){
+                if (subscriber) {
                     subscriber.s()
                 }
                 facebookAccount.s()
@@ -81,12 +81,12 @@ class UserService {
             JSONElement response = JSON.parse(url.newReader())
             party?.name = response.name
             if (response?.location?.name) {
-                if (party.subscriber){
+                if (party.subscriber) {
                     party.subscriber.city = response?.location?.name
-                }else{
+                } else {
                     Subscriber subscriber = new Subscriber()
                     subscriber.party = party
-                    subscriber.city=response?.location?.name
+                    subscriber.city = response?.location?.name
                     party.addToRoles(subscriber)
                     return subscriber
                 }
@@ -148,6 +148,7 @@ class UserCO {
     String city
     String introduction
     Date joiningDate
+    Long affiliateId
     List<String> roles = []
     boolean isEnabled
     boolean showAlcoholicContent = false
@@ -171,6 +172,9 @@ class UserCO {
             mouthsToFeed = party?.subscriber?.mouthsToFeed
             introduction = party?.subscriber?.introduction
             city = party?.subscriber?.city
+        }
+        if (party?.subAffiliate) {
+            affiliateId = party?.subAffiliate?.affiliate?.id
         }
         joiningDate = party?.joiningDate
         isEnabled = party?.isEnabled
@@ -206,6 +210,12 @@ class UserCO {
         introduction(nullable: true, blank: true)
         city(nullable: true, blank: true)
         roles(nullable: false, blank: false)
+        affiliateId(validator: {val, obj ->
+            String subAffiliate = UserType.SubAffiliate.toString().replaceAll(" ", "")
+            if (!val && (subAffiliate in obj.roles)) {
+                return "userCO.subaffiliate.affiliate.blank.error"
+            }
+        })
     }
 
     //TODO: Change this implementation
@@ -233,59 +243,92 @@ class UserCO {
 //
 
     public Party updateParty() {
-        Party party = Party.get(id?.toLong())
-
-        //Delete unchecked roles first
-        if (party.subscriber && !(UserType.Subscriber.name() in roles)) {
-            Subscriber subscriber = party.subscriber
-            party.removeFromRoles(subscriber)
-            subscriber.delete(flush: true)
-        }
-
-        if (party.superAdmin && !(UserType.SuperAdmin.name() in roles)) {
-            SuperAdmin superAdmin = party.superAdmin
-            party.removeFromRoles(superAdmin)
-            superAdmin.delete(flush: true)
-        }
-
-        if (party.administrator && !(UserType.Admin.name() in roles)) {
-            Administrator administrator = party.administrator
-            party.removeFromRoles(administrator)
-            administrator.delete(flush: true)
-        }
-
-        party.name = name
-        if ((UserType.Subscriber.name() in roles)) {
-            Subscriber subscriber = party.subscriber ? party.subscriber : new Subscriber()
-            subscriber.city = city
-            subscriber.mouthsToFeed = mouthsToFeed
-            subscriber.introduction = introduction
-            attachImage(subscriber, selectUserImagePath)
-            subscriber.party = party
-            subscriber.party.showAlcoholicContent = showAlcoholicContent
-            subscriber.s()
-        }
-
-        if ((UserType.Admin.name() in roles) && !party.administrator) {
-            new Administrator(party: party).s()
-        }
-
-        if (UserType.SuperAdmin.name() in roles && !party.superAdmin) {
-            new SuperAdmin(party: party).s()
-        }
-
-        if (party.userLogin) {
-            UserLogin login = party.userLogin
-            login.email = email
-            if (login.password != password) {
-                login.password = password.encodeAsBase64()
+        Party party
+        Party.withTransaction {
+            party = Party.get(id?.toLong())
+            //Delete unchecked roles first
+            if (party.subscriber && !(UserType.Subscriber.name() in roles)) {
+                Subscriber subscriber = party.subscriber
+                party.removeFromRoles(subscriber)
+                subscriber.delete(flush: true)
             }
-            login.s()
-        } else if (email) {
-            new UserLogin(email: email, password: password.encodeAsBase64(), party: party).s()
-        }
 
-        party.isEnabled = isEnabled
+            if (party.affiliate && !(UserType.Affiliate.name() in roles)) {
+                Affiliate affiliate = party.affiliate
+                party.removeFromRoles(affiliate)
+                List<SubAffiliate> subAffilates = affiliate.subAffiliates
+                subAffilates*.affiliate = null
+                affiliate.delete(flush: true)
+            }
+
+            if (party.subAffiliate && !(UserType.SubAffiliate.name() in roles)) {
+                SubAffiliate subAffiliate = party.subAffiliate
+                subAffiliate.affiliate = null
+                party.removeFromRoles(subAffiliate)
+                subAffiliate.delete(flush: true)
+            }
+
+            if (party.superAdmin && !(UserType.SuperAdmin.name() in roles)) {
+                SuperAdmin superAdmin = party.superAdmin
+                party.removeFromRoles(superAdmin)
+                superAdmin.delete(flush: true)
+            }
+
+            if (party.administrator && !(UserType.Admin.name() in roles)) {
+                Administrator administrator = party.administrator
+                party.removeFromRoles(administrator)
+                administrator.delete(flush: true)
+            }
+
+            party.name = name
+            if ((UserType.Subscriber.name() in roles)) {
+                Subscriber subscriber = party.subscriber ? party.subscriber : new Subscriber()
+                subscriber.city = city
+                subscriber.mouthsToFeed = mouthsToFeed
+                subscriber.introduction = introduction
+                attachImage(subscriber, selectUserImagePath)
+                subscriber.party = party
+                subscriber.party.showAlcoholicContent = showAlcoholicContent
+                subscriber.s()
+            }
+
+            if ((UserType.Admin.name() in roles) && !party.administrator) {
+                new Administrator(party: party).s()
+            }
+
+            if ((UserType.Affiliate.name() in roles) && !party.affiliate) {
+                new Affiliate(party: party).s()
+            }
+
+            if ((UserType.SubAffiliate.name() in roles) && !party.subAffiliate) {
+                Affiliate affiliate = Affiliate.findById(affiliateId)
+                if (affiliate) {
+                    SubAffiliate subAffiliate = new SubAffiliate(affiliate: affiliate, party: party)
+                    party.addToRoles(subAffiliate)
+                    affiliate.addToSubAffiliates(subAffiliate)
+                    affiliate.s()
+                    party.s()
+                    subAffiliate.s()
+                }
+            }
+
+            if (UserType.SuperAdmin.name() in roles && !party.superAdmin) {
+                new SuperAdmin(party: party).s()
+            }
+
+            if (party.userLogin) {
+                UserLogin login = party.userLogin
+                login.email = email
+                if (login.password != password) {
+                    login.password = password.encodeAsBase64()
+                }
+                login.s()
+            } else if (email) {
+                new UserLogin(email: email, password: password.encodeAsBase64(), party: party).s()
+            }
+
+            party.isEnabled = isEnabled
+        }
         return party
     }
 
@@ -295,37 +338,57 @@ class UserCO {
     }
 
     public Party createParty() {
-        Party party = new Party(name: name)
-        party.isEnabled = isEnabled
-        LoginCredential loginCredential = new UserLogin(email: email, password: password.encodeAsBase64(), party: party)
-        party.loginCredentials = [loginCredential] as Set
-        party.s()
-
-        if (UserType.Subscriber.name() in roles) {
-            Subscriber subscriber = new Subscriber()
-            subscriber.city = city
-            subscriber.mouthsToFeed = mouthsToFeed
-            subscriber.introduction = introduction
-            subscriber.party = party
-            subscriber.party.showAlcoholicContent = showAlcoholicContent
-            attachImage(subscriber, selectUserImagePath)
-            party.addToRoles(subscriber)
+        Party party
+        Party.withTransaction {
+            party = new Party(name: name)
+            party.isEnabled = isEnabled
+            LoginCredential loginCredential = new UserLogin(email: email, password: password.encodeAsBase64(), party: party)
+            party.loginCredentials = [loginCredential] as Set
             party.s()
-            subscriber.s()
-        }
 
-        if (UserType.Admin.name() in roles) {
-            Administrator admin = new Administrator()
-            party.addToRoles(admin)
-            party.s()
-            admin.s()
-        }
+            if (UserType.Subscriber.name() in roles) {
+                Subscriber subscriber = new Subscriber()
+                subscriber.city = city
+                subscriber.mouthsToFeed = mouthsToFeed
+                subscriber.introduction = introduction
+                subscriber.party = party
+                subscriber.party.showAlcoholicContent = showAlcoholicContent
+                attachImage(subscriber, selectUserImagePath)
+                party.addToRoles(subscriber)
+                party.s()
+                subscriber.s()
+            }
+            if (UserType.Admin.name() in roles) {
+                Administrator admin = new Administrator()
+                party.addToRoles(admin)
+                party.s()
+                admin.s()
+            }
 
-        if (UserType.SuperAdmin.name() in roles) {
-            SuperAdmin superAdmin = new SuperAdmin()
-            party.addToRoles(superAdmin)
-            party.s()
-            superAdmin.s()
+            if (UserType.SuperAdmin.name() in roles) {
+                SuperAdmin superAdmin = new SuperAdmin()
+                party.addToRoles(superAdmin)
+                party.s()
+                superAdmin.s()
+            }
+
+            if (UserType.Affiliate.name() in roles) {
+                Affiliate affiliate = new Affiliate()
+                party.addToRoles(affiliate)
+                party.s()
+                affiliate.s()
+            }
+            if (UserType.SubAffiliate.name() in roles) {
+                Affiliate affiliate = Affiliate.findById(affiliateId)
+                if (affiliate) {
+                    SubAffiliate subAffiliate = new SubAffiliate(affiliate: affiliate, party: party)
+                    party.addToRoles(subAffiliate)
+                    affiliate.addToSubAffiliates(subAffiliate)
+                    affiliate.s()
+                    party.s()
+                    subAffiliate.s()
+                }
+            }
         }
         return party
     }

@@ -8,7 +8,7 @@
 <body>
 <div id="content-wrapper" class="clearfix">
     <div class="headbox">
-        <h3>Create Security Role</h3>
+        <h3>Security Role</h3>
     </div>
     <g:if test="${flash.message}">
         <div class="errors">${flash.message}</div>

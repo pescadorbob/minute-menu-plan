@@ -1,19 +1,38 @@
 <%@ page import="com.mp.MenuConstants" %>
 <li class="dotsLine"><strong>User</strong><br/>
     <ul>
-        <g:render template="/securityRole/permissionCheckbox" model="[title: 'List', role: role, permissionName: 'LIST_USERS']" />
-        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Update Role', role: role, permissionName: 'UPDATE_USER_ROLES']" />
-        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Remove Recipe Abuse', role: role, permissionName: 'REMOVE_RECIPE_ABUSE']" />
-        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Remove Comment Abuse', role: role, permissionName: 'REMOVE_COMMENT_ABUSE']" />
-        <g:render template="/securityRole/selfUserPermissionCheckbox" model="[title: 'Edit', role: role, permissionName: 'UPDATE_USERS']" />
-        <g:render template="/securityRole/selfUserPermissionCheckbox" model="[title: 'Delete', role: role, permissionName: 'DELETE_USERS']" />
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'List', role: role, permissionName: 'LIST_USERS']"/>
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Remove Recipe Abuse', role: role, permissionName: 'REMOVE_RECIPE_ABUSE']"/>
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Remove Comment Abuse', role: role, permissionName: 'REMOVE_COMMENT_ABUSE']"/>
+        <g:render template="/securityRole/selfUserPermissionCheckbox" model="[title: 'Edit', role: role, permissionName: 'UPDATE_USERS']"/>
+        <g:render template="/securityRole/selfUserPermissionCheckbox" model="[title: 'Delete', role: role, permissionName: 'DELETE_USERS']"/>
     </ul>
 </li>
 <li class="dotsLine">
     <strong>Recipes</strong>
     <ul>
-        <g:render template="/securityRole/ownsRecipePermissionCheckbox" model="[title: 'Update', role: role, permissionName: 'UPDATE_RECIPE']" />
-        <g:render template="/securityRole/selfUserPermissionCheckbox" model="[title: 'Remove From Favourties', role: role, permissionName: 'REMOVE_RECIPE_FROM_FAVOURITES']" />
+        <g:render template="/securityRole/ownsRecipePermissionCheckbox" model="[title: 'Update', role: role, permissionName: 'UPDATE_RECIPE']"/>
+        <g:render template="/securityRole/selfUserPermissionCheckbox" model="[title: 'Remove From Favourties', role: role, permissionName: 'REMOVE_RECIPE_FROM_FAVOURITES']"/>
+    </ul>
+</li>
+<li class="dotsLine">
+    <strong>Manage Roles</strong>
+    <ul>
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Manage Super Admin', role: role, permissionName: 'MANAGE_SUPER_ADMIN']"/>
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Manage Administrator', role: role, permissionName: 'MANAGE_ADMIN']"/>
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Manage Subscriber', role: role, permissionName: 'MANAGE_SUBSCRIBER']"/>
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Manage Affiliate', role: role, permissionName: 'MANAGE_AFFILIATE']"/>
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Manage Sub Affiliate', role: role, permissionName: 'MANAGE_SUB_AFFILIATE']"/>
+    </ul>
+</li>
+<li class="dotsLine">
+    <strong>Assign Permissions</strong>
+    <ul>
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Assign Super Admin', role: role, permissionName: 'CAN_ASSIGN_SUPER_ADMIN_ROLE']"/>
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Assign Administrator', role: role, permissionName: 'CAN_ASSIGN_ADMIN_ROLE']"/>
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Assign Subscriber', role: role, permissionName: 'CAN_ASSIGN_SUBSCRIBER_ROLE']"/>
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Assign Affiliate', role: role, permissionName: 'CAN_ASSIGN_AFFILIATE_ROLE']"/>
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Assign Sub Affiliate', role: role, permissionName: 'CAN_ASSIGN_SUB_AFFILIATE_ROLE']"/>
     </ul>
 </li>
 <script type="text/javascript">
