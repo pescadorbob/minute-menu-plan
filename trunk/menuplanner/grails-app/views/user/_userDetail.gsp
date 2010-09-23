@@ -66,19 +66,12 @@
     %{--<img src="${resource(dir: 'images', file: 'calendar.png')}" alt="Calendar " align="absmiddle"/>--}%
     %{--</label>--}%
     %{--</li>--}%
-        <g:if test="${permission.hasPermission(permission: Permission.UPDATE_USER_ROLES)}">
-            <li><span></span>
-                <label>
-                    <input id="chk_Enable" name="isEnabled" ${(userCO) ? ((userCO?.isEnabled) ? 'checked="checked"' : '') : 'checked="checked"'}type="checkbox" value="true"/>
-                    <strong>Account enabled</strong>
-                </label>
-            </li>
-        </g:if>
-        <g:else>
-            <g:if test="${userCO?.isEnabled}">
-                <input id="chk_Enable" name="isEnabled" type="hidden" value="true"/>
-            </g:if>
-        </g:else>
+        <li><span></span>
+            <label>
+                <input id="chk_Enable" name="isEnabled" ${(userCO) ? ((userCO?.isEnabled) ? 'checked="checked"' : '') : 'checked="checked"'}type="checkbox" value="true"/>
+                <strong>Account enabled</strong>
+            </label>
+        </li>
     </ul>
 </div>
 

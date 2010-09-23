@@ -121,10 +121,8 @@ class UserController {
         }
     }
     def create = {
-        UserCO userCO = new UserCO(roles: [UserType.Subscriber.toString()], isEnabled: true)
-        Party party = new Party()
-        party.addToRoles(new Subscriber())
-        render(view: 'create', model: [userCO: userCO, party: party])
+        UserCO userCO = new UserCO(isEnabled: true)
+        render(view: 'create', model: [userCO: userCO])
     }
 
     def createUser = {
@@ -173,10 +171,11 @@ class UserController {
 
     def show = {
         Party party = Party.get(params.long('id'))
+        Party currentUser = LoginCredential?.currentUser?.party
         if (party) {
             Map abusiveRecipesMap = party?.abusiveRecipesMap
             Map abusiveCommentsMap = party?.abusiveCommentsMap
-            render(view: 'show', model: [abusiveCommentsMap: abusiveCommentsMap, abusiveRecipesMap: abusiveRecipesMap, party: party])
+            render(view: 'show', model: [abusiveCommentsMap: abusiveCommentsMap, abusiveRecipesMap: abusiveRecipesMap, party: party, currentUser: currentUser])
         } else {
             response.sendError(404)
         }
@@ -184,7 +183,7 @@ class UserController {
 
     def facebookConnect = {
         Long userId = params.long('userId') ? params.long('userId') : 0L
-        Party party = Party.get(userId)?:new Party(name:'menuPlanner_user').s()
+        Party party = Party.get(userId) ?: new Party(name: 'menuPlanner_user').s()
         String redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true).encodeAsURL()}"
         party = userService.updateUserFromFacebook(redirectUrl, params.code, party)
         if (party) {
@@ -193,9 +192,9 @@ class UserController {
             } else {
                 party.s()
                 session.loggedUserId = party.id.toString()
-                if(party?.facebookAccount){
+                if (party?.facebookAccount) {
                     render "<script type='text/javascript'>window.opener.location.href='" + createLink(controller: 'recipe', action: 'list') + "';window.close();</script>"
-                }else{
+                } else {
                     render "<script type='text/javascript'>window.opener.location.href='" + createLink(controller: 'user', action: 'show', id: party.id) + "';window.close();</script>"
                 }
             }
@@ -318,13 +317,45 @@ class UserController {
             println "Session Id: " + session.id
             println "Session Id: " + session.id
             session.setMaxInactiveInterval(3600)
-            session.loggedUserId=party?.id
+            session.loggedUserId = party?.id
             redirect(action: 'list', controller: 'recipe')
         } else {
             userCO.errors.allErrors.each {
                 println it
             }
             render(view: 'createFreeUser', model: [userCO: userCO])
+        }
+    }
+
+    def createSubAffiliate = {
+        UserCO userCO = new UserCO()
+        userCO.roles = [UserType.SubAffiliate.name()]
+        userCO.isEnabled = true
+        render(view: 'createSubAffiliate', model: [userCO: userCO])
+    }
+
+    def saveSubAffiliate = {UserCO userCO ->
+        Long affiliateId = LoginCredential?.currentUser?.party?.id
+        if (affiliateId) {
+            userCO.roles = [UserType.SubAffiliate.name()]
+            userCO.affiliateId = affiliateId
+        }
+        userCO.isEnabled = true
+        if (userCO.validate()) {
+            Party party = userCO.createParty()
+            flash.message = message(code: 'subAffiliate.created.success')
+            redirect(action: 'showSubAffiliate', id: party?.id)
+        } else {
+            render(view: 'createSubAffiliate', model: [userCO: userCO])
+        }
+    }
+
+    def showSubAffiliate = {
+        Party party = Party.get(params.long('id'))
+        if (party) {
+            render(view: 'showSubAffiliate', model: [party: party])
+        } else {
+            response.sendError(404)
         }
     }
 

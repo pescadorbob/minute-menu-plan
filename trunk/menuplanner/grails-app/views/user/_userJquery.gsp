@@ -18,10 +18,24 @@
             }
         });
     })
-    function ChangePassword(){
+    function ChangePassword() {
         jQuery('.passwordSection').show()
         jQuery('input[name="password"]').val('')
-        jQuery('input[name="confirmPassword"]').val('')        
+        jQuery('input[name="confirmPassword"]').val('')
         jQuery('#btnChangePassword').hide()
     }
+    jQuery('#chk_SubAffiliate').click(function() {
+        if (jQuery('#affiliatesList').is(':hidden')) {
+            jQuery('#affiliatesList').show()
+        } else {
+            jQuery('#affiliatesList').hide()
+        }
+    })
+
+    jQuery(function() {
+        if (jQuery('#chk_SubAffiliate').attr('checked')) {
+            jQuery('#affiliatesList').show()
+        }
+    });
+
 </script>

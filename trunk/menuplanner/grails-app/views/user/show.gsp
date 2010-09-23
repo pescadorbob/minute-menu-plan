@@ -13,6 +13,9 @@
                 <g:if test="${party?.administrator || party?.superAdmin}">
                     <h3>Admin Profile Detail</h3>
                 </g:if>
+                <g:elseif test="${party?.affiliate || party?.subAffiliate}">
+                    <h3>Affiliate Profile Detail</h3>
+                </g:elseif>
                 <g:else>
                     <h3>User Profile Detail</h3>
                 </g:else>
@@ -43,6 +46,14 @@
                         <li><h3>Favorites</h3></li>
                         <g:render template="/user/favoriteRecipes" model="[party:party]"/>
                     </ul>
+                    <g:if test="${party?.affiliate}">
+                        <ul>
+                            <li><h3>Sub Affiliates</h3></li>
+                            <g:each in="${party?.affiliate?.subAffiliates}" var="subAffiliate">
+                                <li><g:link controller="user" action="showSubAffiliate" id="${subAffiliate?.party?.id}">${subAffiliate}</g:link></li>
+                            </g:each>
+                        </ul>
+                    </g:if>
                 </div>
                 <div id="rightpanel">
                     <ul>
@@ -102,12 +113,30 @@
                 <div id="button">
                     <g:form name="formUserDetail">
                         <g:hiddenField name='id' value='${party?.id}'/>
-                        <g:if test="${permission.hasPermission(permission: Permission.UPDATE_USERS,party:party)}">
+                        <g:if test="${(party?.superAdmin) && permission.hasPermission(permission: Permission.MANAGE_SUPER_ADMIN,party:currentUser)}">
                             <g:actionSubmit class='button editUserButtonFT' controller='user' action='edit' id='${party?.id}' value='Edit Profile'/>
-                        </g:if>
-                        <g:if test="${permission.hasPermission(permission: Permission.DELETE_USERS,party:party)}">
                             <g:actionSubmit class='button deleteUserButtonFT' controller='user' action='delete' id='${party?.id}' value='Delete User' onclick="return confirm('Are you sure?');"/>
                         </g:if>
+
+                        <g:elseif test="${(party?.administrator) && permission.hasPermission(permission: Permission.MANAGE_ADMIN,party:currentUser)}">
+                            <g:actionSubmit class='button editUserButtonFT' controller='user' action='edit' id='${party?.id}' value='Edit Profile'/>
+                            <g:actionSubmit class='button deleteUserButtonFT' controller='user' action='delete' id='${party?.id}' value='Delete User' onclick="return confirm('Are you sure?');"/>
+                        </g:elseif>
+
+                        <g:elseif test="${(party?.subscriber) && permission.hasPermission(permission: Permission.MANAGE_SUBSCRIBER,party:currentUser)}">
+                            <g:actionSubmit class='button editUserButtonFT' controller='user' action='edit' id='${party?.id}' value='Edit Profile'/>
+                            <g:actionSubmit class='button deleteUserButtonFT' controller='user' action='delete' id='${party?.id}' value='Delete User' onclick="return confirm('Are you sure?');"/>
+                        </g:elseif>
+
+                        <g:elseif test="${(party?.affiliate) && permission.hasPermission(permission: Permission.MANAGE_AFFILIATE,party:currentUser)}">
+                            <g:actionSubmit class='button editUserButtonFT' controller='user' action='edit' id='${party?.id}' value='Edit Profile'/>
+                            <g:actionSubmit class='button deleteUserButtonFT' controller='user' action='delete' id='${party?.id}' value='Delete User' onclick="return confirm('Are you sure?');"/>
+                        </g:elseif>
+
+                        <g:elseif test="${(party?.subAffiliate) && permission.hasPermission(permission: Permission.MANAGE_SUB_AFFILIATE,party:currentUser)}">
+                            <g:actionSubmit class='button editUserButtonFT' controller='user' action='edit' id='${party?.id}' value='Edit Profile'/>
+                            <g:actionSubmit class='button deleteUserButtonFT' controller='user' action='delete' id='${party?.id}' value='Delete User' onclick="return confirm('Are you sure?');"/>
+                        </g:elseif>
                     </g:form>
                 </div>
             </div>

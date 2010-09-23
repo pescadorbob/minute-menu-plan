@@ -8,6 +8,8 @@ class Party {
     FacebookAccount facebookAccount
     Boolean isEnabled = true
     Boolean showAlcoholicContent = false
+    String uniqueId =UUID.randomUUID().toString()
+    Party coach
 
     Set<PartyRole> roles = []
     Set<LoginCredential> loginCredentials = []
@@ -18,10 +20,10 @@ class Party {
     List<Aisle> aisles = []
     List<Product> ingredients = []
 
-    static transients = ['isEnabledString', 'email', 'password', 'userLogin', 'role', 'administrator', 'superAdmin', 'subscriber']
+    static transients = ['isEnabledString', 'email', 'password', 'userLogin', 'role', 'administrator', 'superAdmin', 'subscriber', 'affiliate', 'subAffiliate']
 
     static hasMany = [favourites: Recipe, contributions: Recipe, menuPlans: MenuPlan, aisles: Aisle, ingredients: Product,
-            roles: PartyRole, loginCredentials: LoginCredential, shoppingLists: ShoppingList]
+            roles: PartyRole, loginCredentials: LoginCredential, shoppingLists: ShoppingList, clients: Party]
 
     def beforeInsert = {
         joiningDate = new Date()
@@ -63,6 +65,8 @@ class Party {
     static constraints = {
         facebookAccount(nullable: true)
         joiningDate(nullable: true, blank: true)
+        uniqueId(nullable: true, blank: true)
+        coach(nullable: true, blank: true)
     }
 
     String getIsEnabledString() {
@@ -79,6 +83,14 @@ class Party {
 
     SuperAdmin getSuperAdmin() {
         return getRole(UserType.SuperAdmin)
+    }
+
+    Affiliate getAffiliate() {
+        return getRole(UserType.Affiliate)
+    }
+
+    SubAffiliate getSubAffiliate() {
+        return getRole(UserType.SubAffiliate)
     }
 
     PartyRole getRole(UserType type) {

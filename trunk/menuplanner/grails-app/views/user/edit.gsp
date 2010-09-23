@@ -12,6 +12,9 @@
                 <g:if test="${party?.administrator || party?.superAdmin}">
                     <h3>Admin Profile Detail</h3>
                 </g:if>
+                <g:elseif test="${party?.affiliate || party?.subAffiliate}">
+                    <h3>Affiliate Profile Detail</h3>
+                </g:elseif>
                 <g:else>
                     <h3>User Profile Detail</h3>
                 </g:else>

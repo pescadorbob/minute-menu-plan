@@ -75,7 +75,12 @@ class BootStrap {
             if (GrailsUtil.environment in ['qa', 'beta']) {
                 bootstrapService.populateBetaUsers()
             } else {
-                Map<String, List<String>> userNames = ['superAdmin': ['SuperAdmin'], 'user1': ['Subscriber']]
+                Map<String, List<String>> userNames
+                if (GrailsUtil.environment == 'test') {
+                    userNames = ['superAdmin': ['SuperAdmin'], 'user1': ['Subscriber']]
+                } else {
+                    userNames = ['superAdmin': ['SuperAdmin'], 'admin': ['Admin'], 'user1': ['Subscriber'], 'affiliate': ['Affiliate'], 'subAffiliate': ['SubAffiliate']]
+                }
                 userNames.each {String name, List<String> roles ->
                     println "Populating User - ${name}"
                     bootstrapService.populateUser(name, roles)

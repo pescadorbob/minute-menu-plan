@@ -107,6 +107,8 @@ class MenuConstants {
     public static final String SECURITY_ROLE_SUBSCRIBER = UserType.Subscriber.toString()
     public static final String SECURITY_ROLE_ADMIN = UserType.Admin.toString()
     public static final String SECURITY_ROLE_SUPER_ADMIN = UserType.SuperAdmin.toString()
+    public static final String SECURITY_ROLE_AFFILIATE = UserType.Affiliate.toString()
+    public static final String SECURITY_ROLE_SUB_AFFILIATE = UserType.SubAffiliate.toString()
 
     public static final Long NOT_AUTHORIZED_PERMISSION_LEVEL = 0
     public static final Long UNRESTRICTED_ACCESS_PERMISSION_LEVEL = 1

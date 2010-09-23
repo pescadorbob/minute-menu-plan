@@ -1532,5 +1532,14 @@
             <column name="is_weekly_shopping_list" valueBoolean="true" />
         </update>
     </changeSet>
-    
+    <changeSet author="aman (generated)" id="1281344986756-182">
+        <update tableName="party">
+            <column name="unique_id" type="VARCHAR(255)" />
+        </update>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-183">
+        <update tableName="party">
+            <column name="coach_id"  type="BIGINT"/>
+        </update>
+    </changeSet>
 </databaseChangeLog>

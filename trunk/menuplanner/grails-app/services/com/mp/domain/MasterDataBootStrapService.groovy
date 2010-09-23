@@ -71,6 +71,7 @@ class MasterDataBootStrapService implements ApplicationContextAware {
         pkg.s()
 
     }
+
     public void populateUnitsAndStandardConversions() {
 
         /* POPULATEING METRIC UNITS: */
@@ -182,9 +183,20 @@ class MasterDataBootStrapService implements ApplicationContextAware {
         if (!SecurityRole.countByName(SECURITY_ROLE_ADMIN)) {
             println "Populating Security role ${SECURITY_ROLE_ADMIN}"
             SecurityRole role = new SecurityRole(name: SECURITY_ROLE_ADMIN, description: 'Admin to manage subscribers content').s()
-            Permission.values().each {Permission permission ->
-                new PermissionLevel(role: role, permission: permission, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
-            }
+            new PermissionLevel(role: role, permission: Permission.CREATE_RECIPE, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
+            new PermissionLevel(role: role, permission: Permission.UPDATE_RECIPE, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
+            new PermissionLevel(role: role, permission: Permission.DELETE_RECIPE, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
+            new PermissionLevel(role: role, permission: Permission.UPDATE_USER_ROLES, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
+            new PermissionLevel(role: role, permission: Permission.LIST_USERS, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
+            new PermissionLevel(role: role, permission: Permission.UPDATE_USERS, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
+            new PermissionLevel(role: role, permission: Permission.DELETE_USERS, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
+            new PermissionLevel(role: role, permission: Permission.MANAGE_SUBSCRIBER, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
+            new PermissionLevel(role: role, permission: Permission.MANAGE_ADMIN, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
+            new PermissionLevel(role: role, permission: Permission.MANAGE_AFFILIATE, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
+            new PermissionLevel(role: role, permission: Permission.MANAGE_SUB_AFFILIATE, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
+            new PermissionLevel(role: role, permission: Permission.REMOVE_RECIPE_FROM_FAVOURITES, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
+            new PermissionLevel(role: role, permission: Permission.REMOVE_RECIPE_ABUSE, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
+            new PermissionLevel(role: role, permission: Permission.REMOVE_COMMENT_ABUSE, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
         }
 
         if (!SecurityRole.countByName(SECURITY_ROLE_SUBSCRIBER)) {
@@ -193,8 +205,24 @@ class MasterDataBootStrapService implements ApplicationContextAware {
             new PermissionLevel(role: role, permission: Permission.UPDATE_RECIPE, level: ACCESS_IF_OWNS_RECIPE_PERMISSION_LEVEL).s()
             new PermissionLevel(role: role, permission: Permission.REMOVE_RECIPE_FROM_FAVOURITES, level: ACCESS_IF_OWNS_USER_PERMISSION_LEVEL).s()
             new PermissionLevel(role: role, permission: Permission.UPDATE_USERS, level: ACCESS_IF_OWNS_USER_PERMISSION_LEVEL).s()
+            new PermissionLevel(role: role, permission: Permission.MANAGE_SUBSCRIBER, level: ACCESS_IF_OWNS_USER_PERMISSION_LEVEL).s()
         }
 
+        if (!SecurityRole.countByName(SECURITY_ROLE_AFFILIATE)) {
+            println "Populating Security role ${SECURITY_ROLE_AFFILIATE}"
+            SecurityRole role = new SecurityRole(name: SECURITY_ROLE_AFFILIATE, description: 'Affiliate').s()
+            new PermissionLevel(role: role, permission: Permission.MANAGE_SUB_AFFILIATE, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
+            new PermissionLevel(role: role, permission: Permission.MANAGE_AFFILIATE, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
+            new PermissionLevel(role: role, permission: Permission.UPDATE_USERS, level: ACCESS_IF_OWNS_USER_PERMISSION_LEVEL).s()
+            new PermissionLevel(role: role, permission: Permission.UPDATE_RECIPE, level: ACCESS_IF_OWNS_RECIPE_PERMISSION_LEVEL).s()
+            new PermissionLevel(role: role, permission: Permission.REMOVE_RECIPE_FROM_FAVOURITES, level: ACCESS_IF_OWNS_USER_PERMISSION_LEVEL).s()
+        }
+
+        if (!SecurityRole.countByName(SECURITY_ROLE_SUB_AFFILIATE)) {
+            println "Populating Security role ${SECURITY_ROLE_SUB_AFFILIATE}"
+            SecurityRole role = new SecurityRole(name: SECURITY_ROLE_SUB_AFFILIATE, description: 'Sub Affiliate').s()
+            new PermissionLevel(role: role, permission: Permission.MANAGE_SUB_AFFILIATE, level: ACCESS_IF_OWNS_USER_PERMISSION_LEVEL).s()
+        }
     }
 
     public static void verifySecurityAccess() {

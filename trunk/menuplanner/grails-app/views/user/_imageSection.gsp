@@ -1,4 +1,4 @@
-<%@ page import="com.mp.domain.Permission; com.mp.domain.UserType" %>
+<%@ page import="com.mp.domain.Affiliate; com.mp.domain.Permission; com.mp.domain.UserType" %>
 <div id="leftpanel">
     <g:if test="${party?.subscriber}">
         <div id="photo">
@@ -9,18 +9,12 @@
     </g:if>
     <ul>
         <g:if test="${userCO?.joiningDate}"><li>Member since ${userCO?.joiningDate?.format('MMMM yyyy')}</li></g:if><li></li><li></li>
-        <g:if test="${permission.hasPermission(permission: Permission.UPDATE_USER_ROLES)}">
-            <g:each in="${UserType?.list()}" var="role">
-                <li><input id="chk_${role.name()}" type="checkbox" name="roles" ${(role.name() in userCO?.roles) ? 'checked="checked"' : ''} value="${role.name()}"/>${role.name}</li>
-            </g:each>
-        </g:if>
-        <g:else>
-            <g:each in="${UserType?.list()}" var="role">
-                <g:if test="${role.name() in userCO?.roles}">
-                    <li><input id="chk_${role.name()}" type="hidden" name="roles" value="${role.name()}"/></li>
-                </g:if>
-            </g:each>
-        </g:else>
+
+        <g:render template="/user/userRoles" model="[userCO:userCO,party:party]"/>
+
+        <div id="affiliatesList" style="display:none">
+            <span style="margin-left:10px;"><g:select class="inpbox ${hasErrors(bean: userCO, field: 'affiliateId', 'errors')}" name="affiliateId" from="${Affiliate?.list()}" value="${userCO?.affiliateId}" optionKey="id" noSelection='["":"Select One"]'/></span>
+        </div>
         <g:if test="${params.action != 'create'}">
             <li><h3>Contributed Recipes</h3></li>
             <g:render template="/user/contributedRecipes" model="[party:party]"/>

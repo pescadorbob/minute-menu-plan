@@ -16,8 +16,31 @@ class UtilController {
     def asynchronousMailService
     def facebookConnectService
     def utilService
+    def masterDataBootStrapService
 
     static config = ConfigurationHolder.config
+
+    def updateDB = {
+        //Delete security roles and permissions, then create again
+        SecurityRole.list().each {SecurityRole securityRole ->
+            List<PermissionLevel> tempPermissionLevels = securityRole.permissionLevels as List
+            securityRole.permissionLevels = []
+            tempPermissionLevels.each {
+                it.delete(flush: true)
+            }
+            securityRole.delete(flush: true)
+        }
+        if (!SecurityRole.count()) {masterDataBootStrapService.populatePermissions()}
+
+        //Add UUID for already existing parties
+        Party.list().each {
+            if (!it.uniqueId) {
+                it.uniqueId = UUID.randomUUID().toString()
+                it.s()
+            }
+        }
+        render "Succcess"
+    }
 
     def deleteAllRecipes = {
         List<Recipe> recipes = Recipe.list()
@@ -40,12 +63,12 @@ class UtilController {
 
     def testIngredientParserSubmit = {
         println ">>>>>>>>>>>>>>>>>>>>>>>>>>>Go It"
-        Map model=[:]
+        Map model = [:]
 
-        List<IngredientItemVO> ingredientItemVOs= utilService.parseIngredients(params.ingredients)
-        model.ingredientItemVOs=ingredientItemVOs
+        List<IngredientItemVO> ingredientItemVOs = utilService.parseIngredients(params.ingredients)
+        model.ingredientItemVOs = ingredientItemVOs
 
-        render (view:'testIngredientParser',model:model)
+        render(view: 'testIngredientParser', model: model)
 
     }
 
@@ -148,7 +171,7 @@ class UtilController {
     }
 }
 
-class IngredientItemVO{
+class IngredientItemVO {
     String amount;
     String measure
     String ingredient
