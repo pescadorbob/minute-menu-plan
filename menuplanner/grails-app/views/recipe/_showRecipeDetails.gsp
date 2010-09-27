@@ -31,7 +31,11 @@
                         <mp:serveWithItems recipeId="${recipe?.id}"/>
                     </li>
                 </g:if>
+                <li>
+                    <g:render template="/recipe/contributor" model="[recipe:recipe]"/>
+                </li>
                 <li></li>
+
             </ul>
         </li>
         <li id="rightLiElements">

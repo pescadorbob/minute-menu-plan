@@ -4,6 +4,7 @@ import grails.converters.deep.JSON
 
 class QuickFillController {
 
+    def recipeService
     def index = {
         redirect(action: 'quickFillAdmin')
     }
@@ -11,16 +12,20 @@ class QuickFillController {
     def quickFillAdmin = {
         params.max = Math.min(params.max ? params.int('max') : 4, 100)
 
-        QuickFill quickFill = new QuickFill(mealItems: [new Meal(type: MealType.DINNER), new Meal(type: MealType.DINNER), new Meal(type: MealType.DINNER), new Meal(type: MealType.DINNER),new Meal(type: MealType.BREAKFAST), new Meal(type: MealType.LUNCH)])
+        QuickFill quickFill = new QuickFill(mealItems: [new Meal(type: MealType.DINNER), new Meal(type: MealType.DINNER), new Meal(type: MealType.DINNER), new Meal(type: MealType.DINNER), new Meal(type: MealType.BREAKFAST), new Meal(type: MealType.LUNCH)])
         if (params.id) {
             quickFill = QuickFill.get(params.long("id"))
         }
-        List<Recipe> recipeList = Recipe.list(params)
-        [categories: Category.list(), itemList: recipeList, itemTotal: Recipe.count(), quickFill: quickFill, quickFillList: QuickFill.list(max: params.max, offset: params?.offset), quickFillTotal: QuickFill.count()]
+        List<Recipe> results = []
+        results = recipeService.getFilteredRecipeList(4, 0)
+        Integer total = recipeService.getFilteredRecipeCount()
+        List<SubCategory> subCategories = (Recipe.list()*.subCategories)?.flatten()?.unique {it.id}?.sort {it.name}
+        List<Category> categories = (subCategories*.category)?.flatten()?.unique {it.id}?.sort {it.name}
+        [categories: categories, subCategories: subCategories, itemList: results, itemTotal: total, quickFill: quickFill, quickFillList: QuickFill.list(max: params.max, offset: params?.offset), quickFillTotal: QuickFill.count()]
     }
 
     def saveAndUpdateQuickFill = {
-        if(!params?.quickFillName){
+        if (!params?.quickFillName) {
             flash.message = "Please specify the name for the Quick Fill"
             redirect(action: "quickFillAdmin")
             return
@@ -45,7 +50,7 @@ class QuickFillController {
         quickFill.addToMealItems(meal5)
         quickFill.addToMealItems(meal6)
 //        try{
-            quickFill.s()
+        quickFill.s()
 //        }catch(ex){
 //
 //        }
@@ -53,21 +58,21 @@ class QuickFillController {
         redirect(action: "quickFillAdmin")
     }
 
-    def getQuickFill={
+    def getQuickFill = {
         QuickFill quickFill = QuickFill.get(params.long('id'))
-        String jsonQuickFill="{'mealItems':["
-        def mealCount=quickFill?.mealItems?.size()
-        quickFill?.mealItems?.eachWithIndex{Meal meal,Integer j->
-            jsonQuickFill+=" {'items':["
-            def itemCount=meal?.items?.size()
-            meal?.items?.eachWithIndex {Item item,Integer i->
-                jsonQuickFill+="{'id':${item.id},'name':'${item.name}'}${((itemCount-1)==i)?'':','}"
+        String jsonQuickFill = "{'mealItems':["
+        def mealCount = quickFill?.mealItems?.size()
+        quickFill?.mealItems?.eachWithIndex {Meal meal, Integer j ->
+            jsonQuickFill += " {'items':["
+            def itemCount = meal?.items?.size()
+            meal?.items?.eachWithIndex {Item item, Integer i ->
+                jsonQuickFill += "{'id':${item.id},'name':'${item.name}'}${((itemCount - 1) == i) ? '' : ','}"
 
             }
-            jsonQuickFill+="]}${((mealCount-1)==j)?'':','}"
+            jsonQuickFill += "]}${((mealCount - 1) == j) ? '' : ','}"
         }
-        jsonQuickFill+="]}"
+        jsonQuickFill += "]}"
 //        String quickFillJson=(quickFill as JSON).toString()
-        render (text:""" "($jsonQuickFill)" """,contentType:'text/json') 
+        render(text: """ "($jsonQuickFill)" """, contentType: 'text/json')
     }
 }

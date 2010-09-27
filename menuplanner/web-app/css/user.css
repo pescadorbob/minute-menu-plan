@@ -39,7 +39,10 @@
     width: 190px;
 }
 #photo200{width:200px; height:200px;border: 2px solid #d6d4d5; text-align:left;}
-
+#photo50{width:50px; float:left;border: 2px solid #d6d4d5;}
+.contributor-image{width:450px;border:1px solid #d6d4d5;background-color:#E6E6E6;padding:5px; -moz-border-radius:3px; border-radius:3px;}
+.contributor-image ul li{padding:2px 0 !important; clear:both;}
+.contributor-image span{padding:0 5px; width:375px;}
 /* end leftpanel start rightpanel  */
 #rightpanel {
     float: right;
