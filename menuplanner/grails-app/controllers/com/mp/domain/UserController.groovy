@@ -131,7 +131,11 @@ class UserController {
     }
 
     def createFreeUser = {
+        String coachId = params?.coachId
         UserCO userCO = new UserCO()
+        if (coachId) {
+            userCO.coachId = coachId
+        }
         render(view: 'createFreeUser', model: [userCO: userCO])
     }
 
@@ -308,6 +312,10 @@ class UserController {
     def newFreeUserSignUp = {UserCO userCO ->
         userCO.roles.add(UserType.Subscriber.name())
         userCO.isEnabled = true
+        String coachId = params?.coachId
+        if (coachId) {
+            userCO.coachId = coachId
+        }
         if (userCO.validate()) {
             Party party = userCO.createParty()
             Map data = [:]
@@ -344,18 +352,9 @@ class UserController {
         if (userCO.validate()) {
             Party party = userCO.createParty()
             flash.message = message(code: 'subAffiliate.created.success')
-            redirect(action: 'showSubAffiliate', id: party?.id)
+            redirect(action: 'show', id: party?.id)
         } else {
             render(view: 'createSubAffiliate', model: [userCO: userCO])
-        }
-    }
-
-    def showSubAffiliate = {
-        Party party = Party.get(params.long('id'))
-        if (party) {
-            render(view: 'showSubAffiliate', model: [party: party])
-        } else {
-            response.sendError(404)
         }
     }
 

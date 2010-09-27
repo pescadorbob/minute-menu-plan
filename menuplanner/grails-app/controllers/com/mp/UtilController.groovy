@@ -31,14 +31,6 @@ class UtilController {
             securityRole.delete(flush: true)
         }
         if (!SecurityRole.count()) {masterDataBootStrapService.populatePermissions()}
-
-        //Add UUID for already existing parties
-        Party.list().each {
-            if (!it.uniqueId) {
-                it.uniqueId = UUID.randomUUID().toString()
-                it.s()
-            }
-        }
         render "Succcess"
     }
 

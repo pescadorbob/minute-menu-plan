@@ -1,7 +1,7 @@
 <div class="contributor-image">
     <ul><li class="clearfix">By:&nbsp;<strong><g:link controller="user" action="show" id="${recipe?.contributor?.id}">${recipe.contributor}</g:link></strong>
         <g:if test="${recipe?.contributor?.subscriber?.city}">
-           ,<span style="float:right">${recipe?.contributor?.subscriber?.city}</span>
+           ,${recipe?.contributor?.subscriber?.city}
         </g:if>
     </li>
         <li class="clearfix">

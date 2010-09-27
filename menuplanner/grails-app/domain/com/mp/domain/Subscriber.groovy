@@ -12,6 +12,7 @@ class Subscriber extends PartyRole{
     Integer mouthsToFeed
     String introduction
     String city
+    Party coach
 
     static transients = ['imageDir', 'type']
 
@@ -38,6 +39,7 @@ class Subscriber extends PartyRole{
         city(nullable: true, blank: true)
         mouthsToFeed(nullable: true, blank: true)
         introduction(nullable: true, blank: true, maxSize: 1000)
+        coach(nullable: true, blank: true)
     }
 
     static mapping = {

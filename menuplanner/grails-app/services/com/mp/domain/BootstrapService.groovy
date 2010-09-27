@@ -64,6 +64,11 @@ class BootstrapService {
         userCO.mouthsToFeed = new Random().nextInt(10) + 1
         userCO.introduction = 'about ' + name
         userCO.roles = roles
+        if (name =='subAffiliate') {
+            Affiliate affiliate = Affiliate.list().first()
+            Long affiliateId = affiliate?.party?.id
+            if (affiliateId) {userCO.affiliateId = affiliateId}
+        }
         userCO.createParty()
     }
 

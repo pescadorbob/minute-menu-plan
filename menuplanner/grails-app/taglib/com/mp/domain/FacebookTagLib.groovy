@@ -25,11 +25,14 @@ class FacebookTagLib {
     }
 
     def freeUserConnect = {attrs ->
+        String coachId = attrs['coachId']
+        coachId = coachId ? coachId : ''
+        SessionUtils.session.coachUniqueId = coachId
         if (!(GrailsUtil.environment in ['test'])) {
-                String apiKey = ConfigurationHolder.config.facebookConnect.apiKey
-                String allowUrl = g.createLink(controller: 'user', action: 'facebookConnect', absolute: true,).encodeAsURL()
-                String applicationUrl = "https://graph.facebook.com/oauth/authorize?client_id=${apiKey}&redirect_uri=${allowUrl}&scope=read_stream,offline_access,user_location"
-                out << g.render(template: '/facebook/connectToFacebook', model: [applicationUrl: applicationUrl, apiKey: apiKey])
+            String apiKey = ConfigurationHolder.config.facebookConnect.apiKey
+            String allowUrl = g.createLink(controller: 'user', action: 'facebookConnect', absolute: true,).encodeAsURL()
+            String applicationUrl = "https://graph.facebook.com/oauth/authorize?client_id=${apiKey}&redirect_uri=${allowUrl}&scope=read_stream,offline_access,user_location"
+            out << g.render(template: '/facebook/connectToFacebook', model: [applicationUrl: applicationUrl, apiKey: apiKey])
         }
     }
 

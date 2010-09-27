@@ -1,4 +1,4 @@
-<%@ page import="com.mp.domain.*" %>
+<%@ page import="org.apache.commons.lang.StringUtils; com.mp.domain.*" %>
 <html>
 <head>
     <meta name="layout" content="menu"/>
@@ -9,15 +9,7 @@
     <div id="wrapper" class="clearfix">
         <div id="content-wrapper" class="clearfix">
             <div class="headbox">
-                <g:if test="${party?.administrator || party?.superAdmin}">
-                    <h3>Admin Profile Detail</h3>
-                </g:if>
-                <g:elseif test="${party?.affiliate || party?.subAffiliate}">
-                    <h3>Affiliate Profile Detail</h3>
-                </g:elseif>
-                <g:else>
-                    <h3>User Profile Detail</h3>
-                </g:else>
+                <h3>Edit ${StringUtils.capitaliseAllWords(party?.toString())} Profile Details</h3>
             </div>
             <g:hasErrors bean="${userCO}">
                 <div id="displayUserCOErrors" class="errors">
@@ -31,7 +23,7 @@
                 <g:form name="formUpdateUser">
                     <g:hiddenField name='id' value='${userCO?.id}'/>
                     <g:render template="/user/imageSection" model="[userCO:userCO,party:party]"/>
-                    <g:render template="/user/userDetail" model="[userCO:userCO,party:party]"/>
+                    <g:render template="/user/userDetail" model="[userCO:userCO,party:party,currentUser:LoginCredential?.currentUser?.party]"/>
                     <div id="button">
                         <g:actionSubmit class="button updateUserButtonFT" value="Update User" controller="user" action="update"/>
                         <g:actionSubmit class="button" value="Cancel" controller="user" action="show"/>
