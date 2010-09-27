@@ -1542,4 +1542,12 @@
             <column name="coach_id"  type="BIGINT"/>
         </update>
     </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-184">
+        <update tableName="subscriber">
+            <column name="coach_id"  type="BIGINT"/>
+        </update>
+    </changeSet>
+     <changeSet author="aman (generated)" id="1281344986756-185">
+        <dropColumn tableName="party" columnName="coach_id" />  
+    </changeSet>
 </databaseChangeLog>

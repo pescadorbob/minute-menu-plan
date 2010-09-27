@@ -28,6 +28,7 @@ class UserService {
     }
 
     public Party updateUserFromFacebook(String redirectUrl, String code, Party party) {
+        String coachId = SessionUtils?.session?.coachUniqueId
         if (code) {
             Long faceBookToken = code.tokenize("-|")[1]?.toLong()
             if (faceBookToken) {
@@ -41,6 +42,15 @@ class UserService {
                 party?.facebookAccount = facebookAccount
                 def subscriber = updateUserInfo(party)
                 party.s()
+                if (coachId) {
+                    Party coach = Party.findByUniqueId(coachId)
+                    if (coach) {
+                        party.subscriber.coach = coach
+                        party.s()
+                    }
+                    coach.addToClients(party)
+                    coach.s()
+                }
                 if (subscriber) {
                     subscriber.s()
                 }
@@ -152,6 +162,7 @@ class UserCO {
     List<String> roles = []
     boolean isEnabled
     boolean showAlcoholicContent = false
+    String coachId
 
     String id
     def selectUserImagePath
@@ -175,6 +186,9 @@ class UserCO {
         }
         if (party?.subAffiliate) {
             affiliateId = party?.subAffiliate?.affiliate?.id
+        }
+        if (party?.subscriber?.coach) {
+            coachId = party?.subscriber?.coach?.uniqueId
         }
         joiningDate = party?.joiningDate
         isEnabled = party?.isEnabled
@@ -210,6 +224,7 @@ class UserCO {
         introduction(nullable: true, blank: true)
         city(nullable: true, blank: true)
         roles(nullable: false, blank: false)
+        coachId(nullable: true, blank: true)
         affiliateId(validator: {val, obj ->
             String subAffiliate = UserType.SubAffiliate.toString().replaceAll(" ", "")
             if (!val && (subAffiliate in obj.roles)) {
@@ -290,6 +305,15 @@ class UserCO {
                 subscriber.party = party
                 subscriber.party.showAlcoholicContent = showAlcoholicContent
                 subscriber.s()
+                if (coachId) {
+                    Party coach = Party.findByUniqueId(coachId)
+                    if (coach) {
+                        subscriber.coach = coach
+                        subscriber.s()
+                    }
+                    coach.addToClients(party)
+                    coach.s()
+                }
             }
 
             if ((UserType.Admin.name() in roles) && !party.administrator) {
@@ -357,6 +381,16 @@ class UserCO {
                 party.addToRoles(subscriber)
                 party.s()
                 subscriber.s()
+                if (coachId) {
+                    Party coach = Party.findByUniqueId(coachId)
+                    if (coach) {
+                        subscriber.coach = coach
+                        subscriber.s()
+                    }
+                    coach.addToClients(party)
+                    coach.s()
+                }
+                party.s()
             }
             if (UserType.Admin.name() in roles) {
                 Administrator admin = new Administrator()

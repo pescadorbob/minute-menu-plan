@@ -27,16 +27,16 @@
             <h3>Free Signup</h3>
         </div>
 
-                                    <g:hasErrors bean="${userCO}">
-                                        <div id="displayUserCOErrors" class="errors">
-                                            <g:renderErrors bean="${userCO}" as="list"/>
-                                        </div>
-                                    </g:hasErrors>
+        <g:hasErrors bean="${userCO}">
+            <div id="displayUserCOErrors" class="errors">
+                <g:renderErrors bean="${userCO}" as="list"/>
+            </div>
+        </g:hasErrors>
         <div class="top-shadow">
             <label>&nbsp;</label>
         </div>
         <g:form name="freeSignupForm" action="newFreeUserSignUp">
-            
+            <input type="hidden" name="coachId" value="${userCO?.coachId}">
             <div class="leftbox clearfix">
                 <div id="leftpanelbox">
                     <div class="boxDiv">
@@ -56,8 +56,8 @@
                                 <li>
                                     <input name="" type="radio" value=""/>
                                     Link your account with your Facebook account</li>
-                                <li>&nbsp; &nbsp;<facebook:freeUserConnect/><br/></li>
-                                <li><input name="" type="radio" value=""/>Create a new account. (You can link it later) </li>
+                                <li>&nbsp; &nbsp;<facebook:freeUserConnect coachId="${userCO?.coachId ? userCO?.coachId :''}"/><br/></li>
+                                <li><input name="" type="radio" value=""/>Create a new account. (You can link it later)</li>
                             </ul>
                         </div>
                         <div class="boxDiv">
@@ -70,7 +70,7 @@
                                 </li>
 
                                 <li>
-                                    <label>City, St.</label>
+                                    <label>City</label>
                                     <span>
                                         <input name="city" type="text" class="inpbox  ${hasErrors(bean: userCO, field: 'city', 'errors')}" value="${userCO?.city}"/>
                                     </span>
@@ -88,7 +88,7 @@
                                     </span>
                                 </li>
                                 <li>
-                                    <label>Repeat Password</label>
+                                    <label>Confirm Password</label>
                                     <span>
                                         <input name="confirmPassword" type="password" class="inpbox  ${hasErrors(bean: userCO, field: 'confirmPassword', 'errors')}" value="${userCO?.confirmPassword}"/>
                                     </span>

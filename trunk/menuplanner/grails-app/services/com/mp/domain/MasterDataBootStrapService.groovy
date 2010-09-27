@@ -213,6 +213,7 @@ class MasterDataBootStrapService implements ApplicationContextAware {
             SecurityRole role = new SecurityRole(name: SECURITY_ROLE_AFFILIATE, description: 'Affiliate').s()
             new PermissionLevel(role: role, permission: Permission.MANAGE_SUB_AFFILIATE, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
             new PermissionLevel(role: role, permission: Permission.MANAGE_AFFILIATE, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
+            new PermissionLevel(role: role, permission: Permission.CAN_VIEW_SUB_AFFILIATES, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
             new PermissionLevel(role: role, permission: Permission.UPDATE_USERS, level: ACCESS_IF_OWNS_USER_PERMISSION_LEVEL).s()
             new PermissionLevel(role: role, permission: Permission.UPDATE_RECIPE, level: ACCESS_IF_OWNS_RECIPE_PERMISSION_LEVEL).s()
             new PermissionLevel(role: role, permission: Permission.REMOVE_RECIPE_FROM_FAVOURITES, level: ACCESS_IF_OWNS_USER_PERMISSION_LEVEL).s()
@@ -222,6 +223,8 @@ class MasterDataBootStrapService implements ApplicationContextAware {
             println "Populating Security role ${SECURITY_ROLE_SUB_AFFILIATE}"
             SecurityRole role = new SecurityRole(name: SECURITY_ROLE_SUB_AFFILIATE, description: 'Sub Affiliate').s()
             new PermissionLevel(role: role, permission: Permission.MANAGE_SUB_AFFILIATE, level: ACCESS_IF_OWNS_USER_PERMISSION_LEVEL).s()
+            new PermissionLevel(role: role, permission: Permission.CAN_VIEW_INVITATION_URL, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
+            new PermissionLevel(role: role, permission: Permission.CAN_VIEW_CLIENTS, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
         }
     }
 

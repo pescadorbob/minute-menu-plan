@@ -9,7 +9,7 @@ class Party {
     Boolean isEnabled = true
     Boolean showAlcoholicContent = false
     String uniqueId =UUID.randomUUID().toString()
-    Party coach
+    List<Party> clients
 
     Set<PartyRole> roles = []
     Set<LoginCredential> loginCredentials = []
@@ -66,7 +66,6 @@ class Party {
         facebookAccount(nullable: true)
         joiningDate(nullable: true, blank: true)
         uniqueId(nullable: true, blank: true)
-        coach(nullable: true, blank: true)
     }
 
     String getIsEnabledString() {

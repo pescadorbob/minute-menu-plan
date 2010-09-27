@@ -35,6 +35,14 @@
         <g:render template="/securityRole/permissionCheckbox" model="[title: 'Assign Sub Affiliate', role: role, permissionName: 'CAN_ASSIGN_SUB_AFFILIATE_ROLE']"/>
     </ul>
 </li>
+<li class="dotsLine">
+    <strong>Affiliate Permissions </strong>
+    <ul>
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'View Subscriber Invitation URL', role: role, permissionName: 'CAN_VIEW_INVITATION_URL']"/>
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'View Clients of Sub-Affiliate', role: role, permissionName: 'CAN_VIEW_CLIENTS']"/>
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'View Sub-affiliates of Affiliate', role: role, permissionName: 'CAN_VIEW_SUB_AFFILIATES']"/>
+    </ul>
+</li>
 <script type="text/javascript">
 
     jQuery(document).ready(function() {

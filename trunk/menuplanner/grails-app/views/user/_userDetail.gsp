@@ -67,10 +67,7 @@
     %{--</label>--}%
     %{--</li>--}%
         <li><span></span>
-            <label>
-                <input id="chk_Enable" name="isEnabled" ${(userCO) ? ((userCO?.isEnabled) ? 'checked="checked"' : '') : 'checked="checked"'}type="checkbox" value="true"/>
-                <strong>Account enabled</strong>
-            </label>
+            <g:render template="/user/enableUser" model="[party:party,currentUser:currentUser,userCO:userCO]"/>
         </li>
     </ul>
 </div>
