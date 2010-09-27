@@ -1538,21 +1538,13 @@
         </update>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-183">
-        <update tableName="party">
+        <addColumn tableName="subscriber">
             <column name="coach_id"  type="BIGINT"/>
-        </update>
+        </addColumn>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-184">
-        <update tableName="subscriber">
-            <column name="coach_id"  type="BIGINT"/>
-        </update>
-    </changeSet>
-     <changeSet author="aman (generated)" id="1281344986756-185">
-        <dropColumn tableName="party" columnName="coach_id" />  
-    </changeSet>
-    <changeSet author="aman (generated)" id="1281344986756-186">
-        <update tableName="sub_affiliate">
+        <addColumn tableName="sub_affiliate">
             <column name="affiliate_id"  type="varchar(255)"/>
-        </update>
+        </addColumn>
     </changeSet>
 </databaseChangeLog>
