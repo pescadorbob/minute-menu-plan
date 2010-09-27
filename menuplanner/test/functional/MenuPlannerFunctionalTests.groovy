@@ -90,6 +90,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
             password = userFormData.password
             confirmPassword = userFormData.confirmPassword
             name = userFormData.name
+            if (!userFormData.isEnabled) { byId('chk_Enable').click() }
             if (userFormData.isSuperAdmin) {byId('chk_SuperAdmin').click()}
             if (userFormData.isAdmin) { byId('chk_Admin').click()}
             if (userFormData.isUser) {byId('chk_Subscriber').click()}

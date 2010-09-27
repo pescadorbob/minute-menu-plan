@@ -1550,4 +1550,9 @@
      <changeSet author="aman (generated)" id="1281344986756-185">
         <dropColumn tableName="party" columnName="coach_id" />  
     </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-186">
+        <update tableName="sub_affiliate">
+            <column name="affiliate_id"  type="varchar(255)"/>
+        </update>
+    </changeSet>
 </databaseChangeLog>
