@@ -20,6 +20,10 @@
         <input id="chk_Enable" name="isEnabled" ${(userCO) ? ((userCO?.isEnabled) ? 'checked="checked"' : '') : 'checked="checked"'}type="checkbox" value="true"/>
         <strong>Account enabled</strong>
     </g:elseif>
+    <g:elseif test="${permission.hasPermission(permission: Permission.ENABLE_DISABLE_USER,party:currentUser)}">
+        <input id="chk_Enable" name="isEnabled" ${(userCO) ? ((userCO?.isEnabled) ? 'checked="checked"' : '') : 'checked="checked"'}type="checkbox" value="true"/>
+        <strong>Account enabled</strong>
+    </g:elseif>
     <g:else>
         <input name="isEnabled" value="${userCO?.isEnabled}" type="hidden" value="true"/>
     </g:else>

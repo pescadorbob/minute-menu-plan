@@ -28,7 +28,7 @@ class UserService {
     }
 
     public Party updateUserFromFacebook(String redirectUrl, String code, Party party) {
-        String coachId = SessionUtils?.session?.coachUniqueId
+        String coachUUID = SessionUtils?.session?.coachUniqueId
         if (code) {
             Long faceBookToken = code.tokenize("-|")[1]?.toLong()
             if (faceBookToken) {
@@ -42,10 +42,10 @@ class UserService {
                 party?.facebookAccount = facebookAccount
                 def subscriber = updateUserInfo(party)
                 party.s()
-                if (coachId) {
-                    Party coach = Party.findByUniqueId(coachId)
+                if (coachUUID) {
+                    Party coach = Party.findByUniqueId(coachUUID)
                     if (coach) {
-                        party.subscriber.coach = coach
+                        party.subscriber.coachId = coach?.id
                         party.s()
                     }
                     coach.addToClients(party)
@@ -162,7 +162,7 @@ class UserCO {
     List<String> roles = []
     boolean isEnabled
     boolean showAlcoholicContent = false
-    String coachId
+    String coachUUID
 
     String id
     def selectUserImagePath
@@ -185,10 +185,11 @@ class UserCO {
             city = party?.subscriber?.city
         }
         if (party?.subAffiliate) {
-            affiliateId = party?.subAffiliate?.affiliate?.id
+            affiliateId = party?.subAffiliate?.affiliateId?.toLong()
         }
-        if (party?.subscriber?.coach) {
-            coachId = party?.subscriber?.coach?.uniqueId
+        if (party?.subscriber?.coachId) {
+            Party coach = Party.findById(party?.subscriber?.coachId?.toLong())
+            if(coach){coachUUID = coach?.uniqueId}
         }
         joiningDate = party?.joiningDate
         isEnabled = party?.isEnabled
@@ -224,7 +225,7 @@ class UserCO {
         introduction(nullable: true, blank: true)
         city(nullable: true, blank: true)
         roles(nullable: false, blank: false)
-        coachId(nullable: true, blank: true)
+        coachUUID(nullable: true, blank: true)
         affiliateId(validator: {val, obj ->
             String subAffiliate = UserType.SubAffiliate.toString().replaceAll(" ", "")
             if (!val && (subAffiliate in obj.roles)) {
@@ -271,14 +272,20 @@ class UserCO {
             if (party.affiliate && !(UserType.Affiliate.name() in roles)) {
                 Affiliate affiliate = party.affiliate
                 party.removeFromRoles(affiliate)
-                List<SubAffiliate> subAffilates = affiliate.subAffiliates
-                subAffilates*.affiliate = null
+                affiliate.subAffiliates = []
                 affiliate.delete(flush: true)
             }
 
             if (party.subAffiliate && !(UserType.SubAffiliate.name() in roles)) {
                 SubAffiliate subAffiliate = party.subAffiliate
-                subAffiliate.affiliate = null
+                Affiliate affiliate = Affiliate.createCriteria().get {
+                    subAffiliates {
+                        eq('id', subAffiliate?.id)
+                    }
+                }
+                if (affiliate) {
+                    affiliate.removeFromSubAffiliates(subAffiliate)
+                }
                 party.removeFromRoles(subAffiliate)
                 subAffiliate.delete(flush: true)
             }
@@ -305,10 +312,10 @@ class UserCO {
                 subscriber.party = party
                 subscriber.party.showAlcoholicContent = showAlcoholicContent
                 subscriber.s()
-                if (coachId) {
-                    Party coach = Party.findByUniqueId(coachId)
+                if (coachUUID) {
+                    Party coach = Party.findByUniqueId(coachUUID)
                     if (coach) {
-                        subscriber.coach = coach
+                        subscriber.coachId = coach?.id
                         subscriber.s()
                     }
                     coach.addToClients(party)
@@ -327,7 +334,7 @@ class UserCO {
             if ((UserType.SubAffiliate.name() in roles) && !party.subAffiliate) {
                 Affiliate affiliate = Affiliate.findById(affiliateId)
                 if (affiliate) {
-                    SubAffiliate subAffiliate = new SubAffiliate(affiliate: affiliate, party: party)
+                    SubAffiliate subAffiliate = new SubAffiliate(affiliateId: affiliate?.id?.toString(), party: party)
                     party.addToRoles(subAffiliate)
                     affiliate.addToSubAffiliates(subAffiliate)
                     affiliate.s()
@@ -381,10 +388,10 @@ class UserCO {
                 party.addToRoles(subscriber)
                 party.s()
                 subscriber.s()
-                if (coachId) {
-                    Party coach = Party.findByUniqueId(coachId)
+                if (coachUUID) {
+                    Party coach = Party.findByUniqueId(coachUUID)
                     if (coach) {
-                        subscriber.coach = coach
+                        subscriber.coachId = coach?.id
                         subscriber.s()
                     }
                     coach.addToClients(party)
@@ -415,7 +422,7 @@ class UserCO {
             if (UserType.SubAffiliate.name() in roles) {
                 Affiliate affiliate = Affiliate.findById(affiliateId)
                 if (affiliate) {
-                    SubAffiliate subAffiliate = new SubAffiliate(affiliate: affiliate, party: party)
+                    SubAffiliate subAffiliate = new SubAffiliate(affiliateId: affiliate?.id?.toString(), party: party)
                     party.addToRoles(subAffiliate)
                     affiliate.addToSubAffiliates(subAffiliate)
                     affiliate.s()

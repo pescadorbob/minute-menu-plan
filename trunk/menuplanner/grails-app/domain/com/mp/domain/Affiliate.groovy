@@ -11,7 +11,6 @@ class Affiliate extends PartyRole {
 
     static mapping = {
         tablePerHierarchy false
-        subAffiliates cascade: "all-delete-orphan"
     }
 
     static constraints = {

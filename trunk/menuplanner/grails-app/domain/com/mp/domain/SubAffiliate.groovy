@@ -5,10 +5,10 @@ class SubAffiliate extends PartyRole {
     UserType type = UserType.SubAffiliate
 
     static transients = ['type']
+    String affiliateId
 
-
-    static belongsTo = [affiliate: Affiliate]
     static constraints = {
+        affiliateId(nullable: true, blank: false)
     }
     static mapping = {
         tablePerHierarchy false

@@ -131,10 +131,10 @@ class UserController {
     }
 
     def createFreeUser = {
-        String coachId = params?.coachId
+        String coachUUID = params?.coachUUID
         UserCO userCO = new UserCO()
-        if (coachId) {
-            userCO.coachId = coachId
+        if (coachUUID) {
+            userCO.coachUUID = coachUUID
         }
         render(view: 'createFreeUser', model: [userCO: userCO])
     }
@@ -312,9 +312,9 @@ class UserController {
     def newFreeUserSignUp = {UserCO userCO ->
         userCO.roles.add(UserType.Subscriber.name())
         userCO.isEnabled = true
-        String coachId = params?.coachId
-        if (coachId) {
-            userCO.coachId = coachId
+        String coachUUID = params?.coachUUID
+        if (coachUUID) {
+            userCO.coachUUID = coachUUID
         }
         if (userCO.validate()) {
             Party party = userCO.createParty()
