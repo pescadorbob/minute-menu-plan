@@ -94,11 +94,23 @@ class RecipeService {
         return count
     }
 
-    List getRecipeIngredientsWithCustomServings(Recipe recipe, int customServings) {
+    List<RecipeIngredient> getRecipeIngredientsWithCustomServings(Recipe recipe, int customServings) {
         List<RecipeIngredient> newRecipeIngredients = []
         Party party = LoginCredential.currentUser?.party
-
         List<RecipeIngredient> visibleItems = recipe.ingredients.findAll {party.canViewItem(it.ingredient)} as List
+        newRecipeIngredients = getIngredientsForVisibleItems(visibleItems, recipe, customServings)
+        return newRecipeIngredients
+    }
+
+    List<RecipeIngredient> getRecipeIngredientsWithCustomServingsForUnLoggedUser(Recipe recipe, int customServings) {
+        List<RecipeIngredient> newRecipeIngredients = []
+        List<RecipeIngredient> visibleItems = recipe.ingredients.findAll {it?.ingredient?.shareWithCommunity} as List
+        newRecipeIngredients = getIngredientsForVisibleItems(visibleItems, recipe, customServings)
+        return newRecipeIngredients
+    }
+
+    List<RecipeIngredient> getIngredientsForVisibleItems(List<RecipeIngredient> visibleItems, Recipe recipe, int customServings) {
+        List<RecipeIngredient> recipeIngredients = []
         visibleItems.each {RecipeIngredient recipeIngredient ->
             RecipeIngredient recipeIngredientNew = new RecipeIngredient()
             Item ingredient = new Item()
@@ -121,9 +133,9 @@ class RecipeService {
                     recipeIngredientNew.quantity.value = Math.ceil(recipeIngredientNew.quantity.value)
                 }
             }
-            newRecipeIngredients.add(recipeIngredientNew)
+            recipeIngredients.add(recipeIngredientNew)
         }
-        return newRecipeIngredients
+        return recipeIngredients
     }
 
     boolean isRecipeAlcoholic(Long recipeId) {

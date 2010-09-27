@@ -180,6 +180,8 @@ class MenuplannerTagLib {
             List<RecipeIngredient> customRecipeIngredients = []
             if (LoginCredential.currentUser) {
                 customRecipeIngredients = recipeService.getRecipeIngredientsWithCustomServings(recipe, customServings)
+            } else {
+                customRecipeIngredients = recipeService.getRecipeIngredientsWithCustomServingsForUnLoggedUser(recipe, customServings)
             }
             out << g.render(template: "/recipe/recipeIngredients", model: [ingredients: customRecipeIngredients])
         }
@@ -206,7 +208,7 @@ class MenuplannerTagLib {
         List<Item> items = []
         if (recipe) {
             if (LoginCredential?.currentUser) {
-                party=LoginCredential.currentUser?.party                
+                party = LoginCredential.currentUser?.party
                 recipe.items.each {Item item1 ->
                     if (party.canViewItem(item1)) {
                         items.add(item1)
@@ -219,7 +221,7 @@ class MenuplannerTagLib {
                     }
                 }
             }
-            out << g.render(template: "/recipe/serveWithItems", model: [items: items])        
+            out << g.render(template: "/recipe/serveWithItems", model: [items: items])
         }
     }
 
