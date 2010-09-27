@@ -1537,14 +1537,14 @@
             <column name="unique_id" type="VARCHAR(255)" />
         </update>
     </changeSet>
-    <changeSet author="aman (generated)" id="1281344986756-183">
-        <addColumn tableName="subscriber">
-            <column name="coach_id"  type="BIGINT"/>
-        </addColumn>
-    </changeSet>
-    <changeSet author="aman (generated)" id="1281344986756-184">
-        <addColumn tableName="sub_affiliate">
-            <column name="affiliate_id"  type="varchar(255)"/>
-        </addColumn>
-    </changeSet>
+    <!--<changeSet author="aman (generated)" id="1281344986756-183">-->
+        <!--<addColumn tableName="subscriber">-->
+            <!--<column name="coach_id"  type="BIGINT"/>-->
+        <!--</addColumn>-->
+    <!--</changeSet>-->
+    <!--<changeSet author="aman (generated)" id="1281344986756-184">-->
+        <!--<addColumn tableName="sub_affiliate">-->
+            <!--<column name="affiliate_id"  type="varchar(255)"/>-->
+        <!--</addColumn>-->
+    <!--</changeSet>-->
 </databaseChangeLog>
