@@ -51,9 +51,6 @@ class UserService {
                     coach.addToClients(party)
                     coach.s()
                 }
-                if (subscriber) {
-                    subscriber.s()
-                }
                 facebookAccount.s()
                 updateUserPhoto(party)
                 return party
@@ -106,6 +103,7 @@ class UserService {
                     subscriber.party = party
                     subscriber.city = response?.location?.name
                     party.addToRoles(subscriber)
+                    subscriber.s()
                     return subscriber
                 }
             }
