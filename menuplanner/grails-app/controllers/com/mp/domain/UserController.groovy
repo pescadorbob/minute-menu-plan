@@ -188,7 +188,7 @@ class UserController {
     def facebookConnect = {
         Long userId = params.long('userId') ? params.long('userId') : 0L
         Party party = Party.get(userId) ?: new Party(name: 'menuPlanner_user').s()
-        String redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true).encodeAsURL()}"
+        String redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true, params: [userId: userId]).encodeAsURL()}"
         party = userService.updateUserFromFacebook(redirectUrl, params.code, party)
         if (party) {
             if (params.long('userId')) {
@@ -322,7 +322,6 @@ class UserController {
             data['userId'] = party?.id
             session.userId = party?.id
             println "Session UserId: " + session.userId
-            println "Session Id: " + session.id
             println "Session Id: " + session.id
             session.setMaxInactiveInterval(3600)
             session.loggedUserId = party?.id
