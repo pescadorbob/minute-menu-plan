@@ -92,7 +92,7 @@ class UserService {
             party?.name = response.name
             if (!party?.userLogin) {
                 UserLogin userLogin = new UserLogin()
-                String password="1234"
+                String password = "1234"
                 userLogin.email = response?.email
                 userLogin.password = password.encodeAsBase64()
                 userLogin.party = party
@@ -151,10 +151,12 @@ class UserService {
         }
         if (party?.subscriber) {
             Integer coachId = party?.subscriber?.coachId?.toLong()
-            Party coach = Party.findById(coachId)
-            if (coach) {
-                coach.removeFromClients(party)
-                coach.s()
+            if (coachId) {
+                Party coach = Party.findById(coachId)
+                if (coach) {
+                    coach.removeFromClients(party)
+                    coach.s()
+                }
             }
         }
         party.delete(flush: true)
@@ -205,7 +207,7 @@ class UserCO {
         }
         if (party?.subscriber?.coachId) {
             Party coach = Party.findById(party?.subscriber?.coachId?.toLong())
-            if(coach){coachUUID = coach?.uniqueId}
+            if (coach) {coachUUID = coach?.uniqueId}
         }
         joiningDate = party?.joiningDate
         isEnabled = party?.isEnabled
