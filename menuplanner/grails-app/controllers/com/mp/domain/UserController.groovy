@@ -188,7 +188,12 @@ class UserController {
     def facebookConnect = {
         Long userId = params.long('userId') ? params.long('userId') : 0L
         Party party = Party.get(userId) ?: new Party(name: 'menuPlanner_user').s()
-        String redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true, params: [userId: userId]).encodeAsURL()}"
+        String redirectUrl
+        if (!userId) {
+            redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true).encodeAsURL()}"
+        } else {
+            redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true, params: [userId: userId]).encodeAsURL()}"
+        }
         party = userService.updateUserFromFacebook(redirectUrl, params.code, party)
         if (party) {
             if (params.long('userId')) {

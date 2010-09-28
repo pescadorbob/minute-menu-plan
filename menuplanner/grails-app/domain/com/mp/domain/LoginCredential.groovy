@@ -9,9 +9,12 @@ class LoginCredential {
     static LoginCredential getCurrentUser() {
         Long userId = SessionUtils?.session?.loggedUserId?.toLong()
         LoginCredential current
-        if(userId){
-            LoginCredential.withSession{
-                current = LoginCredential.get(userId)
+        if (userId) {
+            LoginCredential.withSession {
+                Party currentParty = com.mp.domain.Party.get(userId)
+                if (currentParty) {
+                    current = LoginCredential.findByParty(currentParty)
+                }
             }
         }
         return current

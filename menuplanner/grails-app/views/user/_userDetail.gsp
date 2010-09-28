@@ -11,9 +11,11 @@
 
     <ul>
         <g:if test="${userCO.id}">
-            <li><span>&nbsp;</span>
-                <label><facebook:connect userId="${userCO.id}"/></label>
-            </li>
+            <g:if test="${party?.id==currentUser?.id}">
+                <li><span>&nbsp;</span>
+                    <label><facebook:connect userId="${userCO.id}"/></label>
+                </li>
+            </g:if>
         </g:if>
         <li><span><strong>Email :</strong></span>
             <label>
