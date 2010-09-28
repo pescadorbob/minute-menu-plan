@@ -8,7 +8,7 @@
             <div id="photo50">
                 <mp:image width="50" size="50" id="${recipe?.contributor?.subscriber?.image?.id}"/>
             </div>
-            <span>${recipe?.contributor?.subscriber?.introduction}</span>
+            <span>${recipe?.description}</span>
         </li>
     </ul>
 </div>
