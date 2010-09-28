@@ -48,7 +48,7 @@ class LoginController {
             LoginCredential loginCredential = UserLogin.findByEmailAndPassword(loginCO?.email, loginCO?.password?.encodeAsBase64())
             if (loginCredential) {
                 if (loginCredential.party.isEnabled) {
-                    session.loggedUserId = loginCredential.id.toString()
+                    session.loggedUserId = loginCredential?.party?.id?.toString()
                     if (params.targetUri?.size()) {
                         redirect(uri: params.targetUri)
                         params.remove('targetUri')
