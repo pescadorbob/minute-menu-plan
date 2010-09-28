@@ -87,9 +87,17 @@ class UserService {
 
     private def updateUserInfo(Party party) {
         if (party?.facebookAccount) {
-            URL url = new URL("https://graph.facebook.com/${party?.facebookAccount?.uid}?access_token=${party?.facebookAccount?.oauthToken}&fields=name,location")
+            URL url = new URL("https://graph.facebook.com/${party?.facebookAccount?.uid}?access_token=${party?.facebookAccount?.oauthToken}&fields=name,location,email")
             JSONElement response = JSON.parse(url.newReader())
             party?.name = response.name
+            if (!party?.userLogin) {
+                UserLogin userLogin = new UserLogin()
+                String password="1234"
+                userLogin.email = response?.email
+                userLogin.password = password.encodeAsBase64()
+                userLogin.party = party
+                userLogin.s()
+            }
             if (response?.location?.name) {
                 if (party.subscriber) {
                     party.subscriber.city = response?.location?.name
@@ -140,6 +148,14 @@ class UserService {
             }
             party.aisles = []
             aisleToRemove*.delete()
+        }
+        if (party?.subscriber) {
+            Integer coachId = party?.subscriber?.coachId?.toLong()
+            Party coach = Party.findById(coachId)
+            if (coach) {
+                coach.removeFromClients(party)
+                coach.s()
+            }
         }
         party.delete(flush: true)
     }
