@@ -15,7 +15,7 @@ class FacebookTagLib {
             if (!party?.facebookAccount) {
                 String apiKey = ConfigurationHolder.config.facebookConnect.apiKey
                 String allowUrl = g.createLink(controller: 'user', action: 'facebookConnect', absolute: true, params: [userId: userId]).encodeAsURL()
-                String applicationUrl = "https://graph.facebook.com/oauth/authorize?client_id=${apiKey}&redirect_uri=${allowUrl}&scope=read_stream,offline_access,user_location"
+                String applicationUrl = "https://graph.facebook.com/oauth/authorize?client_id=${apiKey}&redirect_uri=${allowUrl}&scope=read_stream,offline_access,user_location,email"
                 out << g.render(template: '/facebook/connectToFacebook', model: [applicationUrl: applicationUrl, apiKey: apiKey, party: party])
             } else {
                 out << g.render(template: '/facebook/disconnectFromFacebook', model: [party: party])
@@ -31,7 +31,7 @@ class FacebookTagLib {
         if (!(GrailsUtil.environment in ['test'])) {
             String apiKey = ConfigurationHolder.config.facebookConnect.apiKey
             String allowUrl = g.createLink(controller: 'user', action: 'facebookConnect', absolute: true,).encodeAsURL()
-            String applicationUrl = "https://graph.facebook.com/oauth/authorize?client_id=${apiKey}&redirect_uri=${allowUrl}&scope=read_stream,offline_access,user_location"
+            String applicationUrl = "https://graph.facebook.com/oauth/authorize?client_id=${apiKey}&redirect_uri=${allowUrl}&scope=read_stream,offline_access,user_location,email"
             out << g.render(template: '/facebook/connectToFacebook', model: [applicationUrl: applicationUrl, apiKey: apiKey])
         }
     }
