@@ -63,7 +63,7 @@
             </div>
             <div class="top-shadow"><label></label></div>
             <div class="leftbox clearfix">
-                <g:render template="/recipe/showRecipeDetails" model="[recipe: recipe,customServings:customServings,isPrintable:isPrintable,imageSize:640]"/>
+                <g:render template="/recipe/showRecipeDetails" model="[recipe: recipe,customServings:customServings,isPrintable:isPrintable,imageSize:640,printRecipe:true]"/>
             </div>
             <div class="bottom-shadow"><label></label></div>
         </div>
@@ -78,9 +78,6 @@
             e.preventDefault()
         })
     }
-    jQuery('.recipeImage').load(function() {
-        scaleImageSize();
-    });
 </script>
 </body>
 </html> 

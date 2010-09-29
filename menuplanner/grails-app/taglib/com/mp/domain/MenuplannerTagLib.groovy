@@ -3,6 +3,7 @@ package com.mp.domain
 import grails.converters.JSON
 import org.grails.comments.Comment
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import org.grails.plugins.imagetools.ImageTool
 
 
 class MenuplannerTagLib {
@@ -77,6 +78,73 @@ class MenuplannerTagLib {
         } else {
             out << imgTag + createLink(controller: 'image', action: 'imageByPath', params: [noImage: noImage]) + "'/>"
         }
+    }
+
+    def printRecipeImage = {attrs ->
+        String height = attrs['height']
+        String width = attrs['width']
+        String size = (attrs['size']) ? attrs['size'] : 640
+        Long id = attrs['id']
+        String noImage = (attrs['noImage']) ? attrs['noImage'] : 'no-img.gif'
+
+        Image recipeImage = com.mp.domain.Image.get(id)
+        if (recipeImage) {
+            int firstIndex = recipeImage.storedName.indexOf('.')
+            String name = recipeImage.storedName.substring(0, firstIndex)
+            String completePath = recipeImage.path + name + "_${size}.jpg"
+            File imageFile = new File(completePath)
+            List<Integer> heightWidth = []
+            if (imageFile.exists()) {
+                heightWidth = getHeightAndWidthOfImage(imageFile, 200)
+            } else {
+                imageFile = new File(recipeImage.path + recipeImage.storedName)
+                if (imageFile.exists()) {
+                    heightWidth = getHeightAndWidthOfImage(imageFile, 200)
+                }
+            }
+            height = heightWidth.first().toString()
+            width = heightWidth.last().toString()
+        }
+        String clas = attrs['class']
+        String imgTag = "<img "
+        if (clas) {imgTag += "class='${clas}' "}
+        if (height) {imgTag += "height='${height}' "}
+        if (width) {imgTag += "width='${width}' "}
+        imgTag += "src='"
+        if (com.mp.domain.Image.exists(id)) {
+            out << imgTag + createLink(controller: 'image', action: 'image', params: [id: id, size: size]) + "'/>"
+        } else {
+            out << imgTag + createLink(controller: 'image', action: 'imageByPath', params: [noImage: noImage]) + "'/>"
+        }
+    }
+
+    List<Integer> getHeightAndWidthOfImage(File imageFile, Integer size) {
+        List<Integer> heigthWidth = []
+        byte[] fileContents = imageFile.readBytes()
+        ImageTool imageTool = new ImageTool()
+        imageTool.load(fileContents)
+        Integer imgH = imageTool.getHeight()
+        Integer imgW = imageTool.getWidth()
+        if (imgH > size || imgW > imgH) {
+            Long divH = size
+            Long divW = size
+            Float imgRatio = imgH / imgW
+            Float divRatio = divH / divW
+            if (imgRatio > divRatio) {
+                imgH = divH
+                imgW = divW / imgRatio
+            }
+            else {
+                imgW = divW
+                imgH = divH * imgRatio
+            }
+            heigthWidth.add(imgH)
+            heigthWidth.add(imgW)
+        } else {
+            heigthWidth.add(imgH)
+            heigthWidth.add(imgW)
+        }
+        return heigthWidth
     }
 
     def getSelectedCategoriesAsJSON = {attrs ->
