@@ -38,9 +38,22 @@
             </ul>
         </li>
         <li id="rightLiElements">
-            <div id="photo200" class="scaleImageSize">
-                <mp:image class="recipeImage" size="${imageSize}" id="${recipe?.image?.id}"/>
-            </div>
+            <g:if test="${printRecipe}">
+                <div id="photo200" style="overflow:hidden;">
+                    <table cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                            <td height="200" width="200" valign="middle" align="center" >
+                            <mp:printRecipeImage size="${imageSize}" id="${recipe?.image?.id}"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </g:if>
+            <g:else>
+                <div id="photo200" class="scaleImageSize">
+                    <mp:image class="recipeImage" size="${imageSize}" id="${recipe?.image?.id}"/>
+                </div>
+            </g:else>
             <br/>
             <g:if test="${LoginCredential.currentUser}">
                 <g:link controller="user" action="alterFavorite" name="changeFavorite" id="${recipe?.id}">
