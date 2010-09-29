@@ -3,7 +3,6 @@
     <ul>
         <li id="leftLiElements">
             <ul>
-                <li><g:if test="${recipe?.description}"><span>Description: ${recipe?.description}</span><br/></g:if></li>
                 <li id="prepAndCookTimesTst">
                     <g:if test="${recipe?.preparationTime}">Prep - ${recipe.preparationTime.toReadableTimeString()}</g:if><br/>
                     <g:if test="${recipe?.cookingTime}">Cook - ${recipe.cookingTime.toReadableTimeString()}</g:if><br/>
