@@ -8,6 +8,14 @@ class ApplicationFilters {
 
     def filters = {
 
+        cacheImage(controller: 'image') {
+            before = {
+                response.setHeader('Connection', 'keep-alive')
+                response.setHeader('CacheControl', "public")
+                response.setDateHeader('Expires', (new Date() + (10 * 365)).time)
+            }
+        }
+
         debug(controller: '*', action: '*') {
             before = {
                 if (GrailsUtil.environment != GrailsApplication.ENV_PRODUCTION) {
@@ -30,7 +38,7 @@ class ApplicationFilters {
                 } else {
                     if (!((params.controller in ['util', 'login', 'image', 'subscription']) ||
                             ((params.controller == 'user') &&
-                                    (params.action in ['create', 'createUser','createFreeUser', 'newFreeUserSignUp','enableUser', 'newUserCheckout', 'welcome', 'facebookConnect'])))) {
+                                    (params.action in ['create', 'createUser', 'createFreeUser', 'newFreeUserSignUp', 'enableUser', 'newUserCheckout', 'welcome', 'facebookConnect'])))) {
                         if (!(request.getSession(false) && LoginCredential.currentUser)) {
                             if (request.xhr) {
                                 String text = "The Session TimedOut url=" + ConfigurationHolder.config.grails.serverURL
