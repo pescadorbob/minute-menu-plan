@@ -68,8 +68,8 @@ grails {
 
 uiperformance {
     html.compress = true
-    keepOriginals = true
-    processImages = false
+    keepOriginals = false
+    processImages = true
     html.includeContentTypes = ['text/html', 'text/xml', 'text/plain', 'application/json']
 }
 
