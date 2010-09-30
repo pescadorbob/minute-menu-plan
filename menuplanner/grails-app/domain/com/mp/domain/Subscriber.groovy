@@ -23,7 +23,7 @@ class Subscriber extends PartyRole{
     }
 
     String getImageDir(){
-        return (config.imagesRootDir + config.usersRootDir + this?.id + '/')
+        return (config.usersRootDir + this?.id + '/')
     }
 
     String toString() {

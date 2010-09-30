@@ -11,6 +11,7 @@ class MenuplannerTagLib {
     static namespace = 'mp'
     def permissionService
     def recipeService
+    static config = ConfigurationHolder.config
 
     def showEditRecipe = {attrs ->
         Long recipeId = attrs['recipeId']?.toLong()
@@ -87,23 +88,26 @@ class MenuplannerTagLib {
         Long id = attrs['id']
         String noImage = (attrs['noImage']) ? attrs['noImage'] : 'no-img.gif'
 
+        List<Integer> heightWidth = []
         Image recipeImage = com.mp.domain.Image.get(id)
         if (recipeImage) {
             int firstIndex = recipeImage.storedName.indexOf('.')
             String name = recipeImage.storedName.substring(0, firstIndex)
-            String completePath = recipeImage.path + name + "_${size}.jpg"
+            String imageDir = config.imagesRootDir + recipeImage.path
+            String completePath = imageDir + name + "_${size}.jpg"
             File imageFile = new File(completePath)
-            List<Integer> heightWidth = []
             if (imageFile.exists()) {
                 heightWidth = getHeightAndWidthOfImage(imageFile, 200)
             } else {
-                imageFile = new File(recipeImage.path + recipeImage.storedName)
+                imageFile = new File(imageDir + recipeImage.storedName)
                 if (imageFile.exists()) {
                     heightWidth = getHeightAndWidthOfImage(imageFile, 200)
                 }
             }
-            height = heightWidth.first().toString()
-            width = heightWidth.last().toString()
+            if (heightWidth.size() == 2) {
+                height = heightWidth.first().toString()
+                width = heightWidth.last().toString()
+            }
         }
         String clas = attrs['class']
         String imgTag = "<img "

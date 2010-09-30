@@ -34,7 +34,7 @@ class Recipe extends Item implements Commentable, Rateable {
     Date dateCreated
 
     String getImageDir() {
-        return (config.imagesRootDir + config.recipesRootDir + this?.id + '/')
+        return (config.recipesRootDir + this?.id + '/')
     }
 
     void deleteImage() {

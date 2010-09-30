@@ -41,6 +41,9 @@ class ImageController {
         String noImage = params.noImage
         if (imagePath) {
             imageFile = new File(imagePath)
+            if (!imageFile.exists()) {
+                imageFile = new File(config.imagesRootDir + imagePath)
+            }
         } else if (noImage) {
             imageFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath("/images/${noImage}"))
         }

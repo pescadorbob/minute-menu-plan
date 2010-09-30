@@ -8,7 +8,7 @@ class ApplicationFilters {
 
     def filters = {
 
-        cacheImage(controller: 'image') {
+        cacheImage(controller: 'image', action: 'image') {
             before = {
                 response.setHeader('Connection', 'keep-alive')
                 response.setHeader('CacheControl', "public")
