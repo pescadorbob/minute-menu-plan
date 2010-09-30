@@ -65,39 +65,39 @@ class ImageTests extends GrailsUnitTestCase {
 
     void test_readFile_Folder1_Without_Size() {
         String actualFileName = getActualFileNameForFolder(image1, folder1Path)
-        String fileName = imageObject1.getFileToBeRead().name
+        String fileName = imageObject1.getFileToBeRead(folder1Path).name
         assertEquals actualFileName, fileName
     }
 
     void test_readFile_Folder1_With_File_Size_100() {
         String actualFileName = getActualFileNameForFolder(image1, folder1Path)
-        String fileName = imageObject1.getFileToBeRead('100').name
+        String fileName = imageObject1.getFileToBeRead(folder1Path,'100').name
         assertEquals actualFileName, fileName
     }
 
     void test_readFile_Folder1_With_File_Size_200() {
         String actualFileName = getActualFileNameForFolder(image1, folder1Path)
-        String fileName = imageObject1.getFileToBeRead('200').name
+        String fileName = imageObject1.getFileToBeRead(folder1Path,'200').name
         assertEquals actualFileName, fileName
     }
 
     void test_readFile_Folder1_With_File_Size_640() {
         String actualFileName = getActualFileNameForFolder(image1, folder1Path)
-        String fileName = imageObject1.getFileToBeRead('640').name
+        String fileName = imageObject1.getFileToBeRead(folder1Path,'640').name
         assertEquals actualFileName, fileName
     }
 
     void test_readFile_Folder2_Without_File_Size() {
         String actualFileName = getActualFileNameForFolder(image2_640, folder2Path)
         Image image = getImageObjectForFolder(image2_640, folder2Path)
-        String fileName = image.getFileToBeRead().name
+        String fileName = image.getFileToBeRead(folder1Path).name
         assertEquals actualFileName, fileName
     }
 
     void test_readFile_Folder2_With_File_Size_100() {
         String actualFileName = getActualFileNameForFolder(image2_100, folder2Path)
         Image image = getImageObjectForFolder(image2_100, folder2Path)
-        String fileName = image.getFileToBeRead('100').name
+        String fileName = image.getFileToBeRead(folder2Path,'100').name
         assertEquals actualFileName, fileName
     }
 
@@ -105,14 +105,14 @@ class ImageTests extends GrailsUnitTestCase {
     void test_readFile_Folder2_With_File_Size_200() {
         String actualFileName = getActualFileNameForFolder(image2_200, folder2Path)
         Image image = getImageObjectForFolder(image2_200, folder2Path)
-        String fileName = image.getFileToBeRead('200').name
+        String fileName = image.getFileToBeRead(folder2Path,'200').name
         assertEquals actualFileName, fileName
     }
 
     void test_readFile_Folder2_With_File_Size_640() {
         String actualFileName = getActualFileNameForFolder(image2_640, folder2Path)
         Image image = getImageObjectForFolder(image2_640, folder2Path)
-        String fileName = image.getFileToBeRead('640').name
+        String fileName = image.getFileToBeRead(folder2Path,'640').name
         assertEquals actualFileName, fileName
     }
 

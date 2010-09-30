@@ -31,9 +31,10 @@ class Image {
     }
 
     public static String createImageFile(byte[] fileContents, String filePath, String fileName, List<Integer> imageSizes = null) {
-        File file = new File(filePath)
+        String completePath = config.imagesRootDir + filePath
+        File file = new File(completePath)
         file.mkdirs()
-        generateResizedImages(fileContents, filePath, fileName, imageSizes)
+        generateResizedImages(fileContents, completePath, fileName, imageSizes)
         return filePath
     }
 
@@ -44,17 +45,16 @@ class Image {
         String name = fileName.substring(0, firstIndex)
         imageSizes.each { Integer size ->
             String newFileCompletePath = filePath + name + "_${size}.jpg"
-            if(size==640){
-                imageTool.thumbnailSpecial(640,480,IMAGE_INTER_POLATION_TYPE ,IMAGE_RENDERING_TYPE)
-            }else{
+            if (size == 640) {
+                imageTool.thumbnailSpecial(640, 480, IMAGE_INTER_POLATION_TYPE, IMAGE_RENDERING_TYPE)
+            } else {
                 imageTool.thumbnail(size)
             }
             imageTool.writeResult(newFileCompletePath, "JPEG")
         }
     }
 
-    public File getFileToBeRead(String size = null) {
-        String filePath = path
+    public File getFileToBeRead(String filePath, String size = null) {
         File actualFile
         int firstIndex = storedName.indexOf('.')
         if (size) {
@@ -76,7 +76,8 @@ class Image {
     }
 
     public byte[] readFile(String size = null) {
-        File file = getFileToBeRead(size)
+        String filePath = config.imagesRootDir + path
+        File file = getFileToBeRead(filePath, size)
         return file.readBytes()
     }
 
@@ -102,7 +103,7 @@ class Image {
             String targetImageDirectory = imageOwner.imageDir
             String extension = sourceImage.name.tokenize('.').tail().join('.')
             String fileName = imageOwner?.id + '.' + extension
-            String targetImagePath = targetImageDirectory + fileName
+            String targetImagePath = config.imagesRootDir + targetImageDirectory + fileName
             if (sourceImage.exists() && (imagePath != targetImagePath)) {
                 imageOwner.deleteImage()
                 Image.createImageFile(sourceImage.readBytes(), targetImageDirectory, fileName, imageSizes)
