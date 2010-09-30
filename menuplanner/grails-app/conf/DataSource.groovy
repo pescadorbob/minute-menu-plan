@@ -50,6 +50,8 @@ environments {
 	}
 	production {
 		dataSource {
+			username = "root"
+			password = "mmdefault"
 			dbCreate = "update"
 			url = "jdbc:mysql://localhost:3306/menuplanner?autoReconnect=true"
 		}
