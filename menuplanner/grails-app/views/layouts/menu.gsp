@@ -4,13 +4,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
     <title>Minute Menu Plan : <g:layoutTitle default="Minute Menu Plan"/></title>
     <p:css name='allMenuCss'/>
-    <g:javascript library="jquery"/>
-    <g:setProvider library="jquery"/>
     <p:javascript src='allMenuJquery'/>
     <g:layoutHead/>
 </head>
 <body>
-<g:setProvider library="jquery"/>
 <div id="container">
     <!-- start header -->
     <div id="header">

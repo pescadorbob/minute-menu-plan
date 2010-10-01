@@ -4,9 +4,7 @@
     <meta name="layout" content="menu"/>
     <title>Create MenuPlan</title>
     <rateable:resources/>
-    <g:javascript library="ui.core"/>
-    <g:javascript library="ui.sortable"/>
-    <g:javascript src="menuPlan.js"/>
+    <p:javascript src='menuPlanJquery'/>
     <p:css name='custom-ratings'/>
     <script type="text/javascript">
         setCrossImagePath("${resource(dir:'images',file:'delete.jpg')}")

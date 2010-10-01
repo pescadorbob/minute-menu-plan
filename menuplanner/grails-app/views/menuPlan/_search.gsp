@@ -48,7 +48,7 @@
                                 Favourites:
                             </td>
                             <td>
-                                <span id="difficultyDisplay" class="searchOptionTexts"></span>
+                                <span id="favouriteForUsersDisplay" class="searchOptionTexts"></span>
                             </td>
                         </tr>
                         <tr id="difficultyRow" style="display:none;">
@@ -169,4 +169,4 @@
         </div>
     </div>
 </div>
-<g:render template="/menuPlan/searchJquery"/>
+<p:javascript src='searchquery'/>

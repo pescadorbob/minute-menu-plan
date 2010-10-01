@@ -18,17 +18,17 @@ class RecipeController {
         redirect(action: "list")
     }
 
-    def getMatchingProducts = {
-        List<Product> products = Product.findAllByNameIlike("%${params.query}%")
-        List productsJson = products.collect { [id: it.id, name: it.name] }
-        render(productsJson as JSON)
-    }
-
-    def getMatchingCategories = {
-        List<Category> categories = Category.findAllByNameIlike("%${params.query}%")
-        List categoriesJson = categories.collect { [id: it.id, name: it.name] }
-        render(categoriesJson as JSON)
-    }
+//    def getMatchingProducts = {
+//        List<Product> products = Product.findAllByNameIlike("%${params.query}%")
+//        List productsJson = products.collect { [id: it.id, name: it.name] }
+//        render(productsJson as JSON)
+//    }
+//
+//    def getMatchingCategories = {
+//        List<Category> categories = Category.findAllByNameIlike("%${params.query}%")
+//        List categoriesJson = categories.collect { [id: it.id, name: it.name] }
+//        render(categoriesJson as JSON)
+//    }
 
     def getMatchingItems = {
         List<Item> items = Item.getItemsForCurrentUser("%${params.q}%")

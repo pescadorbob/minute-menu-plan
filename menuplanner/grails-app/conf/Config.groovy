@@ -85,6 +85,11 @@ uiperformance.bundles = [
                         'jquery.uploadify-v2.1.0/swfobject',
                         'jquery.uploadify-v2.1.0/jquery.uploadify.v2.1.0.min',
                         'jquery.lightbox-0.5']],
+        [type: 'js',
+                name: 'menuPlanJquery',
+                files: ['ui.core',
+                        'ui.sortable',
+                        'menuPlan']],
 
         [type: 'css',
                 name: 'allMenuCss',
