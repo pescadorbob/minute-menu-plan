@@ -31,6 +31,7 @@ class Quantity {
             unit fetch: 'join'
             savedUnit fetch: 'join'
         }
+        cache true
     }
 
     public static Quantity addTime(Quantity q1, Quantity q2) {
@@ -57,6 +58,8 @@ class Quantity {
         String usVal2 = (quantity2.value) ? (StandardConversion.getQuantityValueString(quantity2)) : ''
         Unit displayUnit2 = quantity2.unit
         Quantity resultantQuantity
+        usVal1 = usVal1 ? usVal1.replaceAll(',', '') : ''
+        usVal2 = usVal2 ? usVal2.replaceAll(',', '') : ''
         Quantity q1 = StandardConversion.getQuantityToSave(usVal1, displayUnit1)
         Quantity q2 = StandardConversion.getQuantityToSave(usVal2, displayUnit2)
 
@@ -108,6 +111,7 @@ class Quantity {
             }
             order("conversionFactor", "desc")
             maxResults(1)
+            cache true
         }
         if (standardConversion) {
             Fraction f3 = new Fraction((valueWithDensity / standardConversion.conversionFactor.toFloat()))

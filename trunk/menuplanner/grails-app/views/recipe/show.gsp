@@ -4,7 +4,7 @@
 <head>
     <title>${recipe?.name}</title>
     <meta name="layout" content="menu"/>
-    <p:javascript src="jquery.printElement.min.js"/>
+    <p:javascript src="jquery.printElement.min"/>
     <rateable:resources/>
     <script type="text/javascript">
         jQuery(function() {

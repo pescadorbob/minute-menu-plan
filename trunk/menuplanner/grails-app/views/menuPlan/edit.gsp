@@ -3,9 +3,7 @@
 <head>
     <meta name="layout" content="menu"/>
     <title>Edit ${menuPlan.name}</title>
-    <g:javascript library="ui.core"/>
-    <g:javascript library="ui.sortable"/>
-    <g:javascript src="menuPlan.js"/>
+    <p:javascript src='menuPlanJquery'/>
     <rateable:resources/>
     <p:css name='custom-ratings'/>
     <script type="text/javascript">

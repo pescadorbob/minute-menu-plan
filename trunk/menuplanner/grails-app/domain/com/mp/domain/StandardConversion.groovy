@@ -18,7 +18,7 @@ class StandardConversion {
             if (amountFraction.contains('/')) {
                 amount = new Fraction(amountFraction)?.floatValue()
             } else {
-                amount = amountFraction.toFloat()
+                amount = amountFraction?.toFloat()
             }
             result.value = amount
         }
