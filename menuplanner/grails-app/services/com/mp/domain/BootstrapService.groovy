@@ -10,6 +10,9 @@ class BootstrapService {
     boolean transactional = true
     def excelService
     def shoppingListService
+    def messageSource
+    Object[] testArgs = {}
+
 
     public void addAbusesOnCommentsAndRecipes() {
         (1..15).each {Integer count ->   //  Comment Abuses
@@ -64,7 +67,7 @@ class BootstrapService {
         userCO.mouthsToFeed = new Random().nextInt(10) + 1
         userCO.introduction = 'about ' + name
         userCO.roles = roles
-        if (name =='subAffiliate') {
+        if (name == 'subAffiliate') {
             Affiliate affiliate = Affiliate.list().first()
             Long affiliateId = affiliate?.party?.id
             if (affiliateId) {userCO.affiliateId = affiliateId}
@@ -192,7 +195,7 @@ class BootstrapService {
         shoppingList.servings = 4
         shoppingList.party = menuPlan.owner
         ['0', '1', '2', '3'].each {String weekIndex ->
-            WeeklyShoppingList weeklyShoppingList = shoppingListService.createWeeklyShoppingList(shoppingList, menuPlan, weekIndex,true)
+            WeeklyShoppingList weeklyShoppingList = shoppingListService.createWeeklyShoppingList(shoppingList, menuPlan, weekIndex, true)
             shoppingList.addToWeeklyShoppingLists(weeklyShoppingList)
         }
         shoppingList.s()
@@ -257,5 +260,23 @@ class BootstrapService {
             items.add(item)
         }
         return items
+    }
+
+    String getMessage(String key) {
+        def keyValue = messageSource.resolveCode(key, new java.util.Locale("EN"))
+        return keyValue?.format(testArgs)
+    }
+
+    public void populateHomePageData() {
+        HomePage homePage = new HomePage()
+        String titleText = getMessage("homepage.bootstrapped.titleText")
+        String centralText = getMessage("homepage.bootstrapped.centralText")
+        homePage.centralText = titleText + centralText
+        homePage.leftBar = getMessage('homepage.bootstrapped.leftbarText')
+        String testimonial = getMessage('homepage.bootstrapped.testimonial')
+        homePage.testimonial = testimonial + '<br/><br/> ' + testimonial + '<br/><br/> ' + testimonial
+        String categories = getMessage('homepage.bootstrapped.categories')
+        homePage.categories = categories + '<br/><br/>' + categories + '<br/><br/>' + categories + '<br/><br/>' + categories
+        homePage.s()
     }
 }

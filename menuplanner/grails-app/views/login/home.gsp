@@ -15,48 +15,7 @@
         </div>
         <div class="leftbox clearfix">
             <div id="country-cateLogin">
-                <ul>
-                    <li>Create a meal plan in minutes</li>
-                    <li>Choose from 1000s of recipes</li>
-                    <li>Rate the recipes</li>
-                    <li>Add your own recipes</li>
-                    <li>Print your shopping list</li>
-                    <li>Print your own recipes</li>
-                    <li>Automatically calculate more or less mouths to feed</li>
-                    <li>Print recipes by day or separately</li>
-                    <li>Share recipes with your friends</li>
-                    <li>Save 100s of dollars by only buying ingredients you need</li>
-                    <li>Save time in kitchen</li>
-                    <li>60-day money back guaranty</li>
-                </ul>
-            </div>
-            <div id="category">
-                <ul><li></li>
-                    <li class="border"><strong>Recipes Categories Include:</strong></li>
-                    <li class="border"><strong>Cooking Techniques</strong></li>
-                    <li>Baking | Blanching
-                    | Boiling
-                    | more...</li>
-                    <li><strong>Recipe Types</strong></li>
-                    <li>Appetizers
-                    | Beverages
-                    | Bread
-                    | Breakfast
-                    | more...</li>
-                    <li><strong>Basic Food Groups</strong></li>
-                    <li>Dairy Products & Eggs | more...
-                    </li>
-
-                    <li><strong>National and Ethnic Cuisines</strong></li>
-
-                    <li><strong>Special Diets</strong></li>
-
-                    <li><strong>Nutrition</strong></li>
-
-                    <li><strong>Ingredients</strong></li>
-                    <li><strong>More...</strong></li>
-
-                </ul>
+                ${homePage?.leftBar}
             </div>
         </div>
         <div class="bottom-shadow">
@@ -69,140 +28,15 @@
         </div>
         <div class="leftbox clearfix">
             <div id="content">
-                <p>Use It Today - Plan and Print Immediately After Purchasing</p>
-                <p>"Learn how this Minute Menu Plan will interest picky kids, relieve stressed moms, and make meals enjoyable again!"</p>
-                <h2>"Who Else Wants To Make Every Dinner This Week A Relaxed, Enjoyable Event That Your Family Will Talk About For Weeks - With Almost Zero Effort, 1/2 The Expense Or The Dreaded, "What's For Dinner?" Question?</h2>
+                ${homePage?.centralText}
                 <div class="clear clearfix">
                     <g:link controller="user" action="createFreeUser"><div class="orderbtn"><h3>Free</h3>Sign Up Now</div></g:link>
                     <div id="video-box"><p:image src='video.png'/></div>
                     <g:link controller="user" action="createFreeUser"><div class="orderbtn"><h3>Free</h3>Sign Up Now</div></g:link>
                 </div>
-                <h2>Find recipes from tons of categories including...</h2>
+                <br/>
                 <div>
-                    <ul><li></li>
-                        <li><strong>Cooking Techniques</strong></li>
-                        <li>Baking | Blanching
-                        | Boiling
-                        | Braising
-                        | Broiling
-                        | Canning
-                        | Creaming
-                        | Deep-fry
-                        | Fermenting
-                        | Freezing
-                        | Frying
-                        | Grilling
-                        | Outdoor Cooking
-                        | Pickling
-                        | Poaching
-                        | Pressure Cooking
-                        | Roasting
-                        | Salting
-                        | Sauteing
-                        | Scalding
-                        | Simmering
-                        | Smoking
-                        | Steaming
-                        | Stir-frying
-                        | Tempering</li>
-                        <li><strong>Recipe Types</strong></li>
-                        <li>Appetizers
-                        | Beverages
-                        | Bread
-                        | Breakfast
-                        | Confections
-                        | Desserts
-                        | Meats
-                        | Pasta
-                        | Rice
-                        | Salads
-                        | Sandwiches
-                        | Sauces
-                        | Seafood
-                        | Side Dishes
-                        | Soups
-                        | Stews
-                        | Stocks
-                        | Sushi
-                        | Vegan
-                        | Vegetarian
-                        | Easy Dinners
-                        | Camping Recipes
-                        | Holiday Recipes
-                        | Recipes In Metric Measurements</li>
-                        <li><strong>Basic Food Groups</strong></li>
-                        <li>
-                            | Dairy Products & Eggs
-                            | Cereals & Grains
-                            | Fruit
-                            | Meat & Poultry
-                            | Fats & Oils
-                            | Nuts & Seeds
-                            | Seafood
-                            | Spices & Herbs
-                            | Sweeteners
-                            | Vegetables</li>
-
-                        <li><strong>National and Ethnic Cuisines</strong></li>
-                        <li>
-                            | African Cuisines
-                            | British Cuisines
-                            | Caribbean Cuisines
-                            | East Asian Cuisines
-                            | European Cuisines
-                            | Mediterranean Cuisines
-                            | Middle Eastern Cuisines
-                            | Pacific Cuisines
-                            | North American Cuisines
-                            | South American Cuisines
-                            | South Asian Cuisines
-                            | South-East Asian Cuisines</li>
-                        <li><strong>Special Diets</strong></li>
-                        <li>
-                            Low-carb (Atkins, Zone, etc.)
-                            | Gluten-Free
-                            | Healthful Eating
-                            | Halal
-                            | High Protein
-                            | Kosher
-                            | Low-Calorie Diet
-                            | Low-GI Diet (Diabetic)
-                            | Vegan
-                            | Vegetarian</li>
-                        <li><strong>Nutrition</strong></li>
-                        <li>
-                            Antioxidants
-                            | Calories
-                            | Carbohydrates
-                            | Fats
-                            | Fiber
-                            | Minerals
-                            | Organic
-                            | Protein
-                            | Vitamins</li>
-                        <li><strong>Ingredients</strong></li>
-                        <li>
-                            Baking Soda
-                            | Beans & Other Legumes
-                            | Bread
-                            | Grain
-                            | Chiles
-                            | Chocolate
-                            | Coffee
-                            | Eggs
-                            | Flour
-                            | Herbs
-                            | Jams & Jellies
-                            | Milk
-                            | Pasta
-                            | Peppers
-                            | Potatoes
-                            | Rice
-                            | Salt
-                            | Spices
-                            | Sugar</li>
-
-                    </ul>
+                    ${homePage?.categories}
                 </div>
             </div>
 
@@ -251,12 +85,7 @@
                             <fb:login-button onlogin="loginToMenuPlanner()" autologoutlink="true">Login</fb:login-button>
                         </g:if>
                         <li class="border"><h2>TESTIMONIAL</h2></li>
-                        <li>Minute Menu Plan removed the stress from my evenings and stopped the kids from asking whats for dinner.  We love to plan our meals together, and it takes only a few minutes.  Thanks Minute Menu Plan!
-                            <label>--Donna, Hamburg, NY</label></li>
-                        <li>Minute Menu Plan removed the stress from my evenings and stopped the kids from asking whats for dinner.  We love to plan our meals together, and it takes only a few minutes.  Thanks Minute Menu Plan!
-                            <label>--Donna, Hamburg, NY</label></li>
-                        <li>Minute Menu Plan removed the stress from my evenings and stopped the kids from asking whats for dinner.  We love to plan our meals together, and it takes only a few minutes.  Thanks Minute Menu Plan!
-                            <label>--Donna, Hamburg, NY</label></li>
+                        <li>${homePage?.testimonial}</li>
                     </ul>
                 </g:form>
             </div>
