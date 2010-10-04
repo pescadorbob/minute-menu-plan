@@ -118,6 +118,19 @@ uiperformance.bundles = [
 
 ]
 
+fckeditor {
+    upload {
+        basedir = "/homepage"
+        overwrite = false
+        image {
+            browser = true
+            upload = true
+            allowed = ['jpg', 'gif', 'jpeg', 'png']
+            denied = []
+        }
+    }
+}
+
 environments {
     production {
         grails.serverURL = "http://www.changeme.com"

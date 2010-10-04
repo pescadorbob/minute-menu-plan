@@ -112,6 +112,10 @@ class BootStrap {
             bootstrapService.populateQuickFills(5)
             println "Populated Quick Fills"
         }
+        if (!HomePage.count()) {
+            bootstrapService.populateHomePageData()
+            println "Populated Home Page Data"
+        }
 
         Aisle.list().each {Aisle aisle ->
             String capitalizedName = StringUtils.capitaliseAllWords(aisle.name)

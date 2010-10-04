@@ -12,10 +12,12 @@
         %{--<li><a>Conversions</a></li>--}%
         %{--<li><a>Help</a></li>--}%
             <mp:adminDropDown/>
+            <li><a href="http://blog.minutemenuplan.com/">Blog</a></li>
         </g:if>
         <g:else>
-            <li><g:link controller="menuPlan" action="create">Create Your Own Menu Plan</g:link></li>
-            <li><g:link controller="recipe" action="list" class="browse">Browse&nbsp;Recipes</g:link></li>
+            <li><g:link controller="user" action="createFreeUser">Create Your Own Menu Plan</g:link></li>
+            <li><g:link controller="user" action="createFreeUser">Browse&nbsp;Recipes</g:link></li>
+            <li><a href="http://blog.minutemenuplan.com/">Blog</a></li>
         </g:else>
     </ul>
 </div>

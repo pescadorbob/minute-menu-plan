@@ -43,6 +43,12 @@
         <g:render template="/securityRole/permissionCheckbox" model="[title: 'View Sub-affiliates of Affiliate', role: role, permissionName: 'CAN_VIEW_SUB_AFFILIATES']"/>
     </ul>
 </li>
+<li class="dotsLine">
+    <strong>Manage Home Page</strong>
+    <ul>
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Manage Homepage ', role: role, permissionName: 'MANAGE_HOME_PAGE']"/>
+    </ul>
+</li>
 <script type="text/javascript">
 
     jQuery(document).ready(function() {

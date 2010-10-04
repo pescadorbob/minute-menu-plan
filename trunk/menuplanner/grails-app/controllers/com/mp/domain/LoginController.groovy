@@ -11,7 +11,7 @@ class LoginController {
         if (LoginCredential.currentUser) {
             redirect(controller: 'recipe', action: 'list')
         } else {
-            render(view: 'home')
+            render(view: 'home', model: [homePage: HomePage.get(1)])
         }
     }
 
@@ -40,7 +40,7 @@ class LoginController {
 
     def logout = {
         session.invalidate()
-        redirect(controller: 'login', action: 'index', params:[fbLogout:true])
+        redirect(controller: 'login', action: 'index', params: [fbLogout: true])
     }
 
     def login = {LoginCO loginCO ->
@@ -57,26 +57,26 @@ class LoginController {
                     }
                 } else {
                     flash.message = message(code: 'loginCO.user.disabled')
-                    render(view: 'home', model: [loginCO: loginCO])
+                    render(view: 'home', model: [loginCO: loginCO, homePage: HomePage.get(1)])
                 }
             } else {
                 flash.message = message(code: 'loginCO.email.password.Invalid')
-                render(view: 'home', model: [loginCO: loginCO])
+                render(view: 'home', model: [loginCO: loginCO, homePage: HomePage.get(1)])
             }
         } else {
-            render(view: 'home', model: [loginCO: loginCO])
+            render(view: 'home', model: [loginCO: loginCO, homePage: HomePage.get(1)])
         }
     }
 
     def isFacebookConnected = {
-        if(request.method=="POST"){
-            if(params.facebookUid){
+        if (request.method == "POST") {
+            if (params.facebookUid) {
                 LoginCredential loginCredential = FacebookAccount.findByUid(params.long("facebookUid"))
                 if (loginCredential) {
                     if (loginCredential.party.isEnabled) {
-                        SessionUtils.session.loggedUserId=FacebookAccount.findByUid(params.long("facebookUid"))?.party?.id
+                        SessionUtils.session.loggedUserId = FacebookAccount.findByUid(params.long("facebookUid"))?.party?.id
                         render "true"
-                        return 
+                        return
                     }
                 }
             }

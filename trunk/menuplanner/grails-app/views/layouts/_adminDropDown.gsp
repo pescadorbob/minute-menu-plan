@@ -7,6 +7,9 @@
                 %{--<a>Volume to weight</a>--}%
                 <g:link class="accountsLinkFT"  controller="user" action="list">Accounts</g:link>
                 <g:link class="quickFillLinkFT"  controller="quickFill" action="quickFillAdmin">Quick Fill</g:link>
+                <g:if test="${(permission.hasPermission(permission: Permission.MANAGE_HOME_PAGE))}">
+                    <g:link name="manageHomePage" controller="homePage" action="show">Homepage</g:link>
+                </g:if>
                 %{--<a>Featured plans</a>--}%
             </li>
         </ul>
