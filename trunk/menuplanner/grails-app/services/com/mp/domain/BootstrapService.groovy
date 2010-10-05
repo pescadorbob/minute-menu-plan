@@ -10,8 +10,7 @@ class BootstrapService {
     boolean transactional = true
     def excelService
     def shoppingListService
-    def messageSource
-    Object[] testArgs = {}
+    
 
 
     public void addAbusesOnCommentsAndRecipes() {
@@ -260,10 +259,5 @@ class BootstrapService {
             items.add(item)
         }
         return items
-    }
-
-    String getMessage(String key) {
-        def keyValue = messageSource.resolveCode(key, new java.util.Locale("EN"))
-        return keyValue?.format(testArgs)
     }
 }
