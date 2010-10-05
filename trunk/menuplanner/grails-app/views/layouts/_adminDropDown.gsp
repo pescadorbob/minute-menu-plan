@@ -10,6 +10,9 @@
                 <g:if test="${(permission.hasPermission(permission: Permission.MANAGE_HOME_PAGE))}">
                     <g:link name="manageHomePage" controller="homePage" action="show">Homepage</g:link>
                 </g:if>
+                <g:if test="${(permission.hasPermission(permission: Permission.MANAGE_TESTIMONIAL))}">
+                    <g:link name="manageTestimonials" controller="testimonial" action="list">Testimonials</g:link>
+                </g:if>
                 %{--<a>Featured plans</a>--}%
             </li>
         </ul>

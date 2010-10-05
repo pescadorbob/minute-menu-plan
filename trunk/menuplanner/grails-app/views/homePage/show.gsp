@@ -11,6 +11,11 @@
             <div class="headbox">
                 <h3>Show HomePage</h3>
             </div>
+            <g:if test="${flash.message}">
+                <div id="flashMsgTst" class="userFlashMessage">
+                    ${flash.message}
+                </div>
+            </g:if>
             <g:hasErrors bean="${homePage}">
                 <div id="displayRecipeErrors" class="errors">
                     <g:renderErrors bean="${homePage}"/>
@@ -56,7 +61,7 @@
                 </div>
             </div>
             <div id="left-panel">
-                <g:uploadForm name="homePageShow">
+                <g:form>
                     <div id="button">
                         <g:form name="editHomePageForm">
                             <ul>
@@ -69,7 +74,7 @@
                             </ul>
                         </g:form>
                     </div>
-                </g:uploadForm>
+                </g:form>
             </div>
         </div>
     </div>

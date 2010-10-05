@@ -11,7 +11,7 @@ class LoginController {
         if (LoginCredential.currentUser) {
             redirect(controller: 'recipe', action: 'list')
         } else {
-            render(view: 'home', model: [homePage: HomePage.get(1)])
+            render(view: 'home', model: [homePage: HomePage.get(1), testimonials: Testimonial.findAllByShowOnHomepage(true)])
         }
     }
 
@@ -57,14 +57,14 @@ class LoginController {
                     }
                 } else {
                     flash.message = message(code: 'loginCO.user.disabled')
-                    render(view: 'home', model: [loginCO: loginCO, homePage: HomePage.get(1)])
+                    render(view: 'home', model: [loginCO: loginCO, homePage: HomePage.get(1), testimonials: Testimonial.findAllByShowOnHomepage(true)])
                 }
             } else {
                 flash.message = message(code: 'loginCO.email.password.Invalid')
-                render(view: 'home', model: [loginCO: loginCO, homePage: HomePage.get(1)])
+                render(view: 'home', model: [loginCO: loginCO, homePage: HomePage.get(1), testimonials: Testimonial.findAllByShowOnHomepage(true)])
             }
         } else {
-            render(view: 'home', model: [loginCO: loginCO, homePage: HomePage.get(1)])
+            render(view: 'home', model: [loginCO: loginCO, homePage: HomePage.get(1), testimonials: Testimonial.findAllByShowOnHomepage(true)])
         }
     }
 

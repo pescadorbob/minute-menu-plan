@@ -310,4 +310,26 @@ class MasterDataBootStrapService implements ApplicationContextAware {
         config.alcoholicContentList = elements
         return elements
     }
+
+     public void populateHomePageData() {
+        HomePage homePage = new HomePage()
+        String titleText = getMessage("homepage.bootstrapped.titleText")
+        String centralText = getMessage("homepage.bootstrapped.centralText")
+        homePage.centralText = titleText + centralText
+        homePage.leftBar = getMessage('homepage.bootstrapped.leftbarText')
+        String testimonial = getMessage('homepage.bootstrapped.testimonial')
+        homePage.testimonial = testimonial + '<br/><br/> ' + testimonial + '<br/><br/> ' + testimonial
+        String categories = getMessage('homepage.bootstrapped.categories')
+        homePage.categories = categories + '<br/><br/>' + categories + '<br/><br/>' + categories + '<br/><br/>' + categories
+        homePage.s()
+    }
+
+    public void populateTestimonials() {
+        (0..3).each {
+            Testimonial testimonial = new Testimonial()
+            String description = getMessage('homepage.bootstrapped.testimonial')
+            testimonial.description = description
+            testimonial.s()
+        }
+    }
 }

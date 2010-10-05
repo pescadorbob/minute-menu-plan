@@ -32,12 +32,8 @@ class UtilController {
         }
         if (!SecurityRole.count()) {masterDataBootStrapService.populatePermissions()}
 
-        Party.list().each{
-            if(!it.uniqueId){
-                it.uniqueId=UUID.randomUUID().toString()
-                it.s()
-            }
-        }
+        if (!Testimonial.count()) {masterDataBootStrapService.populateTestimonials()}
+
         render "Succcess"
     }
 

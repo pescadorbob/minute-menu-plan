@@ -146,6 +146,11 @@
 #userlist ul li a:hover{text-decoration:none;}
 /* end adduser */
 
+.testimonial{color:#616A72; font-size:12px;}
+.testimonial a{color:#007AD8; font-size:12px; text-decoration:none;}
+.testimonial a:hover{text-decoration:underline;}
+.testimonialHead{color:#616A72; font-size:14px;}
+.testimonialWhite{background:#fff; color:#616A72; font-size:12px;}
 /* start user Login */
 #right-panel-landing{float:right;width:215px;}
 #maiddle-panel{float:left;width:546px; margin-left:14px;}
