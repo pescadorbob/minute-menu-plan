@@ -15,6 +15,8 @@ class Unit extends Metric{
 
     static mapping = {
         tablePerHierarchy false
+        systemOfUnits fetch: 'join'
+        cache true
     }
 
     public static List<Unit> getSortedMetricUnits(){

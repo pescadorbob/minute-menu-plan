@@ -12,7 +12,7 @@ class MenuPlan {
     }
 
     static mapping = {
-        weeks casade: 'all-delete-orphan'
+        weeks casade: 'all-delete-orphan', fetch: 'join'
     }
 
     String toString() {

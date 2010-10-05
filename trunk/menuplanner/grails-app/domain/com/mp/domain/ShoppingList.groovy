@@ -14,7 +14,7 @@ class ShoppingList {
     static belongsTo = [party: Party]
 
     static mapping = {
-        weeklyShoppingLists casade: 'all-delete-orphan'
+        weeklyShoppingLists casade: 'all-delete-orphan', fetch: 'join'
     }
 
     static constraints = {

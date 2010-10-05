@@ -23,8 +23,6 @@ class Quantity {
         savedUnit(nullable: true, blank: true)
     }
 
-//TODO: Make it generic unit conversion method add(q1, q2).
-
     static mapping = {
         value(sqlType: 'numeric(25, 10)')
         columns {
@@ -44,30 +42,30 @@ class Quantity {
         return sum
     }
 
-    //TODO; Implement this
+//    //TODO; Implement this
+//
+//    public static Quantity multiply(Quantity quantity1, Quantity quantity2) {
+//        List<StandardConversion> standardConversions = StandardConversion.list([cache: true])
+//        return add(quantity1, quantity2, standardConversions)
+//    }
 
-    public static Quantity multiply(Quantity quantity1, Quantity quantity2) {
-        return add(quantity1, quantity2)
-    }
-
-    public static Quantity add(Quantity quantity1, Quantity quantity2) {
+    public static Quantity add(Quantity quantity1, Quantity quantity2, List<StandardConversion> standardConversions = []) {
         if (!quantity1) { return quantity2 }
         if (!quantity2) { return quantity1 }
-        String usVal1 = (quantity1.value) ? (StandardConversion.getQuantityValueString(quantity1)) : ''
+        String usVal1 = (quantity1.value) ? (StandardConversion.getQuantityValueString(quantity1, 1.0f, standardConversions)) : ''
         Unit displayUnit1 = quantity1.unit
-        String usVal2 = (quantity2.value) ? (StandardConversion.getQuantityValueString(quantity2)) : ''
+        String usVal2 = (quantity2.value) ? (StandardConversion.getQuantityValueString(quantity2, 1.0f, standardConversions)) : ''
         Unit displayUnit2 = quantity2.unit
         Quantity resultantQuantity
         usVal1 = usVal1 ? usVal1.replaceAll(',', '') : ''
         usVal2 = usVal2 ? usVal2.replaceAll(',', '') : ''
-        Quantity q1 = StandardConversion.getQuantityToSave(usVal1, displayUnit1)
-        Quantity q2 = StandardConversion.getQuantityToSave(usVal2, displayUnit2)
-
+        Quantity q1 = StandardConversion.getQuantityToSave(usVal1, displayUnit1, 1.0f, standardConversions)
+        Quantity q2 = StandardConversion.getQuantityToSave(usVal2, displayUnit2, 1.0f, standardConversions)
         if (q1 != null && (q1?.savedUnit == q2?.savedUnit)) {
             resultantQuantity = new Quantity()
             Unit displayUnit = q1?.unit
             if (displayUnit) {
-                if (StandardConversion.findBySourceUnit(q1?.unit)?.conversionFactor > StandardConversion.findBySourceUnit(q2?.unit)?.conversionFactor) {
+                if (standardConversions.find {it.sourceUnit == q1?.unit}?.conversionFactor > standardConversions.find {it.sourceUnit == q2?.unit}?.conversionFactor) {
                     displayUnit = q2?.unit
                 }
             }

@@ -10,7 +10,7 @@ class StandardConversion {
     Unit targetUnit
     Float conversionFactor
 
-    public static Quantity getQuantityToSave(String amountFraction, Unit displayUnit, Float density = 1.0f) {
+    public static Quantity getQuantityToSave(String amountFraction, Unit displayUnit, Float density = 1.0f, List<StandardConversion> standardConversions = []) {
         Quantity result
         Float amount
         if (amountFraction) {
@@ -23,7 +23,7 @@ class StandardConversion {
             result.value = amount
         }
         if (displayUnit && (amount != null)) {
-            StandardConversion standardConversion = StandardConversion.findBySourceUnit(displayUnit)
+            StandardConversion standardConversion = (standardConversions) ? standardConversions.find{it.sourceUnit.id == displayUnit.id} : StandardConversion.findBySourceUnit(displayUnit)
             Float conversionFactor = standardConversion ? standardConversion.conversionFactor : 1.0f
             if (displayUnit.isWeightUnit) {
                 result.value = ((amount * conversionFactor) / density)
@@ -36,7 +36,7 @@ class StandardConversion {
         return result
     }
 
-    public static String getQuantityValueString(Quantity sourceQuantity, Float density = 1.0f) {
+    public static String getQuantityValueString(Quantity sourceQuantity, Float density = 1.0f, List<StandardConversion> standardConversions = []) {
         String result = ''
         Float floatValue = sourceQuantity?.value
         Unit unit = sourceQuantity?.unit
@@ -45,8 +45,7 @@ class StandardConversion {
         } else {
             if (floatValue != null) {
                 StandardConversion standardConversion
-                StandardConversion.withNewSession {
-                    standardConversion = StandardConversion.findBySourceUnit(unit)
+                    standardConversion =  (standardConversions) ? standardConversions.find{it.sourceUnit.id == unit.id} : StandardConversion.findBySourceUnit(unit)
                     Float conversionFactor = (standardConversion) ? standardConversion.conversionFactor : 1.0f
                     if (unit.isWeightUnit) {
                         floatValue = (floatValue  * density) / conversionFactor
@@ -59,13 +58,15 @@ class StandardConversion {
                     } else {
                         result = floatValue ? floatValue?.toString() : ''
                     }
-                }
             }
         }
         return result
     }
 
     static mapping = {
-        conversionFactor(sqlType: 'numeric(20, 10)')
+        sourceUnit fetch: 'join'
+        targetUnit fetch: 'join'
+        conversionFactor(sqlType: 'numeric(20, 10)', fetch: 'join')
+        cache true
     }
 }

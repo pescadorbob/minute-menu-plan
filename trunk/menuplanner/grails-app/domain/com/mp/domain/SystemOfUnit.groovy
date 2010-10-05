@@ -10,6 +10,10 @@ class SystemOfUnit {
         units(nullable: true)
     }
 
+     static mapping = {
+        cache true
+    }
+    
     List<Unit> getTimeUnits() {
         return ((units) ? (units.findAll {it.metricType == MetricType.TIME} as List) : [])
     }
