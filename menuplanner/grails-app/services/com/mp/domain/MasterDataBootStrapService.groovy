@@ -14,6 +14,8 @@ class MasterDataBootStrapService implements ApplicationContextAware {
 
     boolean transactional = false
     static config = ConfigurationHolder.config
+    def messageSource
+    Object[] testArgs = {}
 
     public void populateSystemOfUnits() {
         SystemOfUnit systemOfUnitsUsa = new SystemOfUnit(systemName: SYSTEM_OF_UNIT_USA, standardizationBody: SYSTEM_OF_UNIT_USA_STANDARDIZATION_BODY).s()
@@ -309,6 +311,11 @@ class MasterDataBootStrapService implements ApplicationContextAware {
         println 'Alcoholic elements:-' + elements
         config.alcoholicContentList = elements
         return elements
+    }
+
+    String getMessage(String key) {
+        def keyValue = messageSource.resolveCode(key, new java.util.Locale("EN"))
+        return keyValue?.format(testArgs)
     }
 
      public void populateHomePageData() {
