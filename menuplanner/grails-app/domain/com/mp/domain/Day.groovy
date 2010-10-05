@@ -10,7 +10,7 @@ class Day {
     static transients = ['mealByType', 'breakfast', 'lunch', 'dinner', 'supper']
 
     static mapping = {
-        meals casade: 'all-delete-orphan'
+        meals casade: 'all-delete-orphan', fetch: 'join'
     }
 
     List<Item> getMealByType(MealType mealType) {

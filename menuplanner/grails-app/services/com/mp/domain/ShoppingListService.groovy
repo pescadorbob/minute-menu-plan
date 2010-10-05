@@ -160,6 +160,7 @@ class ShoppingListService {
 
     List<ShoppingIngredient> getWeeklyProductsGroupByAisle(List<RecipeIngredient> weeklyRecipeIngredients) {
         List<ShoppingIngredient> productListForWeek = []
+        List<StandardConversion> standardConversions = StandardConversion.list([cache: true])
 
         Aisle otherAisle = new Aisle(name: 'Others')
         Map<Aisle, List<RecipeIngredient>> ingredientsGroupByAisles = weeklyRecipeIngredients.groupBy {return (it.aisle ? it.aisle : otherAisle)}
@@ -186,7 +187,7 @@ class ShoppingListService {
                 similarIngredientsWithSameUnits.values()?.each {def sameUnitQuantities ->
                     Quantity totalQuantity = sameUnitQuantities[0].quantity
                     sameUnitQuantities.tail().each {
-                        totalQuantity = Quantity.add(totalQuantity, it.quantity)
+                        totalQuantity = Quantity.add(totalQuantity, it.quantity, standardConversions)
                     }
                     ingredientsAggregatedWithSimilarUnits.add(totalQuantity)
                 }

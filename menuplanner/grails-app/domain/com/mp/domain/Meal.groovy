@@ -8,6 +8,10 @@ class Meal {
     static belongsTo = [Day, QuickFill]
     static hasMany = [items: Item]
 
+    static mapping = {
+        items fetch: 'join'
+    }
+
     static constraints = {
     }
 

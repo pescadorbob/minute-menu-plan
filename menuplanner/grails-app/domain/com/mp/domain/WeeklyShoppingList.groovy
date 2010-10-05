@@ -11,8 +11,8 @@ class WeeklyShoppingList {
     static belongsTo = [shoppingList: ShoppingList]
 
     static mapping = {
-        products casade: 'all-delete-orphan'
-        groceries casade: 'all-delete-orphan'
+        products casade: 'all-delete-orphan', fetch: 'join'
+        groceries casade: 'all-delete-orphan', fetch: 'join'
     }
 
     List<Aisle> getAisles(){

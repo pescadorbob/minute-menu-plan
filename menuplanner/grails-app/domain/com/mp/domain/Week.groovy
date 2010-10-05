@@ -8,7 +8,7 @@ class Week {
     static hasMany = [days: Day]
 
     static mapping = {
-        days casade: 'all-delete-orphan'
+        days casade: 'all-delete-orphan', fetch: 'join'
     }
 
     static constraints = {

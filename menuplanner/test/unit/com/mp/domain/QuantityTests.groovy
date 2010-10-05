@@ -17,12 +17,18 @@ class QuantityTests extends GrailsUnitTestCase {
 
   void test1_checkForNulls_add(){
     def instances = []
+    def scInstances = []
     mockDomain(Unit,instances)
+    mockDomain(StandardConversion,scInstances)
     Unit savedUnit = new Unit( name:'savedUnitname',symbol:'S',definition:'def', metricType:MetricType.UNIT)
     Unit unit = new Unit( name:'unitname',symbol:'S',definition:'def', metricType:MetricType.UNIT)
     Quantity quant1 = new Quantity(value:10.0,unit:unit,savedUnit:savedUnit)
     Quantity quant2
-    Quantity quant = Quantity.add(quant1,quant2)
+      def stanCon = mockFor(StandardConversion,true)
+          String str= "1 1 / 2"
+          stanCon.demand.static.getQuantityValueString(1..2) { Quantity quantity,Float c -> return str }
+          stanCon.demand.static.getQuantityToSave(1..2) {String a, Unit b,Float c -> return new Quantity(value:15.0,unit:unit,savedUnit:savedUnit) }
+      Quantity quant = Quantity.add(quant1,quant2,scInstances)
     assertNotNull quant
     assertEquals 10.0,quant.value
 
@@ -37,7 +43,8 @@ class QuantityTests extends GrailsUnitTestCase {
    void test1_valid_add(){
     def instances = []
     def unitInstances = []
-
+    def scInstances = []
+    mockDomain(StandardConversion,scInstances)
     mockDomain(SystemOfUnit,unitInstances)
     mockDomain(Unit,instances)
     mockDomain(StandardConversion)
@@ -45,16 +52,15 @@ class QuantityTests extends GrailsUnitTestCase {
     Unit unit = new Unit( name:'unitname',symbol:'S',definition:'def', metricType:MetricType.UNIT)
     Unit savedUnit = new Unit( name:'savedUnitname',symbol:'S',definition:'def', metricType:MetricType.UNIT)
 
-    Quantity quant1 = new Quantity(savedUnit:savedUnit)
-    Quantity quant2 = new Quantity(savedUnit:savedUnit)
-
+    Quantity quant1 = new Quantity(value:10.0,unit:unit,savedUnit:savedUnit)
+    Quantity quant2 = new Quantity(value:20.0,unit:unit,savedUnit:savedUnit)
 
     def stanCon = mockFor(StandardConversion,true)
     String str= "1 1 / 2"
-    stanCon.demand.static.getQuantityValueString(1..2) { Quantity quantity -> return str }
-    stanCon.demand.static.getQuantityToSave(1..2) {String a, Unit b -> return new Quantity(value:15.0,unit:unit,savedUnit:savedUnit) }
+    stanCon.demand.static.getQuantityValueString(1..2) { Quantity quantity,Float c -> return str }
+    stanCon.demand.static.getQuantityToSave(1..2) {String a, Unit b,Float c -> return new Quantity(value:15.0,unit:unit,savedUnit:savedUnit) }
 
-    Quantity quant = Quantity.add(quant1,quant2)
+    Quantity quant = Quantity.add(quant1,quant2,scInstances)
     assertNotNull quant
     assertEquals 30,quant.value
   }
@@ -78,7 +84,6 @@ class QuantityTests extends GrailsUnitTestCase {
     String str= "1 1 / 2"
     stanCon.demand.static.getQuantityValueString(1..2) { Quantity quantity -> return null }
     stanCon.demand.static.getQuantityToSave(1..2) {String a, Unit b -> return null }
-
 
     Quantity quant = Quantity.add(quant1,quant2)
     assertNull quant

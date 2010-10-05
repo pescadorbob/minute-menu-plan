@@ -193,6 +193,7 @@ class Recipe extends Item implements Commentable, Rateable {
         tablePerHierarchy false
         directions cascade: 'all-delete-orphan'
         ingredients cascade: 'all-delete-orphan'
+        cache true
     }
 
     boolean equals(final Object o) {
