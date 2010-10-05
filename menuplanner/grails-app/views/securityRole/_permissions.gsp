@@ -47,6 +47,7 @@
     <strong>Manage Home Page</strong>
     <ul>
         <g:render template="/securityRole/permissionCheckbox" model="[title: 'Manage Homepage ', role: role, permissionName: 'MANAGE_HOME_PAGE']"/>
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Manage Testimonials ', role: role, permissionName: 'MANAGE_TESTIMONIAL']"/>
     </ul>
 </li>
 <script type="text/javascript">

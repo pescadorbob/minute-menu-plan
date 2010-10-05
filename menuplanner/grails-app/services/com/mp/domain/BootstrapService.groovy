@@ -266,17 +266,4 @@ class BootstrapService {
         def keyValue = messageSource.resolveCode(key, new java.util.Locale("EN"))
         return keyValue?.format(testArgs)
     }
-
-    public void populateHomePageData() {
-        HomePage homePage = new HomePage()
-        String titleText = getMessage("homepage.bootstrapped.titleText")
-        String centralText = getMessage("homepage.bootstrapped.centralText")
-        homePage.centralText = titleText + centralText
-        homePage.leftBar = getMessage('homepage.bootstrapped.leftbarText')
-        String testimonial = getMessage('homepage.bootstrapped.testimonial')
-        homePage.testimonial = testimonial + '<br/><br/> ' + testimonial + '<br/><br/> ' + testimonial
-        String categories = getMessage('homepage.bootstrapped.categories')
-        homePage.categories = categories + '<br/><br/>' + categories + '<br/><br/>' + categories + '<br/><br/>' + categories
-        homePage.s()
-    }
 }

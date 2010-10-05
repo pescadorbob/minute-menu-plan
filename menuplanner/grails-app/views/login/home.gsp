@@ -85,7 +85,9 @@
                             <fb:login-button onlogin="loginToMenuPlanner()" autologoutlink="true">Login</fb:login-button>
                         </g:if>
                         <li class="border"><h2>TESTIMONIAL</h2></li>
-                        <li>${homePage?.testimonial}</li>
+                        <g:each in="${testimonials}" var="testimonial">
+                            <li>${testimonial}</li>
+                        </g:each>
                     </ul>
                 </g:form>
             </div>
