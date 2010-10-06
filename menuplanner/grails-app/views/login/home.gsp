@@ -3,6 +3,7 @@
 <head>
     <meta name="layout" content="menu"/>
     <title>Minute Menu Plan</title>
+    <mp:analytic/> 
 </head>
 <body>
 <g:if test="${!(GrailsUtil.environment in ['test'])}">
