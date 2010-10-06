@@ -1,4 +1,4 @@
-<%@ page import="com.mp.domain.HomePage" %>
+<%@ page import="com.mp.domain.Testimonial; com.mp.domain.HomePage" %>
 <html>
 <head>
     <meta name="layout" content="menu"/>
@@ -54,7 +54,9 @@
                 </div>
                 <div class="leftbox leftBarShow">
                     Testimonials
-                    ${homePage?.testimonial}
+                    <g:each in="${Testimonial.findAllByShowOnHomepage(true)}" var="testimonial">
+                        ${testimonial}
+                    </g:each>
                 </div>
                 <div class="bottom-shadow">
                     <label>&nbsp;</label>

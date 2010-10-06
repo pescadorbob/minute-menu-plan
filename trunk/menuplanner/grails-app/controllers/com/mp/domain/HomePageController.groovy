@@ -1,6 +1,9 @@
 package com.mp.domain
 
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
+
 class HomePageController {
+    def static config = ConfigurationHolder.config
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -27,6 +30,28 @@ class HomePageController {
         }
         else {
             render(view: "edit", model: [homePage: homePage])
+        }
+    }
+
+    def addImage = {
+        render(view: "addImage")
+    }
+
+    def uploadImage = {
+        byte[] fileContents = params?.file?.getBytes()
+        HomePage homePage = HomePage.get(1)
+        String filePath = config.tempDir
+        String fileName = 'Img_' + System.currentTimeMillis()?.toString() + '.jpg'
+        File file = new File(filePath)
+        file.mkdirs()
+        File actualFile = new File(file, fileName)
+        actualFile.withOutputStream {out -> out.write fileContents }
+        Image image = com.mp.domain.Image.addHomePageImage(homePage, actualFile.absolutePath)
+        if (image) {
+            render(view: "addImage", model: [image: image])
+        } else {
+            flash.message = "Unable to process,please upload again."
+            render(view: "addImage")
         }
     }
 }
