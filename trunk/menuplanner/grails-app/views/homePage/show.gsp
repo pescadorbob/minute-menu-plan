@@ -54,9 +54,13 @@
                 </div>
                 <div class="leftbox leftBarShow">
                     Testimonials
-                    <g:each in="${Testimonial.findAllByShowOnHomepage(true)}" var="testimonial">
-                        ${testimonial}
-                    </g:each>
+                    <ul>
+                        <g:each in="${Testimonial.findAllByShowOnHomepage(true)}" var="testimonial">
+                            <li>
+                                ${testimonial}<br/><br/>
+                            </li>
+                        </g:each>
+                    </ul>
                 </div>
                 <div class="bottom-shadow">
                     <label>&nbsp;</label>
