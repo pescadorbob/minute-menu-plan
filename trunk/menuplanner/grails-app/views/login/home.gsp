@@ -28,14 +28,10 @@
         </div>
         <div class="leftbox clearfix">
             <div id="content">
-                ${homePage?.centralText}
-                <div class="clear clearfix">
-                    <g:link controller="user" action="createFreeUser"><div class="orderbtn"><h3>Free</h3>Sign Up Now</div></g:link>
-                    <div id="video-box"><p:image src='video.png'/></div>
-                    <g:link controller="user" action="createFreeUser"><div class="orderbtn"><h3>Free</h3>Sign Up Now</div></g:link>
+                <div class="clearfix">
+                    ${homePage?.centralText}
                 </div>
-                <br/>
-                <div>
+                <div class="clearfix">
                     ${homePage?.categories}
                 </div>
             </div>

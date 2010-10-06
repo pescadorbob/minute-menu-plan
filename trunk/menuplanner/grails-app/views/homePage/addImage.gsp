@@ -20,7 +20,6 @@
         <g:form controller="homePage" method="post" action="uploadImage" enctype="multipart/form-data">
             <input type="file" id="homepageImage" name="file"/> <br/><br/>
             <g:submitButton class="button"  name="upload" value="Upload"/>
-            <g:actionSubmit class="button" value="Back" action="edit" controller="homePage"/> 
         </g:form>
     </div>
     <br/>

@@ -10,7 +10,7 @@
     <div id="wrapper" class="clearfix">
         <div id="content-wrapper" class="clearfix">
             <div class="headbox">
-                <h3>Edit HomePage</h3>
+                <h3>Edit Homepage</h3>
             </div>
             <g:hasErrors bean="${homePage}">
                 <div id="displayRecipeErrors" class="errors">
