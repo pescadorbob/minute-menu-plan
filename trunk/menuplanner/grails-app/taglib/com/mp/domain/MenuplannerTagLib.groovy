@@ -302,4 +302,8 @@ class MenuplannerTagLib {
                                 stLight.options({publisher:'${ConfigurationHolder.config.externalKeys.shareThisKey}',popup:true});</script>
                             <span class="st_sharethis" displayText="ShareThis" st_url="${attrs['shareUrl']}?guestVisitor=true"></span> """
     }
+
+    def analytic = {
+        out << g.render(template: "/layouts/analytic")
+    }
 }
