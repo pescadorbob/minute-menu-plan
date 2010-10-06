@@ -1537,4 +1537,7 @@
             <column name="unique_id" type="VARCHAR(255)" />
         </update>
     </changeSet>
+    <changeSet author="aman (generated)" id="1281344986756-183">
+        <dropColumn tableName="home_page" columnName="testimonial" />
+    </changeSet>
 </databaseChangeLog>

@@ -17,34 +17,50 @@ class UtilController {
     def facebookConnectService
     def utilService
     def masterDataBootStrapService
+    def messageSource
+    Object[] testArgs = {}
 
     static config = ConfigurationHolder.config
 
+    def index = {
+        render "success"
+    }
+
     def updateDB = {
         //Delete security roles and permissions, then create again
-        SecurityRole.list().each {SecurityRole securityRole ->
-            List<PermissionLevel> tempPermissionLevels = securityRole.permissionLevels as List
-            securityRole.permissionLevels = []
-            tempPermissionLevels.each {
-                it.delete(flush: true)
-            }
-            securityRole.delete(flush: true)
-        }
-        if (!SecurityRole.count()) {masterDataBootStrapService.populatePermissions()}
+//        SecurityRole.list().each {SecurityRole securityRole ->
+//            List<PermissionLevel> tempPermissionLevels = securityRole.permissionLevels as List
+//            securityRole.permissionLevels = []
+//            tempPermissionLevels.each {
+//                it.delete(flush: true)
+//            }
+//            securityRole.delete(flush: true)
+//        }
+//        if (!SecurityRole.count()) {masterDataBootStrapService.populatePermissions()}
 
-        if (!Testimonial.count()) {masterDataBootStrapService.populateTestimonials()}
+//        if (!Testimonial.count()) {masterDataBootStrapService.populateTestimonials()}
 
+        HomePage homePage = HomePage.get(1)
+        String titleText = getMessage("homepage.bootstrapped.titleText")
+        String centralText = getMessage("homepage.bootstrapped.centralText")
+        String centralTextVideo = getMessage("homepage.bootstrapped.centralText.video")
+        homePage.centralText = titleText + centralText + centralTextVideo
+        homePage.leftBar = getMessage('homepage.bootstrapped.leftbarText')
+        String categories = getMessage('homepage.bootstrapped.categories')
+        homePage.categories = categories + '<br/><br/>' + categories + '<br/><br/>' + categories + '<br/><br/>' + categories
+        homePage.s()
         render "Succcess"
+    }
+
+    String getMessage(String key) {
+        def keyValue = messageSource.resolveCode(key, new java.util.Locale("EN"))
+        return keyValue?.format(testArgs)
     }
 
     def deleteAllRecipes = {
         List<Recipe> recipes = Recipe.list()
         recipes*.delete(flush: true)
         render "All recipes deleted!!"
-    }
-
-    def index = {
-        render "success"
     }
 
     def triggerFacebookSync = {

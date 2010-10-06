@@ -322,7 +322,8 @@ class MasterDataBootStrapService implements ApplicationContextAware {
         HomePage homePage = new HomePage()
         String titleText = getMessage("homepage.bootstrapped.titleText")
         String centralText = getMessage("homepage.bootstrapped.centralText")
-        homePage.centralText = titleText + centralText
+        String centralTextVideo = getMessage("homepage.bootstrapped.centralText.video")
+        homePage.centralText = titleText + centralText +centralTextVideo
         homePage.leftBar = getMessage('homepage.bootstrapped.leftbarText')
         String categories = getMessage('homepage.bootstrapped.categories')
         homePage.categories = categories + '<br/><br/>' + categories + '<br/><br/>' + categories + '<br/><br/>' + categories
