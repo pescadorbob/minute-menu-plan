@@ -17,27 +17,28 @@
                     <g:renderErrors bean="${homePage}"/>
                 </div>
             </g:hasErrors>
+
+        <div class="clearfix">
+            <div class="top-shadow">
+                <label>&nbsp;</label>
+            </div>
             <g:uploadForm name="homePageEdit">
-                <div class="left-panel-product">
-                    <div class="top-shadow">
-                        <label>&nbsp;</label>
-                    </div>
-                    <div class="leftbox">
-                        Left Bar
-                        <fckeditor:editor width="100%" height="400" name="leftBar" fileBrowser="default">${homePage?.leftBar}</fckeditor:editor>
-                        <br/>
-                        Central Text
-                        <fckeditor:editor width="100%" height="400" name="centralText" fileBrowser="default">${homePage?.centralText}</fckeditor:editor>
-                        <br/>
-                        Categories
-                        <fckeditor:editor width="100%" height="400" name="categories" fileBrowser="default">${homePage?.categories}</fckeditor:editor>
-                        <br/>
-                        Testimonials
-                        <fckeditor:editor width="100%" height="400" name="testimonial" fileBrowser="default">${homePage?.testimonial}</fckeditor:editor>
-                    </div>
-                    <div class="bottom-shadow">
-                        <label>&nbsp;</label>
-                    </div>
+                <div class="leftbox">
+                    <div style="text-align:right; color:#007AD8;"><g:link action="addImage" controller="homePage">Upload Image</g:link></div>
+                    <br/>
+                    Left Bar
+                    <fckeditor:editor width="100%" height="400" name="leftBar" fileBrowser="default">${homePage?.leftBar}</fckeditor:editor>
+                    <br/>
+                    Central Text
+                    <fckeditor:editor width="100%" height="400" name="centralText" fileBrowser="default">${homePage?.centralText}</fckeditor:editor>
+                    <br/>
+                    Categories
+                    <fckeditor:editor width="100%" height="400" name="categories" fileBrowser="default">${homePage?.categories}</fckeditor:editor>
+                    <br/>
+                </div>
+                <div class="bottom-shadow">
+                    <label>&nbsp;</label>
+                </div>
                 </div>
                 <div id="left-panel">
                     <div id="button">

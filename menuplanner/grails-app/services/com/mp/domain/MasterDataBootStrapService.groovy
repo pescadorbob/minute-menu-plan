@@ -324,8 +324,6 @@ class MasterDataBootStrapService implements ApplicationContextAware {
         String centralText = getMessage("homepage.bootstrapped.centralText")
         homePage.centralText = titleText + centralText
         homePage.leftBar = getMessage('homepage.bootstrapped.leftbarText')
-        String testimonial = getMessage('homepage.bootstrapped.testimonial')
-        homePage.testimonial = testimonial + '<br/><br/> ' + testimonial + '<br/><br/> ' + testimonial
         String categories = getMessage('homepage.bootstrapped.categories')
         homePage.categories = categories + '<br/><br/>' + categories + '<br/><br/>' + categories + '<br/><br/>' + categories
         homePage.s()
@@ -336,6 +334,7 @@ class MasterDataBootStrapService implements ApplicationContextAware {
             Testimonial testimonial = new Testimonial()
             String description = getMessage('homepage.bootstrapped.testimonial')
             testimonial.description = description
+            testimonial.showOnHomepage = true
             testimonial.s()
         }
     }

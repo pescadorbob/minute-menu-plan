@@ -113,4 +113,25 @@ class Image {
         }
         return true
     }
+
+    public static Image addHomePageImage(HomePage homePage, String imagePath) {
+        if (imagePath) {
+            File sourceImage = new File(imagePath)
+            String targetImageDirectory = homePage.imageDir
+            String extension = sourceImage.name.tokenize('.').tail().join('.')
+            String imageName = "Home_${System.currentTimeMillis()}"
+            String fileName = imageName + '.' + extension
+            String targetImagePath = config.imagesRootDir + targetImageDirectory + fileName
+            if (sourceImage.exists() && (imagePath != targetImagePath)) {
+                String completePath = config.imagesRootDir + targetImageDirectory
+                File file = new File(completePath)
+                file.mkdirs()
+                File actualFile = new File(file, fileName)
+                actualFile.withOutputStream {out -> out.write sourceImage.readBytes() }
+                Image image = new Image(imagePath, targetImageDirectory, imageName, "Home Page")
+                image.s()
+                return image
+            }
+        }
+    }
 }

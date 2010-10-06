@@ -235,3 +235,8 @@ text-align:center;
 #subscription ul li ul li.bigcluman{float:left;width:173px; clear:none;border-bottom:none; padding:4px; text-align:left;}
 #subscription ul li a{text-decoration:underline;color:#007ad8;}
 #subscription ul li a:hover{text-decoration:none;}
+
+#picBox{height:150px;clear:both; border:1px solid #d6d4d5; overflow:auto; padding:10px;}
+#picBox ul li{padding:4px;border-bottom:1px solid #d6d4d5;}
+#picBox ul li ul li{width:30%; float:left; border:none;}
+#picBox ul li ul li.right{text-align:right;}
