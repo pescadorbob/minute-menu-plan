@@ -134,7 +134,9 @@ fckeditor {
 
 environments {
     production {
-        grails.serverURL = "http://www.changeme.com"
+        google.analytics.webPropertyID = 'UA-4197138-5'
+        google.analytics.enabled = true
+        grails.serverURL = "http://www.minutemenuplan.com"
         facebookConnect {
             apiKey = "c7cb03d1076112dfdee19d3e4972c3eb"
             secretKey = "2f069ab14fb4c6ab88cfe463aa9d4344"
@@ -151,6 +153,7 @@ environments {
         }
     }
     development {
+        google.analytics.enabled = false
         grails.serverURL = "http://localhost:8080/menuplanner"
         facebookConnect {
             apiKey = "8fc5bc0ed2fe785413bb1c028503a04c"
@@ -169,6 +172,7 @@ environments {
         uiperformance.enabled = false
     }
     test {
+        google.analytics.enabled = false
         grails.serverURL = "http://qa.menuplanner.intelligrape.net"
         facebookConnect {
             apiKey = "c7cb03d1076112dfdee19d3e4972c3eb"
@@ -187,6 +191,8 @@ environments {
         uiperformance.enabled = false
     }
     qa {
+        google.analytics.webPropertyID = 'UA-18954005-1'
+        google.analytics.enabled = true
         grails.serverURL = "http://qa.menuplanner.intelligrape.net"
         facebookConnect {
             apiKey = "3698f2a4398c83d0ddccc887777e5b36"
@@ -204,6 +210,8 @@ environments {
         }
     }
     beta {
+        google.analytics.webPropertyID = 'UA-18954005-1'
+        google.analytics.enabled = true
         grails.serverURL = "http://beta.menuplanner.intelligrape.net"
         facebookConnect {
             apiKey = "c7cb03d1076112dfdee19d3e4972c3eb"
