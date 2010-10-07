@@ -1,57 +1,14 @@
 var crossImagePath
-function setCrossImagePath(deleteImagePath){
-    crossImagePath=deleteImagePath
+function setCrossImagePath(deleteImagePath) {
+    crossImagePath = deleteImagePath
 }
+var weeks
 
-jQuery(function() {
-    jQuery(".menuContainer").sortable({
-        update: function(event, ui) {
-            if (jQuery("h3", jQuery(ui.item)).hasClass("recipeName")) {
-                var htmlString = "<div style='clear:both'><input type='hidden' value='" + jQuery("input[name='menuItemId']", jQuery(ui.item)).val() + "' name='mealItems." + jQuery(this).attr("rel") + "'> <img src='" + crossImagePath + "' alt='' style='display:none;' align='left' class='deleteImage'><span>" + jQuery("h3", jQuery(ui.item)).text() + "</span></div>"
-                jQuery(ui.item).remove();
-                jQuery(this).children().last().before(htmlString);
-                jQuery(this).children().last().remove();
-                jQuery(this).append('<div class="farji" style="display:none;clear:both"></div>');
-                bindHoverAndClick();
-            } else {
-                jQuery(ui.item).find("input").attr("name", "mealItems." + jQuery(this).attr("rel"))
-            }
-            if (jQuery(this).children().last().show()[0].offsetTop > 50) {
-                jQuery(this).addClass("downArrow")
-            } else {
-                jQuery(this).removeClass("downArrow")
-            }
-            jQuery('.farji', jQuery(this)).hide()
-        },
-        over:function(event, ui) {
-            jQuery(ui.sender).css("overflow", "visible")
-            jQuery(this).css("overflow", "visible")
-            jQuery(this).addClass("myHover")
-            jQuery(this).css("background-color", "#EEEEEE")
-        },
-        out:function(event, ui) {
-            jQuery(this).removeClass("myHover")
-            jQuery(this).css("overflow", "hidden")
-            jQuery(this).css("background-color", "")
-        },
-        stop:function(event, ui) {
-            jQuery(".menuContainer").css("overflow", "hidden")
-        },
-        opacity:0.6,
-        tolerance: 'pointer',
-        helper:'clone',
-        cursorAt: {top: 15,left: 5},
-        revert: true,
-        scrollSensitivity: 40,
-        connectWith: '.menuContainer',
-        forcePlaceholderSize:true,
-        placeholder:"ui-state-highlight"
-    });
-
-    bindHoverAndClick();
-    bindSortableToSearchItems()
-
-    
+$(function() {
+    weeks = jQuery(".menuContainer")
+    setTimeout("bindSortableToWeeks()", 100);
+    setTimeout("bindHoverAndClick()", 200);
+//    setTimeout("bindSortableToSearchItems()", 250)
 })
 function bindHoverAndClick() {
     jQuery(".menuContainer>div").unbind();
@@ -67,6 +24,64 @@ function bindHoverAndClick() {
         jQuery(this).parent().remove();
     })
 }
+
+function bindSortableToWeeks() {
+    var counter=0
+    setTimeout(bindMenuContainer, 100)
+    function bindMenuContainer() {
+//        console.debug("hello" + counter)
+        jQuery(weeks[counter]).sortable({
+            update: function(event, ui) {
+                if (jQuery("h3", jQuery(ui.item)).hasClass("recipeName")) {
+                    var htmlString = "<div style='clear:both'><input type='hidden' value='" + jQuery("input[name='menuItemId']", jQuery(ui.item)).val() + "' name='mealItems." + jQuery(this).attr("rel") + "'> <img src='" + crossImagePath + "' alt='' style='display:none;' align='left' class='deleteImage'><span>" + jQuery("h3", jQuery(ui.item)).text() + "</span></div>"
+                    jQuery(ui.item).remove();
+                    jQuery(this).children().last().before(htmlString);
+                    jQuery(this).children().last().remove();
+                    jQuery(this).append('<div class="farji" style="display:none;clear:both"></div>');
+                    bindHoverAndClick();
+                } else {
+                    jQuery(ui.item).find("input").attr("name", "mealItems." + jQuery(this).attr("rel"))
+                }
+                if (jQuery(this).children().last().show()[0].offsetTop > 50) {
+                    jQuery(this).addClass("downArrow")
+                } else {
+                    jQuery(this).removeClass("downArrow")
+                }
+                jQuery('.farji', jQuery(this)).hide()
+            },
+            over:function(event, ui) {
+                jQuery(ui.sender).css("overflow", "visible")
+                jQuery(this).css("overflow", "visible")
+                jQuery(this).addClass("myHover")
+                jQuery(this).css("background-color", "#EEEEEE")
+            },
+            out:function(event, ui) {
+                jQuery(this).removeClass("myHover")
+                jQuery(this).css("overflow", "hidden")
+                jQuery(this).css("background-color", "")
+            },
+            stop:function(event, ui) {
+                jQuery(".menuContainer").css("overflow", "hidden")
+            },
+            opacity:0.6,
+            tolerance: 'pointer',
+            helper:'clone',
+            cursorAt: {top: 15,left: 5},
+            revert: true,
+            scrollSensitivity: 40,
+            connectWith: '.menuContainer',
+            forcePlaceholderSize:true,
+            placeholder:"ui-state-highlight"
+        });
+
+        counter=counter+1
+        if(counter<42){
+            setTimeout(bindMenuContainer, 100)            
+        }
+    }
+
+}
+
 
 
 function bindSortableToSearchItems() {
@@ -105,4 +120,3 @@ function bindSortableToSearchItems() {
         placeholder:"ui-state-highlight"
     });
 }
-
