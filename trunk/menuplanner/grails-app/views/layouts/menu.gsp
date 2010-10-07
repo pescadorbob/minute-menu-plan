@@ -6,6 +6,7 @@
     <p:css name='allMenuCss'/>
     <p:javascript src='allMenuJquery'/>
     <g:layoutHead/>
+    <ga:trackPageviewAsynch />
 </head>
 <body>
 <div id="container">
