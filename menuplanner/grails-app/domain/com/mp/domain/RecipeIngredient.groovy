@@ -1,5 +1,7 @@
 package com.mp.domain
 
+import org.apache.commons.lang.StringUtils
+
 class RecipeIngredient {
 
     Item ingredient
@@ -10,7 +12,7 @@ class RecipeIngredient {
     static belongsTo = [recipe: Recipe]
 
     String toString() {
-        return ("${quantity ? quantity : ''} ${ingredient}${preparationMethod ? ' ('+preparationMethod+')' : ''}")
+        return ("${quantity ? quantity : ''} ${StringUtils.capitaliseAllWords(ingredient.toString())}${preparationMethod ? ' ('+preparationMethod+')' : ''}")
     }
 
     static constraints = {
