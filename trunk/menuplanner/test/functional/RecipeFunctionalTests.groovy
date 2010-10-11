@@ -386,4 +386,22 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
 //        }
 //    }
 
+    // #203  Recipe Ingredients-Need to be capitalized on Final recipe
+
+    void test_RecipeIngredient_To_Be_Capitalize() {
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginToHomepage(loginFormData)
+        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
+        Integer initialCount = Recipe.count()
+        createRecipeData.productName_1 = "eggs"
+        createRecipe(createRecipeData)
+        Integer finalCount = Recipe.count()
+        assertStatus 200
+        assertTrue('Add Recipe with valid values is not saved', (finalCount - initialCount == 1))
+        String ingredients = byId('showAllIngredientsHereTst').asText()
+        if (!ingredients.contains("Eggs")) {
+            fail('Unable to show ingredients in capitalized format')
+        }
+        assertElementTextContainsStrict 'showAllIngredientsHereTst', 'Eggs'
+    }
 }

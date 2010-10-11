@@ -62,10 +62,14 @@ function reflectInPreviewPanel() {
     jQuery('#displayIngredients').html('')
     for (i = 1; i < jQuery('input[name="ingredientQuantities"]').size(); i++) {
         var preparationMethod = jQuery('input[name="hiddenIngredientPreparationMethodNames"]:eq(' + i + ')').attr('value')
-        var myIngredients = jQuery('input[name="ingredientQuantities"]:eq(' + i + ')').attr('value') +
+
+        var ingredient = jQuery('input[name="ingredientQuantities"]:eq(' + i + ')').attr('value')
+        var itemName = jQuery('input[name="hiddenIngredientProductNames"]:eq(' + i + ')').attr('value')
+        itemName = capitalize(itemName)
+        var myIngredients = ingredient +
             //                            ' ' + jQuery('input[name="hiddenIngredientUnitNames"]:eq(' + i + ')').attr('value') +
                 ' ' + jQuery('input[name="hiddenIngredientUnitSymbols"]:eq(' + i + ')').attr('value') +
-                ' ' + jQuery('input[name="hiddenIngredientProductNames"]:eq(' + i + ')').attr('value') + (preparationMethod ? ' (' + preparationMethod + ')' : '') + '<br>'
+                ' ' + itemName + (preparationMethod ? ' (' + preparationMethod + ')' : '') + '<br>'
         jQuery('#displayIngredients').append(myIngredients)
     }
 
@@ -154,4 +158,7 @@ function showNewLineOnLastFocus() {
         resetIngredients();
         showNewLineOnLastFocus()
     })
+}
+function capitalize(incomingString) {
+    return incomingString.charAt(0).toUpperCase() + incomingString.substring(1).toLowerCase();
 }
