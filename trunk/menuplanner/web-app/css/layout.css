@@ -284,3 +284,5 @@ div.errors{border:red 1px solid;font-size:smaller;color:red;padding:10px;margin-
 #btnDiv ul li{clear:both;}
 #btnDiv ul li span{ float:left; width:245px;}
 .urlTextArea{text-align:center;padding-top:5px;height:20px;}
+.showAllStepsHere{clear:both;}
+.showAllStepsHere ul {list-style:disc; margin-left:12px;}

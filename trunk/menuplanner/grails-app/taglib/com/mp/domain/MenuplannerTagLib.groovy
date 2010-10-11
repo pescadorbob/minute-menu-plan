@@ -303,7 +303,4 @@ class MenuplannerTagLib {
                             <span class="st_sharethis" displayText="ShareThis" st_url="${attrs['shareUrl']}?guestVisitor=true"></span> """
     }
 
-    def analytic = {
-        out << g.render(template: "/layouts/analytic")
-    }
 }
