@@ -40,7 +40,7 @@
                 <div id="button">
                     <ul>
                         <li>
-                            <g:actionSubmit class="button addNewHomepageFT" controller="homePage" action="create" value="Add New"/>
+                            <g:actionSubmit class="button addNewHomePageFT" controller="homePage" action="create" value="Add New"/>
                         </li>
                     </ul>
                 </div>
