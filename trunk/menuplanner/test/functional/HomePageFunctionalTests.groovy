@@ -8,7 +8,8 @@ class HomePageFunctionalTests extends MenuPlannerFunctionalTests {
         def homePageLinkFT = byClass('homePageLinkFT')
         homePageLinkFT.click()
         assertTitle 'Minute Menu Plan : Homepage List'
-        byClass('addNewHomePageFT').click()
+        def addNew = byClass('addNewHomePageFT')
+        addNew.click()
         assertTitle 'Minute Menu Plan : Create Homepage'
         form('homePageCreate') {
             name = "Home_${System.currentTimeMillis()}"
@@ -25,7 +26,8 @@ class HomePageFunctionalTests extends MenuPlannerFunctionalTests {
         def homePageLinkFT = byClass('homePageLinkFT')
         homePageLinkFT.click()
         assertTitle 'Minute Menu Plan : Homepage List'
-        byClass('addNewHomePageFT').click()
+        def addNew = byClass('addNewHomePageFT')
+        addNew.click()
         assertTitle 'Minute Menu Plan : Create Homepage'
         form('homePageCreate') {
             name = "Home_Unique"
@@ -37,7 +39,8 @@ class HomePageFunctionalTests extends MenuPlannerFunctionalTests {
         def homePageLink = byClass('homePageLinkFT')
         homePageLink.click()
         assertTitle 'Minute Menu Plan : Homepage List'
-        byClass('addNewHomePageFT').click()
+        def addNewLink = byClass('addNewHomePageFT')
+        addNewLink.click()
         assertTitle 'Minute Menu Plan : Create Homepage'
         form('homePageCreate') {
             name = "Home_Unique"
@@ -55,7 +58,8 @@ class HomePageFunctionalTests extends MenuPlannerFunctionalTests {
         def homePageLinkFT = byClass('homePageLinkFT')
         homePageLinkFT.click()
         assertTitle 'Minute Menu Plan : Homepage List'
-        byClass('addNewHomePageFT').click()
+        def addNew = byClass('addNewHomePageFT')
+        addNew.click()
         assertTitle 'Minute Menu Plan : Create Homepage'
         form('homePageCreate') {
             name = "Home_${System.currentTimeMillis()}"
