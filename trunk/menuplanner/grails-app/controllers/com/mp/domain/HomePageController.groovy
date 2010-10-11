@@ -8,30 +8,91 @@ class HomePageController {
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index = {
-        redirect(action: "show")
+        redirect(action: "list")
+    }
+    def list = {
+        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        render(view: 'list', model: [homePageList: HomePage.list(params), total: HomePage.count()])
+    }
+
+    def create = {
+        HomePage homePage = new HomePage()
+        homePage.properties = HomePage.getActivePage().properties
+        render(view: 'create', model: [homePage: homePage])
     }
 
     def show = {
-        HomePage homePage = HomePage.get(1)
+        HomePage homePage = HomePage.get(params.long('id'))
         render(view: 'show', model: [homePage: homePage])
     }
 
     def edit = {
-        HomePage homePage = HomePage.get(1)
+        HomePage homePage = HomePage.get(params.long('id'))
         render(view: "edit", model: [homePage: homePage])
     }
 
     def save = {
-        HomePage homePage = HomePage.get(1)
-        homePage.properties = params.properties
+        HomePage homePage = new HomePage(params)
+        homePage.activeFrom = new Date(params?.activeFrom_value)
+        homePage.activeTo = new Date(params?.activeTo_value)
         if (!homePage.hasErrors() && homePage.s()) {
-            flash.message = "${message(code: 'homepage.updated.message')}"
-            redirect(action: "show")
+            flash.message = "${message(code: 'homepage.save.successful')}"
+            redirect(action: "show", id: homePage.id)
         }
         else {
-            render(view: "edit", model: [homePage: homePage])
+            render(view: "create", model: [homePage: homePage])
         }
     }
+
+    def update = {
+        HomePage homePage = HomePage.get(params.long('id'))
+        if (homePage) {
+            if (params.version) {
+                def version = params.version.toLong()
+                if (homePage.version > version) {
+
+                    homePage.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'homepage.label', default: 'Homepage')] as Object[], "Another user has updated this Homepage while you were editing")
+                    render(view: "edit", model: [homePage: homePage])
+                    return
+                }
+            }
+            homePage.properties = params?.properties
+            homePage.activeFrom = new Date(params?.activeFrom_value)
+            homePage.activeTo = new Date(params?.activeTo_value)
+            homePage.lastModified=new Date()
+            if (!homePage.hasErrors() && homePage.s()) {
+                flash.message = message(code: 'homepage.updated.successfully')
+                redirect(action: "show", id: homePage.id)
+            }
+            else {
+                render(view: "edit", model: [homePage: homePage])
+            }
+        }
+        else {
+            flash.message = message(code: 'homepage.not.found')
+            redirect(action: "list")
+        }
+    }
+
+    def delete = {
+        HomePage homePage = HomePage.get(params.id)
+        if (homePage) {
+            try {
+                homePage.delete(flush: true)
+                flash.message = message(code: 'homepage.deleted.successfully')
+                redirect(action: "list")
+            }
+            catch (org.springframework.dao.DataIntegrityViolationException e) {
+                flash.message =message(code: 'homepage.cannot.deleted')
+                redirect(action: "show", id: params.id)
+            }
+        }
+        else {
+            flash.message = message(code: 'homepage.not.found')
+            redirect(action: "list")
+        }
+    }
+
 
     def addImage = {
         render(view: "addImage")

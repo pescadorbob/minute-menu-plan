@@ -66,7 +66,6 @@
                             </li>
                             <li><a href="#">forgot password or username?</a></li>
                             <span style="color:#007AD8">Or login using Facebook</span>
-
                             <li><img src="${resource(dir:'images', file:'facebook-connect.gif')}" alt="Face Book" border="0"/></li>
                             <li class="border"><h2>TESTIMONIAL</h2></li>
                             <g:each in="${Testimonial.findAllByShowOnHomepage(true)}" var="testimonial">

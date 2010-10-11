@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="menu"/>
-    <title>Edit Homepage</title>
+    <title>Create Homepage</title>
     <tinyMce:importJs/>
     <calendar:resources lang="en" theme="aqua"/>
 </head>
@@ -11,25 +11,24 @@
     <div id="wrapper" class="clearfix">
         <div id="content-wrapper" class="clearfix">
             <div class="headbox">
-                <h3>Edit Homepage</h3>
+                <h3>Create Homepage</h3>
             </div>
             <g:hasErrors bean="${homePage}">
                 <div id="displayRecipeErrors" class="errors">
                     <g:renderErrors bean="${homePage}"/>
                 </div>
             </g:hasErrors>
-
         <div class="clearfix">
             <div class="top-shadow">
                 <label>&nbsp;</label>
             </div>
-            <g:uploadForm name="homePageEdit">
+            <g:uploadForm name="homePageCreate">
                 <div class="leftbox">
-                    <div class="leftbox">
-                        Name <g:textField name="name" value="${fieldValue(bean: homePage, field: 'name')}"/> <br/>  <br/>
-                        Active From <calendar:datePicker showTime="true" name="activeFrom" dateFormat="%m/%d/%Y %H:%M:%S"  defaultValue="${homePage?.activeFrom}"/>
-                        &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; Active To   <calendar:datePicker name="activeTo" showTime="true" dateFormat="%m/%d/%Y %H:%M:%S"  defaultValue="${homePage?.activeTo}"/>
-                    </div>
+                    Name <g:textField name="name" value="${fieldValue(bean: homePage, field: 'name')}"/><br/> <br/>
+                    Active From <calendar:datePicker name="activeFrom" dateFormat="%m/%d/%Y %H:%M:%S" showTime="true" defaultValue="${new Date()}"/>
+                    &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; Active To   <calendar:datePicker showTime="true" dateFormat="%m/%d/%Y %H:%M:%S" name="activeTo" defaultValue="${new Date()}"/>
+                </div>
+                <div class="leftbox">
                     <div style="text-align:right; color:#007AD8;"><g:link action="addImage" controller="homePage">Upload Image</g:link></div>
                     <br/>
                     Left Bar
@@ -47,14 +46,13 @@
                 </div>
                 </div>
                 <div id="left-panel">
-                    <input type="hidden" name="id" value="${homePage?.id}"/>
                     <div id="button">
                         <ul>
                             <li>
-                                <g:actionSubmit class="button updateHomePageFT" controller="homePage" action="update" value="Update"/>
+                                <g:actionSubmit class="button" controller="homePage" action="save" value="Create"/>
                             </li>
                             <li>
-                                <g:actionSubmit class="button" controller="homePage" action="delete" name="delete"  value="Delete" onclick="return confirm('Are you sure?');"/>
+                                <g:actionSubmit class="button" controller="homePage" action="list" name="cancel" value="Cancel"/>
                             </li>
                         </ul>
                     </div>

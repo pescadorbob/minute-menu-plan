@@ -44,7 +44,7 @@
                                 <g:actionSubmit class="button" controller="recipe" action="save" value="Create"/>
                             </li>
                             <li>
-                                <input type="button" name="preview" class="button" id="preview" value="Preview"/>
+                                <input type="button" name="preview" class="button previewButtonFT" id="preview" value="Preview"/>
                             </li>
                             <li>
                                 <g:actionSubmit class="button" controller="recipe" action="list" name="cancel" value="Cancel"/>
