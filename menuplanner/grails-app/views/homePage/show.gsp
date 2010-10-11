@@ -5,9 +5,6 @@
     <title>Preview Homepage</title>
 </head>
 <body>
-<g:if test="${!(GrailsUtil.environment in ['test'])}">
-    <facebook:facebookConnectJavascript/>
-</g:if>
 <div id="container">
     <div id="wrapper" class="clearfix">
         <div id="content-wrapper" class="clearfix">
@@ -69,9 +66,8 @@
                             </li>
                             <li><a href="#">forgot password or username?</a></li>
                             <span style="color:#007AD8">Or login using Facebook</span>
-                            <g:if test="${!(GrailsUtil.environment in ['test'])}">
-                                <fb:login-button>Login</fb:login-button>
-                            </g:if>
+
+                            <li><img src="${resource(dir:'images', file:'facebook-connect.gif')}" alt="Face Book" border="0"/></li>
                             <li class="border"><h2>TESTIMONIAL</h2></li>
                             <g:each in="${Testimonial.findAllByShowOnHomepage(true)}" var="testimonial">
                                 <li>${testimonial}</li>
@@ -89,12 +85,13 @@
                 <g:form>
                     <div id="button">
                         <g:form name="editHomePageForm">
+                            <input type="hidden" name="id" value="${homePage?.id}"/>
                             <ul>
                                 <li>
-                                    <g:actionSubmit class="button" controller="homePage" action="edit" value="Edit"/>
+                                    <g:actionSubmit class="button editHomePageFT" controller="homePage" action="edit" value="Edit"/>
                                 </li>
                                 <li>
-                                    <g:actionSubmit class="button" controller="recipe" action="list" name="cancel" value="Cancel"/>
+                                    <g:actionSubmit class="button" controller="homePage" action="list" name="cancel" value="Cancel"/>
                                 </li>
                             </ul>
                         </g:form>
