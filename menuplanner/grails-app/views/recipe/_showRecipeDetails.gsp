@@ -17,7 +17,7 @@
                     </li>
                 </g:if>
                 <g:if test="${recipe?.directions}">
-                    <li id="showAllStepsHereTst">Directions: ${recipe?.directions*.toString().join(" ")}</li>
+                    <li id="showAllStepsHereTst" class="showAllStepsHere">Directions: ${recipe?.directions*.toString().join(" ")}</li>
                 </g:if>
                 <g:if test="${recipe?.subCategories}">
                     <li style="width: 500px;">Categories: ${recipe?.subCategories?.join(", ")}</li>
@@ -25,11 +25,12 @@
                 <g:if test="${recipe?.nutrients}">
                     <li><span id="showNutrientsTst" style="width:auto;">Nutritional Facts per serving: ${recipe?.nutrients?.join(", ")}</span></li>
                 </g:if>
-                <g:if test="${recipe?.items}">
-                    <li>
+                <li>
+                    <g:if test="${recipe?.items}">
                         <mp:serveWithItems recipeId="${recipe?.id}"/>
-                    </li>
-                </g:if>
+                    </g:if>
+                </li>
+                <li></li>
                 <li>
                     <g:render template="/recipe/contributor" model="[recipe:recipe]"/>
                 </li>
@@ -42,8 +43,8 @@
                 <div id="photo200" style="overflow:hidden;">
                     <table cellpadding="0" cellspacing="0" border="0">
                         <tr>
-                            <td height="200" width="200" valign="middle" align="center" >
-                            <mp:printRecipeImage size="${imageSize}" id="${recipe?.image?.id}"/>
+                            <td height="200" width="200" valign="middle" align="center">
+                                <mp:printRecipeImage size="${imageSize}" id="${recipe?.image?.id}"/>
                             </td>
                         </tr>
                     </table>
