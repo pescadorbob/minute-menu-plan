@@ -39,17 +39,7 @@ class UtilController {
 //        if (!SecurityRole.count()) {masterDataBootStrapService.populatePermissions()}
 
 //        if (!Testimonial.count()) {masterDataBootStrapService.populateTestimonials()}
-
-        HomePage homePage = HomePage.get(1)
-        String titleText = getMessage("homepage.bootstrapped.titleText")
-        String centralText = getMessage("homepage.bootstrapped.centralText")
-        String centralTextVideo = getMessage("homepage.bootstrapped.centralText.video")
-        homePage.centralText = titleText + centralText + centralTextVideo
-        homePage.leftBar = getMessage('homepage.bootstrapped.leftbarText')
-        String categories = getMessage('homepage.bootstrapped.categories')
-        homePage.categories = categories + '<br/><br/>' + categories + '<br/><br/>' + categories + '<br/><br/>' + categories
-        homePage.s()
-        render "Succcess"
+         masterDataBootStrapService.populateHomePageData()
     }
 
     String getMessage(String key) {
