@@ -26,51 +26,33 @@ class UtilController {
         render "success"
     }
 
-    def updateDB = {
-        //Delete security roles and permissions, then create again
-//        SecurityRole.list().each {SecurityRole securityRole ->
-//            List<PermissionLevel> tempPermissionLevels = securityRole.permissionLevels as List
-//            securityRole.permissionLevels = []
-//            tempPermissionLevels.each {
-//                it.delete(flush: true)
-//            }
-//            securityRole.delete(flush: true)
-//        }
-//        if (!SecurityRole.count()) {masterDataBootStrapService.populatePermissions()}
 
-//        if (!Testimonial.count()) {masterDataBootStrapService.populateTestimonials()}
-         masterDataBootStrapService.populateHomePageData()
+    def updateSecurityRole={
+        //Delete security roles and permissions, then create again
+        SecurityRole.list().each {SecurityRole securityRole ->
+            List<PermissionLevel> tempPermissionLevels = securityRole.permissionLevels as List
+            securityRole.permissionLevels = []
+            tempPermissionLevels.each {
+                it.delete(flush: true)
+            }
+            securityRole.delete(flush: true)
+        }
+        if (!SecurityRole.count()) {masterDataBootStrapService.populatePermissions()}
+        render "Updated Roles"
+    }
+
+    def updateUniqueId={
+        Party.list().each{
+            if(!it.uniqueId){
+                it.uniqueId=UUID.randomUUID().toString()
+            }
+        }
+        render "Updated UUID"
     }
 
     String getMessage(String key) {
         def keyValue = messageSource.resolveCode(key, new java.util.Locale("EN"))
         return keyValue?.format(testArgs)
-    }
-
-    def deleteAllRecipes = {
-        List<Recipe> recipes = Recipe.list()
-        recipes*.delete(flush: true)
-        render "All recipes deleted!!"
-    }
-
-    def triggerFacebookSync = {
-        FacebookProfileSyncJob.triggerNow()
-        render "Job Triggered"
-    }
-
-    def testIngredientParser = {
-
-    }
-
-    def testIngredientParserSubmit = {
-        println ">>>>>>>>>>>>>>>>>>>>>>>>>>>Go It"
-        Map model = [:]
-
-        List<IngredientItemVO> ingredientItemVOs = utilService.parseIngredients(params.ingredients)
-        model.ingredientItemVOs = ingredientItemVOs
-
-        render(view: 'testIngredientParser', model: model)
-
     }
 
     def uploadRecipes = {
@@ -83,93 +65,6 @@ class UtilController {
         render(view: 'uploadResults', model: [result: recipeLog])
     }
 
-    def fractionTest = {
-        Fraction f1 = new ProperFractionFormat().parse("3  1/2")
-        Fraction f2 = new ProperFractionFormat().parse("7/2")
-        Fraction f3 = new ProperFractionFormat().parse("1/3")
-        render "<br/> ------------------------Created Fraction using String value--------"
-        render "<br/>Converting Fraction '3 1/2' to Decimal Value: ${f1.floatValue()}"
-        render "<br/>Converting Fraction '7/2' to Decimal Value: ${f2.floatValue()}"
-        render "<br/>Converting Fraction '1/3' to Decimal Value: ${f3.floatValue()}"
-        render "<br/>"
-        render "<br/> ------------Format using ProperFractionFormat-----------------"
-        render "<br/>Formatting Fraction '3 1/2' as string: ${new ProperFractionFormat().format(f1, new StringBuffer(), new FieldPosition(0))}"
-        render "<br/>Formatting Fraction '7/2' as string: ${new ProperFractionFormat().format(f2, new StringBuffer(), new FieldPosition(0))}"
-        render "<br/>Formatting Fraction '1/3'  as string: ${new ProperFractionFormat().format(f3, new StringBuffer(), new FieldPosition(0))}"
-        render "<br/>"
-        render "<br/> ------------------------Format using FractionFormat------------------------------"
-        render "<br/>Formatting Fraction '3 1/2' as string: ${new FractionFormat().format(f1)}"
-        render "<br/>Formatting Fraction '7/2' as string: ${new FractionFormat().format(f2)}"
-        render "<br/>Formatting Fraction '1/3'  as string: ${new FractionFormat().format(f3)}"
-        Fraction f4 = new Fraction(3.5)
-        render "<br/>"
-        render "<br/> ------------------------Created Fraction using double value 3.5------------------------------"
-        render "<br/>Converting Fraction 3.5 to Decimal Value: ${f4.floatValue()}"
-        render "<br/>Formatting Fraction 3.5 as string(using ProperFractionFormat): ${new ProperFractionFormat().format(f4, new StringBuffer(), new FieldPosition(0))}"
-        render "<br/>Formatting Fraction 3.5 as string(using FractionFormat): ${new FractionFormat().format(f4)}"
-        render "<br/>"
-        render "<br/> ----------Multiplication of 1/3 and 3---------------------------------------"
-        Fraction f6 = new ProperFractionFormat().parse("1/3")
-        Fraction f5 = new Fraction(3).multiply(f6)
-        render "<br/>Decimal result : ${f5.floatValue()}"
-        render "<br/>Formatting  as string(using FractionFormat): ${new FractionFormat().format(f5)}"
-        render "<br/>Formatting  as string(using ProperFractionFormat) :${new ProperFractionFormat().format(f5, new StringBuffer(), new FieldPosition(0))}"
-
-    }
-
-    def fractionTestMetaProgramming = {
-        Fraction f1 = new Fraction("3  1/2")
-        Fraction f2 = new Fraction("7/2")
-        Fraction f3 = new Fraction("1/3")
-        render "<br/> ------------------------Created Fraction using String value--------"
-        render "<br/>Converting Fraction '3 1/2' to Decimal Value: ${f1.floatValue()}"
-        render "<br/>Converting Fraction '7/2' to Decimal Value: ${f2.floatValue()}"
-        render "<br/>Converting Fraction '1/3' to Decimal Value: ${f3.floatValue()}"
-        render "<br/>"
-        render "<br/> ------------Format using ProperFractionFormat-----------------"
-        render "<br/>Formatting Fraction '3 1/2' as string: ${f1.myFormatUsingProperFractionFormat()}"
-        render "<br/>Formatting Fraction '7/2' as string: ${f2.myFormatUsingProperFractionFormat()}"
-        render "<br/>Formatting Fraction '1/3'  as string: ${f3.myFormatUsingProperFractionFormat()}"
-        render "<br/>"
-        render "<br/> ------------------------Format using FractionFormat------------------------------"
-        render "<br/>Formatting Fraction '3 1/2' as string: ${f1.myFormatUsingFractionFormat()}"
-        render "<br/>Formatting Fraction '7/2' as string: ${f2.myFormatUsingFractionFormat()}"
-        render "<br/>Formatting Fraction '1/3'  as string: ${f3.myFormatUsingFractionFormat()}"
-        Fraction f4 = new Fraction(3.5)
-        render "<br/>"
-        render "<br/> ------------------------Created Fraction using double value 3.5------------------------------"
-        render "<br/>Converting Fraction 3.5 to Decimal Value: ${f4.floatValue()}"
-        render "<br/>Formatting Fraction 3.5 as string(using ProperFractionFormat): ${f4.myFormatUsingProperFractionFormat()}"
-        render "<br/>Formatting Fraction 3.5 as string(using FractionFormat): ${f4.myFormatUsingFractionFormat()}"
-        render "<br/>"
-        render "<br/> ----------Multiplication of 1/3 and 3---------------------------------------"
-        Fraction f5 = new Fraction("1/3")
-        Fraction f6 = new Fraction(3).multiply(f5)
-        render "<br/>Decimal result : ${f6.floatValue()}"
-        render "<br/>Formatting  as string(using ProperFractionFormat) :${f6.myFormatUsingProperFractionFormat()}"
-        render "<br/>Formatting  as string(using FractionFormat): ${f6.myFormatUsingFractionFormat()}"
-
-    }
-
-    public static Quantity addQuantities(String usVal1, Unit displayUnit1, String usVal2, Unit displayUnit2) {
-        Quantity resultantQuantity = new Quantity()
-        Quantity q1 = StandardConversion.getQuantityToSave(usVal1, displayUnit1)
-        Quantity q2 = StandardConversion.getQuantityToSave(usVal2, displayUnit2)
-        if (q1.toString() && !q2.toString()) { return q1 }
-        if (!q1.toString() && q2.toString()) { return q2 }
-        if (q1?.savedUnit == q2?.savedUnit) {
-            Unit displayUnit = q1?.unit
-            if (displayUnit) {
-                if (StandardConversion.findBySourceUnit(q1?.unit)?.conversionFactor > StandardConversion.findBySourceUnit(q2?.unit)?.conversionFactor) {
-                    displayUnit = q2?.unit
-                }
-            }
-            resultantQuantity?.value = q1?.value + q2?.value
-            resultantQuantity?.savedUnit = q1?.savedUnit
-            resultantQuantity?.unit = displayUnit
-        }
-        return resultantQuantity
-    }
 }
 
 class IngredientItemVO {

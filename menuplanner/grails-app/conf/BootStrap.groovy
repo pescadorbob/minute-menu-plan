@@ -113,25 +113,8 @@ class BootStrap {
             println "Populated Quick Fills"
         }
 
-        Aisle.list().each {Aisle aisle ->
-            String capitalizedName = StringUtils.capitaliseAllWords(aisle.name)
-            if (capitalizedName != aisle.name) {
-                aisle.name = capitalizedName
-                aisle.s()
-            }
-        }
-
         if (!(Environment.current in [Environment.DEVELOPMENT, Environment.TEST])) {
             executeLiquibase()
-        }
-
-        Recipe.list().each {Recipe recipe ->
-            recipe.isAlcoholic = recipeService.isRecipeAlcoholic(recipe?.id)
-            recipe.s()
-        }
-        Product.list().each{Product product ->
-            product.isAlcoholic = product.isAlcoholic ? true : false
-            product.s()
         }
 
         Thread.start {
@@ -173,12 +156,9 @@ class BootStrap {
         if (StandardConversion.count() < 3) {
             masterDataBootStrapService.populateUnitsAndStandardConversions()
         }
-        if (!Unit.findByName(UNIT_EACH)) {
-            masterDataBootStrapService.populateNewUnitsAndStandardConversions()
-        }
         if (!Nutrient.count()) {masterDataBootStrapService.populateNutrients()}
-        masterDataBootStrapService.populateCategories()
-        masterDataBootStrapService.populateProductsWithAisles()
+        if (!Category.count()) {masterDataBootStrapService.populateCategories()}
+        if (!Product.count()) {masterDataBootStrapService.populateProductsWithAisles()}
         if (!SecurityRole.count()) {masterDataBootStrapService.populatePermissions()}
         if (!HomePage.count()) {masterDataBootStrapService.populateHomePageData()}
         if (!Testimonial.count()) {masterDataBootStrapService.populateTestimonials()}

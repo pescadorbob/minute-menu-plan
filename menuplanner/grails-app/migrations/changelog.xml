@@ -1537,27 +1537,4 @@
             <column name="unique_id" type="VARCHAR(255)" />
         </update>
     </changeSet>
-    <changeSet author="aman (generated)" id="1281344986756-183">
-        <dropColumn tableName="home_page" columnName="testimonial" />
-    </changeSet>
-    <!--<changeSet author="aman (generated)" id="1281344986756-184">-->
-        <!--<addColumn tableName="home_page">-->
-            <!--<column name="last_modified" type="DATETIME" />-->
-        <!--</addColumn>-->
-    <!--</changeSet>-->
-    <!--<changeSet author="aman (generated)" id="1281344986756-185">-->
-        <!--<addColumn tableName="home_page">-->
-            <!--<column name="active_to" type="DATETIME" />-->
-        <!--</addColumn>-->
-    <!--</changeSet>-->
-    <!--<changeSet author="aman (generated)" id="1281344986756-186">-->
-        <!--<addColumn tableName="home_page">-->
-            <!--<column name="active_from" type="DATETIME" />-->
-        <!--</addColumn>-->
-    <!--</changeSet>-->
-    <!--<changeSet author="aman (generated)" id="1281344986756-187">-->
-        <!--<addColumn tableName="home_page">-->
-            <!--<column name="name" type="VARCHAR(255)" />-->
-        <!--</addColumn>-->
-    <!--</changeSet>-->
 </databaseChangeLog>
