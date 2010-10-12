@@ -290,9 +290,6 @@ class RecipeCO {
             if (!val) {
                 return 'recipeCO.name.blank.error.name'
             }
-            if (val.contains("'")) {
-                return 'recipeCO.name.singleQuote.error.message'
-            }
         })
 
         difficulty(blank: true, nullable: true)

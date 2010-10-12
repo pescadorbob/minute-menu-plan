@@ -26,12 +26,19 @@ class RecipeTests extends GrailsUnitTestCase {
         assertEquals 2, rco.errors.allErrors.size()
     }
 
-    void test_RecipeCO_Invalid_Recipe_Name() {
+    void test_RecipeCO_Valid_Recipe_Name1() {
         mockForConstraintsTests(RecipeCO)
         RecipeCO rco = new RecipeCO(name: "va'lidNa'me")
         rco.validate()
-        assertEquals 3, rco.errors.allErrors.size()
-        assertEquals "recipeCO.name.singleQuote.error.message", rco.errors["name"]
+        assertEquals 2, rco.errors.allErrors.size()
+    }
+
+    void test_RecipeCO_Add_Recipe_With_Quotes_In_Name() {
+        mockForConstraintsTests(RecipeCO)
+        String recipeName= ''' McDonald's "Grilled" Chicken '''
+        RecipeCO rco = new RecipeCO(name: recipeName)
+        rco.validate()
+        assertEquals 2, rco.errors.allErrors.size()
     }
 
     void test_RecipeCO_Valid_Recipe_NameWithDoubleQuotes() {
