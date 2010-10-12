@@ -404,4 +404,19 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         }
         assertElementTextContainsStrict 'showAllIngredientsHereTst', 'Eggs'
     }
+
+    void test_Recipe_Category_Preview() {
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginToHomepage(loginFormData)
+        def newRecipeLink = byName('addNewRecipeLink')
+        newRecipeLink.click()
+        byId('category_0').setDefaultValue('18')
+        def previewButton = byClass('previewButtonFT')
+        previewButton.click()
+        String optionSelected = byId('category_0').getOptionByValue('18').asText()
+        String categorySelected = byId('displayCategory').asText()
+        if (!categorySelected.contains(optionSelected)) {
+            fail('Category not found on preview page')
+        }
+    }
 }

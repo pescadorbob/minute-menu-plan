@@ -6,11 +6,8 @@ function reflectInPreviewPanel() {
     var myCategoryList = []
     jQuery.each(jQuery('select[name=subCategoryIds][value!=""]'), function(indx, elem) {
         var myCategoryId = jQuery('option', jQuery(this)).eq(jQuery(this)[0].selectedIndex).attr('rel')
-        jQuery.each(jQuery('#categoryTable td:contains(' + myCategoryId + ')'), function() {
-            if (jQuery(this).html() == myCategoryId) {
-                myCategoryList.push(jQuery(this).next().html())
-            }
-        });
+        var newCategory = jQuery('option', jQuery(this)).eq(jQuery(this)[0].selectedIndex).text()
+        myCategoryList.push(newCategory)
     })
     myCategory = myCategoryList.join(', ')
     if (myCategory.length > 0) {
