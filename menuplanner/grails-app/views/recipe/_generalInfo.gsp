@@ -22,7 +22,7 @@
                     <li><label>Categories</label>
                         <span>
                             <g:each in="${(0..2)}" var="index">
-                                <select class="inpbox auto-resize" name="subCategoryIds" style="width:190px;">
+                                <select class="inpbox auto-resize" id="category_${index}" name="subCategoryIds" style="width:190px;">
                                     <optgroup label="--"><option value="">(Select One)</option></optgroup>
                                     <g:each in="${categories}" var="category">
                                         <optgroup label="${category}">
