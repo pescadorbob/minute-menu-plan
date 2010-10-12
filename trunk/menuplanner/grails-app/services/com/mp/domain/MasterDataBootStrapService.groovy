@@ -43,34 +43,7 @@ class MasterDataBootStrapService implements ApplicationContextAware {
 
     public void populateNewUnitsAndStandardConversions() {
 
-        SystemOfUnit systemOfUnitsMetric = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_METRIC)
-        SystemOfUnit systemOfUnitsUsa = SystemOfUnit.findBySystemName(SYSTEM_OF_UNIT_USA)
-        Unit milliLitres = Unit.findByName(UNIT_MILLI_LITRE)
 
-        Unit eachUnit = new Unit(name: UNIT_EACH, symbol: UNIT_EACH_SYMBOL, definition: "This is definition for each", metricType: MetricType.METRIC, isWeightUnit: false, isConvertible: false)
-        eachUnit.addToSystemOfUnits(systemOfUnitsUsa)
-        eachUnit.addToSystemOfUnits(systemOfUnitsMetric)
-        eachUnit.s()
-
-        Unit small = new Unit(name: UNIT_SMALL, symbol: UNIT_SMALL_SYMBOL, definition: "This is definition for small", metricType: MetricType.METRIC, isWeightUnit: false, isConvertible: false)
-        small.addToSystemOfUnits(systemOfUnitsUsa)
-        small.addToSystemOfUnits(systemOfUnitsMetric)
-        small.s()
-
-        Unit medium = new Unit(name: UNIT_MEDIUM, symbol: UNIT_MEDIUM_SYMBOL, definition: "This is definition for medium", metricType: MetricType.METRIC, isWeightUnit: false, isConvertible: false)
-        medium.addToSystemOfUnits(systemOfUnitsUsa)
-        medium.addToSystemOfUnits(systemOfUnitsMetric)
-        medium.s()
-
-        Unit large = new Unit(name: UNIT_LARGE, symbol: UNIT_LARGE_SYMBOL, definition: "This is definition for large", metricType: MetricType.METRIC, isWeightUnit: false, isConvertible: false)
-        large.addToSystemOfUnits(systemOfUnitsUsa)
-        large.addToSystemOfUnits(systemOfUnitsMetric)
-        large.s()
-
-        Unit pkg = new Unit(name: UNIT_PACKAGE, symbol: UNIT_PACKAGE_SYMBOL, definition: "This is definition for package", metricType: MetricType.METRIC, isWeightUnit: false, isConvertible: false)
-        pkg.addToSystemOfUnits(systemOfUnitsUsa)
-        pkg.addToSystemOfUnits(systemOfUnitsMetric)
-        pkg.s()
 
     }
 
@@ -153,6 +126,32 @@ class MasterDataBootStrapService implements ApplicationContextAware {
         calories.s()
         new StandardConversion(sourceUnit: calories, targetUnit: calories, conversionFactor: UNIT_CALORIES_CONVERSION_FACTOR).s()
 
+        /* POPULATING NEW UNITS*/
+
+        Unit eachUnit = new Unit(name: UNIT_EACH, symbol: UNIT_EACH_SYMBOL, definition: "This is definition for each", metricType: MetricType.METRIC, isWeightUnit: false, isConvertible: false)
+        eachUnit.addToSystemOfUnits(systemOfUnitsUsa)
+        eachUnit.addToSystemOfUnits(systemOfUnitsMetric)
+        eachUnit.s()
+
+        Unit small = new Unit(name: UNIT_SMALL, symbol: UNIT_SMALL_SYMBOL, definition: "This is definition for small", metricType: MetricType.METRIC, isWeightUnit: false, isConvertible: false)
+        small.addToSystemOfUnits(systemOfUnitsUsa)
+        small.addToSystemOfUnits(systemOfUnitsMetric)
+        small.s()
+
+        Unit medium = new Unit(name: UNIT_MEDIUM, symbol: UNIT_MEDIUM_SYMBOL, definition: "This is definition for medium", metricType: MetricType.METRIC, isWeightUnit: false, isConvertible: false)
+        medium.addToSystemOfUnits(systemOfUnitsUsa)
+        medium.addToSystemOfUnits(systemOfUnitsMetric)
+        medium.s()
+
+        Unit large = new Unit(name: UNIT_LARGE, symbol: UNIT_LARGE_SYMBOL, definition: "This is definition for large", metricType: MetricType.METRIC, isWeightUnit: false, isConvertible: false)
+        large.addToSystemOfUnits(systemOfUnitsUsa)
+        large.addToSystemOfUnits(systemOfUnitsMetric)
+        large.s()
+
+        Unit pkg = new Unit(name: UNIT_PACKAGE, symbol: UNIT_PACKAGE_SYMBOL, definition: "This is definition for package", metricType: MetricType.METRIC, isWeightUnit: false, isConvertible: false)
+        pkg.addToSystemOfUnits(systemOfUnitsUsa)
+        pkg.addToSystemOfUnits(systemOfUnitsMetric)
+        pkg.s()
     }
 
     public void populateNutrients() {
