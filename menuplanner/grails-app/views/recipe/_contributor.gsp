@@ -4,7 +4,7 @@
            ,${recipe?.contributor?.subscriber?.city}
         </g:if>
     </li>
-        <li class="clearfix">
+        <li class="clearfix showAllStepsHere">
             <div id="photo50">
                 <mp:image width="50" size="50" id="${recipe?.contributor?.subscriber?.image?.id}"/>
             </div>
