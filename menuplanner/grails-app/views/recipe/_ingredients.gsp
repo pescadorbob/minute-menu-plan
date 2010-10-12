@@ -70,7 +70,7 @@
 <script type="text/javascript">
     var itemsJson = {
         <g:each in="${Item.list()}" var="itemVar">
-        '${itemVar?.name}':['${itemVar?.suggestedAisle?.name}','${itemVar?.suggestedAisle?.id}'],
+        '${itemVar?.name?.replaceAll("'","\\\\'")}':['${itemVar?.suggestedAisle?.name}','${itemVar?.suggestedAisle?.id}'],
         </g:each>
     }
 
