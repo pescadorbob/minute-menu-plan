@@ -2,6 +2,7 @@ package com.mp.domain
 
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import static com.mp.MenuConstants.*
+import org.apache.commons.math.fraction.ProperFractionFormat
 
 
 class RecipeService {
@@ -308,7 +309,19 @@ class RecipeCO {
             }
         })
 
-        ingredientQuantities(nullable: true, blank: true)
+        ingredientQuantities(validator: { values ->
+            for(value in values) {
+                if (value && !value.isNumber()) {
+                    try {
+                        new ProperFractionFormat().parse(value)?.floatValue()
+                    }
+                    catch (Exception e) {
+                        println "Exception caught"
+                        return 'recipeCO.ingredientQuantities.validator.error.java.util.List'
+                    }
+                }
+            }
+        })
 
         hiddenIngredientProductNames(validator: {val, obj ->
             List<String> tempProd = []
