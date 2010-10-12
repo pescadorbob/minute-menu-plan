@@ -1,4 +1,4 @@
-<%@ page import="com.mp.domain.Testimonial" %>
+<%@ page import="com.mp.domain.HomePage; com.mp.domain.Testimonial" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -19,13 +19,16 @@
                 ${flash.message}
             </div>
         </g:if>
-        <div  class="clearfix">
+        <div  class="clearfix list homepagelist">
             <table cellpadding="8" cellspacing="1" border="0" bgcolor="#d3d1d2" class="testimonial">
+                <thead>
                 <tr class="testimonialHead">
-                    <td width="8%">HomePage</td>
-                    <td width="35%" >Active From</td>
-                    <td width="35%" >Active To</td>
+                    <g:sortableColumn property="name" title="Id" />
+                    <g:sortableColumn property="activeFrom" title="Active From" />
+                    <g:sortableColumn property="activeTo" title="Active To" />
                 </tr>
+                </thead>
+                <tbody>
                 <g:each in="${homePageList}" var="homePage">
                     <tr class="testimonialWhite">
                         <td width="8%"><a href="${createLink(action: 'show', controller: 'homePage', id: homePage?.id)}">${homePage?.name}</a></td>
@@ -33,8 +36,12 @@
                         <td width="35%" ><a href="${createLink(action: 'show', controller: 'homePage', id: homePage?.id)}">${homePage?.activeTo}</a></td>
                     </tr>
                 </g:each>
+                </tbody>
             </table>
         </div>
+        <div class="paginateButtons">
+                <g:paginate total="${HomePage.count()}" />
+            </div>
         <div id="left-panel">
             <g:form>
                 <div id="button">
