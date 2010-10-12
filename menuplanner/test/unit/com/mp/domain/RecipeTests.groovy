@@ -47,4 +47,54 @@ class RecipeTests extends GrailsUnitTestCase {
         rco.validate()
         assertEquals 2, rco.errors.allErrors.size()
     }
+
+    void test_RecipeCO_VALID1_IngredientQuantities() {
+        mockForConstraintsTests(RecipeCO)
+        RecipeCO rco = new RecipeCO()
+        rco.ingredientQuantities = ['1']
+        rco.validate()
+        assertNull(rco.errors["ingredientQuantities"])
+    }
+
+    void test_RecipeCO_VALID2_IngredientQuantities() {
+        mockForConstraintsTests(RecipeCO)
+        RecipeCO rco = new RecipeCO()
+        rco.ingredientQuantities = ['1 / 2']
+        rco.validate()
+        assertNull(rco.errors["ingredientQuantities"])
+    }
+
+    void test_RecipeCO_VALID3_IngredientQuantities() {
+        mockForConstraintsTests(RecipeCO)
+        RecipeCO rco = new RecipeCO()
+        rco.ingredientQuantities = ['1 1/2']
+        rco.validate()
+        assertNull(rco.errors["ingredientQuantities"])
+    }
+
+    void test_RecipeCO_VALID4_IngredientQuantities() {
+        mockForConstraintsTests(RecipeCO)
+        RecipeCO rco = new RecipeCO()
+        rco.ingredientQuantities = ['1.5']
+        rco.validate()
+        assertNull(rco.errors["ingredientQuantities"])
+    }
+    void test_RecipeCO_Blank_IngredientQuantities() {
+        mockForConstraintsTests(RecipeCO)
+        RecipeCO rco = new RecipeCO()
+        rco.ingredientQuantities = ['']
+        rco.validate()
+        assertNull(rco.errors["ingredientQuantities"])
+    }
+
+    void test_RecipeCO_INVALID1_IngredientQuantities() {
+        mockForConstraintsTests(RecipeCO)
+        RecipeCO rco = new RecipeCO()
+        rco.ingredientQuantities = ['10 grams']
+        rco.validate()
+        rco.errors.allErrors.each {
+            println it
+        }
+        assertNotNull(rco.errors["ingredientQuantities"])
+    }
 }

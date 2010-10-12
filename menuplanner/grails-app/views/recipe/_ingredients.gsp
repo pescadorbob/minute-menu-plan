@@ -1,6 +1,11 @@
 <%@ page import="com.mp.domain.*" %>
 <div class="clearfix" id=panelIngredients>
-    <div class="recipeSubhead" style="${hasErrors(bean: recipeCO, field: 'hiddenIngredientProductNames', 'color:red;')}">Ingredients:</div>
+    <g:hasErrors bean="${recipeCO}" field="hiddenIngredientProductNames">
+        <div class="recipeSubhead" style="${hasErrors(bean: recipeCO, field: 'hiddenIngredientProductNames', 'color:red;')}">Ingredients:</div>
+    </g:hasErrors>
+    <g:hasErrors bean="${recipeCO}" field="ingredientQuantities">
+        <div class="recipeSubhead" style="${hasErrors(bean: recipeCO, field: 'ingredientQuantities', 'color:red;')}">Ingredients:</div>
+    </g:hasErrors>
     <div class="formElement">
         <div class="showIngredientsHere">
             <table id="unitTable" style="display:none;">
