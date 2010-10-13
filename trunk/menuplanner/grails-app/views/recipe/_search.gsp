@@ -132,4 +132,4 @@
         <label>&nbsp;</label>
     </div>
 </div>
-<p:javascript src='searchquery'/>
+<g:render template="/menuPlan/searchJquery"/>

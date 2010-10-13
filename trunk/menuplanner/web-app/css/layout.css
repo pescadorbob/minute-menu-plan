@@ -59,6 +59,7 @@
 .formElement{clear:both;padding-top:20px;color:#616a72;}
 .formElement ul li{float:left;width:290px;font-size:12px;font-weight:bold;}
 .formElement ul li.browsebox{text-align:right;}
+.formElement ul li ul li{float:none;clear:both;padding-bottom:10px;}
 .formElement ul li ul li{float:none;clear:both;padding-bottom:10px;height:25px;}
 .formElement ul li ul li label{float:left;width:100px;}
 .formElement ul li ul li>span{float:left;width:190px;}
