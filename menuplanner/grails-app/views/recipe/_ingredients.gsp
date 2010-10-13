@@ -119,7 +119,7 @@
     function resetIngredients() {
 
         resetUnitAutocomplete()
-        $(".iProduct").unautocomplete().autocomplete("${createLink(action: 'getMatchingItems', controller: 'recipe')}", {
+        $(".iProduct").unautocomplete().autocomplete("${createLink(action: 'getMatchingProducts', controller: 'recipe')}", {
             width : 300,
             minChars: 3,
             selectFirst: false

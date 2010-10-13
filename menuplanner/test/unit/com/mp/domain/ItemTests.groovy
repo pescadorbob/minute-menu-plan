@@ -6,7 +6,11 @@ class ItemTests extends GrailsUnitTestCase {
     protected void setUp() {
         super.setUp()
         def instances = []
+        def productInstances = []
+        def measurableProductInstances = []
         mockDomain(Item, instances)
+        mockDomain(Product, productInstances)
+        mockDomain(MeasurableProduct, measurableProductInstances)
         def riInstances = []
         mockDomain(RecipeIngredient, riInstances)
         def partyInstances = []
@@ -170,6 +174,117 @@ class ItemTests extends GrailsUnitTestCase {
         List<Item> totalItems = Item.getItemsForUser(partyNonAlcoholic)
         assertEquals "Got wrong recipes for user", 10, totalItems.size()
     }
+
+    void test_getProductsForUser_Only_Recipes() {
+        Party party1 = Party.get(1)
+        createRecipeInstances(10, party1)
+        List<Item> result = Item.getProductsForUser(party1)
+        assertEquals "Found recipes(wrong items) for user", 0, result.size()
+    }
+
+    void test_getProductsForUser_Only_Recipes_By_Other_User() {
+        Party party1 = Party.get(1)
+        Party party2 = Party.get(2)
+        createRecipeInstances(10, party2)
+        List<Item> result = Item.getProductsForUser(party1)
+        assertEquals "Found recipes(wrong items) for user", 0, result.size()
+    }
+
+    void test_getProductsForUser_Only_Recipes_By_Both_Users() {
+        Party party1 = Party.get(1)
+        Party party2 = Party.get(2)
+        createRecipeInstances(10, party1)
+        createRecipeInstances(10, party2)
+        List<Item> result = Item.getProductsForUser(party1)
+        assertEquals "Found recipes(wrong items) for user", 0, result.size()
+    }
+
+    void test_getProductsForUser_Only_Recipes_By_Other_User_Share_With_Community() {
+        Party party1 = Party.get(1)
+        Party party2 = Party.get(2)
+        createRecipeInstances(10, party2, true)
+        List<Item> result = Item.getProductsForUser(party1)
+        assertEquals "Found recipes(wrong items) for user", 0, result.size()
+    }
+
+    void test_getProductsForUser_Only_Products() {
+        Party party1 = Party.get(1)
+        createProductInstances(10, party1)
+        List<Item> result = Item.getProductsForUser(party1)
+        assertEquals "Unable to get products for user", 10, result.size()
+    }
+
+    void test_getProductsForUser_Another_User_Product() {
+        Party party1 = Party.get(1)
+        Party party2 = Party.get(2)
+        createProductInstances(10, party1)
+        createProductInstances(10, party2)
+        List<Item> result1 = Item.getProductsForUser(party1)
+        List<Item> result2 = Item.getProductsForUser(party2)
+        assertEquals "Unable to get products for user-1", 10, result1.size()
+        assertEquals "Unable to get products for user-2", 10, result2.size()
+    }
+
+    void test_getProductsForUser_Products_Like_Query() {
+        Party party1 = Party.get(1)
+        createProductInstances_Diff_Name(party1)
+        List<Item> butterProducts = Item.getProductsForUser(party1, '%But%')
+        assertEquals "Unable to create products-Butter for user", 3, butterProducts.size()
+        List<Item> milkProducts = Item.getProductsForUser(party1, '%Mil%')
+        assertEquals "Unable to create products-Milk for user", 2, milkProducts.size()
+    }
+
+    void test_getProductssForUser_Products_Ilike_Query() {
+        Party party1 = Party.get(1)
+        createProductInstances_Diff_Name(party1)
+        List<Item> butterProducts = Item.getProductsForUser(party1, '%but%')
+        assertEquals "Unable to create products-Butter for user", 3, butterProducts.size()
+        List<Item> milkProducts = Item.getProductsForUser(party1, '%mil%')
+        assertEquals "Unable to create products-Milk for user", 2, milkProducts.size()
+    }
+
+    void test_getProductsForUser_All_User_Products() {
+        Party party1 = Party.get(1)
+        Party party2 = Party.get(2)
+        createProductInstances(20, party1, true)
+        createProductInstances(10, party2, false)
+        List<Item> items1 = Item.getProductsForUser(party1)
+        List<Item> items2 = Item.getProductsForUser(party2)
+        assertEquals "Unable to create/show items for user 1 ", 0, items1.size()
+        assertEquals "Unable to create/show Items for user 2 ", 10, items2.size()
+    }
+
+    void test_getProductssForUser_All_Products_Alcoholic() {
+        Party partyAlcoholic = Party.get(3)
+        createProductInstances(10, partyAlcoholic, true)
+        List<Item> totalItems = Item.getProductsForUser(partyAlcoholic)
+        assertEquals "Unable to get Items for user", 10, totalItems.size()
+    }
+
+    void test_getProductsForUser_Products_Mixed_Party_Alcoholic() {
+        Party partyAlcoholic = Party.get(3)
+        createProductInstances(10, partyAlcoholic, false)
+        createProductInstances(20, partyAlcoholic, true)
+        List<Item> totalItems = Item.getProductsForUser(partyAlcoholic)
+        assertEquals "Unable to get Items for user", 30, totalItems.size()
+    }
+
+    void test_getProductsForUser_Products_Mixed_Party_Non_Alcoholic() {
+        Party partyNonAlcoholic = Party.get(4)
+        createProductInstances(10, partyNonAlcoholic, false)
+        createProductInstances(20, partyNonAlcoholic, true)
+        List<Item> totalItems = Item.getProductsForUser(partyNonAlcoholic)
+        assertEquals "Unable to get Items for user", 10, totalItems.size()
+    }
+
+    void test_getProductsForUser_All_Products_Alcoholic_Party_Non_Alcoholic() {
+        Party partyNonAlcoholic = Party.get(4)
+        createProductInstances(10, partyNonAlcoholic, true)
+        createItemInstances(20, true, true)
+        List<Item> totalItems = Item.getProductsForUser(partyNonAlcoholic)
+        assertEquals "Got wrong items for user", 0, totalItems.size()
+    }
+
 
     void createRecipeInstances(Integer count, Party party, Boolean shareWithCommunity = false, Boolean containsAlcohol = false) {
         (1..count).each {

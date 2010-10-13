@@ -59,4 +59,30 @@ class Item {
         totalItems = items + itemsByUser + recipesByUser
         return totalItems.sort {it.name}
     }
+
+    public static List<Item> getProductsForCurrentUser(String matches = "%%"){
+        Party party = LoginCredential.currentUser?.party
+        List<Item> itemsByUser = getProductsForUser(party, matches)
+        return itemsByUser
+    }
+
+    public static List<Item> getProductsForUser(Party party, String matchString = "%%") {
+        List<Item> totalItems = []
+        List<Item> items = []
+        List<Item> itemsByUser = []
+        if (!party.showAlcoholicContent) {
+            items = Product?.findAllByNameIlikeAndIsAlcoholic(matchString, false)?.findAll {it?.shareWithCommunity} as List
+            items+=MeasurableProduct?.findAllByNameIlikeAndIsAlcoholic(matchString, false)?.findAll {it?.shareWithCommunity} as List
+            matchString = matchString.replace("%", ".*")
+            itemsByUser = party?.ingredients?.findAll {it?.name?.matches(Pattern.compile(matchString, Pattern.CASE_INSENSITIVE)) && (!it.isAlcoholic)} as List
+        } else {
+            items = Product?.findAllByNameIlike(matchString)?.findAll {it?.shareWithCommunity} as List
+            items+=MeasurableProduct?.findAllByNameIlikeAndIsAlcoholic(matchString, false)?.findAll {it?.shareWithCommunity} as List
+            matchString = matchString.replace("%", ".*")
+            itemsByUser = party?.ingredients?.findAll {it?.name?.matches(Pattern.compile(matchString, Pattern.CASE_INSENSITIVE))} as List
+        }
+        totalItems = items + itemsByUser
+        return totalItems.sort {it.name}
+    }
+
 }

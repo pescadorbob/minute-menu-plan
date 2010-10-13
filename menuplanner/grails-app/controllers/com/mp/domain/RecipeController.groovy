@@ -22,7 +22,17 @@ class RecipeController {
         List<Item> items = Item.getItemsForCurrentUser("%${params.q}%")
         String itemsJson = ''
         items.each {
-            String name = it.name.replaceAll("'","\\\'")
+            String name = it.name.replaceAll("'", "\\\'")
+            itemsJson += name + "|" + it.id + "\n"
+        }
+        render(itemsJson)
+    }
+
+    def getMatchingProducts = {
+        List<Item> items = Item.getProductsForCurrentUser("%${params.q}%")
+        String itemsJson = ''
+        items.each {
+            String name = it.name.replaceAll("'", "\\\'")
             itemsJson += name + "|" + it.id + "\n"
         }
         render(itemsJson)

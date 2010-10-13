@@ -51,7 +51,7 @@
                 </div>
             </g:if>
             <g:else>
-                <div id="photo200" class="scaleImageSize">
+                <div id="photo200" style="overflow:hidden;" class="scaleImageSize">
                     <mp:image class="recipeImage" size="${imageSize}" id="${recipe?.image?.id}"/>
                 </div>
             </g:else>
