@@ -138,8 +138,8 @@ environments {
         google.analytics.enabled = true
         grails.serverURL = "http://www.minutemenuplan.com"
         facebookConnect {
-            apiKey = "c7cb03d1076112dfdee19d3e4972c3eb"
-            secretKey = "2f069ab14fb4c6ab88cfe463aa9d4344"
+            apiKey = "120e11133b438517eea8c2bae826af1b"
+            secretKey = "602b4d22ab0e5ff2c230362085c60235"
         }
         imagesRootDir = "/home/ubuntu/mpImages/"
         tempDir = "/home/ubuntu/mpImages/tempImages"
