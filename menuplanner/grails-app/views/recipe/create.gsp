@@ -22,42 +22,43 @@
                         <g:renderErrors bean="${recipeCO}"/>
                     </div>
                 </g:hasErrors>
-          <div class="top-shadow">
-            <label> </label>
-          </div>
-
-                <g:uploadForm name="formCreateRecipe">
-                  <div class="tabPanel leftbox clearfix" id=panelGeneralInfo>                    
-                    <g:render template="/recipe/generalInfo" model="[recipeCO: recipeCO, timeUnits: timeUnits]"/>
-                    <g:render template="/recipe/ingredients" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>                      
-                    <g:render template="/recipe/cookingSteps" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
-                    <g:render template="/recipe/serveWith" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
-                    <g:render template="/recipe/nutrientFacts" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
-                    <g:render template="/recipe/usesAlcohol" model="[recipeCO: recipeCO]"/>
-                  </div>
-                    <div class="bottom-shadow">
-                        <label>&nbsp;</label>
-                    </div>
-                    <div id="button">
-                        <ul>
-                            <li>
-                                <g:actionSubmit class="button" controller="recipe" action="save" value="Create"/>
-                            </li>
-                            <li>
-                                <input type="button" name="preview" class="button previewButtonFT" id="preview" value="Preview"/>
-                            </li>
-                            <li>
-                                <g:actionSubmit class="button" controller="recipe" action="list" name="cancel" value="Cancel"/>
-                            </li>
-                        </ul>
-                    </div>
-                </g:uploadForm>
+                <div class="top-shadow">
+                    <label></label>
+                </div>
+                <div class=" clearfix">
+                    <g:uploadForm name="formCreateRecipe">
+                        <div class="tabPanel leftbox clearfix" id=panelGeneralInfo>
+                            <div class=" clearfix"><g:render template="/recipe/generalInfo" model="[recipeCO: recipeCO, timeUnits: timeUnits]"/></div>
+                            <div class=" clearfix"><g:render template="/recipe/ingredients" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/></div>
+                            <div class=" clearfix"><g:render template="/recipe/cookingSteps" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/></div>
+                            <div class=" clearfix"><g:render template="/recipe/serveWith" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/></div>
+                            <div class=" clearfix"><g:render template="/recipe/nutrientFacts" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/></div>
+                            <div class=" clearfix"><g:render template="/recipe/usesAlcohol" model="[recipeCO: recipeCO]"/></div>
+                        </div>
+                        <div class="bottom-shadow">
+                            <label>&nbsp;</label>
+                        </div>
+                        <div id="button">
+                            <ul>
+                                <li>
+                                    <g:actionSubmit class="button" controller="recipe" action="save" value="Create"/>
+                                </li>
+                                <li>
+                                    <input type="button" name="preview" class="button previewButtonFT" id="preview" value="Preview"/>
+                                </li>
+                                <li>
+                                    <g:actionSubmit class="button" controller="recipe" action="list" value="Cancel"/>
+                                </li>
+                            </ul>
+                        </div>
+                    </g:uploadForm>
+                </div>
             </div>
             <g:render template="/recipe/preview"/>
         </div>
     </div>
 </div>
 <g:render template="/recipe/bindEventsToTabs"/>
-<g:render template="unitAddPopup"/>  
+<g:render template="unitAddPopup"/>
 </body>
 </html>
