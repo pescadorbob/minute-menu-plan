@@ -49,6 +49,8 @@ class LoginController {
             if (loginCredential) {
                 if (loginCredential.party.isEnabled) {
                     session.loggedUserId = loginCredential?.party?.id?.toString()
+                    loginCredential?.party?.lastLogin = new Date()
+                    loginCredential?.party?.s()
                     if (params.targetUri?.size()) {
                         redirect(uri: params.targetUri)
                         params.remove('targetUri')
@@ -74,7 +76,9 @@ class LoginController {
                 LoginCredential loginCredential = FacebookAccount.findByUid(params.long("facebookUid"))
                 if (loginCredential) {
                     if (loginCredential.party.isEnabled) {
-                        SessionUtils.session.loggedUserId = FacebookAccount.findByUid(params.long("facebookUid"))?.party?.id
+                        SessionUtils.session.loggedUserId = loginCredential?.party?.id
+                        loginCredential.party.lastLogin = new Date()
+                        loginCredential.party.s()
                         render "true"
                         return
                     }
