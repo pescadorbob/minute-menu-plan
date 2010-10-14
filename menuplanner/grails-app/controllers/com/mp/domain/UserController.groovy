@@ -201,6 +201,8 @@ class UserController {
             } else {
                 party.s()
                 session.loggedUserId = party.id.toString()
+                party.lastLogin = new Date()
+                party.s()
                 if (party?.facebookAccount) {
                     render "<script type='text/javascript'>window.opener.location.href='" + createLink(controller: 'recipe', action: 'list') + "';window.close();</script>"
                 } else {
@@ -330,6 +332,8 @@ class UserController {
             println "Session Id: " + session.id
             session.setMaxInactiveInterval(3600)
             session.loggedUserId = party?.id
+            party.lastLogin = new Date()
+            party.s()
             redirect(action: 'list', controller: 'recipe')
         } else {
             userCO.errors.allErrors.each {

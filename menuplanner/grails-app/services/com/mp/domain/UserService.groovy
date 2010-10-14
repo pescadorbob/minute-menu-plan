@@ -456,7 +456,8 @@ class UserCO {
         HttpSession currentSession = ConfigurationHolder.config.sessions.find {it.userId == subscriber.id}
         currentSession.userId = null
         currentSession.loggedUserId = party?.loginCredentials?.toList()?.first()?.id?.toString()
-
+        party.lastLogin = new Date()
+        party.s()
     }
 
 }

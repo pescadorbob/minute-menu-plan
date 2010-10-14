@@ -10,6 +10,7 @@ class Party {
     Boolean showAlcoholicContent = false
     String uniqueId =UUID.randomUUID().toString()
     List<Party> clients
+    Date lastLogin
 
     Set<PartyRole> roles = []
     Set<LoginCredential> loginCredentials = []
@@ -60,9 +61,11 @@ class Party {
         menuPlans cascade: "all-delete-orphan"
         shoppingLists cascade: "all-delete-orphan"
         loginCredentials cascade: "all-delete-orphan"
+        roles fetch: 'join'
     }
 
     static constraints = {
+        lastLogin(nullable: true)
         facebookAccount(nullable: true)
         joiningDate(nullable: true, blank: true)
         uniqueId(nullable: true, blank: true)

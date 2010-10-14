@@ -21,7 +21,7 @@
                 </li>
                 <li class="email">${party?.email}</li>
                 %{--<li>2 day ago</li>--}%
-                <li>To Be Implemented</li>
+                <li><g:formatDate date="${party.lastLogin}" format="dd-MM-yyyy HH:SS" /></li>
                 <li id="status${party?.id}">${party?.isEnabledString}</li>
                 <li>${party?.inappropriateFlagsCount} Flags</li>
                 <li><g:link controller="user" action="edit" params="[id:party?.id]">Edit</g:link></li>
