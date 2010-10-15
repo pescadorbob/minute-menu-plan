@@ -145,6 +145,7 @@
 
 
         $(".iAisle").unautocomplete().autocomplete(aisles, {
+            matchContains: true,
             selectFirst: false,
             minChars: 0,
             max:0,
