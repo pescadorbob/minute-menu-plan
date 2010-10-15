@@ -14,7 +14,10 @@
             'width': 130,
             onComplete: function(event, queId, fileObj, response, data) {
                 jQuery('#selectUserImagePath').val(response);
-                jQuery('#photo').html('<img id="userImage" border="0" height="180" width="180" src="${createLink(action:'imageByPath', controller:'image')}?imagePath=' + response + '&noImage=no-img.gif"/>')
+                jQuery('#photo').html('<img id="userImage" border="0" style="text-align:center;" src="${createLink(action:'imageByPath', controller:'image')}?imagePath=' + response + '&noImage=no-img.gif"/>')
+                 jQuery('.scaleImageSize img').load(function() {
+                    scaleImageSize();
+                });
             }
         });
     })

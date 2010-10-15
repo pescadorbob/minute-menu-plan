@@ -57,8 +57,16 @@
             'width': 130,
             onComplete: function(event, queId, fileObj, response, data) {
                 jQuery('#selectRecipeImagePath').val(response);
-                jQuery('#myImageDiv').html('<img id="recipeImage" border="0" height="200" width="200" src="${createLink(action:'imageByPath', controller:'image')}?imagePath=' + response + '&noImage=no-img.gif"/>')
-            }
+                jQuery('#myImageDiv').css('height', 200);
+                jQuery('#myImageDiv').css('width', 200);
+                jQuery('#myImageDiv').css('float', 'none');
+                jQuery('#scaleImageSize150').css('height', 150);
+                jQuery('#scaleImageSize150').css('width', 150);
+                jQuery('#myImageDiv').html('<img id="recipeImage" border="0" src="${createLink(action:'imageByPath', controller:'image')}?imagePath=' + response + '&noImage=no-img.gif"/>')
+                jQuery('.scaleImageSize img').load(function() {
+                    scaleImageSize();
+                });
+            }                  
         });
     })
 

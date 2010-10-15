@@ -51,8 +51,10 @@
                 </div>
             </g:if>
             <g:else>
-                <div id="photo200" style="overflow:hidden;" class="scaleImageSize">
-                    <mp:image class="recipeImage" size="${imageSize}" id="${recipe?.image?.id}"/>
+                <div class="scaleImageSizeUpperDiv" style="height:200px;width:200px;float:right;">
+                    <div id="photo200" style="overflow:hidden;" class="scaleImageSize">
+                        <mp:image class="recipeImage" size="${imageSize}" id="${recipe?.image?.id}"/>
+                    </div>
                 </div>
             </g:else>
             <br/>
