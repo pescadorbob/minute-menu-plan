@@ -169,7 +169,7 @@
     }).dynamic({ bottom: { direction: 'down', bounce: true } })
 
     $("#ingredientGrid>li:eq(1) input:visible[value='']").keydown(function() {
-        $(this).unbind('focus').unbind('blur');
+        $(this).unbind('focus')
         $(".tooltip").hide();
     })
 
