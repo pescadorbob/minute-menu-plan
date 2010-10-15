@@ -20,11 +20,10 @@
     </div>
 
     <div class="leftbox clearfix">
-        %{--<img id="displayRecipeImage" src="" width="80" height="80" align="right" style="float:right">--}%
         <div id="rightElementPreview">
-            <div style="float:right; width:150px;">
-                <img id="displayRecipeImage" src="" width="150" height="150"/>
-            </div>
+        <div class="scaleImageSize150" style="float:right;" >
+                <img id="displayRecipeImage" style="margin-top:0px;" src="" />
+        </div>
             <span id="displayDescription"></span>
             <br/>
             <span id="displayPrepTime"></span>

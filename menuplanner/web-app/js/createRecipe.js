@@ -1,6 +1,7 @@
 function reflectInPreviewPanel() {
 
     jQuery('#displayRecipeImage').attr('src', jQuery('#recipeImage').attr('src'))
+    scaleImageTo150()
 
     var myCategory = ''
     var myCategoryList = []
@@ -76,8 +77,6 @@ function reflectInPreviewPanel() {
         showDirection = 'Directions: ' + tinyMCE.get('directions').getContent();
     }
     jQuery('#displayDirections').html(showDirection)
-
-    jQuery('#showPreviewRecipeImage').attr('src', jQuery('#recipeImage').attr('src'))
 
     var myServeWith = ''
     var myServeWithList = []
@@ -158,4 +157,25 @@ function showNewLineOnLastFocus() {
 }
 function capitalize(incomingString) {
     return incomingString.charAt(0).toUpperCase() + incomingString.substring(1).toLowerCase();
+}
+
+function scaleImageTo150() {
+    var imgH = jQuery('.scaleImageSize150 img').height();
+    var imgW = jQuery('.scaleImageSize150 img').width();
+    alert(imgH)
+    alert(imgW)
+    var divH = 150;
+    var divW = 150;
+    var imgRatio = imgH / imgW
+    var divRatio = divH / divW
+    if (imgRatio > divRatio) {
+        jQuery('.scaleImageSize150 img').attr('height', divH);
+        imgW = jQuery('.scaleImageSize150 img').width();
+        jQuery('.scaleImageSize150').width(imgW);
+    }
+    else {
+        jQuery('.scaleImageSize150 img').attr('width', divW);
+        imgH = jQuery('.scaleImageSize150 img').height();
+        jQuery('.scaleImageSize150').height(imgH)
+    }
 }

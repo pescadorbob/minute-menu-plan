@@ -28,8 +28,8 @@ jQuery('.scaleImageSize img').load(function() {
 function scaleImageSize() {
     var imgH = jQuery('.scaleImageSize img').height();
     var imgW = jQuery('.scaleImageSize img').width();
-    var divH = jQuery('.scaleImageSize').height();
-    var divW = jQuery('.scaleImageSize').width();
+    var divH = jQuery('.scaleImageSizeUpperDiv').height();
+    var divW = jQuery('.scaleImageSizeUpperDiv').width();
     var imgRatio = imgH / imgW
     var divRatio = divH / divW
     if (imgRatio > divRatio) {

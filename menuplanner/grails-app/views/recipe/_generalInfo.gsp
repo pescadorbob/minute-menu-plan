@@ -14,14 +14,14 @@
                     <li><label>Name</label>
                         <span><g:textField class="inpbox ${hasErrors(bean:recipeCO,field:'name', 'errors')}" name="name" value="${recipeCO?.name}"/></span></li>
                     <li><label>Description</label></li>
-                    <li>
+                    <li style="height:140px;" >
                         <span>
-                        <tinyMce:renderEditor type="simple" style="width:280px"  id="description" name="description" >${recipeCO?.description}</tinyMce:renderEditor>
-                    </span><br/></li>
-                   <li></li>
-                    <li><label>Categories</label>
+                        <tinyMce:renderEditor type="simple" style="width:295px"  id="description" name="description" >${recipeCO?.description}</tinyMce:renderEditor>
+                    </span></li>
+                    <li style="height:100px;"><label>Categories</label>
                         <span>
                             <g:each in="${(0..2)}" var="index">
+                                <p style="padding-bottom:10px;">
                                 <select class="inpbox auto-resize" id="category_${index}" name="subCategoryIds" style="width:190px;">
                                     <optgroup label="--"><option value="">(Select One)</option></optgroup>
                                     <g:each in="${categories}" var="category">
@@ -37,8 +37,7 @@
                                         </optgroup>
                                     </g:each>
                                 </select>
-                                <br/>
-                                <br/>
+                                </p>
                             </g:each>
                         </span></li>
                     <li><label>Prep Time</label>
@@ -71,8 +70,10 @@
                 <g:render template="/recipe/imageUpload" model="[selectorName:'selectRecipeImage']"/>
             </li>
             <li>
-                <div id="myImageDiv" style="text-align:right;">
-                    <img id="recipeImage" border="0" width="200" height="200" src="${g.createLink(controller: 'image', action: 'imageByPath', params: [imagePath: recipeCO?.selectRecipeImagePath, noImage: 'no-img.gif'])}"/>
+                <div class="scaleImageSizeUpperDiv" style="height:200px; width:200px; float:right; border:none;">
+                    <div id="myImageDiv" class="scaleImageSize" style="height:200px; width:200px; float:right;">
+                         <img id="recipeImage"  border="0" src="${g.createLink(controller: 'image', action: 'imageByPath', params: [imagePath: recipeCO?.selectRecipeImagePath, noImage: 'no-img.gif'])}"/>
+                    </div>
                 </div>
                 <input type="hidden" name="selectRecipeImagePath" id="selectRecipeImagePath" value="${recipeCO?.selectRecipeImagePath}"/>
             </li>
