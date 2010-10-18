@@ -160,8 +160,8 @@ function capitalize(incomingString) {
 }
 
 function scaleImageTo150() {
-    var imgH = jQuery('.scaleImageSize150 img').height();
-    var imgW = jQuery('.scaleImageSize150 img').width();
+    var imgH = jQuery('.recipeImage').attr('height');
+    var imgW = jQuery('.recipeImage').attr('width');
     var divH = 150;
     var divW = 150;
     var imgRatio = imgH / imgW
