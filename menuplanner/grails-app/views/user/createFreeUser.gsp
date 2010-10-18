@@ -54,10 +54,10 @@
                             <h1>Profile Information</h1>
                             <ul>
                                 <li>
-                                    <input name="" type="radio" value=""/>
+                                    <input name="createAccount" type="radio" value=""/>
                                     Link your account with your Facebook account</li>
                                 <li>&nbsp; &nbsp;<facebook:freeUserConnect coachUUID="${userCO?.coachUUID ? userCO?.coachUUID :''}"/><br/></li>
-                                <li><input name="" type="radio" value=""/>Create a new account. (You can link it later)</li>
+                                <li><input name="createAccount" type="radio" value=""/>Create a new account. (You can link it later)</li>
                             </ul>
                         </div>
                         <div class="boxDiv">

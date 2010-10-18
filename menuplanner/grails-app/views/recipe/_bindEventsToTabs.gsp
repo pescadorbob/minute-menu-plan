@@ -60,6 +60,7 @@
                 jQuery('#myImageDiv').css('height', 200);
                 jQuery('#myImageDiv').css('width', 200);
                 jQuery('#myImageDiv').css('float', 'none');
+                jQuery('#myImageDiv').css('margin-left', '0px');
                 jQuery('#scaleImageSize150').css('height', 150);
                 jQuery('#scaleImageSize150').css('width', 150);
                 jQuery('#myImageDiv').html('<img id="recipeImage" border="0" src="${createLink(action:'imageByPath', controller:'image')}?imagePath=' + response + '&noImage=no-img.gif"/>')
