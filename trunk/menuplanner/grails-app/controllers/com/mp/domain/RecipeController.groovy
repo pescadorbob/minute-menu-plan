@@ -11,6 +11,7 @@ class RecipeController {
     static config = ConfigurationHolder.config
     def recipeService
     def masterDataBootStrapService
+    def searchableService
 
     static allowedMethods = [save: "POST", update: "POST"]
 
@@ -154,8 +155,9 @@ class RecipeController {
 
     def update = {RecipeCO recipeCO ->
         if (recipeCO.validate()) {
-            recipeCO.updateRecipe()
+            Recipe recipe = recipeCO.updateRecipe()
             redirect(action: 'show', id: recipeCO?.id)
+            searchableService.reindex(class: Recipe, recipe?.id)
         } else {
             println recipeCO.errors.allErrors.each {
                 println it
@@ -173,6 +175,7 @@ class RecipeController {
             Recipe recipe = recipeCO.convertToRecipe(loggedUser?.party)
             loggedUser?.party?.addToContributions(recipe)
             loggedUser.party?.s()
+            searchableService.index(class: Recipe, recipe?.id)
             redirect(action: 'show', id: recipe?.id)
         } else {
             recipeCO.errors.allErrors.each {

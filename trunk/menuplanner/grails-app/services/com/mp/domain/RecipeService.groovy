@@ -177,6 +177,7 @@ class RecipeService {
 class RecipeCO {
     static config = ConfigurationHolder.config
     def recipeService
+    def searchableService
 
     RecipeCO() {} //constructor
     Long imageId
@@ -511,6 +512,7 @@ class RecipeCO {
                     party.addToIngredients(item)
                     party.s()
                     items.add(item)
+                    Item.countByName(itemName) ? searchableService.reindex(class: Item, item?.id) : searchableService.index(class: Product, item?.id)
                 }
             }
         }
@@ -536,17 +538,20 @@ class RecipeCO {
             if (product) {
                 party.addToIngredients(product)
                 party.s()
+                searchableService.reindex(class: Product, product?.id)
             } else {
                 if (unit) {
                     product = new MeasurableProduct(name: productName, isVisible: false, preferredUnit: unit, suggestedAisle: aisle)
                     product.s()
                     party.addToIngredients(product)
                     party.s()
+                    searchableService.index(class: MeasurableProduct, product?.id)
                 } else {
                     product = new Product(name: productName, isVisible: false, suggestedAisle: aisle)
                     product.s()
                     party.addToIngredients(product)
                     party.s()
+                    searchableService.index(class: Product, product?.id)
                 }
             }
         }
