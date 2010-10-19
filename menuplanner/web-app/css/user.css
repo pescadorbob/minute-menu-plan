@@ -34,10 +34,7 @@
     text-decoration: none;
 }
 
-#photo {
-    border: 2px solid #d6d4d5;
-    width: 180px;
-}
+#photo {border: 2px solid #d6d4d5; width: 180px;text-align:left;}
 #photo200{width:200px; height:200px;border: 2px solid #d6d4d5; text-align:left;}
 #photo50{width:50px; float:left;border: 2px solid #d6d4d5;}
 .contributor-image{width:450px;border:1px solid #d6d4d5;background-color:#E6E6E6;padding:5px; -moz-border-radius:3px; border-radius:3px;}

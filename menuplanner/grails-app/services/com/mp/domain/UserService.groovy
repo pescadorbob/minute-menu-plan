@@ -27,36 +27,66 @@ class UserService {
         return false
     }
 
-    public Party updateUserFromFacebook(String redirectUrl, String code, Party party) {
-        String coachUUID = SessionUtils?.session?.coachUniqueId
-        if (code) {
-            Long faceBookToken = code.tokenize("-|")[1]?.toLong()
-            if (faceBookToken) {
-                String urlString = "https://graph.facebook.com/oauth/access_token?client_id=${config.facebookConnect.apiKey}&redirect_uri=${redirectUrl}&client_secret=${config.facebookConnect.secretKey}&code=${code}"
-                URL url = new URL(urlString)
-                String token = url.getText()
-                FacebookAccount facebookAccount = (party?.facebookAccount) ? party?.facebookAccount : new FacebookAccount()
-                facebookAccount.uid = faceBookToken
-                facebookAccount.oauthToken = (token - "access_token=")
-                facebookAccount.party = party
-                party?.facebookAccount = facebookAccount
-                def subscriber = updateUserInfo(party)
-                party.s()
+    public Party createUserFromFacebook(String redirectUrl, String code) {
+        Long faceBookToken = code.tokenize("-|")[1]?.toLong()
+        String urlString = "https://graph.facebook.com/oauth/access_token?client_id=${config.facebookConnect.apiKey}&redirect_uri=${redirectUrl}&client_secret=${config.facebookConnect.secretKey}&code=${code}"
+        URL url = new URL(urlString)
+        String token = url.getText()
+        String oauthToken = (token - "access_token=")
+
+        url = new URL("https://graph.facebook.com/${faceBookToken}?access_token=${oauthToken}&fields=name,location,email")
+        JSONElement response = JSON.parse(url.newReader())
+        if (response) {
+            String email = response?.email
+            String name = response?.name
+            String location = response?.location?.name
+            Party party
+            if (UserLogin.countByEmail(email)) {
+                party = UserLogin.findByEmail(email).party
+            } else if (FacebookAccount.countByUid(faceBookToken)) {
+                party = FacebookAccount.findByUid(faceBookToken).party
+            } else {
+                party = new Party()
+                String coachUUID = SessionUtils?.session?.coachUniqueId
+                party.name = name
+                party.addToRoles(location ? new Subscriber(city: location) : new Subscriber())
                 if (coachUUID) {
                     Party coach = Party.findByUniqueId(coachUUID)
                     if (coach) {
                         party.subscriber.coachId = coach?.id
-                        party.s()
                     }
                     coach.addToClients(party)
                     coach.s()
                 }
-                facebookAccount.s()
-                updateUserPhoto(party)
-                return party
+                party.s()
             }
+            if (!party.facebookAccount) {
+                FacebookAccount facebookAccount = new FacebookAccount(party: party, uid: faceBookToken, oauthToken: oauthToken)
+                party.facebookAccount = facebookAccount
+                facebookAccount.s()
+                party.s()
+            }
+            updateProfile(party)
+            return party
         }
         return null
+    }
+
+    public Party updateUserFromFacebook(String redirectUrl, Party party, String code) {
+        Long faceBookToken = code.tokenize("-|")[1]?.toLong()
+        String urlString = "https://graph.facebook.com/oauth/access_token?client_id=${config.facebookConnect.apiKey}&redirect_uri=${redirectUrl}&client_secret=${config.facebookConnect.secretKey}&code=${code}"
+        URL url = new URL(urlString)
+        String token = url.getText()
+        FacebookAccount facebookAccount = (party.facebookAccount) ? party.facebookAccount : new FacebookAccount()
+        String oauthToken = (token - "access_token=")
+        facebookAccount.uid = faceBookToken
+        facebookAccount.oauthToken = oauthToken
+        facebookAccount.party = party
+        party?.facebookAccount = facebookAccount
+        party.s()
+        facebookAccount.s()
+        updateProfile (party)
+        return party
     }
 
     public void updateProfile(Party party) {
@@ -82,29 +112,30 @@ class UserService {
         }
     }
 
-    private def updateUserInfo(Party party) {
-        if (party?.facebookAccount) {
+    private void updateUserInfo(Party party) {
+        FacebookAccount facebookAccount = party.facebookAccount
+        if (facebookAccount) {
             URL url = new URL("https://graph.facebook.com/${party?.facebookAccount?.uid}?access_token=${party?.facebookAccount?.oauthToken}&fields=name,location,email")
             JSONElement response = JSON.parse(url.newReader())
-            party?.name = response.name
-            if (!party?.userLogin) {
-                UserLogin userLogin = new UserLogin()
-                String password = "1234"
-                userLogin.email = response?.email
-                userLogin.password = password.encodeAsBase64()
-                userLogin.party = party
-                userLogin.s()
-            }
-            if (response?.location?.name) {
-                if (party.subscriber) {
-                    party.subscriber.city = response?.location?.name
-                } else {
-                    Subscriber subscriber = new Subscriber()
-                    subscriber.party = party
-                    subscriber.city = response?.location?.name
-                    party.addToRoles(subscriber)
-                    subscriber.s()
-                    return subscriber
+            if (response) {
+                String email = response?.email
+                String name = response?.name
+                String location = response?.location?.name
+                party?.name = name
+                party.s()
+                if (!party?.userLogin && email) {
+                    if (!UserLogin.countByEmail(email)) {
+                        UserLogin userLogin = new UserLogin()
+                        String password = "1234"
+                        userLogin.email = email
+                        userLogin.password = password.encodeAsBase64()
+                        userLogin.party = party
+                        userLogin.s()
+                    }
+                }
+                if (location && party.subscriber) {
+                    party.subscriber.city = location
+                    party.subscriber.s()
                 }
             }
         }
