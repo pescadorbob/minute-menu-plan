@@ -186,20 +186,25 @@ class UserController {
     }
 
     def facebookConnect = {
-        Long userId = params.long('userId') ? params.long('userId') : 0L
-        Party party = Party.get(userId) ?: new Party(name: 'menuPlanner_user').s()
-        String redirectUrl
-        if (!userId) {
-            redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true).encodeAsURL()}"
-        } else {
-            redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true, params: [userId: userId]).encodeAsURL()}"
+        Long userId = params.long('userId')
+        String code = params.code
+        Party party
+        if (code) {
+            if (!userId) {
+                String redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true).encodeAsURL()}"
+                party = userService.createUserFromFacebook(redirectUrl, code)
+            } else {
+                String redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true, params: [userId: userId]).encodeAsURL()}"
+                party = Party.get(userId)
+                if (party) {
+                    party = userService.updateUserFromFacebook(redirectUrl, party, code)
+                }
+            }
         }
-        party = userService.updateUserFromFacebook(redirectUrl, params.code, party)
         if (party) {
             if (params.long('userId')) {
                 render "<script type='text/javascript'>window.opener.facebookConnectSuccess();window.close();</script>"
             } else {
-                party.s()
                 session.loggedUserId = party.id.toString()
                 party.lastLogin = new Date()
                 party.s()
