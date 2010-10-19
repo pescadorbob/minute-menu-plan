@@ -61,7 +61,7 @@ class Party {
         menuPlans cascade: "all-delete-orphan"
         shoppingLists cascade: "all-delete-orphan"
         loginCredentials cascade: "all-delete-orphan"
-        roles fetch: 'join'
+        roles fetch: 'eager'
     }
 
     static constraints = {

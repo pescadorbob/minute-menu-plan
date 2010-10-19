@@ -19,13 +19,13 @@
                 <li>
                     <a href="${createLink(action: 'show', controller: 'user', id: party?.id)}">${party?.name}</a>
                 </li>
-                <li class="email">${party?.email}</li>
+                <li class="email">&nbsp;${party?.email}</li>
                 %{--<li>2 day ago</li>--}%
-                <li><g:formatDate date="${party.lastLogin}" format="dd-MM-yyyy HH:SS" /></li>
-                <li id="status${party?.id}">${party?.isEnabledString}</li>
-                <li>${party?.inappropriateFlagsCount} Flags</li>
-                <li><g:link controller="user" action="edit" params="[id:party?.id]">Edit</g:link></li>
-                <li><g:remoteLink class="enableDisableLinkFT" controller="user" action="changeStatus" onSuccess="invertStatus('${party?.id}');" name="changeStatus${party?.id}"
+                <li>&nbsp;<g:formatDate date="${party.lastLogin}" format="dd-MM-yyyy HH:SS" /></li>
+                <li id="status${party?.id}">&nbsp;${party?.isEnabledString}</li>
+                <li>&nbsp;${party?.inappropriateFlagsCount} Flags</li>
+                <li>&nbsp;<g:link controller="user" action="edit" params="[id:party?.id]">Edit</g:link></li>
+                <li>&nbsp;<g:remoteLink class="enableDisableLinkFT" controller="user" action="changeStatus" onSuccess="invertStatus('${party?.id}');" name="changeStatus${party?.id}"
                         id="${party?.id}">${(party?.isEnabledString == 'Enabled') ? 'Disable' : 'Enable'}</g:remoteLink></li>
             </ul>
         </li>

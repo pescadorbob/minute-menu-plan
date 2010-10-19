@@ -87,11 +87,12 @@ class UserController {
 
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        params.offset = params.offset ? params.offset : 0
         String name = params.searchName
         def userList
         Integer total
         if (name || params?.userStatus) {
-            userList = Party.createCriteria().list(max: params.max, offset: 0) {
+            userList = Party.createCriteria().list(max: params.max, offset: params.offset) {
                 if (name) {
                     ilike('name', "%${name}%")
                 }
@@ -104,9 +105,11 @@ class UserController {
             }
             total = userList.getTotalCount()
         } else {
-            params.userStatus = 'all'
             userList = Party.list(params)
             total = Party.count()
+        }
+        if (!params.userStatus) {
+            params.userStatus = 'all'
         }
         render(view: 'list', model: [parties: userList, total: total, searchName: name, userStatus: params.userStatus])
     }
