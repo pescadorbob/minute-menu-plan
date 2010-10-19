@@ -45,10 +45,10 @@
                     </ul>
                 </div>
                 <div id="userlist" class="clearfix">
-                    <g:render template="/user/usersResult" mode="[parties:parties]"/>
+                    <g:render template="/user/usersResult" model="[parties:parties]"/>
                 </div>
                 <div class="paginateButtons">
-                    <g:paginate controller="user" action="list" total="${total}"/>
+                    <g:paginate controller="user" action="list" total="${total}" params="[userStatus: userStatus]"/>
                 </div>
             </div>
             <div class="bottom-shadow">
