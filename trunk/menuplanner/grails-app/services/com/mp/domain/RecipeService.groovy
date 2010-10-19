@@ -97,16 +97,8 @@ class RecipeService {
 
     List<RecipeIngredient> getRecipeIngredientsWithCustomServings(Recipe recipe, int customServings) {
         List<RecipeIngredient> newRecipeIngredients = []
-        Party party = LoginCredential.currentUser?.party
-        List<RecipeIngredient> visibleItems = recipe.ingredients.findAll {party.canViewItem(it.ingredient)} as List
-        newRecipeIngredients = getIngredientsForVisibleItems(visibleItems, recipe, customServings)
-        return newRecipeIngredients
-    }
-
-    List<RecipeIngredient> getRecipeIngredientsWithCustomServingsForUnLoggedUser(Recipe recipe, int customServings) {
-        List<RecipeIngredient> newRecipeIngredients = []
-        List<RecipeIngredient> visibleItems = recipe.ingredients.findAll {it?.ingredient?.shareWithCommunity} as List
-        newRecipeIngredients = getIngredientsForVisibleItems(visibleItems, recipe, customServings)
+        List<RecipeIngredient> ingredients = recipe.ingredients
+        newRecipeIngredients = getIngredientsForVisibleItems(ingredients, recipe, customServings)
         return newRecipeIngredients
     }
 

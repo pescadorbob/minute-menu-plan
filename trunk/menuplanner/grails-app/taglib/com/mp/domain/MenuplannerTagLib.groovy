@@ -250,25 +250,18 @@ class MenuplannerTagLib {
         customServings = customServings ? customServings : recipe?.servings
         if (recipe) {
             List<RecipeIngredient> customRecipeIngredients = []
-            if (LoginCredential.currentUser) {
-                customRecipeIngredients = recipeService.getRecipeIngredientsWithCustomServings(recipe, customServings)
-            } else {
-                customRecipeIngredients = recipeService.getRecipeIngredientsWithCustomServingsForUnLoggedUser(recipe, customServings)
-            }
+            customRecipeIngredients = recipeService.getRecipeIngredientsWithCustomServings(recipe, customServings)
             out << g.render(template: "/recipe/recipeIngredients", model: [ingredients: customRecipeIngredients])
         }
     }
     def recipeIngredientsForRecipeCard = {attrs ->
         Recipe recipe = Recipe.get(attrs['recipeId'])
-        Party party = LoginCredential.currentUser?.party
         List<Item> items = []
         Item item
         if (recipe) {
             recipe.ingredients.each { RecipeIngredient recipeIngredient ->
                 item = recipeIngredient?.ingredient
-                if (party.canViewItem(item)) {
-                    items.add(item)
-                }
+                items.add(item)
             }
             out << g.render(template: "/recipe/recipeIngredientsForRecipeCard", model: [items: items])
         }
@@ -279,19 +272,8 @@ class MenuplannerTagLib {
         Party party
         List<Item> items = []
         if (recipe) {
-            if (LoginCredential?.currentUser) {
-                party = LoginCredential.currentUser?.party
-                recipe.items.each {Item item1 ->
-                    if (party.canViewItem(item1)) {
-                        items.add(item1)
-                    }
-                }
-            } else {
-                recipe.items.each {Item item1 ->
-                    if (item1.shareWithCommunity) {
-                        items.add(item1)
-                    }
-                }
+            recipe.items.each {Item item1 ->
+                items.add(item1)
             }
             out << g.render(template: "/recipe/serveWithItems", model: [items: items])
         }
