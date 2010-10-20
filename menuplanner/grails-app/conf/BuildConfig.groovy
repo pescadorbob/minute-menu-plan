@@ -1,3 +1,6 @@
+coverage {
+	exclusions = ['**/plugins/**', '**/functionaltestplugin/**', '**/org/grails/**', '**/org/*/grails/**', '**/*Filters*/**', '**/*TagLib*/**', '**/*Config*/**', '**/*Searchable*/**', '**/*JQueryService*/**', '**/*asynchronousmail*/**']
+}
 grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir	= "target/test-reports"
