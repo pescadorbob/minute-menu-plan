@@ -8,15 +8,15 @@
                 <input type="hidden" name="hiddenIngredientUnitSymbols" value="${hiddenIngredientUnitSymbol}"/>
             </div>
             <div style="float:left; padding-left:5px;">
-                <input class="inpbox showToolTip iProduct" name="hiddenIngredientProductNames" value="${hiddenIngredientProductNames}" title="${g.message(code: 'toolTip.recipe.ingredient')}" style="width:90px;"/>
+                <input class="inpbox showToolTip iProduct" name="hiddenIngredientProductNames" value="${hiddenIngredientProductNames?.encodeAsHTML()}" title="${g.message(code: 'toolTip.recipe.ingredient')}" style="width:90px;"/>
                 <input type="hidden" value="${hiddenIngredientProductNames}" name="ingredientProductIds"/>
             </div>
             <div style="float:left; padding-left:5px;">
-                <input class="inpbox iPreparationMethod" name="hiddenIngredientPreparationMethodNames" value="${hiddenIngredientPreparationMethodNames}" style="width:90px;"/>
+                <input class="inpbox iPreparationMethod" name="hiddenIngredientPreparationMethodNames" value="${hiddenIngredientPreparationMethodNames?.encodeAsHTML()}" style="width:90px;"/>
                 <input type="hidden" value="${hiddenIngredientPreparationMethodNames}" name="ingredientPreparationMethodIds"/>
             </div>
             <div style="float:left; padding-left:5px;">
-                <input class="inpbox iAisle" name="hiddenIngredientAisleNames" value="${hiddenIngredientAisleNames}" style="width:90px;"/>
+                <input class="inpbox iAisle" name="hiddenIngredientAisleNames" value="${hiddenIngredientAisleNames?.encodeAsHTML()}" style="width:90px;"/>
                 <input type="hidden" value="${hiddenIngredientAisleNames}" name="ingredientAisleIds"/>
             </div>
         </span>
