@@ -70,7 +70,7 @@
 <script type="text/javascript">
     var itemsJson = {
         <g:each in="${Item.list()}" var="itemVar">
-        '${itemVar?.name?.replaceAll("'","\\\\'")}':['${itemVar?.suggestedAisle?.name}','${itemVar?.suggestedAisle?.id}'],
+        '${itemVar?.name?.replaceAll("'","\\\\'")}':['${itemVar?.suggestedAisle?.name?.replaceAll("'","\\\\'")}','${itemVar?.suggestedAisle?.id}'],
         </g:each>
     }
 
@@ -82,12 +82,12 @@
 
     var preparationMethods = []
     <g:each in="${preparationMethods}" var="preparationMethod">
-    preparationMethods.push(['${preparationMethod}','${preparationMethod.id}'])
+    preparationMethods.push(['${preparationMethod?.name?.replaceAll("'","\\\\'")}','${preparationMethod.id}'])
     </g:each>
 
     var aisles = []
     <g:each in="${aisles}" var="aisle">
-    aisles.push(['${aisle}','${aisle.id}'])
+    aisles.push(['${aisle?.name?.replaceAll("'","\\\\'")}','${aisle.id}'])
     </g:each>
     //    var unitPopupCaller;
 
@@ -135,6 +135,7 @@
             }
         })
         $(".iPreparationMethod").unautocomplete().autocomplete(preparationMethods, {
+            matchContains: true,
             selectFirst: false,
             minChars: 0,
             max:0,
