@@ -35,7 +35,8 @@ class RecipeControllerTests extends GrailsUnitTestCase {
         recipe.description = "My Recipe Description"
         recipe.difficulty = RecipeDifficulty.EASY
         recipe.shareWithCommunity = true
-        Item item = new Product(name: System.currentTimeMillis().toString()).s()
+        Item item = new Product(name: System.currentTimeMillis().toString())
+        item.save()
         RecipeIngredient recipeIngredient = new RecipeIngredient(ingredient: item)
         recipe.addToIngredients(recipeIngredient)
         recipe.directions = ['directions to cook']
