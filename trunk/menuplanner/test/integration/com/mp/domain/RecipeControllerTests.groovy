@@ -35,8 +35,7 @@ class RecipeControllerTests extends GrailsUnitTestCase {
         recipe.description = "My Recipe Description"
         recipe.difficulty = RecipeDifficulty.EASY
         recipe.shareWithCommunity = true
-        RecipeIngredient recipeIngredient = new RecipeIngredient(ingredient: Item.get(1))
-        recipeIngredient.recipe = recipe
+        RecipeIngredient recipeIngredient = new RecipeIngredient(ingredient: Item.get(new Random().nextInt(Item?.count())+ 1 ))
         recipe.addToIngredients(recipeIngredient)
         recipe.directions = ['directions to cook']
         if (recipe.hasErrors() || !recipe.save()) {
