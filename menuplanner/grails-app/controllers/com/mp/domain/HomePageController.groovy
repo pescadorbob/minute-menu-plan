@@ -1,6 +1,7 @@
 package com.mp.domain
 
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import org.springframework.web.multipart.commons.CommonsMultipartFile
 
 class HomePageController {
     def static config = ConfigurationHolder.config
@@ -99,20 +100,17 @@ class HomePageController {
     }
 
     def uploadImage = {
-        byte[] fileContents = params?.file?.getBytes()
-        HomePage homePage = HomePage.get(1)
-        String filePath = config.tempDir
-        String fileName = 'Img_' + System.currentTimeMillis()?.toString() + '.jpg'
-        File file = new File(filePath)
-        file.mkdirs()
-        File actualFile = new File(file, fileName)
-        actualFile.withOutputStream {out -> out.write fileContents }
-        Image image = com.mp.domain.Image.addHomePageImage(homePage, actualFile.absolutePath)
-        if (image) {
-            render(view: "addImage", model: [image: image])
-        } else {
-            flash.message = "Unable to process,please upload again."
-            render(view: "addImage")
+        CommonsMultipartFile multipartFile = params?.file
+        if (multipartFile) {
+            byte[] fileContents = multipartFile?.getBytes()
+            String fileName = multipartFile?.getOriginalFilename()
+            Image image = Image.uploadHomePageImage(fileContents, fileName)
+            if (image) {
+                render(view: "addImage", model: [image: image])
+            } else {
+                flash.message = message(code: 'upload.file.failure')
+                render(view: "addImage")
+            }
         }
     }
 }
