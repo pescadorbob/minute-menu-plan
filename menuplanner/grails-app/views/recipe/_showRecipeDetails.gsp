@@ -40,7 +40,7 @@
         </li>
         <li id="rightLiElements">
             <g:if test="${printRecipe}">
-                <div id="photo200" style="overflow:hidden;">
+                <div id="photoDiv200" style="overflow:hidden;">
                     <table cellpadding="0" cellspacing="0" border="0">
                         <tr>
                             <td height="200" width="200" valign="middle" align="center">
