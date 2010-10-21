@@ -1,7 +1,8 @@
 package com.mp.domain
 
 import grails.test.*
-
+import org.codehaus.groovy.grails.plugins.GrailsPluginManager
+import org.codehaus.groovy.grails.plugins.PluginManagerHolder
 class ImageTests extends GrailsUnitTestCase {
 
     static final String folder1Path = '/tmp/mpUnitTests/1/'
@@ -17,13 +18,14 @@ class ImageTests extends GrailsUnitTestCase {
 
 
     protected void setUp() {
-        //Reading a file from bootstrap data
-        // creating first directory and writing file on it
-        String bootStrapDirectory = "/web-app/bootstrapData/recipeImages/"
-        String fileName = 'Hootenany.jpg'
-        String appDir = System.properties['base.dir']
-        File imageFile = new File(appDir + bootStrapDirectory + fileName)
-        byte[] fileContents = imageFile.readBytes()
+        PluginManagerHolder.pluginManager = [hasGrailsPlugin: { String name -> true }] as GrailsPluginManager
+        mockConfig('''
+homepageRootDir = 'homepage/'
+imagesRootDir = System.getProperty("java.io.tmpdir") + "/mpImages/"
+        ''')
+
+        String fileName
+        byte[] fileContents = System.currentTimeMillis().toString().bytes
 
         File file1 = new File(folder1Path)
         file1.mkdirs()
@@ -37,16 +39,12 @@ class ImageTests extends GrailsUnitTestCase {
         File actualFile1 = new File(file2, image2_100)
         actualFile1.withOutputStream {out -> out.write fileContents }
 
-        fileName = 'French Fry Burger Pie.jpg'
-        File imageFile2 = new File(appDir + bootStrapDirectory + fileName)
-        byte[] fileContents2 = imageFile2.readBytes()
+        byte[] fileContents2 = System.currentTimeMillis().toString().bytes
 
         File actualFile2 = new File(file2, image2_200)
         actualFile2.withOutputStream {out -> out.write fileContents2 }
 
-        fileName = 'Swedish Bread.jpg'
-        File imageFile3 = new File(appDir + bootStrapDirectory + fileName)
-        byte[] fileContents3 = imageFile3.readBytes()
+        byte[] fileContents3 = System.currentTimeMillis().toString().bytes
 
         File actualFile3 = new File(file2, image2_640)
         actualFile3.withOutputStream {out -> out.write fileContents3 }
@@ -55,6 +53,7 @@ class ImageTests extends GrailsUnitTestCase {
 
     protected void tearDown() {
         super.tearDown()
+        PluginManagerHolder.pluginManager = null
     }
 
     /* These test-cases tests the readFile method.
@@ -71,19 +70,19 @@ class ImageTests extends GrailsUnitTestCase {
 
     void test_readFile_Folder1_With_File_Size_100() {
         String actualFileName = getActualFileNameForFolder(image1, folder1Path)
-        String fileName = imageObject1.getFileToBeRead(folder1Path,'100').name
+        String fileName = imageObject1.getFileToBeRead(folder1Path, '100').name
         assertEquals actualFileName, fileName
     }
 
     void test_readFile_Folder1_With_File_Size_200() {
         String actualFileName = getActualFileNameForFolder(image1, folder1Path)
-        String fileName = imageObject1.getFileToBeRead(folder1Path,'200').name
+        String fileName = imageObject1.getFileToBeRead(folder1Path, '200').name
         assertEquals actualFileName, fileName
     }
 
     void test_readFile_Folder1_With_File_Size_640() {
         String actualFileName = getActualFileNameForFolder(image1, folder1Path)
-        String fileName = imageObject1.getFileToBeRead(folder1Path,'640').name
+        String fileName = imageObject1.getFileToBeRead(folder1Path, '640').name
         assertEquals actualFileName, fileName
     }
 
@@ -97,7 +96,7 @@ class ImageTests extends GrailsUnitTestCase {
     void test_readFile_Folder2_With_File_Size_100() {
         String actualFileName = getActualFileNameForFolder(image2_100, folder2Path)
         Image image = getImageObjectForFolder(image2_100, folder2Path)
-        String fileName = image.getFileToBeRead(folder2Path,'100').name
+        String fileName = image.getFileToBeRead(folder2Path, '100').name
         assertEquals actualFileName, fileName
     }
 
@@ -105,14 +104,14 @@ class ImageTests extends GrailsUnitTestCase {
     void test_readFile_Folder2_With_File_Size_200() {
         String actualFileName = getActualFileNameForFolder(image2_200, folder2Path)
         Image image = getImageObjectForFolder(image2_200, folder2Path)
-        String fileName = image.getFileToBeRead(folder2Path,'200').name
+        String fileName = image.getFileToBeRead(folder2Path, '200').name
         assertEquals actualFileName, fileName
     }
 
     void test_readFile_Folder2_With_File_Size_640() {
         String actualFileName = getActualFileNameForFolder(image2_640, folder2Path)
         Image image = getImageObjectForFolder(image2_640, folder2Path)
-        String fileName = image.getFileToBeRead(folder2Path,'640').name
+        String fileName = image.getFileToBeRead(folder2Path, '640').name
         assertEquals actualFileName, fileName
     }
 
@@ -125,5 +124,25 @@ class ImageTests extends GrailsUnitTestCase {
         File file2 = new File(path)
         File actualFile2 = new File(file2, fileName)
         return actualFile2.name
+    }
+
+    public void testUploadHomePageImage_Valid_Values() {
+        mockDomain(Image)
+        byte[] bytes = System.currentTimeMillis().toString().bytes
+        String fileName = 'somefile.jpg'
+        Image image = Image.uploadHomePageImage(bytes, fileName)
+        assertNotNull (image)
+        assertNotNull (image.getId())
+        assertEquals image.getStoredName(), fileName
+        assertEquals image.getActualName(), fileName
+        assertEquals image.getAltText(), fileName
+    }
+
+    public void testUploadHomePageImage_Invalid_Value() {
+        mockDomain(Image)
+        byte[] bytes = null
+        String fileName = 'somefile.jpg'
+        Image image = Image.uploadHomePageImage(bytes, fileName)
+        assertNull (image)
     }
 }

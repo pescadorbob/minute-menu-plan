@@ -1,12 +1,10 @@
 package com.mp.domain
 
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
 import org.grails.plugins.imagetools.ImageTool
 import static com.mp.MenuConstants.*
 
 class Image {
-
-    static config = ConfigurationHolder.config
 
     String storedName
     String actualName
@@ -21,7 +19,7 @@ class Image {
     }
 
     public static String createTempImage(byte[] fileContents, String extension) {
-        String filePath = config.tempDir
+        String filePath = CH.config.tempDir
         String fileName = 'Img_' + System.currentTimeMillis()?.toString() + '.' + extension
         File file = new File(filePath)
         file.mkdirs()
@@ -31,7 +29,7 @@ class Image {
     }
 
     public static String createImageFile(byte[] fileContents, String filePath, String fileName, List<Integer> imageSizes = null) {
-        String completePath = config.imagesRootDir + filePath
+        String completePath = CH.config.imagesRootDir + filePath
         File file = new File(completePath)
         file.mkdirs()
         generateResizedImages(fileContents, completePath, fileName, imageSizes)
@@ -76,7 +74,7 @@ class Image {
     }
 
     public byte[] readFile(String size = null) {
-        String filePath = config.imagesRootDir + path
+        String filePath = CH.config.imagesRootDir + path
         File file = getFileToBeRead(filePath, size)
         return file.readBytes()
     }
@@ -103,7 +101,7 @@ class Image {
             String targetImageDirectory = imageOwner.imageDir
             String extension = sourceImage.name.tokenize('.').tail().join('.')
             String fileName = imageOwner?.id + '.' + extension
-            String targetImagePath = config.imagesRootDir + targetImageDirectory + fileName
+            String targetImagePath = CH.config.imagesRootDir + targetImageDirectory + fileName
             if (sourceImage.exists() && (imagePath != targetImagePath)) {
                 imageOwner.deleteImage()
                 Image.createImageFile(sourceImage.readBytes(), targetImageDirectory, fileName, imageSizes)
@@ -114,24 +112,25 @@ class Image {
         return true
     }
 
-    public static Image addHomePageImage(HomePage homePage, String imagePath) {
-        if (imagePath) {
-            File sourceImage = new File(imagePath)
-            String targetImageDirectory = homePage.imageDir
-            String extension = sourceImage.name.tokenize('.').tail().join('.')
-            String imageName = "Home_${System.currentTimeMillis()}"
-            String fileName = imageName + '.' + extension
-            String targetImagePath = config.imagesRootDir + targetImageDirectory + fileName
-            if (sourceImage.exists() && (imagePath != targetImagePath)) {
-                String completePath = config.imagesRootDir + targetImageDirectory
-                File file = new File(completePath)
-                file.mkdirs()
-                File actualFile = new File(file, fileName)
-                actualFile.withOutputStream {out -> out.write sourceImage.readBytes() }
-                Image image = new Image(imagePath, targetImageDirectory, imageName, "Home Page")
-                image.s()
+    public static Image uploadHomePageImage(byte[] fileContents, String fileName) {
+        String fileDir = CH.config.homepageRootDir
+        String completePath = CH.config.imagesRootDir + fileDir
+        if (fileContents?.size()) {
+            File file = new File(completePath)
+            file.mkdirs()
+            File actualFile = new File(file, fileName)
+            actualFile.withOutputStream {out -> out.write fileContents }
+            if (actualFile.exists()) {
+                Image image = new Image()
+                image.storedName = fileName
+                image.path = fileDir
+                image.altText = fileName
+                image.actualName = fileName
+                image.extension = fileName?.tokenize('.')?.tail()?.join('.')
+                image.save()
                 return image
             }
         }
+        return null
     }
 }
