@@ -102,7 +102,7 @@ class UserController {
                 if (params.userStatus == 'disabled') {
                     eq('isEnabled', false)
                 }
-                if (params.userStatus == 'awaitingConfirmation') {
+                if (params.userStatus == 'awaitingVerification') {
                     isNull('isEnabled')
                 }
             }
@@ -419,33 +419,4 @@ class UserController {
         }
     }
 
-    def verificationEmailRequest = {
-        render(view: 'resendVerificationEmail')
-    }
-
-    def resendVerificationEmail = {
-        UserLogin userLogin = UserLogin.findByEmail(params?.email)
-        if (userLogin) {
-            VerificationToken token = VerificationToken.findByParty(userLogin.party)
-            if (token) {
-                token.party = null
-                token.delete(flush: true)
-            }
-            VerificationToken verificationToken = new VerificationToken()
-            verificationToken.party = userLogin?.party
-            verificationToken.s()
-
-            asynchronousMailService.sendAsynchronousMail {
-                to userLogin.email
-                subject "Email verification for Minute Menu Plan"
-                html g.render(template: '/user/accountVerification', model: [party: userLogin.party, email: userLogin.email, token: verificationToken.token])
-            }
-            flash.message = message(code: 'resend.verification.email.successful')
-            render(view: 'resendVerificationEmail', model: [mailSent: true])
-
-        } else {
-            flash.message = message(code: 'resend.verification.email.unsuccessful')
-            render(view: 'resendVerificationEmail', model: [mailSent: false])
-        }
-    }
 }
