@@ -29,11 +29,12 @@
                         <ul>
                             <li>
                                 <g:form name="forgotPasswordForm">
-                                    Email: <g:textField name="email"/> <g:actionSubmit action="resetPassword" controller="login" value="Reset Password"/>
+                                    Email: <g:textField name="email"/>
+                                    <g:actionSubmit action="resetPassword" controller="login" value="Reset Password"/>
+                                    <g:actionSubmit action="resendVerificationEmail" controller="login" value="Resend verification email"/>
                                 </g:form>
                             </li>
                             <li>
-                                <g:link controller="user" action="verificationEmailRequest">Resend verification email</g:link>
                             </li>
                         </ul>
                     </g:else>
