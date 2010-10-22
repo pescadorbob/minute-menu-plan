@@ -15,7 +15,7 @@
         <g:render template="/user/userRoles" model="[userCO:userCO,party:party]"/>
 
         <div id="affiliatesList" style="display:none">
-            <span style="margin-left:10px;"><g:select class="inpbox ${hasErrors(bean: userCO, field: 'affiliateId', 'errors')}" name="affiliateId" from="${Affiliate?.list()}" value="${userCO?.affiliateId}" optionKey="id" noSelection='["":"Select One"]'/></span>
+            <span style="margin-left:10px;"><g:select  style="width:130px;" class="inpbox ${hasErrors(bean: userCO, field: 'affiliateId', 'errors')}" name="affiliateId" from="${Affiliate?.list()}" value="${userCO?.affiliateId}" optionKey="id" noSelection='["":"Select Affiliate"]'/></span>
         </div>
         <g:if test="${params.action != 'create'}">
             <li><h3>Contributed Recipes</h3></li>

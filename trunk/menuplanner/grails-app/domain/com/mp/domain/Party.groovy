@@ -6,9 +6,9 @@ class Party {
     String name
     Date joiningDate
     FacebookAccount facebookAccount
-    Boolean isEnabled = true
+    Boolean isEnabled
     Boolean showAlcoholicContent = false
-    String uniqueId =UUID.randomUUID().toString()
+    String uniqueId = UUID.randomUUID().toString()
     List<Party> clients
     Date lastLogin
 
@@ -69,10 +69,15 @@ class Party {
         facebookAccount(nullable: true)
         joiningDate(nullable: true, blank: true)
         uniqueId(nullable: true, blank: true)
+        isEnabled(nullable: true)
     }
 
     String getIsEnabledString() {
-        return (isEnabled ? 'Enabled' : 'Disabled')
+        if (isEnabled == null) {
+            return 'Awaiting Verification'
+        } else {
+            return (isEnabled ? 'Enabled' : 'Disabled')
+        }
     }
 
     Subscriber getSubscriber() {

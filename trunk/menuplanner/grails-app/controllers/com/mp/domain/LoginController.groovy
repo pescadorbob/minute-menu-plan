@@ -57,6 +57,9 @@ class LoginController {
                     } else {
                         redirect(controller: 'login', action: 'index')
                     }
+                } else if (loginCredential.party.isEnabled == null) {
+                    flash.message = message(code: 'loginCO.user.unverified')
+                    render(view: 'home', model: [loginCO: loginCO, homePage: HomePage.activePage, testimonials: Testimonial.findAllByShowOnHomepage(true)])
                 } else {
                     flash.message = message(code: 'loginCO.user.disabled')
                     render(view: 'home', model: [loginCO: loginCO, homePage: HomePage.activePage, testimonials: Testimonial.findAllByShowOnHomepage(true)])

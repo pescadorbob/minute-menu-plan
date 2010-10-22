@@ -142,6 +142,8 @@
 #userlist ul li.alternatecolor{ background:#fafaf6; overflow:hidden; clear:both;  position:relative;}
 #userlist ul li ul li{float:left;width:110px;border-right:1px solid #d3d1d2; clear:none;border-bottom:none; padding:4px; }
 #userlist ul li ul li.email{float:left;width:239px; clear:none;border-bottom:none; padding:4px;}
+#userlist ul li ul li.status{float:left;width:150px; clear:none;border-bottom:none; padding:4px;}
+#userlist ul li ul li.edit{float:left;width:70px; clear:none;border-bottom:none; padding:4px;}
 #userlist ul li a{text-decoration:underline;color:#007ad8;}
 #userlist ul li a:hover{text-decoration:none;}
 /* end adduser */

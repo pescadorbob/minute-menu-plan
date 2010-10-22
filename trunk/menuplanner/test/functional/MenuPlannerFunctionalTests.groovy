@@ -158,6 +158,24 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
     }
 
     /*
+    *  Helper method to create user from home-page
+    */
+
+    void createUserFromLandingPage(NewUserFormData newUserFormData) {
+        get('/user/createFreeUser')
+        form('freeSignupForm') {
+            name = newUserFormData.name
+            city = newUserFormData.city
+            email = newUserFormData.email
+            password = newUserFormData.password
+            confirmPassword = newUserFormData.confirmPassword
+            mouthsToFeed = newUserFormData.mouthsToFeed
+        }
+        def createFreeUserLink = byClass('createFreeUserFT')
+        createFreeUserLink.click()
+    }
+
+    /*
     *  Helper method to login using superadmin userId and password
     */
 

@@ -18,10 +18,10 @@
             <div class="leftbox clearfix">
                 <div id="rightpanel-welcome">
                     <ul>
-                        <li><g:message code="new.freeUser.registration.acknowledgement"/></li>
+                        <li>${message}</li>
                     </ul>
                     <div id="right-link-back">
-                        Click here to go back to <g:link class="registrationAcknowledgementFT" uri="/">Home Page</g:link>
+                        Click here to go back to <g:link class="verificationLinkFT" uri="/">Home Page</g:link>
                     </div>
                 </div>
             </div>
