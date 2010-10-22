@@ -5,10 +5,10 @@
             <li>Name</li>
             <li class="email">Email</li>
             <li>Last Login</li>
-            <li>Enabled</li>
+            <li class="status">Enabled</li>
             <li>Flagged</li>
-            <li>&nbsp;</li>
-            <li>&nbsp;</li>
+            <li class="edit">&nbsp;</li>
+            <li >&nbsp;</li>
         </ul>
     </li>
 
@@ -22,9 +22,9 @@
                 <li class="email">&nbsp;${party?.email}</li>
                 %{--<li>2 day ago</li>--}%
                 <li>&nbsp;<g:formatDate date="${party.lastLogin}" format="dd-MM-yyyy HH:SS" /></li>
-                <li id="status${party?.id}">&nbsp;${party?.isEnabledString}</li>
+                <li class="status" id="status${party?.id}">&nbsp;${party?.isEnabledString}</li>
                 <li>&nbsp;${party?.inappropriateFlagsCount} Flags</li>
-                <li>&nbsp;<g:link controller="user" action="edit" params="[id:party?.id]">Edit</g:link></li>
+                <li class="edit">&nbsp;<g:link controller="user" action="edit" params="[id:party?.id]">Edit</g:link></li>
                 <li>&nbsp;<g:remoteLink class="enableDisableLinkFT" controller="user" action="changeStatus" onSuccess="invertStatus('${party?.id}');" name="changeStatus${party?.id}"
                         id="${party?.id}">${(party?.isEnabledString == 'Enabled') ? 'Disable' : 'Enable'}</g:remoteLink></li>
             </ul>

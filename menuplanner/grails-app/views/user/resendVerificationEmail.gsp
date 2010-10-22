@@ -2,21 +2,19 @@
 <html>
 <head>
     <meta name="layout" content="menu"/>
-    <title>Forgot Password</title>
+    <title>Resend Verification Email</title>
 </head>
-
 <body>
-
 <div id="container">
     <div id="wrapper" class="clearfix">
         <div id="content-wrapper" class="clearfix">
             <div class="headbox">
-                <h3>Forgot Password</h3>
+                <h3>Resend Verification Email</h3>
             </div>
             <div class="top-shadow"><label>&nbsp;</label></div>
             <div class="leftbox clearfix">
                 <div id="adduser">
-                    <g:if test="${passwordChanged}">
+                    <g:if test="${mailSent}">
                         ${flash.message}
                     </g:if>
                     <g:else>
@@ -26,16 +24,10 @@
                             </div>
                         </g:if>
                         <br/>
-                        <ul>
-                            <li>
-                                <g:form name="forgotPasswordForm">
-                                    Email: <g:textField name="email"/> <g:actionSubmit action="resetPassword" controller="login" value="Reset Password"/>
-                                </g:form>
-                            </li>
-                            <li>
-                                <g:link controller="user" action="verificationEmailRequest">Resend verification email</g:link>
-                            </li>
-                        </ul>
+                        <g:form action="resendVerificationEmail"  controller="user" name="resendEmailForm">
+                            Email: <g:textField name="email"/>
+                            <input type="submit"  name="resendEmail" value="Resend Email"/>
+                        </g:form>
                     </g:else>
                     <p>&nbsp;</p><p>&nbsp;</p><p>Click here to go back to <g:link uri="/">Home Page</g:link></p>
                 </div>

@@ -65,6 +65,7 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         javaScriptEnabled = false
         loginBySuperAdmin()
         UserFormData userFormData = UserFormData.getDefaultUserFormData()
+        userFormData.email="qa.menuplanner+${System.currentTimeMillis()}@gmail.com"
         userFormData.isEnabled = false
         userFormData.isUser = true
         createUser(userFormData)
@@ -119,5 +120,63 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
             get(url)
             assertStatus(200)
         }
+    }
+
+
+    void test_Add_New_User_Form_HomePage() {
+        javaScriptEnabled = false
+        Integer initialCount = Party.count()
+        NewUserFormData newUserFormData = NewUserFormData.getDefaultNewUserFormData()
+        createUserFromLandingPage(newUserFormData)
+        Integer finalCount = Party.count()
+        assertEquals('User Created Successfully', finalCount, initialCount + 1)
+        assertElementTextContains('rightpanel-welcome', 'Thank you for registering with us')
+    }
+
+    void test_Add_New_User_Form_HomePage_User_Inactive() {
+        javaScriptEnabled = false
+        Integer initialCount = Party.count()
+        NewUserFormData newUserFormData = NewUserFormData.getDefaultNewUserFormData()
+        createUserFromLandingPage(newUserFormData)
+        Integer finalCount = Party.count()
+        assertEquals('User Created Successfully', finalCount, initialCount + 1)
+        assertElementTextContains('rightpanel-welcome', 'Thank you for registering with us')
+        def registrationAcknowledgementlink = byClass('registrationAcknowledgementFT')
+        registrationAcknowledgementlink.click()
+        assertTitle('Minute Menu Plan : Minute Menu Plan')
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginFormData.email = newUserFormData.email
+        loginFormData.password = newUserFormData.password
+        login(loginFormData)
+        assertStatus 200
+        assertEquals('Inactive account message not displayed / not displayed on correct location', getMessage('loginCO.user.unverified'), byId('display_WrongPassword_DisabledUser_Error').asText())
+        assertTitle 'Minute Menu Plan : Minute Menu Plan'
+    }
+
+    void test_Add_New_User_Form_HomePage_User_Inactive_ActivateUser_Login_Successful() {
+        javaScriptEnabled = false
+        Integer initialCount = Party.count()
+        NewUserFormData newUserFormData = NewUserFormData.getDefaultNewUserFormData()
+        createUserFromLandingPage(newUserFormData)
+        Integer finalCount = Party.count()
+        assertEquals('User Created Successfully', finalCount, initialCount + 1)
+        assertElementTextContains('rightpanel-welcome', 'Thank you for registering with us')
+        def registrationAcknowledgementlink = byClass('registrationAcknowledgementFT')
+        registrationAcknowledgementlink.click()
+        assertTitle('Minute Menu Plan : Minute Menu Plan')
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginFormData.email = newUserFormData.email
+        loginFormData.password = newUserFormData.password
+        login(loginFormData)
+        assertStatus 200
+        assertEquals('Inactive account message not displayed / not displayed on correct location', getMessage('loginCO.user.unverified'), byId('display_WrongPassword_DisabledUser_Error').asText())
+        assertTitle 'Minute Menu Plan : Minute Menu Plan'
+        UserLogin userLogin = UserLogin.findByEmail(newUserFormData.email)
+        VerificationToken token = VerificationToken.findByParty(userLogin.party)
+        get("/user/verify?token=${token.token}")
+        def verificationLink = byClass('verificationLinkFT')
+        verificationLink.click()
+        loginToHomepage(loginFormData)
+        assertTitle 'Minute Menu Plan : List Recipe'
     }
 }
