@@ -37,6 +37,7 @@
         </div>
         <g:form name="freeSignupForm" action="newFreeUserSignUp">
             <input type="hidden" name="coachUUID" value="${userCO?.coachUUID}">
+            <input type="hidden" name="roles" value="Subscriber">
             <div class="leftbox clearfix">
                 <div id="leftpanelbox">
                     <div class="boxDiv">
@@ -44,7 +45,7 @@
                     </div>
 
                     <div class="boxDiv" style="text-align: center;">
-                        <input type="image" src="${resource(dir: 'images', file: 'click-FreeUserSignup.jpg')}"/>
+                        <input class="createFreeUserFT" type="image" src="${resource(dir: 'images', file: 'click-FreeUserSignup.jpg')}"/>
                     </div>
                 </div>
                 <div id="rightpanelbox" style="border-left:1px solid #ddd;">

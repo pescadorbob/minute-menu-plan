@@ -1,6 +1,6 @@
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor
 import static com.mp.domain.TestConstants.*
-import com.mp.domain.Party
+import com.mp.domain.*
 
 class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
 
@@ -80,5 +80,45 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
         Integer userCount = byClass('allUsersInDomainFT').size()
         Integer totalUsersInDomain = Party.count()
         assertEquals(userCount, totalUsersInDomain)
+    }
+
+
+    void testAddUserBySuperAdmin_Without_Assigning_Roles() {
+        javaScriptEnabled = false
+        loginBySuperAdmin()
+        Integer initialCount = Subscriber.count()
+        Integer initialPartyCount = Party.count()
+        UserFormData userFormData = UserFormData.getDefaultUserFormData()
+        userFormData.email = "qa.menuplanner_${System.currentTimeMillis()}@gmail.com"
+        userFormData.isUser = false
+        createUser(userFormData)
+        Integer finalCount = Subscriber.count()
+        Integer finalPartyCount = Party.count()
+        assertStatus 200
+        assertTitle 'Minute Menu Plan : Add User'
+        assertTrue('Created a subscriber', (finalCount - initialCount == 0))
+        assertTrue('Created a party', (finalPartyCount - initialPartyCount == 0))
+        assertEquals('Error message for roles not displayed / not displayed on correct location', getMessage('userCO.blank.roles.error'), byId('displayUserCOErrors').asText())
+    }
+
+    void testAddUserBySuperAdmin_With_Assigning_Roles() {
+        javaScriptEnabled = false
+        loginBySuperAdmin()
+        Integer initialCount = Subscriber.count()
+        Integer initialPartyCount = Party.count()
+        Integer initialAdminCount = Administrator.count()
+        UserFormData userFormData = UserFormData.getDefaultUserFormData()
+        userFormData.email = "qa.menuplanner_${System.currentTimeMillis()}@gmail.com"
+        userFormData.isAdmin = true
+        userFormData.isUser = true
+        createUser(userFormData)
+        Integer finalCount = Subscriber.count()
+        Integer finalPartyCount = Party.count()
+        Integer finalAdminCount = Administrator.count()
+        assertStatus 200
+        assertTitle 'Minute Menu Plan : Show User'
+        assertTrue('Unable to create a party object for user', (finalPartyCount - initialPartyCount == 1))
+        assertTrue('Unable to assign Administrator role to user', (finalAdminCount - initialAdminCount == 1))
+        assertTrue('Unable to assign Subscriber role to user', (finalCount - initialCount == 1))
     }
 }

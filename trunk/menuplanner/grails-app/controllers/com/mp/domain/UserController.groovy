@@ -102,6 +102,9 @@ class UserController {
                 if (params.userStatus == 'disabled') {
                     eq('isEnabled', false)
                 }
+                if (params.userStatus == 'awaitingConfirmation') {
+                    isNull('isEnabled')
+                }
             }
             total = userList.getTotalCount()
         } else {
@@ -156,6 +159,9 @@ class UserController {
         }
     }
     def save = {UserCO userCO ->
+        if (userCO.isEnabled == null) {
+            userCO.isEnabled = false
+        }
         if (userCO.validate()) {
             Party party = userCO.createParty()
             flash.message = message(code: 'user.created.success')
@@ -326,28 +332,42 @@ class UserController {
 
     def newFreeUserSignUp = {UserCO userCO ->
         userCO.roles.add(UserType.Subscriber.name())
-        userCO.isEnabled = true
+        userCO.isEnabled = null
         String coachUUID = params?.coachUUID
         if (coachUUID) {
             userCO.coachUUID = coachUUID
         }
         if (userCO.validate()) {
             Party party = userCO.createParty()
-            Map data = [:]
-            data['userId'] = party?.id
-            session.userId = party?.id
-            println "Session UserId: " + session.userId
-            println "Session Id: " + session.id
-            session.setMaxInactiveInterval(3600)
-            session.loggedUserId = party?.id
-            party.lastLogin = new Date()
-            party.s()
-            redirect(action: 'list', controller: 'recipe')
+            VerificationToken verificationToken = new VerificationToken()
+            verificationToken.party = party
+            verificationToken.s()
+
+            asynchronousMailService.sendAsynchronousMail {
+                to party.userLogin.email
+                subject "Email verification for Minute Menu Plan"
+                html g.render(template: '/user/accountVerification', model: [party: party, email: userCO.email, token: verificationToken.token])
+            }
+            render(view: 'registrationAcknowledgement', model: [user: party])
         } else {
             userCO.errors.allErrors.each {
                 println it
             }
             render(view: 'createFreeUser', model: [userCO: userCO])
+        }
+    }
+
+    def verify = {
+        VerificationToken token = VerificationToken.findByToken(params.token)
+        if (token) {
+            token.party.isEnabled = true
+            token.party.s()
+            token.delete(flush: true)
+            String message = message(code: 'email.verification.success')
+            render(view: 'verificationAcknowledgement', model: [message: message])
+        } else {
+            String message = message(code: 'email.verification.failure')
+            render(view: 'verificationAcknowledgement', model: [message: message])
         }
     }
 
@@ -396,6 +416,36 @@ class UserController {
             render "Your account has been unlinked"
         } else {
             render "Unable to unlinked the account"
+        }
+    }
+
+    def verificationEmailRequest = {
+        render(view: 'resendVerificationEmail')
+    }
+
+    def resendVerificationEmail = {
+        UserLogin userLogin = UserLogin.findByEmail(params?.email)
+        if (userLogin) {
+            VerificationToken token = VerificationToken.findByParty(userLogin.party)
+            if (token) {
+                token.party = null
+                token.delete(flush: true)
+            }
+            VerificationToken verificationToken = new VerificationToken()
+            verificationToken.party = userLogin?.party
+            verificationToken.s()
+
+            asynchronousMailService.sendAsynchronousMail {
+                to userLogin.email
+                subject "Email verification for Minute Menu Plan"
+                html g.render(template: '/user/accountVerification', model: [party: userLogin.party, email: userLogin.email, token: verificationToken.token])
+            }
+            flash.message = message(code: 'resend.verification.email.successful')
+            render(view: 'resendVerificationEmail', model: [mailSent: true])
+
+        } else {
+            flash.message = message(code: 'resend.verification.email.unsuccessful')
+            render(view: 'resendVerificationEmail', model: [mailSent: false])
         }
     }
 }

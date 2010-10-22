@@ -207,8 +207,8 @@ class UserCO {
     Date joiningDate
     Long affiliateId
     List<String> roles = []
-    boolean isEnabled
-    boolean showAlcoholicContent = false
+    Boolean isEnabled
+    Boolean showAlcoholicContent = false
     String coachUUID
 
     String id
@@ -271,7 +271,12 @@ class UserCO {
         mouthsToFeed(nullable: true, blank: true, matches: /[0-9]*/)
         introduction(nullable: true, blank: true)
         city(nullable: true, blank: true)
-        roles(nullable: false, blank: false)
+        isEnabled(nullable: true)
+        roles(validator: {val, obj ->
+            if ((val.size() < 1)) {
+                return 'userCO.blank.roles.error'
+            }
+        })
         coachUUID(nullable: true, blank: true)
         affiliateId(validator: {val, obj ->
             String subAffiliate = UserType.SubAffiliate.toString().replaceAll(" ", "")
