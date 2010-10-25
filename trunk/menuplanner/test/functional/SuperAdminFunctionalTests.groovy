@@ -79,7 +79,11 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
         byClass('accountsLinkFT').click()
         Integer userCount = byClass('allUsersInDomainFT').size()
         Integer totalUsersInDomain = Party.count()
-        assertEquals(userCount, totalUsersInDomain)
+        if (totalUsersInDomain <= 10) {
+            assertEquals(userCount, totalUsersInDomain)
+        } else {
+            assertEquals(userCount, 10)
+        }
     }
 
 
@@ -120,5 +124,55 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
         assertTrue('Unable to create a party object for user', (finalPartyCount - initialPartyCount == 1))
         assertTrue('Unable to assign Administrator role to user', (finalAdminCount - initialAdminCount == 1))
         assertTrue('Unable to assign Subscriber role to user', (finalCount - initialCount == 1))
+    }
+
+
+    void testAddAffiliateBySuperAdmin() {
+        javaScriptEnabled = false
+        loginBySuperAdmin()
+        Integer initialCount = Affiliate.count()
+        Integer initialPartyCount = Party.count()
+        UserFormData userFormData = UserFormData.getDefaultUserFormData()
+        userFormData.email = "qa.menuplanner_${System.currentTimeMillis()}@gmail.com"
+        userFormData.isUser = false
+        userFormData.isAffiliate = true
+        createUser(userFormData)
+        Integer finalCount = Affiliate.count()
+        Integer finalPartyCount = Party.count()
+        assertStatus 200
+        assertTrue('Unable to created a Affiliate', (finalCount - initialCount == 1))
+        assertTrue('unable to created a party', (finalPartyCount - initialPartyCount == 1))
+    }
+
+
+    void testAdd_SubAffiliateBy_Affiliate() {
+        javaScriptEnabled = false
+        loginBySuperAdmin()
+        Integer initialAffiliateCount = Affiliate.count()
+        Integer initialPartyCount = Party.count()
+        UserFormData userFormData = UserFormData.getDefaultUserFormData()
+        userFormData.email = "qa.menuplanner_${System.currentTimeMillis()}@gmail.com"
+        userFormData.isUser = false
+        userFormData.isAffiliate = true
+        createUser(userFormData)
+        Integer finalAffiliateCount = Affiliate.count()
+        Integer finalPartyCount = Party.count()
+        assertStatus 200
+        assertTrue('Unable to created a Affiliate', (finalAffiliateCount - initialAffiliateCount == 1))
+        assertTrue('unable to created a party', (finalPartyCount - initialPartyCount == 1))
+        logout()
+
+        Integer initialSubscriberCount = Subscriber.count()
+        Integer initialSubAffiliateCount = SubAffiliate.count()
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginFormData.email = userFormData.email
+        loginFormData.password = '1234'
+        loginToHomepage(loginFormData)
+        SubAffiliateFormData subAffiliateFormData = SubAffiliateFormData.getDefaultSubAffiliateFormData()
+        createSubAffiliate(subAffiliateFormData)
+        Integer finalSubscriberCount = Subscriber.count()
+        Integer finalSubAffiliateCount = SubAffiliate.count()
+        assertTrue('Unable to created a Subscriber', (finalSubscriberCount - initialSubscriberCount == 1))
+        assertTrue('unable to created a Sub-Affiliate', (finalSubAffiliateCount - initialSubAffiliateCount == 1))
     }
 }

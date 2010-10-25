@@ -85,7 +85,7 @@ class UserService {
         party?.facebookAccount = facebookAccount
         party.s()
         facebookAccount.s()
-        updateProfile (party)
+        updateProfile(party)
         return party
     }
 
@@ -384,9 +384,10 @@ class UserCO {
             }
 
             if ((UserType.SubAffiliate.name() in roles) && !party.subAffiliate) {
-                Affiliate affiliate = Affiliate.findById(affiliateId)
-                if (affiliate) {
-                    SubAffiliate subAffiliate = new SubAffiliate(affiliateId: affiliate?.id?.toString(), party: party)
+                Party affiliateParty = Party.get(affiliateId)
+                Affiliate affiliate = affiliateParty?.affiliate
+                if (affiliateParty && affiliate) {
+                    SubAffiliate subAffiliate = new SubAffiliate(affiliateId: affiliateParty?.id?.toString(), party: party)
                     party.addToRoles(subAffiliate)
                     affiliate.addToSubAffiliates(subAffiliate)
                     affiliate.s()
@@ -472,9 +473,10 @@ class UserCO {
                 affiliate.s()
             }
             if (UserType.SubAffiliate.name() in roles) {
-                Affiliate affiliate = Affiliate.findById(affiliateId)
-                if (affiliate) {
-                    SubAffiliate subAffiliate = new SubAffiliate(affiliateId: affiliate?.id?.toString(), party: party)
+                Party affiliateParty = Party.get(affiliateId)
+                Affiliate affiliate = affiliateParty?.affiliate
+                if (affiliateParty && affiliate) {
+                    SubAffiliate subAffiliate = new SubAffiliate(affiliateId: affiliateParty?.id?.toString(), party: party)
                     party.addToRoles(subAffiliate)
                     affiliate.addToSubAffiliates(subAffiliate)
                     affiliate.s()
