@@ -6,7 +6,7 @@
                 <g:link name="profileLinkTst" class="userProfileLinkFT" controller="user" action="show" id="${loggedUser?.party?.id}">Profile</g:link>
                 <g:link name="addNewRecipeLink" class="addNewRecipeLinkF" controller="recipe" action="create">Add New Recipe</g:link>
                 <g:if test="${(UserType.Affiliate in LoginCredential.currentUser?.party?.roleTypes ) && (permission.hasPermission(permission: Permission.MANAGE_SUB_AFFILIATE))}">
-                    <g:link name="addNewSubAffiliate" controller="user" action="createSubAffiliate">Add Sub Affiliate</g:link>
+                    <g:link class="addSubAffiliateFT" name="addNewSubAffiliate" controller="user" action="createSubAffiliate">Add Sub Affiliate</g:link>
                 </g:if>
             </li>
             <li><g:link class="logoutLink" controller="login" action="logout">Logout</g:link></li>

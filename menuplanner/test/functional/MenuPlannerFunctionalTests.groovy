@@ -92,9 +92,28 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
             name = userFormData.name
             if (!userFormData.isEnabled) { byId('chk_Enable').click() }
             if (userFormData.isSuperAdmin) {byId('chk_SuperAdmin').click()}
+            if (userFormData.isAffiliate) {byId('chk_Affiliate').click()}
+            if (userFormData.isSubAffiliate) {byId('chk_SubAffiliate').click()}
             if (userFormData.isAdmin) { byId('chk_Admin').click()}
             if (userFormData.isUser) {byId('chk_Subscriber').click()}
             click('_action_save')
+        }
+    }
+
+    /*
+    *  Helper method to create a new sub-affiliate
+    */
+
+    void createSubAffiliate(SubAffiliateFormData subAffiliateFormData) {
+        def addSubAffiliateLink = byClass('addSubAffiliateFT')
+        addSubAffiliateLink.click()
+        form('formCreateSubAffiliate') {
+            email = subAffiliateFormData.email
+            password = subAffiliateFormData.password
+            confirmPassword = subAffiliateFormData.confirmPassword
+            name = subAffiliateFormData.name
+            if (!subAffiliateFormData.isEnabled) { byId('chk_Enable').click() }
+            click('_action_saveSubAffiliate')
         }
     }
 
@@ -246,7 +265,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
         createLink.click()
     }
 
-    /** * Helper method to return a message from the message bundle.                                                           ***/
+    /** * Helper method to return a message from the message bundle.                                                              ***/
     String getMessage(String key, def targetArgs = TARGET_ARGS_EMPTY) {
         def keyValue = messageSource.resolveCode(key, locale)
         return keyValue?.format(targetArgs)

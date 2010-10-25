@@ -373,7 +373,6 @@ class UserController {
 
     def createSubAffiliate = {
         UserCO userCO = new UserCO()
-        userCO.roles = [UserType.SubAffiliate.name()]
         userCO.isEnabled = true
         render(view: 'createSubAffiliate', model: [userCO: userCO])
     }
@@ -381,15 +380,17 @@ class UserController {
     def saveSubAffiliate = {UserCO userCO ->
         Long affiliateId = LoginCredential?.currentUser?.party?.id
         if (affiliateId) {
-            userCO.roles = [UserType.SubAffiliate.name()]
+            userCO.roles = [UserType.SubAffiliate.name(), UserType.Subscriber.name()]
             userCO.affiliateId = affiliateId
-        }
-        userCO.isEnabled = true
-        if (userCO.validate()) {
-            Party party = userCO.createParty()
-            flash.message = message(code: 'subAffiliate.created.success')
-            redirect(action: 'show', id: party?.id)
-        } else {
+            userCO.isEnabled = true
+            if (userCO.validate()) {
+                Party party = userCO.createParty()
+                flash.message = message(code: 'subAffiliate.created.success')
+                redirect(action: 'show', id: party?.id)
+            } else {
+                render(view: 'createSubAffiliate', model: [userCO: userCO])
+            }
+        }else{
             render(view: 'createSubAffiliate', model: [userCO: userCO])
         }
     }
