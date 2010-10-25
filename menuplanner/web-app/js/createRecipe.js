@@ -104,6 +104,14 @@ function reflectInPreviewPanel() {
         myNutrients = 'Nutritional Facts per serving: ' + myNutrients
     }
     jQuery('#showNutrients').html(myNutrients)
+
+    jQuery.each(jQuery("*", jQuery("#displayDescription")), function() {
+        jQuery(this).css('font-family', 'Arial');
+    });
+
+    jQuery.each(jQuery("*", jQuery("#displayDirections")), function() {
+        jQuery(this).css('font-family', 'Arial');
+    });
 }
 
 function getPlainText(elementId) {
