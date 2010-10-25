@@ -78,6 +78,12 @@
             imageBtnClose:"${resource(dir: 'images', file: 'lightbox-btn-close.gif')}"
         });
     });
+    jQuery.each(jQuery("*", jQuery("#showAllStepsHereTst")), function() {
+        jQuery(this).css('font-family', 'Arial');
+    });
+    jQuery.each(jQuery("*", jQuery("#recipeDescription")), function() {
+        jQuery(this).css('font-family', 'Arial');
+    });
 </script>
 </body>
 </html>
