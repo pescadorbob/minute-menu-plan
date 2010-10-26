@@ -440,4 +440,21 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
             fail('Category not found on preview page')
         }
     }
+
+    void test_Create_Recipe_Search_Recipe() {
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginToHomepage(loginFormData)
+        CreateRecipeData createRecipeData = CreateRecipeData.getDefaultCreateRecipeData()
+        createRecipeData.name = "MyTestSearchRecipe${System.currentTimeMillis()}"
+        createRecipe(createRecipeData)
+        assertStatus 200
+        get('/recipe/list')
+        byName('query').setValue(createRecipeData.name)
+        byName('searchForm').submit()
+        waitForElementToAppear('draggableSearchItem_1')
+        String recipeDivText = byId('draggableSearchItem_1').asText()
+        if (!recipeDivText.contains(createRecipeData.name)) {
+            fail('Recipe not found in search')
+        }
+    }
 }
