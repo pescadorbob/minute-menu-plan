@@ -378,7 +378,7 @@ class UserController {
     }
 
     def saveSubAffiliate = {UserCO userCO ->
-        Long affiliateId = LoginCredential?.currentUser?.party?.id
+        Long affiliateId = LoginCredential?.currentUser?.party?.affiliate?.id
         if (affiliateId) {
             userCO.roles = [UserType.SubAffiliate.name(), UserType.Subscriber.name()]
             userCO.affiliateId = affiliateId

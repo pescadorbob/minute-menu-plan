@@ -175,4 +175,46 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
         assertTrue('Unable to created a Subscriber', (finalSubscriberCount - initialSubscriberCount == 1))
         assertTrue('unable to created a Sub-Affiliate', (finalSubAffiliateCount - initialSubAffiliateCount == 1))
     }
+
+
+    void testAdd_SubAffiliate_By_Affiliate_Edit_SubAffiliate() {
+        javaScriptEnabled = false
+        loginBySuperAdmin()
+        UserFormData userFormData = UserFormData.getDefaultUserFormData()
+        userFormData.email = "qa.menuplanner_${System.currentTimeMillis()}@gmail.com"
+        userFormData.isUser = false
+        userFormData.isAffiliate = true
+        createUser(userFormData)
+        assertStatus 200
+        logout()
+
+        Integer initialSubscriberCount = Subscriber.count()
+        Integer initialSubAffiliateCount = SubAffiliate.count()
+        LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
+        loginFormData.email = userFormData.email
+        loginFormData.password = '1234'
+        loginToHomepage(loginFormData)
+        SubAffiliateFormData subAffiliateFormData = SubAffiliateFormData.getDefaultSubAffiliateFormData()
+        createSubAffiliate(subAffiliateFormData)
+
+        Integer intermediateSubscriberCount = Subscriber.count()
+        Integer intermediateSubAffiliateCount = SubAffiliate.count()
+        assertTitle 'Minute Menu Plan : Show User'
+        assertTrue('Unable to created a Subscriber', (intermediateSubscriberCount - initialSubscriberCount == 1))
+        assertTrue('unable to created a Sub-Affiliate', (intermediateSubAffiliateCount - initialSubAffiliateCount == 1))
+        byClass('editUserButtonFT').click()
+        assertTitle 'Minute Menu Plan : Edit User'
+        byClass('updateUserButtonFT').click()
+        redirectEnabled = false
+        followRedirect()
+        assertTitle 'Minute Menu Plan : Show User'
+        assertElementTextContains('flashMsgTst', getMessage('user.updateded.success'))
+
+        Integer finalSubscriberCount = Subscriber.count()
+        Integer finalSubAffiliateCount = SubAffiliate.count()
+        assertTitle 'Minute Menu Plan : Show User'
+        assertTrue('Unable to created a Subscriber', (finalSubscriberCount - initialSubscriberCount == 1))
+        assertTrue('unable to created a Sub-Affiliate', (finalSubAffiliateCount - initialSubAffiliateCount == 1))
+        logout()
+    }
 }
