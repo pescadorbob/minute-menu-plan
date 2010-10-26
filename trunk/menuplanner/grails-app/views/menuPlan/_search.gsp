@@ -11,11 +11,11 @@
                             name="searchForm"
                             url="[controller:'menuPlan', action:'search']"
                             update="searchResult">
-
                         <input name="query" type="text" class="inp" value=""/>
                         <span id="searchParams" style="display:none;"></span>
                         <span style="display:none;"><input type="submit"/></span>
                         <g:hiddenField name="searchByDomainName" value="Recipe"/>
+                        <input type="hidden" name="openInNewWindow" value="${openInNewWindow ? 'true' : 'false'}"/>
                     </g:formRemote>
                 </div>
                 <div id="youhave">
@@ -93,7 +93,7 @@
                 </div>
                 <div id="searchResult">
 
-                    <g:render template="/menuPlan/searchResultMenuPlan" model="[itemList:itemList, itemTotal:itemTotal, query:query]"/>
+                    <g:render template="/menuPlan/searchResultMenuPlan" model="[itemList:itemList, itemTotal:itemTotal, query:query,openInNewWindow:openInNewWindow]"/>
 
                 </div>
             </div>

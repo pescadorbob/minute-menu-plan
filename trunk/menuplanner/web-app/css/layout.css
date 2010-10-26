@@ -104,6 +104,7 @@
 .product ul li ul li{margin:0 !important;padding:0;width:210px; background:none  !important; position:relative;}
 .product ul li ul li h3{;margin:0;line-height:18px;font-size:12px;padding:0px 5px;}
 .product ul li ul li h3 a{text-decoration:none;color:#2aa4af;}
+.product ul li ul li h3 p{text-decoration:none;color:#2aa4af;}
 .product ul li ul li ul li{float:left;width:100px !important;background:none !important;}
 .product ul li ul li ul li ul li{line-height:12px;clear:both;}
 .product ul li:hover div.frame-corner{background-position:0 -80px;}

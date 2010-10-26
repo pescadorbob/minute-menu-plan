@@ -67,7 +67,10 @@
                 jQuery('.scaleImageSize img').load(function() {
                     scaleImageSize();
                 });
-            }                  
+            }
+        });
+        jQuery.each(jQuery('a'), function() {
+         $(this).attr('target','_blank');
         });
     })
 

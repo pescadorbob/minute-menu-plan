@@ -35,7 +35,10 @@
                 alert("Please enter Menu plan name")
                 return false;
             }
-        })
+        });
+        jQuery.each(jQuery('a'), function() {
+            $(this).attr('target', '_blank');
+        });
     </script>
 </div>
 </body>

@@ -14,7 +14,7 @@ class MenuPlanController {
         MenuPlan menuPlan = MenuPlan.get(params.long("id"))
         List<SubCategory> subCategories = (Recipe.list()*.subCategories)?.flatten()?.unique {it.id}?.sort {it.name}
         List<Category> categories = (subCategories*.category)?.flatten()?.unique {it.id}?.sort {it.name}
-        render(view: 'show', model: [menuPlan: menuPlan, categories: categories, subCategories: subCategories, itemList: recipeList, itemTotal: Recipe.count()])
+        render(view: 'show', model: [menuPlan: menuPlan, categories: categories, subCategories: subCategories, itemList: recipeList, itemTotal: Recipe.count(), openInNewWindow: false])
     }
 
     def create = {
@@ -38,7 +38,7 @@ class MenuPlanController {
         Integer total = recipeService.getFilteredRecipeCount()
         List<SubCategory> subCategories = (Recipe.list()*.subCategories)?.flatten()?.unique {it.id}?.sort {it.name}
         List<Category> categories = (subCategories*.category)?.flatten()?.unique {it.id}?.sort {it.name}
-        render(view: 'create', model: [menuPlan: menuPlan, categories: categories, subCategories: subCategories, itemList: results, itemTotal: total])
+        render(view: 'create', model: [menuPlan: menuPlan, categories: categories, subCategories: subCategories, itemList: results, itemTotal: total, openInNewWindow: true])
     }
 
     def edit = {
@@ -49,7 +49,7 @@ class MenuPlanController {
         MenuPlan menuPlan = MenuPlan.get(params.long("id"))
         List<SubCategory> subCategories = (Recipe.list()*.subCategories)?.flatten()?.unique {it.id}?.sort {it.name}
         List<Category> categories = (subCategories*.category)?.flatten()?.unique {it.id}?.sort {it.name}
-        render(view: 'edit', model: [menuPlan: menuPlan, categories: categories, subCategories: subCategories, itemList: results, itemTotal: total])
+        render(view: 'edit', model: [menuPlan: menuPlan, categories: categories, subCategories: subCategories, itemList: results, itemTotal: total, openInNewWindow: true])
     }
 
     def saveAndUpdate = {
@@ -93,6 +93,7 @@ class MenuPlanController {
     }
 
     def search = {
+        boolean openInNewWindow = (params?.openInNewWindow == 'true') ? true : false
         Long offset = params.offset ? params.long('offset') : 0
         List<Item> results = []
         Party currentUser = LoginCredential.currentUser.party
@@ -173,7 +174,7 @@ class MenuPlanController {
                 total = searchList?.total
             }
         }
-        render(template: '/menuPlan/searchResultMenuPlan', model: [itemList: results, itemTotal: total, query: queryList])
+        render(template: '/menuPlan/searchResultMenuPlan', model: [itemList: results, itemTotal: total, query: queryList, openInNewWindow: openInNewWindow])
     }
 
     def printerFriendlyMenuPlan = {
