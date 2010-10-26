@@ -49,6 +49,7 @@ class UserService {
                 party = new Party()
                 String coachUUID = SessionUtils?.session?.coachUniqueId
                 party.name = name
+                party.isEnabled=true
                 party.addToRoles(location ? new Subscriber(city: location) : new Subscriber())
                 if (coachUUID) {
                     Party coach = Party.findByUniqueId(coachUUID)
