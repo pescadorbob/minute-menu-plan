@@ -27,8 +27,8 @@ class SubAffiliateTests extends GrailsUnitTestCase {
         affiliateUserCO.password = "1234"
         affiliateUserCO.confirmPassword = "1234"
         affiliateUserCO.name = "New Affiliate"
-        Party party = affiliateUserCO.createParty()
-        Long affiliateId = party?.affiliate?.id
+        Party affiliateParty = affiliateUserCO.createParty()
+        Long affiliateId = affiliateParty?.affiliate?.id
 
         /* -------creating sub-affiliate--------------*/
         UserCO userCO = new UserCO()
