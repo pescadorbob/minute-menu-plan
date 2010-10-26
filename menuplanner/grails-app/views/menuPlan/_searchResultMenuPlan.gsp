@@ -2,7 +2,7 @@
 <div class="ratingbox">
     <ul class="resultContainer">
         <g:each in="${itemList}" var="item" status="index">
-            <g:render template="/recipe/showRecipeForRecipeCard" model="['item':item ,'index':index]"/>
+            <g:render template="/recipe/showRecipeForRecipeCard" model="['item':item ,'index':index ,'openInNewWindow':openInNewWindow]"/>
         </g:each>
     </ul>
 </div>
@@ -11,7 +11,7 @@
             controller="menuPlan"
             action="search"
             total="${itemTotal}"
-            params="[query: query, searchByDomainName: params.searchByDomainName]"
+            params="[query: query, searchByDomainName: params.searchByDomainName,openInNewWindow:openInNewWindow ? 'true':'false']"
             max="4"
             offset="${params.offset}"
             update="searchResult"

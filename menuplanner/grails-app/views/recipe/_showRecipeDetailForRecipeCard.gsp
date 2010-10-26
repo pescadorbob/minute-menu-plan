@@ -1,11 +1,17 @@
-<ul onclick="location.href = '${createLink(action: 'show', controller: 'recipe', id: item?.id)}'">
-    <input type="hidden" name="menuItemId" value="${item.id}"/>
-    <li style="top:0px;" class="topcorner">
-        <p:image src='top-rounded.png' width="215" border="0"/></li>
-    <li><h3 class="recipeName"><a href="${createLink(action: 'show', controller: 'recipe', id: item?.id)}">${item.name}</a></h3></li>
-    <li><ul>
+<g:if test="${openInNewWindow}">
+    <ul onclick="window.open('${createLink(action: 'show', controller: 'recipe', id: item?.id)}')">
+</g:if>
+<g:else>
+    <ul onclick="location.href = '${createLink(action: 'show', controller: 'recipe', id: item?.id)}'">
+</g:else>
+<input type="hidden" name="menuItemId" value="${item.id}"/>
+<li style="top:0px;" class="topcorner">
+    <p:image src='top-rounded.png' width="215" border="0"/></li>
+<li><h3 class="recipeName"><p>${item.name}</p></h3></li>
+<li>
+    <ul>
         <li style="padding:4px;"><div class="frame-corner">&nbsp;</div>
-            <mp:image class="imgbor" size="100" id="${item?.image?.id}"/>
+            <mp:image class="imgbor" size="100" id="${item?.image?.id}"/></li>
         <li>
             <ul>
                 <li><rateable:ratings bean='${item}' active="false"/></li>
@@ -17,6 +23,6 @@
             </ul>
         </li>
     </ul>
-    </li>
-    <li style=" bottom:0px;" class="topcorner"><p:image src='bottom-rounded.png' width="215" border="0" height="4"/></li>
+</li>
+<li style=" bottom:0px;" class="topcorner"><p:image src='bottom-rounded.png' width="215" border="0" height="4"/></li>
 </ul>
