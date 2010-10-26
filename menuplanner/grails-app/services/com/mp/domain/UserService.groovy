@@ -384,14 +384,21 @@ class UserCO {
             }
 
             if ((UserType.SubAffiliate.name() in roles) && !party.subAffiliate) {
-                Party affiliateParty = Party.get(affiliateId)
-                Affiliate affiliate = affiliateParty?.affiliate
-                if (affiliateParty && affiliate) {
-                    SubAffiliate subAffiliate = new SubAffiliate(affiliateId: affiliateParty?.id?.toString(), party: party)
+                Affiliate affiliate = Affiliate.get(affiliateId)
+                if (affiliate) {
+                    SubAffiliate subAffiliate = new SubAffiliate(affiliateId: affiliate?.id?.toString(), party: party)
                     party.addToRoles(subAffiliate)
                     affiliate.addToSubAffiliates(subAffiliate)
                     affiliate.s()
                     party.s()
+                    subAffiliate.s()
+                }
+            }
+            if ((UserType.SubAffiliate.name() in roles) && party.subAffiliate) {
+                Affiliate affiliate = Affiliate.get(affiliateId)
+                if (affiliate && (affiliateId != party?.subAffiliate?.id)) {
+                    SubAffiliate subAffiliate = party?.subAffiliate
+                    subAffiliate.affiliateId = affiliateId
                     subAffiliate.s()
                 }
             }
@@ -473,10 +480,9 @@ class UserCO {
                 affiliate.s()
             }
             if (UserType.SubAffiliate.name() in roles) {
-                Party affiliateParty = Party.get(affiliateId)
-                Affiliate affiliate = affiliateParty?.affiliate
-                if (affiliateParty && affiliate) {
-                    SubAffiliate subAffiliate = new SubAffiliate(affiliateId: affiliateParty?.id?.toString(), party: party)
+                Affiliate affiliate = Affiliate.get(affiliateId)
+                if (affiliate) {
+                    SubAffiliate subAffiliate = new SubAffiliate(affiliateId: affiliate?.id?.toString(), party: party)
                     party.addToRoles(subAffiliate)
                     affiliate.addToSubAffiliates(subAffiliate)
                     affiliate.s()
