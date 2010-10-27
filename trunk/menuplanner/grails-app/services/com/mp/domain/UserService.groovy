@@ -27,7 +27,7 @@ class UserService {
         return false
     }
 
-    public Party createUserFromFacebook(String redirectUrl, String code) {
+    public Party createUserFromFacebook(String redirectUrl, String code, String coachUUIDFromCookies) {
         Long faceBookToken = code.tokenize("-|")[1]?.toLong()
         String urlString = "https://graph.facebook.com/oauth/access_token?client_id=${config.facebookConnect.apiKey}&redirect_uri=${redirectUrl}&client_secret=${config.facebookConnect.secretKey}&code=${code}"
         URL url = new URL(urlString)
@@ -51,6 +51,9 @@ class UserService {
                 party.name = name
                 party.isEnabled=true
                 party.addToRoles(location ? new Subscriber(city: location) : new Subscriber())
+                if (!coachUUID && coachUUIDFromCookies) {
+                    coachUUID = coachUUIDFromCookies
+                }
                 if (coachUUID) {
                     Party coach = Party.findByUniqueId(coachUUID)
                     if (coach) {
@@ -84,6 +87,7 @@ class UserService {
         facebookAccount.oauthToken = oauthToken
         facebookAccount.party = party
         party?.facebookAccount = facebookAccount
+        party?.isEnabled = true
         party.s()
         facebookAccount.s()
         updateProfile(party)
@@ -454,9 +458,9 @@ class UserCO {
                     if (coach) {
                         subscriber.coachId = coach?.id
                         subscriber.s()
+                        coach.addToClients(party)
+                        coach.s()
                     }
-                    coach.addToClients(party)
-                    coach.s()
                 }
                 party.s()
             }

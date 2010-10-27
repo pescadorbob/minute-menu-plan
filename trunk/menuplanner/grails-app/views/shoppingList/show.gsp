@@ -8,7 +8,7 @@
         margin-bottom: 10px;
     }
     .wintertop ul li {
-        width:24%;
+        width: 24%;
     }
     </style>
 </head>
@@ -34,7 +34,12 @@
                             <p:image src='printer.gif' alt="print" align="absmiddle"/> &nbsp; Print Shopping List
                         </li>
                         <li style="cursor:pointer" id="shareThisUrl">
-                            <mp:shareThis shareUrl="${createLink(controller:'shoppingList',action:'show',id:shoppingList.id,absolute:true)}"/>
+                            <g:if test="${(party?.subAffiliate)}">
+                                <mp:shareThis coachId="${party?.uniqueId}" shareUrl="${createLink(controller:'shoppingList',action:'show',id:recipe.id,absolute:true)}"/>
+                            </g:if>
+                            <g:else>
+                                <mp:shareThis shareUrl="${createLink(controller:'shoppingList',action:'show',id:recipe.id,absolute:true)}"/>
+                            </g:else>
                         </li>
                     </ul>
                 </div>

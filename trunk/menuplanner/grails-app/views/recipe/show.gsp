@@ -48,7 +48,12 @@
             </div>
             <div id="rightpart">
                 <span>
-                    <mp:shareThis shareUrl="${createLink(controller:'recipe',action:'show',id:recipe.id,absolute:true)}"/>
+                    <g:if test="${(party?.subAffiliate)}">
+                        <mp:shareThis coachId="${party?.uniqueId}" shareUrl="${createLink(controller:'recipe',action:'show',id:recipe.id,absolute:true)}"/>
+                    </g:if>
+                    <g:else>
+                        <mp:shareThis shareUrl="${createLink(controller:'recipe',action:'show',id:recipe.id,absolute:true)}"/>
+                    </g:else>
                 </span>
                 <span>
                     <mp:showEditRecipe recipeId="${recipe?.id}"/>
