@@ -79,7 +79,7 @@ class BootStrap {
                 if (GrailsUtil.environment == 'test') {
                     userNames = ['superAdmin': ['SuperAdmin'], 'user1': ['Subscriber']]
                 } else {
-                    userNames = ['superAdmin': ['SuperAdmin'], 'admin': ['Admin'], 'user1': ['Subscriber'], 'affiliate': ['Affiliate'], 'subAffiliate': ['SubAffiliate']]
+                    userNames = ['superAdmin': ['SuperAdmin'], 'admin': ['Admin'], 'user1': ['Subscriber'], 'affiliate': ['Affiliate'], 'subAffiliate': ['SubAffiliate','Subscriber']]
                 }
                 userNames.each {String name, List<String> roles ->
                     println "Populating User - ${name}"

@@ -4,6 +4,7 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 import javax.servlet.http.HttpSession
 import com.mp.google.checkout.*
+import javax.servlet.http.Cookie
 
 class UserController {
 
@@ -200,8 +201,14 @@ class UserController {
         Party party
         if (code) {
             if (!userId) {
+                String coachUUID
+                List<Cookie> cookies = request.cookies as List
+                Cookie coachId = cookies.find {it.name == 'coachId'}
+                if (coachId) {
+                    coachUUID = coachId.value
+                }
                 String redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true).encodeAsURL()}"
-                party = userService.createUserFromFacebook(redirectUrl, code)
+                party = userService.createUserFromFacebook(redirectUrl, code, coachUUID)
             } else {
                 String redirectUrl = "${createLink(controller: 'user', action: 'facebookConnect', absolute: true, params: [userId: userId]).encodeAsURL()}"
                 party = Party.get(userId)
@@ -336,6 +343,12 @@ class UserController {
         String coachUUID = params?.coachUUID
         if (coachUUID) {
             userCO.coachUUID = coachUUID
+        } else {
+            List<Cookie> cookies = request.cookies as List
+            Cookie coachId = cookies.find {it.name == 'coachId'}
+            if (coachId) {
+                userCO.coachUUID = coachId.value
+            }
         }
         if (userCO.validate()) {
             Party party = userCO.createParty()
@@ -390,7 +403,7 @@ class UserController {
             } else {
                 render(view: 'createSubAffiliate', model: [userCO: userCO])
             }
-        }else{
+        } else {
             render(view: 'createSubAffiliate', model: [userCO: userCO])
         }
     }

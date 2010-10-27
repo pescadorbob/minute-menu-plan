@@ -52,6 +52,7 @@ tempDir = System.getProperty("java.io.tmpdir") + "/mpImages/tempImages"
 recipesRootDir = "recipes/"
 usersRootDir = "users/"
 homepageRootDir = "homepage/"
+shareCookieMaxAge = 2592000
 sessions = []
 // set per-environment serverURL stem for creating absolute links
 grails {
