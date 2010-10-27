@@ -35,10 +35,10 @@
                         </li>
                         <li style="cursor:pointer" id="shareThisUrl">
                             <g:if test="${(party?.subAffiliate)}">
-                                <mp:shareThis coachId="${party?.uniqueId}" shareUrl="${createLink(controller:'shoppingList',action:'show',id:recipe.id,absolute:true)}"/>
+                                <mp:shareThis coachId="${party?.uniqueId}" shareUrl="${createLink(controller:'shoppingList',action:'show',id:shoppingList.id,absolute:true)}"/>
                             </g:if>
                             <g:else>
-                                <mp:shareThis shareUrl="${createLink(controller:'shoppingList',action:'show',id:recipe.id,absolute:true)}"/>
+                                <mp:shareThis shareUrl="${createLink(controller:'shoppingList',action:'show',id:shoppingList.id,absolute:true)}"/>
                             </g:else>
                         </li>
                     </ul>
