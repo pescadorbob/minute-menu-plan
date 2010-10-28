@@ -38,7 +38,7 @@ class ApplicationFilters {
                 } else {
                     if (!((params.controller in ['util', 'login', 'image', 'subscription']) ||
                             ((params.controller == 'user') &&
-                                    (params.action in ['create', 'createUser', 'createFreeUser', 'newFreeUserSignUp', 'enableUser', 'newUserCheckout', 'welcome', 'facebookConnect' ,'verify'])))) {
+                                    (params.action in ['create', 'createUser', 'createFreeUser', 'newFreeUserSignUp', 'enableUser', 'newUserCheckout', 'welcome', 'facebookConnect', 'verify'])))) {
                         if (!(request.getSession(false) && LoginCredential.currentUser)) {
                             if (request.xhr) {
                                 String text = "The Session TimedOut url=" + ConfigurationHolder.config.grails.serverURL
@@ -73,6 +73,18 @@ class ApplicationFilters {
             }
         }
 
-    }
+        addCookie(controller: '*', action: '*') {
+            before = {
+                List<Cookie> cookies = request.cookies as List
+                Cookie coachId = cookies.find {it.name == 'coachId'}
+                if (params.coachId && !coachId) {
+                    coachId = new Cookie('coachId', params.coachId);
+                    coachId.maxAge = 60 * 60 * 24 * 30
+                    coachId.path = "/"
+                    response.addCookie(coachId)
+                }
+            }
+        }
 
+    }
 }

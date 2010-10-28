@@ -1,4 +1,5 @@
-<%@ page import="com.mp.domain.LoginCredential; com.mp.domain.UserType; com.mp.domain.Permission" %><g:if test="${loggedUser}">
+<%@ page import="com.mp.domain.LoginCredential; com.mp.domain.UserType; com.mp.domain.Permission" %>
+<g:if test="${loggedUser}">
     <li>
         <a href="#"><span>Hi! ${loggedUser.party.name}</span></a>
         <ul>
@@ -12,4 +13,7 @@
             <li><g:link class="logoutLink" controller="login" action="logout">Logout</g:link></li>
         </ul>
     </li>
-</g:if>                                      
+</g:if>
+<g:else>
+    <li><g:link controller="user" action="createFreeUser">Hi! Guest</g:link></li>
+</g:else>

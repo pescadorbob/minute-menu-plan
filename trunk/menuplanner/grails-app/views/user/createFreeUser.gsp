@@ -39,20 +39,21 @@
             <input type="hidden" name="coachUUID" value="${userCO?.coachUUID}">
             <input type="hidden" name="roles" value="Subscriber">
             <div class="leftbox clearfix">
-                <div id="leftpanelbox">
+                <div id="leftpanelboxfreeuser">
                     <div class="boxDiv">
-                        The Minute Menu plan is an online community based software service offered to you with our compliments. Create a free account now and take it for a spin, and let us know what you think.
+                        <ul>
+                            <li><g:message code="create.freeUser.leftbar.text1"/></li><br/>
+                            <li><g:message code="create.freeUser.leftbar.text2"/></li><br/>
+                            <li><strong>Already have an Account?</strong><br/> Welcome Back <br/><g:link uri="/">Login Here</g:link></li>
+                        </ul>
                     </div>
 
-                    <div class="boxDiv" style="text-align: center;">
-                        <input class="createFreeUserFT" type="image" src="${resource(dir: 'images', file: 'click-FreeUserSignup.jpg')}"/>
-                    </div>
                 </div>
-                <div id="rightpanelbox" style="border-left:1px solid #ddd;">
+                <div id="rightpanelboxfreeuser" style="border-left:1px solid #ddd;">
 
                     <div class="clearfix">
                         <div class="boxDiv  boxDivcenter">
-                            <h1>Profile Information</h1>
+                            <h1>Create a New Account</h1>
                             <ul>
                                 <li>
                                     <input name="createAccount" type="radio" value=""/>
@@ -105,6 +106,10 @@
                                     <span>
                                         <g:checkBox name="showAlcoholicContent" value="${userCO?.showAlcoholicContent}"/><strong>Opt-in for Content Featuring Alcohol</strong>
                                     </span>
+                                </li>
+                                <li><div class="boxDiv" style="text-align: center;">
+                                    <input class="createFreeUserFT" type="image" src="${resource(dir: 'images', file: 'click-FreeUserSignup.jpg')}"/>
+                                </div>
                                 </li>
 
                             </ul>

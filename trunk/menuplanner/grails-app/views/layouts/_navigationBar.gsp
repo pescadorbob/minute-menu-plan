@@ -5,19 +5,18 @@
             <mp:menuPlanDropdown/>
             <mp:shoppingListDropDown/>
             <li><g:link controller="recipe" action="list" class="browse recipeListFT">Browse&nbsp;Recipes</g:link></li>
-            <g:if test="${((params.controller =='menuPlan') && (params.action in ['show','saveAndUpdate']))}">
-            </g:if>
             <mp:loggedUserDropDown/>
-        %{--<li><a>Forums</a></li>--}%
-        %{--<li><a>Conversions</a></li>--}%
-        %{--<li><a>Help</a></li>--}%
             <mp:adminDropDown/>
-            <li><a href="http://blog.minutemenuplan.com/">Blog</a></li>
         </g:if>
         <g:else>
             <li><g:link controller="user" action="createFreeUser">Create Your Own Menu Plan</g:link></li>
             <li><g:link controller="user" action="createFreeUser">Browse&nbsp;Recipes</g:link></li>
-            <li><a href="http://blog.minutemenuplan.com/">Blog</a></li>
+            <mp:loggedUserDropDown/>
         </g:else>
+        <li><a href="http://blog.minutemenuplan.com/"><span>Blog</span></a>
+            <ul>
+                <li><a href=" http://support.minutemenuplan.com/">Support</a></li>
+            </ul>
+        </li>
     </ul>
 </div>
