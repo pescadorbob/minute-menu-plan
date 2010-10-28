@@ -198,18 +198,6 @@ class RecipeController {
     }
 
     def show = {
-        String coachUniqueId = params?.coachId
-        if (coachUniqueId) {
-            Cookie coachId
-            List<Cookie> cookies = request.cookies as List
-            coachId = cookies.find {it.name == 'coachId'}
-            if (!coachId) {
-                coachId = new Cookie('coachId', coachUniqueId);
-                coachId.maxAge = config.shareCookieMaxAge
-                coachId.path = "/"
-            }
-            response.addCookie(coachId)
-        }
         Recipe recipe = Recipe.findById(params?.id)
         render(view: 'show', model: [recipe: recipe, party: LoginCredential?.currentUser?.party])
     }

@@ -11,18 +11,6 @@ class MenuPlanController {
     def index = { }
 
     def show = {
-        String coachUniqueId = params?.coachId
-        if (coachUniqueId) {
-            Cookie coachId
-            List<Cookie> cookies = request.cookies as List
-            coachId = cookies.find {it.name == 'coachId'}
-            if (!coachId) {
-                coachId = new Cookie('coachId', coachUniqueId);
-            }
-            coachId.maxAge = ConfigurationHolder.config.shareCookieMaxAge
-            coachId.path = "/"
-            response.addCookie(coachId)
-        }
         params.max = Math.min(params.max ? params.int('max') : 4, 150)
         List<Recipe> recipeList = Recipe.list(params)
         MenuPlan menuPlan = MenuPlan.get(params.long("id"))

@@ -81,18 +81,6 @@ class ShoppingListController {
     }
 
     def show = {
-        String coachUniqueId = params?.coachId
-        if (coachUniqueId) {
-            Cookie coachId
-            List<Cookie> cookies = request.cookies as List
-            coachId = cookies.find {it.name == 'coachId'}
-            if (!coachId) {
-                coachId = new Cookie('coachId', coachUniqueId);
-                coachId.maxAge = ConfigurationHolder.config.shareCookieMaxAge
-                coachId.path = "/"
-            }
-            response.addCookie(coachId)
-        }
         ShoppingList shoppingList = ShoppingList.get(params.id)
         render(view: 'show', model: [shoppingList: shoppingList, party: LoginCredential?.currentUser?.party])
     }
