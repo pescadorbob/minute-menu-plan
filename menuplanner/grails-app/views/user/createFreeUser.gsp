@@ -36,7 +36,7 @@
             <label>&nbsp;</label>
         </div>
         <g:form name="freeSignupForm" action="newFreeUserSignUp">
-            <input type="hidden" name="coachUUID" value="${userCO?.coachUUID}">
+            <input type="hidden" name="coachId" value="${userCO?.coachId}">
             <input type="hidden" name="roles" value="Subscriber">
             <div class="leftbox clearfix">
                 <div id="leftpanelboxfreeuser">
@@ -58,7 +58,7 @@
                                 <li>
                                     <input name="createAccount" type="radio" value=""/>
                                     Link your account with your Facebook account</li>
-                                <li>&nbsp; &nbsp;<facebook:freeUserConnect coachUUID="${userCO?.coachUUID ? userCO?.coachUUID :''}"/><br/></li>
+                                <li>&nbsp; &nbsp;<facebook:freeUserConnect coachId="${userCO?.coachId ? userCO?.coachId :''}"/><br/></li>
                                 <li><input name="createAccount" type="radio" value=""/>Create a new account. (You can link it later)</li>
                             </ul>
                         </div>

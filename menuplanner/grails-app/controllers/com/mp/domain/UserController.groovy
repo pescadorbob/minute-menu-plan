@@ -138,10 +138,10 @@ class UserController {
     }
 
     def createFreeUser = {
-        String coachUUID = params?.coachUUID
+        String coachId = params?.coachId
         UserCO userCO = new UserCO()
-        if (coachUUID) {
-            userCO.coachUUID = coachUUID
+        if (coachId) {
+            userCO.coachId = coachId
         }
         render(view: 'createFreeUser', model: [userCO: userCO])
     }
@@ -340,14 +340,14 @@ class UserController {
     def newFreeUserSignUp = {UserCO userCO ->
         userCO.roles.add(UserType.Subscriber.name())
         userCO.isEnabled = null
-        String coachUUID = params?.coachUUID
+        String coachUUID = params?.coachId
         if (coachUUID) {
-            userCO.coachUUID = coachUUID
+            userCO.coachId = coachUUID
         } else {
             List<Cookie> cookies = request.cookies as List
             Cookie coachId = cookies.find {it.name == 'coachId'}
             if (coachId) {
-                userCO.coachUUID = coachId.value
+                userCO.coachId = coachId.value
             }
         }
         if (userCO.validate()) {

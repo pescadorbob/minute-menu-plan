@@ -214,7 +214,7 @@ class UserCO {
     List<String> roles = []
     Boolean isEnabled
     Boolean showAlcoholicContent = false
-    String coachUUID
+    String coachId
 
     String id
     def selectUserImagePath
@@ -241,7 +241,7 @@ class UserCO {
         }
         if (party?.subscriber?.coachId) {
             Party coach = Party.findById(party?.subscriber?.coachId?.toLong())
-            if (coach) {coachUUID = coach?.uniqueId}
+            if (coach) {coachId = coach?.uniqueId}
         }
         joiningDate = party?.joiningDate
         isEnabled = party?.isEnabled
@@ -282,7 +282,7 @@ class UserCO {
                 return 'userCO.blank.roles.error'
             }
         })
-        coachUUID(nullable: true, blank: true)
+        coachId(nullable: true, blank: true)
         affiliateId(validator: {val, obj ->
             String subAffiliate = UserType.SubAffiliate.toString().replaceAll(" ", "")
             if (!val && (subAffiliate in obj.roles)) {
@@ -369,8 +369,8 @@ class UserCO {
                 subscriber.party = party
                 subscriber.party.showAlcoholicContent = showAlcoholicContent
                 subscriber.s()
-                if (coachUUID) {
-                    Party coach = Party.findByUniqueId(coachUUID)
+                if (coachId) {
+                    Party coach = Party.findByUniqueId(coachId)
                     if (coach) {
                         subscriber.coachId = coach?.id
                         subscriber.s()
@@ -453,8 +453,8 @@ class UserCO {
                 party.addToRoles(subscriber)
                 party.s()
                 subscriber.s()
-                if (coachUUID) {
-                    Party coach = Party.findByUniqueId(coachUUID)
+                if (coachId) {
+                    Party coach = Party.findByUniqueId(coachId)
                     if (coach) {
                         subscriber.coachId = coach?.id
                         subscriber.s()
