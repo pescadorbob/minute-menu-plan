@@ -62,7 +62,7 @@
                 <div id="rightpanel">
                     <ul><g:if test="${(party?.subAffiliate)&& (permission.hasPermission(permission: Permission.CAN_VIEW_INVITATION_URL))}">
                         <li><strong>Url to Invite Subscribers</strong>
-                            <textArea name="uniqueUrl" readonly="true" cols="104" rows="1" class="urlTextArea">${ConfigurationHolder.config.grails.serverURL + '/user/createFreeUser?coachUUID=' + party?.uniqueId}</textArea>
+                            <textArea name="uniqueUrl" readonly="true" cols="104" rows="1" class="urlTextArea">${ConfigurationHolder.config.grails.serverURL + '/user/createFreeUser?coachId=' + party?.uniqueId}</textArea>
                         </li>
                     </g:if>
                         <li><span><strong>Email :</strong></span><label>${party?.email}</label></li>

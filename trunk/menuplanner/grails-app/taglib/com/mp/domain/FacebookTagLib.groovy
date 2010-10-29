@@ -25,9 +25,9 @@ class FacebookTagLib {
     }
 
     def freeUserConnect = {attrs ->
-        String coachUUID = attrs['coachUUID']
-        coachUUID = coachUUID ? coachUUID : ''
-        SessionUtils.session.coachUniqueId = coachUUID
+        String coachId = attrs['coachId']
+        coachId = coachId ? coachId : ''
+        SessionUtils.session.coachUniqueId = coachId
         if (!(GrailsUtil.environment in ['test'])) {
             String apiKey = ConfigurationHolder.config.facebookConnect.apiKey
             String allowUrl = g.createLink(controller: 'user', action: 'facebookConnect', absolute: true,).encodeAsURL()
