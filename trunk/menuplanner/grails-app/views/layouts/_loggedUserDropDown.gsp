@@ -15,5 +15,5 @@
     </li>
 </g:if>
 <g:else>
-    <li><g:link controller="user" action="createFreeUser">Hi! Guest</g:link></li>
+    <li><a href="#">Hi! Guest</a></li>
 </g:else>
