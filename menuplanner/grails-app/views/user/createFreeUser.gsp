@@ -42,7 +42,12 @@
                 <div id="leftpanelboxfreeuser">
                     <div class="boxDiv">
                         <ul>
-                            <li><g:message code="create.freeUser.leftbar.text1"/></li><br/>
+                            <g:if test="${messageToPrint}">
+                                <li>
+                                    <g:message code="create.freeUser.leftbar.text1" args='["${messageToPrint}"]'/>
+                                    <input name="linkClicked" type="hidden" value="${messageToPrint}">
+                                </li><br/>
+                            </g:if>
                             <li><g:message code="create.freeUser.leftbar.text2"/></li><br/>
                             <li><strong>Already have an Account?</strong><br/> Welcome Back <br/><g:link uri="/">Login Here</g:link></li>
                         </ul>

@@ -139,11 +139,19 @@ class UserController {
 
     def createFreeUser = {
         String coachId = params?.coachId
+        String linkClicked = params?.linkClicked
+        String messageToPrint
+        if (linkClicked && linkClicked == 'browseRecipes') {
+            messageToPrint = message(code: 'browse.recipes.text')
+        }
+        if (linkClicked && linkClicked == 'createYourMenuPlan') {
+            messageToPrint = message(code: 'create.own.menuplan')
+        }
         UserCO userCO = new UserCO()
         if (coachId) {
             userCO.coachId = coachId
         }
-        render(view: 'createFreeUser', model: [userCO: userCO])
+        render(view: 'createFreeUser', model: [userCO: userCO, messageToPrint: messageToPrint])
     }
 
     def update = {UserCO userCO ->
@@ -366,7 +374,7 @@ class UserController {
             userCO.errors.allErrors.each {
                 println it
             }
-            render(view: 'createFreeUser', model: [userCO: userCO])
+            render(view: 'createFreeUser', model: [userCO: userCO, messageToPrint: params?.linkClicked])
         }
     }
 

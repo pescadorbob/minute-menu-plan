@@ -45,3 +45,4 @@ html[xmlns] .clearfix {display: block;}
 /* end footer */
 .recipeSubhead{clear:both;padding-top:20px;font-weight:bold;font-size:13px}
 #ingredientGrid{padding-top:10px;}
+.button-as-link{background:none;border:none;color:#f1f1f1;cursor:pointer;font-size:13px; font-weight:bold;font-family:Arial;padding-top:12px; display:block;}
