@@ -161,11 +161,11 @@ class MenuplannerTagLib {
     }
 
     def mealItems = {attrs ->
-        String weekIndex = attrs['weekIndex']
+        String alttext = attrs['alttext']
         MealType mealType = attrs['type']
         Week week = attrs['week']
         String image = attrs['image']
-        out << g.render(template: '/menuPlan/mealItems', model: [week: week, weekIndex: weekIndex, mealType: mealType, image: image])
+        out << g.render(template: '/menuPlan/mealItems', model: [week: week, alttext: alttext, mealType: mealType, image: image])
     }
 
 
