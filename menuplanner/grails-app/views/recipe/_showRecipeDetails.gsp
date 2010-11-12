@@ -10,7 +10,7 @@
                 <li><g:if test="${recipe?.difficulty}"><span>Difficulty Level: ${recipe?.difficulty}</span><br/></g:if>
                     <g:if test="${recipe?.servings}"><span>Servings: ${customServings ? customServings : recipe?.servings}</span></g:if>
                 </li>
-                <li><strong>${recipe?.isAlcoholic ? 'Contains Alcohol' : ''}</strong></li>
+                <li><strong>${recipe?.isAlcoholic ? 'Uses Alcohol' : ''}</strong></li>
                 <g:if test="${recipe?.ingredients}">
                     <li id="showAllIngredientsHereTst">
                         <mp:recipeIngredients recipeId="${recipe?.id}" customServings="${customServings}"/>
@@ -25,17 +25,18 @@
                 <g:if test="${recipe?.nutrients}">
                     <li><span id="showNutrientsTst" style="width:auto;">Nutritional Facts per serving: ${recipe?.nutrients?.join(", ")}</span></li>
                 </g:if>
-                <li>
                     <g:if test="${recipe?.items}">
+                      <li>
                         <mp:serveWithItems recipeId="${recipe?.id}"/>
+                      </li>
                     </g:if>
-                </li>
                 <li></li>
+                <g:if test="${printRecipe}">
                 <li>
                     <g:render template="/recipe/contributor" model="[recipe:recipe]"/>
                 </li>
                 <li></li>
-
+                </g:if>
             </ul>
         </li>
         <li id="rightLiElements">
@@ -58,6 +59,7 @@
                 </div>
             </g:else>
             <br/>
+            <g:if test="${!isPrintable}">
             <g:if test="${LoginCredential.currentUser}">
                 <g:link controller="user" action="alterFavorite" name="changeFavorite" id="${recipe?.id}">
                     <span id="showFavorite" style="text-align:right;"><mp:showFavorite recipeId="${recipe?.id}"/></span>
@@ -67,6 +69,7 @@
             <g:else>
                 <g:link controller="user" action="createFreeUser" style="color:#fff"><img src="${resource(dir: 'images', file: 'click-FreeUserSignup.jpg')}"></g:link>
             </g:else>
+              </g:if>
         </li>
     </ul>
     <g:if test="${LoginCredential.currentUser}">

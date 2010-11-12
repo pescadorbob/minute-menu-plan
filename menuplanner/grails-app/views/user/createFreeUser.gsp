@@ -109,7 +109,7 @@
                                 <li>
                                     <label></label>
                                     <span>
-                                        <g:checkBox name="showAlcoholicContent" value="${userCO?.showAlcoholicContent}"/><strong>Opt-in for Content Featuring Alcohol</strong>
+                                        <g:checkBox name="showAlcoholicContent" value="${userCO?.showAlcoholicContent}"/><strong>Opt-in for Content Using Alcohol</strong>
                                     </span>
                                 </li>
                                 <li><div class="boxDiv" style="text-align: center;">

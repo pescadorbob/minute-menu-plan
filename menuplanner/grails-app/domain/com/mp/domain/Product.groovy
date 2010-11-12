@@ -32,7 +32,7 @@ class Product extends Item {
 
     String getContributorsString() {
         String searchString = ''
-        if (!config.bootstrapMode) {
+        if (!config?.bootstrapMode) {
             List<Party> parties = contributors
             List<String> searchList = []
             if (parties) {
@@ -59,7 +59,7 @@ class Product extends Item {
     Boolean isProductAlcoholic() {
         Boolean result = false
         String productString = getDetailString()
-        List<String> alcoholicStrings = config.alcoholicContentList ? config.alcoholicContentList : []
+        List<String> alcoholicStrings = config?.alcoholicContentList ? config?.alcoholicContentList : []
         alcoholicStrings = alcoholicStrings*.toLowerCase()
         result = alcoholicStrings.any {
             def pattern = /\b${it}\b/
