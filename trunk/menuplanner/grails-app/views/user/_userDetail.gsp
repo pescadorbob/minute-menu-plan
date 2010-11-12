@@ -45,7 +45,7 @@
                 <label><input name="mouthsToFeed" type="text" class="inpboxSmall  ${hasErrors(bean: userCO, field: 'mouthsToFeed', 'errors')}" value="${userCO?.mouthsToFeed}"/></label>
             </li>
             <li><span><g:checkBox name="showAlcoholicContent" value="${userCO?.showAlcoholicContent}"/></span>
-                <label><strong>Opt-in for Content Featuring Alcohol</strong></label>
+                <label><strong>Opt-in for Content Using Alcohol</strong></label>
             </li>
             <li><span><strong>Something about yourself :</strong></span>
                 <label><g:textArea name="introduction" value="${userCO?.introduction}" class="txtarea  ${hasErrors(bean:userCO,field:'introduction', 'errors')}" rows="4" cols="22"/>&nbsp; Public</label>
