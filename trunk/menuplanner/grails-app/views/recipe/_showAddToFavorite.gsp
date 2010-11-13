@@ -1,2 +1,2 @@
-<g:if test="${isAdded}">Remove from favorite</g:if>
-<g:else>Add to favorite</g:else>
+<g:if test="${isAdded}">Remove from favorites</g:if>
+<g:else>Add to favorites</g:else>

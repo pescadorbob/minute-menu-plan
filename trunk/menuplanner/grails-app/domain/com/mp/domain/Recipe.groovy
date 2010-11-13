@@ -193,6 +193,7 @@ class Recipe extends Item implements Commentable, Rateable {
         tablePerHierarchy false
         directions cascade: 'all-delete-orphan'
         ingredients cascade: 'all-delete-orphan'
+        sort 'name'
         cache true
     }
 
