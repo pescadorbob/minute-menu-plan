@@ -3,6 +3,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
     <title>Minute Menu Plan : <g:layoutTitle default="Minute Menu Plan"/></title>
+  <link rel="shortcut icon" href="${resource(dir:'images',file:'favicon.ico')}" type="image/x-icon" />
+  <link rel="icon" href="${resource(dir:'images',file:'favicon.ico')}" type="image/x-icon" />
     <p:css name='allMenuCss'/>
     <p:javascript src='allMenuJquery'/>
     <g:layoutHead/>

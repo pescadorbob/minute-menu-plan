@@ -9,6 +9,10 @@ import org.springframework.context.ApplicationContextAware
 import jxl.Workbook
 import jxl.WorkbookSettings
 import jxl.Sheet
+import com.mp.domain.subscriptions.Feature
+import com.mp.domain.subscriptions.ProductOffering
+import com.mp.domain.subscriptions.RecurringCharge
+import com.mp.domain.subscriptions.FeaturedOfferingApplicability
 
 class MasterDataBootStrapService implements ApplicationContextAware {
 
@@ -168,6 +172,25 @@ class MasterDataBootStrapService implements ApplicationContextAware {
         new Nutrient(name: NUTRIENT_CARBOHYDRATES, preferredUnit: gram).s()
         new Nutrient(name: NUTRIENT_FIBER, preferredUnit: gram).s()
         new Nutrient(name: NUTRIENT_PROTEIN, preferredUnit: gram).s()
+    }
+    public void populateSubscriptions() {
+             Date activeFrom = new Date();
+          Date activeTo = activeFrom + 100;
+          def f1 = new Feature(activeTo: activeTo, activeFrom: activeFrom,name:"Create Plans",rule:"all").s()
+          def f2 = new Feature(activeTo: activeTo, activeFrom: activeFrom,name:"Create Recipes",rule:"all").s()
+          def f3 = new Feature(activeTo: activeTo, activeFrom: activeFrom,name:"Receive Tips",rule:"all").s()
+          def f4 = new Feature(activeTo: activeTo, activeFrom: activeFrom,name:"Enter Contests",rule:"all").s()
+          def f5 = new Feature(activeTo: activeTo, activeFrom: activeFrom,name:"View Recipes",rule:"all").s()
+          def f6 = new Feature(activeTo: activeTo, activeFrom: activeFrom,name:"billed monthly",rule:"all").s()
+          ProductOffering po = new ProductOffering(name: "Basic Monthly Subscription",activeTo: activeTo, activeFrom: activeFrom )
+          po.s()
+          new RecurringCharge(recurrence: "1m",pricingFor:po,activeTo: activeTo, activeFrom: activeFrom,value:5,name:"\$5 month",description:"5 dollars everymonth").s();
+          new FeaturedOfferingApplicability(availableFor: po,describedBy:f1,applicableFrom:'startDate',applicableFromDescription:'Start Date',applicableThru:'startDate+1m',applicableThruDescription:'1 month after start date').s()
+          new FeaturedOfferingApplicability(availableFor: po,describedBy:f2,applicableFrom:'startDate',applicableFromDescription:'Start Date',applicableThru:'startDate+1m',applicableThruDescription:'1 month after start date').s()
+          new FeaturedOfferingApplicability(availableFor: po,describedBy:f3,applicableFrom:'startDate',applicableFromDescription:'Start Date',applicableThru:'startDate+1m',applicableThruDescription:'1 month after start date').s()
+          new FeaturedOfferingApplicability(availableFor: po,describedBy:f4,applicableFrom:'startDate',applicableFromDescription:'Start Date',applicableThru:'startDate+1m',applicableThruDescription:'1 month after start date').s()
+          new FeaturedOfferingApplicability(availableFor: po,describedBy:f5,applicableFrom:'startDate',applicableFromDescription:'Start Date',applicableThru:'startDate+1m',applicableThruDescription:'1 month after start date').s()
+          new FeaturedOfferingApplicability(availableFor: po,describedBy:f6,applicableFrom:'startDate',applicableFromDescription:'Start Date',applicableThru:'startDate+1m',applicableThruDescription:'1 month after start date').s()
     }
 
     public void populatePermissions() {

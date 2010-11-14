@@ -6,7 +6,8 @@ public enum UserType {
     Admin("Admin"),
     Subscriber("Subscriber"),
     Affiliate("Affiliate"),
-    SubAffiliate("Sub Affiliate")
+    SubAffiliate("Sub Affiliate"),
+    Guest("Guest")
 
     String name
 
@@ -15,10 +16,11 @@ public enum UserType {
     }
 
     public static List<UserType> list() {
-        return [SuperAdmin, Admin, Subscriber, Affiliate, SubAffiliate]
+        return [SuperAdmin, Admin, Subscriber, Affiliate, SubAffiliate,Guest]
     }
 
     String toString() {
         return name
     }
+
 }

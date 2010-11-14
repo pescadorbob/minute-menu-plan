@@ -38,7 +38,7 @@ class ApplicationFilters {
                 } else {
                     if (!((params.controller in ['util', 'login', 'image', 'subscription']) ||
                             ((params.controller == 'user') &&
-                                    (params.action in ['create', 'createUser', 'createFreeUser', 'newFreeUserSignUp', 'enableUser', 'newUserCheckout', 'welcome', 'facebookConnect', 'verify'])))) {
+                                    (params.action in ['create', 'createUser', 'createFreeUser','chooseSubscription', 'newFreeUserSignUp', 'enableUser', 'newUserCheckout', 'welcome', 'facebookConnect', 'verify'])))) {
                         if (!(request.getSession(false) && LoginCredential.currentUser)) {
                             if (request.xhr) {
                                 String text = "The Session TimedOut url=" + ConfigurationHolder.config.grails.serverURL
@@ -51,7 +51,7 @@ class ApplicationFilters {
                                     }
                                 }
                                 if (guestVisitor) {
-                                    redirect(controller: 'user', action: 'createFreeUser')
+                                    redirect(controller: 'user', action: 'chooseSubscription')
                                 } else {
                                     redirect(controller: 'login', action: 'index', params: params)
                                 }
