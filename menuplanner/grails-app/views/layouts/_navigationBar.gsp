@@ -10,13 +10,13 @@
         </g:if>
         <g:else>
             <li>
-                <g:form controller="user" action="createFreeUser">
+                <g:form controller="user" action="chooseSubscription">
                     <input type="hidden" name="linkClicked" value="createYourMenuPlan">
                     <g:submitButton class="button-as-link" name="createMenuPlan" value="Create Your Own Menu Plan"/>
                 </g:form>
             </li>
             <li>
-                <g:form controller="user" action="createFreeUser">
+                <g:form controller="user" action="chooseSubscription">
                     <input type="hidden" name="linkClicked" value="browseRecipes">
                     <g:submitButton class="button-as-link" name="browseRecipes" value="Browse Recipes"/>
                 </g:form>

@@ -5,6 +5,7 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import javax.servlet.http.HttpSession
 import com.mp.google.checkout.*
 import javax.servlet.http.Cookie
+import com.mp.domain.subscriptions.ProductOffering
 
 class UserController {
 
@@ -132,6 +133,24 @@ class UserController {
         render(view: 'create', model: [userCO: userCO])
     }
 
+    def chooseSubscription = {
+      String coachId = params?.coachId
+      String linkClicked = params?.linkClicked
+      String messageToPrint
+      if (linkClicked && linkClicked == 'browseRecipes') {
+          messageToPrint = message(code: 'browse.recipes.text')
+      }
+      if (linkClicked && linkClicked == 'createYourMenuPlan') {
+          messageToPrint = message(code: 'create.own.menuplan')
+      }
+      UserCO userCO = new UserCO()
+      if (coachId) {
+          userCO.coachId = coachId
+      }
+      def availableProducts = ProductOffering.list()
+      render(view: 'chooseSubscription', model: [availableProducts: availableProducts, userCO: userCO, messageToPrint: messageToPrint])
+
+    }
     def createUser = {
         UserCO userCO = new UserCO()
         render(view: 'createUser', model: [userCO: userCO])
@@ -326,23 +345,7 @@ class UserController {
     }
 
     def newUserCheckout = {UserCO userCO ->
-        userCO.roles.add(UserType.Subscriber.name())
-        userCO.isEnabled = false
-        if (userCO.validate()) {
-            Party party = userCO.createParty()
-            Map data = [:]
-            data['userId'] = party?.id
-            session.userId = party?.id
-            println "Session UserId: " + session.userId
-            println "Session Id: " + session.id
-            session.setMaxInactiveInterval(3600)
-            redirect(action: 'createSubscription', controller: 'subscription', params: data)
-        } else {
-            userCO.errors.allErrors.each {
-                println it
-            }
-            render(view: 'createUser', model: [userCO: userCO])
-        }
+        newFreeUserSignUp(userCO)
     }
 
     def newFreeUserSignUp = {UserCO userCO ->

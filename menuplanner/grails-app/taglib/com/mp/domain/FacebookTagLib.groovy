@@ -11,7 +11,7 @@ class FacebookTagLib {
         if (!(GrailsUtil.environment in ['test'])) {
             Long userId = attrs['userId'] ? attrs['userId'].toLong() : 0L
             Party party = userId ? Party.get(userId) : null
-            println "User.name: " + party.name
+            if(party) println "User.name: " + party?.name
             if (!party?.facebookAccount) {
                 String apiKey = ConfigurationHolder.config.facebookConnect.apiKey
                 String allowUrl = g.createLink(controller: 'user', action: 'facebookConnect', absolute: true, params: [userId: userId]).encodeAsURL()

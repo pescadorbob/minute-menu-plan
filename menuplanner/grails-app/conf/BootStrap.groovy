@@ -10,6 +10,7 @@ import liquibase.FileSystemFileOpener
 import liquibase.database.DatabaseFactory
 import static com.mp.MenuConstants.*
 import org.apache.commons.lang.StringUtils
+import com.mp.domain.subscriptions.Feature
 
 class BootStrap {
 
@@ -161,6 +162,7 @@ class BootStrap {
         if (!Product.count()) {masterDataBootStrapService.populateProductsWithAisles()}
         if (!SecurityRole.count()) {masterDataBootStrapService.populatePermissions()}
         if (!HomePage.count()) {masterDataBootStrapService.populateHomePageData()}
+        if (!Feature.count()) {masterDataBootStrapService.populateSubscriptions()}
         if (!Testimonial.count()) {masterDataBootStrapService.populateTestimonials()}
     }
 }

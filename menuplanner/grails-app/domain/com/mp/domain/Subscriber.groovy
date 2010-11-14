@@ -1,11 +1,15 @@
 package com.mp.domain
 
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import com.mp.domain.subscriptions.Subscription
 
 class Subscriber extends PartyRole{
 
     static config = ConfigurationHolder.config
 
+  List<Subscription> subscriptions = []
+
+  static hasMany = [subscriptions: Subscription]
     UserType type = UserType.Subscriber
 
     Image image
