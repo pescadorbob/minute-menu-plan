@@ -30,6 +30,13 @@
                 </g:if>
                 %{--<a>Featured plans</a>--}%
             </li>
+            <li><!-- Theme -->
+                <g:if test="${(permission.hasPermission(permission: Permission.MANAGE_THEMES))}">
+                    <g:link controller="theme" action="list">Themes</g:link>
+                    <g:link controller="pageElement" action="list">Page Elements</g:link>
+                </g:if>
+                %{--<a>Featured plans</a>--}%
+            </li>
         </ul>
     </li>
 </g:if>
