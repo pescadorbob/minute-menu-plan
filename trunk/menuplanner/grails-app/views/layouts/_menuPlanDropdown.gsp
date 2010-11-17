@@ -1,6 +1,8 @@
+<%@ page import="com.mp.domain.ElementLocation" %>
 <li>
     <a href="#" class="menuplan"><span>Menu&nbsp;Plans</span></a>
     <ul><li><nobr>
+      <theme:gadget location="${ElementLocation.MENU}" contextRule="Featured Menus"/>
         <g:each in="${menuPlans}" var="menuPlan">
             <g:link controller="menuPlan" action="show" id="${menuPlan.id}">${menuPlan.name}</g:link>
         </g:each>

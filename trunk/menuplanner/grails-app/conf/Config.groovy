@@ -245,6 +245,9 @@ log4j = {
 				rollingFile name: "myAppender", maxFileSize: 26214400, maxBackupIndex: 10, file: "/var/log/tomcat6/minutemenu.log"
 				rollingFile name: "stacktrace", maxFileSize: 26214400, file: "/var/log/tomcat6/stacktrace.log"
 			}
+          development {
+            console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
+          }
 		}
 	}
 
@@ -262,6 +265,7 @@ log4j = {
             'net.sf.ehcache.hibernate'
 
     warn 'org.mortbay.log'
+    debug "grails.app.tagLib"
 }
 
 

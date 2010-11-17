@@ -3,11 +3,11 @@ import org.codehaus.groovy.grails.commons.GrailsApplication
 import com.mp.domain.LoginCredential
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import javax.servlet.http.Cookie
+import com.mp.domain.themes.Theme
 
 class ApplicationFilters {
 
     def filters = {
-
         cacheImage(controller: 'image', action: 'image') {
             before = {
                 response.setHeader('Connection', 'keep-alive')
@@ -62,7 +62,7 @@ class ApplicationFilters {
                 }
             }
 
-            after = {
+            after = { model ->
                 if (params.controller == 'recipe' && params.action == 'list') {
                     Cookie guestVisitor = new Cookie('guestVisitor', 'false');
                     guestVisitor.path = "/"

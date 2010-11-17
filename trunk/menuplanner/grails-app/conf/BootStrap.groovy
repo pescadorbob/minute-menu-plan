@@ -11,6 +11,8 @@ import liquibase.database.DatabaseFactory
 import static com.mp.MenuConstants.*
 import org.apache.commons.lang.StringUtils
 import com.mp.domain.subscriptions.Feature
+import com.mp.domain.themes.HomePage
+import com.mp.domain.themes.Theme
 
 class BootStrap {
 
@@ -164,5 +166,6 @@ class BootStrap {
         if (!HomePage.count()) {masterDataBootStrapService.populateHomePageData()}
         if (!Feature.count()) {masterDataBootStrapService.populateSubscriptions()}
         if (!Testimonial.count()) {masterDataBootStrapService.populateTestimonials()}
+        if (!Theme.count()) {masterDataBootStrapService.populateThemes()}
     }
 }
