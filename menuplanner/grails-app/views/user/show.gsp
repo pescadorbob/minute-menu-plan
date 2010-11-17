@@ -60,11 +60,7 @@
                     </g:if>
                 </div>
                 <div id="rightpanel">
-                    <ul><g:if test="${(party?.subAffiliate)&& (permission.hasPermission(permission: Permission.CAN_VIEW_INVITATION_URL))}">
-                        <li><strong>Url to Invite Subscribers</strong>
-                            <textArea name="uniqueUrl" readonly="true" cols="104" rows="1" class="urlTextArea">${ConfigurationHolder.config.grails.serverURL + '/user/createFreeUser?coachId=' + party?.uniqueId}</textArea>
-                        </li>
-                    </g:if>
+                    <ul>
                         <li><span><strong>Email :</strong></span><label>${party?.email}</label></li>
                         <li><span><strong>Name :</strong></span><label>${party?.name}</label></li>
                         <g:if test="${party?.subscriber}">
@@ -73,6 +69,11 @@
                             <li><span><strong>Something about yourself :</strong></span><label>${party?.subscriber?.introduction}</label></li>
                             <li><span><strong>Show Content Using Alcohol :</strong></span><label>${party?.showAlcoholicContent ? "Yes" : "No"}</label></li>
                         </g:if>
+                      <g:if test="${(party?.subAffiliate)&& (permission.hasPermission(permission: Permission.CAN_VIEW_INVITATION_URL))}">
+                        <li><strong>Url to Invite Subscribers</strong></br>
+                            <textArea name="uniqueUrl" readonly="true" cols="80" rows="1" class="urlTextArea">${ConfigurationHolder.config.grails.serverURL + '/?coachId=' + party?.uniqueId}</textArea>
+                        </li>
+                    </g:if>
                     %{--<li><span>&nbsp;</span>--}%
                     %{--<label>--}%
                     %{--<input name="" type="checkbox" value=""/>--}%

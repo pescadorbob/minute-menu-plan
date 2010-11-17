@@ -2,7 +2,7 @@ package com.mp.domain
 
 import grails.test.*
 
-class Parser extends TagLibUnitTestCase {
+class ParserTest extends TagLibUnitTestCase {
     def userText = '''1/2 cup flour -- sifted
 1 egg
 2 large potatoes

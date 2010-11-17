@@ -1,4 +1,4 @@
-<%@ page import="com.mp.domain.HomePage; com.mp.domain.Testimonial" %>
+<%@ page import="com.mp.domain.themes.HomePage; com.mp.domain.Testimonial" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>

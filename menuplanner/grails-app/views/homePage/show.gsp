@@ -1,4 +1,4 @@
-<%@ page import="grails.util.GrailsUtil; com.mp.domain.Testimonial; com.mp.domain.HomePage" %>
+<%@ page import="grails.util.GrailsUtil; com.mp.domain.Testimonial; com.mp.domain.themes.HomePage" %>
 <html>
 <head>
     <meta name="layout" content="menu"/>

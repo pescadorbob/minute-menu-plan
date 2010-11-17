@@ -2,6 +2,7 @@ package com.mp.domain
 
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.springframework.web.multipart.commons.CommonsMultipartFile
+import com.mp.domain.themes.HomePage
 
 class HomePageController {
     def static config = ConfigurationHolder.config
