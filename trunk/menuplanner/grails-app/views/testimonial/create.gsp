@@ -1,4 +1,4 @@
-<%@ page import="com.mp.domain.HomePage" %>
+<%@ page import="com.mp.domain.themes.HomePage" %>
 <html>
 <head>
     <meta name="layout" content="menu"/>

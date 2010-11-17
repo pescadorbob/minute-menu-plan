@@ -42,6 +42,7 @@ html[xmlns] .clearfix {display: block;}
 #right-panel{ float:right; width:355px;}
 /* end wrapper start footer */
 #footer{background:url(../images/footer-bg.gif) no-repeat top center; height:126px;}
+#copyright { font-size:10px; text-align:center;margin-top:-100px;color:#666666;}
 /* end footer */
 .recipeSubhead{clear:both;padding-top:20px;font-weight:bold;font-size:13px}
 #ingredientGrid{padding-top:10px;}

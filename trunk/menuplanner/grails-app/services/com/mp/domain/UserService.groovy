@@ -28,19 +28,6 @@ class UserService {
         return false
     }
 
-  public Party createGuestUserFromCookie(Cookie cookie){
-
-
-        Party party = new Party();
-        party.addToRoles(new Guest())
-        party.s();
-    CookieCredential loginCredential = new CookieCredential(party: party, data: guestVisitor.name)
-    loginCredential.save()
-    SessionUtils.session.loggedUserId = loginCredential?.party?.id
-    loginCredential.party.lastLogin = new Date()
-    loginCredential.party.s()
-
-  }
     public Party createUserFromFacebook(String redirectUrl, String code, String coachUUIDFromCookies) {
         Long faceBookToken = code.tokenize("-|")[1]?.toLong()
         String urlString = "https://graph.facebook.com/oauth/access_token?client_id=${config.facebookConnect.apiKey}&redirect_uri=${redirectUrl}&client_secret=${config.facebookConnect.secretKey}&code=${code}"
