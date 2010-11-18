@@ -1,0 +1,48 @@
+body{margin:21px 0px; background:#bee2e0 url(../images/bg.gif) repeat-x top left;font-family:Arial;}
+
+h1, h2, h3, h4, h5, h6, form, p, ul{padding:0px; margin:0px; list-style:none;}
+.clearfix:after {content: ".";	display: block;	clear: both;	visibility: hidden;	line-height: 0;	height: 0;} 
+.clearfix {	display: inline-block;}
+html[xmlns] .clearfix {display: block;}
+* html .clearfix {	height: 1%;}
+
+#container{width:100%; margin:auto;}
+/* start header */
+#header{width:1050px; margin:auto; height:103px; background:url(../images/header-bg.gif) no-repeat top right;}
+#logo{ clear:both;}
+#logo a{height:61px; width:432px;float:left;}
+#logo h1{ font-size:22px; line-height:60px; font-weight:normal; color:#eb7527; float:left;}
+#navigation{height:42px;font-size:13px; clear:both; font-weight:bold;}
+#navigation ul{margin:0px; padding:0px; list-style:none;}
+#navigation li{ float:left; height:42px; background:url(../images/separator.gif) no-repeat center right; line-height:42px;}
+#navigation li a{color:#F1F1F1;text-decoration:none; padding:0px 11px !important;}
+#navigation li a span{background:url(../images/down-arrow.gif) no-repeat right center; padding-right:20px;}
+#navigation li a:hover{color:#323232;}
+#navigation li ul{position:absolute;left:-999em;z-index:1000;min-width:10%;}
+#navigation li ul li{display:block;border-bottom:1px dotted #CCCCCC; clear:both; width:94%; margin:0px 3% 5px 3% !important; background:#eb9602;height:auto !important; font-weight:normal;}
+#navigation li ul li a{color:#fff;text-transform:none; padding:5px !important; clear:both; line-height:16px !important; }
+#navigation li ul li a:hover{background:#feb300;color:#fff;  }
+#navigation li ul li a.selected{background:#feb300; color:#fff;}
+#navigation li ul li a.selected:hover{background:#feb300;color:#fff;}
+#navigation li a:hover ul,
+#navigation li li a:hover ul,
+#navigation li li li a:hover ul,
+#navigation li li:hover ul,
+#navigation li li li:hover ul,
+#navigation li li li li:hover ul,
+#navigation li.sfhover ul,
+#navigation li.sfhover,
+#navigation li.sfhover a,
+#navigation li li.sfhover ul,
+#navigation li li li.sfhover ul{left:auto; background:#eb9602;padding:0px; color:#fff !important; display:block !important;}
+/* end header menu  and start wrapper*/
+#wrapper{background:url(../images/wrapper-bg.gif) repeat-y top center;}
+#content-wrapper{ margin:auto; width:1005px; padding-top:23px; background:url(../images/content-wrapper-bg.gif) no-repeat top center;}
+#left-panel{ float:left; width:629px;}
+#right-panel{ float:right; width:355px;}
+/* end wrapper start footer */
+#footer{background:url(../images/footer-bg.gif) no-repeat top center; height:126px;}
+/* end footer */
+.recipeSubhead{clear:both;padding-top:20px;font-weight:bold;font-size:13px}
+#ingredientGrid{padding-top:10px;}
+.button-as-link{background:none;border:none;color:#f1f1f1;cursor:pointer;font-size:13px; font-weight:bold;font-family:Arial;padding-top:12px; display:block;}

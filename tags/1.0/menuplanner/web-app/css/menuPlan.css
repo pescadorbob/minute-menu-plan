@@ -1,0 +1,65 @@
+#daymenu{height:26px;clear:both;margin-top:5px;font-weight:bold;color:#fff;background:url(../images/day-menu-second.gif) repeat-x top left;font-size:12px;line-height:26px;}
+#daymenu ul li.first{width:16px;float:left;background:url(../images/day-menu-first.gif) repeat-x top left;border-right:1px solid #fff;}
+#daymenu ul li{float:left;height:26px;}
+#daymenu ul li li{float:left;padding:0px; width:83px;margin-left:4px; text-align:center;}
+#daymenu ul li a{color:#fff;text-decoration:none;}
+#daymenu ul li li:last-child{float:left;}
+#daymenu ul li a:hover{color:#f4f1f1;}
+#countrymenu{height:22px;margin-bottom:8px;clear:both;border-top:1px solid #fff;font-weight:bold;color:#fff;background:url(../images/couintry-menu-second.gif) repeat-x top left;font-size:11px;line-height:22px;}
+#countrymenu ul li.first{width:21px;float:left;background:url(../images/country-menu-first.gif) repeat-x top left;border-right:1px solid #fff;}
+#countrymenu ul li{float:left;height:22px;}
+#countrymenu ul li li{float:left;padding:0px 0px 0px 6px;border-right:1px solid #fff;}
+#countrymenu ul li a{color:#616a72;text-decoration:none;height:22px;padding-right:12px;background:url(../images/down-arrow-gray.gif) no-repeat center right;}
+#countrymenu ul li a:hover{color:#f4f1f1;}
+#countrymenu ul li li.last{float:left;border-right:none;}
+#search{background:url(../images/quick-search.gif) no-repeat top left;margin-bottom:5px;height:26px;line-height:26px;color:#fff;font-size:15px;padding:0px 4px 0px 10px;}
+#search-container{background:url(../images/top-close.gif) no-repeat top left;padding-top:12px;}
+#search-bottom{background:url(../images/bottom-close.gif) no-repeat bottom left;padding:0px 11px 15px 12px;}
+#search-left{float:left;width:215px;}
+#search-input{background:url(../images/search-input.gif) no-repeat top left;margin-bottom:12px;padding-left:20px;}
+#search-input input{background:url(../images/search-input1.gif) no-repeat top right;padding:3px 0px 4px 0px;line-height:14px;}
+.week{font-size:11px;font-weight:bold; position:relative;}
+.week ul li{margin:0px 0px 4px 0px; height:69px; clear:both; position:relative;}
+.week ul li.divider{margin:0px 0px 0px 0px; clear:both; height:24px !important;}
+.week ul li ul{ padding:0px; margin:0px; list-style:none; position:absolute; top:0px;}
+.week ul li ul li{float:left;height:55px;border:#d5d4d4 1px solid;color:#e67432;width:75px;margin-left:4px;padding:6px 6px 6px 0px; clear:none; position:relative;overflow:hidden;}
+.week ul li ul li:hover{overflow:visible !important;}
+.week ul li ul li.first{float:left;border:none;background:#b1bdc1;width:18px;margin:0px; height:69px; padding:0px; text-align:center;}
+.week ul li ul li div img{margin-left:-11px;width:11px; display:block; height:11px; position:absolute; left:0; opacity:0.5;filter:alpha(opacity=20);}
+.week ul li ul li div span{ padding:0px;}
+.week ul li ul li div{position:relative; padding-left:4px; clear:both; overflow:hidden;}
+.week ul li ul li div:hover {overflow:visible !important; }
+.week ul li ul li div img:hover{opacity:1.0;filter:alpha(opacity=100);}
+.week ul li ul li:hover{}
+.menuContainer div:hover {cursor: default;}
+.myHover{position:relative; z-index:800; height:auto !important; min-height:55px; background:#ffffff;}
+.menuContainer .ui-state-highlight{height:10px !important;width:40px !important;border: 1px dotted black !important; visibility: visible !important;}
+.resultContainer .ui-state-highlight{ /*border: 1px dotted black !important;*/ display:none;}
+.downArrow{background:#FCFCFC url(../images/arrows.gif) no-repeat scroll right top}
+.menuContainer img:hover { cursor: pointer;}
+.ui-sortable-placeholder {border: 1px dotted black; visibility: visible !important;}
+.ui-sortable-placeholder * {visibility: hidden;background:#ff0000;}
+.ratingbox{clear:both;font-size:11px;color:#fff; font-family:Arial, Helvetica, sans-serif;}
+.ratingbox ul li{clear:both; width:215px; margin:15px 0 0 0; padding:0px; position:relative;}
+.ratingbox ul li.topcorner {height:4px; padding:0; margin:0; position:absolute;}
+.ratingbox ul li.topcorner img{float:left; margin:0; padding:0;}
+
+.ratingbox ul li div.frame-corner{height:80px;width:100px;display:block;  z-index:10; position:absolute;background:url(../images/frame-corner.png) no-repeat top left;}
+.ratingbox ul li ul{margin:0;padding:0; list-style:none;}
+.ratingbox ul li ul li{margin:0 ;padding:0 ; position:relative;border:none; background:transparent; }
+.ratingbox ul li ul li:hover{ background:transparent; }
+.ratingbox ul li ul li h3{padding:0 5px;margin:0px;line-height:18px;font-size:12px;border:none;background:transparent;}
+.ratingbox ul li ul li h3 a{text-decoration:none;color:#ffffff;background:transparent;}
+.ratingbox ul li ul li ul li{clear:none;float:left;width:100px !important;border:none;background:transparent;}
+.ratingbox ul li ul li ul li:hover{background:transparent;}
+
+.ratingbox ul li ul li ul li ul li{line-height:12px;clear:both;border:none;background:transparent;}
+.ratingbox ul li ul li ul li ul li:hover{background:transparent;}
+.ratingbox ul li:hover div.frame-corner{background-position:0 -80px;}
+.ratingbox ul li.corner{ cursor:pointer;background:url(../images/gradient-card-bg.png) repeat-x top left; overflow:hidden;}
+.ratingbox ul li.corner:hover{ background: url('../images/gradient-card-bg-hover.png') repeat-x top left;}
+
+          /* background:background:url(../images/frame-corner1.png) no-repeat top left;  */
+.mySelect{height:22px;width:79px;font-size:10px}
+.btn{ background:url(../images/button-bg.png) no-repeat top center; width:102px; font-weight:bold; height:25px; border:none; font-size:11px; color:#fff; padding:0; margin:0; text-decoration:none; text-align:center; line-height:24px; display:inline-block;}
+.direction{cursor:pointer;}
