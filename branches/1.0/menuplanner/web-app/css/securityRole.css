@@ -1,0 +1,54 @@
+/* start secureRole  */
+#secureRole{color:#616A72; font-size:12px; margin:auto;}
+#secureRole ul li{clear:both;padding:5px;}
+#secureRole ul li h3{color:#E67432;font-size:15px;font-weight:bold;line-height:18px;padding-top:9px;}
+#secureRole ul li.dotsLine{padding:8px 0; border-bottom:1px dotted #CCCCCC;clear:both; overflow:hidden;}
+#secureRole ul li ul li{padding:0 20px 0 0; margin:0; float:left; clear:none;}
+#secureRole li a {clear:both;color:#007AD8;font-weight:normal;line-height:14px;margin:0;padding:0;text-decoration:none;}
+#secureRole li a:hover{color:#EB7527;}
+#secureRole ul li ul li div{padding:0 0px 0 15px; margin:0;  clear:both; float:none; color:#EB7527;}
+#secureRole>ul>li>span{float:left;text-align:right;padding-right:15px;}
+#secureRole ul li label{float:left;}
+.button-tripe{clear:both; text-align:center; height:30px;}
+.red{color:#EB7527;}
+/* end secureRole start winter-week */
+
+#rolelist{width:100%;color:#616A72; font-size:12px;border-top:1px solid #d3d1d2;border-left:1px solid #d3d1d2; clear:both;}
+#rolelist ul li{clear:both;padding:0px; margin:0;border-bottom:1px solid #d3d1d2; overflow:hidden; }
+#rolelist ul li.head{ font-weight:bold; background:#e6e6e6;overflow:hidden; clear:both; position:relative;}
+#rolelist ul li.alternatecolor{ background:#fafaf6; overflow:hidden; clear:both;  position:relative;}
+#rolelist ul li ul li{float:left;width:260px;border-right:1px solid #d3d1d2; clear:none;border-bottom:none; padding:4px 0;}
+#rolelist ul li ul li.desc{width:700px}
+#rolelist ul li a{text-decoration:underline;color:#007ad8;}
+#rolelist ul li a:hover{text-decoration:none;}
+
+/* start winter-week start winterButton */
+.winter-week{width:300px;color:#616A72;  font-size:12px;  line-height:22px;float:left;}
+.winter-week ul li{clear:both;padding:0px; margin:0; overflow:hidden; }
+.winter-week ul li.alternatecolor{ background:#fafaf6; overflow:hidden; clear:both;  position:relative;}
+.winter-week ul li ul li{float:left;width:110px; clear:none;border-bottom:none; padding:4px; }
+.winter-week ul li ul li.first_clumon{float:left;width:30px; clear:none; padding:4px;}
+.winter-week ul li ul li.email{float:left;width:239px; clear:none;border-right:1px solid #d3d1d2;border-left:1px solid #d3d1d2; padding:4px;}
+.winter-week ul li a{text-decoration:underline;color:#007ad8;}
+.winter-week ul li a:hover{text-decoration:none;}
+/* end winter-week start winterButton */
+.winterButton{width:100%;color:#616A72; font-size:12px;}
+.winterButton ul{margin-bottom:40px;}
+.winterButton ul li{clear:both;}
+.winterButton ul li p{clear:both; line-height:22px;}
+.winterButton ul li span{float:left;width:100px;text-align:right;padding-right:15px;}
+.winterButton ul li label{float:left;width:550px;}
+/* end winterButton  */
+.wintertop{clear:both; width:100%; font-size:12px; color:#616A72;}
+.wintertop ul li{ float:left; width:33%;}
+#shopping-list{border:1px solid #d3d1d2; color:#616A72; clear:both; width:900px; margin:auto;}
+#shopping-list h2{border-bottom:1px solid #d3d1d2; font-size:14px; color:#616A72; padding:2px 5px; margin-bottom:15px;}
+#shopping-list ul li{clear:both; padding:5px; font-size:12px;}
+#shopping-list ul li p{clear:both; padding:2px;}
+#shopping-list ul li p span{ float:none;}
+#shopping-list ul li label{float:left; width:150px; text-align:right;padding-right:5px;}
+#shopping-list ul li span{float:left;text-align:right;padding-right:15px;}
+
+.btnCross{width:18px; height:18px; cursor:pointer;}
+.linkEdit{font-weight:bolder;cursor:pointer; color:black;}
+.alternate{ background:#fafaf6;clear:both;}
