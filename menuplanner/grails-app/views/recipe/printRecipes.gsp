@@ -2,54 +2,45 @@
 <%@ page import="com.mp.MenuConstants.*" %>
 <html>
 <head>
-    <title>${menuPlanName}</title>
+    <title>Recipe Book List</title>
     <meta name="layout" content="printRecipelayout"/>
     <style type="text/css">
-    <g:if test="${printOneRecipePerPage}">
+    <
+    g:if
+
+    test
+
+    =
+    "
+    ${
+
+
+    printOneRecipePerPage
+
+
+    }
+    "
+    >
     .break {
         page-break-after: always;
     }
-    </g:if>
+
+    <
+
+    /
+    g:if
+    >
     body {
         color: #000000;
         background: #ffffff;
-        font-family: Arial,Helvetica,sans-serif;
-        font-size: 17pt;
+        font-family: "Times New Roman", Times, serif;
+        font-size: 12pt;
     }
-    #contectElement ul li ,
-    #right-head label {
-      font-size: 17px;
-    }
-    #contectElement ul li#rightLiElements {
-      float: right;
-    }
-    #left-panel {
-      width: auto;
-    }
+
     a {
-        text-decoration: none;
+        text-decoration: underline;
         color: #0000ff;
     }
-    #header{
-      height:auto;
-      width:auto;
-    }
-    #content-wrapper{
-      width:auto;
-      padding-top: 0px;
-      padding-bottom: 23px;
-    }
-
-
-    h1 {
-      margin: 15px;
-    }
-      #content-wrapper {
-        background: url("");
-      }
-      #footer {
-        background: url(""); 
-      }
     </style>
     <g:javascript src="jquery.printElement.min.js"/>
     <rateable:resources/>
@@ -58,7 +49,6 @@
     </script>
 </head>
 <body>
-<div><h1>${menuPlanName}</h1></div>
 <g:each in="${recipes}" var="recipe">
     <div class="clearfix printMe break" id="content-wrapper">
         <div id="left-panel">

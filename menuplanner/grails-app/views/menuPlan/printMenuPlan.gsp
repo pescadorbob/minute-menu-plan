@@ -5,6 +5,7 @@
     <title>${menuPlan.name}</title>
     <style type="text/css">
     body {
+        font-family: "Times New Roman", Times, serif;
         font-size: 16px;
         color: #000000;
     }
@@ -78,7 +79,7 @@
     }
 
     #daymenu ul li.first {
-        width: 110px;
+        width: 100px;
         float: left;
         background: url(images/day-menu-first.gif) repeat-x top left;
         border-right: 1px solid #fff;
@@ -90,12 +91,12 @@
 
     #daymenu ul li li {
         float: left;
+        padding: 0px;
         width: 115px;
         font-size: 18px;
         color: #000;
         margin-left: 4px;
         text-align: center;
-      padding: 6px 6px 6px 0;
     }
 
     #daymenu ul li a {

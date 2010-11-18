@@ -28,19 +28,10 @@ class ItemTests extends GrailsUnitTestCase {
         item.save()
     }
 
-
     protected void tearDown() {
         super.tearDown()
     }
 
-    void testItemEdit() {
-      Item item = Item.findByName('TestItem')
-      assert item
-      item.setName("Changed")
-      item.save(flush: true)
-      item = Item.findByname('Changed')
-      assert item
-    }
     void test_getItemsForUser_Valid_Recipes() {
         Party party1 = Party.get(1)
         createRecipeInstances(10, party1)

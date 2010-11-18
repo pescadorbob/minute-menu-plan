@@ -3,7 +3,7 @@
     <ul>
         <li class="first">
             <g:if test="${params.action in ['printerFriendlyMenuPlan']}">
-                ${alttext}
+                ${image.tokenize(".")[0]}
             </g:if>
             <g:else>
                 <img src="${resource(dir: 'images', file: image)}"/>

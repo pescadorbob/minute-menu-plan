@@ -6,7 +6,6 @@ import org.codehaus.groovy.grails.web.json.JSONElement
 import javax.servlet.http.HttpSession
 import static com.mp.MenuConstants.*
 import groovy.sql.Sql
-import javax.servlet.http.Cookie
 
 
 class UserService {

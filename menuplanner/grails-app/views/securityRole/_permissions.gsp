@@ -50,13 +50,6 @@
         <g:render template="/securityRole/permissionCheckbox" model="[title: 'Manage Testimonials ', role: role, permissionName: 'MANAGE_TESTIMONIAL']"/>
     </ul>
 </li>
-<li class="dotsLine">
-    <strong>Manage Subscriptions</strong>
-    <ul>
-        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Manage Subscriptions ', role: role, permissionName: 'MANAGE_SUBSCRIPTIONS']"/>
-        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Manage Themes ', role: role, permissionName: 'MANAGE_THEMES']"/>
-    </ul>
-</li>
 <script type="text/javascript">
 
     jQuery(document).ready(function() {
