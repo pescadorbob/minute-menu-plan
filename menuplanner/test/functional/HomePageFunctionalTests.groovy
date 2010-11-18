@@ -1,4 +1,4 @@
-import com.mp.domain.themes.HomePage
+import com.mp.domain.HomePage
 
 class HomePageFunctionalTests extends MenuPlannerFunctionalTests {
 

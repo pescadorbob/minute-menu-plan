@@ -3,11 +3,11 @@ import org.codehaus.groovy.grails.commons.GrailsApplication
 import com.mp.domain.LoginCredential
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import javax.servlet.http.Cookie
-import com.mp.domain.themes.Theme
 
 class ApplicationFilters {
 
     def filters = {
+
         cacheImage(controller: 'image', action: 'image') {
             before = {
                 response.setHeader('Connection', 'keep-alive')
@@ -38,7 +38,7 @@ class ApplicationFilters {
                 } else {
                     if (!((params.controller in ['util', 'login', 'image', 'subscription']) ||
                             ((params.controller == 'user') &&
-                                    (params.action in ['create', 'createUser', 'createFreeUser','chooseSubscription', 'newFreeUserSignUp', 'enableUser', 'newUserCheckout', 'welcome', 'facebookConnect', 'verify'])))) {
+                                    (params.action in ['create', 'createUser', 'createFreeUser', 'newFreeUserSignUp', 'enableUser', 'newUserCheckout', 'welcome', 'facebookConnect', 'verify'])))) {
                         if (!(request.getSession(false) && LoginCredential.currentUser)) {
                             if (request.xhr) {
                                 String text = "The Session TimedOut url=" + ConfigurationHolder.config.grails.serverURL
@@ -51,7 +51,7 @@ class ApplicationFilters {
                                     }
                                 }
                                 if (guestVisitor) {
-                                    redirect(controller: 'user', action: 'chooseSubscription')
+                                    redirect(controller: 'user', action: 'createFreeUser')
                                 } else {
                                     redirect(controller: 'login', action: 'index', params: params)
                                 }
@@ -62,7 +62,7 @@ class ApplicationFilters {
                 }
             }
 
-            after = { model ->
+            after = {
                 if (params.controller == 'recipe' && params.action == 'list') {
                     Cookie guestVisitor = new Cookie('guestVisitor', 'false');
                     guestVisitor.path = "/"

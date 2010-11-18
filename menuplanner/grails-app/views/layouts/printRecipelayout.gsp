@@ -14,8 +14,9 @@
 <div id="container">
     <!-- start header -->
     <div id="header">
-        <div id="logo">
-            <p:image src='logo.gif'/>        
+        <div id="logo"><a href="${resource(dir: '/')}">
+            <p:image src='logo.gif'/>
+        </a>
             <h1></h1>
         </div>
     </div>

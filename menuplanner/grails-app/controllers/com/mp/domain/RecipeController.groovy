@@ -208,12 +208,10 @@ class RecipeController {
         List<Recipe> recipes = []
         Boolean printOneRecipePerPage = true
         Integer customServings
-      MenuPlan menuPlan = MenuPlan.get(params.menuPlanId)
-      String menuPlanName = menuPlan.name
-
         if (request.method == "POST") {
             switch (params.printRecipe) {
                 case "PRINT_SELECTED_WEEKS":
+                    MenuPlan menuPlan = MenuPlan.get(params.menuPlanId)
                     recipes = (params.fullWeek1) ? menuPlan?.weeks?.get(params.int('fullWeek1') - 1)?.recipes : []
                     recipes += (params.fullWeek2) ? menuPlan?.weeks?.get(params.int('fullWeek2') - 1)?.recipes : []
                     recipes += (params.fullWeek3) ? menuPlan?.weeks?.get(params.int('fullWeek3') - 1)?.recipes : []
@@ -233,7 +231,7 @@ class RecipeController {
         if (noOfServings && customServingChecked) {
             customServings = noOfServings
         }
-        [menuPlanName: menuPlanName, recipes: recipes, printOneRecipePerPage: printOneRecipePerPage, customServings: customServings, isPrintable: true]
+        [recipes: recipes, printOneRecipePerPage: printOneRecipePerPage, customServings: customServings, isPrintable: true]
     }
 
     def reportCommentAbuse = {

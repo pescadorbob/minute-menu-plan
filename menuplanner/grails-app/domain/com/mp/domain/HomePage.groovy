@@ -1,4 +1,4 @@
-package com.mp.domain.themes
+package com.mp.domain
 
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 

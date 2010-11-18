@@ -3,7 +3,7 @@
     <g:each in="${comments}" var="comment">
         <span class="clearfix">
             ${comment?.body?.encodeAsHTML()} - Posted by <a href="#">${comment?.poster}</a>
-            &nbsp;&nbsp;
+            &nbsp;&nbsp;<mp:reportCommentAbuse comment="${comment}" recipeId="${recipe.id}"/>
             <br/>
         </span>
     </g:each>
