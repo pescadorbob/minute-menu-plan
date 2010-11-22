@@ -1,6 +1,21 @@
-package com.mp.domain
+package com.mp.domain.party
 
 import org.grails.comments.Comment
+import com.mp.domain.FacebookAccount
+import com.mp.domain.LoginCredential
+import com.mp.domain.Recipe
+import com.mp.domain.MenuPlan
+import com.mp.domain.ShoppingList
+import com.mp.domain.Aisle
+import com.mp.domain.Product
+import com.mp.domain.Item
+import com.mp.domain.UserLogin
+import com.mp.domain.party.Subscriber
+import com.mp.domain.PartyRoleType
+import com.mp.domain.party.Coach
+import com.mp.domain.CommentAbuse
+import com.mp.domain.RecipeAbuse
+import com.mp.domain.PartyRoleType
 
 class Party {
     String name
@@ -9,7 +24,6 @@ class Party {
     Boolean isEnabled
     Boolean showAlcoholicContent = false
     String uniqueId = UUID.randomUUID().toString()
-    List<Party> clients
     Date lastLogin
 
     Set<PartyRole> roles = []
@@ -21,10 +35,10 @@ class Party {
     List<Aisle> aisles = []
     List<Product> ingredients = []
 
-    static transients = ['isEnabledString', 'email', 'password', 'userLogin', 'role', 'administrator', 'superAdmin', 'subscriber', 'affiliate', 'subAffiliate']
+    static transients = ['isEnabledString', 'email', 'password', 'userLogin', 'role', 'administrator', 'superAdmin', 'subscriber', 'director', 'coach']
 
     static hasMany = [favourites: Recipe, contributions: Recipe, menuPlans: MenuPlan, aisles: Aisle, ingredients: Product,
-            roles: PartyRole, loginCredentials: LoginCredential, shoppingLists: ShoppingList, clients: Party]
+            roles: PartyRole, loginCredentials: LoginCredential, shoppingLists: ShoppingList]
 
     def beforeInsert = {
         joiningDate = new Date()
@@ -81,26 +95,26 @@ class Party {
     }
 
     Subscriber getSubscriber() {
-        return getRole(UserType.Subscriber)
+        return getRole(PartyRoleType.Subscriber)
     }
 
     Administrator getAdministrator() {
-        return getRole(UserType.Admin)
+        return getRole(PartyRoleType.Admin)
     }
 
     SuperAdmin getSuperAdmin() {
-        return getRole(UserType.SuperAdmin)
+        return getRole(PartyRoleType.SuperAdmin)
     }
 
-    Affiliate getAffiliate() {
-        return getRole(UserType.Affiliate)
+    Director getDirector() {
+        return getRole(PartyRoleType.Director)
     }
 
-    SubAffiliate getSubAffiliate() {
-        return getRole(UserType.SubAffiliate)
+    Coach getCoach() {
+        return getRole(PartyRoleType.Coach)
     }
 
-    PartyRole getRole(UserType type) {
+    PartyRole getRole(PartyRoleType type) {
         PartyRole partyRole = roles?.find {it.type == type}
         return partyRole
     }

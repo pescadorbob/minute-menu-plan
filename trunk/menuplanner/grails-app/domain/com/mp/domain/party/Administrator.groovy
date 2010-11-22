@@ -1,8 +1,11 @@
-package com.mp.domain
+package com.mp.domain.party
+
+import com.mp.domain.PartyRoleType
+import com.mp.domain.PartyRoleType
 
 class Administrator extends PartyRole {
 
-    UserType type = UserType.Admin
+    PartyRoleType type = PartyRoleType.Admin
 
     static transients = ['type']
     static mapping = {

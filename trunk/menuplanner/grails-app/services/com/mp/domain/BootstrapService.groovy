@@ -4,6 +4,9 @@ import static com.mp.MenuConstants.*
 
 import org.grails.comments.*
 import grails.util.GrailsUtil
+import com.mp.domain.party.Director
+import com.mp.domain.party.Party
+import com.mp.domain.party.Coach
 
 class BootstrapService {
 
@@ -56,7 +59,7 @@ class BootstrapService {
         }
     }
 
-    public void populateUser(String name, List<String> roles) {
+    public void populateUser(String name,  roles) {
         UserCO userCO = new UserCO()
         userCO.name = name
         userCO.isEnabled = true
@@ -66,20 +69,25 @@ class BootstrapService {
         userCO.mouthsToFeed = new Random().nextInt(10) + 1
         userCO.introduction = 'about ' + name
         userCO.roles = roles
-        if (name == 'subAffiliate') {
-            Affiliate affiliate = Affiliate.list().first()
-            Long affiliateId = affiliate?.party?.id
-            if (affiliateId) {userCO.affiliateId = affiliateId}
+        if (name == 'coach' ) { // this is the users name
+            Director director = Director.list().first()
+            Long directorId = director?.party?.id
+            if (directorId) {userCO.directorId = directorId}
+        }
+        if (name == 'user1') { // this is the users name
+          Coach coach = Coach.list().first()
+          Long coachId = coach?.party?.id
+          if(coachId){ userCO.coachId = coachId }
         }
         userCO.createParty()
     }
 
     public void populateBetaUsers() {
-        UserCO userCO1 = new UserCO(isEnabled: true, name: 'Brent Fisher', email: 'bc.fisher@yahoo.com', password: 'L3uv3n!', roles: ['SuperAdmin'])
-        UserCO userCO2 = new UserCO(isEnabled: true, name: 'Colleen Fisher', email: 'colleen_fisher@yahoo.com', password: 'L3uv3n!', roles: ['SuperAdmin'])
-        UserCO userCO3 = new UserCO(isEnabled: true, name: 'Marie Ricks', email: 'marie@houseoforder.com', password: 'M4ri3#', roles: ['Subscriber'], mouthsToFeed: 1)
-        UserCO userCO4 = new UserCO(isEnabled: true, name: 'Aman Aggarwal', email: 'aman@intelligrape.com', password: '1234', roles: ['Admin', 'Subscriber'], mouthsToFeed: 1)
-        UserCO userCO5 = new UserCO(isEnabled: true, name: 'Chandan Luthra', email: 'chandan@intelligrape.com', password: '1234', roles: ['Admin', 'Subscriber'], mouthsToFeed: 1,)
+        UserCO userCO1 = new UserCO(isEnabled: true, name: 'Brent Fisher', email: 'bc.fisher@yahoo.com', password: 'L3uv3n!', roles: [PartyRoleType.SuperAdmin])
+        UserCO userCO2 = new UserCO(isEnabled: true, name: 'Colleen Fisher', email: 'colleen_fisher@yahoo.com', password: 'L3uv3n!', roles: [PartyRoleType.SuperAdmin])
+        UserCO userCO3 = new UserCO(isEnabled: true, name: 'Marie Ricks', email: 'marie@houseoforder.com', password: 'M4ri3#', roles: [PartyRoleType.Subscriber], mouthsToFeed: 1)
+        UserCO userCO4 = new UserCO(isEnabled: true, name: 'Aman Aggarwal', email: 'aman@intelligrape.com', password: '1234', roles: [PartyRoleType.Admin, PartyRoleType.Subscriber], mouthsToFeed: 1)
+        UserCO userCO5 = new UserCO(isEnabled: true, name: 'Chandan Luthra', email: 'chandan@intelligrape.com', password: '1234', roles: [PartyRoleType.Admin, PartyRoleType.Subscriber], mouthsToFeed: 1,)
         [userCO1, userCO2, userCO3, userCO4, userCO5].each {it.createParty()}
     }
 

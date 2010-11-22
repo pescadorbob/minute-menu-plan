@@ -12,11 +12,11 @@
         <input id="chk_Enable" name="isEnabled" ${(userCO) ? ((userCO?.isEnabled) ? 'checked="checked"' : '') : 'checked="checked"'}type="checkbox" value="true"/>
         <strong>Account enabled</strong>
     </g:elseif>
-    <g:elseif test="${(party?.affiliate) && permission.hasPermission(permission: Permission.MANAGE_AFFILIATE,party:currentUser) && (party?.id != currentUser?.id)}">
+    <g:elseif test="${(party?.director) && permission.hasPermission(permission: Permission.MANAGE_AFFILIATE,party:currentUser) && (party?.id != currentUser?.id)}">
         <input id="chk_Enable" name="isEnabled" ${(userCO) ? ((userCO?.isEnabled) ? 'checked="checked"' : '') : 'checked="checked"'}type="checkbox" value="true"/>
         <strong>Account enabled</strong>
     </g:elseif>
-    <g:elseif test="${(party?.subAffiliate) && permission.hasPermission(permission: Permission.MANAGE_SUB_AFFILIATE,party:currentUser) && (party?.id != currentUser?.id)}">
+    <g:elseif test="${(party?.coach) && permission.hasPermission(permission: Permission.MANAGE_SUB_AFFILIATE,party:currentUser) && (party?.id != currentUser?.id)}">
         <input id="chk_Enable" name="isEnabled" ${(userCO) ? ((userCO?.isEnabled) ? 'checked="checked"' : '') : 'checked="checked"'}type="checkbox" value="true"/>
         <strong>Account enabled</strong>
     </g:elseif>

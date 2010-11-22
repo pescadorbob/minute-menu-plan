@@ -1,6 +1,10 @@
 package com.mp.domain
 
 import grails.test.GrailsUnitTestCase
+import com.mp.domain.party.Administrator
+import com.mp.domain.party.Director
+import com.mp.domain.party.Party
+import com.mp.domain.party.Subscriber
 
 class UserControllerTests extends GrailsUnitTestCase {
     def renderMap
@@ -108,7 +112,7 @@ class UserControllerTests extends GrailsUnitTestCase {
             userCO.isEnabled = true
             Party party = userCO.createParty()
             party.addToRoles(new Subscriber())
-            party.addToRoles(new Affiliate())
+            party.addToRoles(new Director())
             party.save(flush: true)
         }
     }

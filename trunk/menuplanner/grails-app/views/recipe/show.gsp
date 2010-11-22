@@ -48,7 +48,7 @@
             </div>
             <div id="rightpart">
                 <span>
-                    <g:if test="${(party?.subAffiliate)}">
+                    <g:if test="${(party?.coach)}">
                         <mp:shareThis coachId="${party?.uniqueId}" shareUrl="${createLink(controller:'recipe',action:'show',id:recipe.id,absolute:true)}"/>
                     </g:if>
                     <g:else>

@@ -21,8 +21,8 @@
         <g:render template="/securityRole/permissionCheckbox" model="[title: 'Manage Super Admin', role: role, permissionName: 'MANAGE_SUPER_ADMIN']"/>
         <g:render template="/securityRole/permissionCheckbox" model="[title: 'Manage Administrator', role: role, permissionName: 'MANAGE_ADMIN']"/>
         <g:render template="/securityRole/permissionCheckbox" model="[title: 'Manage Subscriber', role: role, permissionName: 'MANAGE_SUBSCRIBER']"/>
-        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Manage Affiliate', role: role, permissionName: 'MANAGE_AFFILIATE']"/>
-        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Manage Sub Affiliate', role: role, permissionName: 'MANAGE_SUB_AFFILIATE']"/>
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Manage Director', role: role, permissionName: 'MANAGE_AFFILIATE']"/>
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Manage Sub Director', role: role, permissionName: 'MANAGE_SUB_AFFILIATE']"/>
     </ul>
 </li>
 <li class="dotsLine">
@@ -31,16 +31,16 @@
         <g:render template="/securityRole/permissionCheckbox" model="[title: 'Assign Super Admin', role: role, permissionName: 'CAN_ASSIGN_SUPER_ADMIN_ROLE']"/>
         <g:render template="/securityRole/permissionCheckbox" model="[title: 'Assign Administrator', role: role, permissionName: 'CAN_ASSIGN_ADMIN_ROLE']"/>
         <g:render template="/securityRole/permissionCheckbox" model="[title: 'Assign Subscriber', role: role, permissionName: 'CAN_ASSIGN_SUBSCRIBER_ROLE']"/>
-        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Assign Affiliate', role: role, permissionName: 'CAN_ASSIGN_AFFILIATE_ROLE']"/>
-        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Assign Sub Affiliate', role: role, permissionName: 'CAN_ASSIGN_SUB_AFFILIATE_ROLE']"/>
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Assign Director', role: role, permissionName: 'CAN_ASSIGN_AFFILIATE_ROLE']"/>
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Assign Sub Director', role: role, permissionName: 'CAN_ASSIGN_SUB_AFFILIATE_ROLE']"/>
     </ul>
 </li>
 <li class="dotsLine">
-    <strong>Affiliate Permissions </strong>
+    <strong>Director Permissions </strong>
     <ul>
         <g:render template="/securityRole/permissionCheckbox" model="[title: 'View Subscriber Invitation URL', role: role, permissionName: 'CAN_VIEW_INVITATION_URL']"/>
-        <g:render template="/securityRole/permissionCheckbox" model="[title: 'View Clients of Sub-Affiliate', role: role, permissionName: 'CAN_VIEW_CLIENTS']"/>
-        <g:render template="/securityRole/permissionCheckbox" model="[title: 'View Sub-affiliates of Affiliate', role: role, permissionName: 'CAN_VIEW_SUB_AFFILIATES']"/>
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'View Clients of Sub-Director', role: role, permissionName: 'CAN_VIEW_CLIENTS']"/>
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'View Sub-directors of Director', role: role, permissionName: 'CAN_VIEW_SUB_AFFILIATES']"/>
     </ul>
 </li>
 <li class="dotsLine">

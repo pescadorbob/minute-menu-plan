@@ -46,7 +46,7 @@
         </createTable>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-5">
-        <createTable tableName="affiliate_account">
+        <createTable tableName="director_account">
             <column name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>

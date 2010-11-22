@@ -1,4 +1,4 @@
-<%@ page import="com.mp.domain.Permission; com.mp.domain.UserType" %>
+<%@ page import="com.mp.domain.Permission; com.mp.domain.PartyRoleType" %>
 
 %{--<fb:prompt-permission perms="read_stream,offline_access">Connect with Facebook</fb:prompt-permission>--}%
 
@@ -37,20 +37,22 @@
         <li><span><strong>Name :</strong></span>
             <label><input name="name" type="text" class="inpbox  ${hasErrors(bean: userCO, field: 'name', 'errors')}" value="${userCO?.name}"/>&nbsp; Public name displayed on recipes</label>
         </li>
-        <g:if test="${party?.subscriber}">
-            <li><span><strong>City :</strong></span>
-                <label><input name="city" type="text" class="inpbox  ${hasErrors(bean: userCO, field: 'city', 'errors')}" value="${userCO?.city}"/>&nbsp; City displayed on recipes</label>
-            </li>
-            <li><span><strong>Mouths to Feed :</strong></span>
-                <label><input name="mouthsToFeed" type="text" class="inpboxSmall  ${hasErrors(bean: userCO, field: 'mouthsToFeed', 'errors')}" value="${userCO?.mouthsToFeed}"/></label>
-            </li>
-            <li><span><g:checkBox name="showAlcoholicContent" value="${userCO?.showAlcoholicContent}"/></span>
-                <label><strong>Opt-in for Content Using Alcohol</strong></label>
-            </li>
-            <li><span><strong>Something about yourself :</strong></span>
-                <label><g:textArea name="introduction" value="${userCO?.introduction}" class="txtarea  ${hasErrors(bean:userCO,field:'introduction', 'errors')}" rows="4" cols="22"/>&nbsp; Public</label>
-            </li>
-        </g:if>
+      <pty:hasRole role="${PartyRoleType.Subscriber}" bean="${party}">
+        <li><span><strong>City :</strong></span>
+            <label><input name="city" type="text" class="inpbox  ${hasErrors(bean: userCO, field: 'city', 'errors')}" value="${userCO?.city}"/>&nbsp; City displayed on recipes</label>
+        </li>
+        <li><span><strong>Mouths to Feed :</strong></span>
+            <label><input name="mouthsToFeed" type="text" class="inpboxSmall  ${hasErrors(bean: userCO, field: 'mouthsToFeed', 'errors')}" value="${userCO?.mouthsToFeed}"/></label>
+        </li>
+        <li><span><g:checkBox name="showAlcoholicContent" value="${userCO?.showAlcoholicContent}"/></span>
+            <label><strong>Opt-in for Content Using Alcohol</strong></label>
+        </li>
+        <li><span><strong>Something about yourself :</strong></span>
+
+          <label><fckeditor:editor width="100%" height="400"
+                  name="introduction">${userCO?.introduction}</fckeditor:editor>&nbsp; Public</label>
+        </li>
+      </pty:hasRole>
     %{--<li><span>&nbsp;</span>--}%
     %{--<label>--}%
     %{--<input name="" type="checkbox" value=""/>--}%

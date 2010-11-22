@@ -1,19 +1,21 @@
-package com.mp.domain
+package com.mp.domain.party
 
-class SubAffiliate extends PartyRole {
+import com.mp.domain.PartyRoleType
 
-    UserType type = UserType.SubAffiliate
+class Director extends PartyRole {
+
+    PartyRoleType type = PartyRoleType.Director
 
     static transients = ['type']
-    String affiliateId
 
-    static constraints = {
-        affiliateId(nullable: true, blank: false)
-    }
     static mapping = {
         tablePerHierarchy false
     }
 
+    static constraints = {
+    }
+
+    
     String toString() {
         return party?.name
     }

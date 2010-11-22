@@ -3,6 +3,7 @@ package com.mp.domain
 import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import grails.util.GrailsUtil
+import com.mp.domain.party.Party
 
 class FacebookTagLib {
 

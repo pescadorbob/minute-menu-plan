@@ -27,17 +27,17 @@
         jQuery('input[name="confirmPassword"]').val('')
         jQuery('#btnChangePassword').hide()
     }
-    jQuery('#chk_SubAffiliate').click(function() {
-        if (jQuery('#affiliatesList').is(':hidden')) {
-            jQuery('#affiliatesList').show()
+    jQuery('#chk_Coach').click(function() {
+        if (jQuery('#directorsList').is(':hidden')) {
+            jQuery('#directorsList').show()
         } else {
-            jQuery('#affiliatesList').hide()
+            jQuery('#directorsList').hide()
         }
     })
 
     jQuery(function() {
-        if (jQuery('#chk_SubAffiliate').attr('checked')) {
-            jQuery('#affiliatesList').show()
+        if (jQuery('#chk_Coach').attr('checked')) {
+            jQuery('#directorsList').show()
         }
     });
 

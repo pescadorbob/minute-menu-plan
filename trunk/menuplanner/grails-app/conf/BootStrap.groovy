@@ -13,6 +13,10 @@ import org.apache.commons.lang.StringUtils
 import com.mp.domain.subscriptions.Feature
 import com.mp.domain.themes.HomePage
 import com.mp.domain.themes.Theme
+import com.mp.domain.accounting.Account
+import com.mp.domain.party.Party
+import com.mp.domain.party.Subscriber
+import com.mp.domain.accounting.AccountTransaction
 
 class BootStrap {
 
@@ -80,11 +84,13 @@ class BootStrap {
             } else {
                 Map<String, List<String>> userNames
                 if (GrailsUtil.environment == 'test') {
-                    userNames = ['superAdmin': ['SuperAdmin'], 'user1': ['Subscriber']]
+                    userNames = ['superAdmin': [PartyRoleType.SuperAdmin], 'user1': [PartyRoleType.Subscriber]]
                 } else {
-                    userNames = ['superAdmin': ['SuperAdmin'], 'admin': ['Admin'], 'user1': ['Subscriber'], 'affiliate': ['Affiliate'], 'subAffiliate': ['SubAffiliate','Subscriber']]
+                    userNames = ['superAdmin': [PartyRoleType.SuperAdmin], 'admin': [PartyRoleType.Admin],
+                            'director': [PartyRoleType.Director],
+                            'coach': [PartyRoleType.Coach,PartyRoleType.Subscriber],'user1': [PartyRoleType.Subscriber]]
                 }
-                userNames.each {String name, List<String> roles ->
+                userNames.each {String name, roles ->
                     println "Populating User - ${name}"
                     bootstrapService.populateUser(name, roles)
                 }
@@ -167,5 +173,6 @@ class BootStrap {
         if (!Feature.count()) {masterDataBootStrapService.populateSubscriptions()}
         if (!Testimonial.count()) {masterDataBootStrapService.populateTestimonials()}
         if (!Theme.count()) {masterDataBootStrapService.populateThemes()}
+        if (!Account.count() && !AccountTransaction.count()) {masterDataBootStrapService.populateAccounts()}
     }
 }

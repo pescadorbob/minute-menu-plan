@@ -1,4 +1,4 @@
-package com.mp.domain
+package com.mp.domain.party
 
 class PartyRole {
 

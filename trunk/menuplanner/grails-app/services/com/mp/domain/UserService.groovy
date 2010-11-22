@@ -7,6 +7,14 @@ import javax.servlet.http.HttpSession
 import static com.mp.MenuConstants.*
 import groovy.sql.Sql
 import javax.servlet.http.Cookie
+import com.mp.domain.party.Administrator
+import com.mp.domain.party.Director
+import com.mp.domain.party.Party
+import com.mp.domain.party.SuperAdmin
+import com.mp.domain.party.Coach
+import com.mp.domain.party.Subscriber
+import com.mp.domain.party.DirectorCoach
+import com.mp.domain.party.CoachSubscriber
 
 
 class UserService {
@@ -60,7 +68,8 @@ class UserService {
                     if (coach) {
                         party.subscriber.coachId = coach?.id
                     }
-                    coach.addToClients(party)
+                    CoachSubscriber cs = new CoachSubscriber(activeFrom:new Date(),from:coach,to:party,commission:coach.defaultCommission,)
+                    cs.s()
                     coach.s()
                 }
                 party.s()
@@ -211,7 +220,7 @@ class UserCO {
     String city
     String introduction
     Date joiningDate
-    Long affiliateId
+    Long directorId
     List<String> roles = []
     Boolean isEnabled
     Boolean showAlcoholicContent = false
@@ -237,8 +246,8 @@ class UserCO {
             introduction = party?.subscriber?.introduction
             city = party?.subscriber?.city
         }
-        if (party?.subAffiliate) {
-            affiliateId = party?.subAffiliate?.affiliateId?.toLong()
+        if (party?.coach) {
+            directorId = party?.coach?.directorId?.toLong()
         }
         if (party?.subscriber?.coachId) {
             Party coach = Party.findById(party?.subscriber?.coachId?.toLong())
@@ -284,10 +293,10 @@ class UserCO {
             }
         })
         coachId(nullable: true, blank: true)
-        affiliateId(validator: {val, obj ->
-            String subAffiliate = UserType.SubAffiliate.toString().replaceAll(" ", "")
-            if (!val && (subAffiliate in obj.roles)) {
-                return "userCO.subaffiliate.affiliate.blank.error"
+        directorId(validator: {val, obj ->
+            String coach = PartyRoleType.Coach.toString().replaceAll(" ", "")
+            if (!val && (coach in obj.roles)) {
+                return "userCO.subdirector.director.blank.error"
             }
         })
     }
@@ -321,47 +330,47 @@ class UserCO {
         Party.withTransaction {
             party = Party.get(id?.toLong())
             //Delete unchecked roles first
-            if (party.subscriber && !(UserType.Subscriber.name() in roles)) {
+            if (party.subscriber && !(PartyRoleType.Subscriber.name() in roles)) {
                 Subscriber subscriber = party.subscriber
                 party.removeFromRoles(subscriber)
                 subscriber.delete(flush: true)
             }
 
-            if (party.affiliate && !(UserType.Affiliate.name() in roles)) {
-                Affiliate affiliate = party.affiliate
-                party.removeFromRoles(affiliate)
-                affiliate.subAffiliates = []
-                affiliate.delete(flush: true)
+            if (party.director && !(PartyRoleType.Director.name() in roles)) {
+                Director director = party.director
+                party.removeFromRoles(director)
+
+                director.delete(flush: true)
             }
 
-            if (party.subAffiliate && !(UserType.SubAffiliate.name() in roles)) {
-                SubAffiliate subAffiliate = party.subAffiliate
-                Affiliate affiliate = Affiliate.createCriteria().get {
-                    subAffiliates {
-                        eq('id', subAffiliate?.id)
+            if (party.director && !(PartyRoleType.Coach.name() in roles)) {
+                Coach coach = party.coach
+                Director director = Director.createCriteria().get {
+                    coaches {
+                        eq('id', coach?.id)
                     }
                 }
-                if (affiliate) {
-                    affiliate.removeFromSubAffiliates(subAffiliate)
+                if (director) {
+                    director.removeFromCoaches(coach)
                 }
-                party.removeFromRoles(subAffiliate)
-                subAffiliate.delete(flush: true)
+                party.removeFromRoles(coach)
+                coach.delete(flush: true)
             }
 
-            if (party.superAdmin && !(UserType.SuperAdmin.name() in roles)) {
+            if (party.superAdmin && !(PartyRoleType.SuperAdmin.name() in roles)) {
                 SuperAdmin superAdmin = party.superAdmin
                 party.removeFromRoles(superAdmin)
                 superAdmin.delete(flush: true)
             }
 
-            if (party.administrator && !(UserType.Admin.name() in roles)) {
+            if (party.administrator && !(PartyRoleType.Admin.name() in roles)) {
                 Administrator administrator = party.administrator
                 party.removeFromRoles(administrator)
                 administrator.delete(flush: true)
             }
 
             party.name = name
-            if ((UserType.Subscriber.name() in roles)) {
+            if ((PartyRoleType.Subscriber.name() in roles)) {
                 Subscriber subscriber = party.subscriber ? party.subscriber : new Subscriber()
                 subscriber.city = city
                 subscriber.mouthsToFeed = mouthsToFeed
@@ -381,35 +390,35 @@ class UserCO {
                 }
             }
 
-            if ((UserType.Admin.name() in roles) && !party.administrator) {
+            if ((PartyRoleType.Admin.name() in roles) && !party.administrator) {
                 new Administrator(party: party).s()
             }
 
-            if ((UserType.Affiliate.name() in roles) && !party.affiliate) {
-                new Affiliate(party: party).s()
+            if ((PartyRoleType.Director.name() in roles) && !party.coach) {
+                new Director(party: party).s()
             }
 
-            if ((UserType.SubAffiliate.name() in roles) && !party.subAffiliate) {
-                Affiliate affiliate = Affiliate.get(affiliateId)
-                if (affiliate) {
-                    SubAffiliate subAffiliate = new SubAffiliate(affiliateId: affiliate?.id?.toString(), party: party)
-                    party.addToRoles(subAffiliate)
-                    affiliate.addToSubAffiliates(subAffiliate)
-                    affiliate.s()
+            if ((PartyRoleType.Coach.name() in roles) && !party.coach) {
+                Director director = Director.get(directorId)
+                if (director) {
+                    Coach coach = new Coach(coachid: director?.id?.toString(), party: party)
+                    party.addToRoles(coach)
+                    director.addToCoachs(coach)
+                    director.s()
                     party.s()
-                    subAffiliate.s()
+                    coach.s()
                 }
             }
-            if ((UserType.SubAffiliate.name() in roles) && party.subAffiliate) {
-                Affiliate affiliate = Affiliate.get(affiliateId)
-                if (affiliate && (affiliateId != party?.subAffiliate?.id)) {
-                    SubAffiliate subAffiliate = party?.subAffiliate
-                    subAffiliate.affiliateId = affiliateId
-                    subAffiliate.s()
+            if ((PartyRoleType.Coach.name() in roles) && party.coach) {
+                Director director = Director.get(directorId)
+                if (director && (directorId != party?.coach?.id)) {
+                    Coach coach = party?.coach
+                    coach.directorId = directorId
+                    coach.s()
                 }
             }
 
-            if (UserType.SuperAdmin.name() in roles && !party.superAdmin) {
+            if (PartyRoleType.SuperAdmin.name() in roles && !party.superAdmin) {
                 new SuperAdmin(party: party).s()
             }
 
@@ -443,7 +452,7 @@ class UserCO {
             party.loginCredentials = [loginCredential] as Set
             party.s()
 
-            if (UserType.Subscriber.name() in roles) {
+            if (PartyRoleType.Subscriber in roles) {
                 Subscriber subscriber = new Subscriber()
                 subscriber.city = city
                 subscriber.mouthsToFeed = mouthsToFeed
@@ -459,41 +468,40 @@ class UserCO {
                     if (coach) {
                         subscriber.coachId = coach?.id
                         subscriber.s()
-                        coach.addToClients(party)
-                        coach.s()
+                        CoachSubscriber rel = new CoachSubscriber(client:coach,supplier:subscriber,activeFrom:new Date())
+                        rel.s()                        
                     }
                 }
                 party.s()
             }
-            if (UserType.Admin.name() in roles) {
+            if (PartyRoleType.Admin in roles) {
                 Administrator admin = new Administrator()
                 party.addToRoles(admin)
                 party.s()
                 admin.s()
             }
-
-            if (UserType.SuperAdmin.name() in roles) {
+            if (PartyRoleType.SuperAdmin in roles) {
                 SuperAdmin superAdmin = new SuperAdmin()
                 party.addToRoles(superAdmin)
                 party.s()
                 superAdmin.s()
             }
-
-            if (UserType.Affiliate.name() in roles) {
-                Affiliate affiliate = new Affiliate()
-                party.addToRoles(affiliate)
+            if (PartyRoleType.Director in roles) {
+                Director director = new Director()
+                party.addToRoles(director)
                 party.s()
-                affiliate.s()
+                director.s()
             }
-            if (UserType.SubAffiliate.name() in roles) {
-                Affiliate affiliate = Affiliate.get(affiliateId)
-                if (affiliate) {
-                    SubAffiliate subAffiliate = new SubAffiliate(affiliateId: affiliate?.id?.toString(), party: party)
-                    party.addToRoles(subAffiliate)
-                    affiliate.addToSubAffiliates(subAffiliate)
-                    affiliate.s()
+            if (PartyRoleType.Coach in roles) {
+                Director director = Director.get(directorId)
+                if (director) {
+                    Coach coach = new Coach(directorId: director?.id?.toString(), party: party)
+                    party.addToRoles(coach)
+                    DirectorCoach rel = new DirectorCoach(client:director,supplier:coach,activeFrom:new Date())
+                    director.s()
                     party.s()
-                    subAffiliate.s()
+                    coach.s()
+                    rel.s()
                 }
             }
         }

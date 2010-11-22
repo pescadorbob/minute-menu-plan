@@ -34,7 +34,7 @@
                             <p:image src='printer.gif' alt="print" align="absmiddle"/> &nbsp; Print Shopping List
                         </li>
                         <li style="cursor:pointer" id="shareThisUrl">
-                            <g:if test="${(party?.subAffiliate)}">
+                            <g:if test="${(party?.coach)}">
                                 <mp:shareThis coachId="${party?.uniqueId}" shareUrl="${createLink(controller:'shoppingList',action:'show',id:shoppingList.id,absolute:true)}"/>
                             </g:if>
                             <g:else>

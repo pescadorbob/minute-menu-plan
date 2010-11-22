@@ -1,5 +1,6 @@
 import com.mp.domain.*
 import static com.mp.domain.TestConstants.*
+import com.mp.domain.party.Subscriber
 
 class ShoppingListFunctionalTests extends MenuPlannerFunctionalTests {
 

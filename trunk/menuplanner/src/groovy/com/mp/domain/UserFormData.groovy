@@ -12,8 +12,8 @@ class UserFormData {
     boolean isSuperAdmin
     boolean isAdmin
     boolean isUser
-    boolean isAffiliate
-    boolean isSubAffiliate
+    boolean isDirector
+    boolean isCoach
 
     public static UserFormData getDefaultUserFormData() {
         UserFormData userFormData = new UserFormData()
@@ -26,8 +26,8 @@ class UserFormData {
         userFormData.introduction = "Some description"
         userFormData.isEnabled = true
         userFormData.isSuperAdmin = false
-        userFormData.isAffiliate = false
-        userFormData.isSubAffiliate = false
+        userFormData.isDirector = false
+        userFormData.isCoach = false
         userFormData.isAdmin = false
         userFormData.isUser = true
         return userFormData

@@ -14,7 +14,9 @@ enum ElementLocation {
   RIGHT('RIGHT'),
   FOOTER('FOOTER'),
   LEFT('LEFT'),
-  CENTER('CENTER')
+  CENTER('CENTER'),
+  BROWSE_RECIPES('BROWSE_RECIPES'),
+  SHOPPING_LIST('SHOPPING_LIST')
 
   final String name
 

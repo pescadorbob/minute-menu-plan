@@ -2,6 +2,7 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import com.gargoylesoftware.htmlunit.html.HtmlPage
 import com.mp.domain.*
 import static com.mp.domain.TestConstants.*
+import com.mp.domain.party.Subscriber
 
 
 class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase {
@@ -92,8 +93,8 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
             name = userFormData.name
             if (!userFormData.isEnabled) { byId('chk_Enable').click() }
             if (userFormData.isSuperAdmin) {byId('chk_SuperAdmin').click()}
-            if (userFormData.isAffiliate) {byId('chk_Affiliate').click()}
-            if (userFormData.isSubAffiliate) {byId('chk_SubAffiliate').click()}
+            if (userFormData.isDirector) {byId('chk_Director').click()}
+            if (userFormData.isCoach) {byId('chk_Coach').click()}
             if (userFormData.isAdmin) { byId('chk_Admin').click()}
             if (userFormData.isUser) {byId('chk_Subscriber').click()}
             click('_action_save')
@@ -101,19 +102,19 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
     }
 
     /*
-    *  Helper method to create a new sub-affiliate
+    *  Helper method to create a new coach
     */
 
-    void createSubAffiliate(SubAffiliateFormData subAffiliateFormData) {
-        def addSubAffiliateLink = byClass('addSubAffiliateFT')
-        addSubAffiliateLink.click()
-        form('formCreateSubAffiliate') {
-            email = subAffiliateFormData.email
-            password = subAffiliateFormData.password
-            confirmPassword = subAffiliateFormData.confirmPassword
-            name = subAffiliateFormData.name
-            if (!subAffiliateFormData.isEnabled) { byId('chk_Enable').click() }
-            click('_action_saveSubAffiliate')
+    void createCoach(CoachFormData coachFormData) {
+        def addCoachLink = byClass('addCoachFT')
+        addCoachLink.click()
+        form('formCreateCoach') {
+            email = coachFormData.email
+            password = coachFormData.password
+            confirmPassword = coachFormData.confirmPassword
+            name = coachFormData.name
+            if (!coachFormData.isEnabled) { byId('chk_Enable').click() }
+            click('_action_saveCoach')
         }
     }
 

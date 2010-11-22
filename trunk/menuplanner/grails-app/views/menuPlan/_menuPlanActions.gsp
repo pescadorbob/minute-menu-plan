@@ -17,7 +17,7 @@
                             <g:link controller="shoppingList" class="createShoppingListLinkFT" action="generateShoppingList" id="${menuPlan?.id}">Create Shopping List</g:link>
                         </li>
                         <li>
-                            <g:if test="${(party?.subAffiliate)}">
+                            <g:if test="${(party?.coach)}">
                                 <mp:shareThis coachId="${party?.uniqueId}" shareUrl="${createLink(controller:'menuPlan',action:'show',id:menuPlan.id,absolute:true)}"/>
                             </g:if>
                             <g:else>

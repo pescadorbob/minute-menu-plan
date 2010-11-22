@@ -1,5 +1,5 @@
 <%@ page import="com.mp.domain.Permission" %>
-<g:each in="${party?.favourites}" var="recipe">
+<g:each in="${party?.favourites.sort{it.name}}" var="recipe">
     <li>
         <a href="${createLink(controller: 'recipe', action: 'show', id: recipe?.id)}">${recipe?.name}</a>
         <g:if test="${permission.hasPermission(permission: Permission.REMOVE_RECIPE_FROM_FAVOURITES, party: party)}">

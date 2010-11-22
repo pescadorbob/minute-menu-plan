@@ -1,5 +1,5 @@
-import com.mp.domain.Subscriber
-import com.mp.domain.Subscriber
+import com.mp.domain.party.Subscriber
+import com.mp.domain.party.Subscriber
 import com.mp.domain.LoginCredential
 
 // locations to search for config files that get merged into the main config

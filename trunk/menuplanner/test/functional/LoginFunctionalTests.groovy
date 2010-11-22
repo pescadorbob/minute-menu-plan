@@ -1,4 +1,6 @@
 import com.mp.domain.*
+import com.mp.domain.party.Party
+import com.mp.domain.party.Subscriber
 
 class LoginFunctionalTests extends MenuPlannerFunctionalTests {
 

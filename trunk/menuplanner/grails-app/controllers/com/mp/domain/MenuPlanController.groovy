@@ -4,6 +4,7 @@ import static com.mp.MenuConstants.*
 import org.apache.lucene.document.NumberTools
 import javax.servlet.http.Cookie
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import com.mp.domain.party.Party
 
 class MenuPlanController {
 

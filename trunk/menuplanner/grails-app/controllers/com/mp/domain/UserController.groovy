@@ -6,6 +6,9 @@ import javax.servlet.http.HttpSession
 import com.mp.google.checkout.*
 import javax.servlet.http.Cookie
 import com.mp.domain.subscriptions.ProductOffering
+import com.mp.domain.party.Party
+import com.mp.domain.party.Subscriber
+import com.mp.domain.orders.OrderStatus
 
 class UserController {
 
@@ -349,7 +352,7 @@ class UserController {
     }
 
     def newFreeUserSignUp = {UserCO userCO ->
-        userCO.roles.add(UserType.Subscriber.name())
+        userCO.roles.add(PartyRoleType.Subscriber.name())
         userCO.isEnabled = null
         String coachUUID = params?.coachId
         if (coachUUID) {
@@ -395,27 +398,27 @@ class UserController {
         }
     }
 
-    def createSubAffiliate = {
+    def createCoach = {
         UserCO userCO = new UserCO()
         userCO.isEnabled = true
-        render(view: 'createSubAffiliate', model: [userCO: userCO])
+        render(view: 'createCoach', model: [userCO: userCO])
     }
 
-    def saveSubAffiliate = {UserCO userCO ->
-        Long affiliateId = LoginCredential?.currentUser?.party?.affiliate?.id
-        if (affiliateId) {
-            userCO.roles = [UserType.SubAffiliate.name(), UserType.Subscriber.name()]
-            userCO.affiliateId = affiliateId
+    def saveCoach = {UserCO userCO ->
+        Long directorId = LoginCredential?.currentUser?.party?.director?.id
+        if (directorId) {
+            userCO.roles = [PartyRoleType.Coach.name(), PartyRoleType.Subscriber.name()]
+            userCO.directorId = directorId
             userCO.isEnabled = true
             if (userCO.validate()) {
                 Party party = userCO.createParty()
-                flash.message = message(code: 'subAffiliate.created.success')
+                flash.message = message(code: 'coach.created.success')
                 redirect(action: 'show', id: party?.id)
             } else {
-                render(view: 'createSubAffiliate', model: [userCO: userCO])
+                render(view: 'createCoach', model: [userCO: userCO])
             }
         } else {
-            render(view: 'createSubAffiliate', model: [userCO: userCO])
+            render(view: 'createCoach', model: [userCO: userCO])
         }
     }
 
