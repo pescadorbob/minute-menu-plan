@@ -2,6 +2,7 @@ package com.mp.domain
 
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import com.mp.google.checkout.*
+import com.mp.domain.orders.OrderStatus
 
 class GoogleCheckoutService {
 

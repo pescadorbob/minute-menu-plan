@@ -1,19 +1,22 @@
-package com.mp.domain
+package com.mp.domain.party
 
-class Affiliate extends PartyRole {
+import com.mp.domain.party.Party
+import com.mp.domain.party.PartyRole
+import com.mp.domain.PartyRoleType
 
-    UserType type = UserType.Affiliate
-    List<SubAffiliate> subAffiliates = []
+class Coach extends PartyRole {
 
-    static hasMany = [subAffiliates: SubAffiliate]
+    PartyRoleType type = PartyRoleType.Coach
 
     static transients = ['type']
-
-    static mapping = {
-        tablePerHierarchy false
-    }
+    float defaultCommission // the default commission for coaching
+    String coachid
 
     static constraints = {
+        coachid(nullable: true, blank: false)
+    }
+    static mapping = {
+        tablePerHierarchy false
     }
 
     String toString() {

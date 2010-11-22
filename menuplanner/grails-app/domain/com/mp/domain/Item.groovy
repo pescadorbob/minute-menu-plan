@@ -1,6 +1,7 @@
 package com.mp.domain
 
 import java.util.regex.Pattern
+import com.mp.domain.party.Party
 
 class Item {
     static searchable = true

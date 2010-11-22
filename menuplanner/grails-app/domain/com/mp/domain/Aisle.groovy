@@ -1,5 +1,7 @@
 package com.mp.domain
 
+import com.mp.domain.party.Party
+
 class Aisle {
 
     String name

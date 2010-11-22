@@ -5,6 +5,7 @@ import static com.mp.MenuConstants.*
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.grails.comments.*
 import org.grails.rateable.*
+import com.mp.domain.party.Party
 
 
 class Recipe extends Item implements Commentable, Rateable {

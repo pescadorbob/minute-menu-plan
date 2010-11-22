@@ -16,6 +16,12 @@ import com.mp.domain.subscriptions.FeaturedOfferingApplicability
 import com.mp.domain.themes.HomePage
 import com.mp.domain.themes.Theme
 import com.mp.domain.themes.PageElement
+import com.mp.domain.accounting.Account
+import com.mp.domain.accounting.AccountRole
+import com.mp.domain.accounting.AccountRoleType
+import com.mp.domain.accounting.AccountTransaction
+import com.mp.domain.accounting.AccountTransactionType
+import com.mp.domain.party.Party
 
 class MasterDataBootStrapService implements ApplicationContextAware {
 
@@ -179,21 +185,19 @@ class MasterDataBootStrapService implements ApplicationContextAware {
   public void populateSubscriptions() {
     Date activeFrom = new Date();
     Date activeTo = activeFrom + 100;
-    def f1 = new Feature(activeTo: activeTo, activeFrom: activeFrom, name: "Create Plans", rule: "all").s()
-    def f2 = new Feature(activeTo: activeTo, activeFrom: activeFrom, name: "Create Recipes", rule: "all").s()
-    def f3 = new Feature(activeTo: activeTo, activeFrom: activeFrom, name: "Receive Tips", rule: "all").s()
-    def f4 = new Feature(activeTo: activeTo, activeFrom: activeFrom, name: "Enter Contests", rule: "all").s()
-    def f5 = new Feature(activeTo: activeTo, activeFrom: activeFrom, name: "View Recipes", rule: "all").s()
-    def f6 = new Feature(activeTo: activeTo, activeFrom: activeFrom, name: "billed monthly", rule: "all").s()
+    def f1 = new Feature(activeTo: activeTo, activeFrom: activeFrom, name: "Full Access", rule: "true").s()
+    ProductOffering freeTrial = new ProductOffering(name: "1 Month Free Trial", activeTo: activeTo, activeFrom: activeFrom)
+    freeTrial.s()
     ProductOffering po = new ProductOffering(name: "Basic Monthly Subscription", activeTo: activeTo, activeFrom: activeFrom)
     po.s()
-    new RecurringCharge(recurrence: "1m", pricingFor: po, activeTo: activeTo, activeFrom: activeFrom, value: 5, name: "\$5 month", description: "5 dollars everymonth").s();
-    new FeaturedOfferingApplicability(availableFor: po, describedBy: f1, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'startDate+1m', applicableThruDescription: '1 month after start date').s()
-    new FeaturedOfferingApplicability(availableFor: po, describedBy: f2, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'startDate+1m', applicableThruDescription: '1 month after start date').s()
-    new FeaturedOfferingApplicability(availableFor: po, describedBy: f3, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'startDate+1m', applicableThruDescription: '1 month after start date').s()
-    new FeaturedOfferingApplicability(availableFor: po, describedBy: f4, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'startDate+1m', applicableThruDescription: '1 month after start date').s()
-    new FeaturedOfferingApplicability(availableFor: po, describedBy: f5, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'startDate+1m', applicableThruDescription: '1 month after start date').s()
-    new FeaturedOfferingApplicability(availableFor: po, describedBy: f6, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'startDate+1m', applicableThruDescription: '1 month after start date').s()
+    ProductOffering year = new ProductOffering(name: "Basic Yearly Subscription", activeTo: activeTo, activeFrom: activeFrom)
+    year.s()
+    new RecurringCharge(recurrence: "1m", startAfter: "1m", pricingFor: freeTrial, activeTo: activeTo, activeFrom: activeFrom, value: 5, name: "\$5 month", description: "5 dollars every month after the first month").s();
+    new RecurringCharge(recurrence: "1m", startAfter: "1m", pricingFor: po, activeTo: activeTo, activeFrom: activeFrom, value: 5, name: "\$5 month", description: "5 dollars ever ymonth after the first month").s();
+    new RecurringCharge(recurrence: "1y", startAfter: "1m", pricingFor: year, activeTo: activeTo, activeFrom: activeFrom, value: 50, name: "\$50 year", description: "50 dollars every year after the first year").s();
+    new FeaturedOfferingApplicability(availableFor: freeTrial, describedBy: f1, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'expiration', applicableThruDescription: 'Valid until subscription expires').s()
+    new FeaturedOfferingApplicability(availableFor: po, describedBy: f1, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'expiration', applicableThruDescription: 'Valid until subscription expires').s()
+    new FeaturedOfferingApplicability(availableFor: year, describedBy: f1, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'expiration', applicableThruDescription: 'Valid until subscription expires').s()
   }
 
   public void populatePermissions() {
@@ -235,9 +239,9 @@ class MasterDataBootStrapService implements ApplicationContextAware {
       new PermissionLevel(role: role, permission: Permission.MANAGE_SUBSCRIBER, level: ACCESS_IF_OWNS_USER_PERMISSION_LEVEL).s()
     }
 
-    if (!SecurityRole.countByName(SECURITY_ROLE_AFFILIATE)) {
-      println "Populating Security role ${SECURITY_ROLE_AFFILIATE}"
-      SecurityRole role = new SecurityRole(name: SECURITY_ROLE_AFFILIATE, description: 'Affiliate').s()
+    if (!SecurityRole.countByName(SECURITY_ROLE_DIRECTOR)) {
+      println "Populating Security role ${SECURITY_ROLE_DIRECTOR}"
+      SecurityRole role = new SecurityRole(name: SECURITY_ROLE_DIRECTOR, description: 'Director').s()
       new PermissionLevel(role: role, permission: Permission.MANAGE_SUB_AFFILIATE, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
       new PermissionLevel(role: role, permission: Permission.MANAGE_AFFILIATE, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
       new PermissionLevel(role: role, permission: Permission.CAN_VIEW_SUB_AFFILIATES, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
@@ -246,9 +250,9 @@ class MasterDataBootStrapService implements ApplicationContextAware {
       new PermissionLevel(role: role, permission: Permission.REMOVE_RECIPE_FROM_FAVOURITES, level: ACCESS_IF_OWNS_USER_PERMISSION_LEVEL).s()
     }
 
-    if (!SecurityRole.countByName(SECURITY_ROLE_SUB_AFFILIATE)) {
-      println "Populating Security role ${SECURITY_ROLE_SUB_AFFILIATE}"
-      SecurityRole role = new SecurityRole(name: SECURITY_ROLE_SUB_AFFILIATE, description: 'Sub Affiliate').s()
+    if (!SecurityRole.countByName(SECURITY_ROLE_COACH)) {
+      println "Populating Security role ${SECURITY_ROLE_COACH}"
+      SecurityRole role = new SecurityRole(name: SECURITY_ROLE_COACH, description: 'Coach').s()
       new PermissionLevel(role: role, permission: Permission.MANAGE_SUB_AFFILIATE, level: ACCESS_IF_OWNS_USER_PERMISSION_LEVEL).s()
       new PermissionLevel(role: role, permission: Permission.CAN_VIEW_INVITATION_URL, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
       new PermissionLevel(role: role, permission: Permission.CAN_VIEW_CLIENTS, level: UNRESTRICTED_ACCESS_PERMISSION_LEVEL).s()
@@ -395,5 +399,22 @@ class MasterDataBootStrapService implements ApplicationContextAware {
             contextRule: '.*Featured Menus.*',
             isTemplate: true,
             listOrder: 3).s()
+  }
+  def populateAccounts(){
+    Date today = new Date()
+      Party.list().each{ party ->
+         Account account = new Account(accountNumber:'233-355-SDD-2235552').s()
+         new AccountRole(roleFor:party,describes:account,type:AccountRoleType.OWNER).s()
+         new AccountTransaction(transactionFor:account,transactionDate:today - 60,amount:0.0,description:"Opening Balance",transactionType:AccountTransactionType.OPENING_BALANCE).s()
+         new AccountTransaction(transactionFor:account,transactionDate:today - 59,amount:5.95,description:"Initial Payment made through Click Bank: ***-2335 THANK YOU",transactionType:AccountTransactionType.FUNDING).s()
+         new AccountTransaction(transactionFor:account,transactionDate:today - 58,amount:-5.95,description:"\$5/month subscription",transactionType:AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
+         new AccountTransaction(transactionFor:account,transactionDate:today - 30,amount:5.95,description:"Payment made through Click Bank: ***-2335 THANK YOU",transactionType:AccountTransactionType.FUNDING).s()
+         new AccountTransaction(transactionFor:account,transactionDate:today - 29,amount:-5.95,description:"\$5/month subscription",transactionType:AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
+         new AccountTransaction(transactionFor:account,transactionDate:today - 28,amount:5.95*0.2,description:"Director Collection: Cecil Barlow: Congratulations!",transactionType:AccountTransactionType.AFFILIATE_PAYMENT).s()
+         new AccountTransaction(transactionFor:account,transactionDate:today - 27,amount:5.95*0.2,description:"Director Collection: Cecil Barlow: Congratulations!",transactionType:AccountTransactionType.AFFILIATE_PAYMENT).s()
+         new AccountTransaction(transactionFor:account,transactionDate:today - 2,amount:5.95,description:"Payment made through Click Bank: ***-2335 THANK YOU",transactionType:AccountTransactionType.FUNDING).s()
+         new AccountTransaction(transactionFor:account,transactionDate:today ,amount:-5.95,description:"\$5/month subscription",transactionType:AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
+
+      }
   }
 }

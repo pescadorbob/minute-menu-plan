@@ -2,6 +2,7 @@ package com.mp.domain
 
 import org.apache.lucene.document.NumberTools
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import com.mp.domain.party.Party
 
 class Product extends Item {
     static searchable = true

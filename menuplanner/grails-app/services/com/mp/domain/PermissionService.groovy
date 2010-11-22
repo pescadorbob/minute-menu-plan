@@ -1,6 +1,7 @@
 package com.mp.domain
 
 import static com.mp.MenuConstants.*
+import com.mp.domain.party.Party
 
 class PermissionService {
 

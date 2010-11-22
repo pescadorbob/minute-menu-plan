@@ -1,4 +1,4 @@
-<%@ page import="org.apache.commons.lang.StringUtils; org.codehaus.groovy.grails.commons.ConfigurationHolder; com.mp.domain.*" %>
+<%@ page import="com.mp.domain.Permission; org.apache.commons.lang.StringUtils; org.codehaus.groovy.grails.commons.ConfigurationHolder; com.mp.domain.party.*; com.mp.domain.*" %>
 <html>
 <head>
     <meta name="layout" content="menu"/>
@@ -40,23 +40,21 @@
                         <li><h3>Favorites</h3></li>
                         <g:render template="/user/favoriteRecipes" model="[party:party]"/>
                     </ul>
-                    <g:if test="${(party?.affiliate) && (permission.hasPermission(permission: Permission.CAN_VIEW_SUB_AFFILIATES))}">
+                    <g:if test="${(party?.director) && (permission.hasPermission(permission: Permission.CAN_VIEW_SUB_AFFILIATES))}">
                         <ul>
-                            <li><h3>Sub Affiliates</h3></li>
-                            <g:each in="${party?.affiliate?.subAffiliates}" var="subAffiliate">
-                                <li><g:link controller="user" action="show" id="${subAffiliate?.party?.id}">${subAffiliate}</g:link></li>
-                            </g:each>
+                            <li><h3>Coaches</h3></li>
+                            <party:coaches party="${party}" var="coach">
+                              <li><g:link controller="user" action="show" id="${coach?.party?.id}">${coach}</g:link></li>
+                            </party:coaches>
                         </ul>
                     </g:if>
-                    <g:if test="${(party?.subAffiliate) && (permission.hasPermission(permission: Permission.CAN_VIEW_CLIENTS))}">
-                        <g:if test="${party?.clients}">
-                            <ul>
-                                <li><h3>Clients</h3></li>
-                                <g:each in="${party?.clients}" var="clients">
-                                    <li><g:link controller="user" action="show" id="${clients?.id}">${clients}</g:link></li>
-                                </g:each>
-                            </ul>
-                        </g:if>
+                    <g:if test="${(party?.coach) && (permission.hasPermission(permission: Permission.CAN_VIEW_CLIENTS))}">
+                        <ul>
+                            <li><h3>Clients</h3></li>
+                          <party:clients party="${party}" var="client">
+                            <li><g:link controller="user" action="show" id="${client?.id}">${client}</g:link></li>
+                          </party:clients>
+                        </ul>
                     </g:if>
                 </div>
                 <div id="rightpanel">
@@ -69,7 +67,7 @@
                             <li><span><strong>Something about yourself :</strong></span><label>${party?.subscriber?.introduction}</label></li>
                             <li><span><strong>Show Content Using Alcohol :</strong></span><label>${party?.showAlcoholicContent ? "Yes" : "No"}</label></li>
                         </g:if>
-                      <g:if test="${(party?.subAffiliate)&& (permission.hasPermission(permission: Permission.CAN_VIEW_INVITATION_URL))}">
+                      <g:if test="${(party?.coach)&& (permission.hasPermission(permission: Permission.CAN_VIEW_INVITATION_URL))}">
                         <li><strong>Url to Invite Subscribers</strong></br>
                             <textArea name="uniqueUrl" readonly="true" cols="80" rows="1" class="urlTextArea">${ConfigurationHolder.config.grails.serverURL + '/?coachId=' + party?.uniqueId}</textArea>
                         </li>
@@ -137,12 +135,12 @@
                             <g:actionSubmit class='button deleteUserButtonFT' controller='user' action='delete' id='${party?.id}' value='Delete User' onclick="return confirm('Are you sure?');"/>
                         </g:elseif>
 
-                        <g:elseif test="${(party?.affiliate) && permission.hasPermission(permission: Permission.MANAGE_AFFILIATE,party:currentUser)}">
+                        <g:elseif test="${(party?.director) && permission.hasPermission(permission: Permission.MANAGE_AFFILIATE,party:currentUser)}">
                             <g:actionSubmit class='button editUserButtonFT' controller='user' action='edit' id='${party?.id}' value='Edit Profile'/>
                             <g:actionSubmit class='button deleteUserButtonFT' controller='user' action='delete' id='${party?.id}' value='Delete User' onclick="return confirm('Are you sure?');"/>
                         </g:elseif>
 
-                        <g:elseif test="${(party?.subAffiliate) && permission.hasPermission(permission: Permission.MANAGE_SUB_AFFILIATE,party:currentUser)}">
+                        <g:elseif test="${(party?.coach) && permission.hasPermission(permission: Permission.MANAGE_SUB_AFFILIATE,party:currentUser)}">
                             <g:actionSubmit class='button editUserButtonFT' controller='user' action='edit' id='${party?.id}' value='Edit Profile'/>
                             <g:actionSubmit class='button deleteUserButtonFT' controller='user' action='delete' id='${party?.id}' value='Delete User' onclick="return confirm('Are you sure?');"/>
                         </g:elseif>

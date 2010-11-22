@@ -3,6 +3,7 @@ package com.mp.domain
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import static com.mp.MenuConstants.*
 import org.apache.commons.math.fraction.ProperFractionFormat
+import com.mp.domain.party.Party
 
 
 class RecipeService {

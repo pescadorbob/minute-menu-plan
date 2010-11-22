@@ -1,7 +1,10 @@
-package com.mp.domain
+package com.mp.domain.party
 
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import com.mp.domain.subscriptions.Subscription
+import com.mp.domain.party.PartyRole
+import com.mp.domain.PartyRoleType
+import com.mp.domain.Image
 
 class Subscriber extends PartyRole{
 
@@ -10,7 +13,7 @@ class Subscriber extends PartyRole{
   List<Subscription> subscriptions = []
 
   static hasMany = [subscriptions: Subscription]
-    UserType type = UserType.Subscriber
+    PartyRoleType type = PartyRoleType.Subscriber
 
     Image image
     Integer mouthsToFeed

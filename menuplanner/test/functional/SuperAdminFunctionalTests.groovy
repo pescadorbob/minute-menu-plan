@@ -1,6 +1,14 @@
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor
 import static com.mp.domain.TestConstants.*
 import com.mp.domain.*
+import com.mp.domain.party.Administrator
+import com.mp.domain.party.Director
+import com.mp.domain.party.Party
+import com.mp.domain.party.Coach
+import com.mp.domain.party.Subscriber
+import com.mp.domain.party.Coach
+import com.mp.domain.party.Director
+import com.mp.domain.party.Director
 
 class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
 
@@ -127,81 +135,81 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
     }
 
 
-    void testAddAffiliateBySuperAdmin() {
+    void testAddDirectorBySuperAdmin() {
         javaScriptEnabled = false
         loginBySuperAdmin()
-        Integer initialCount = Affiliate.count()
+        Integer initialCount = Director.count()
         Integer initialPartyCount = Party.count()
         UserFormData userFormData = UserFormData.getDefaultUserFormData()
         userFormData.email = "qa.menuplanner_${System.currentTimeMillis()}@gmail.com"
         userFormData.isUser = false
-        userFormData.isAffiliate = true
+        userFormData.isDirector = true
         createUser(userFormData)
-        Integer finalCount = Affiliate.count()
+        Integer finalCount = Director.count()
         Integer finalPartyCount = Party.count()
         assertStatus 200
-        assertTrue('Unable to created a Affiliate', (finalCount - initialCount == 1))
+        assertTrue('Unable to created a Director', (finalCount - initialCount == 1))
         assertTrue('unable to created a party', (finalPartyCount - initialPartyCount == 1))
     }
 
 
-    void testAdd_SubAffiliateBy_Affiliate() {
+    void testAdd_CoachBy_Director() {
         javaScriptEnabled = false
         loginBySuperAdmin()
-        Integer initialAffiliateCount = Affiliate.count()
+        Integer initialDirectorCount = Director.count()
         Integer initialPartyCount = Party.count()
         UserFormData userFormData = UserFormData.getDefaultUserFormData()
         userFormData.email = "qa.menuplanner_${System.currentTimeMillis()}@gmail.com"
         userFormData.isUser = false
-        userFormData.isAffiliate = true
+        userFormData.isDirector = true
         createUser(userFormData)
-        Integer finalAffiliateCount = Affiliate.count()
+        Integer finalDirectorCount = Director.count()
         Integer finalPartyCount = Party.count()
         assertStatus 200
-        assertTrue('Unable to created a Affiliate', (finalAffiliateCount - initialAffiliateCount == 1))
+        assertTrue('Unable to created a Director', (finalDirectorCount - initialDirectorCount == 1))
         assertTrue('unable to created a party', (finalPartyCount - initialPartyCount == 1))
         logout()
 
         Integer initialSubscriberCount = Subscriber.count()
-        Integer initialSubAffiliateCount = SubAffiliate.count()
+        Integer initialCoachCount = Coach.count()
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
         loginFormData.email = userFormData.email
         loginFormData.password = '1234'
         loginToHomepage(loginFormData)
-        SubAffiliateFormData subAffiliateFormData = SubAffiliateFormData.getDefaultSubAffiliateFormData()
-        createSubAffiliate(subAffiliateFormData)
+        CoachFormData coachFormData = CoachFormData.getDefaultCoachFormData()
+        createCoach(coachFormData)
         Integer finalSubscriberCount = Subscriber.count()
-        Integer finalSubAffiliateCount = SubAffiliate.count()
+        Integer finalCoachCount = Coach.count()
         assertTrue('Unable to created a Subscriber', (finalSubscriberCount - initialSubscriberCount == 1))
-        assertTrue('unable to created a Sub-Affiliate', (finalSubAffiliateCount - initialSubAffiliateCount == 1))
+        assertTrue('unable to created a Sub-Director', (finalCoachCount - initialCoachCount == 1))
     }
 
 
-    void testAdd_SubAffiliate_By_Affiliate_Edit_SubAffiliate() {
+    void testAdd_Coach_By_Director_Edit_Coach() {
         javaScriptEnabled = false
         loginBySuperAdmin()
         UserFormData userFormData = UserFormData.getDefaultUserFormData()
         userFormData.email = "qa.menuplanner_${System.currentTimeMillis()}@gmail.com"
         userFormData.isUser = false
-        userFormData.isAffiliate = true
+        userFormData.isDirector = true
         createUser(userFormData)
         assertStatus 200
         logout()
 
         Integer initialSubscriberCount = Subscriber.count()
-        Integer initialSubAffiliateCount = SubAffiliate.count()
+        Integer initialCoachCount = Coach.count()
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
         loginFormData.email = userFormData.email
         loginFormData.password = '1234'
         loginToHomepage(loginFormData)
-        SubAffiliateFormData subAffiliateFormData = SubAffiliateFormData.getDefaultSubAffiliateFormData()
-        createSubAffiliate(subAffiliateFormData)
+        CoachFormData coachFormData = CoachFormData.getDefaultCoachFormData()
+        createCoach(coachFormData)
 
         Integer intermediateSubscriberCount = Subscriber.count()
-        Integer intermediateSubAffiliateCount = SubAffiliate.count()
+        Integer intermediateCoachCount = Coach.count()
         assertTitle 'Minute Menu Plan : Show User'
         assertTrue('Unable to created a Subscriber', (intermediateSubscriberCount - initialSubscriberCount == 1))
-        assertTrue('unable to created a Sub-Affiliate', (intermediateSubAffiliateCount - initialSubAffiliateCount == 1))
+        assertTrue('unable to created a Sub-Director', (intermediateCoachCount - initialCoachCount == 1))
         byClass('editUserButtonFT').click()
         assertTitle 'Minute Menu Plan : Edit User'
         byClass('updateUserButtonFT').click()
@@ -211,10 +219,10 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
         assertElementTextContains('flashMsgTst', getMessage('user.updateded.success'))
 
         Integer finalSubscriberCount = Subscriber.count()
-        Integer finalSubAffiliateCount = SubAffiliate.count()
+        Integer finalCoachCount = Coach.count()
         assertTitle 'Minute Menu Plan : Show User'
         assertTrue('Unable to created a Subscriber', (finalSubscriberCount - initialSubscriberCount == 1))
-        assertTrue('unable to created a Sub-Affiliate', (finalSubAffiliateCount - initialSubAffiliateCount == 1))
+        assertTrue('unable to created a Sub-Director', (finalCoachCount - initialCoachCount == 1))
         logout()
     }
 }

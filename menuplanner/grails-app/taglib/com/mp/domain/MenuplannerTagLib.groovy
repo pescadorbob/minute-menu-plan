@@ -4,6 +4,7 @@ import grails.converters.JSON
 import org.grails.comments.Comment
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.grails.plugins.imagetools.ImageTool
+import com.mp.domain.party.Party
 
 
 class MenuplannerTagLib {

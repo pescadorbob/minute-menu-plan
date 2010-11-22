@@ -1,6 +1,7 @@
 package com.mp
 
-import com.mp.domain.UserType
+import com.mp.domain.PartyRoleType
+import com.mp.domain.PartyRoleType
 
 class MenuConstants {
     public static final String SYSTEM_OF_UNIT_USA = "United States Customary System"
@@ -104,11 +105,11 @@ class MenuConstants {
     public static final String NUTRIENT_FIBER = "Fiber"
     public static final String NUTRIENT_PROTEIN = "Protein"
 
-    public static final String SECURITY_ROLE_SUBSCRIBER = UserType.Subscriber.toString()
-    public static final String SECURITY_ROLE_ADMIN = UserType.Admin.toString()
-    public static final String SECURITY_ROLE_SUPER_ADMIN = UserType.SuperAdmin.toString()
-    public static final String SECURITY_ROLE_AFFILIATE = UserType.Affiliate.toString()
-    public static final String SECURITY_ROLE_SUB_AFFILIATE = UserType.SubAffiliate.toString()
+    public static final String SECURITY_ROLE_SUBSCRIBER = PartyRoleType.Subscriber.toString()
+    public static final String SECURITY_ROLE_ADMIN = PartyRoleType.Admin.toString()
+    public static final String SECURITY_ROLE_SUPER_ADMIN = PartyRoleType.SuperAdmin.toString()
+    public static final String SECURITY_ROLE_DIRECTOR = PartyRoleType.Director.toString()
+    public static final String SECURITY_ROLE_COACH = PartyRoleType.Coach.toString()
 
     public static final Long NOT_AUTHORIZED_PERMISSION_LEVEL = 0
     public static final Long UNRESTRICTED_ACCESS_PERMISSION_LEVEL = 1

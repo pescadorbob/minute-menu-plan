@@ -1,6 +1,6 @@
 package com.mp.domain.subscriptions
 
-import com.mp.domain.Subscriber
+import com.mp.domain.party.Subscriber
 
 /**
  * Created on Nov 13, 2010

@@ -1,6 +1,7 @@
-package com.mp.domain
+package com.mp.domain.orders
 
 import com.mp.google.checkout.*
+import com.mp.domain.party.Party
 
 class OrderStatus {
 

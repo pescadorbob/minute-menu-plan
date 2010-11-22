@@ -1,6 +1,7 @@
 package com.mp.domain
 
 import grails.test.*
+import com.mp.domain.party.Party
 
 class AisleTests extends GrailsUnitTestCase {
 

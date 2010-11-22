@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="menu"/>
-    <title>Add Sub Affiliate</title>
+    <title>Add Sub Director</title>
 </head>
 <body>
 
@@ -10,7 +10,7 @@
     <div id="wrapper" class="clearfix">
         <div id="content-wrapper" class="clearfix">
             <div class="headbox">
-                <h3>Add Sub Affiliate</h3>
+                <h3>Add Sub Director</h3>
             </div>
             <g:hasErrors bean="${userCO}">
                 <div id="displayUserCOErrors" class="errors">
@@ -22,7 +22,7 @@
                 <label>&nbsp;</label>
             </div>
             <div class="leftbox clearfix">
-                <g:form name="formCreateSubAffiliate">
+                <g:form name="formCreateCoach">
                     <div id="leftpanel">
                         <g:if test="${userCO?.joiningDate}"><li>Member since ${userCO?.joiningDate?.format('MMMM yyyy')}</li></g:if>
                     </div>
@@ -58,7 +58,7 @@
                         </ul>
                     </div>
                     <div id="button">
-                        <g:actionSubmit class="button" value="Create" controller="user" action="saveSubAffiliate"/>
+                        <g:actionSubmit class="button" value="Create" controller="user" action="saveCoach"/>
                         <g:actionSubmit name="cancel" class="button" value="Cancel" controller="recipe" action="list"/>
                     </div>
                 </g:form>

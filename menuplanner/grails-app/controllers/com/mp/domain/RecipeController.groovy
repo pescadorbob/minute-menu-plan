@@ -7,6 +7,7 @@ import static com.mp.MenuConstants.*
 import org.grails.comments.Comment
 import org.apache.lucene.document.NumberTools
 import javax.servlet.http.Cookie
+import com.mp.domain.party.Party
 
 class RecipeController {
     static config = ConfigurationHolder.config
