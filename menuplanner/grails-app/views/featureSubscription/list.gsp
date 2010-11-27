@@ -8,12 +8,15 @@
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
+       <div id="container">
+  <div id="wrapper" class="clearfix">
+    <div id="content-wrapper" class="clearfix">
         <div class="nav">
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}">Home</a></span>
             <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
-            <h1><g:message code="default.list.label" args="[entityName]" /></h1>
+            <h3><g:message code="default.list.label" args="[entityName]" /></h3>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -24,15 +27,15 @@
                         
                             <g:sortableColumn property="id" title="${message(code: 'featureSubscription.id.label', default: 'Id')}" />
                         
-                            <th><g:message code="featureSubscription.originatingProduct.label" default="Originating Product" /></th>
+                            <g:sortableColumn property="originalProductOffering" title="${message(code: 'featureSubscription.originalProductOffering.label', default: 'Original Product Offering')}" />
+                        
+                            <th><g:message code="featureSubscription.subscriptionFor.label" default="Subscription For" /></th>
                    	    
                             <g:sortableColumn property="rule" title="${message(code: 'featureSubscription.rule.label', default: 'Rule')}" />
                         
                             <th><g:message code="featureSubscription.subscribedFeature.label" default="Subscribed Feature" /></th>
                    	    
                             <g:sortableColumn property="activeThru" title="${message(code: 'featureSubscription.activeThru.label', default: 'Active Thru')}" />
-                        
-                            <g:sortableColumn property="name" title="${message(code: 'featureSubscription.name.label', default: 'Name')}" />
                         
                         </tr>
                     </thead>
@@ -42,15 +45,15 @@
                         
                             <td><g:link action="show" id="${featureSubscription.id}">${fieldValue(bean: featureSubscription, field: "id")}</g:link></td>
                         
-                            <td>${fieldValue(bean: featureSubscription, field: "originatingProduct")}</td>
+                            <td>${fieldValue(bean: featureSubscription, field: "originalProductOffering")}</td>
+                        
+                            <td>${fieldValue(bean: featureSubscription, field: "subscriptionFor")}</td>
                         
                             <td>${fieldValue(bean: featureSubscription, field: "rule")}</td>
                         
                             <td>${fieldValue(bean: featureSubscription, field: "subscribedFeature")}</td>
                         
                             <td><g:formatDate date="${featureSubscription.activeThru}" /></td>
-                        
-                            <td>${fieldValue(bean: featureSubscription, field: "name")}</td>
                         
                         </tr>
                     </g:each>
@@ -60,6 +63,7 @@
             <div class="paginateButtons">
                 <g:paginate total="${featureSubscriptionTotal}" />
             </div>
+          </div></div></div>
         </div>
     </body>
 </html>

@@ -48,14 +48,6 @@
                             </party:coaches>
                         </ul>
                     </g:if>
-                    <g:if test="${(party?.coach) && (permission.hasPermission(permission: Permission.CAN_VIEW_CLIENTS))}">
-                        <ul>
-                            <li><h3>Clients</h3></li>
-                          <party:clients party="${party}" var="client">
-                            <li><g:link controller="user" action="show" id="${client?.id}">${client}</g:link></li>
-                          </party:clients>
-                        </ul>
-                    </g:if>
                 </div>
                 <div id="rightpanel">
                     <ul>

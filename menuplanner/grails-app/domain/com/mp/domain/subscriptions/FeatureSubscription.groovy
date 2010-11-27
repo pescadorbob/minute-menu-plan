@@ -7,7 +7,8 @@ package com.mp.domain.subscriptions
  
 public class FeatureSubscription extends Subscription{
   Feature subscribedFeature
-  String name
-  String rule
 
+   static mapping = {
+        tablePerHierarchy false
+    }
 }

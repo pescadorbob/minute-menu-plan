@@ -7,10 +7,15 @@ import com.mp.domain.party.Subscriber
  * Created by Brent Fisher
  *
  */
- 
+
 public class Subscription {
-    String name
+  static belongsTo = [subscriptionFor:Subscriber]
+
+  Subscriber subscriptionFor
   String originalProductOffering
   Date activeFrom
   Date activeThru
+   static mapping = {
+        tablePerHierarchy false
+    }
 }

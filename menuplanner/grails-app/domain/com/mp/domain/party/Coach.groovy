@@ -9,11 +9,10 @@ class Coach extends PartyRole {
     PartyRoleType type = PartyRoleType.Coach
 
     static transients = ['type']
-    float defaultCommission // the default commission for coaching
-    String coachid
+    float defaultCommission = 0 // the default commission for coaching
 
     static constraints = {
-        coachid(nullable: true, blank: false)
+      defaultCommission(nullable:true)
     }
     static mapping = {
         tablePerHierarchy false

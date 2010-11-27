@@ -32,7 +32,7 @@
         <p:image src='spinner.gif'/>
     </span>
     <div id="footer"></div>
-    <div id="copyright">&copy; 2010 MinuteMenuPlan.com</div>
+    
     <div class="footer"><theme:gadget location="${ElementLocation.FOOTER}"/></div>
 
     <!-- end header -->

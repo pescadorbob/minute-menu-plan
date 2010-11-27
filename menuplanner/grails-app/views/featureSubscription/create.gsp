@@ -8,12 +8,17 @@
         <title><g:message code="default.create.label" args="[entityName]" /></title>
     </head>
     <body>
-        <div class="nav">
+<div id="container">
+  <div id="wrapper" class="clearfix">
+    <div id="content-wrapper" class="clearfix">
+      <div class="nav">
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}">Home</a></span>
             <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
-            <h1><g:message code="default.create.label" args="[entityName]" /></h1>
+          <div class="headbox">
+            <h3><g:message code="default.create.label" args="[entityName]" /></h3>
+            </div>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -29,10 +34,19 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="originatingProduct"><g:message code="featureSubscription.originatingProduct.label" default="Originating Product" /></label>
+                                    <label for="originalProductOffering"><g:message code="featureSubscription.originalProductOffering.label" default="Original Product Offering" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: featureSubscription, field: 'originatingProduct', 'errors')}">
-                                    <g:select name="originatingProduct.id" from="${com.mp.domain.subscriptions.ProductOffering.list()}" optionKey="id" value="${featureSubscription?.originatingProduct?.id}"  />
+                                <td valign="top" class="value ${hasErrors(bean: featureSubscription, field: 'originalProductOffering', 'errors')}">
+                                    <g:textField name="originalProductOffering" value="${featureSubscription?.originalProductOffering}" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="subscriptionFor"><g:message code="featureSubscription.subscriptionFor.label" default="Subscription For" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: featureSubscription, field: 'subscriptionFor', 'errors')}">
+                                    <g:select name="subscriptionFor.id" from="${com.mp.domain.party.Subscriber.list()}" optionKey="id" value="${featureSubscription?.subscriptionFor?.id}"  />
                                 </td>
                             </tr>
                         
@@ -50,7 +64,7 @@
                                     <label for="subscribedFeature"><g:message code="featureSubscription.subscribedFeature.label" default="Subscribed Feature" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: featureSubscription, field: 'subscribedFeature', 'errors')}">
-                                    <g:select name="subscribedFeature.id" from="${com.mp.domain.subscriptions.Feature.list()}" optionKey="id" value="${featureSubscription?.subscribedFeature?.id}"  />
+                                    <g:select optionValue="${{it.name?.toUpperCase()}}" name="subscribedFeature.id" from="${com.mp.domain.subscriptions.Feature.list()}" optionKey="id" value="${featureSubscription?.subscribedFeature?.id}"  />
                                 </td>
                             </tr>
                         
@@ -88,6 +102,9 @@
                     <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
                 </div>
             </g:form>
+        </div>
+        </div>
+        </div>
         </div>
     </body>
 </html>

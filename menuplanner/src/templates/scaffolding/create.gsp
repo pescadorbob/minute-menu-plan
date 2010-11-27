@@ -8,12 +8,17 @@
         <title><g:message code="default.create.label" args="[entityName]" /></title>
     </head>
     <body>
-        <div class="nav">
+<div id="container">
+  <div id="wrapper" class="clearfix">
+    <div id="content-wrapper" class="clearfix">
+      <div class="nav">
             <span class="menuButton"><a class="home" href="\${createLink(uri: '/')}">Home</a></span>
             <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
-            <h1><g:message code="default.create.label" args="[entityName]" /></h1>
+          <div class="headbox">
+            <h3><g:message code="default.create.label" args="[entityName]" /></h3>
+            </div>
             <g:if test="\${flash.message}">
             <div class="message">\${flash.message}</div>
             </g:if>
@@ -50,6 +55,9 @@
                     <span class="button"><g:submitButton name="create" class="save" value="\${message(code: 'default.button.create.label', default: 'Create')}" /></span>
                 </div>
             </g:form>
+        </div>
+        </div>
+        </div>
         </div>
     </body>
 </html>

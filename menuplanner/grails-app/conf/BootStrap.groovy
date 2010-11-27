@@ -87,7 +87,7 @@ class BootStrap {
                     userNames = ['superAdmin': [PartyRoleType.SuperAdmin], 'user1': [PartyRoleType.Subscriber]]
                 } else {
                     userNames = ['superAdmin': [PartyRoleType.SuperAdmin], 'admin': [PartyRoleType.Admin],
-                            'director': [PartyRoleType.Director],
+                            'director': [PartyRoleType.Director,PartyRoleType.Subscriber],
                             'coach': [PartyRoleType.Coach,PartyRoleType.Subscriber],'user1': [PartyRoleType.Subscriber]]
                 }
                 userNames.each {String name, roles ->
@@ -118,6 +118,7 @@ class BootStrap {
                 }
                 println "Populated Shopping Lists"
             }
+            bootstrapService.populateSubscriptions('user1','Full Access')
             bootstrapService.populateQuickFills(5)
             println "Populated Quick Fills"
         }

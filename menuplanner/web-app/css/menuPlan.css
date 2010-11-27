@@ -65,4 +65,5 @@
 .direction{cursor:pointer;}
 
 .currency { text-align:right; font-family:Courier}
+.percentage { text-align:right; font-family:Courier}
 em.neg { color:red }

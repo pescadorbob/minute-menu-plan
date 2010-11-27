@@ -7,6 +7,9 @@ import grails.util.GrailsUtil
 import com.mp.domain.party.Director
 import com.mp.domain.party.Party
 import com.mp.domain.party.Coach
+import com.mp.domain.subscriptions.FeatureSubscription
+import com.mp.domain.subscriptions.Feature
+import com.mp.domain.party.Subscriber
 
 class BootstrapService {
 
@@ -70,14 +73,15 @@ class BootstrapService {
         userCO.introduction = 'about ' + name
         userCO.roles = roles
         if (name == 'coach' ) { // this is the users name
-            Director director = Director.list().first()
+            Director director = Director.list()?.first()
             Long directorId = director?.party?.id
-            if (directorId) {userCO.directorId = directorId}
+            if (directorId) {
+              userCO.directorId = directorId
+            }
         }
         if (name == 'user1') { // this is the users name
-          Coach coach = Coach.list().first()
-          Long coachId = coach?.party?.id
-          if(coachId){ userCO.coachId = coachId }
+          Coach coach = Coach.list()?.first()
+          userCO.coachId = coach?.id
         }
         userCO.createParty()
     }
@@ -210,6 +214,18 @@ class BootstrapService {
 
     }
 
+    public void populateSubscriptions(String userName,String featureName){
+      def subscriber = Subscriber.withCriteria {
+        party {
+          eq("name",userName)
+        }
+      }.first()
+      def feature = Feature.findByName(featureName)
+      def fs = new FeatureSubscription(subscribedFeature:feature,subscriptionFor:subscriber,
+              originalProductOffering:feature?.name,activeFrom:new Date() - 90, activeThru : new Date() + 90)
+              assert fs.save()
+      assert fs.id 
+    }
     public void populateQuickFills(Integer count) {
         (1..count).each {Integer index ->
             QuickFill quickFill = new QuickFill(name: "QuickFill-${index}")
@@ -268,4 +284,5 @@ class BootstrapService {
         }
         return items
     }
+
 }
