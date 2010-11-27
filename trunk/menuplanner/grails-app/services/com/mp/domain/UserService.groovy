@@ -15,6 +15,7 @@ import com.mp.domain.party.Coach
 import com.mp.domain.party.Subscriber
 import com.mp.domain.party.DirectorCoach
 import com.mp.domain.party.CoachSubscriber
+import com.mp.domain.party.PartyRelationship
 
 
 class UserService {
@@ -247,10 +248,21 @@ class UserCO {
             city = party?.subscriber?.city
         }
         if (party?.coach) {
-            directorId = party?.coach?.directorId?.toLong()
+            Coach coach = party?.coach
+            DirectorCoach dc = DirectorCoach.withCriteria(uniqueResult:true) {
+              supplier {
+                idEq(coach.id)
+              }
+            }
+            directorId = dc.client.id
         }
-        if (party?.subscriber?.coachId) {
-            Party coach = Party.findById(party?.subscriber?.coachId?.toLong())
+        CoachSubscriber cs = CoachSubscriber.withCriteria(uniqueResults:true){
+            supplier {
+              idEq(party?.subscriber?.id)
+            }
+        }
+        if (cs) {
+            Party coach = cs.client.party
             if (coach) {coachId = coach?.uniqueId}
         }
         joiningDate = party?.joiningDate
@@ -296,7 +308,7 @@ class UserCO {
         directorId(validator: {val, obj ->
             String coach = PartyRoleType.Coach.toString().replaceAll(" ", "")
             if (!val && (coach in obj.roles)) {
-                return "userCO.subdirector.director.blank.error"
+                return "userCO.coach.director.blank.error"
             }
         })
     }
@@ -330,97 +342,9 @@ class UserCO {
         Party.withTransaction {
             party = Party.get(id?.toLong())
             //Delete unchecked roles first
-            if (party.subscriber && !(PartyRoleType.Subscriber.name() in roles)) {
-                Subscriber subscriber = party.subscriber
-                party.removeFromRoles(subscriber)
-                subscriber.delete(flush: true)
-            }
+            deleteUncheckedRoles(party, roles)
 
-            if (party.director && !(PartyRoleType.Director.name() in roles)) {
-                Director director = party.director
-                party.removeFromRoles(director)
-
-                director.delete(flush: true)
-            }
-
-            if (party.director && !(PartyRoleType.Coach.name() in roles)) {
-                Coach coach = party.coach
-                Director director = Director.createCriteria().get {
-                    coaches {
-                        eq('id', coach?.id)
-                    }
-                }
-                if (director) {
-                    director.removeFromCoaches(coach)
-                }
-                party.removeFromRoles(coach)
-                coach.delete(flush: true)
-            }
-
-            if (party.superAdmin && !(PartyRoleType.SuperAdmin.name() in roles)) {
-                SuperAdmin superAdmin = party.superAdmin
-                party.removeFromRoles(superAdmin)
-                superAdmin.delete(flush: true)
-            }
-
-            if (party.administrator && !(PartyRoleType.Admin.name() in roles)) {
-                Administrator administrator = party.administrator
-                party.removeFromRoles(administrator)
-                administrator.delete(flush: true)
-            }
-
-            party.name = name
-            if ((PartyRoleType.Subscriber.name() in roles)) {
-                Subscriber subscriber = party.subscriber ? party.subscriber : new Subscriber()
-                subscriber.city = city
-                subscriber.mouthsToFeed = mouthsToFeed
-                subscriber.introduction = introduction
-                attachImage(subscriber, selectUserImagePath)
-                subscriber.party = party
-                subscriber.party.showAlcoholicContent = showAlcoholicContent
-                subscriber.s()
-                if (coachId) {
-                    Party coach = Party.findByUniqueId(coachId)
-                    if (coach) {
-                        subscriber.coachId = coach?.id
-                        subscriber.s()
-                    }
-                    coach.addToClients(party)
-                    coach.s()
-                }
-            }
-
-            if ((PartyRoleType.Admin.name() in roles) && !party.administrator) {
-                new Administrator(party: party).s()
-            }
-
-            if ((PartyRoleType.Director.name() in roles) && !party.coach) {
-                new Director(party: party).s()
-            }
-
-            if ((PartyRoleType.Coach.name() in roles) && !party.coach) {
-                Director director = Director.get(directorId)
-                if (director) {
-                    Coach coach = new Coach(coachid: director?.id?.toString(), party: party)
-                    party.addToRoles(coach)
-                    director.addToCoachs(coach)
-                    director.s()
-                    party.s()
-                    coach.s()
-                }
-            }
-            if ((PartyRoleType.Coach.name() in roles) && party.coach) {
-                Director director = Director.get(directorId)
-                if (director && (directorId != party?.coach?.id)) {
-                    Coach coach = party?.coach
-                    coach.directorId = directorId
-                    coach.s()
-                }
-            }
-
-            if (PartyRoleType.SuperAdmin.name() in roles && !party.superAdmin) {
-                new SuperAdmin(party: party).s()
-            }
+            updateCheckedRoles(party, roles, coachId, showAlcoholicContent, selectUserImagePath, introduction, mouthsToFeed, directorId, city, name)
 
             if (party.userLogin) {
                 UserLogin login = party.userLogin
@@ -438,7 +362,98 @@ class UserCO {
         return party
     }
 
-    public boolean attachImage(Subscriber user, def imagePath) {
+  private def updateCheckedRoles(Party party, List<String> roles, String coachId, boolean showAlcoholicContent, selectUserImagePath, String introduction, int mouthsToFeed, long directorId, String city, String name) {
+    party.name = name
+    if ((PartyRoleType.Subscriber.name() in roles)) {
+      Subscriber subscriber = party.subscriber ? party.subscriber : new Subscriber()
+      subscriber.city = city
+      subscriber.mouthsToFeed = mouthsToFeed
+      subscriber.introduction = introduction
+      attachImage(subscriber, selectUserImagePath)
+      subscriber.party = party
+      subscriber.party.showAlcoholicContent = showAlcoholicContent
+      subscriber.s()
+      if (coachId) {
+        Party coach = Party.findByUniqueId(coachId)
+        if (coach) {
+          def cs = CoachSubscriber.withCriteria(uniqueResult:true){
+            supplier {
+              idEq(subscriber.id)
+            }
+            or {
+              isNull("activeTo")
+              gt("activeTo":new Date())
+            }
+          }
+          if(!cs) new CoachSubscriber(client:coach,supplier:subscriber).s()
+
+        }        
+      }
+    }
+
+    if ((PartyRoleType.Admin.name() in roles) && !party.administrator) {
+      new Administrator(party: party).s()
+    }
+
+    if ((PartyRoleType.Director.name() in roles) && !party.coach) {
+      new Director(party: party).s()
+    }
+
+    if ((PartyRoleType.Coach.name() in roles) && !party.coach) {
+      Director director = Director.get(directorId)
+      if (director) {
+        Coach coach=Coach.findbyPartyId(party.id)
+          if(!coach) coach = new Coach(party: party).s()
+        new DirectorCoach(client: director, supplier: coach).s()
+      }
+    }
+    if ((PartyRoleType.Coach.name() in roles) && party.coach) {
+      Director director = Director.get(directorId)
+      if (director && (directorId != party?.coach?.id)) {
+        Coach coach = party?.coach
+        DirectorCoach dc = DirectorCoach.findBySupplier(coach)
+        if(!dc) dc = new DirectorCoach(client:director,supplier:coach,activeFrom: new Date()).s()
+      }
+    }
+
+    if (PartyRoleType.SuperAdmin.name() in roles && !party.superAdmin) {
+      new SuperAdmin(party: party).s()
+    }
+  }
+
+  private def deleteUncheckedRoles(Party party, List<String> roles) {
+    Date now = new Date()
+    if (party.subscriber && !(PartyRoleType.Subscriber.name() in roles)) {
+      Subscriber subscriber = party.subscriber
+      subscriber.activeTo = now
+    }
+
+    if (party.director && !(PartyRoleType.Director.name() in roles)) {
+      Director director = party.director
+      director.activeTo = now
+      director.s();
+    }
+
+    if (party.coach && !(PartyRoleType.Coach.name() in roles)) {
+      Coach coach = party.coach
+      coach.activeTo = now
+      coach.s()
+    }
+
+    if (party.superAdmin && !(PartyRoleType.SuperAdmin.name() in roles)) {
+      SuperAdmin superAdmin = party.superAdmin
+      superAdmin.activeTo = now
+      superAdmin.s()
+    }
+
+    if (party.administrator && !(PartyRoleType.Admin.name() in roles)) {
+      Administrator administrator = party.administrator
+      administrator.activeTo = now
+      administrator.s()
+    }
+  }
+
+  public boolean attachImage(Subscriber user, def imagePath) {
         List<Integer> imageSizes = USER_IMAGE_SIZES
         return Image.updateOwnerImage(user, imagePath, imageSizes)
     }
@@ -460,48 +475,32 @@ class UserCO {
                 subscriber.party = party
                 subscriber.party.showAlcoholicContent = showAlcoholicContent
                 attachImage(subscriber, selectUserImagePath)
-                party.addToRoles(subscriber)
-                party.s()
-                subscriber.s()
+                subscriber.save()
                 if (coachId) {
-                    Party coach = Party.findByUniqueId(coachId)
+                    Coach coach = Coach.get(coachId)
                     if (coach) {
-                        subscriber.coachId = coach?.id
-                        subscriber.s()
-                        CoachSubscriber rel = new CoachSubscriber(client:coach,supplier:subscriber,activeFrom:new Date())
-                        rel.s()                        
+                        def cs = new CoachSubscriber(client:coach,supplier:subscriber).save()
+                        assert cs
                     }
                 }
-                party.s()
             }
             if (PartyRoleType.Admin in roles) {
-                Administrator admin = new Administrator()
-                party.addToRoles(admin)
-                party.s()
-                admin.s()
+                new Administrator(party:party).s()
             }
             if (PartyRoleType.SuperAdmin in roles) {
-                SuperAdmin superAdmin = new SuperAdmin()
-                party.addToRoles(superAdmin)
-                party.s()
-                superAdmin.s()
+                new SuperAdmin(party:party).s()
             }
             if (PartyRoleType.Director in roles) {
-                Director director = new Director()
-                party.addToRoles(director)
-                party.s()
-                director.s()
+                new Director(party:party).s()
             }
             if (PartyRoleType.Coach in roles) {
+                Coach coach = new Coach(party: party).save()
+                assert coach.id
                 Director director = Director.get(directorId)
+
                 if (director) {
-                    Coach coach = new Coach(directorId: director?.id?.toString(), party: party)
-                    party.addToRoles(coach)
-                    DirectorCoach rel = new DirectorCoach(client:director,supplier:coach,activeFrom:new Date())
-                    director.s()
-                    party.s()
-                    coach.s()
-                    rel.s()
+                    DirectorCoach dc = new DirectorCoach(client:director,supplier:coach).save()
+                    assert dc && dc.id
                 }
             }
         }

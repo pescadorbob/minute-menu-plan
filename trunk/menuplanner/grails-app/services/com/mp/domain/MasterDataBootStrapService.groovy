@@ -22,6 +22,7 @@ import com.mp.domain.accounting.AccountRoleType
 import com.mp.domain.accounting.AccountTransaction
 import com.mp.domain.accounting.AccountTransactionType
 import com.mp.domain.party.Party
+import com.mp.domain.subscriptions.FeatureSubscription
 
 class MasterDataBootStrapService implements ApplicationContextAware {
 
@@ -198,6 +199,7 @@ class MasterDataBootStrapService implements ApplicationContextAware {
     new FeaturedOfferingApplicability(availableFor: freeTrial, describedBy: f1, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'expiration', applicableThruDescription: 'Valid until subscription expires').s()
     new FeaturedOfferingApplicability(availableFor: po, describedBy: f1, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'expiration', applicableThruDescription: 'Valid until subscription expires').s()
     new FeaturedOfferingApplicability(availableFor: year, describedBy: f1, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'expiration', applicableThruDescription: 'Valid until subscription expires').s()
+    new FeatureSubscription()
   }
 
   public void populatePermissions() {
@@ -378,7 +380,7 @@ class MasterDataBootStrapService implements ApplicationContextAware {
             actionFilter: '.*', uriFilter: '.*')
     theme.s();
     new PageElement(elementFor: theme, name: "Footer",
-            text: """<div id="rights">All Rights Reserved</div>""",
+            text: """<div id="copyright">&copy; 2010 MinuteMenuPlan.com</div>""",
             location: ElementLocation.FOOTER,
             controllerFilter: '.*', actionFilter: '.*', uriFilter: '.*',
             isTemplate: false,
@@ -386,7 +388,7 @@ class MasterDataBootStrapService implements ApplicationContextAware {
     new PageElement(elementFor: theme, name: "Blog Feed",
             text: """<div><script type='text/javascript' charset='utf-8' src='http://scripts.hashemian.com/jss/feed.js?print=yes&numlinks=10&summarylen=50&seedate=yes&url=http:%2F%2Fblog.minutemenuplan.com%2Ffeed%2F'></script></div>""",
             location: ElementLocation.FOOTER,
-            controllerFilter: '.*', actionFilter: '.*', uriFilter: '.*',
+            controllerFilter: '.special*', actionFilter: '.*', uriFilter: '.*',
             isTemplate: false,
             listOrder: 1).s()
 

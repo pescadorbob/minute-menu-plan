@@ -8,13 +8,18 @@
         <title><g:message code="default.edit.label" args="[entityName]" /></title>
     </head>
     <body>
-        <div class="nav">
+<div id="container">
+  <div id="wrapper" class="clearfix">
+    <div id="content-wrapper" class="clearfix">
+      <div class="nav">
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}">Home</a></span>
             <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
             <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
-            <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
+            <div class="headbox">
+              <h3><g:message code="default.edit.label" args="[entityName]" /></h3>
+            </div>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -32,10 +37,19 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="originatingProduct"><g:message code="subscription.originatingProduct.label" default="Originating Product" /></label>
+                                  <label for="originalProductOffering"><g:message code="subscription.originalProductOffering.label" default="Original Product Offering" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: subscription, field: 'originatingProduct', 'errors')}">
-                                    <g:select name="originatingProduct.id" from="${com.mp.domain.subscriptions.ProductOffering.list()}" optionKey="id" value="${subscription?.originatingProduct?.id}"  />
+                                <td valign="top" class="value ${hasErrors(bean: subscription, field: 'originalProductOffering', 'errors')}">
+                                    <g:textField name="originalProductOffering" value="${subscription?.originalProductOffering}" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                  <label for="subscriptionFor"><g:message code="subscription.subscriptionFor.label" default="Subscription For" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: subscription, field: 'subscriptionFor', 'errors')}">
+                                    <g:select name="subscriptionFor.id" from="${com.mp.domain.party.Subscriber.list()}" optionKey="id" value="${subscription?.subscriptionFor?.id}"  />
                                 </td>
                             </tr>
                         
@@ -45,15 +59,6 @@
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: subscription, field: 'activeThru', 'errors')}">
                                     <g:datePicker name="activeThru" precision="day" value="${subscription?.activeThru}"  />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="name"><g:message code="subscription.name.label" default="Name" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: subscription, field: 'name', 'errors')}">
-                                    <g:textField name="name" value="${subscription?.name}" />
                                 </td>
                             </tr>
                         
@@ -74,6 +79,9 @@
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </div>
             </g:form>
+        </div>
+        </div>
+        </div>
         </div>
     </body>
 </html>

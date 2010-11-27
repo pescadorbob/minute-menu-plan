@@ -16,7 +16,7 @@
         <g:render template="/user/userRoles" model="[userCO:userCO,party:party]"/>
 
         <div id="directorsList" style="display:none">
-            <span style="margin-left:10px;"><g:select  style="width:130px;" class="inpbox ${hasErrors(bean: userCO, field: 'coachid', 'errors')}" name="directorId" from="${Director?.list()}" value="${userCO?.coachId}" optionKey="id" noSelection='["":"Select Director"]'/></span>
+            <span style="margin-left:10px;"><g:select  style="width:130px;" class="inpbox ${hasErrors(bean: userCO, field: 'directorId', 'errors')}" name="directorId" from="${Director?.list()}" value="${userCO?.directorId}" optionKey="id" noSelection='["":"Select Director"]'/></span>
         </div>
         <g:if test="${params.action != 'create'}">
             <li><h3>Contributed Recipes</h3></li>

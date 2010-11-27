@@ -1,11 +1,11 @@
 package com.mp.domain.party
 
-class PartyRoleRelationship {
+class PartyRelationship {
 
     PartyRole client
     PartyRole supplier
 
-  Date activeFrom
+  Date activeFrom = new Date()
   Date activeTo
 
     static belongsTo = [client: PartyRole]
@@ -15,7 +15,7 @@ class PartyRoleRelationship {
     }
 
     static mapping = {
-        tablePerHierarchy false
+        tablePerHierarchy true
     }
 
 }

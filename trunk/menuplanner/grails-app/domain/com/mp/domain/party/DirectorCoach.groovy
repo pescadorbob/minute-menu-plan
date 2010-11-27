@@ -1,14 +1,16 @@
 package com.mp.domain.party
 
-class DirectorCoach extends PartyRoleRelationship {
+class DirectorCoach extends PartyRelationship {
 
-  float commission // the commission that a Director receives from a coach
-  float defaultClientCommission// the default commission that a coach gets from a client
+  float commission = 0// the commission that a Director receives for coaching from each subscriber payment
+  float defaultClientCommission = 0 // the default commission that a coach gets from a client
     static constraints = {
+      commission(nullable:true)
+      defaultClientCommission(nullable:true)
     }
 
     static mapping = {
-        tablePerHierarchy false
+        tablePerHierarchy true
     }
 
 }
