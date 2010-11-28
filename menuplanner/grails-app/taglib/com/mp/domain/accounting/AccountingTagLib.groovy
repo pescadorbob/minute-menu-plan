@@ -6,31 +6,46 @@ import org.codehaus.groovy.grails.plugins.web.taglib.FormatTagLib
 import java.text.NumberFormat
 import javax.swing.text.NumberFormatter
 import java.text.DecimalFormat
+import com.mp.domain.UserLogin
+import org.hibernate.Criteria
 
-public class AccountingTagLib  {
+public class AccountingTagLib {
   static namespace = "txn"
+  def accountingService
 
   def balance = {attrs, body ->
-    if (log.isDebugEnabled()) {
-      log.debug "Calculating Balance"
-    }
-    def account = attrs?.account
     def accountTransaction = attrs?.txn
-    def balance = 0.0;
-    account.transactions.findAll {
-      it.transactionDate <= accountTransaction.transactionDate
-    }.sort {
-      it.transactionDate
-    }.each {
-      balance += it.amount
+    def account = attrs?.acct
+    def balance = 0.0
+    if(accountTransaction){
+      balance = accountingService.getBalance(accountTransaction)
+    } else if (account){
+      balance = accountingService.getCurrentBalance(account)
     }
     def format = attrs.format
     DecimalFormat myFormatter = new DecimalFormat(format);
-    String output = myFormatter.format(balance);
-    if(balance<0){
-      output = "<em class=\"neg\">${output}</em>"
+    String output = "unknown"
+    try {
+      output = myFormatter.format(balance);
+      if (balance < 0) {
+        output = "<span class=\"neg\">(${output})</span>"
+      }
+    } catch (Exception e){
+      println "Unknown balance:${balance}"
+      e.printStackTrace()
     }
     out << output
+  }
+
+  def name = {attrs, body ->
+    def ar = AccountRole.findByDescribes(attrs?.account)
+    out << ar?.roleFor?.name
+  }
+  def email = {attrs, body ->
+    def party = AccountRole.findByDescribes(attrs?.account)?.roleFor
+    def login = UserLogin.findByParty(party)
+
+    out << login?.email
   }
   def eachTransaction = {attrs, body ->
     def account = attrs?.account
@@ -38,15 +53,20 @@ public class AccountingTagLib  {
     def thru = attrs.thru
     def var = attrs.var ? attrs.var : "t"
     def status = attrs.status ? attrs.status : "i"
-    if (log.isDebugEnabled()) {
-      log.debug "getting Account Transactions ${from} - ${thru}"
-    }
-    account.transactions.findAll{
-      it.transactionDate >= from && it.transactionDate <= thru+1
-    }?.sort { it.transactionDate }.eachWithIndex { it, i->
-      out << body((var):it,(status):i)
+    def c = AccountTransaction.createCriteria()
+    def trans = c.list {
+      if(account) transactionFor {
+        idEq(account.id)
+      }
+      ge('transactionDate',from)
+      le('transactionDate',thru+1)
+    }?.sort { a, b ->
+      def dateCompare = a.transactionDate.compareTo(b.transactionDate)
+      if(!dateCompare)
+         return a.id - b.id
+      else return dateCompare
+    }.eachWithIndex {it, i ->
+      out << body((var): it, (status): i)
     }
   }
-
-
 }

@@ -8,13 +8,18 @@
         <title><g:message code="default.show.label" args="[entityName]" /></title>
     </head>
     <body>
+<div id="container">
+  <div id="wrapper" class="clearfix">
+    <div id="content-wrapper" class="clearfix">
         <div class="nav">
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}">Home</a></span>
             <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
             <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
-            <h1><g:message code="default.show.label" args="[entityName]" /></h1>
+          <div class="headbox">
+            <h3><g:message code="default.show.label" args="[entityName]" /></h3>
+            </div>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -51,6 +56,13 @@
                         </tr>
                     
                         <tr class="prop">
+                            <td valign="top" class="name"><g:message code="accountTransaction.isVoid.label" default="Is Void" /></td>
+                            
+                            <td valign="top" class="value"><g:formatBoolean boolean="${accountTransaction?.isVoid}" /></td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
                             <td valign="top" class="name"><g:message code="accountTransaction.description.label" default="Description" /></td>
                             
                             <td valign="top" class="value">${fieldValue(bean: accountTransaction, field: "description")}</td>
@@ -75,5 +87,7 @@
                 </g:form>
             </div>
         </div>
+    </div></div></div>
+
     </body>
 </html>

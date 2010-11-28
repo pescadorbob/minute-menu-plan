@@ -16,7 +16,10 @@ class AccountTransactionController {
     def create = {
         def accountTransaction = new AccountTransaction()
         accountTransaction.properties = params
-        return [accountTransaction: accountTransaction]
+        println "Types:${AccountTransactionType.values()}"
+      def types = AccountTransactionType.values()
+      assert types
+        return [accountTransaction: accountTransaction,atypes:types]
     }
 
     def save = {

@@ -7,7 +7,8 @@ class AccountTransaction {
   String description
   AccountTransactionType transactionType
   Account transactionFor
-
+  Boolean isVoid = false
+  
   static constraints = {
   }
 

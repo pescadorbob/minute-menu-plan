@@ -23,10 +23,13 @@ import com.mp.domain.accounting.AccountTransaction
 import com.mp.domain.accounting.AccountTransactionType
 import com.mp.domain.party.Party
 import com.mp.domain.subscriptions.FeatureSubscription
+import com.mp.accounting.AccountingService
+import com.mp.domain.accounting.OperationalAccount
 
 class MasterDataBootStrapService implements ApplicationContextAware {
 
   boolean transactional = false
+  AccountingService accountingService
   static config = ConfigurationHolder.config
   def messageSource
   Object[] testArgs = {}
@@ -404,19 +407,21 @@ class MasterDataBootStrapService implements ApplicationContextAware {
   }
   def populateAccounts(){
     Date today = new Date()
+    OperationalAccount opAcct = new OperationalAccount(name:"MMP Operational Account").s()
+    def superAdmin = Party.findByName('superAdmin')
+    new AccountRole(roleFor:superAdmin,describes:opAcct,type:AccountRoleType.OWNER).s()
       Party.list().each{ party ->
-         Account account = new Account(accountNumber:'233-355-SDD-2235552').s()
+         Account account = new Account(name:"General Account:${party.name}").s()
          new AccountRole(roleFor:party,describes:account,type:AccountRoleType.OWNER).s()
-         new AccountTransaction(transactionFor:account,transactionDate:today - 60,amount:0.0,description:"Opening Balance",transactionType:AccountTransactionType.OPENING_BALANCE).s()
-         new AccountTransaction(transactionFor:account,transactionDate:today - 59,amount:5.95,description:"Initial Payment made through Click Bank: ***-2335 THANK YOU",transactionType:AccountTransactionType.FUNDING).s()
-         new AccountTransaction(transactionFor:account,transactionDate:today - 58,amount:-5.95,description:"\$5/month subscription",transactionType:AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
-         new AccountTransaction(transactionFor:account,transactionDate:today - 30,amount:5.95,description:"Payment made through Click Bank: ***-2335 THANK YOU",transactionType:AccountTransactionType.FUNDING).s()
-         new AccountTransaction(transactionFor:account,transactionDate:today - 29,amount:-5.95,description:"\$5/month subscription",transactionType:AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
-         new AccountTransaction(transactionFor:account,transactionDate:today - 28,amount:5.95*0.2,description:"Director Collection: Cecil Barlow: Congratulations!",transactionType:AccountTransactionType.AFFILIATE_PAYMENT).s()
-         new AccountTransaction(transactionFor:account,transactionDate:today - 27,amount:5.95*0.2,description:"Director Collection: Cecil Barlow: Congratulations!",transactionType:AccountTransactionType.AFFILIATE_PAYMENT).s()
-         new AccountTransaction(transactionFor:account,transactionDate:today - 2,amount:5.95,description:"Payment made through Click Bank: ***-2335 THANK YOU",transactionType:AccountTransactionType.FUNDING).s()
-         new AccountTransaction(transactionFor:account,transactionDate:today ,amount:-5.95,description:"\$5/month subscription",transactionType:AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
-
+         accountingService.createTxn(opAcct.accountNumber,account.accountNumber,today-60,0.0,"Opening Balance",AccountTransactionType.OPENING_BALANCE)
+         accountingService.createTxn(opAcct.accountNumber,account.accountNumber,today-59,5.95,"Initial Payment made through Click Bank: ***-2335 THANK YOU",AccountTransactionType.FUNDING)
+         accountingService.createTxn(opAcct.accountNumber,account.accountNumber,today-58,-5.95,"\$5/month subscription",AccountTransactionType.SUBSCRIPTION_PAYMENT)
+         accountingService.createTxn(opAcct.accountNumber,account.accountNumber,today-30,5.95,"Payment made through Click Bank: ***-2335 THANK YOU",AccountTransactionType.FUNDING)
+         accountingService.createTxn(opAcct.accountNumber,account.accountNumber,today-29,-5.95,"\$5/month subscription",AccountTransactionType.SUBSCRIPTION_PAYMENT)
+         accountingService.createTxn(opAcct.accountNumber,account.accountNumber,today-28,5.95*0.2,"Director Collection: Cecil Barlow: Congratulations!",AccountTransactionType.AFFILIATE_PAYMENT)
+         accountingService.createTxn(opAcct.accountNumber,account.accountNumber,today-27,5.95*0.2,"Director Collection: Cecil Barlow: Congratulations!",AccountTransactionType.AFFILIATE_PAYMENT)
+         accountingService.createTxn(opAcct.accountNumber,account.accountNumber,today-2,5.95,"Payment made through Click Bank: ***-2335 THANK YOU",AccountTransactionType.FUNDING)
+         accountingService.createTxn(opAcct.accountNumber,account.accountNumber,today,-5.95,"\$5/month subscription",AccountTransactionType.SUBSCRIPTION_PAYMENT)
       }
   }
 }

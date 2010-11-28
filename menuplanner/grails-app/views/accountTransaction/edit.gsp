@@ -8,13 +8,18 @@
         <title><g:message code="default.edit.label" args="[entityName]" /></title>
     </head>
     <body>
-        <div class="nav">
+<div id="container">
+  <div id="wrapper" class="clearfix">
+    <div id="content-wrapper" class="clearfix">
+      <div class="nav">
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}">Home</a></span>
             <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
             <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
-            <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
+            <div class="headbox">
+              <h3><g:message code="default.edit.label" args="[entityName]" /></h3>
+            </div>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -44,7 +49,7 @@
                                   <label for="transactionType"><g:message code="accountTransaction.transactionType.label" default="Transaction Type" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: accountTransaction, field: 'transactionType', 'errors')}">
-                                    <g:select name="transactionType" from="${com.mp.domain.accounting.AccountTransactionType?.values()}" value="${accountTransaction?.transactionType}"  />
+                                  <g:select name="transactionFor.id" from="${com.mp.domain.accounting.Account.list()}" optionValue="name" optionKey="id" value="${accountTransaction?.transactionFor?.id}"  />
                                 </td>
                             </tr>
                         
@@ -54,6 +59,15 @@
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: accountTransaction, field: 'transactionDate', 'errors')}">
                                     <g:datePicker name="transactionDate" precision="day" value="${accountTransaction?.transactionDate}"  />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                  <label for="isVoid"><g:message code="accountTransaction.isVoid.label" default="Is Void" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: accountTransaction, field: 'isVoid', 'errors')}">
+                                    <g:checkBox name="isVoid" value="${accountTransaction?.isVoid}" />
                                 </td>
                             </tr>
                         
@@ -83,6 +97,9 @@
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </div>
             </g:form>
+        </div>
+        </div>
+        </div>
         </div>
     </body>
 </html>

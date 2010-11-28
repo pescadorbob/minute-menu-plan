@@ -2,29 +2,31 @@ package com.mp.domain.party
 
 import com.mp.domain.party.DirectorCoach
 import com.mp.domain.party.CoachSubscriber
+import com.mp.domain.Permission
 
 public class PtyTagLib {
   static namespace = "pty"
+  def permissionService
 
   def hasRole = {attrs, body ->
     if (log.isDebugEnabled()) {
       log.debug "Checking hasRole"
-      }
-      def pty = attrs?.bean
+    }
+    def pty = attrs?.bean
     def retVal = false
-     if(pty){
+    if (pty) {
       retVal = pty?.roles?.findAll {
         if (log.isDebugEnabled()) {
           log.debug "Comparing [${it.type}] to [${attrs.role}] got:${it.type == attrs.role}"
-          }
+        }
         it.type == attrs.role
-      }?.size()>0
+      }?.size() > 0
 
-     }
+    }
     if (log.isDebugEnabled()) {
-          log.debug "returning ${retVal}"
-          }
-    if(retVal) out << body()
+      log.debug "returning ${retVal}"
+    }
+    if (retVal) out << body()
   }
   def coaches = {attrs, body ->
     def var = attrs.var ? attrs.var : "coach"
@@ -44,7 +46,7 @@ public class PtyTagLib {
       }
     }
     coaches.each {
-      out << body((var):it)
+      out << body((var): it)
     }
   }
   def clients = {attrs, body ->
@@ -66,9 +68,17 @@ public class PtyTagLib {
       }
     }
     clients.each {
-      out << body((var):it)
+      out << body((var): it)
     }
   }
-
-
+  def hasPermission = {attrs, body ->
+    if (log.isDebugEnabled()) {
+      log.debug "Checking permission:${attrs?.permission}"
+    }
+    Permission permission = attrs['permission']
+    def pty = attrs?.bean
+    if (permission && permissionService.hasPermission(permission, null, pty)) {
+      out << body()
+    }
+  }
 }

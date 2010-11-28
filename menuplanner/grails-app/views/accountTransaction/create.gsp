@@ -1,5 +1,5 @@
 
-<%@ page import="com.mp.domain.accounting.AccountTransaction" %>
+<%@ page import="com.mp.domain.accounting.AccountTransactionType; com.mp.domain.accounting.AccountTransaction" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -8,12 +8,17 @@
         <title><g:message code="default.create.label" args="[entityName]" /></title>
     </head>
     <body>
-        <div class="nav">
+<div id="container">
+  <div id="wrapper" class="clearfix">
+    <div id="content-wrapper" class="clearfix">
+      <div class="nav">
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}">Home</a></span>
             <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
-            <h1><g:message code="default.create.label" args="[entityName]" /></h1>
+          <div class="headbox">
+            <h3><g:message code="default.create.label" args="[entityName]" /></h3>
+            </div>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -40,8 +45,8 @@
                                 <td valign="top" class="name">
                                     <label for="transactionType"><g:message code="accountTransaction.transactionType.label" default="Transaction Type" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: accountTransaction, field: 'transactionType', 'errors')}">
-                                    <g:select name="transactionType" from="${com.mp.domain.accounting.AccountTransactionType?.values()}" value="${accountTransaction?.transactionType}"  />
+                                <td valign="top" class="value ">
+                                  <g:select name="transactionType" from="${com.mp.domain.accounting.AccountTransactionType?.values().collect{it.name}}" value="${accountTransaction?.transactionType}"  />
                                 </td>
                             </tr>
                         
@@ -51,6 +56,15 @@
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: accountTransaction, field: 'transactionDate', 'errors')}">
                                     <g:datePicker name="transactionDate" precision="day" value="${accountTransaction?.transactionDate}"  />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="isVoid"><g:message code="accountTransaction.isVoid.label" default="Is Void" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: accountTransaction, field: 'isVoid', 'errors')}">
+                                    <g:checkBox name="isVoid" value="${accountTransaction?.isVoid}" />
                                 </td>
                             </tr>
                         
@@ -68,7 +82,7 @@
                                     <label for="transactionFor"><g:message code="accountTransaction.transactionFor.label" default="Transaction For" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: accountTransaction, field: 'transactionFor', 'errors')}">
-                                    <g:select name="transactionFor.id" from="${com.mp.domain.accounting.Account.list()}" optionKey="id" value="${accountTransaction?.transactionFor?.id}"  />
+                                    <g:select name="transactionFor.id" from="${com.mp.domain.accounting.Account.list()}" optionValue="name" optionKey="id" value="${accountTransaction?.transactionFor?.id}"  />
                                 </td>
                             </tr>
                         
@@ -79,6 +93,9 @@
                     <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
                 </div>
             </g:form>
+        </div>
+        </div>
+        </div>
         </div>
     </body>
 </html>

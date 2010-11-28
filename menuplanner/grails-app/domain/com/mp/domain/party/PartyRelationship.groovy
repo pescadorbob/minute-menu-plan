@@ -15,7 +15,7 @@ class PartyRelationship {
     }
 
     static mapping = {
-        tablePerHierarchy true
+        tablePerHierarchy false
     }
 
 }

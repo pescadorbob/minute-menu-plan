@@ -8,12 +8,15 @@
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
+       <div id="container">
+  <div id="wrapper" class="clearfix">
+    <div id="content-wrapper" class="clearfix">
         <div class="nav">
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}">Home</a></span>
             <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
-            <h1><g:message code="default.list.label" args="[entityName]" /></h1>
+            <h3><g:message code="default.list.label" args="[entityName]" /></h3>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -30,10 +33,10 @@
                         
                             <g:sortableColumn property="transactionDate" title="${message(code: 'accountTransaction.transactionDate.label', default: 'Transaction Date')}" />
                         
+                            <g:sortableColumn property="isVoid" title="${message(code: 'accountTransaction.isVoid.label', default: 'Is Void')}" />
+                        
                             <g:sortableColumn property="description" title="${message(code: 'accountTransaction.description.label', default: 'Description')}" />
                         
-                            <th><g:message code="accountTransaction.transactionFor.label" default="Transaction For" /></th>
-                   	    
                         </tr>
                     </thead>
                     <tbody>
@@ -48,9 +51,9 @@
                         
                             <td><g:formatDate date="${accountTransaction.transactionDate}" /></td>
                         
-                            <td>${fieldValue(bean: accountTransaction, field: "description")}</td>
+                            <td><g:formatBoolean boolean="${accountTransaction.isVoid}" /></td>
                         
-                            <td>${fieldValue(bean: accountTransaction, field: "transactionFor")}</td>
+                            <td>${fieldValue(bean: accountTransaction, field: "description")}</td>
                         
                         </tr>
                     </g:each>
@@ -60,6 +63,7 @@
             <div class="paginateButtons">
                 <g:paginate total="${accountTransactionTotal}" />
             </div>
+          </div></div></div>
         </div>
     </body>
 </html>
