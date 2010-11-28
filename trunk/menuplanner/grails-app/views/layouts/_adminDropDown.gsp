@@ -5,7 +5,7 @@
         <ul>
             <li>
                 %{--<a>Volume to weight</a>--}%
-                <g:link class="accountsLinkFT"  controller="user" action="list">Accounts</g:link>
+                <g:link class="accountsLinkFT"  controller="user" action="list">User Accounts</g:link>
                 <g:link class="quickFillLinkFT"  controller="quickFill" action="quickFillAdmin">Quick Fill</g:link>
                 <g:link class="quickFillLinkFT"  controller="securityRole" action="list">Security Role</g:link>
                 <g:if test="${(permission.hasPermission(permission: Permission.MANAGE_HOME_PAGE))}">
@@ -17,6 +17,7 @@
             </li>
             <li>
                 <g:if test="${(permission.hasPermission(permission: Permission.MANAGE_SUBSCRIPTIONS))}">
+                  <g:link class="accountsLinkFT"  controller="account" action="showGeneralLedger">General Ledger</g:link>
                     <g:link class="recurringChargeLinkFT" name="manageBasePrice" controller="basePrice" action="list">Base Price</g:link>
                     <g:link class="recurringChargeLinkFT" name="manageContent" controller="content" action="list">Content</g:link>
                     <g:link class="recurringChargeLinkFT" name="manageContentSubscriptions" controller="contentSubscription" action="list">Content Subscriptions</g:link>
@@ -31,13 +32,16 @@
                 %{--<a>Featured plans</a>--}%
             </li>
             <li><!-- Theme -->
-                <g:if test="${(permission.hasPermission(permission: Permission.MANAGE_THEMES))}">
+                <pty:hasPermission bean="${loggedUser?.party}" permission="${Permission.MANAGE_THEMES}">
+                  <g:link controller="account" action="bootstrapAccounts">Populate Accounts</g:link>
                     <g:link controller="theme" action="list">Themes</g:link>
                     <g:link controller="pageElement" action="list">Page Elements</g:link>
-                </g:if>
+                </pty:hasPermission>
                 %{--<a>Featured plans</a>--}%
+            </li>
+            <li><!-- Bootstrap -->
+
             </li>
         </ul>
     </li>
 </g:if>
-    

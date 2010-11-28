@@ -96,6 +96,8 @@ class BootStrap {
                 }
             }
             println "Populated Users"
+            if (!Account.count() && !AccountTransaction.count()) {masterDataBootStrapService.populateAccounts()}
+
 
 
             String recipeFileName = (GrailsUtil.environment in ['qa', 'beta']) ? "/bootstrapData/recipeSpreadsheet.xls" : "/bootstrapData/recipeSpreadsheet_test.xls"
@@ -174,6 +176,5 @@ class BootStrap {
         if (!Feature.count()) {masterDataBootStrapService.populateSubscriptions()}
         if (!Testimonial.count()) {masterDataBootStrapService.populateTestimonials()}
         if (!Theme.count()) {masterDataBootStrapService.populateThemes()}
-        if (!Account.count() && !AccountTransaction.count()) {masterDataBootStrapService.populateAccounts()}
     }
 }
