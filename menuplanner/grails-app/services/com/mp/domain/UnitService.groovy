@@ -1,6 +1,7 @@
 package com.mp.domain
 
 import static com.mp.MenuConstants.*
+import com.mp.tools.UserTools
 
 class UnitService {
 
@@ -13,7 +14,7 @@ class UnitService {
         unit.metricType=MetricType.METRIC
         unit.addToSystemOfUnits(SystemOfUnit.get(systemOfUnit))
         unit.definition="Subscriber Created Unit"
-        unit.party=LoginCredential.currentUser?.party
+        unit.party=UserTools.currentUser?.party
         unit.s()
         Unit sourceUnit = Unit.findById(unitId)
         Unit targetUnit = Unit.findByName(UNIT_MILLI_LITRE)

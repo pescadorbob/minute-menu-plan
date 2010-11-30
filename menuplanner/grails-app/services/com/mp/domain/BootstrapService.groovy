@@ -1,15 +1,12 @@
 package com.mp.domain
 
-import static com.mp.MenuConstants.*
-
-import org.grails.comments.*
-import grails.util.GrailsUtil
+import com.mp.domain.party.Coach
 import com.mp.domain.party.Director
 import com.mp.domain.party.Party
-import com.mp.domain.party.Coach
-import com.mp.domain.subscriptions.FeatureSubscription
-import com.mp.domain.subscriptions.Feature
-import com.mp.domain.party.Subscriber
+import grails.util.GrailsUtil
+import org.grails.comments.Comment
+import static com.mp.MenuConstants.*
+import com.mp.domain.*
 
 class BootstrapService {
 
@@ -214,18 +211,6 @@ class BootstrapService {
 
     }
 
-    public void populateSubscriptions(String userName,String featureName){
-      def subscriber = Subscriber.withCriteria {
-        party {
-          eq("name",userName)
-        }
-      }.first()
-      def feature = Feature.findByName(featureName)
-      def fs = new FeatureSubscription(subscribedFeature:feature,subscriptionFor:subscriber,
-              originalProductOffering:feature?.name,activeFrom:new Date() - 90, activeThru : new Date() + 90)
-              assert fs.save()
-      assert fs.id 
-    }
     public void populateQuickFills(Integer count) {
         (1..count).each {Integer index ->
             QuickFill quickFill = new QuickFill(name: "QuickFill-${index}")

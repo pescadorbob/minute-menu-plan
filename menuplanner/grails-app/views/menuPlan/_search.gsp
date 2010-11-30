@@ -1,4 +1,4 @@
-<%@ page import="com.mp.domain.LoginCredential;" %>
+<%@ page import="com.mp.tools.UserTools; com.mp.domain.LoginCredential;" %>
 
 <div id="right-panel">
     <div id="search">Quick Recipe Search</div>
@@ -119,8 +119,8 @@
                             <span id="domainProduct" class="pointer" onclick="defineSearchDomainType(this, 'domainType', 'Item');">Include Products</span><br/>
                         </li>
                         <li>
-                            <g:if test="${LoginCredential.currentUser}">
-                                <span id="favourites" class="pointer" onclick="submitSearchForm(this, 'favouriteForUsersString', '*${LoginCredential.currentUser.id}*');">Show favourites</span><br/>
+                            <g:if test="${UserTools.currentUser}">
+                                <span id="favourites" class="pointer" onclick="submitSearchForm(this, 'favouriteForUsersString', '*${UserTools.currentUser.id}*');">Show favourites</span><br/>
                             </g:if>
                         </li>
                         <li>

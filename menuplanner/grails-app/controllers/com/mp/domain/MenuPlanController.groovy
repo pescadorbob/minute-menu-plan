@@ -5,6 +5,7 @@ import org.apache.lucene.document.NumberTools
 import javax.servlet.http.Cookie
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import com.mp.domain.party.Party
+import com.mp.tools.UserTools
 
 class MenuPlanController {
 
@@ -17,7 +18,7 @@ class MenuPlanController {
         MenuPlan menuPlan = MenuPlan.get(params.long("id"))
         List<SubCategory> subCategories = (Recipe.list()*.subCategories)?.flatten()?.unique {it.id}?.sort {it.name}
         List<Category> categories = (subCategories*.category)?.flatten()?.unique {it.id}?.sort {it.name}
-        render(view: 'show', model: [menuPlan: menuPlan, categories: categories, subCategories: subCategories, itemList: recipeList, itemTotal: Recipe.count(), openInNewWindow: false, party: LoginCredential?.currentUser?.party])
+        render(view: 'show', model: [menuPlan: menuPlan, categories: categories, subCategories: subCategories, itemList: recipeList, itemTotal: Recipe.count(), openInNewWindow: false, party: UserTools.currentUser?.party])
     }
 
     def create = {
@@ -64,7 +65,7 @@ class MenuPlanController {
             weeks*.delete(flush: true)
         } else {
             menuPlan = new MenuPlan()
-            menuPlan.owner = LoginCredential.currentUser.party
+            menuPlan.owner = UserTools.currentUser.party
         }
         menuPlan.name = params.menuPlan.name
         (0..3).each {Integer weekIndex ->
@@ -99,7 +100,7 @@ class MenuPlanController {
         boolean openInNewWindow = (params?.openInNewWindow == 'true') ? true : false
         Long offset = params.offset ? params.long('offset') : 0
         List<Item> results = []
-        Party currentUser = LoginCredential.currentUser.party
+        Party currentUser = UserTools.currentUser.party
         Long currentUserId = currentUser?.id
         List<String> allQueries = []
         List<String> subCategoriesString = []

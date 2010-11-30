@@ -81,14 +81,7 @@
                                 </td>
                             </tr>
                         
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="imageDir"><g:message code="subscriber.imageDir.label" default="Image Dir" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: subscriber, field: 'imageDir', 'errors')}">
-                                    <g:textField name="imageDir" value="${subscriber?.imageDir}" />
-                                </td>
-                            </tr>
+
                         
                             <tr class="prop">
                                 <td valign="top" class="name">

@@ -25,6 +25,7 @@ import com.mp.domain.party.Party
 import com.mp.domain.subscriptions.FeatureSubscription
 import com.mp.accounting.AccountingService
 import com.mp.domain.accounting.OperationalAccount
+import com.mp.domain.subscriptions.ControllerActionFeature
 
 class MasterDataBootStrapService implements ApplicationContextAware {
 
@@ -186,23 +187,23 @@ class MasterDataBootStrapService implements ApplicationContextAware {
     new Nutrient(name: NUTRIENT_PROTEIN, preferredUnit: gram).s()
   }
 
-  public void populateSubscriptions() {
+  public void populateProductOfferings() {
     Date activeFrom = new Date();
     Date activeTo = activeFrom + 100;
-    def f1 = new Feature(activeTo: activeTo, activeFrom: activeFrom, name: "Full Access", rule: "true").s()
+    def f1 = new ControllerActionFeature(controllerFilter:".*",actionFilter:".*",uriFilter:".*",activeTo: activeTo, activeFrom: activeFrom, description:"Full Access to everything",name: "Full Access", rule: "true").s()
     ProductOffering freeTrial = new ProductOffering(name: "1 Month Free Trial", activeTo: activeTo, activeFrom: activeFrom)
     freeTrial.s()
     ProductOffering po = new ProductOffering(name: "Basic Monthly Subscription", activeTo: activeTo, activeFrom: activeFrom)
     po.s()
     ProductOffering year = new ProductOffering(name: "Basic Yearly Subscription", activeTo: activeTo, activeFrom: activeFrom)
     year.s()
-    new RecurringCharge(recurrence: "1m", startAfter: "1m", pricingFor: freeTrial, activeTo: activeTo, activeFrom: activeFrom, value: 5, name: "\$5 month", description: "5 dollars every month after the first month").s();
-    new RecurringCharge(recurrence: "1m", startAfter: "1m", pricingFor: po, activeTo: activeTo, activeFrom: activeFrom, value: 5, name: "\$5 month", description: "5 dollars ever ymonth after the first month").s();
-    new RecurringCharge(recurrence: "1y", startAfter: "1m", pricingFor: year, activeTo: activeTo, activeFrom: activeFrom, value: 50, name: "\$50 year", description: "50 dollars every year after the first year").s();
-    new FeaturedOfferingApplicability(availableFor: freeTrial, describedBy: f1, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'expiration', applicableThruDescription: 'Valid until subscription expires').s()
-    new FeaturedOfferingApplicability(availableFor: po, describedBy: f1, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'expiration', applicableThruDescription: 'Valid until subscription expires').s()
-    new FeaturedOfferingApplicability(availableFor: year, describedBy: f1, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'expiration', applicableThruDescription: 'Valid until subscription expires').s()
-    new FeatureSubscription()
+    new RecurringCharge(recurrence: "1.month", startAfter: "1.month", pricingFor: freeTrial, activeTo: activeTo, activeFrom: activeFrom, value: 5, name: "\$5 month", description: "5 dollars every month after the first month").s();
+    new RecurringCharge(recurrence: "1.month", startAfter: "1.month", pricingFor: po, activeTo: activeTo, activeFrom: activeFrom, value: 5, name: "\$5 month", description: "5 dollars ever ymonth after the first month").s();
+    new RecurringCharge(recurrence: "1.year", startAfter: "1.month", pricingFor: year, activeTo: activeTo, activeFrom: activeFrom, value: 50, name: "\$50 year", description: "50 dollars every year after the first year").s();
+    new FeaturedOfferingApplicability(availableFor: freeTrial, describedBy: f1, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'startDate + 1.month', applicableThruDescription: 'Valid for 1 month').s()
+    new FeaturedOfferingApplicability(availableFor: po, describedBy: f1, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'startDate + 1.month', applicableThruDescription: 'Valid for 1 month').s()
+    new FeaturedOfferingApplicability(availableFor: year, describedBy: f1, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'startDate + 1.year', applicableThruDescription: 'Valid for 1 year').s()
+    
   }
 
   public void populatePermissions() {

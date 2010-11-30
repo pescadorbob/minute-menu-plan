@@ -5,6 +5,7 @@ import org.grails.comments.Comment
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.grails.plugins.imagetools.ImageTool
 import com.mp.domain.party.Party
+import com.mp.tools.UserTools
 
 
 class MenuplannerTagLib {
@@ -24,22 +25,22 @@ class MenuplannerTagLib {
 
     def showFavorite = {attrs ->
         Long recipeId = attrs['recipeId']?.toLong()
-        LoginCredential user = LoginCredential.currentUser
+        LoginCredential user = UserTools.currentUser
         Recipe recipe = Recipe.get(recipeId)
         out << g.render(template: '/recipe/showAddToFavorite', model: [isAdded: (recipe in user?.party?.favourites)])
     }
     def menuPlanDropdown = {
-        LoginCredential user = LoginCredential.currentUser
+        LoginCredential user = UserTools.currentUser
         List<MenuPlan> menuPlans = MenuPlan.findAllByOwner(user.party)
         out << g.render(template: '/layouts/menuPlanDropdown', model: [menuPlans: menuPlans])
     }
 
     def loggedUserDropDown = {attrs ->
-        out << g.render(template: '/layouts/loggedUserDropDown', model: [loggedUser: LoginCredential.currentUser])
+        out << g.render(template: '/layouts/loggedUserDropDown', model: [loggedUser: UserTools.currentUser])
     }
 
     def shoppingListDropDown = {
-        LoginCredential user = LoginCredential.currentUser
+        LoginCredential user = UserTools.currentUser
         List<ShoppingList> shoppingLists = ShoppingList.findAllByParty(user?.party)
         out << g.render(template: '/layouts/shoppingListDropDown', model: [shoppingLists: shoppingLists])
     }
@@ -213,7 +214,7 @@ class MenuplannerTagLib {
 
     def showRecipeAbuse = {attrs ->
         Recipe recipe = Recipe.get(attrs['recipeId'])
-        LoginCredential user = LoginCredential.currentUser
+        LoginCredential user = UserTools.currentUser
         Boolean reported = false
 
         List<RecipeAbuse> recipeAbuses = RecipeAbuse.findAllByReporterAndRecipe(user?.party, recipe)
@@ -228,13 +229,13 @@ class MenuplannerTagLib {
     def reportCommentAbuse = {attrs ->
         Comment comment = attrs['comment']
         Recipe recipe = Recipe.get(attrs['recipeId'])
-        LoginCredential user = LoginCredential.currentUser
+        LoginCredential user = UserTools.currentUser
         Boolean alreadyReported = CommentAbuse.countByCommentAndReporter(comment, user?.party) as Boolean
         out << g.render(template: "/recipe/reportCommentAbuse", model: [comment: comment, user: user, recipe: recipe, alreadyReported: alreadyReported])
     }
 
     def firstTimeUser = {attrs, body ->
-        LoginCredential user = LoginCredential.currentUser
+        LoginCredential user = UserTools.currentUser
         if (user && (user?.party?.menuPlans?.size() == 0)) {
             out << body()
         }

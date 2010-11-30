@@ -1,6 +1,4 @@
-import com.mp.domain.party.Subscriber
-import com.mp.domain.party.Subscriber
-import com.mp.domain.LoginCredential
+import com.mp.tools.UserTools
 
 // locations to search for config files that get merged into the main config
 // config files can either be Java properties files or ConfigSlurper scripts
@@ -13,7 +11,7 @@ import com.mp.domain.LoginCredential
 // if(System.properties["${appName}.config.location"]) {
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
 // }
-grails.rateable.rater.evaluator = { LoginCredential.currentUser }
+grails.rateable.rater.evaluator = { UserTools.currentUser }
 grails.views.javascript.library = "jquery"
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
 grails.mime.use.accept.header = false
@@ -281,7 +279,7 @@ log4j = {
             'net.sf.ehcache.hibernate'
 
           warn 'org.mortbay.log'
-          debug "grails.app.tagLib","com.mp"
+          debug "grails.app","grails.app.tagLib","com.mp","grails.app.filter"
       }
     }
 

@@ -14,7 +14,7 @@ public class Subscription {
   Subscriber subscriptionFor
   String originalProductOffering
   Date activeFrom
-  Date activeThru
+  Date activeTo
    static mapping = {
         tablePerHierarchy false
     }

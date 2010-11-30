@@ -35,7 +35,7 @@
                         
                             <th><g:message code="featureSubscription.subscribedFeature.label" default="Subscribed Feature" /></th>
                    	    
-                            <g:sortableColumn property="activeThru" title="${message(code: 'featureSubscription.activeThru.label', default: 'Active Thru')}" />
+                            <g:sortableColumn property="activeTo" title="${message(code: 'featureSubscription.activeTo.label', default: 'Active Thru')}" />
                         
                         </tr>
                     </thead>
@@ -53,7 +53,7 @@
                         
                             <td>${fieldValue(bean: featureSubscription, field: "subscribedFeature")}</td>
                         
-                            <td><g:formatDate date="${featureSubscription.activeThru}" /></td>
+                            <td><g:formatDate date="${featureSubscription.activeTo}" /></td>
                         
                         </tr>
                     </g:each>

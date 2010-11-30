@@ -2,6 +2,7 @@ package com.mp.domain
 
 import java.util.regex.Pattern
 import com.mp.domain.party.Party
+import com.mp.tools.UserTools
 
 class Item {
     static searchable = true
@@ -35,7 +36,7 @@ class Item {
     }
 
     public static List<Item> getItemsForCurrentUser(String matches = "%%") {
-        Party party = LoginCredential.currentUser?.party
+        Party party = UserTools.currentUser?.party
         List<Item> itemsByUser = getItemsForUser(party, matches)
         return itemsByUser
     }
@@ -62,7 +63,7 @@ class Item {
     }
 
     public static List<Item> getProductsForCurrentUser(String matches = "%%"){
-        Party party = LoginCredential.currentUser?.party
+        Party party = UserTools.currentUser?.party
         List<Item> itemsByUser = getProductsForUser(party, matches)
         return itemsByUser
     }

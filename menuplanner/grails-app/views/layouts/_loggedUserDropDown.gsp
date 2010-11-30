@@ -1,4 +1,4 @@
-<%@ page import="com.mp.domain.LoginCredential; com.mp.domain.PartyRoleType; com.mp.domain.Permission" %>
+<%@ page import="com.mp.tools.UserTools; com.mp.domain.LoginCredential; com.mp.domain.PartyRoleType; com.mp.domain.Permission" %>
 <g:if test="${loggedUser}">
     <li>
         <a href="#"><span>Hi! ${loggedUser.party.name}</span></a>
@@ -13,12 +13,10 @@
                   <g:link name="coaches" controller="directorCoach" action="showCoaches" id="${loggedUser?.party?.id}">Coaches</g:link>
                 </pty:hasRole>
                 <pty:hasRole bean="${loggedUser?.party}" role="${PartyRoleType.SuperAdmin}">
-                  <g:link name="affiliateBalance" controller="account" action="showAffiliateAccounts">
-                    Affiliate Balances
-                  </g:link>
+                  <g:link name="affiliateBalance" controller="account" action="showAffiliateAccounts">Affiliate Balances</g:link>
                 </pty:hasRole>
                 <g:link name="addNewRecipeLink" class="addNewRecipeLinkF" controller="recipe" action="create">Add New Recipe</g:link>
-                <g:if test="${(PartyRoleType.Director in LoginCredential.currentUser?.party?.roleTypes ) && (permission.hasPermission(permission: Permission.MANAGE_SUB_AFFILIATE))}">
+                <g:if test="${(PartyRoleType.Director in UserTools.currentUser?.party?.roleTypes ) && (permission.hasPermission(permission: Permission.MANAGE_SUB_AFFILIATE))}">
                     <g:link class="addCoachFT" name="addNewCoach" controller="user" action="createCoach">Add Sub Director</g:link>
                 </g:if>
             </li>

@@ -1,5 +1,7 @@
 package com.mp.domain.subscriptions
 
+import com.mp.tools.UserTools
+
 class SubscriptionController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -8,6 +10,20 @@ class SubscriptionController {
         redirect(action: "list", params: params)
     }
 
+  def subscriptionRequest = {
+    def now = new Date()
+    def c = Subscription.createCriteria()
+    def subscriptions = c.list {
+      subscriber {
+        party {
+          idEq(UserTools.currentUser.party.id)
+        }
+      }
+      lt('activeFrom',now)
+      gt('activeTo',now)
+    }
+
+  }
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [subscriptionList: Subscription.list(params), subscriptionTotal: Subscription.count()]

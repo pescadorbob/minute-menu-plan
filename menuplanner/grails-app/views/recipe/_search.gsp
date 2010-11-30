@@ -1,4 +1,4 @@
-<%@ page import="com.mp.domain.LoginCredential;" %>
+<%@ page import="com.mp.tools.UserTools; com.mp.domain.LoginCredential;" %>
 <div id="left-panel-product">
     <div class="top-shadow">
         <label>&nbsp;</label>
@@ -85,7 +85,7 @@
                     </g:each>
                 </li>
                 <li>
-                    <span id="favouriteForUsersString" class="pointer" onclick="submitSearchForm(this, 'favouriteForUsersString', '*${LoginCredential.currentUser.id}*');">Favourites</span>
+                    <span id="favouriteForUsersString" class="pointer" onclick="submitSearchForm(this, 'favouriteForUsersString', '*${UserTools.currentUser.id}*');">Favourites</span>
                 </li>
                 <li>
                     Calories

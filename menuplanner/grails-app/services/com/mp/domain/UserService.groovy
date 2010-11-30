@@ -16,6 +16,7 @@ import com.mp.domain.party.Subscriber
 import com.mp.domain.party.DirectorCoach
 import com.mp.domain.party.CoachSubscriber
 import com.mp.domain.party.PartyRelationship
+import com.mp.tools.UserTools
 
 
 class UserService {
@@ -29,7 +30,7 @@ class UserService {
         Party party = Party.findById(userId)
         if (party) {
             (party.isEnabled = !(party.isEnabled))
-            if (!party.isEnabled && (party == LoginCredential.currentUser.party)) {
+            if (!party.isEnabled && (party == UserTools.currentUser.party)) {
                 SessionUtils?.session?.invalidate()
             }
             return true

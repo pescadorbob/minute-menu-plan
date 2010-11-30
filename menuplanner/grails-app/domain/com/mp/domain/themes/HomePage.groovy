@@ -1,9 +1,7 @@
 package com.mp.domain.themes
 
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class HomePage {
-    static config = ConfigurationHolder.config
 
     String name
     String leftBar
@@ -21,16 +19,5 @@ class HomePage {
         lastModified(nullable: true, blank: true)
         activeTo(nullable: true, blank: true)
     }
-    static transients = ['imageDir', 'activePage']
 
-    String getImageDir() {
-        return (config.homepageRootDir + this?.id + '/')
-    }
-
-    static HomePage getActivePage() {
-        HomePage homePage = HomePage.list().find {
-            (it.activeFrom <= new Date()) && (!it.activeTo || (it.activeTo > new Date()))
-        }
-        return homePage
-    }
 }

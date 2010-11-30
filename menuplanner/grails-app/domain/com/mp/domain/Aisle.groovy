@@ -1,6 +1,7 @@
 package com.mp.domain
 
 import com.mp.domain.party.Party
+import com.mp.tools.UserTools
 
 class Aisle {
 
@@ -16,7 +17,7 @@ class Aisle {
     }
 
     public static List<Aisle> getAislesForCurrentUser() {
-        Party party = LoginCredential.currentUser?.party
+        Party party = UserTools.currentUser?.party
         List<Aisle> aislesByUser = getAislesForUser(party)
         return aislesByUser
     }

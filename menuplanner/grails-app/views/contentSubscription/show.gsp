@@ -44,9 +44,9 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="contentSubscription.activeThru.label" default="Active Thru" /></td>
+                            <td valign="top" class="name"><g:message code="contentSubscription.activeTo.label" default="Active Thru" /></td>
                             
-                            <td valign="top" class="value"><g:formatDate date="${contentSubscription?.activeThru}" /></td>
+                            <td valign="top" class="value"><g:formatDate date="${contentSubscription?.activeTo}" /></td>
                             
                         </tr>
                     

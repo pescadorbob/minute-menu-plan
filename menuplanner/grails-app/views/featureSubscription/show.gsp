@@ -48,12 +48,6 @@
                             
                         </tr>
                     
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="featureSubscription.rule.label" default="Rule" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: featureSubscription, field: "rule")}</td>
-                            
-                        </tr>
                     
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="featureSubscription.subscribedFeature.label" default="Subscribed Feature" /></td>
@@ -63,18 +57,12 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="featureSubscription.activeThru.label" default="Active Thru" /></td>
+                            <td valign="top" class="name"><g:message code="featureSubscription.activeTo.label" default="Active Thru" /></td>
                             
-                            <td valign="top" class="value"><g:formatDate date="${featureSubscription?.activeThru}" /></td>
+                            <td valign="top" class="value"><g:formatDate date="${featureSubscription?.activeTo}" /></td>
                             
                         </tr>
                     
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="featureSubscription.name.label" default="Name" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: featureSubscription, field: "name")}</td>
-                            
-                        </tr>
                     
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="featureSubscription.activeFrom.label" default="Active From" /></td>

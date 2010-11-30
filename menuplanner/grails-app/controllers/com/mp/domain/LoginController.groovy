@@ -2,6 +2,8 @@ package com.mp.domain
 
 import org.springframework.web.context.request.RequestContextHolder
 import com.mp.domain.themes.HomePage
+import com.mp.tools.UserTools
+import com.mp.tools.ThemeTools
 
 class LoginController {
 
@@ -9,10 +11,10 @@ class LoginController {
 
     def index = {
         flash.message = ""
-        if (LoginCredential.currentUser) {
+        if (UserTools.currentUser) {
             redirect(controller: 'recipe', action: 'list')
         } else {
-            render(view: 'home', model: [homePage: HomePage.activePage, testimonials: Testimonial.findAllByShowOnHomepage(true)])
+            render(view: 'home', model: [homePage: ThemeTools.activePage, testimonials: Testimonial.findAllByShowOnHomepage(true)])
         }
     }
 
@@ -60,17 +62,17 @@ class LoginController {
                     }
                 } else if (loginCredential.party.isEnabled == null) {
                     flash.message = message(code: 'loginCO.user.unverified')
-                    render(view: 'home', model: [loginCO: loginCO, homePage: HomePage.activePage, testimonials: Testimonial.findAllByShowOnHomepage(true)])
+                    render(view: 'home', model: [loginCO: loginCO, homePage: ThemeTools.activePage, testimonials: Testimonial.findAllByShowOnHomepage(true)])
                 } else {
                     flash.message = message(code: 'loginCO.user.disabled')
-                    render(view: 'home', model: [loginCO: loginCO, homePage: HomePage.activePage, testimonials: Testimonial.findAllByShowOnHomepage(true)])
+                    render(view: 'home', model: [loginCO: loginCO, homePage: ThemeTools.activePage, testimonials: Testimonial.findAllByShowOnHomepage(true)])
                 }
             } else {
                 flash.message = message(code: 'loginCO.email.password.Invalid')
-                render(view: 'home', model: [loginCO: loginCO, homePage: HomePage.activePage, testimonials: Testimonial.findAllByShowOnHomepage(true)])
+                render(view: 'home', model: [loginCO: loginCO, homePage: ThemeTools.activePage, testimonials: Testimonial.findAllByShowOnHomepage(true)])
             }
         } else {
-            render(view: 'home', model: [loginCO: loginCO, homePage: HomePage.activePage, testimonials: Testimonial.findAllByShowOnHomepage(true)])
+            render(view: 'home', model: [loginCO: loginCO, homePage: ThemeTools.activePage, testimonials: Testimonial.findAllByShowOnHomepage(true)])
         }
     }
 
