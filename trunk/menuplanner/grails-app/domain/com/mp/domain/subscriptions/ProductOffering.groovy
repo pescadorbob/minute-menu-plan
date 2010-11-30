@@ -9,7 +9,6 @@ public class ProductOffering {
   Date activeTo
   Date activeFrom
   String name
-
   static hasMany = [pricing: PricingComponent, applicableFeatures: FeaturedOfferingApplicability]
 
 }

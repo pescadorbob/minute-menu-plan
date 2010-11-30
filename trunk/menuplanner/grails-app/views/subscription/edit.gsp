@@ -55,10 +55,10 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="activeThru"><g:message code="subscription.activeThru.label" default="Active Thru" /></label>
+                                  <label for="activeTo"><g:message code="subscription.activeTo.label" default="Active Thru" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: subscription, field: 'activeThru', 'errors')}">
-                                    <g:datePicker name="activeThru" precision="day" value="${subscription?.activeThru}"  />
+                                <td valign="top" class="value ${hasErrors(bean: subscription, field: 'activeTo', 'errors')}">
+                                    <g:datePicker name="activeTo" precision="day" value="${subscription?.activeTo}"  />
                                 </td>
                             </tr>
                         

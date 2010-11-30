@@ -2,6 +2,7 @@ package com.mp.domain
 
 import static com.mp.MenuConstants.*
 import com.mp.domain.party.Party
+import com.mp.tools.UserTools
 
 class PermissionService {
 
@@ -20,17 +21,17 @@ class PermissionService {
     }
 
     private Boolean validateOwnsRecipe(Recipe recipe) {
-        LoginCredential user = LoginCredential.currentUser
+        LoginCredential user = UserTools.currentUser
         return (user && (recipe in user?.party?.contributions))
     }
 
     private Boolean validateOwnsUser(Party party) {
-        LoginCredential user = LoginCredential.currentUser
+        LoginCredential user = UserTools.currentUser
         return (user && (user.party == party))
     }
 
     public Boolean hasPermission(Permission permission, Recipe recipe = null, Party party = null) {
-        LoginCredential user = LoginCredential.currentUser
+        LoginCredential user = UserTools.currentUser
         if (!user) {
             return false
         }

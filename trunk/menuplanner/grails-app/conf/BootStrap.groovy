@@ -17,12 +17,14 @@ import com.mp.domain.accounting.Account
 import com.mp.domain.party.Party
 import com.mp.domain.party.Subscriber
 import com.mp.domain.accounting.AccountTransaction
+import com.mp.domain.subscriptions.Subscription
 
 class BootStrap {
 
     def dataSource
     def grailsApplication
     def bootstrapService
+    def subscriptionService
     def masterDataBootStrapService
     def excelService
     def searchableService
@@ -120,11 +122,17 @@ class BootStrap {
                 }
                 println "Populated Shopping Lists"
             }
-            bootstrapService.populateSubscriptions('user1','Full Access')
             bootstrapService.populateQuickFills(5)
             println "Populated Quick Fills"
         }
 
+      if ((GrailsUtil.environment != Environment.PRODUCTION) && !Subscription.count()) {
+        def now = new Date()
+        subscriptionService.generateSubscription('user1',"1 Month Free Trial",now)
+        subscriptionService.generateSubscription('coach',"Basic Monthly Subscription",now)
+        subscriptionService.generateSubscription('director',"Basic Yearly Subscription",now)
+        println "Populated Subscriptions"
+      }
         if (!(Environment.current in [Environment.DEVELOPMENT, Environment.TEST])) {
             executeLiquibase()
         }
@@ -173,7 +181,7 @@ class BootStrap {
         if (!Product.count()) {masterDataBootStrapService.populateProductsWithAisles()}
         if (!SecurityRole.count()) {masterDataBootStrapService.populatePermissions()}
         if (!HomePage.count()) {masterDataBootStrapService.populateHomePageData()}
-        if (!Feature.count()) {masterDataBootStrapService.populateSubscriptions()}
+        if (!Feature.count()) {masterDataBootStrapService.populateProductOfferings()}
         if (!Testimonial.count()) {masterDataBootStrapService.populateTestimonials()}
         if (!Theme.count()) {masterDataBootStrapService.populateThemes()}
     }

@@ -106,12 +106,7 @@
                             
                         </tr>
                     
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="pageElement.imageDir.label" default="Image Dir" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: pageElement, field: "imageDir")}</td>
-                            
-                        </tr>
+
                     
                     </tbody>
                 </table>

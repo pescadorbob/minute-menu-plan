@@ -3,30 +3,17 @@ package com.mp.domain.party
 import com.mp.domain.party.DirectorCoach
 import com.mp.domain.party.CoachSubscriber
 import com.mp.domain.Permission
+import com.mp.domain.PartyRoleType
 
 public class PtyTagLib {
   static namespace = "pty"
   def permissionService
 
   def hasRole = {attrs, body ->
-    if (log.isDebugEnabled()) {
-      log.debug "Checking hasRole"
-    }
     def pty = attrs?.bean
-    def retVal = false
-    if (pty) {
-      retVal = pty?.roles?.findAll {
-        if (log.isDebugEnabled()) {
-          log.debug "Comparing [${it.type}] to [${attrs.role}] got:${it.type == attrs.role}"
-        }
-        it.type == attrs.role
-      }?.size() > 0
-
+    if(PartyRoleType.Director in pty?.roleTypes ){
+        out << body()
     }
-    if (log.isDebugEnabled()) {
-      log.debug "returning ${retVal}"
-    }
-    if (retVal) out << body()
   }
   def coaches = {attrs, body ->
     def var = attrs.var ? attrs.var : "coach"

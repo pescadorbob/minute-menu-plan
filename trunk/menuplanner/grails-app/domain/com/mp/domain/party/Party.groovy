@@ -75,9 +75,8 @@ class Party {
         menuPlans cascade: "all-delete-orphan"
         shoppingLists cascade: "all-delete-orphan"
         loginCredentials cascade: "all-delete-orphan"
-        roles fetch: 'eager'
     }
-
+    static fetchMode = [roles:'eager']
     static constraints = {
         lastLogin(nullable: true)
         facebookAccount(nullable: true)

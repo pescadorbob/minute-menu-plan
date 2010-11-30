@@ -28,4 +28,8 @@ public class Theme {
     actionFilter(nullable: true, blank: true)
     uriFilter(nullable: true, blank: true)
   }
+
+  static mapping = {
+    pageElements lazy: false
+  }
 }

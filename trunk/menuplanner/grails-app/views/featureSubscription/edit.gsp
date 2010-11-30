@@ -55,15 +55,6 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="rule"><g:message code="featureSubscription.rule.label" default="Rule" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: featureSubscription, field: 'rule', 'errors')}">
-                                    <g:textField name="rule" value="${featureSubscription?.rule}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
                                   <label for="subscribedFeature"><g:message code="featureSubscription.subscribedFeature.label" default="Subscribed Feature" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: featureSubscription, field: 'subscribedFeature', 'errors')}">
@@ -74,19 +65,10 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="activeThru"><g:message code="featureSubscription.activeThru.label" default="Active Thru" /></label>
+                                  <label for="activeTo"><g:message code="featureSubscription.activeTo.label" default="Active Thru" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: featureSubscription, field: 'activeThru', 'errors')}">
-                                    <g:datePicker name="activeThru" precision="day" value="${featureSubscription?.activeThru}"  />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="name"><g:message code="featureSubscription.name.label" default="Name" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: featureSubscription, field: 'name', 'errors')}">
-                                    <g:textField name="name" value="${featureSubscription?.name}" />
+                                <td valign="top" class="value ${hasErrors(bean: featureSubscription, field: 'activeTo', 'errors')}">
+                                    <g:datePicker name="activeTo" precision="day" value="${featureSubscription?.activeTo}"  />
                                 </td>
                             </tr>
                         

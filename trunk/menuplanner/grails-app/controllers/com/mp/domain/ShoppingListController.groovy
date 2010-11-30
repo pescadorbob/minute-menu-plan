@@ -2,6 +2,7 @@ package com.mp.domain
 
 import javax.servlet.http.Cookie
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import com.mp.tools.UserTools
 
 class ShoppingListController {
 
@@ -13,7 +14,7 @@ class ShoppingListController {
 
     def generateShoppingList = {
         MenuPlan menuPlan = MenuPlan.get(params?.id?.toLong())
-        LoginCredential user = LoginCredential.currentUser
+        LoginCredential user = UserTools.currentUser
         PrintShoppingListCO pslCO = new PrintShoppingListCO()
         pslCO.name = menuPlan?.name + '-Shopping List'
         pslCO.menuPlanId = params?.id
@@ -44,7 +45,7 @@ class ShoppingListController {
             pslCO.errors.allErrors.each {
                 println it
             }
-            LoginCredential user = LoginCredential.currentUser
+            LoginCredential user = UserTools.currentUser
             List<MenuPlan> menuPlans = user?.party?.menuPlans as List
             Integer mouthsToFeed = user?.party?.subscriber?.mouthsToFeed
             render(view: 'generateShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: mouthsToFeed])
@@ -73,7 +74,7 @@ class ShoppingListController {
             pslCO.errors.allErrors.each {
                 println it
             }
-            LoginCredential user = LoginCredential.currentUser
+            LoginCredential user = UserTools.currentUser
             List<MenuPlan> menuPlans = user?.party?.menuPlans as List
             Integer mouthsToFeed = user?.party?.subscriber?.mouthsToFeed
             render(view: 'generateShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: mouthsToFeed])
@@ -82,7 +83,7 @@ class ShoppingListController {
 
     def show = {
         ShoppingList shoppingList = ShoppingList.get(params.id)
-        render(view: 'show', model: [shoppingList: shoppingList, party: LoginCredential?.currentUser?.party])
+        render(view: 'show', model: [shoppingList: shoppingList, party: UserTools.currentUser?.party])
     }
 
     def save = {
@@ -94,7 +95,7 @@ class ShoppingListController {
         shoppingList.name = params?.shoppingListName
         shoppingList.servings = params?.servings?.toInteger()
         shoppingList.isWeeklyShoppingList = (isWeeklyListString.contains('true')) ? true : false
-        shoppingList.party = LoginCredential.currentUser?.party
+        shoppingList.party = UserTools.currentUser?.party
         shoppingList.s()
         weekList.each {String index ->
             WeeklyShoppingList weeklyShoppingList = new WeeklyShoppingList(shoppingList: shoppingList, weekIndex: index.toInteger())
@@ -148,7 +149,7 @@ class ShoppingListController {
 
     def edit = {
         ShoppingList shoppingList = ShoppingList.get(params?.shoppingListId?.toLong())
-        LoginCredential user = LoginCredential.currentUser
+        LoginCredential user = UserTools.currentUser
         PrintShoppingListCO pslCO = new PrintShoppingListCO()
         pslCO.name = shoppingList?.name
         pslCO.menuPlanId = shoppingList?.menuPlan?.id
@@ -183,7 +184,7 @@ class ShoppingListController {
             pslCO.errors.allErrors.each {
                 println it
             }
-            LoginCredential user = LoginCredential.currentUser
+            LoginCredential user = UserTools.currentUser
             List<MenuPlan> menuPlans = user?.party?.menuPlans as List
             Integer mouthsToFeed = user?.party?.subscriber?.mouthsToFeed
             render(view: 'generateShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: mouthsToFeed])
@@ -214,7 +215,7 @@ class ShoppingListController {
             pslCO.errors.allErrors.each {
                 println it
             }
-            LoginCredential user = LoginCredential.currentUser
+            LoginCredential user = UserTools.currentUser
             List<MenuPlan> menuPlans = user?.party?.menuPlans as List
             Integer mouthsToFeed = user?.party?.subscriber?.mouthsToFeed
             render(view: 'generateShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: mouthsToFeed])

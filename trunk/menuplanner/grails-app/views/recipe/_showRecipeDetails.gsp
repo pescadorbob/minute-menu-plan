@@ -1,4 +1,4 @@
-<%@ page import="com.mp.domain.LoginCredential; com.mp.domain.Recipe" %>
+<%@ page import="com.mp.tools.UserTools; com.mp.domain.LoginCredential; com.mp.domain.Recipe" %>
 <div id="contectElement">
     <ul>
         <li id="leftLiElements">
@@ -60,7 +60,7 @@
             </g:else>
             <br/>
             <g:if test="${!isPrintable}">
-            <g:if test="${LoginCredential.currentUser}">
+            <g:if test="${UserTools.currentUser}">
                 <g:link controller="user" action="alterFavorite" name="changeFavorite" id="${recipe?.id}">
                     <span id="showFavorite" style="text-align:right;"><mp:showFavorite recipeId="${recipe?.id}"/></span>
                 </g:link> &nbsp;&nbsp;
@@ -72,7 +72,7 @@
               </g:if>
         </li>
     </ul>
-    <g:if test="${LoginCredential.currentUser}">
+    <g:if test="${UserTools.currentUser}">
         <g:if test="${isPrintable}">
             <mp:commentsForPrinting recipeId="${recipe?.id}"/>
         </g:if>

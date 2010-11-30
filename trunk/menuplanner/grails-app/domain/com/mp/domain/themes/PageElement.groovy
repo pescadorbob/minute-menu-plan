@@ -36,17 +36,8 @@ public class PageElement {
     contextRule(nullable: true, blank: true)
     lastModified(nullable: true, blank: true)
   }
-  static transients = ['imageDir', 'activePage']
-
-  String getImageDir() {
-    return (config.homepageRootDir + this?.id + '/')
-  }
-
-  static HomePage getActivePage() {
-    HomePage homePage = HomePage.list().find {
-      (it.activeFrom <= new Date()) && (!it.activeTo || (it.activeTo > new Date()))
-    }
-    return homePage
+  static mapping = {
+    location lazy: false
   }
 
 }

@@ -8,6 +8,7 @@ import org.grails.comments.Comment
 import org.apache.lucene.document.NumberTools
 import javax.servlet.http.Cookie
 import com.mp.domain.party.Party
+import com.mp.tools.UserTools
 
 class RecipeController {
     static config = ConfigurationHolder.config
@@ -53,7 +54,7 @@ class RecipeController {
     }
 
     def search = {
-        Party currentUser = LoginCredential.currentUser.party
+        Party currentUser = UserTools.currentUser.party
         Long currentUserId = currentUser?.id
         List<String> allQueries = []
         List<String> subCategoriesString = []
@@ -117,7 +118,7 @@ class RecipeController {
 
     def delete = {
         def recipe = Recipe.get(params.id)
-        LoginCredential loggedUser = LoginCredential.currentUser
+        LoginCredential loggedUser = UserTools.currentUser
         if (recipe) {
             try {
                 flash.message = message(code: 'recipe.deleted.success')
@@ -174,7 +175,7 @@ class RecipeController {
 
     def save = {RecipeCO recipeCO ->
         if (recipeCO.validate()) {
-            LoginCredential loggedUser = LoginCredential.currentUser
+            LoginCredential loggedUser = UserTools.currentUser
             Recipe recipe = recipeCO.convertToRecipe(loggedUser?.party)
             loggedUser?.party?.addToContributions(recipe)
             loggedUser.party?.s()
@@ -193,14 +194,14 @@ class RecipeController {
 
     def addComment = {
         Recipe recipe = Recipe.findById(params?.recipeId)
-        LoginCredential user = LoginCredential.currentUser
+        LoginCredential user = UserTools.currentUser
         recipe?.addComment(user?.party, params?.comment)
         redirect(action: 'show', controller: 'recipe', params: [id: recipe?.id])
     }
 
     def show = {
         Recipe recipe = Recipe.findById(params?.id)
-        render(view: 'show', model: [recipe: recipe, party: LoginCredential?.currentUser?.party])
+        render(view: 'show', model: [recipe: recipe, party: UserTools.currentUser?.party])
     }
 
     def printRecipes = {
@@ -238,7 +239,7 @@ class RecipeController {
     }
 
     def reportCommentAbuse = {
-        LoginCredential user = LoginCredential.currentUser
+        LoginCredential user = UserTools.currentUser
         Comment comment = Comment.get(params.id)
         new CommentAbuse(comment: comment, reporter: user?.party).s()
         redirect(action: 'show', id: params.recipeId)
@@ -264,7 +265,7 @@ class RecipeController {
     def reportRecipeAbuse = {
         RecipeAbuse recipeAbuse = new RecipeAbuse()
         recipeAbuse.recipe = Recipe.get(params?.id?.toLong())
-        recipeAbuse.reporter = LoginCredential.currentUser?.party
+        recipeAbuse.reporter = UserTools.currentUser?.party
         recipeAbuse.s()
         redirect(action: 'show', id: params?.id)
     }
@@ -286,7 +287,7 @@ class RecipeController {
 
     def selectRecipesToPrint = {
         MenuPlan menuPlan = MenuPlan.get(params.id)
-        [menuPlan: menuPlan, noOfServings: LoginCredential.currentUser?.party?.subscriber?.mouthsToFeed ?: 1]
+        [menuPlan: menuPlan, noOfServings: UserTools.currentUser?.party?.subscriber?.mouthsToFeed ?: 1]
 
     }
 

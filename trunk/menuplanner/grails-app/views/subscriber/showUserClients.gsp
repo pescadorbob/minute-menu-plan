@@ -39,9 +39,9 @@
                 <td><ul><g:each in="${client.supplier.subscriptions}" var="subscription">
                   <li>${subscription.originalProductOffering}
                   [<g:formatDate format="dd-MMM-yyyy" date="${subscription.activeFrom}"/> thru
-                  <g:if test="${subscription.activeThru}">
-                    <g:formatDate format="dd-MMM-yyyy" date="${subscription.activeThru}"/>
-                    <g:if test="${subscription.activeThru<new Date()}">: EXPIRED</g:if>
+                  <g:if test="${subscription.activeTo}">
+                    <g:formatDate format="dd-MMM-yyyy" date="${subscription.activeTo}"/>
+                    <g:if test="${subscription.activeTo<new Date()}">: EXPIRED</g:if>
                   </g:if>]
                   </li>
                 </g:each></ul>

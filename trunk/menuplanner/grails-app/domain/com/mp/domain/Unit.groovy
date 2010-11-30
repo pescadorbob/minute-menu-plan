@@ -1,6 +1,7 @@
 package com.mp.domain
 import static com.mp.MenuConstants.*
 import com.mp.domain.party.Party
+import com.mp.tools.UserTools
 
 class Unit extends Metric{
 
@@ -21,7 +22,7 @@ class Unit extends Metric{
     }
 
     public static List<Unit> getSortedMetricUnits(){
-        List<Unit> units = Unit.list().findAll{(it.metricType == MetricType.METRIC) && ((it.party == null) || (it.party == LoginCredential.currentUser?.party))}
+        List<Unit> units = Unit.list().findAll{(it.metricType == MetricType.METRIC) && ((it.party == null) || (it.party == UserTools.currentUser?.party))}
         return units.sort{it.name}
     }
 
@@ -34,7 +35,7 @@ class Unit extends Metric{
     }
 
     public static List<Unit> listForCurrentUser(){
-        LoginCredential currentUser = LoginCredential.currentUser
+        LoginCredential currentUser = UserTools.currentUser
         List<Unit> units = currentUser ? Unit.findAllByPartyOrPartyIsNull(currentUser.party) : []
         return units
     }

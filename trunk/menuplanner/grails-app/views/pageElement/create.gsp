@@ -126,14 +126,7 @@
                                 </td>
                             </tr>
                         
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="imageDir"><g:message code="pageElement.imageDir.label" default="Image Dir" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: pageElement, field: 'imageDir', 'errors')}">
-                                    <g:textField name="imageDir" value="${pageElement?.imageDir}" />
-                                </td>
-                            </tr>
+
                         
                         </tbody>
                     </table>

@@ -23,7 +23,7 @@
                 <g:form name="formUpdateUser">
                     <g:hiddenField name='id' value='${userCO?.id}'/>
                     <g:render template="/user/imageSection" model="[userCO:userCO,party:party]"/>
-                    <g:render template="/user/userDetail" model="[userCO:userCO,party:party,currentUser:LoginCredential?.currentUser?.party]"/>
+                    <g:render template="/user/userDetail" model="[userCO:userCO,party:party,currentUser:UserTools.currentUser?.party]"/>
                     <div id="button">
                         <g:actionSubmit class="button updateUserButtonFT" value="Update User" controller="user" action="update"/>
                         <g:actionSubmit class="button" value="Cancel" controller="user" action="show"/>

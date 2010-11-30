@@ -3,6 +3,7 @@ package com.mp.domain
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.springframework.web.multipart.commons.CommonsMultipartFile
 import com.mp.domain.themes.HomePage
+import com.mp.tools.ThemeTools
 
 class HomePageController {
     def static config = ConfigurationHolder.config
@@ -19,7 +20,7 @@ class HomePageController {
 
     def create = {
         HomePage homePage = new HomePage()
-        homePage.properties = HomePage.getActivePage().properties
+        homePage.properties = ThemeTools.getActivePage().properties
         render(view: 'create', model: [homePage: homePage])
     }
 

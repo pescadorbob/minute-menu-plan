@@ -1,5 +1,7 @@
 package com.mp.domain
 
+import com.mp.tools.UserTools
+
 class ShoppingListService {
 
     boolean transactional = true
@@ -12,7 +14,7 @@ class ShoppingListService {
         shoppingList.isWeeklyShoppingList = isWeeklyList
         shoppingList.menuPlan = menuPlan
         shoppingList.servings = (isScaled && shoppingListCO?.servings) ? shoppingListCO?.servings?.toInteger() : 1
-        shoppingList.party = LoginCredential.currentUser?.party
+        shoppingList.party = UserTools.currentUser?.party
         if (isWeeklyList) {
             shoppingListCO.weeks.each {String weekIndex ->
                 WeeklyShoppingList weeklyShoppingList = createWeeklyShoppingList(shoppingList, menuPlan, weekIndex, isScaled)
@@ -33,7 +35,7 @@ class ShoppingListService {
         shoppingList.isWeeklyShoppingList = isWeeklyList
         shoppingList.menuPlan = menuPlan
         shoppingList.servings = shoppingListCO.servings.toInteger()
-        shoppingList.party = LoginCredential.currentUser?.party
+        shoppingList.party = UserTools.currentUser?.party
         if (isWeeklyList) {
             shoppingListCO.weeks.each {String weekIndex ->
                 if ((weekIndex in shoppingListOld?.weeklyShoppingLists?.weekIndex*.toString()) && shoppingList.servings == shoppingListOld.servings) {

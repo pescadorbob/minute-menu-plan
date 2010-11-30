@@ -150,7 +150,7 @@
 </div>
 %{--<script type="text/javascript">--}%
     %{--$("#backToCurrentUserProfile").click(function() {--}%
-        %{--window.location.replace("${createLink(controller:'user',action:'show',id:LoginCredential?.currentUser?.party?.id)}");--}%
+        %{--window.location.replace("${createLink(controller:'user',action:'show',id:UserTools.currentUser?.party?.id)}");--}%
         %{--return false;--}%
     %{--})--}%
 %{--//</script>--}%

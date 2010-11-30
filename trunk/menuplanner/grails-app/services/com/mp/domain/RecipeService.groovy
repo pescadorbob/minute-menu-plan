@@ -4,6 +4,7 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import static com.mp.MenuConstants.*
 import org.apache.commons.math.fraction.ProperFractionFormat
 import com.mp.domain.party.Party
+import com.mp.tools.UserTools
 
 
 class RecipeService {
@@ -25,7 +26,7 @@ class RecipeService {
     }
 
     public List<Recipe> getFilteredRecipeList(Integer max = 15, Long offset = 0) {
-        Party currentUser = LoginCredential.currentUser?.party
+        Party currentUser = UserTools.currentUser?.party
         Set<Recipe> currentUserRecipes = currentUser?.contributions
         List<Recipe> recipes = Recipe.createCriteria().list {
             or {
@@ -44,7 +45,7 @@ class RecipeService {
     }
 
     public Integer getFilteredRecipeCount() {
-        Party currentUser = LoginCredential.currentUser?.party
+        Party currentUser = UserTools.currentUser?.party
         Set<Recipe> currentUserRecipes = currentUser?.contributions
         Integer count = Recipe.createCriteria().count {
             or {
@@ -61,7 +62,7 @@ class RecipeService {
     }
 
     public List<Item> getFilteredItemList(Integer max = 15, Long offset = 0) {
-        Party currentParty = LoginCredential.currentUser?.party
+        Party currentParty = UserTools.currentUser?.party
         Set<Item> currentUserItems = []
         currentUserItems.addAll(currentParty?.contributions)
         currentUserItems.addAll(currentParty?.ingredients)
@@ -80,7 +81,7 @@ class RecipeService {
     }
 
     public Integer getFilteredItemCount() {
-        Party currentParty = LoginCredential.currentUser?.party
+        Party currentParty = UserTools.currentUser?.party
         Set<Item> currentUserItems = []
         currentUserItems.addAll(currentParty?.contributions)
         currentUserItems.addAll(currentParty?.ingredients)
@@ -420,7 +421,7 @@ class RecipeCO {
         List<RecipeIngredient> recipeIngredients = []
         productNames?.eachWithIndex {String productName, Integer index ->
             if (productName) {
-                Party party = LoginCredential.currentUser?.party
+                Party party = UserTools.currentUser?.party
                 RecipeIngredient recipeIngredient = new RecipeIngredient()
                 Unit unit = (unitIds[index]) ? Unit?.get(unitIds[index]?.toLong()) : null
                 Aisle aisle = null
@@ -493,7 +494,7 @@ class RecipeCO {
 
     public boolean addServeWithToRecipe(Recipe recipe, Set<String> itemIds) {
         Set<Item> items = []
-        Party party = LoginCredential.currentUser?.party
+        Party party = UserTools.currentUser?.party
         Item item
         itemIds.each {String itemName ->
             if (itemName) {

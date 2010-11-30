@@ -9,6 +9,7 @@ import com.mp.domain.subscriptions.ProductOffering
 import com.mp.domain.party.Party
 import com.mp.domain.party.Subscriber
 import com.mp.domain.orders.OrderStatus
+import com.mp.tools.UserTools
 
 class UserController {
 
@@ -26,7 +27,7 @@ class UserController {
         Party party = Party.get(params.long('id'))
         if (party) {
             try {
-                Boolean deletingCurrentUser = (party == LoginCredential.currentUser?.party)
+                Boolean deletingCurrentUser = (party == UserTools.currentUser?.party)
                 party = Party.get(party.id)
                 userService.deleteParty(party)
                 flash.message = message(code: 'user.delete.successful')
@@ -51,7 +52,7 @@ class UserController {
         Party party = Party.findById(params.long('id'))
         if (party) {
             (party.isEnabled = !(party.isEnabled))
-            if (!party.isEnabled && (party == LoginCredential.currentUser.party)) {
+            if (!party.isEnabled && (party == UserTools.currentUser.party)) {
                 SessionUtils?.session?.invalidate()
                 String text = "The Session TimedOut url=" + ConfigurationHolder.config.grails.serverURL
                 render(text: text, contentType: 'text/plain')
@@ -65,7 +66,7 @@ class UserController {
 
     def removeFavorite = {
         Recipe recipe = Recipe.get(params.id)
-        LoginCredential user = LoginCredential.currentUser
+        LoginCredential user = UserTools.currentUser
         if (recipe && user) {
             user?.party?.removeFromFavourites(recipe)
             user.s()
@@ -78,7 +79,7 @@ class UserController {
 
     def alterFavorite = {
         Recipe recipe = Recipe.get(params.id)
-        LoginCredential user = LoginCredential.currentUser
+        LoginCredential user = UserTools.currentUser
         if (recipe in user?.party?.favourites) {
             user?.party?.removeFromFavourites(recipe)
             user.s()
@@ -215,7 +216,7 @@ class UserController {
 
     def show = {
         Party party = Party.get(params.long('id'))
-        Party currentUser = LoginCredential?.currentUser?.party
+        Party currentUser = UserTools.currentUser?.party
         if (party) {
             Map abusiveRecipesMap = party?.abusiveRecipesMap
             Map abusiveCommentsMap = party?.abusiveCommentsMap
@@ -405,7 +406,7 @@ class UserController {
     }
 
     def saveCoach = {UserCO userCO ->
-        Long directorId = LoginCredential?.currentUser?.party?.director?.id
+        Long directorId = UserTools.currentUser?.party?.director?.id
         if (directorId) {
             userCO.roles = [PartyRoleType.Coach.name(), PartyRoleType.Subscriber.name()]
             userCO.directorId = directorId

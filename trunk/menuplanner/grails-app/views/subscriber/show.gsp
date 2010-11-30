@@ -84,12 +84,7 @@
                             
                         </tr>
                     
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="subscriber.imageDir.label" default="Image Dir" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: subscriber, field: "imageDir")}</td>
-                            
-                        </tr>
+                       
                     
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="subscriber.type.label" default="Type" /></td>
