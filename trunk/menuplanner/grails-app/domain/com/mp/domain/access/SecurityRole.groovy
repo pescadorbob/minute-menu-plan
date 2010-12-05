@@ -1,4 +1,6 @@
-package com.mp.domain
+package com.mp.domain.access
+
+import com.mp.domain.access.PermissionLevel
 
 class SecurityRole {
     Date dateCreated

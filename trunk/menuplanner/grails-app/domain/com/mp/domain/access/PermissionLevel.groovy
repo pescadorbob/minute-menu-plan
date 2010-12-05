@@ -1,4 +1,7 @@
-package com.mp.domain
+package com.mp.domain.access
+
+import com.mp.domain.Permission
+import com.mp.domain.access.SecurityRole
 
 class PermissionLevel {
     Permission permission

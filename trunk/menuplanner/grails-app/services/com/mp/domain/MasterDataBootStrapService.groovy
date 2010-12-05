@@ -26,6 +26,11 @@ import com.mp.domain.subscriptions.FeatureSubscription
 import com.mp.accounting.AccountingService
 import com.mp.domain.accounting.OperationalAccount
 import com.mp.domain.subscriptions.ControllerActionFeature
+import com.mp.domain.access.PermissionLevel
+import com.mp.domain.access.SecurityRole
+import com.mp.domain.access.AccessFilterSet
+import com.mp.domain.access.AccessFilterType
+import com.mp.domain.access.AccessFilter
 
 class MasterDataBootStrapService implements ApplicationContextAware {
 
@@ -424,5 +429,54 @@ class MasterDataBootStrapService implements ApplicationContextAware {
          accountingService.createTxn(opAcct.accountNumber,account.accountNumber,today-2,5.95,"Payment made through Click Bank: ***-2335 THANK YOU",AccountTransactionType.FUNDING)
          accountingService.createTxn(opAcct.accountNumber,account.accountNumber,today,-5.95,"\$5/month subscription",AccountTransactionType.SUBSCRIPTION_PAYMENT)
       }
+  }
+  def populateAccessFilterSets(){
+    def unrestrictedSet = new AccessFilterSet(name: "Default",description:"Default Unlimited Access Filter Set",
+         activeFrom:new Date(),type:AccessFilterType.UNRESTRICTED_ACCESS).s();
+    new AccessFilter(name:"Browse Recipes",description:"Allows Free browsing of all of the recipes",
+    controllerFilter:"recipe",actionFilter:"list|search|printRecipes|index|browse|view|show",filterFor:unrestrictedSet).s()
+    new AccessFilter(name:"View Menu Plans",description:"Allows viewing menu plans",
+    controllerFilter:"menuPlan",actionFilter:"view|show|printerFriendlyMenuPlan",filterFor:unrestrictedSet).s()
+    new AccessFilter(name:"View Shopping Lists",description:"Allows viewing shopping lists",
+    controllerFilter:"shoppingList",actionFilter:"show|printerFriendlyShoppingList|emailShoppingList",filterFor:unrestrictedSet).s()
+    new AccessFilter(name:"Signup Functions",description:"Allows All of the signup features",
+    controllerFilter:"user",actionFilter:"create|createUser|createFreeUser|chooseSubscription|newFreeUserSignUp|enableUser|newUserCheckout|welcome|facebookConnect|verify",filterFor:unrestrictedSet).s()
+    new AccessFilter(name:"Signup Functions",description:"Allows All of the signup features",
+    controllerFilter:"user",actionFilter:"create|createUser|createFreeUser|chooseSubscription|newFreeUserSignUp|enableUser|newUserCheckout|welcome|facebookConnect|verify",filterFor:unrestrictedSet).s()
+    new AccessFilter(name:"Misc util",description:"Miscellaneous stuff",
+    controllerFilter:"util|login|image|subscription",actionFilter:".*",filterFor:unrestrictedSet).s()
+
+    def permissionSet = new AccessFilterSet(name: "Default PermissionList",description:"Default Permission Access Filter Set",
+         activeFrom:new Date(),type:AccessFilterType.PERMISSION).s();
+    new AccessFilter(name:"Themes",description:"This requires permissions for themes",
+    controllerFilter:"pageElement|permissionDenialPage|subscriptionOfferingPage|theme|webPage",
+            actionFilter:".*",filterFor:permissionSet).s()
+    new AccessFilter(name:"Products",description:"This requires permissions for Product Suites",
+    controllerFilter:"basePrice|content|contentSubscription|controllerActionFeature|feature|featuredOfferingApplicability",
+            actionFilter:".*",filterFor:permissionSet).s()
+    new AccessFilter(name:"More Products",description:"This requires permissions for More Product Suites",
+    controllerFilter:"featureSubscription|pricingComponent|productOffering|recurringCharge|subscription",
+            actionFilter:".*",filterFor:permissionSet).s()
+    new AccessFilter(name:"Party",description:"This requires permissions for Party Controller",
+    controllerFilter:"directorCoach|subscriber",
+            actionFilter:".*",filterFor:permissionSet).s()
+    new AccessFilter(name:"Accounting",description:"This requires permissions for Accounting",
+    controllerFilter:"account|accountRole|accountTransaction",
+            actionFilter:".*",filterFor:permissionSet).s()
+    new AccessFilter(name:"Access",description:"This requires permissions for Access Control",
+    controllerFilter:"accessFilter|accessFilterSet|roleAccess",
+            actionFilter:".*",filterFor:permissionSet).s()
+    new AccessFilter(name:"RecipeData",description:"This requires permissions for Recipe data",
+    controllerFilter:"aisle|category|homePage|measurableProduct|product|quickFill|recipeCategory|recipeIngredient|securityRole|testimonial|unit",
+            actionFilter:".*",filterFor:permissionSet).s()
+    new AccessFilter(name:"User Admin",description:"User Administration Access Control",
+    controllerFilter:"user",
+            actionFilter:"index|delete|changeStatus|list|enableUser",filterFor:permissionSet).s()
+
+    def subscriptionSet = new AccessFilterSet(name: "Default Subscription List",description:"Default Subscription Access Filter Set",
+         activeFrom:new Date(),type:AccessFilterType.SUBSCRIPTION).s();
+    new AccessFilter(name:"Everything",description:"This requires everything to have a valid subscription",
+    controllerFilter:".*",actionFilter:".*",filterFor:subscriptionSet).s()
+
   }
 }

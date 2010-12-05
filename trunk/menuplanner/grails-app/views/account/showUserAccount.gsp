@@ -17,7 +17,7 @@
         <div class="message">${flash.message}</div>
       </g:if>
       <div class="dialog">
-        <table>
+        <table class="data">
           <tbody>
           <g:form method="post" action="showUserAccount">
             <g:hiddenField name="id" value="${party?.id}"/>

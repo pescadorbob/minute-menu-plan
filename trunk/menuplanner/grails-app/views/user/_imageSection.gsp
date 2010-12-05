@@ -1,6 +1,5 @@
 <%@ page import="com.mp.domain.party.Director; com.mp.domain.party.Director; com.mp.domain.Permission; com.mp.domain.PartyRoleType" %>
 <div id="leftpanel">
-    <pty:hasRole role="${PartyRoleType.Subscriber}" bean="${party}"> <h3>HELLO WORLD ${PartyRoleType.Subscriber}</h3> </pty:hasRole>
     <pty:hasRole role="${PartyRoleType.Subscriber}" bean="${party}">
         <div class="scaleImageSizeUpperDiv" style="height:180px;width:180px;float:right;border:none;">
             <div id="photo" class="scaleImageSize" style="width:180px; height:180px;text-align:center;">

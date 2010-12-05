@@ -4,6 +4,8 @@ import com.mp.domain.party.DirectorCoach
 import com.mp.domain.party.CoachSubscriber
 import com.mp.domain.Permission
 import com.mp.domain.PartyRoleType
+import org.hibernate.FetchMode
+import com.mp.tools.UserTools
 
 public class PtyTagLib {
   static namespace = "pty"
@@ -11,8 +13,9 @@ public class PtyTagLib {
 
   def hasRole = {attrs, body ->
     def pty = attrs?.bean
-    if(PartyRoleType.Director in pty?.roleTypes ){
-        out << body()
+    def role = attrs?.role
+    if(UserTools.hasRole(role)){
+      out << body()
     }
   }
   def coaches = {attrs, body ->
@@ -34,6 +37,34 @@ public class PtyTagLib {
     }
     coaches.each {
       out << body((var): it)
+    }
+  }
+  def relationships = {attrs, body ->
+    def rhs = attrs.rhs ? attrs.rhs : "rhs"
+    def lhs = attrs.lhs ? attrs.lhs : "lhs"
+    def party = attrs.party ? attrs.party : null
+    def relationships = []
+    def now = new Date();
+
+    PartyRelationship.withSession {
+      def c = PartyRelationship.createCriteria();
+      relationships = c.list {
+        supplier {
+          party {
+            idEq(party?.id)
+          }
+        }
+        lt('activeFrom',now)
+        or {
+          isNull('activeTo')
+          gt('activeTo',now)
+        }
+//        fetchMode('client', FetchMode.EAGER)
+//        fetchMode('client.party', FetchMode.EAGER)
+      }
+    }
+    relationships.each {
+      out << body((lhs):"${it.client.type}:${it.client.party.name}", (rhs):"${it.supplier.type}:(you)")
     }
   }
   def clients = {attrs, body ->

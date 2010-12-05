@@ -29,19 +29,23 @@ class MenuplannerTagLib {
         Recipe recipe = Recipe.get(recipeId)
         out << g.render(template: '/recipe/showAddToFavorite', model: [isAdded: (recipe in user?.party?.favourites)])
     }
-    def menuPlanDropdown = {
-        LoginCredential user = UserTools.currentUser
-        List<MenuPlan> menuPlans = MenuPlan.findAllByOwner(user.party)
-        out << g.render(template: '/layouts/menuPlanDropdown', model: [menuPlans: menuPlans])
-    }
+  def menuPlanDropdown = {
+    LoginCredential user = UserTools.currentUser
 
-    def loggedUserDropDown = {attrs ->
+    List<MenuPlan> menuPlans;
+    if (user)
+      menuPlans = MenuPlan.findAllByOwner(user?.party)
+    else menuPlans = []
+    out << g.render(template: '/layouts/menuPlanDropdown', model: [menuPlans: menuPlans])
+  }
+
+  def loggedUserDropDown = {attrs ->
         out << g.render(template: '/layouts/loggedUserDropDown', model: [loggedUser: UserTools.currentUser])
     }
 
     def shoppingListDropDown = {
         LoginCredential user = UserTools.currentUser
-        List<ShoppingList> shoppingLists = ShoppingList.findAllByParty(user?.party)
+        List<ShoppingList> shoppingLists = user?ShoppingList.findAllByParty(user?.party):[]
         out << g.render(template: '/layouts/shoppingListDropDown', model: [shoppingLists: shoppingLists])
     }
 

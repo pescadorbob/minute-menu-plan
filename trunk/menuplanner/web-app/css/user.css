@@ -198,8 +198,8 @@ div.loginError{border:0px;color:red;font-size:12px; margin-bottom:5px;}
 
 /* end user Login */
 #usersave{ clear:both;color:#616A72; font-size:13px; padding-top:29px; }
-#box-right{float:right;width:324px; font-size:12px;}
-#box-left{float:left;width:238px; font-size:12px;}
+#box-right{float:right; font-size:12px;}
+#box-left{float:left; font-size:12px;}
 .box-rating ul li{clear:both;}
 .box-rating ul li h2{padding:0px ;margin:0px ;line-height:30px;font-size:14px;}
 .box-rating ul li a{text-decoration:underline;color:#007ad8;}
@@ -214,15 +214,16 @@ color:#616A72;
 float:left;
 font-size:12px;
 margin-top:10px;
-width:38%;
+
 }
 #rightpanelbox {
 color:#616A72;
 float:right;
 font-size:12px;
 margin-top:10px;
-width:60%;
-text-align:center;
+width:200px;
+text-align:left;
+    align:left;
 }
 #leftpanelboxfreeuser {
 color:#616A72;
@@ -240,6 +241,8 @@ width:70%;
 text-align:center;
 }
 .boxDiv{clear:both;padding-top:15px;color:#616A72;}
+.account-link ul li{clear:both; padding:5px;}
+#fb  {margin-left:30px;}
 .boxDiv ul li{clear:both; padding:5px;}
 .boxDiv ul li label{float:left; width:45%; text-align:right; display:block;}
 .boxDiv ul li span{float:right;width:50%;text-align:left;display:block;}

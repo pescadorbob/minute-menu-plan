@@ -16,19 +16,23 @@
   }
 
   .fbconnect_login_button {
-    margin-left: 100px;
+    margin-left: 0px;
   }
   </style>
 </head>
 <body>
 <div id="content-wrapper" class="clearfix">
   <div class="headbox">
-    <h3>One Page Checkout</h3>
+    <h3>Choose a subscription:</h3>
   </div>
   <div class="top-shadow">
     <label>&nbsp;</label>
   </div>
   <div class="leftbox clearfix">
+    <g:if test="${flash.message}">
+    <div class="message">${flash.message}</div>
+    </g:if>
+    
     <div class="clearfix"><br/>
       The Minute Menu plan is an online software service.
       Please choose a subscription level from the options below.<br/>
@@ -36,44 +40,35 @@
     </div>
     <g:form name="googleCheckoutForm" action="newUserCheckout">
       <div id="leftpanelbox">
-        <h1>Available Subscriptions</h1>
-        <div id="subscription">
-        <ul>
-          <li class="head">
-            <ul>
-              <li class="bigcluman">Subscription</li>
-              <li>Price</li>
-              <li>Total</li>
-            </ul>
-          </li>
-          <g:each in="${availableProducts}" var="product">
-            <g:each in="${product.pricing}" var="pricingComponent">
-              <li class="alternatecolor clearfix">
-                <ul>
-                  <li class="bigcluman">
-                    <input name="subscription" type="radio" value="${product.name}"/>
-                    ${product.name}:${pricingComponent.description}
-                  </li>
-                  <li>${pricingComponent.value}</li>
-                  <li>${pricingComponent.value}</li>
-                </ul>
-              </li>
+        <h1>Available Subscriptions:</h1>        
+
+          <table class="data"><tbody>
+          <tr>
+            <th>Subscription</th><th>Price</th>
+          </tr>
+           <g:each in="${availableProducts}" var="product">
+            <g:each in="${product.pricing}" status="i" var="pricingComponent">
+              <tr >
+                <td nowrap><input id="${pricingComponent.id}" name="pricingId" type="radio"/>
+                    <label for="${pricingComponent.id}">${product.name}:${pricingComponent.description}</label></td>
+              <td align="right"><g:formatNumber number="${pricingComponent.value}" type="currency" currencyCode="USD" />
+                </td>
+              </tr>
             </g:each>
           </g:each>
-        </ul>
-        </div>
+          </tbody></table>
 
-        <div class="boxDiv">
+        <div class="account-link">
           <h1>Profile Information</h1>
           <ul>
             <li>
-              <input name="loginCredential" type="radio" value="facebook"/>
-              Link your account with your facebook account
+              <input id="facebook" name="loginCredential" type="radio" value="facebook"/>
+              <span><label for="facebook">Link your account with your facebook account</label></span>
             </li>
-            <li><facebook:connect/></li>
+            <li id="fb"><facebook:connect/></li>
             <li>
-              <input name="loginCredential" type="radio" value="mmp"/>
-              Create a new account. (You can link it later)
+              <input id="mmp" name="loginCredential" type="radio" value="mmp"/>
+              <span><label for="mmp">Create a new account. (You can link it later)</label></span>
             </li>
             <li>
               <g:hasErrors bean="${userCO}">
@@ -126,12 +121,16 @@
             </li>
 
             <li>
+              <g:render template="/user/googleCheckout"/>
             </li>
           </ul>
         </div>
       </div>
-      <g:render template="/user/googleCheckout"/>
-    </g:form>
+      </g:form>
+      <div  id="rightpanelbox">
+        <span>Already a member?  Login Now!</span>
+        <g:render template="/login/login"/>
+      </div>
   </div>
   <div class="bottom-shadow">
     <label>&nbsp;</label>

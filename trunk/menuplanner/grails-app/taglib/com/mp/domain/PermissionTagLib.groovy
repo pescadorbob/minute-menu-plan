@@ -1,6 +1,8 @@
 package com.mp.domain
 
 import com.mp.domain.party.Party
+import com.mp.domain.access.PermissionLevel
+import com.mp.domain.access.SecurityRole
 
 class PermissionTagLib {
 

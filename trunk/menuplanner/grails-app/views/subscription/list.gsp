@@ -31,10 +31,10 @@
                         
                             <th><g:message code="subscription.subscriptionFor.label" default="Subscription For" /></th>
                    	    
-                            <g:sortableColumn property="activeTo" title="${message(code: 'subscription.activeTo.label', default: 'Active Thru')}" />
-                        
                             <g:sortableColumn property="activeFrom" title="${message(code: 'subscription.activeFrom.label', default: 'Active From')}" />
                         
+                            <g:sortableColumn property="activeTo" title="${message(code: 'subscription.activeTo.label', default: 'Active Thru')}" />
+
                         </tr>
                     </thead>
                     <tbody>
@@ -47,10 +47,10 @@
                         
                             <td>${fieldValue(bean: subscription, field: "subscriptionFor")}</td>
                         
-                            <td><g:formatDate date="${subscription.activeTo}" /></td>
+                            <td><g:formatDate date="${subscription.activeFrom}" format="dd-MMM-yyyy"/></td>
                         
-                            <td><g:formatDate date="${subscription.activeFrom}" /></td>
-                        
+                          <td><g:formatDate date="${subscription.activeTo}" format="dd-MMM-yyyy"/></td>
+
                         </tr>
                     </g:each>
                     </tbody>

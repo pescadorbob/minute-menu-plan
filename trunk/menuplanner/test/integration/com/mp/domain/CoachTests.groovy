@@ -6,6 +6,7 @@ import com.mp.domain.party.Party
 import com.mp.domain.party.Coach
 import com.mp.domain.party.Subscriber
 import com.mp.domain.party.Director
+import com.mp.domain.party.UserCO
 
 class CoachTests extends GrailsUnitTestCase {
 

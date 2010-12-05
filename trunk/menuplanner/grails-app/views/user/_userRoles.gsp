@@ -1,4 +1,4 @@
-<%@ page import="com.mp.domain.PartyRoleType; com.mp.domain.LoginCredential; com.mp.domain.Permission; com.mp.domain.PartyRoleType" %>
+<%@ page import="com.mp.tools.UserTools; com.mp.domain.PartyRoleType; com.mp.domain.LoginCredential; com.mp.domain.Permission; com.mp.domain.PartyRoleType" %>
 <g:each in="${PartyRoleType?.list()}" var="role">
     <g:if test="${role?.name ==PartyRoleType.SuperAdmin.name }">
         <g:if test="${(permission.hasPermission(permission: Permission.CAN_ASSIGN_SUPER_ADMIN_ROLE,party:UserTools.currentUser?.party))}">
