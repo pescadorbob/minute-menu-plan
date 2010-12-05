@@ -7,6 +7,7 @@ import grails.util.GrailsUtil
 import org.grails.comments.Comment
 import static com.mp.MenuConstants.*
 import com.mp.domain.*
+import com.mp.domain.party.UserCO
 
 class BootstrapService {
 

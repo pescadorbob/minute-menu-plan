@@ -1,23 +1,16 @@
 package com.mp.domain
 
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
-import grails.converters.JSON
-import org.codehaus.groovy.grails.web.json.JSONElement
-import javax.servlet.http.HttpSession
-import static com.mp.MenuConstants.*
-import groovy.sql.Sql
-import javax.servlet.http.Cookie
-import com.mp.domain.party.Administrator
-import com.mp.domain.party.Director
-import com.mp.domain.party.Party
-import com.mp.domain.party.SuperAdmin
 import com.mp.domain.party.Coach
-import com.mp.domain.party.Subscriber
-import com.mp.domain.party.DirectorCoach
 import com.mp.domain.party.CoachSubscriber
-import com.mp.domain.party.PartyRelationship
+import com.mp.domain.party.Party
+import com.mp.domain.party.Subscriber
 import com.mp.tools.UserTools
-
+import grails.converters.JSON
+import groovy.sql.Sql
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import org.codehaus.groovy.grails.web.json.JSONElement
+import static com.mp.MenuConstants.USER_IMAGE_SIZES
+import com.mp.domain.*
 
 class UserService {
 
@@ -61,18 +54,23 @@ class UserService {
                 String coachUUID = SessionUtils?.session?.coachUniqueId
                 party.name = name
                 party.isEnabled=true
-                party.addToRoles(location ? new Subscriber(city: location) : new Subscriber())
+                party.save()
+                Subscriber subscriber = location ? new Subscriber(party:party,city: location) : new Subscriber(party:party)
+                subscriber.save()
                 if (!coachUUID && coachUUIDFromCookies) {
                     coachUUID = coachUUIDFromCookies
                 }
                 if (coachUUID) {
-                    Party coach = Party.findByUniqueId(coachUUID)
-                    if (coach) {
-                        party.subscriber.coachId = coach?.id
+                    Coach coach = Coach.withCriteria {
+                      party {
+                        eq('uniqueId',coachUUID)
+                      }
+                    }.uniqueResult()
+                    if(coach){
+                      CoachSubscriber cs = new CoachSubscriber(activeFrom:new Date(),client:coach,supplier:subscriber,
+                              commission:coachRole.defaultCommission,)
+                      cs.s()
                     }
-                    CoachSubscriber cs = new CoachSubscriber(activeFrom:new Date(),from:coach,to:party,commission:coach.defaultCommission,)
-                    cs.s()
-                    coach.s()
                 }
                 party.s()
             }
@@ -196,326 +194,14 @@ class UserService {
             aisleToRemove*.delete()
         }
         if (party?.subscriber) {
-            Integer coachId = party?.subscriber?.coachId?.toLong()
-            if (coachId) {
-                Party coach = Party.findById(coachId)
-                if (coach) {
-                    coach.removeFromClients(party)
-                    coach.s()
-                }
-            }
+            CoachSubscriber cs = CoachSubscriber.withCriteria {
+              supplier {
+                idEq(party?.supplier?.id)
+              }
+            }.uniqueResult()
+            if(cs)  cs.delete()
         }
         party.delete(flush: true)
     }
 }
 
-class UserCO {
-
-    def asynchronousMailService
-    static config = ConfigurationHolder.config
-
-    String email
-    String password
-    String confirmPassword
-    String name
-    Integer mouthsToFeed
-    String city
-    String introduction
-    Date joiningDate
-    Long directorId
-    List<String> roles = []
-    Boolean isEnabled
-    Boolean showAlcoholicContent = false
-    String coachId
-
-    String id
-    def selectUserImagePath
-
-    UserCO() {
-
-    }
-
-    UserCO(Party party) {
-        id = party?.id?.toString()
-        if (party?.email) {
-            email = party?.email
-            password = party?.password
-            confirmPassword = party?.password
-        }
-        name = party?.name
-        if (party?.subscriber) {
-            mouthsToFeed = party?.subscriber?.mouthsToFeed
-            introduction = party?.subscriber?.introduction
-            city = party?.subscriber?.city
-        }
-        if (party?.coach) {
-            Coach coach = party?.coach
-            DirectorCoach dc = DirectorCoach.withCriteria(uniqueResult:true) {
-              supplier {
-                idEq(coach.id)
-              }
-            }
-            directorId = dc.client.id
-        }
-        CoachSubscriber cs = CoachSubscriber.withCriteria(uniqueResults:true){
-            supplier {
-              idEq(party?.subscriber?.id)
-            }
-        }
-        if (cs) {
-            Party coach = cs.client.party
-            if (coach) {coachId = coach?.uniqueId}
-        }
-        joiningDate = party?.joiningDate
-        isEnabled = party?.isEnabled
-        showAlcoholicContent = party?.showAlcoholicContent
-
-        roles = party?.roleTypes*.name()
-
-        if (party?.subscriber?.image) {
-            int firstIndex = party?.subscriber?.image?.storedName?.indexOf('.')
-            String name = party?.subscriber?.image?.storedName?.substring(0, firstIndex)
-            selectUserImagePath = party?.subscriber?.image?.path + name + "_200.jpg"
-        } else {
-            selectUserImagePath = ''
-        }
-    }
-
-    static constraints = {
-        id(nullable: true)
-        email(blank: false, nullable: false, email: true, validator: {val, obj ->
-            if (val && !obj.id) {
-                LoginCredential credential = UserLogin.findByEmail(val)
-                if (credential && (credential?.id != obj?.id?.toLong())) {
-                    return "userCO.email.unique.error"
-                }
-            }
-        })
-        password(nullable: false, blank: false, minSize: 4)
-        confirmPassword(nullable: false, blank: false, validator: {val, obj ->
-            obj.properties['password'] == val
-        })
-        name(nullable: false, blank: false, matches: /[a-zA-Z0-9\s\&]*/)
-        mouthsToFeed(nullable: true, blank: true, matches: /[0-9]*/)
-        introduction(nullable: true, blank: true)
-        city(nullable: true, blank: true)
-        isEnabled(nullable: true)
-        roles(validator: {val, obj ->
-            if ((val.size() < 1)) {
-                return 'userCO.blank.roles.error'
-            }
-        })
-        coachId(nullable: true, blank: true)
-        directorId(validator: {val, obj ->
-            String coach = PartyRoleType.Coach.toString().replaceAll(" ", "")
-            if (!val && (coach in obj.roles)) {
-                return "userCO.coach.director.blank.error"
-            }
-        })
-    }
-
-    //TODO: Change this implementation
-
-    public boolean assignRoles(Subscriber user) {
-//        List<UserType> userRoles = []
-//        roles?.each {String role ->
-//            userRoles.add(UserType."${role}")
-//        }
-//        user?.roles = userRoles
-        return true
-    }
-
-//    public Subscriber convertToUser() {
-//        Subscriber user = new Subscriber()
-//        user.party = new Party()
-//        user.party.name = name
-//        createParty(user)
-//        assignRoles(user)
-//        user?.s()
-//        attachImage(user, selectUserImagePath)
-//        user?.s()
-//        return user
-//    }
-//
-
-    public Party updateParty() {
-        Party party
-        Party.withTransaction {
-            party = Party.get(id?.toLong())
-            //Delete unchecked roles first
-            deleteUncheckedRoles(party, roles)
-
-            updateCheckedRoles(party, roles, coachId, showAlcoholicContent, selectUserImagePath, introduction, mouthsToFeed, directorId, city, name)
-
-            if (party.userLogin) {
-                UserLogin login = party.userLogin
-                login.email = email
-                if (login.password != password) {
-                    login.password = password.encodeAsBase64()
-                }
-                login.s()
-            } else if (email) {
-                new UserLogin(email: email, password: password.encodeAsBase64(), party: party).s()
-            }
-
-            party.isEnabled = isEnabled
-        }
-        return party
-    }
-
-  private def updateCheckedRoles(Party party, List<String> roles, String coachId, boolean showAlcoholicContent, selectUserImagePath, String introduction, int mouthsToFeed, long directorId, String city, String name) {
-    party.name = name
-    if ((PartyRoleType.Subscriber.name() in roles)) {
-      Subscriber subscriber = party.subscriber ? party.subscriber : new Subscriber()
-      subscriber.city = city
-      subscriber.mouthsToFeed = mouthsToFeed
-      subscriber.introduction = introduction
-      attachImage(subscriber, selectUserImagePath)
-      subscriber.party = party
-      subscriber.party.showAlcoholicContent = showAlcoholicContent
-      subscriber.s()
-      if (coachId) {
-        Party coach = Party.findByUniqueId(coachId)
-        if (coach) {
-          def cs = CoachSubscriber.withCriteria(uniqueResult:true){
-            supplier {
-              idEq(subscriber.id)
-            }
-            or {
-              isNull("activeTo")
-              gt("activeTo":new Date())
-            }
-          }
-          if(!cs) new CoachSubscriber(client:coach,supplier:subscriber).s()
-
-        }        
-      }
-    }
-
-    if ((PartyRoleType.Admin.name() in roles) && !party.administrator) {
-      new Administrator(party: party).s()
-    }
-
-    if ((PartyRoleType.Director.name() in roles) && !party.coach) {
-      new Director(party: party).s()
-    }
-
-    if ((PartyRoleType.Coach.name() in roles) && !party.coach) {
-      Director director = Director.get(directorId)
-      if (director) {
-        Coach coach=Coach.findbyPartyId(party.id)
-          if(!coach) coach = new Coach(party: party).s()
-        new DirectorCoach(client: director, supplier: coach).s()
-      }
-    }
-    if ((PartyRoleType.Coach.name() in roles) && party.coach) {
-      Director director = Director.get(directorId)
-      if (director && (directorId != party?.coach?.id)) {
-        Coach coach = party?.coach
-        DirectorCoach dc = DirectorCoach.findBySupplier(coach)
-        if(!dc) dc = new DirectorCoach(client:director,supplier:coach,activeFrom: new Date()).s()
-      }
-    }
-
-    if (PartyRoleType.SuperAdmin.name() in roles && !party.superAdmin) {
-      new SuperAdmin(party: party).s()
-    }
-  }
-
-  private def deleteUncheckedRoles(Party party, List<String> roles) {
-    Date now = new Date()
-    if (party.subscriber && !(PartyRoleType.Subscriber.name() in roles)) {
-      Subscriber subscriber = party.subscriber
-      subscriber.activeTo = now
-    }
-
-    if (party.director && !(PartyRoleType.Director.name() in roles)) {
-      Director director = party.director
-      director.activeTo = now
-      director.s();
-    }
-
-    if (party.coach && !(PartyRoleType.Coach.name() in roles)) {
-      Coach coach = party.coach
-      coach.activeTo = now
-      coach.s()
-    }
-
-    if (party.superAdmin && !(PartyRoleType.SuperAdmin.name() in roles)) {
-      SuperAdmin superAdmin = party.superAdmin
-      superAdmin.activeTo = now
-      superAdmin.s()
-    }
-
-    if (party.administrator && !(PartyRoleType.Admin.name() in roles)) {
-      Administrator administrator = party.administrator
-      administrator.activeTo = now
-      administrator.s()
-    }
-  }
-
-  public boolean attachImage(Subscriber user, def imagePath) {
-        List<Integer> imageSizes = USER_IMAGE_SIZES
-        return Image.updateOwnerImage(user, imagePath, imageSizes)
-    }
-
-    public Party createParty() {
-        Party party
-        Party.withTransaction {
-            party = new Party(name: name)
-            party.isEnabled = isEnabled
-            LoginCredential loginCredential = new UserLogin(email: email, password: password.encodeAsBase64(), party: party)
-            party.loginCredentials = [loginCredential] as Set
-            party.s()
-
-            if (PartyRoleType.Subscriber in roles) {
-                Subscriber subscriber = new Subscriber()
-                subscriber.city = city
-                subscriber.mouthsToFeed = mouthsToFeed
-                subscriber.introduction = introduction
-                subscriber.party = party
-                subscriber.party.showAlcoholicContent = showAlcoholicContent
-                attachImage(subscriber, selectUserImagePath)
-                subscriber.save()
-                if (coachId) {
-                    Coach coach = Coach.get(coachId)
-                    if (coach) {
-                        def cs = new CoachSubscriber(client:coach,supplier:subscriber).save()
-                        assert cs
-                    }
-                }
-            }
-            if (PartyRoleType.Admin in roles) {
-                new Administrator(party:party).s()
-            }
-            if (PartyRoleType.SuperAdmin in roles) {
-                new SuperAdmin(party:party).s()
-            }
-            if (PartyRoleType.Director in roles) {
-                new Director(party:party).s()
-            }
-            if (PartyRoleType.Coach in roles) {
-                Coach coach = new Coach(party: party).save()
-                assert coach.id
-                Director director = Director.get(directorId)
-
-                if (director) {
-                    DirectorCoach dc = new DirectorCoach(client:director,supplier:coach).save()
-                    assert dc && dc.id
-                }
-            }
-        }
-        return party
-    }
-
-    public void enableAndLoginUser(Party party) {
-        party?.isEnabled = true
-        party?.s()
-        HttpSession currentSession = ConfigurationHolder.config.sessions.find {it.userId == subscriber.id}
-        currentSession.userId = null
-        currentSession.loggedUserId = party?.loginCredentials?.toList()?.first()?.id?.toString()
-        party.lastLogin = new Date()
-        party.s()
-    }
-
-}

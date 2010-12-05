@@ -67,7 +67,7 @@
                 <span id="showRecipeAbuse" style="text-align:right;"><mp:showRecipeAbuse recipeId="${recipe?.id}"/></span>
             </g:if>
             <g:else>
-                <g:link controller="user" action="createFreeUser" style="color:#fff"><img src="${resource(dir: 'images', file: 'click-FreeUserSignup.jpg')}"></g:link>
+                <g:link controller="user" action="chooseSubscription" style="color:#fff"><img src="${resource(dir: 'images', file: 'click-FreeUserSignup.jpg')}"></g:link>
             </g:else>
               </g:if>
         </li>
@@ -83,7 +83,7 @@
     <g:else>
         <div class="sharedLinkUserRecipeLink">
             <div class="boxDiv">The Minute Menu plan is an online community based software service offered to you with our compliments. Create a free account now and take it for a spin, and let us know what you think.</div>
-            <g:link controller="user" action="createFreeUser"><img src="${resource(dir: 'images', file: 'click-FreeUserSignup.jpg')}"></g:link>
+            <g:link controller="user" action="chooseSubscription"><img src="${resource(dir: 'images', file: 'click-FreeUserSignup.jpg')}"></g:link>
         </div>
     </g:else>
 </div>

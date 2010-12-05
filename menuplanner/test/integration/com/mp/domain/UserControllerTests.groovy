@@ -5,6 +5,7 @@ import com.mp.domain.party.Administrator
 import com.mp.domain.party.Director
 import com.mp.domain.party.Party
 import com.mp.domain.party.Subscriber
+import com.mp.domain.party.UserCO
 
 class UserControllerTests extends GrailsUnitTestCase {
     def renderMap

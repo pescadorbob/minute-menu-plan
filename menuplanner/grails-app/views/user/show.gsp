@@ -33,7 +33,12 @@
                     <ul>
                         <li>Member since ${party?.joiningDate?.format('MMMM yyyy')}</li>
                         <li></li><li></li>
-                        <g:each in="${party?.roleTypes}" var="roleType"><li class="userRolesFT"><strong>${roleType}</strong></li></g:each>
+                      <h3>Roles</h3>
+                      <g:each in="${party?.roleTypes}" var="roleType"><li class="userRolesFT"><strong>${roleType}</strong></li></g:each>
+                      <h3>Relationships</h3>
+                        %{--<pty:relationships party="${party}" >--}%
+                          %{--<li class="userRolesFT"><strong>${lhs}</strong>:${rhs}</li>--}%
+                        %{--</pty:relationships>--}%
 
                         <li><h3>Contributed Recipes</h3></li>
                         <g:render template="/user/contributedRecipes" model="[party:party]"/>

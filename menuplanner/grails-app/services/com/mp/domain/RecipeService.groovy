@@ -35,7 +35,7 @@ class RecipeService {
                     'in'('id', currentUserRecipes*.id)
                 }
             }
-            if (!currentUser.showAlcoholicContent) {
+            if (!currentUser?.showAlcoholicContent) {
                 eq('isAlcoholic', false)
             }
             maxResults(max)
@@ -54,7 +54,7 @@ class RecipeService {
                     'in'('id', currentUserRecipes*.id)
                 }
             }
-            if (!currentUser.showAlcoholicContent) {
+            if (!currentUser?.showAlcoholicContent) {
                 eq('isAlcoholic', false)
             }
         }
@@ -71,7 +71,7 @@ class RecipeService {
                 eq('shareWithCommunity', true)
                 'in'('id', currentUserItems*.id)
             }
-            if (!currentParty.showAlcoholicContent) {
+            if (!currentParty?.showAlcoholicContent) {
                 eq('isAlcoholic', false)
             }
             maxResults(max)
@@ -90,7 +90,7 @@ class RecipeService {
                 eq('shareWithCommunity', true)
                 'in'('id', currentUserItems*.id)
             }
-            if (!currentParty.showAlcoholicContent) {
+            if (!currentParty?.showAlcoholicContent) {
                 eq('isAlcoholic', false)
             }
         }

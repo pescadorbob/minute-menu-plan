@@ -18,6 +18,8 @@ import com.mp.domain.party.Party
 import com.mp.domain.party.Subscriber
 import com.mp.domain.accounting.AccountTransaction
 import com.mp.domain.subscriptions.Subscription
+import com.mp.domain.access.SecurityRole
+import com.mp.domain.access.AccessFilterSet
 
 class BootStrap {
 
@@ -184,5 +186,6 @@ class BootStrap {
         if (!Feature.count()) {masterDataBootStrapService.populateProductOfferings()}
         if (!Testimonial.count()) {masterDataBootStrapService.populateTestimonials()}
         if (!Theme.count()) {masterDataBootStrapService.populateThemes()}
+        if (!AccessFilterSet.count()) {masterDataBootStrapService.populateAccessFilterSets()}
     }
 }

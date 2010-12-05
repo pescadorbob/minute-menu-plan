@@ -85,7 +85,7 @@
                     </g:each>
                 </li>
                 <li>
-                    <span id="favouriteForUsersString" class="pointer" onclick="submitSearchForm(this, 'favouriteForUsersString', '*${UserTools.currentUser.id}*');">Favourites</span>
+                    <span id="favouriteForUsersString" class="pointer" onclick="submitSearchForm(this, 'favouriteForUsersString', '*${UserTools.currentUser?.id}*');">Favourites</span>
                 </li>
                 <li>
                     Calories

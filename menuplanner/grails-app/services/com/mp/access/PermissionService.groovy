@@ -1,4 +1,4 @@
-package com.mp.subscriptions
+package com.mp.access
 
 import com.mp.domain.LoginCredential
 import com.mp.domain.party.Party
@@ -22,36 +22,15 @@ import com.mp.domain.access.AccessFilterType
  * All rights reserved.
  */
 
-public class SubscriptionService {
+public class PermissionService {
 
-  public void generateSubscription(userName, offeringName, startDate) {
-    def subscriber = Subscriber.withCriteria {
-      party {
-        eq("name", userName)
-      }
-    }.first()
-    def productOffering = ProductOffering.findByName(offeringName)
-    productOffering?.applicableFeatures?.each {applicability ->
-      def feature = applicability.describedBy
-      use(TimeCategory) {
-        Binding binding = new Binding();
-        binding.setVariable("startDate", startDate);
-        GroovyShell shell = new GroovyShell(binding);
 
-        def start = shell.evaluate(applicability.applicableFrom)
-        def endDate = shell.evaluate(applicability.applicableThru)
-        def fs = new FeatureSubscription(subscribedFeature: feature, subscriptionFor: subscriber,
-                originalProductOffering: feature?.name, activeFrom: start, activeTo: endDate)
-        assert fs.save()
-      }
-    }
-
-  }
-  // runs through all time valid subscriptions and evaluates the feature to see if it is active
-  public boolean verifySubscription(user, controllerName, actionName, uri, now) {
-    def subscriptionFilters = AccessFilter.withCriteria {
+  // runs through all user permissions to see if the user has permission
+  public boolean verifyPermission(user, controllerName, actionName, uri, now) {
+    Party theParty = user.party
+    def accessFilters = AccessFilter.withCriteria {
       filterFor {
-        eq('type', AccessFilterType.SUBSCRIPTION)
+        eq('type', AccessFilterType.PERMISSION)
         gt('activeFrom', now)
         or {
           isNull('activeTo')
@@ -59,14 +38,12 @@ public class SubscriptionService {
         }
       }
     }
-    boolean requiresSubscription = subscriptionFilters.find{
+    boolean requiresAccess = accessFilters.find{
                       (!it.controllerFilter || controllername ==~ it.controllerFilter) &&
                               (!it.actionFilter || actionName ==~ it.actionFilter) &&
                               (!it.uriFilter || uri ==~ it.uriFilter)
-                  }?.size()>0
-    if(!requiresSubscription) return true // its a resource unprotected by subscription access control
-    if(!user) return false
-    Party theParty = user?.party
+                  }.size()>0
+    if(!requiresAccess) return true // its a resource unprotected by access control
     def retValue = false
     def c = Subscription.createCriteria()
     c.list {

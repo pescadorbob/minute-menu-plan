@@ -3,6 +3,8 @@ package com.mp.domain
 import static com.mp.MenuConstants.*
 import com.mp.domain.party.Party
 import com.mp.tools.UserTools
+import com.mp.domain.access.PermissionLevel
+import com.mp.domain.access.SecurityRole
 
 class PermissionService {
 

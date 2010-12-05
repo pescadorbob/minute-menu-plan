@@ -143,11 +143,11 @@ environments {
         imagesRootDir = "/home/ubuntu/mpImages/"
         tempDir = "/home/ubuntu/mpImages/tempImages"
         googleCheckout {
-//            merchantId = "827529108383447"
-//            merchantKey = "ScAQ9VNMRniNUR3T5sW2kQ"
-//            requestFormUrl = "https://checkout.google.com/api/checkout/v2/requestForm/Merchant/827529108383447"
-//            action="https://checkout.google.com/api/checkout/v2/checkoutForm/Merchant/827529108383447"
-//            imageSource="http://checkout.google.com/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
+            merchantId = "826975927018241"
+            merchantKey = "zNvRegBtHvk4NZm03MDXYg"
+            requestFormUrl = "https://checkout.google.com/api/checkout/v2/requestForm/Merchant/826975927018241"
+            action="https://checkout.google.com/api/checkout/v2/checkoutForm/Merchant/826975927018241"
+            imageSource="http://checkout.google.com/buttons/checkout.gif?merchant_id=826975927018241&w=180&h=46&style=white&variant=text&loc=en_US"
         }
         externalKeys {
             shareThisKey = "d50f28c4-1205-472e-93eb-ca6165bb6cf9"
@@ -161,11 +161,11 @@ environments {
             secretKey = "73f7aba0121cc3527e04b02d15da407a"
         }
         googleCheckout {
-            merchantId = "827529108383447"
-            merchantKey = "ScAQ9VNMRniNUR3T5sW2kQ"
-            requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/827529108383447"
-            action = "https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/827529108383447"
-            imageSource = "http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
+            merchantId = "826975927018241"
+            merchantKey = "zNvRegBtHvk4NZm03MDXYg"
+            requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/826975927018241"
+            action = "https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/826975927018241"
+            imageSource = "http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=826975927018241&w=180&h=46&style=white&variant=text&loc=en_US"
         }
         externalKeys {
             shareThisKey = "d50f28c4-1205-472e-93eb-ca6165bb6cf9"
@@ -180,11 +180,11 @@ environments {
             secretKey = "2f069ab14fb4c6ab88cfe463aa9d4344"
         }
         googleCheckout {
-            merchantId = "827529108383447"
-            merchantKey = "ScAQ9VNMRniNUR3T5sW2kQ"
-            requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/827529108383447"
-            action = "https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/827529108383447"
-            imageSource = "http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
+            merchantId = "826975927018241"
+            merchantKey = "zNvRegBtHvk4NZm03MDXYg"
+            requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/826975927018241"
+            action = "https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/826975927018241"
+            imageSource = "http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=826975927018241&w=180&h=46&style=white&variant=text&loc=en_US"
         }
         externalKeys {
             shareThisKey = "d50f28c4-1205-472e-93eb-ca6165bb6cf9"
@@ -200,11 +200,11 @@ environments {
             secretKey = "bd031859be42a47634407b881b9db474"
         }
         googleCheckout {
-            merchantId = "827529108383447"
-            merchantKey = "ScAQ9VNMRniNUR3T5sW2kQ"
-            requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/827529108383447"
-            action = "https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/827529108383447"
-            imageSource = "http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
+            merchantId = "826975927018241"
+            merchantKey = "zNvRegBtHvk4NZm03MDXYg"
+            requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/826975927018241"
+            action = "https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/826975927018241"
+            imageSource = "http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=826975927018241&w=180&h=46&style=white&variant=text&loc=en_US"
         }
         externalKeys {
             shareThisKey = "d50f28c4-1205-472e-93eb-ca6165bb6cf9"
@@ -219,11 +219,11 @@ environments {
             secretKey = "2f069ab14fb4c6ab88cfe463aa9d4344"
         }
         googleCheckout {
-            merchantId = "827529108383447"
-            merchantKey = "ScAQ9VNMRniNUR3T5sW2kQ"
-            requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/827529108383447"
-            action = "https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/827529108383447"
-            imageSource = "http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
+            merchantId = "826975927018241"
+            merchantKey = "zNvRegBtHvk4NZm03MDXYg"
+            requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/826975927018241"
+            action = "https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/826975927018241"
+            imageSource = "http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=826975927018241&w=180&h=46&style=white&variant=text&loc=en_US"
         }
         externalKeys {
             shareThisKey = "d50f28c4-1205-472e-93eb-ca6165bb6cf9"

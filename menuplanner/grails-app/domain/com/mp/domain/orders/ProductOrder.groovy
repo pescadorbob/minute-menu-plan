@@ -9,7 +9,7 @@ package com.mp.domain.orders
  * All rights reserved.
  */
  
-public class OrderStatus {
-
-    static belongsTo = { statusOf:ProductOrder }
+public class ProductOrder {
+   Date date
+  
 }

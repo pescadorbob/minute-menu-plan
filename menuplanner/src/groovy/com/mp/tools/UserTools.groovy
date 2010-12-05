@@ -3,6 +3,7 @@ package com.mp.tools
 import com.mp.domain.party.Party
 import com.mp.domain.LoginCredential
 import com.mp.domain.SessionUtils
+import com.mp.domain.PartyRoleType
 
 /**
  * Created on Nov 29, 2010
@@ -28,5 +29,8 @@ public class UserTools {
             }
         }
         return current
+    }
+    static boolean hasRole(PartyRoleType type) {
+      type in currentUser?.party?.roleTypes
     }
 }

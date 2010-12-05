@@ -1,4 +1,7 @@
 package com.mp.domain.orders
+
+import com.mp.domain.subscriptions.Subscription
+
 /**
  * Created on Dec 2, 2010
  * Created by Brent Fisher
@@ -9,7 +12,7 @@ package com.mp.domain.orders
  * All rights reserved.
  */
  
-public class OrderStatus {
-
-    static belongsTo = { statusOf:ProductOrder }
+public class SubscriptionOrder {
+    Subscription subscription
+    ProductOrder order
 }

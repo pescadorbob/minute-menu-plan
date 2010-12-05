@@ -1,6 +1,7 @@
 package com.mp.domain
 
 import grails.test.GrailsUnitTestCase
+import com.mp.domain.party.UserCO
 
 class UserTests extends GrailsUnitTestCase {
 

@@ -2,14 +2,15 @@ package com.mp.domain
 
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import com.mp.google.checkout.*
-import com.mp.domain.orders.OrderStatus
+import com.mp.domain.orders.GoogleOrderStatus
+import com.mp.domain.orders.GoogleOrderStatus
 
 class GoogleCheckoutService {
 
     boolean transactional = true
     static config = ConfigurationHolder.config
 
-    public Boolean updateFulfillmentState(OrderStatus orderStatus, FulfillmentState newState, String transactionId) {
+    public Boolean updateFulfillmentState(GoogleOrderStatus orderStatus, FulfillmentState newState, String transactionId) {
         orderStatus.transactionId = transactionId
         orderStatus.s()
         String queryString = "_type=${newState.type}&google-order-number=${orderStatus.orderId}"
@@ -20,7 +21,7 @@ class GoogleCheckoutService {
         return changeOrderState(queryString)
     }
 
-    public Boolean updateFinancialState(OrderStatus orderStatus, FinancialState newState, String transactionId) {
+    public Boolean updateFinancialState(GoogleOrderStatus orderStatus, FinancialState newState, String transactionId) {
         orderStatus.financialStatus = newState
         orderStatus.transactionId = transactionId
         orderStatus.s()

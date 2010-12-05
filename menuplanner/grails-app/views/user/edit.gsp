@@ -1,4 +1,4 @@
-<%@ page import="org.apache.commons.lang.StringUtils; com.mp.domain.*" %>
+<%@ page import="com.mp.tools.UserTools; org.apache.commons.lang.StringUtils; com.mp.domain.*" %>
 <html>
 <head>
     <meta name="layout" content="menu"/>

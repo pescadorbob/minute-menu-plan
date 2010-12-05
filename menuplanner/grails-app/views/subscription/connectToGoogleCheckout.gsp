@@ -17,6 +17,7 @@
     <input type="hidden" name="item_name_1" value="${item_name}"/>
     <input type="hidden" name="item_description_1"
             value="${item_description}"/>
+    <input type="hidden" name="recurrence_1" value="${recurrence}"/>
     <input type="hidden" name="item_price_1" value="${item_price}"/>
     <input type="hidden" name="item_currency_1" value="${item_currency}"/>
     <input type="hidden" name="item_quantity_1" value="${item_quantity}"/>
