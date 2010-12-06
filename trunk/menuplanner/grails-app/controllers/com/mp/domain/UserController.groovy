@@ -16,6 +16,7 @@ import com.mp.domain.party.Director
 import com.mp.domain.party.CoachSubscriber
 import com.mp.domain.party.Administrator
 import com.mp.domain.party.SuperAdmin
+import static com.mp.MenuConstants.USER_IMAGE_SIZES
 
 class UserController {
 
