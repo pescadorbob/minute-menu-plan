@@ -331,13 +331,15 @@ class UserController {
     }
 
     def newUserCheckout = {UserCO userCO ->
-        userCO.roles.add(PartyRoleType.Subscriber.name())
+        println "New User wants to checkout................."
+        userCO.roles.add(PartyRoleType.Subscriber.name().toString())
         userCO.isEnabled = null
         List<Cookie> cookies = request.cookies as List
         Cookie coachId = cookies.find {it.name == 'coachId'}
         if (coachId) {
             userCO.coachId = coachId.value
         }
+        println "************************Validating"
         if (userCO.validate()) {
             Party party = userCO.createParty()
             VerificationToken verificationToken = new VerificationToken()
@@ -351,6 +353,7 @@ class UserController {
             }
           redirect(action: 'createSubscription', controller: 'subscription', params: data)
         } else {
+            println "************************Not Validated"
             userCO.errors.allErrors.each {
                 println it
             }
@@ -515,7 +518,12 @@ class UserCO {
         city(nullable: true, blank: true)
         isEnabled(nullable: true)
         roles(validator: {val, obj ->
+            println "************Roles: **${val}**" 
             if ((val.size() < 1 || val.value.size() < 1)) {
+                println "Inside if.................."
+                println "*********** 1: ${(val.size() < 1)}"
+                println "*********** 2: ${(val.value.size() < 1)}"
+                println "*********** 3: ${(val.size() < 1 || val.value.size() < 1)}"
                 return 'userCO.blank.roles.error'
             }
         })

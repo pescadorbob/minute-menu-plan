@@ -22,7 +22,7 @@ import com.mp.domain.access.AccessFilterType
  * All rights reserved.
  */
 
-public class PermissionService {
+public class PermissionFilterService {
 
 
   // runs through all user permissions to see if the user has permission
