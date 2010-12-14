@@ -30,11 +30,16 @@ class ApplicationFilters {
             }
         }
 
+        paypal(controller: 'subscription', action: '*'){
+            println "Request Headers: " + request.reader.text
+        }
+
         verifyAccess(controller: '*', action: '*') {
             before = {
-                println("Verifying Access:${new Date()}:${params}");
+//                println("Verifying Access:${new Date()}:${params}");
                 List<Cookie> cookies = request.cookies as List
                 Cookie guestVisitor = cookies.find {it.name == 'guestVisitor'}
+                if(params.controller != 'paypal'){
                 if (params.controller in ['recipe', 'menuPlan', 'shoppingList'] && params.action in ['show'] && params.guestVisitor) {
                     if (!guestVisitor && !UserTools.currentUser) {
                         guestVisitor = new Cookie('guestVisitor', 'true');
@@ -43,44 +48,31 @@ class ApplicationFilters {
                         response.addCookie(guestVisitor)
                     }
                 } else if (!AccessTools.isUnrestrictedAccess(params.controller, params.action, response, request, guestVisitor)) {
-                    println "**1**"
                     if (!(request.getSession(false) && UserTools.currentUser)) {
-                        println "**2**"
                         if (request.xhr) {
                             String text = "The Session TimedOut url=" + ConfigurationHolder.config.grails.serverURL
                             render(text: text, contentType: 'text/plain')
                         } else {
-                            println "**3**"
                             if (!params.targetUri) {
                                 String targetUri = request.forwardURI.toString() - request.contextPath.toString()
                                 if (!(targetUri == null || targetUri == "/")) { params.targetUri = targetUri }
                             }
                             flash.message = "The feature ${params.action} ${params.controller} you attempted to access requires an active account, and possibly a subscription and none was found."
                             redirect(controller: 'user', action: 'chooseSubscription', params: params)
-                            return false;
                         }
-                        println "**4**"
                     }
-                    println "**5**"
                     if (!verifyUserHasPermission(params, request, response)) {
-                        println "**6**"
                         flash.message = "The feature ${params.action} ${params.controller} you attempted to access requires a permission and none was found."
                         redirect(controller: 'user', action: 'permissionError', params: params)
-                        return false;
                     }
-                    println "**7**"
                     if (!verifyUserHasSubscription(params, request, response)) {
-                        println "**8**"
                         flash.message = "The feature ${params.action} ${params.controller} you attempted to access requires a subscription and none was found."
                         redirect(controller: 'user', action: 'chooseSubscription')
-                        return false;
                     }
-                    println "**9**"
                 }
-                println "**10**"
+                }
                 if (log.isDebugEnabled()) log.debug("Unrestricted Access:${new Date()}:${params}");
                 if (log.isDebugEnabled()) log.debug("Request was unrestricted:${params}")
-                println "Its here now *********************************************"
             }
             after = {model ->
                 if (params.controller == 'recipe' && params.action == 'list') {

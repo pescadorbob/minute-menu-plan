@@ -25,12 +25,12 @@ public class ThemeTagLib {
     Theme.withSession {
       def themes = Theme.list()?.findAll {theme ->
         if (log.isDebugEnabled()) {
-          log.debug """Theme filters:
-            action:${!theme.actionFilter || actionName ==~ theme.actionFilter}
-            uri:${(!theme.uriFilter || request.requestURI ==~ theme.uriFilter)}
-            controller:${!theme.controllerFilter || controllerName ==~ theme.controllerFilter}
-            activeFrom:${theme.activeFrom <= new Date()}
-            activeTo:${(!theme.activeTo || (theme.activeTo > new Date()))}"""
+//          log.debug """Theme filters:
+//            action:${!theme.actionFilter || actionName ==~ theme.actionFilter}
+//            uri:${(!theme.uriFilter || request.requestURI ==~ theme.uriFilter)}
+//            controller:${!theme.controllerFilter || controllerName ==~ theme.controllerFilter}
+//            activeFrom:${theme.activeFrom <= new Date()}
+//            activeTo:${(!theme.activeTo || (theme.activeTo > new Date()))}"""
         }
         def retValue = ((!theme.uriFilter || request.requestURI ==~ theme.uriFilter)
                 && (!theme.actionFilter || actionName ==~ theme.actionFilter)
@@ -43,12 +43,12 @@ public class ThemeTagLib {
         def foundGadgets = current?.pageElements?.findAll {
           def gadget = it
           if (log.isDebugEnabled()) {
-            log.debug """Gadget filters:
-              location:${gadget.location == attrs.location}
-              uri:${(!gadget.uriFilter || request.requestURI ==~ gadget.uriFilter)}
-              action:${!gadget.actionFilter || actionName ==~ gadget.actionFilter}
-              controller:${!gadget.controllerFilter || controllerName ==~ gadget.controllerFilter}
-              context:${(!attrs.contextRule || attrs.contextRule ==~ gadget.contextRule)}"""
+//            log.debug """Gadget filters:
+//              location:${gadget.location == attrs.location}
+//              uri:${(!gadget.uriFilter || request.requestURI ==~ gadget.uriFilter)}
+//              action:${!gadget.actionFilter || actionName ==~ gadget.actionFilter}
+//              controller:${!gadget.controllerFilter || controllerName ==~ gadget.controllerFilter}
+//              context:${(!attrs.contextRule || attrs.contextRule ==~ gadget.contextRule)}"""
           }
           def retVal = (it.location == attrs.location
                   && (!gadget.uriFilter || request.requestURI ==~ gadget.uriFilter)

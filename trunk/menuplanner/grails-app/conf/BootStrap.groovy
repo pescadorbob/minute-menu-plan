@@ -20,6 +20,7 @@ import com.mp.domain.accounting.AccountTransaction
 import com.mp.domain.subscriptions.Subscription
 import com.mp.domain.access.SecurityRole
 import com.mp.domain.access.AccessFilterSet
+import com.mp.domain.subscriptions.ProductOffering
 
 class BootStrap {
 
@@ -130,9 +131,9 @@ class BootStrap {
 
       if ((GrailsUtil.environment != Environment.PRODUCTION) && !Subscription.count()) {
         def now = new Date()
-        subscriptionService.generateSubscription('user1',"1 Month Free Trial",now)
-        subscriptionService.generateSubscription('coach',"Basic Monthly Subscription",now)
-        subscriptionService.generateSubscription('director',"Basic Yearly Subscription",now)
+        subscriptionService.generateSubscription(Party.findByName('user1').id,ProductOffering.findByName("1 Month Free Trial").id,now)
+        subscriptionService.generateSubscription(Party.findByName('coach').id,ProductOffering.findByName("Basic Monthly Subscription").id,now)
+        subscriptionService.generateSubscription(Party.findByName('director').id,ProductOffering.findByName("Basic Yearly Subscription").id,now)
         println "Populated Subscriptions"
       }
         if (!(Environment.current in [Environment.DEVELOPMENT, Environment.TEST])) {

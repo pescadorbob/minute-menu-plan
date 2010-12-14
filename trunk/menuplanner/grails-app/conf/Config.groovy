@@ -146,14 +146,16 @@ environments {
             merchantId = "826975927018241"
             merchantKey = "zNvRegBtHvk4NZm03MDXYg"
             requestFormUrl = "https://checkout.google.com/api/checkout/v2/requestForm/Merchant/826975927018241"
-            action="https://checkout.google.com/api/checkout/v2/checkoutForm/Merchant/826975927018241"
-            imageSource="http://checkout.google.com/buttons/checkout.gif?merchant_id=826975927018241&w=180&h=46&style=white&variant=text&loc=en_US"
+            action = "https://checkout.google.com/api/checkout/v2/checkoutForm/Merchant/826975927018241"
+            imageSource = "http://checkout.google.com/buttons/checkout.gif?merchant_id=826975927018241&w=180&h=46&style=white&variant=text&loc=en_US"
         }
         externalKeys {
             shareThisKey = "d50f28c4-1205-472e-93eb-ca6165bb6cf9"
         }
     }
     development {
+        grails.paypal.server = "https://www.sandbox.paypal.com/cgi-bin/webscr"
+        grails.paypal.email = "qa.men_1291870296_biz@gmail.com"
         google.analytics.enabled = false
         grails.serverURL = "http://localhost:8080/menuplanner"
         facebookConnect {
@@ -180,11 +182,11 @@ environments {
             secretKey = "2f069ab14fb4c6ab88cfe463aa9d4344"
         }
         googleCheckout {
-            merchantId = "826975927018241"
-            merchantKey = "zNvRegBtHvk4NZm03MDXYg"
-            requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/826975927018241"
-            action = "https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/826975927018241"
-            imageSource = "http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=826975927018241&w=180&h=46&style=white&variant=text&loc=en_US"
+            merchantId = "827529108383447"
+            merchantKey = "ScAQ9VNMRniNUR3T5sW2kQ"
+            requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/827529108383447"
+            action = "https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/827529108383447"
+            imageSource = "http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
         }
         externalKeys {
             shareThisKey = "d50f28c4-1205-472e-93eb-ca6165bb6cf9"
@@ -192,6 +194,8 @@ environments {
         uiperformance.enabled = false
     }
     qa {
+        grails.paypal.server = "https://www.sandbox.paypal.com/cgi-bin/webscr"
+        grails.paypal.email = "qa.men_1291870296_biz@gmail.com"
         google.analytics.webPropertyID = 'UA-18954005-1'
         google.analytics.enabled = true
         grails.serverURL = "http://qa.menuplanner.intelligrape.net"
@@ -200,11 +204,11 @@ environments {
             secretKey = "bd031859be42a47634407b881b9db474"
         }
         googleCheckout {
-            merchantId = "826975927018241"
+            merchantId = "827529108383447"
             merchantKey = "zNvRegBtHvk4NZm03MDXYg"
-            requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/826975927018241"
-            action = "https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/826975927018241"
-            imageSource = "http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=826975927018241&w=180&h=46&style=white&variant=text&loc=en_US"
+            requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/827529108383447"
+            action = "https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/827529108383447"
+            imageSource = "http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
         }
         externalKeys {
             shareThisKey = "d50f28c4-1205-472e-93eb-ca6165bb6cf9"
@@ -219,11 +223,11 @@ environments {
             secretKey = "2f069ab14fb4c6ab88cfe463aa9d4344"
         }
         googleCheckout {
-            merchantId = "826975927018241"
+            merchantId = "827529108383447"
             merchantKey = "zNvRegBtHvk4NZm03MDXYg"
-            requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/826975927018241"
-            action = "https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/826975927018241"
-            imageSource = "http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=826975927018241&w=180&h=46&style=white&variant=text&loc=en_US"
+            requestFormUrl = "https://sandbox.google.com/checkout/api/checkout/v2/requestForm/Merchant/827529108383447"
+            action = "https://sandbox.google.com/checkout/api/checkout/v2/checkoutForm/Merchant/827529108383447"
+            imageSource = "http://sandbox.google.com/checkout/buttons/checkout.gif?merchant_id=827529108383447&w=180&h=46&style=white&variant=text&loc=en_US"
         }
         externalKeys {
             shareThisKey = "d50f28c4-1205-472e-93eb-ca6165bb6cf9"
@@ -238,49 +242,49 @@ log4j = {
     // appender:
     //
     appenders {
-		environments {
-			production {
-				rollingFile name: "myAppender", maxFileSize: 26214400, maxBackupIndex: 10, file: "/var/log/tomcat6/minutemenu.log"
-				rollingFile name: "stacktrace", maxFileSize: 26214400, file: "/var/log/tomcat6/stacktrace.log"
-			}
-          development {
-            console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
-          }
-		}
-	}
+        environments {
+            production {
+                rollingFile name: "myAppender", maxFileSize: 26214400, maxBackupIndex: 10, file: "/var/log/tomcat6/minutemenu.log"
+                rollingFile name: "stacktrace", maxFileSize: 26214400, file: "/var/log/tomcat6/stacktrace.log"
+            }
+            development {
+                console name: 'stdout', layout: pattern(conversionPattern: '%c{2} %m%n')
+            }
+        }
+    }
     environments {
-      production {
-         error 'org.codehaus.groovy.grails.web.servlet',  //  controllers
-            'org.codehaus.groovy.grails.web.pages', //  GSP
-            'org.codehaus.groovy.grails.web.sitemesh', //  layouts
-            'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
-            'org.codehaus.groovy.grails.web.mapping', // URL mapping
-            'org.codehaus.groovy.grails.commons', // core / classloading
-            'org.codehaus.groovy.grails.plugins', // plugins
-            'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
-            'org.springframework',
-            'org.hibernate',
-            'net.sf.ehcache.hibernate'
+        production {
+            error 'org.codehaus.groovy.grails.web.servlet',  //  controllers
+                    'org.codehaus.groovy.grails.web.pages', //  GSP
+                    'org.codehaus.groovy.grails.web.sitemesh', //  layouts
+                    'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
+                    'org.codehaus.groovy.grails.web.mapping', // URL mapping
+                    'org.codehaus.groovy.grails.commons', // core / classloading
+                    'org.codehaus.groovy.grails.plugins', // plugins
+                    'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
+                    'org.springframework',
+                    'org.hibernate',
+                    'net.sf.ehcache.hibernate'
 
-          warn 'org.mortbay.log'
-          debug "grails.app.tagLib"
-      }
-      development {
-          error 'org.codehaus.groovy.grails.web.servlet',  //  controllers
-            'org.codehaus.groovy.grails.web.pages', //  GSP
-            'org.codehaus.groovy.grails.web.sitemesh', //  layouts
-            'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
-            'org.codehaus.groovy.grails.web.mapping', // URL mapping
-            'org.codehaus.groovy.grails.commons', // core / classloading
-            'org.codehaus.groovy.grails.plugins', // plugins
-            'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
-            'org.springframework',
-            'org.hibernate',
-            'net.sf.ehcache.hibernate'
+            warn 'org.mortbay.log'
+            debug "grails.app.tagLib"
+        }
+        development {
+            error 'org.codehaus.groovy.grails.web.servlet',  //  controllers
+                    'org.codehaus.groovy.grails.web.pages', //  GSP
+                    'org.codehaus.groovy.grails.web.sitemesh', //  layouts
+                    'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
+                    'org.codehaus.groovy.grails.web.mapping', // URL mapping
+                    'org.codehaus.groovy.grails.commons', // core / classloading
+                    'org.codehaus.groovy.grails.plugins', // plugins
+                    'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
+                    'org.springframework',
+                    'org.hibernate',
+                    'net.sf.ehcache.hibernate'
 
-          warn 'org.mortbay.log'
-          debug "grails.app","grails.app.tagLib","com.mp","grails.app.filter"
-      }
+            warn 'org.mortbay.log'
+            debug "grails.app", "grails.app.tagLib", "com.mp", "grails.app.filter"
+        }
     }
 
 

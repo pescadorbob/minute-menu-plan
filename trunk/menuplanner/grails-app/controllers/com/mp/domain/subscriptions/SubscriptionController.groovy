@@ -5,6 +5,16 @@ import com.mp.tools.UserTools
 class SubscriptionController {
 
   static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+  def subscriptionService
+
+  def paymentConfirm = {
+      subscriptionService.generateSubscription(params.long('buyerId'),params.long('item_number'))
+      render(view: 'confirm')
+  }
+
+  def paymentCancel = {
+      render(view: 'cancel')
+  }
 
   def index = {
     redirect(action: "list", params: params)
@@ -14,15 +24,15 @@ class SubscriptionController {
     int productId = params?.int('productId')
     ProductOffering po = ProductOffering.get(productId)
     String item_name = po.name
-    RecurringCharge rc = po.pricing[0]
+    RecurringCharge rc = po.pricing.toList().first()
     String item_description = rc.description
     String item_price = rc.value
     String item_currency = "USD"
     String item_quantity = "1"
     String recurrence = rc.recurrence
-    render(view: 'connectToGoogleCheckout', model: [recurrence:recurrence,item_name: item_name,
+    render(view: 'connectToPaypal', model: [recurrence:recurrence,item_name: item_name,
             item_description: item_description, item_price: item_price, item_currency: item_currency,
-            item_quantity: item_quantity, userId: userId.toLong()])
+            item_quantity: item_quantity, userId: userId.toLong(), item_number: po.id])
   }
   def list = {
     def now = new Date()
