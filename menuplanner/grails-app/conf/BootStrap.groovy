@@ -136,7 +136,7 @@ class BootStrap {
         subscriptionService.generateSubscription(Party.findByName('director').id,ProductOffering.findByName("Basic Yearly Subscription").id,now)
         println "Populated Subscriptions"
       }
-        if (!(Environment.current in [Environment.DEVELOPMENT, Environment.TEST])) {
+        if (!(Environment.current in [Environment.DEVELOPMENT, 'qa', Environment.TEST])) {
             executeLiquibase()
         }
 
