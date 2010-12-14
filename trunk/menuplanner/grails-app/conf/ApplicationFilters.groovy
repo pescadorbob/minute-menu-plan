@@ -31,7 +31,7 @@ class ApplicationFilters {
         }
 
         paypal(controller: 'subscription', action: '*'){
-            println "Request Headers: " + request.reader.text
+            println "Request Headers: " + request?.reader?.text
         }
 
         verifyAccess(controller: '*', action: '*') {
