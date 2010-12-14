@@ -16,6 +16,10 @@ class SubscriptionController {
       render(view: 'cancel')
   }
 
+  def paymentNotify = {
+      render "Notify"
+  }
+
   def index = {
     redirect(action: "list", params: params)
   }
