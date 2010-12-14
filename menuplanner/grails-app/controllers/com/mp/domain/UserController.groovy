@@ -17,6 +17,7 @@ import com.mp.domain.party.CoachSubscriber
 import com.mp.domain.party.Administrator
 import com.mp.domain.party.SuperAdmin
 import static com.mp.MenuConstants.USER_IMAGE_SIZES
+import com.mp.domain.subscriptions.RecurringCharge
 
 class UserController {
 
@@ -331,16 +332,13 @@ class UserController {
     }
 
     def newUserCheckout = {UserCO userCO ->
-        println "New User wants to checkout................."
-        userCO.roles.add(PartyRoleType.Subscriber.name().toString())
         userCO.isEnabled = null
         List<Cookie> cookies = request.cookies as List
         Cookie coachId = cookies.find {it.name == 'coachId'}
         if (coachId) {
             userCO.coachId = coachId.value
         }
-        println "************************Validating"
-        if (userCO.validate()) {
+        if (!userCO.hasErrors()) {
             Party party = userCO.createParty()
             VerificationToken verificationToken = new VerificationToken()
             verificationToken.party = party
@@ -351,9 +349,8 @@ class UserController {
                 subject "Email verification for Minute Menu Plan"
                 html g.render(template: '/user/accountVerification', model: [party: party, email: userCO.email, token: verificationToken.token])
             }
-          redirect(action: 'createSubscription', controller: 'subscription', params: data)
+            redirect(action: 'createSubscription', controller: 'subscription', params: [userId: party.id, productId: params.pricingId])
         } else {
-            println "************************Not Validated"
             userCO.errors.allErrors.each {
                 println it
             }
@@ -518,12 +515,7 @@ class UserCO {
         city(nullable: true, blank: true)
         isEnabled(nullable: true)
         roles(validator: {val, obj ->
-            println "************Roles: **${val}**" 
             if ((val.size() < 1 || val.value.size() < 1)) {
-                println "Inside if.................."
-                println "*********** 1: ${(val.size() < 1)}"
-                println "*********** 2: ${(val.value.size() < 1)}"
-                println "*********** 3: ${(val.size() < 1 || val.value.size() < 1)}"
                 return 'userCO.blank.roles.error'
             }
         })
@@ -691,7 +683,8 @@ class UserCO {
             party.loginCredentials = [loginCredential] as Set
             party.s()
 
-            if (PartyRoleType.Subscriber in roles) {
+            println "*******************************************Roles: " + roles + ", Test: " + (PartyRoleType.Subscriber.name in roles) 
+            if (PartyRoleType.Subscriber.name in roles) {
                 Subscriber subscriber = new Subscriber()
                 subscriber.city = city
                 subscriber.mouthsToFeed = mouthsToFeed

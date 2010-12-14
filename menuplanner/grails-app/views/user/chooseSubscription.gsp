@@ -32,15 +32,20 @@
     <g:if test="${flash.message}">
     <div class="message">${flash.message}</div>
     </g:if>
-    
+
     <div class="clearfix"><br/>
       The Minute Menu plan is an online software service.
       Please choose a subscription level from the options below.<br/>
       <br/>
     </div>
+
+      %{--<div id="ajaxPaypalForm" style="display:none">--}%
+%{----}%
+      %{--</div>--}%
     <g:form name="googleCheckoutForm" action="newUserCheckout">
+      <input type="hidden" name="roles" value="${com.mp.domain.PartyRoleType.Subscriber.name()}" />
       <div id="leftpanelbox">
-        <h1>Available Subscriptions:</h1>        
+        <h1>Available Subscriptions:</h1>
 
           <table class="data"><tbody>
           <tr>
@@ -49,7 +54,7 @@
            <g:each in="${availableProducts}" var="product">
             <g:each in="${product.pricing}" status="i" var="pricingComponent">
               <tr >
-                <td nowrap><input id="${pricingComponent.id}" name="pricingId" type="radio"/>
+                <td nowrap><input id="${pricingComponent.id}" name="pricingId" type="radio" value="${pricingComponent.id}"/>
                     <label for="${pricingComponent.id}">${product.name}:${pricingComponent.description}</label></td>
               <td align="right"><g:formatNumber number="${pricingComponent.value}" type="currency" currencyCode="USD" />
                 </td>
@@ -121,7 +126,8 @@
             </li>
 
             <li>
-              <g:render template="/user/googleCheckout"/>
+              <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_subscribeCC_LG.gif" id="submitForm"/>
+                %{--<g:render template="/user/googleCheckout"/>--}%
             </li>
           </ul>
         </div>
@@ -137,5 +143,14 @@
 
   </div>
 </div>
+     %{--<script type="text/javascript">--}%
+          %{--jQuery("#submitForm").click(function(){--}%
+              %{--jQuery.post("${createLink(action:'newUserCheckout')}",function(htmlData){--}%
+%{--//                  jQuery("#googleCheckoutForm").hide()--}%
+                  %{--jQuery("#ajaxPaypalForm").html(htmlData)--}%
+              %{--})--}%
+              %{--return false;--}%
+          %{--})--}%
+      %{--</script>--}%
 </body>
 </html>

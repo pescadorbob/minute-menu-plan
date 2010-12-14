@@ -25,6 +25,16 @@ class UtilController {
 
     static config = ConfigurationHolder.config
 
+    def paypal = {
+        println "Success"
+        render "Success"
+    }
+
+    def cancelPaypal = {
+        println "Cancelled"
+        render "Cancelled"
+    }
+
     def index = {
         render "success"
     }

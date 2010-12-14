@@ -24,79 +24,77 @@ import com.mp.domain.access.AccessFilterType
 
 public class SubscriptionService {
 
-  public void generateSubscription(userName, offeringName, startDate) {
-    def subscriber = Subscriber.withCriteria {
-      party {
-        eq("name", userName)
-      }
-    }.first()
-    def productOffering = ProductOffering.findByName(offeringName)
-    productOffering?.applicableFeatures?.each {applicability ->
-      def feature = applicability.describedBy
-      use(TimeCategory) {
-        Binding binding = new Binding();
-        binding.setVariable("startDate", startDate);
-        GroovyShell shell = new GroovyShell(binding);
+    public void generateSubscription(buyerId, offeringId, startDate = new Date()) {
+        Party party= Party.get(buyerId)
+        Subscriber subscriber = party.subscriber
+        def productOffering = ProductOffering.get(offeringId)
+        productOffering?.applicableFeatures?.each {applicability ->
+            def feature = applicability.describedBy
+            use(TimeCategory) {
+                Binding binding = new Binding();
+                binding.setVariable("startDate", startDate);
+                GroovyShell shell = new GroovyShell(binding);
 
-        def start = shell.evaluate(applicability.applicableFrom)
-        def endDate = shell.evaluate(applicability.applicableThru)
-        def fs = new FeatureSubscription(subscribedFeature: feature, subscriptionFor: subscriber,
-                originalProductOffering: feature?.name, activeFrom: start, activeTo: endDate)
-        assert fs.save()
-      }
-    }
+                def start = shell.evaluate(applicability.applicableFrom)
+                def endDate = shell.evaluate(applicability.applicableThru)
+                def fs = new FeatureSubscription(subscribedFeature: feature, subscriptionFor: subscriber,
+                        originalProductOffering: feature?.name, activeFrom: start, activeTo: endDate)
+                assert fs.s()
+            }
+        }
 
-  }
-  // runs through all time valid subscriptions and evaluates the feature to see if it is active
-  public boolean verifySubscription(user, controllerName, actionName, uri, now) {
-    def subscriptionFilters = AccessFilter.withCriteria {
-      filterFor {
-        eq('type', AccessFilterType.SUBSCRIPTION)
-        gt('activeFrom', now)
-        or {
-          isNull('activeTo')
-          lt('activeTo', now)
-        }
-      }
     }
-    boolean requiresSubscription = subscriptionFilters.find{
-                      (!it.controllerFilter || controllername ==~ it.controllerFilter) &&
-                              (!it.actionFilter || actionName ==~ it.actionFilter) &&
-                              (!it.uriFilter || uri ==~ it.uriFilter)
-                  }?.size()>0
-    if(!requiresSubscription) return true // its a resource unprotected by subscription access control
-    if(!user) return false
-    Party theParty = user?.party
-    def retValue = false
-    def c = Subscription.createCriteria()
-    c.list {
-      subscriptionFor {
-        party {
-          idEq(theParty.id)
+    // runs through all time valid subscriptions and evaluates the feature to see if it is active
+
+    public boolean verifySubscription(user, controllerName, actionName, uri, now) {
+        def subscriptionFilters = AccessFilter.withCriteria {
+            filterFor {
+                eq('type', AccessFilterType.SUBSCRIPTION)
+                gt('activeFrom', now)
+                or {
+                    isNull('activeTo')
+                    lt('activeTo', now)
+                }
+            }
         }
-      }
-      le('activeFrom', now)
-      ge('activeTo', now - 1)
-    }.each {subscription ->
-      def feature = subscription.subscribedFeature
-      if (feature.class == ControllerActionFeature.class) {
-        if (log.isDebugEnabled()) {
-          log.debug """feature filters:
+        boolean requiresSubscription = subscriptionFilters.find {
+            (!it.controllerFilter || controllername ==~ it.controllerFilter) &&
+                    (!it.actionFilter || actionName ==~ it.actionFilter) &&
+                    (!it.uriFilter || uri ==~ it.uriFilter)
+        }?.size() > 0
+        if (!requiresSubscription) return true // its a resource unprotected by subscription access control
+        if (!user) return false
+        Party theParty = user?.party
+        def retValue = false
+        def c = Subscription.createCriteria()
+        c.list {
+            subscriptionFor {
+                party {
+                    idEq(theParty.id)
+                }
+            }
+            le('activeFrom', now)
+            ge('activeTo', now - 1)
+        }.each {subscription ->
+            def feature = subscription.subscribedFeature
+            if (feature.class == ControllerActionFeature.class) {
+                if (log.isDebugEnabled()) {
+                    log.debug """feature filters:
             action:${!feature.actionFilter || actionName ==~ feature.actionFilter}
             uri:${(!feature.uriFilter || uri ==~ feature.uriFilter)}
             controller:${!feature.controllerFilter || controllerName ==~ feature.controllerFilter}
             activeFrom:${feature.activeFrom <= new Date()}
             activeTo:${(!feature.activeTo || (feature.activeTo > now))}"""
-        }
-        retValue |= ((!feature.uriFilter || uri ==~ feature.uriFilter)
-                && (!feature.actionFilter || actionName ==~ feature.actionFilter)
-                && (!feature.controllerFilter || controllerName ==~ feature.controllerFilter)
-                && (feature.activeFrom <= now)
-                && (!feature.activeTo || (feature.activeTo > now)))
-      }
+                }
+                retValue |= ((!feature.uriFilter || uri ==~ feature.uriFilter)
+                        && (!feature.actionFilter || actionName ==~ feature.actionFilter)
+                        && (!feature.controllerFilter || controllerName ==~ feature.controllerFilter)
+                        && (feature.activeFrom <= now)
+                        && (!feature.activeTo || (feature.activeTo > now)))
+            }
 
+        }
+        retValue
     }
-    retValue
-  }
 
 }
