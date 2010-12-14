@@ -129,13 +129,13 @@ class BootStrap {
             println "Populated Quick Fills"
         }
 
-      if ((GrailsUtil.environment != Environment.PRODUCTION) && !Subscription.count()) {
-        def now = new Date()
-        subscriptionService.generateSubscription(Party.findByName('user1').id,ProductOffering.findByName("1 Month Free Trial").id,now)
-        subscriptionService.generateSubscription(Party.findByName('coach').id,ProductOffering.findByName("Basic Monthly Subscription").id,now)
-        subscriptionService.generateSubscription(Party.findByName('director').id,ProductOffering.findByName("Basic Yearly Subscription").id,now)
-        println "Populated Subscriptions"
-      }
+//      if ((GrailsUtil.environment != Environment.PRODUCTION) && !Subscription.count()) {
+//        def now = new Date()
+//        subscriptionService.generateSubscription(Party.findByName('user1').id,ProductOffering.findByName("1 Month Free Trial").id,now)
+//        subscriptionService.generateSubscription(Party.findByName('coach').id,ProductOffering.findByName("Basic Monthly Subscription").id,now)
+//        subscriptionService.generateSubscription(Party.findByName('director').id,ProductOffering.findByName("Basic Yearly Subscription").id,now)
+//        println "Populated Subscriptions"
+//      }
         if (!(Environment.current in [Environment.DEVELOPMENT, 'qa', Environment.TEST])) {
             executeLiquibase()
         }
