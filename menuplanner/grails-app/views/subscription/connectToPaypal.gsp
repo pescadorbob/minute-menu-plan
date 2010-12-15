@@ -17,10 +17,11 @@
     %{--<input type="hidden" name="return" value="http://qa.menuplanner.intelligrape.net/subscription/paymentConfirm?buyerId=${userId}&item_number=${item_number}" id="return"/>--}%
     <input type="hidden" name="business" value="${ConfigurationHolder.config.grails.paypal.email}">
     <input type="hidden" name="lc" value="US">
-    <input type="hidden" name="buyerId" value="${userId}">
+    <input type="hidden" name="custom" value="${userId}">
     <input type="hidden" name="item_name" value="${item_name}">
     <input type="hidden" name="item_number" value="${item_number}">
     <input type="hidden" name="no_note" value="1">
+    <input type="hidden" name="no_shipping" value="1">
     <input type="hidden" name="a1" value="0.00">
     <input type="hidden" name="p1" value="1">
     <input type="hidden" name="t1" value="D">
