@@ -8,7 +8,6 @@ class SubscriptionController {
   def subscriptionService
 
   def paymentConfirm = {
-      subscriptionService.generateSubscription(params.long('buyerId'),params.long('item_number'))
       render(view: 'confirm')
   }
 
@@ -17,6 +16,7 @@ class SubscriptionController {
   }
 
   def paymentNotify = {
+      subscriptionService.generateSubscription(params.long('custom'),params.long('item_number'))
       render "Notify"
   }
 
