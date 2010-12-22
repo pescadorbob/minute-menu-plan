@@ -27,7 +27,7 @@ class SubscriptionController {
         String transactionType = params.txn_type
         Long partyId = params.long('custom')
         if (transactionType && partyId && Party.exists(partyId)) {
-            Party party = Party.load(partyId)
+            Party party = Party.get(partyId)
             AccountRole accountRole = AccountRole.findByTypeAndRoleFor(AccountRoleType.OWNER, party)
             Account account = accountRole.describes
             OperationalAccount operationalAccount = OperationalAccount.findByName(MMP_OPERATIONAL_ACCOUNT)
