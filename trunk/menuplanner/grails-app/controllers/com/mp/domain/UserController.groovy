@@ -332,7 +332,7 @@ class UserController {
     }
 
     def newUserCheckout = {UserCO userCO ->
-        Party currentParty = UserTools.currentUser.party
+        Party currentParty = UserTools.currentUser?.party
         if(currentParty){
             userCO = new UserCO(currentParty)
             if(params.pricingId){
