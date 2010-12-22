@@ -19,6 +19,7 @@
                 <g:if test="${(PartyRoleType.Director in UserTools.currentUser?.party?.roleTypes ) && (permission.hasPermission(permission: Permission.MANAGE_SUB_AFFILIATE))}">
                     <g:link class="addCoachFT" name="addNewCoach" controller="user" action="createCoach">Add Sub Director</g:link>
                 </g:if>
+                <g:link controller="user" action="chooseSubscription">Buy Subscription</g:link>
             </li>
             <li><g:link class="logoutLink" controller="login" action="logout">Logout</g:link></li>
         </ul>

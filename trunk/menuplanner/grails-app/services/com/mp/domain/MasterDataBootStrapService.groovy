@@ -9,20 +9,16 @@ import org.springframework.context.ApplicationContextAware
 import jxl.Workbook
 import jxl.WorkbookSettings
 import jxl.Sheet
-import com.mp.domain.subscriptions.Feature
 import com.mp.domain.subscriptions.ProductOffering
 import com.mp.domain.subscriptions.RecurringCharge
-import com.mp.domain.subscriptions.FeaturedOfferingApplicability
 import com.mp.domain.themes.HomePage
 import com.mp.domain.themes.Theme
 import com.mp.domain.themes.PageElement
 import com.mp.domain.accounting.Account
 import com.mp.domain.accounting.AccountRole
 import com.mp.domain.accounting.AccountRoleType
-import com.mp.domain.accounting.AccountTransaction
 import com.mp.domain.accounting.AccountTransactionType
 import com.mp.domain.party.Party
-import com.mp.domain.subscriptions.FeatureSubscription
 import com.mp.accounting.AccountingService
 import com.mp.domain.accounting.OperationalAccount
 import com.mp.domain.subscriptions.ControllerActionFeature
@@ -31,6 +27,7 @@ import com.mp.domain.access.SecurityRole
 import com.mp.domain.access.AccessFilterSet
 import com.mp.domain.access.AccessFilterType
 import com.mp.domain.access.AccessFilter
+import com.mp.domain.subscriptions.ProductOfferingApplicability
 
 class MasterDataBootStrapService implements ApplicationContextAware {
 
@@ -205,9 +202,9 @@ class MasterDataBootStrapService implements ApplicationContextAware {
     new RecurringCharge(recurrence: "1.month", startAfter: "1.month", pricingFor: freeTrial, activeTo: activeTo, activeFrom: activeFrom, value: 5, name: "\$5 month", description: "5 dollars every month after the first month").s();
     new RecurringCharge(recurrence: "1.month", startAfter: "1.month", pricingFor: po, activeTo: activeTo, activeFrom: activeFrom, value: 5, name: "\$5 month", description: "5 dollars ever ymonth after the first month").s();
     new RecurringCharge(recurrence: "1.year", startAfter: "1.month", pricingFor: year, activeTo: activeTo, activeFrom: activeFrom, value: 50, name: "\$50 year", description: "50 dollars every year after the first year").s();
-    new FeaturedOfferingApplicability(availableFor: freeTrial, describedBy: f1, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'startDate + 1.month', applicableThruDescription: 'Valid for 1 month').s()
-    new FeaturedOfferingApplicability(availableFor: po, describedBy: f1, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'startDate + 1.month', applicableThruDescription: 'Valid for 1 month').s()
-    new FeaturedOfferingApplicability(availableFor: year, describedBy: f1, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'startDate + 1.year', applicableThruDescription: 'Valid for 1 year').s()
+    new ProductOfferingApplicability(availableFor: freeTrial, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'startDate + 1.month', applicableThruDescription: 'Valid for 1 month').s()
+    new ProductOfferingApplicability(availableFor: po, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'startDate + 1.month', applicableThruDescription: 'Valid for 1 month').s()
+    new ProductOfferingApplicability(availableFor: year, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'startDate + 1.year', applicableThruDescription: 'Valid for 1 year').s()
     
   }
 
@@ -413,7 +410,7 @@ class MasterDataBootStrapService implements ApplicationContextAware {
   }
   def populateAccounts(){
     Date today = new Date()
-    OperationalAccount opAcct = new OperationalAccount(name:"MMP Operational Account").s()
+    OperationalAccount opAcct = new OperationalAccount(name:MMP_OPERATIONAL_ACCOUNT).s()
     def superAdmin = Party.findByName('superAdmin')
     new AccountRole(roleFor:superAdmin,describes:opAcct,type:AccountRoleType.OWNER).s()
       Party.list().each{ party ->
