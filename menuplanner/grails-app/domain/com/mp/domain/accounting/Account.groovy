@@ -1,7 +1,5 @@
 package com.mp.domain.accounting
 
-import com.mp.domain.accounting.AccountTransaction
-
 class Account {
 
   String accountNumber = UUID.randomUUID().toString()

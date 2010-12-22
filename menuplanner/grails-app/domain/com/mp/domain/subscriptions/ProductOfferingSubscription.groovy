@@ -5,8 +5,8 @@ package com.mp.domain.subscriptions
  *
  */
 
-public class FeatureSubscription extends Subscription {
-    Feature subscribedFeature
+public class ProductOfferingSubscription extends Subscription {
+    ProductOffering subscribedProductOffering
 
     static mapping = {
         tablePerHierarchy false

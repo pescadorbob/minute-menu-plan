@@ -332,6 +332,15 @@ class UserController {
     }
 
     def newUserCheckout = {UserCO userCO ->
+        Party currentParty = UserTools.currentUser.party
+        if(currentParty){
+            userCO = new UserCO(currentParty)
+            if(params.pricingId){
+                forward(action: 'createSubscription', controller: 'subscription', params: [userId: currentParty.id, productId: params.pricingId])
+            } else {
+                forward(action: 'chooseSubscription', availableProducts: ProductOffering.list(), userCO: userCO)
+            }
+        }  else {
         userCO.isEnabled = null
         List<Cookie> cookies = request.cookies as List
         Cookie coachId = cookies.find {it.name == 'coachId'}
@@ -354,8 +363,8 @@ class UserController {
             userCO.errors.allErrors.each {
                 println it
             }
-          def availableProducts = ProductOffering.list()
-          render(view: 'chooseSubscription', model: [availableProducts: availableProducts, userCO: userCO])
+          render(view: 'chooseSubscription', model: [availableProducts: ProductOffering.list(), userCO: userCO])
+        }
         }
     }
 

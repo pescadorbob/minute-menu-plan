@@ -4,6 +4,8 @@ import com.mp.domain.PartyRoleType
 import com.mp.domain.PartyRoleType
 
 class MenuConstants {
+    public static final String MMP_OPERATIONAL_ACCOUNT = 'MMP Operational Account'
+
     public static final String SYSTEM_OF_UNIT_USA = "United States Customary System"
     public static final String SYSTEM_OF_UNIT_USA_STANDARDIZATION_BODY = "EEUU"
     public static final String SYSTEM_OF_UNIT_METRIC = "Metric System"

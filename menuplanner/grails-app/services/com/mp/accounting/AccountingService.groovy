@@ -40,6 +40,9 @@ public class AccountingService {
       break
       case AccountTransactionType.AUTOMATED_FUNDING:
       case AccountTransactionType.FUNDING:
+      case AccountTransactionType.SUBSCRIPTION_CANCELLED:
+      case AccountTransactionType.SUBSCRIPTION_EXPIRED:
+      case AccountTransactionType.SUBSCRIPTION_PAYMENT_FAILED:
       case AccountTransactionType.AFFILIATE_PAYMENT:
       case AccountTransactionType.REFUND:
       case AccountTransactionType.ADJUSTMENT:

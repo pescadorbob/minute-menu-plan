@@ -1,6 +1,7 @@
 package com.mp.domain.subscriptions
 
 import com.mp.domain.party.Subscriber
+import com.mp.subscriptions.SubscriptionStatus
 
 /**
  * Created on Nov 13, 2010
@@ -11,6 +12,7 @@ import com.mp.domain.party.Subscriber
 public class Subscription {
   static belongsTo = [subscriptionFor:Subscriber]
 
+  SubscriptionStatus status = SubscriptionStatus.CURRENT
   Subscriber subscriptionFor
   String originalProductOffering
   Date activeFrom
