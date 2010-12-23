@@ -37,7 +37,13 @@ class SubscriptionController {
                     subscriptionService.generateSubscription(partyId, params.long('item_number'))
                     accountRole = AccountRole.findByTypeAndRoleFor(AccountRoleType.OWNER, party)
                     account = accountRole?.describes
+                    println "Period 1: " + params.period1
+                    println "Amount 1: " + params.long('amount1')
+                    println "Amount 3: " + params.long('amount3')
                     Float amount = params.period1 ? params.long('amount1') : params.long('amount3')
+                    println "Amount, 1: " + amount
+                    amount = amount ?: 0.0
+                    println "Amount, 2: " + amount
                     accountingService.createTxn(operationalAccount.accountNumber, account.accountNumber, new Date(),
                             amount, "Payment made through Paypal: *** THANK YOU", AccountTransactionType.FUNDING)
                     break;
