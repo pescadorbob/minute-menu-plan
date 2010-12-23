@@ -4,8 +4,7 @@ public enum SubscriptionStatus {
 
     CURRENT('CURRENT'),
     EXPIRED('EXPIRED'),
-    RENEWED('RENEWED'),
-    CANCELLED('CANCELLED')
+    RENEWED('RENEWED')
 
     String name
 

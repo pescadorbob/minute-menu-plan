@@ -35,7 +35,7 @@ class SubscriptionController {
 
             switch (transactionType) {
                 case TransactionType.SUBSCRIPTION_SIGNUP.name:
-                    subscriptionService.generateSubscription(partyId, params.long('item_number'))
+                    subscriptionService.generateSubscription(party, params.long('item_number'))
                     accountRole = AccountRole.findByTypeAndRoleFor(AccountRoleType.OWNER, party)
                     account = accountRole?.describes
                     Float amount = params.period1 ? params.float('amount1') : params.float('amount3')
