@@ -9,6 +9,7 @@ import com.mp.domain.accounting.Account
 import com.mp.domain.accounting.OperationalAccount
 import static com.mp.MenuConstants.MMP_OPERATIONAL_ACCOUNT
 import com.mp.domain.accounting.AccountTransactionType
+import com.mp.domain.accounting.AccountTransaction
 
 class SubscriptionController {
 
@@ -30,7 +31,7 @@ class SubscriptionController {
             Party party = Party.get(partyId)
             AccountRole accountRole = AccountRole.findByTypeAndRoleFor(AccountRoleType.OWNER, party)
             Account account = accountRole?.describes
-            OperationalAccount operationalAccount = OperationalAccount.findByName(MMP_OPERATIONAL_ACCOUNT)
+            Date now = new Date()
 
             switch (transactionType) {
                 case TransactionType.SUBSCRIPTION_SIGNUP.name:
@@ -38,31 +39,26 @@ class SubscriptionController {
                     accountRole = AccountRole.findByTypeAndRoleFor(AccountRoleType.OWNER, party)
                     account = accountRole?.describes
                     println "Period 1: " + params.period1
-                    println "Amount 1: " + params.amount1?.toLong()
-                    println "Amount 3: " + params.amount3?.toLong()
-                    Float amount = params.period1 ? params.amount1?.toLong() : params.amount3?.toLong()
+                    println "Amount 1: " + params.float('amount1')
+                    println "Amount 3: " + params.float('amount3')
+                    Float amount = params.period1 ? params.float('amount1') : params.float('amount3')
                     println "Amount, 1: " + amount
                     amount = amount ?: 0.0
                     println "Amount, 2: " + amount
-                    accountingService.createTxn(operationalAccount.accountNumber, account.accountNumber, new Date(),
-                            amount, "Payment made through Paypal: *** THANK YOU", AccountTransactionType.FUNDING)
+                    new AccountTransaction(transactionFor: account, transactionDate: now, amount: amount, description: "Payment made through Paypal: *** THANK YOU", transactionType: AccountTransactionType.FUNDING).s()
                     break;
                 case TransactionType.SUBSCRIPTION_CANCELLED.name:
-                    accountingService.createTxn(operationalAccount.accountNumber, account.accountNumber, new Date(),
-                            0.0, "Subscription Cancelled", AccountTransactionType.SUBSCRIPTION_CANCELLED)
+                    new AccountTransaction(transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription through Paypal has been cancelled", transactionType: AccountTransactionType.SUBSCRIPTION_CANCELLED).s()
                     break;
                 case TransactionType.SUBSCRIPTION_EXPIRED.name:
-                    accountingService.createTxn(operationalAccount.accountNumber, account.accountNumber, new Date(),
-                            0.0, "Subscription Expired", AccountTransactionType.SUBSCRIPTION_EXPIRED)
+                    new AccountTransaction(transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription through Paypal has expired", transactionType: AccountTransactionType.SUBSCRIPTION_EXPIRED).s()
                     break;
                 case TransactionType.SUBSCRIPTION_FAILED.name:
-                    accountingService.createTxn(operationalAccount.accountNumber, account.accountNumber, new Date(),
-                            0.0, "Subscription Expired", AccountTransactionType.SUBSCRIPTION_PAYMENT_FAILED)
+                    new AccountTransaction(transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription Payment through Paypal has failed", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT_FAILED).s()
                     break;
                 case TransactionType.SUBSCRIPTION_PAYMENT.name:
-                    Float amount = params.long('amount3')
-                    accountingService.createTxn(operationalAccount.accountNumber, account.accountNumber, new Date(),
-                            amount, "Subscription Payment", AccountTransactionType.FUNDING)
+                    Float amount = params.float('amount3')
+                    new AccountTransaction(transactionFor: account, transactionDate: now, amount: amount, description: "Subscription Payment Through Paypal: *** THANK YOU", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
                     break;
             }
         }
