@@ -32,8 +32,8 @@ class SubscriptionController {
             Account account = accountRole?.describes
             OperationalAccount operationalAccount = OperationalAccount.findByName(MMP_OPERATIONAL_ACCOUNT)
 
-            switch (TransactionType."${transactionType}") {
-                case TransactionType.SUBSCRIPTION_SIGNUP:
+            switch (transactionType) {
+                case TransactionType.SUBSCRIPTION_SIGNUP.name:
                     subscriptionService.generateSubscription(partyId, params.long('item_number'))
                     accountRole = AccountRole.findByTypeAndRoleFor(AccountRoleType.OWNER, party)
                     account = accountRole?.describes
@@ -41,19 +41,19 @@ class SubscriptionController {
                     accountingService.createTxn(operationalAccount.accountNumber, account.accountNumber, new Date(),
                             amount, "Payment made through Paypal: *** THANK YOU", AccountTransactionType.FUNDING)
                     break;
-                case TransactionType.SUBSCRIPTION_CANCELLED:
+                case TransactionType.SUBSCRIPTION_CANCELLED.name:
                     accountingService.createTxn(operationalAccount.accountNumber, account.accountNumber, new Date(),
                             0.0, "Subscription Cancelled", AccountTransactionType.SUBSCRIPTION_CANCELLED)
                     break;
-                case TransactionType.SUBSCRIPTION_EXPIRED:
+                case TransactionType.SUBSCRIPTION_EXPIRED.name:
                     accountingService.createTxn(operationalAccount.accountNumber, account.accountNumber, new Date(),
                             0.0, "Subscription Expired", AccountTransactionType.SUBSCRIPTION_EXPIRED)
                     break;
-                case TransactionType.SUBSCRIPTION_FAILED:
+                case TransactionType.SUBSCRIPTION_FAILED.name:
                     accountingService.createTxn(operationalAccount.accountNumber, account.accountNumber, new Date(),
                             0.0, "Subscription Expired", AccountTransactionType.SUBSCRIPTION_PAYMENT_FAILED)
                     break;
-                case TransactionType.SUBSCRIPTION_PAYMENT:
+                case TransactionType.SUBSCRIPTION_PAYMENT.name:
                     Float amount = params.long('amount3')
                     accountingService.createTxn(operationalAccount.accountNumber, account.accountNumber, new Date(),
                             amount, "Subscription Payment", AccountTransactionType.FUNDING)
