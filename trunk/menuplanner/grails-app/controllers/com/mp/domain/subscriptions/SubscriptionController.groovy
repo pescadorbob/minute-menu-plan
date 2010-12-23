@@ -38,14 +38,8 @@ class SubscriptionController {
                     subscriptionService.generateSubscription(partyId, params.long('item_number'))
                     accountRole = AccountRole.findByTypeAndRoleFor(AccountRoleType.OWNER, party)
                     account = accountRole?.describes
-                    println "Period 1: " + params.period1
-                    println "Amount 1: " + params.float('amount1')
-                    println "Amount 3: " + params.float('amount3')
                     Float amount = params.period1 ? params.float('amount1') : params.float('amount3')
-                    println "Amount, 1: " + amount
-                    amount = amount ?: 0.0
-                    println "Amount, 2: " + amount
-                    new AccountTransaction(transactionFor: account, transactionDate: now, amount: amount, description: "Payment made through Paypal: *** THANK YOU", transactionType: AccountTransactionType.FUNDING).s()
+                    new AccountTransaction(transactionFor: account, transactionDate: now, amount: amount, description: "Subscription Signup Payment made through Paypal: *** THANK YOU", transactionType: AccountTransactionType.FUNDING).s()
                     break;
                 case TransactionType.SUBSCRIPTION_CANCELLED.name:
                     new AccountTransaction(transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription through Paypal has been cancelled", transactionType: AccountTransactionType.SUBSCRIPTION_CANCELLED).s()
