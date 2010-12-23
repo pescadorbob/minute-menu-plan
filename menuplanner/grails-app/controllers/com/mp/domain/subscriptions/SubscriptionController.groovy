@@ -38,9 +38,9 @@ class SubscriptionController {
                     accountRole = AccountRole.findByTypeAndRoleFor(AccountRoleType.OWNER, party)
                     account = accountRole?.describes
                     println "Period 1: " + params.period1
-                    println "Amount 1: " + params.long('amount1')
-                    println "Amount 3: " + params.long('amount3')
-                    Float amount = params.period1 ? params.long('amount1') : params.long('amount3')
+                    println "Amount 1: " + params.amount1?.toLong()
+                    println "Amount 3: " + params.amount3?.toLong()
+                    Float amount = params.period1 ? params.amount1?.toLong() : params.amount3?.toLong()
                     println "Amount, 1: " + amount
                     amount = amount ?: 0.0
                     println "Amount, 2: " + amount
