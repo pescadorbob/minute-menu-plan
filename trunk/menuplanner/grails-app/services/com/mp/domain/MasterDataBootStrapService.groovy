@@ -199,9 +199,9 @@ class MasterDataBootStrapService implements ApplicationContextAware {
     po.s()
     ProductOffering year = new ProductOffering(name: "Basic Yearly Subscription", activeTo: activeTo, activeFrom: activeFrom)
     year.s()
-    new RecurringCharge(recurrence: "1.month", startAfter: "1.month", pricingFor: freeTrial, activeTo: activeTo, activeFrom: activeFrom, value: 5, name: "\$5 month", description: "5 dollars every month after the first month").s();
-    new RecurringCharge(recurrence: "1.month", startAfter: "1.month", pricingFor: po, activeTo: activeTo, activeFrom: activeFrom, value: 5, name: "\$5 month", description: "5 dollars ever ymonth after the first month").s();
-    new RecurringCharge(recurrence: "1.year", startAfter: "1.month", pricingFor: year, activeTo: activeTo, activeFrom: activeFrom, value: 50, name: "\$50 year", description: "50 dollars every year after the first year").s();
+    new RecurringCharge(recurrence: "1.day", startAfter: "1.day", pricingFor: freeTrial, activeTo: activeTo, activeFrom: activeFrom, value: 5, name: "\$5 month", description: "5 dollars every month after the first month").s();
+    new RecurringCharge(recurrence: "1.day", startAfter: "1.day", pricingFor: po, activeTo: activeTo, activeFrom: activeFrom, value: 5, name: "\$5 month", description: "5 dollars ever ymonth after the first month").s();
+    new RecurringCharge(recurrence: "1.day", startAfter: "1.day", pricingFor: year, activeTo: activeTo, activeFrom: activeFrom, value: 50, name: "\$50 year", description: "50 dollars every year after the first year").s();
     new ProductOfferingApplicability(availableFor: freeTrial, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'startDate + 1.month', applicableThruDescription: 'Valid for 1 month').s()
     new ProductOfferingApplicability(availableFor: po, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'startDate + 1.month', applicableThruDescription: 'Valid for 1 month').s()
     new ProductOfferingApplicability(availableFor: year, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'startDate + 1.year', applicableThruDescription: 'Valid for 1 year').s()
