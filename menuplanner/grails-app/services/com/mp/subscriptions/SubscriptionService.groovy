@@ -17,6 +17,7 @@ import com.mp.domain.accounting.Account
 import com.mp.domain.accounting.AccountTransactionType
 import static com.mp.MenuConstants.MMP_OPERATIONAL_ACCOUNT
 import com.mp.domain.subscriptions.PricingComponent
+import com.mp.domain.accounting.AccountTransaction
 
 /**
  * Created on Nov 28, 2010
@@ -59,9 +60,10 @@ public class SubscriptionService {
         }
         Date now = new Date()
         OperationalAccount opAcct = OperationalAccount.findByName(MMP_OPERATIONAL_ACCOUNT)
-        accountingService.createTxn(opAcct.accountNumber, account.accountNumber, now, 0.0, "Opening Balance", AccountTransactionType.OPENING_BALANCE)
+        new AccountTransaction(transactionFor: account, transactionDate: now, amount: 0.0, description: "Opening Balance", transactionType: AccountTransactionType.OPENING_BALANCE).s()
         productOffering.pricing.each {PricingComponent pricingComponent ->
-            accountingService.createTxn(opAcct.accountNumber, account.accountNumber, now, pricingComponent.value, "Monthly Subscription Charge", AccountTransactionType.SUBSCRIPTION_PAYMENT)
+            new AccountTransaction(transactionFor: account, transactionDate: now, amount: -1 * pricingComponent.value, description: "Monthly Subscription Charge", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
+            new AccountTransaction(transactionFor: opAcct, transactionDate: now, amount: pricingComponent.value, description: "Monthly Subscription Payment From Account: ${account.accountNumber}", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
         }
     }
     // runs through all time valid subscriptions and evaluates the feature to see if it is active
