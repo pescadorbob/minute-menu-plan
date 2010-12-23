@@ -18,6 +18,7 @@ import com.mp.domain.accounting.AccountTransactionType
 import static com.mp.MenuConstants.MMP_OPERATIONAL_ACCOUNT
 import com.mp.domain.subscriptions.PricingComponent
 import com.mp.domain.accounting.AccountTransaction
+import com.mp.domain.subscriptions.RecurringCharge
 
 /**
  * Created on Nov 28, 2010
@@ -62,8 +63,12 @@ public class SubscriptionService {
         OperationalAccount opAcct = OperationalAccount.findByName(MMP_OPERATIONAL_ACCOUNT)
         new AccountTransaction(transactionFor: account, transactionDate: now, amount: 0.0, description: "Opening Balance", transactionType: AccountTransactionType.OPENING_BALANCE).s()
         productOffering.pricing.each {PricingComponent pricingComponent ->
-            new AccountTransaction(transactionFor: account, transactionDate: now, amount: -1 * pricingComponent.value, description: "Monthly Subscription Charge", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
-            new AccountTransaction(transactionFor: opAcct, transactionDate: now, amount: pricingComponent.value, description: "Monthly Subscription Payment From Account: ${account.accountNumber}", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
+            Float amount = pricingComponent.value
+            if(pricingComponent.instanceOf(RecurringCharge.class) && pricingComponent.startAfter){
+                amount = 0.0
+            }
+            new AccountTransaction(transactionFor: account, transactionDate: now, amount: -1 * amount, description: "Monthly Subscription Charge", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
+            new AccountTransaction(transactionFor: opAcct, transactionDate: now, amount: amount, description: "Monthly Subscription Payment From Account: ${account.accountNumber}", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
         }
     }
     // runs through all time valid subscriptions and evaluates the feature to see if it is active

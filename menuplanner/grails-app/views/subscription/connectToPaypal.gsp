@@ -22,29 +22,43 @@
     <input type="hidden" name="item_number" value="${item_number}">
     <input type="hidden" name="no_note" value="1">
     <input type="hidden" name="no_shipping" value="1">
-    <input type="hidden" name="a1" value="0.00">
-    <input type="hidden" name="p1" value="1">
-    <input type="hidden" name="t1" value="D">
+    <g:if test="${startAfter}">
+        <input type="hidden" name="a1" value="0.00">
+        <input type="hidden" name="p1" value="${startAfter.tokenize('.').first()}">
+        <g:if test="${recurrence.tokenize('.').last()=='year'}">
+            <input type="hidden" name="t1" value="Y">
+        </g:if>
+        <g:elseif test="${recurrence.tokenize('.').last()=='month'}">
+            <input type="hidden" name="t1" value="M">
+        </g:elseif>
+        <g:elseif test="${recurrence.tokenize('.').last()=='week'}">
+            <input type="hidden" name="t1" value="W">
+        </g:elseif>
+        <g:elseif test="${recurrence.tokenize('.').last()=='day'}">
+            <input type="hidden" name="t1" value="D">
+        </g:elseif>
+    </g:if>
     <input type="hidden" name="src" value="1">
     <input type="hidden" name="a3" value="${item_price}">
     <input type="hidden" name="p3" value="${recurrence.tokenize('.').first()}">
-    <g:if test="${recurrence.tokenize('.').last()=='month'}">
-        <input type="hidden" name="t3" value="D">
-    </g:if>
     <g:if test="${recurrence.tokenize('.').last()=='year'}">
-        <input type="hidden" name="t3" value="D">
+        <input type="hidden" name="t3" value="Y">
     </g:if>
+    <g:elseif test="${recurrence.tokenize('.').last()=='month'}">
+        <input type="hidden" name="t3" value="M">
+    </g:elseif>
+    <g:elseif test="${recurrence.tokenize('.').last()=='week'}">
+        <input type="hidden" name="t3" value="W">
+    </g:elseif>
+    <g:elseif test="${recurrence.tokenize('.').last()=='day'}">
+        <input type="hidden" name="t3" value="D">
+    </g:elseif>
     <input type="hidden" name="currency_code" value="${item_currency}">
     <input type="hidden" name="bn" value="PP-SubscriptionsBF:btn_subscribeCC_LG.gif:NonHostedGuest">
     <input type="image" style="display: none;" src="https://www.paypal.com/en_US/i/btn/btn_subscribeCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
     <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
 </form>
 
-
-%{--<paypal:button buyerId="${userId}" itemName="${item_name}" itemNumber="${item_number}"--}%
-        %{--currency="${item_currency}" amount="${item_price}"--}%
-        %{--returnAction="paymentConfirm" returnController="subscription"--}%
-        %{--cancelAction="paymentCancel" cancelController="subscription"/>--}%
 <script type="text/javascript">
     jQuery(document).ready(function() {
         jQuery('form').submit();

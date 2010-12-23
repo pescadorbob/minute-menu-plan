@@ -358,7 +358,7 @@ class UserController {
                 subject "Email verification for Minute Menu Plan"
                 html g.render(template: '/user/accountVerification', model: [party: party, email: userCO.email, token: verificationToken.token])
             }
-            redirect(action: 'createSubscription', controller: 'subscription', params: [userId: party.id, productId: params.pricingId])
+            forward(action: 'createSubscription', controller: 'subscription', params: [userId: party.id, productId: params.pricingId])
         } else {
             userCO.errors.allErrors.each {
                 println it

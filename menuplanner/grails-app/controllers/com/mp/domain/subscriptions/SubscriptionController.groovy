@@ -73,7 +73,8 @@ class SubscriptionController {
         String item_currency = "USD"
         String item_quantity = "1"
         String recurrence = rc.recurrence
-        render(view: 'connectToPaypal', model: [recurrence: recurrence, item_name: item_name,
+        String startAfter = rc.startAfter
+        render(view: 'connectToPaypal', model: [startAfter: startAfter, recurrence: recurrence, item_name: item_name,
                 item_description: item_description, item_price: item_price, item_currency: item_currency,
                 item_quantity: item_quantity, userId: userId.toLong(), item_number: po.id])
     }

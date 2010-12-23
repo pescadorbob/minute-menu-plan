@@ -4,10 +4,16 @@ package com.mp.domain.subscriptions
  * Created by Brent Fisher
  *
  */
- 
+
 public class RecurringCharge extends PricingComponent {
-         static mapping = {
+    String recurrence
+    String startAfter
+
+    static mapping = {
         tablePerHierarchy false
     }
-  String recurrence
+    static constraints = {
+        startAfter(nullable: true)
+    }
+
 }
