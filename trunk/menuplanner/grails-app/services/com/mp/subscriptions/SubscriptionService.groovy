@@ -19,6 +19,7 @@ import static com.mp.MenuConstants.MMP_OPERATIONAL_ACCOUNT
 import com.mp.domain.subscriptions.PricingComponent
 import com.mp.domain.accounting.AccountTransaction
 import com.mp.domain.subscriptions.RecurringCharge
+import org.apache.commons.math.stat.descriptive.summary.Product
 
 /**
  * Created on Nov 28, 2010
@@ -34,23 +35,25 @@ public class SubscriptionService {
 
     def accountingService
 
-    public void generateSubscription(buyerId, offeringId, startDate = new Date()) {
-        def start
-        def endDate
-        Party party = Party.get(buyerId)
-        Subscriber subscriber = party.subscriber
-        ProductOffering productOffering = ProductOffering.get(offeringId)
-        ProductOfferingApplicability applicability = ProductOfferingApplicability.findByAvailableFor(productOffering)
-        use(TimeCategory) {
-            Binding binding = new Binding();
-            binding.setVariable("startDate", startDate);
-            GroovyShell shell = new GroovyShell(binding);
-            start = shell.evaluate(applicability.applicableFrom)
-            endDate = shell.evaluate(applicability.applicableThru)
+    public void renewSubscription(Party party, ProductOffering productOffering, Date startDate = new Date()) {
+        generateSubscription(party, productOffering, startDate)
+
+        AccountRole accountRole = AccountRole.findByTypeAndRoleFor(AccountRoleType.OWNER, party)
+        Account account = accountRole.describes
+        Date now = new Date()
+        OperationalAccount opAcct = OperationalAccount.findByName(MMP_OPERATIONAL_ACCOUNT)
+        productOffering.pricing.each {PricingComponent pricingComponent ->
+            Float amount = pricingComponent.value
+            new AccountTransaction(transactionFor: account, transactionDate: now, amount: -1 * amount, description: "Recurring Subscription Charge", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
+            new AccountTransaction(transactionFor: opAcct, transactionDate: now, amount: amount, description: "Subscription Payment From Account: ${account.accountNumber}", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
         }
-        ProductOfferingSubscription pos = new ProductOfferingSubscription(subscribedProductOffering: productOffering, subscriptionFor: subscriber,
-                originalProductOffering: productOffering?.name, activeFrom: start, activeTo: endDate)
-        assert pos.s()
+
+    }
+
+    public void createSubscriptionForUserSignUp(Party party, long offeringId, Date startDate = new Date()) {
+        ProductOffering productOffering = ProductOffering.get(offeringId)
+        generateSubscription(party, productOffering, startDate)
+
         Account account
         AccountRole accountRole = AccountRole.findByTypeAndRoleFor(AccountRoleType.OWNER, party)
         if (accountRole) {
@@ -64,12 +67,33 @@ public class SubscriptionService {
         new AccountTransaction(transactionFor: account, transactionDate: now, amount: 0.0, description: "Opening Balance", transactionType: AccountTransactionType.OPENING_BALANCE).s()
         productOffering.pricing.each {PricingComponent pricingComponent ->
             Float amount = pricingComponent.value
-            if(pricingComponent.instanceOf(RecurringCharge.class) && pricingComponent.startAfter){
+            if (pricingComponent.instanceOf(RecurringCharge.class) && pricingComponent.startAfter) {
                 amount = 0.0
             }
-            new AccountTransaction(transactionFor: account, transactionDate: now, amount: -1 * amount, description: "Monthly Subscription Charge", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
+            new AccountTransaction(transactionFor: account, transactionDate: now, amount: -1 * amount, description: "Initial Subscription Charge", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
             new AccountTransaction(transactionFor: opAcct, transactionDate: now, amount: amount, description: "Monthly Subscription Payment From Account: ${account.accountNumber}", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
         }
+
+    }
+
+
+
+    private void generateSubscription(Party party, offeringId, startDate = new Date()) {
+        def start
+        def endDate
+        Subscriber subscriber = party.subscriber
+        ProductOffering productOffering = ProductOffering.get(offeringId)
+        ProductOfferingApplicability applicability = ProductOfferingApplicability.findByAvailableFor(productOffering)
+        use(TimeCategory) {
+            Binding binding = new Binding();
+            binding.setVariable("startDate", startDate);
+            GroovyShell shell = new GroovyShell(binding);
+            start = shell.evaluate(applicability.applicableFrom)
+            endDate = shell.evaluate(applicability.applicableThru)
+        }
+        ProductOfferingSubscription pos = new ProductOfferingSubscription(subscribedProductOffering: productOffering, subscriptionFor: subscriber,
+                originalProductOffering: productOffering?.name, activeFrom: start, activeTo: endDate)
+        assert pos.s()
     }
     // runs through all time valid subscriptions and evaluates the feature to see if it is active
 
