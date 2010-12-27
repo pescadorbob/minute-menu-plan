@@ -30,6 +30,7 @@ class SubscriptionController {
     boolean validateRequestFromPayPal(String requestParameters) {
         HttpClient client = new HttpClient()
         String notificationUrl = ConfigurationHolder.config.grails.paypal.server + "?cmd=_notify-validate&" + requestParameters
+        println "Notification URL: " + notificationUrl
         PostMethod method = new PostMethod(notificationUrl)
         int returnCode = client.executeMethod(method)
         def response = method.getResponseBodyAsString()
