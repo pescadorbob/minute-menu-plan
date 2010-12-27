@@ -78,11 +78,10 @@ public class SubscriptionService {
 
 
 
-    private void generateSubscription(Party party, offeringId, startDate = new Date()) {
+    private void generateSubscription(Party party, ProductOffering productOffering, startDate = new Date()) {
         def start
         def endDate
         Subscriber subscriber = party.subscriber
-        ProductOffering productOffering = ProductOffering.get(offeringId)
         ProductOfferingApplicability applicability = ProductOfferingApplicability.findByAvailableFor(productOffering)
         use(TimeCategory) {
             Binding binding = new Binding();
