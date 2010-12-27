@@ -10,7 +10,6 @@ import com.mp.domain.accounting.OperationalAccount
 import static com.mp.MenuConstants.MMP_OPERATIONAL_ACCOUNT
 import com.mp.domain.accounting.AccountTransactionType
 import com.mp.domain.accounting.AccountTransaction
-import com.sun.deploy.net.HttpRequest
 import org.apache.commons.httpclient.HttpClient
 import org.apache.commons.httpclient.methods.PostMethod
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
