@@ -17,11 +17,11 @@ class SubscriptionController {
     def subscriptionService
     def accountingService
     def paymentConfirm = {
-        render(view: 'confirm')
+        render(view: '/subscription/confirm')
     }
 
     def paymentCancel = {
-        render(view: 'cancel')
+        render(view: '/subscription/cancel')
     }
 
     def paymentNotify = {
