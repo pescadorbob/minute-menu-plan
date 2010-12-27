@@ -12,19 +12,20 @@ public class MultiReadHttpServletRequest extends HttpServletRequestWrapper {
 
     private byte[] body;
 
-    private AtomicBoolean bodyRead = new AtomicBoolean(false);
-
     public MultiReadHttpServletRequest(HttpServletRequest httpServletRequest) {
         super(httpServletRequest);
+        // Read the request body and save it as a byte array
+        try {
+            InputStream is = super.getInputStream();
+            body = IOUtils.toByteArray(is);
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
     }
 
     @Override
     public ServletInputStream getInputStream() throws IOException {
-        if(!bodyRead.getAndSet(true)) {
-            // Read the request body and save it as a byte array
-            InputStream is = super.getInputStream();
-            body = IOUtils.toByteArray(is);
-        }
         return new ServletInputStreamImpl(new ByteArrayInputStream(body));
     }
 
