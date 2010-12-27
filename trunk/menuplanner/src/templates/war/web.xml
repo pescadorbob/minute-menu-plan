@@ -43,7 +43,7 @@
 
     <filter-mapping>
         <filter-name>multireadFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/subscription/paymentNotify</url-pattern>
     </filter-mapping>
 
     <filter-mapping>

@@ -34,45 +34,50 @@ class SubscriptionController {
         PostMethod method = new PostMethod(notificationUrl)
         int returnCode = client.executeMethod(method)
         def response = method.getResponseBodyAsString()
-        println "Response: "  + response
+        println "Response: " + response
         return (response == 'VERIFIED')
     }
 
     def paymentNotify = {
         String requestParameters = request.inputStream.text
-        println "Validation: " + validateRequestFromPayPal(requestParameters)
-        String transactionType = params.txn_type
-        Long partyId = params.long('custom')
-        if (transactionType && partyId && Party.exists(partyId)) {
-            Party party = Party.get(partyId)
-            AccountRole accountRole = AccountRole.findByTypeAndRoleFor(AccountRoleType.OWNER, party)
-            Account account = accountRole?.describes
-            Date now = new Date()
+        boolean isValid = validateRequestFromPayPal(requestParameters)
+        println "Validation: " + isValid
+        if (isValid) {
+            String transactionType = params.txn_type
+            Long partyId = params.long('custom')
+            if (transactionType && partyId && Party.exists(partyId)) {
+                Party party = Party.get(partyId)
+                AccountRole accountRole = AccountRole.findByTypeAndRoleFor(AccountRoleType.OWNER, party)
+                Account account = accountRole?.describes
+                Date now = new Date()
 
-            switch (transactionType) {
-                case TransactionType.SUBSCRIPTION_SIGNUP.name:
-                    subscriptionService.createSubscriptionForUserSignUp(party, params.long('item_number'))
-                    accountRole = AccountRole.findByTypeAndRoleFor(AccountRoleType.OWNER, party)
-                    account = accountRole?.describes
-                    Float amount = params.period1 ? params.float('amount1') : params.float('amount3')
-                    new AccountTransaction(transactionFor: account, transactionDate: now, amount: amount, description: "Subscription Signup Payment made through Paypal: *** THANK YOU", transactionType: AccountTransactionType.FUNDING).s()
-                    break;
-                case TransactionType.SUBSCRIPTION_CANCELLED.name:
-                    new AccountTransaction(transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription through Paypal has been cancelled", transactionType: AccountTransactionType.SUBSCRIPTION_CANCELLED).s()
-                    break;
-                case TransactionType.SUBSCRIPTION_EXPIRED.name:
-                    new AccountTransaction(transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription through Paypal has expired", transactionType: AccountTransactionType.SUBSCRIPTION_EXPIRED).s()
-                    break;
-                case TransactionType.SUBSCRIPTION_FAILED.name:
-                    new AccountTransaction(transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription Payment through Paypal has failed", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT_FAILED).s()
-                    break;
-                case TransactionType.SUBSCRIPTION_PAYMENT.name:
-                    Float amount = params.float('amount3')
-                    new AccountTransaction(transactionFor: account, transactionDate: now, amount: amount, description: "Subscription Payment Through Paypal: *** THANK YOU", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
-                    break;
+                switch (transactionType) {
+                    case TransactionType.SUBSCRIPTION_SIGNUP.name:
+                        subscriptionService.createSubscriptionForUserSignUp(party, params.long('item_number'))
+                        accountRole = AccountRole.findByTypeAndRoleFor(AccountRoleType.OWNER, party)
+                        account = accountRole?.describes
+                        Float amount = params.period1 ? params.float('amount1') : params.float('amount3')
+                        new AccountTransaction(transactionFor: account, transactionDate: now, amount: amount, description: "Subscription Signup Payment made through Paypal: *** THANK YOU", transactionType: AccountTransactionType.FUNDING).s()
+                        break;
+                    case TransactionType.SUBSCRIPTION_CANCELLED.name:
+                        new AccountTransaction(transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription through Paypal has been cancelled", transactionType: AccountTransactionType.SUBSCRIPTION_CANCELLED).s()
+                        break;
+                    case TransactionType.SUBSCRIPTION_EXPIRED.name:
+                        new AccountTransaction(transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription through Paypal has expired", transactionType: AccountTransactionType.SUBSCRIPTION_EXPIRED).s()
+                        break;
+                    case TransactionType.SUBSCRIPTION_FAILED.name:
+                        new AccountTransaction(transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription Payment through Paypal has failed", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT_FAILED).s()
+                        break;
+                    case TransactionType.SUBSCRIPTION_PAYMENT.name:
+                        Float amount = params.float('amount3')
+                        new AccountTransaction(transactionFor: account, transactionDate: now, amount: amount, description: "Subscription Payment Through Paypal: *** THANK YOU", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
+                        break;
+                }
             }
+            render "Notify"
+        } else {
+            response.sendError(404)
         }
-        render "Notify"
     }
 
     def index = {
