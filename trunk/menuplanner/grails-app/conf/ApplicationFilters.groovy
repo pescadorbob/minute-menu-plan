@@ -30,12 +30,6 @@ class ApplicationFilters {
             }
         }
 
-        paypal(controller: 'subscription', action: '*'){
-            before = {
-                println "Request Headers: " + request?.reader?.text
-            }
-        }
-
         verifyAccess(controller: '*', action: '*') {
             before = {
 //                println("Verifying Access:${new Date()}:${params}");
