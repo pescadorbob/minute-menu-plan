@@ -39,7 +39,7 @@ class SubscriptionController {
     }
 
     def paymentNotify = {
-        String requestParameters = request.inputStream
+        String requestParameters = request.inputStream.text
         println "Validation: " + validateRequestFromPayPal(requestParameters)
         String transactionType = params.txn_type
         Long partyId = params.long('custom')
