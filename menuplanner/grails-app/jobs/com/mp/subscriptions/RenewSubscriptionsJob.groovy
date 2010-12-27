@@ -7,7 +7,7 @@ import com.mp.domain.accounting.Account
 import com.mp.domain.subscriptions.ProductOffering
 import com.mp.domain.party.Party
 
-class RenewSubscriptions {
+class RenewSubscriptionsJob {
 
     static triggers = {
         simple name: 'renewSubscriptionsTrigger', startDelay: 60 * 1000, repeatInterval: 30 * 1000
