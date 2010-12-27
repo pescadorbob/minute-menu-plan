@@ -10,6 +10,10 @@ import com.mp.domain.accounting.OperationalAccount
 import static com.mp.MenuConstants.MMP_OPERATIONAL_ACCOUNT
 import com.mp.domain.accounting.AccountTransactionType
 import com.mp.domain.accounting.AccountTransaction
+import com.sun.deploy.net.HttpRequest
+import org.apache.commons.httpclient.HttpClient
+import org.apache.commons.httpclient.methods.PostMethod
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class SubscriptionController {
 
@@ -24,7 +28,19 @@ class SubscriptionController {
         render(view: '/subscription/cancel')
     }
 
+    boolean validateRequestFromPayPal(String requestParameters) {
+        HttpClient client = new HttpClient()
+        String notificationUrl = ConfigurationHolder.config.grails.paypal.server + "?cmd=_notify-validate&" + requestParameters
+        PostMethod method = new PostMethod(notificationUrl)
+        int returnCode = client.executeMethod(method)
+        def response = method.getResponseBodyAsString()
+        println "Response: "  + response
+        return (response == 'VERIFIED')
+    }
+
     def paymentNotify = {
+        String requestParameters = request.inputStream
+        println "Validation: " + validateRequestFromPayPal(requestParameters)
         String transactionType = params.txn_type
         Long partyId = params.long('custom')
         if (transactionType && partyId && Party.exists(partyId)) {
