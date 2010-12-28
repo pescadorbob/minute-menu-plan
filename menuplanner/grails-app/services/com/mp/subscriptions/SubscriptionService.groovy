@@ -54,20 +54,13 @@ public class SubscriptionService {
         ProductOffering productOffering = ProductOffering.get(offeringId)
         generateSubscription(party, productOffering, startDate)
 
-        Account account
         AccountRole accountRole = AccountRole.findByTypeAndRoleFor(AccountRoleType.OWNER, party)
-        if (accountRole) {
-            account = accountRole.describes
-        } else {
-            account = new Account(name: "General Account:${party.name}").s()
-            new AccountRole(roleFor: party, describes: account, type: AccountRoleType.OWNER).s()
-        }
+        Account account = accountRole.describes
         Date now = new Date()
         OperationalAccount opAcct = OperationalAccount.findByName(MMP_OPERATIONAL_ACCOUNT)
-        new AccountTransaction(transactionFor: account, transactionDate: now, amount: 0.0, description: "Opening Balance", transactionType: AccountTransactionType.OPENING_BALANCE).s()
         productOffering.pricing.each {PricingComponent pricingComponent ->
             Float amount = pricingComponent.value
-            if (pricingComponent.instanceOf(RecurringCharge.class) && pricingComponent.startAfter) {
+            if (pricingComponent.instanceOf(RecurringCharge.class) && pricingComponent.startAfter && pricingComponent.startAfter.tokenize('.').first().toLong()) {
                 amount = 0.0
             }
             new AccountTransaction(transactionFor: account, transactionDate: now, amount: -1 * amount, description: "Initial Subscription Charge", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()

@@ -39,44 +39,44 @@ class SubscriptionController {
     }
 
     def paymentNotify = {
-        String requestParameters = request.inputStream.text
+        String requestParameters = params.toQueryString()[1..-1]
         boolean isValid = validateRequestFromPayPal(requestParameters)
         println "Validation: " + isValid
         if (isValid) {
             String transactionType = params.txn_type
+            String transactionId = params.txn_id ?: UUID.randomUUID().toString()
             Long partyId = params.long('custom')
             if (transactionType && partyId && Party.exists(partyId)) {
                 Party party = Party.get(partyId)
                 AccountRole accountRole = AccountRole.findByTypeAndRoleFor(AccountRoleType.OWNER, party)
                 Account account = accountRole?.describes
+                if (!account) {
+                    account = accountingService.createNewAccount(party)
+                }
                 Date now = new Date()
 
                 switch (transactionType) {
                     case TransactionType.SUBSCRIPTION_SIGNUP.name:
                         subscriptionService.createSubscriptionForUserSignUp(party, params.long('item_number'))
-                        accountRole = AccountRole.findByTypeAndRoleFor(AccountRoleType.OWNER, party)
-                        account = accountRole?.describes
-                        Float amount = params.period1 ? params.float('amount1') : params.float('amount3')
-                        new AccountTransaction(transactionFor: account, transactionDate: now, amount: amount, description: "Subscription Signup Payment made through Paypal: *** THANK YOU", transactionType: AccountTransactionType.FUNDING).s()
                         break;
                     case TransactionType.SUBSCRIPTION_CANCELLED.name:
-                        new AccountTransaction(transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription through Paypal has been cancelled", transactionType: AccountTransactionType.SUBSCRIPTION_CANCELLED).s()
+                        new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription through Paypal has been cancelled", transactionType: AccountTransactionType.SUBSCRIPTION_CANCELLED).s()
                         break;
                     case TransactionType.SUBSCRIPTION_EXPIRED.name:
-                        new AccountTransaction(transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription through Paypal has expired", transactionType: AccountTransactionType.SUBSCRIPTION_EXPIRED).s()
+                        new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription through Paypal has expired", transactionType: AccountTransactionType.SUBSCRIPTION_EXPIRED).s()
                         break;
                     case TransactionType.SUBSCRIPTION_FAILED.name:
-                        new AccountTransaction(transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription Payment through Paypal has failed", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT_FAILED).s()
+                        new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription Payment through Paypal has failed", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT_FAILED).s()
                         break;
                     case TransactionType.SUBSCRIPTION_PAYMENT.name:
-                        Float amount = params.float('amount3')
-                        new AccountTransaction(transactionFor: account, transactionDate: now, amount: amount, description: "Subscription Payment Through Paypal: *** THANK YOU", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
+                        Float amount = params.float('amount3') ?: params.float('payment_gross')
+                        new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: amount, description: "Subscription Payment Through Paypal: *** THANK YOU", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
                         break;
                 }
             }
             render "Notify"
         } else {
-            response.sendError(404)
+            response.sendError(500)
         }
     }
 

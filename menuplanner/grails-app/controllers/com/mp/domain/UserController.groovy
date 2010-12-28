@@ -152,8 +152,7 @@ class UserController {
       if (coachId) {
           userCO.coachId = coachId
       }
-      def availableProducts = ProductOffering.list()
-      render(view: 'chooseSubscription', model: [availableProducts: availableProducts, userCO: userCO])
+      render(view: 'chooseSubscription', model: [availableProducts: ProductOffering.list(), userCO: userCO])
 
     }
     def createUser = {
@@ -335,8 +334,8 @@ class UserController {
         Party currentParty = UserTools.currentUser?.party
         if(currentParty){
             userCO = new UserCO(currentParty)
-            if(params.pricingId){
-                forward(action: 'createSubscription', controller: 'subscription', params: [userId: currentParty.id, productId: params.pricingId])
+            if(params.productId){
+                forward(action: 'createSubscription', controller: 'subscription', params: [userId: currentParty.id, productId: params.productId])
             } else {
                 forward(action: 'chooseSubscription', availableProducts: ProductOffering.list(), userCO: userCO)
             }
@@ -358,12 +357,12 @@ class UserController {
                 subject "Email verification for Minute Menu Plan"
                 html g.render(template: '/user/accountVerification', model: [party: party, email: userCO.email, token: verificationToken.token])
             }
-            forward(action: 'createSubscription', controller: 'subscription', params: [userId: party.id, productId: params.pricingId])
+            forward(action: 'createSubscription', controller: 'subscription', params: [userId: party.id, productId: params.productId])
         } else {
             userCO.errors.allErrors.each {
                 println it
             }
-          render(view: 'chooseSubscription', model: [availableProducts: ProductOffering.list(), userCO: userCO])
+          render(view: 'chooseSubscription', model: [availableProducts: ProductOffering.list(), userCO: userCO, productId: params.productId])
         }
         }
     }

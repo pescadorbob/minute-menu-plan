@@ -155,7 +155,7 @@ environments {
     }
     development {
         grails.paypal.server = "https://www.sandbox.paypal.com/cgi-bin/webscr"
-        grails.paypal.email = "qa.men_1291870296_biz@gmail.com"
+        grails.paypal.email = "dev.mm_1293518198_biz@gmail.com"
         google.analytics.enabled = false
         grails.serverURL = "http://localhost:8080/menuplanner"
         facebookConnect {

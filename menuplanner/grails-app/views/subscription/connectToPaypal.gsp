@@ -22,7 +22,7 @@
     <input type="hidden" name="item_number" value="${item_number}">
     <input type="hidden" name="no_note" value="1">
     <input type="hidden" name="no_shipping" value="1">
-    <g:if test="${startAfter}">
+    <g:if test="${startAfter && startAfter.tokenize('.').first()?.toLong()}">
         <input type="hidden" name="a1" value="0.00">
         <input type="hidden" name="p1" value="${startAfter.tokenize('.').first()}">
         <g:if test="${recurrence.tokenize('.').last()=='year'}">

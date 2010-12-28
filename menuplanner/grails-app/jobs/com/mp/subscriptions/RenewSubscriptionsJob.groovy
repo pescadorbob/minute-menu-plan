@@ -23,6 +23,7 @@ class RenewSubscriptionsJob {
         List<ProductOfferingSubscription> subscriptions = ProductOfferingSubscription.findAllByStatus(SubscriptionStatus.CURRENT)
         subscriptions.each {ProductOfferingSubscription subscription ->
             if (subscription.activeTo < now) {
+                println "Found expired subscription: " + subscription.id
                 subscription.status = SubscriptionStatus.EXPIRED
                 subscription.s()
             }
@@ -37,9 +38,12 @@ class RenewSubscriptionsJob {
                 ProductOffering productOffering = subscription.subscribedProductOffering
                 Float costOfOffering = productOffering.pricing.sum {it.value} as Float
                 if (account.balance > costOfOffering) {
+                    println "Renewing expired subscription: " + subscription.id
                     subscriptionService.renewSubscription(party, productOffering, subscription.activeTo)
                     subscription.status = SubscriptionStatus.RENEWED
                     subscription.s()
+                } else {
+                    println "Insufficient funds for expired subscription: " + subscription.id
                 }
             }
         }
