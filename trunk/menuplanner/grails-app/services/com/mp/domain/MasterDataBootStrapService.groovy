@@ -199,8 +199,12 @@ class MasterDataBootStrapService implements ApplicationContextAware {
     po.s()
     ProductOffering year = new ProductOffering(name: "Basic Yearly Subscription", activeTo: activeTo, activeFrom: activeFrom)
     year.s()
+    ProductOffering fiveDollarNoTrail = new ProductOffering(name: "Five Dollar Subscription with No Trial", activeTo: activeTo, activeFrom: activeFrom).s()
+    new RecurringCharge(recurrence: "1.day", startAfter: "0.day", pricingFor: fiveDollarNoTrail, activeTo: activeTo, activeFrom: activeFrom, value: 5, name: "\$5 day", description: "5 dollars every day").s();
+    new ProductOfferingApplicability(availableFor: fiveDollarNoTrail, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'startDate + 1.day', applicableThruDescription: 'Valid for 1 day').s()
+
     new RecurringCharge(recurrence: "1.day", startAfter: "1.day", pricingFor: freeTrial, activeTo: activeTo, activeFrom: activeFrom, value: 5, name: "\$5 month", description: "5 dollars every month after the first month").s();
-    new RecurringCharge(recurrence: "1.day", startAfter: "1.day", pricingFor: po, activeTo: activeTo, activeFrom: activeFrom, value: 5, name: "\$5 month", description: "5 dollars ever ymonth after the first month").s();
+    new RecurringCharge(recurrence: "1.day", startAfter: "1.day", pricingFor: po, activeTo: activeTo, activeFrom: activeFrom, value: 5, name: "\$5 month", description: "5 dollars every month after the first month").s();
     new RecurringCharge(recurrence: "1.day", startAfter: "1.day", pricingFor: year, activeTo: activeTo, activeFrom: activeFrom, value: 50, name: "\$50 year", description: "50 dollars every year after the first year").s();
     new ProductOfferingApplicability(availableFor: freeTrial, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'startDate + 1.month', applicableThruDescription: 'Valid for 1 month').s()
     new ProductOfferingApplicability(availableFor: po, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'startDate + 1.month', applicableThruDescription: 'Valid for 1 month').s()

@@ -5,6 +5,9 @@ import com.mp.domain.accounting.OperationalAccount
 import com.mp.domain.accounting.Account
 import org.hibernate.Criteria
 import com.mp.domain.accounting.AccountTransactionType
+import com.mp.domain.accounting.AccountRoleType
+import com.mp.domain.accounting.AccountRole
+import com.mp.domain.party.Party
 
 /**
  * Created on Nov 28, 2010
@@ -68,6 +71,14 @@ public class AccountingService {
     println "Balance:${balance}"
     balance
   }
+
+    public Account createNewAccount(Party party){
+        Account account = new Account(name: "General Account:${party.name}").s()
+        new AccountRole(roleFor: party, describes: account, type: AccountRoleType.OWNER).s()
+        new AccountTransaction(transactionFor: account, transactionDate: new Date(), amount: 0.0, description: "Opening Balance", transactionType: AccountTransactionType.OPENING_BALANCE).s()
+        return account
+    }
+
 
   def getBalance(AccountTransaction txn) {
     def c = AccountTransaction.createCriteria()

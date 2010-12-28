@@ -67,8 +67,7 @@ class ApplicationFilters {
                     }
                 }
                 }
-                if (log.isDebugEnabled()) log.debug("Unrestricted Access:${new Date()}:${params}");
-                if (log.isDebugEnabled()) log.debug("Request was unrestricted:${params}")
+                if (log.isDebugEnabled()) log.debug("Unrestricted Access");
             }
             after = {model ->
                 if (params.controller == 'recipe' && params.action == 'list') {

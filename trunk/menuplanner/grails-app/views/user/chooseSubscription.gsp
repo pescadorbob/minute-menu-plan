@@ -51,15 +51,16 @@
                 <tr>
                     <th>Subscription</th><th>Price</th>
                 </tr>
-                <g:each in="${availableProducts}" var="product">
-                    <g:each in="${product.pricing}" status="i" var="pricingComponent">
-                        <tr>
-                            <td nowrap><input id="${pricingComponent.id}" name="pricingId" type="radio" value="${pricingComponent.id}"/>
-                                <label for="${pricingComponent.id}">${product.name}:${pricingComponent.description}</label></td>
-                            <td align="right"><g:formatNumber number="${pricingComponent.value}" type="currency" currencyCode="USD"/>
-                            </td>
-                        </tr>
-                    </g:each>
+                <g:each in="${availableProducts}" var="productOffering">
+                    <tr>
+                        <td nowrap>
+                            <g:radio value="${productOffering.id}" name="productId" checked="${productOffering.id == params.long('productId')}"/>
+                            <label for="${productOffering.id}">${productOffering.name} : ${productOffering.pricing*.description.join(' : ')}</label>
+                        </td>
+                        <td align="right">
+                            <g:formatNumber number="${productOffering.pricing.sum{it.value}}" type="currency" currencyCode="USD"/>
+                        </td>
+                    </tr>
                 </g:each>
                 </tbody></table>
 

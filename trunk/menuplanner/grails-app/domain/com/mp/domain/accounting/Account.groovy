@@ -15,7 +15,7 @@ class Account {
     static transients = ['balance']
 
     Float getBalance(){
-        List<AccountTransaction> accountTransactions = transactions
+        Set<AccountTransaction> accountTransactions = transactions
         return (accountTransactions ? accountTransactions.sum {it.amount} : 0.0) as Float
     }
 
