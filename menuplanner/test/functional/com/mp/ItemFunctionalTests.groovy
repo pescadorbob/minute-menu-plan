@@ -1,4 +1,5 @@
-import MenuPlannerFunctionalTests
+package com.mp
+
 import com.mp.domain.Item
 
 class ItemFunctionalTests extends MenuPlannerFunctionalTests {

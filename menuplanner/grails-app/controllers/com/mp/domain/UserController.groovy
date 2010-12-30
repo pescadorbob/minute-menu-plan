@@ -106,7 +106,7 @@ class UserController {
         def userList
         Integer total
         if (name || params?.userStatus) {
-            userList = Party.createCriteria().list(max: params.max, offset: params.offset) {
+            userList = Party.createCriteria().listDistinct() {
                 if (name) {
                     ilike('name', "%${name}%")
                 }
@@ -119,6 +119,8 @@ class UserController {
                 if (params.userStatus == 'awaitingVerification') {
                     isNull('isEnabled')
                 }
+                maxResults(params.max)
+                firstResult(params.offset)
             }
             total = userList.getTotalCount()
         } else {
@@ -610,7 +612,7 @@ class UserCO {
               gt("activeTo":new Date())
             }
           }
-          if(!cs) new CoachSubscriber(client:coach,supplier:subscriber).s()
+          if(!cs) new CoachSubscriber(client:coach.coach,supplier:subscriber).s()
         }
       }
     }
@@ -619,7 +621,7 @@ class UserCO {
       new Administrator(party: party).s()
     }
 
-    if ((PartyRoleType.Director.name() in roles) && !party.coach) {
+    if ((PartyRoleType.Director.name() in roles) && !party.director) {
       new Director(party: party).s()
     }
 
@@ -691,8 +693,7 @@ class UserCO {
             party.loginCredentials = [loginCredential] as Set
             party.s()
 
-            println "*******************************************Roles: " + roles + ", Test: " + (PartyRoleType.Subscriber.name in roles) 
-            if (PartyRoleType.Subscriber.name in roles) {
+            if (PartyRoleType.Subscriber.name() in roles) {
                 Subscriber subscriber = new Subscriber()
                 subscriber.city = city
                 subscriber.mouthsToFeed = mouthsToFeed
@@ -700,31 +701,31 @@ class UserCO {
                 subscriber.party = party
                 subscriber.party.showAlcoholicContent = showAlcoholicContent
                 attachImage(subscriber, selectUserImagePath)
-                subscriber.save()
+                subscriber.s()
                 if (coachId) {
                     Coach coach = Coach.get(coachId)
                     if (coach) {
-                        def cs = new CoachSubscriber(client:coach,supplier:subscriber).save()
+                        def cs = new CoachSubscriber(client:coach,supplier:subscriber).s()
                         assert cs
                     }
                 }
             }
-            if (PartyRoleType.Admin in roles) {
+            if (PartyRoleType.Admin.name() in roles) {
                 new Administrator(party:party).s()
             }
-            if (PartyRoleType.SuperAdmin in roles) {
+            if (PartyRoleType.SuperAdmin.name() in roles) {
                 new SuperAdmin(party:party).s()
             }
-            if (PartyRoleType.Director in roles) {
+            if (PartyRoleType.Director.name() in roles) {
                 new Director(party:party).s()
             }
-            if (PartyRoleType.Coach in roles) {
-                Coach coach = new Coach(party: party).save()
+            if (PartyRoleType.Coach.name() in roles) {
+                Coach coach = new Coach(party: party).s()
                 assert coach.id
                 Director director = Director.get(directorId)
 
                 if (director) {
-                    DirectorCoach dc = new DirectorCoach(client:director,supplier:coach).save()
+                    DirectorCoach dc = new DirectorCoach(client:director,supplier:coach).s()
                     assert dc && dc.id
                 }
             }

@@ -1,4 +1,5 @@
-import com.gargoylesoftware.htmlunit.html.*
+package com.mp
+
 import com.mp.domain.*
 import static com.mp.domain.TestConstants.*
 import com.mp.domain.party.Subscriber

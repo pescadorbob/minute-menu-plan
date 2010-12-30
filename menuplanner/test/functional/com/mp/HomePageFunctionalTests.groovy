@@ -1,3 +1,5 @@
+package com.mp
+
 import com.mp.domain.themes.HomePage
 
 class HomePageFunctionalTests extends MenuPlannerFunctionalTests {
@@ -16,7 +18,7 @@ class HomePageFunctionalTests extends MenuPlannerFunctionalTests {
             click("_action_save")
         }
         int finalCount = HomePage.count()
-        assertTrue('Unable to create a new homepage', (finalCount - initialCount == 1))
+        junit.framework.Assert.assertTrue('Unable to create a new homepage', (finalCount - initialCount == 1))
         logout()
     }
 
@@ -34,7 +36,7 @@ class HomePageFunctionalTests extends MenuPlannerFunctionalTests {
             click("_action_save")
         }
         int intermediateCount = HomePage.count()
-        assertTrue('Unable to create a new homepage', (intermediateCount - initialCount == 1))
+        junit.framework.Assert.assertTrue('Unable to create a new homepage', (intermediateCount - initialCount == 1))
 
         def homePageLink = byClass('homePageLinkFT')
         homePageLink.click()
@@ -48,7 +50,7 @@ class HomePageFunctionalTests extends MenuPlannerFunctionalTests {
         }
         assertTitle 'Minute Menu Plan : Create Homepage'
         int finalCount = HomePage.count()
-        assertTrue('Created new homepage with Non-Unique name', (finalCount - intermediateCount == 0))
+        junit.framework.Assert.assertTrue('Created new homepage with Non-Unique name', (finalCount - intermediateCount == 0))
         logout()
     }
 
@@ -66,7 +68,7 @@ class HomePageFunctionalTests extends MenuPlannerFunctionalTests {
             click("_action_save")
         }
         int intermediateCount = HomePage.count()
-        assertTrue('Unable to create a new homepage', (intermediateCount - initialCount == 1))
+        junit.framework.Assert.assertTrue('Unable to create a new homepage', (intermediateCount - initialCount == 1))
 
         def editHomePage = byClass('editHomePageFT')
         editHomePage.click()
@@ -76,7 +78,7 @@ class HomePageFunctionalTests extends MenuPlannerFunctionalTests {
         followRedirect()
         assertTitle 'Minute Menu Plan : Preview Homepage'
         int finalCount = HomePage.count()
-        assertTrue('Created new homepage with while updating', (finalCount - intermediateCount == 0))
+        junit.framework.Assert.assertTrue('Created new homepage with while updating', (finalCount - intermediateCount == 0))
         logout()
     }
 }

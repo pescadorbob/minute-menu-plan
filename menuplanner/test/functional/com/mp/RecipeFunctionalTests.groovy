@@ -1,3 +1,5 @@
+package com.mp
+
 import com.mp.domain.*
 
 class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
@@ -115,7 +117,7 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         redirectEnabled = false
         followRedirect()
         assertStatus 200
-        assertEquals('Add to favorite link did not exist on show recipe page', 'Remove from favorite', byId('showFavorite').asText())
+        assertEquals('Add to favorite link did not exist on show recipe page', 'Remove from favorites', byId('showFavorite').asText())
     }
 
     void testRemoveFromFavorite() {
@@ -127,7 +129,7 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         redirectEnabled = false
         followRedirect()
         assertStatus 200
-        assertEquals('Remove from favorite link does not exist on show recipe page', 'Add to favorite', byId('showFavorite').asText())
+        assertEquals('Remove from favorite link does not exist on show recipe page', 'Add to favorites', byId('showFavorite').asText())
     }
 
     void testReportAbuseToRecipe() {
