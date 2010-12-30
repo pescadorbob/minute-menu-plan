@@ -31,8 +31,6 @@
                         
                             <g:sortableColumn property="commission" title="${message(code: 'directorCoach.commission.label', default: 'Commission')}" />
                         
-                            <g:sortableColumn property="defaultClientCommission" title="${message(code: 'directorCoach.defaultClientCommission.label', default: 'Default Client Commission')}" />
-                        
                             <th><g:message code="directorCoach.supplier.label" default="Supplier" /></th>
                    	    
                             <th><g:message code="directorCoach.client.label" default="Client" /></th>
@@ -48,8 +46,6 @@
                             <td><g:formatDate date="${directorCoach.activeTo}" /></td>
                         
                             <td>${fieldValue(bean: directorCoach, field: "commission")}</td>
-                        
-                            <td>${fieldValue(bean: directorCoach, field: "defaultClientCommission")}</td>
                         
                             <td>${fieldValue(bean: directorCoach, field: "supplier")}</td>
                         

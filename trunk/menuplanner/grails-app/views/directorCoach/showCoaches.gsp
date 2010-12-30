@@ -45,7 +45,6 @@
                             <th>Name</th>
                             <th>Since</th>
                             <th>Director - Coach %</th>
-                            <th>Default Coach - Subscriber %</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -58,9 +57,6 @@
                         
                             <td>${fieldValue(bean: directorCoach, field: "commission")}</td>
                         
-                            <td>${fieldValue(bean: directorCoach, field: "defaultClientCommission")}</td>
-                        
-
                         </tr>
                     </g:each>
                     </tbody>

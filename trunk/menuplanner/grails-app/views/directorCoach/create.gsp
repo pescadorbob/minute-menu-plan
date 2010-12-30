@@ -52,15 +52,6 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="defaultClientCommission"><g:message code="directorCoach.defaultClientCommission.label" default="Default Client Commission" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: directorCoach, field: 'defaultClientCommission', 'errors')}">
-                                    <g:textField name="defaultClientCommission" value="${fieldValue(bean: directorCoach, field: 'defaultClientCommission')}" />
-                                </td>
-                            </tr>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
                                     <label for="supplier"><g:message code="directorCoach.supplier.label" default="Supplier" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: directorCoach, field: 'supplier', 'errors')}">
