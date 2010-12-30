@@ -47,14 +47,7 @@
                             <td valign="top" class="value">${fieldValue(bean: directorCoach, field: "commission")}</td>
                             
                         </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="directorCoach.defaultClientCommission.label" default="Default Client Commission" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: directorCoach, field: "defaultClientCommission")}</td>
-                            
-                        </tr>
-                    
+
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="directorCoach.supplier.label" default="Supplier" /></td>
                             
