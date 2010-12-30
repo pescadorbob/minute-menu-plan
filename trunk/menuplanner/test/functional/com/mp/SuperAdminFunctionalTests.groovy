@@ -1,14 +1,13 @@
-import com.gargoylesoftware.htmlunit.html.HtmlAnchor
-import static com.mp.domain.TestConstants.*
+package com.mp
+
 import com.mp.domain.*
 import com.mp.domain.party.Administrator
 import com.mp.domain.party.Director
 import com.mp.domain.party.Party
 import com.mp.domain.party.Coach
 import com.mp.domain.party.Subscriber
-import com.mp.domain.party.Coach
-import com.mp.domain.party.Director
-import com.mp.domain.party.Director
+
+import com.mp.tools.UserTools
 
 class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
 
@@ -42,16 +41,18 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
 
     void testEnabled_Disabled_RadioButton() {
         goToAccountsPage()
-        def firstElement = byName('changeStatus2')
+        String linkName = 'changeStatus3'
+        def firstElement = byName(linkName)
+        assertNotNull('No Enable/Disable link found', firstElement)
         String initialText = firstElement.asText()
-        byName('changeStatus2').click()
+        byName(linkName).click()
         Thread.sleep(1000)
         assertStatus 200
-        assertFalse(initialText + ' link did not change', (initialText == byName('changeStatus2').asText()))
-        byName('changeStatus2').click()
+        junit.framework.Assert.assertFalse(initialText + ' link did not change', (initialText == byName(linkName).asText()))
+        byName(linkName).click()
         Thread.sleep(1000)
         assertStatus 200
-        assertTrue(initialText + ' link did not change again', (initialText == byName('changeStatus2').asText()))
+        junit.framework.Assert.assertTrue(initialText + ' link did not change again', (initialText == byName(linkName).asText()))
     }
 
     /*This test validated the addition of roles(admin,subscriber) to the superAdmin account.
@@ -75,7 +76,7 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
         followRedirect()
         assertTitle 'Minute Menu Plan : Show User'
         ['Admin', 'Subscriber', 'Super Admin'].each {role ->
-            assertTrue(role in byClass('userRolesFT')*.asText())
+            junit.framework.Assert.assertTrue(role in byClass('userRolesFT')*.asText())
         }
     }
     /*
@@ -88,9 +89,9 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
         Integer userCount = byClass('allUsersInDomainFT').size()
         Integer totalUsersInDomain = Party.count()
         if (totalUsersInDomain <= 10) {
-            assertEquals(userCount, totalUsersInDomain)
+            junit.framework.Assert.assertEquals(userCount, totalUsersInDomain)
         } else {
-            assertEquals(userCount, 10)
+            junit.framework.Assert.assertEquals(userCount, 10)
         }
     }
 
@@ -108,9 +109,9 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
         Integer finalPartyCount = Party.count()
         assertStatus 200
         assertTitle 'Minute Menu Plan : Add User'
-        assertTrue('Created a subscriber', (finalCount - initialCount == 0))
-        assertTrue('Created a party', (finalPartyCount - initialPartyCount == 0))
-        assertEquals('Error message for roles not displayed / not displayed on correct location', getMessage('userCO.blank.roles.error'), byId('displayUserCOErrors').asText())
+        junit.framework.Assert.assertTrue('Created a subscriber', (finalCount - initialCount == 0))
+        junit.framework.Assert.assertTrue('Created a party', (finalPartyCount - initialPartyCount == 0))
+        groovy.util.GroovyTestCase.assertEquals('Error message for roles not displayed / not displayed on correct location', getMessage('userCO.blank.roles.error'), byId('displayUserCOErrors').asText())
     }
 
     void testAddUserBySuperAdmin_With_Assigning_Roles() {
@@ -129,9 +130,9 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
         Integer finalAdminCount = Administrator.count()
         assertStatus 200
         assertTitle 'Minute Menu Plan : Show User'
-        assertTrue('Unable to create a party object for user', (finalPartyCount - initialPartyCount == 1))
-        assertTrue('Unable to assign Administrator role to user', (finalAdminCount - initialAdminCount == 1))
-        assertTrue('Unable to assign Subscriber role to user', (finalCount - initialCount == 1))
+        junit.framework.Assert.assertTrue('Unable to create a party object for user', (finalPartyCount - initialPartyCount == 1))
+        junit.framework.Assert.assertTrue('Unable to assign Administrator role to user', (finalAdminCount - initialAdminCount == 1))
+        junit.framework.Assert.assertTrue('Unable to assign Subscriber role to user', (finalCount - initialCount == 1))
     }
 
 
@@ -148,8 +149,8 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
         Integer finalCount = Director.count()
         Integer finalPartyCount = Party.count()
         assertStatus 200
-        assertTrue('Unable to created a Director', (finalCount - initialCount == 1))
-        assertTrue('unable to created a party', (finalPartyCount - initialPartyCount == 1))
+        junit.framework.Assert.assertTrue('Unable to created a Director', (finalCount - initialCount == 1))
+        junit.framework.Assert.assertTrue('unable to created a party', (finalPartyCount - initialPartyCount == 1))
     }
 
 
@@ -166,8 +167,8 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
         Integer finalDirectorCount = Director.count()
         Integer finalPartyCount = Party.count()
         assertStatus 200
-        assertTrue('Unable to created a Director', (finalDirectorCount - initialDirectorCount == 1))
-        assertTrue('unable to created a party', (finalPartyCount - initialPartyCount == 1))
+        junit.framework.Assert.assertTrue('Unable to created a Director', (finalDirectorCount - initialDirectorCount == 1))
+        junit.framework.Assert.assertTrue('unable to created a party', (finalPartyCount - initialPartyCount == 1))
         logout()
 
         Integer initialSubscriberCount = Subscriber.count()
@@ -180,8 +181,8 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
         createCoach(coachFormData)
         Integer finalSubscriberCount = Subscriber.count()
         Integer finalCoachCount = Coach.count()
-        assertTrue('Unable to created a Subscriber', (finalSubscriberCount - initialSubscriberCount == 1))
-        assertTrue('unable to created a Sub-Director', (finalCoachCount - initialCoachCount == 1))
+        junit.framework.Assert.assertTrue('Unable to created a Subscriber', (finalSubscriberCount - initialSubscriberCount == 1))
+        junit.framework.Assert.assertTrue('unable to created a Sub-Director', (finalCoachCount - initialCoachCount == 1))
     }
 
 
@@ -208,8 +209,8 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
         Integer intermediateSubscriberCount = Subscriber.count()
         Integer intermediateCoachCount = Coach.count()
         assertTitle 'Minute Menu Plan : Show User'
-        assertTrue('Unable to created a Subscriber', (intermediateSubscriberCount - initialSubscriberCount == 1))
-        assertTrue('unable to created a Sub-Director', (intermediateCoachCount - initialCoachCount == 1))
+        junit.framework.Assert.assertTrue('Unable to created a Subscriber', (intermediateSubscriberCount - initialSubscriberCount == 1))
+        junit.framework.Assert.assertTrue('unable to created a Sub-Director', (intermediateCoachCount - initialCoachCount == 1))
         byClass('editUserButtonFT').click()
         assertTitle 'Minute Menu Plan : Edit User'
         byClass('updateUserButtonFT').click()
@@ -221,8 +222,8 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
         Integer finalSubscriberCount = Subscriber.count()
         Integer finalCoachCount = Coach.count()
         assertTitle 'Minute Menu Plan : Show User'
-        assertTrue('Unable to created a Subscriber', (finalSubscriberCount - initialSubscriberCount == 1))
-        assertTrue('unable to created a Sub-Director', (finalCoachCount - initialCoachCount == 1))
+        junit.framework.Assert.assertTrue('Unable to created a Subscriber', (finalSubscriberCount - initialSubscriberCount == 1))
+        junit.framework.Assert.assertTrue('unable to created a Sub-Director', (finalCoachCount - initialCoachCount == 1))
         logout()
     }
 }

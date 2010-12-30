@@ -1,3 +1,5 @@
+package com.mp
+
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import com.gargoylesoftware.htmlunit.html.HtmlPage
 import com.mp.domain.*
@@ -19,7 +21,7 @@ class MenuPlannerFunctionalTests extends functionaltestplugin.FunctionalTestCase
     void testSomething() {}
 
     void login(LoginFormData loginFormData) {
-        get("/login/index")
+        get("/")
         form('loginForm') {
             email = loginFormData.email
             password = loginFormData.password

@@ -1,3 +1,5 @@
+package com.mp
+
 import com.mp.domain.*
 
 class MenuCalendarFunctionalTests extends MenuPlannerFunctionalTests {
@@ -21,7 +23,7 @@ class MenuCalendarFunctionalTests extends MenuPlannerFunctionalTests {
         assertStatus 200
         assertTitle("Minute Menu Plan : TestMenuPlan${menuPlanName.toString()}")
         Integer finalCount = MenuPlan.count()
-        assertTrue('Unable to create a menu-plan from the menu calendar', (finalCount - initialCount == 1))
+        junit.framework.Assert.assertTrue('Unable to create a menu-plan from the menu calendar', (finalCount - initialCount == 1))
     }
 
     /* This plan validates the update of monthly menuPlan
@@ -43,7 +45,7 @@ class MenuCalendarFunctionalTests extends MenuPlannerFunctionalTests {
         assertStatus 200
         assertTitle("Minute Menu Plan : TestMenuPlan${menuPlanName.toString()}")
         Integer intermediateCount = MenuPlan.count()
-        assertTrue('Edit MenuPlan unables to create a new menuplan', (intermediateCount - initialCount == 1))
+        junit.framework.Assert.assertTrue('Edit MenuPlan unables to create a new menuplan', (intermediateCount - initialCount == 1))
         byClass('editMenuPlanButtonFT').click()
         assertStatus 200
         assertTitle("Minute Menu Plan : Edit TestMenuPlan${menuPlanName.toString()}")
@@ -54,7 +56,7 @@ class MenuCalendarFunctionalTests extends MenuPlannerFunctionalTests {
         assertStatus 200
         assertTitleContains "ChangedMenuPlanName"
         Integer finalCount = MenuPlan.count()
-        assertTrue('Edit MenuPlan unables to update a menuplan list', (finalCount - intermediateCount == 0))
+        junit.framework.Assert.assertTrue('Edit MenuPlan unables to update a menuplan list', (finalCount - intermediateCount == 0))
     }
 
     /* This plan validates the generation of shopping list from the monthly menuPlan

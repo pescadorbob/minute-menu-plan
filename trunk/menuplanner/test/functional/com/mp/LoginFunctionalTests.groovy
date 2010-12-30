@@ -1,3 +1,5 @@
+package com.mp
+
 import com.mp.domain.*
 import com.mp.domain.party.Party
 import com.mp.domain.party.Subscriber
@@ -14,7 +16,7 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         loginFormData.password = "WrongPassword"
         login(loginFormData)
         assertStatus 200
-        assertEquals('Invalid password message not displayed / not displayed on correct location', getMessage('loginCO.email.password.Invalid'), byId('display_WrongPassword_DisabledUser_Error').asText())
+        groovy.util.GroovyTestCase.assertEquals('Invalid password message not displayed / not displayed on correct location', getMessage('loginCO.email.password.Invalid'), byId('display_WrongPassword_DisabledUser_Error').asText())
         assertTitle 'Minute Menu Plan : Minute Menu Plan'
     }
 
@@ -28,7 +30,7 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         loginFormData.email = ""
         login(loginFormData)
         assertStatus 200
-        assertEquals('Blank username message not displayed / not displayed on correct location', getMessage('loginCO.email.blank.error.email'), byId('displayEmailError').asText())
+        groovy.util.GroovyTestCase.assertEquals('Blank username message not displayed / not displayed on correct location', getMessage('loginCO.email.blank.error.email'), byId('displayEmailError').asText())
         assertTitle 'Minute Menu Plan : Minute Menu Plan'
     }
 
@@ -42,7 +44,7 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         loginFormData.email = "InvalidUsernane."
         login(loginFormData)
         assertStatus 200
-        assertEquals('Invalid Username message not displayed / not displayed on correct location', getMessage('loginCO.email.email.invalid.email'), byId('displayEmailError').asText())
+        groovy.util.GroovyTestCase.assertEquals('Invalid Username message not displayed / not displayed on correct location', getMessage('loginCO.email.email.invalid.email'), byId('displayEmailError').asText())
         assertTitle 'Minute Menu Plan : Minute Menu Plan'
     }
 
@@ -55,7 +57,7 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         LoginFormData loginFormData = LoginFormData.getDefaultLoginFormData()
         loginToHomepage(loginFormData)
         assertTitle 'Minute Menu Plan : List Recipe'
-        assertEquals('Logout link not found on the recipe list page', 'Logout', byClass('logoutLink').asText())
+        groovy.util.GroovyTestCase.assertEquals('Logout link not found on the recipe list page', 'Logout', byClass('logoutLink').asText())
     }
 
     /*
@@ -79,7 +81,7 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         loginFormData.email = userFormData.email
         loginFormData.password = userFormData.password
         login(loginFormData)
-        assertEquals('Subscriber disabled message not displayed / not displayed on correct location', getMessage('loginCO.user.disabled'), byId('display_WrongPassword_DisabledUser_Error').asText())
+        groovy.util.GroovyTestCase.assertEquals('Subscriber disabled message not displayed / not displayed on correct location', getMessage('loginCO.user.disabled'), byId('display_WrongPassword_DisabledUser_Error').asText())
     }
 
     /*
@@ -94,7 +96,7 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         byClass('logoutLink').click()
         redirectEnabled = false
         followRedirect()
-        assertEquals('Login button not found on login page', 'Login', byName('_action_login').asText())
+        groovy.util.GroovyTestCase.assertEquals('Login button not found on login page', 'Login', byName('_action_login').asText())
         assertTitle 'Minute Menu Plan : Minute Menu Plan'
     }
 
@@ -131,7 +133,7 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         NewUserFormData newUserFormData = NewUserFormData.getDefaultNewUserFormData()
         createUserFromLandingPage(newUserFormData)
         Integer finalCount = Party.count()
-        assertEquals('User Created Successfully', finalCount, initialCount + 1)
+        junit.framework.Assert.assertEquals('User Created Successfully', finalCount, initialCount + 1)
         assertElementTextContains('rightpanel-welcome', 'Thank you for registering with us')
     }
 
@@ -141,7 +143,7 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         NewUserFormData newUserFormData = NewUserFormData.getDefaultNewUserFormData()
         createUserFromLandingPage(newUserFormData)
         Integer finalCount = Party.count()
-        assertEquals('User Created Successfully', finalCount, initialCount + 1)
+        junit.framework.Assert.assertEquals('User Created Successfully', finalCount, initialCount + 1)
         assertElementTextContains('rightpanel-welcome', 'Thank you for registering with us')
         def registrationAcknowledgementlink = byClass('registrationAcknowledgementFT')
         registrationAcknowledgementlink.click()
@@ -151,7 +153,7 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         loginFormData.password = newUserFormData.password
         login(loginFormData)
         assertStatus 200
-        assertEquals('Inactive account message not displayed / not displayed on correct location', getMessage('loginCO.user.unverified'), byId('display_WrongPassword_DisabledUser_Error').asText())
+        groovy.util.GroovyTestCase.assertEquals('Inactive account message not displayed / not displayed on correct location', getMessage('loginCO.user.unverified'), byId('display_WrongPassword_DisabledUser_Error').asText())
         assertTitle 'Minute Menu Plan : Minute Menu Plan'
     }
 
@@ -161,7 +163,7 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         NewUserFormData newUserFormData = NewUserFormData.getDefaultNewUserFormData()
         createUserFromLandingPage(newUserFormData)
         Integer finalCount = Party.count()
-        assertEquals('User Created Successfully', finalCount, initialCount + 1)
+        junit.framework.Assert.assertEquals('User Created Successfully', finalCount, initialCount + 1)
         assertElementTextContains('rightpanel-welcome', 'Thank you for registering with us')
         def registrationAcknowledgementlink = byClass('registrationAcknowledgementFT')
         registrationAcknowledgementlink.click()
@@ -171,7 +173,7 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         loginFormData.password = newUserFormData.password
         login(loginFormData)
         assertStatus 200
-        assertEquals('Inactive account message not displayed / not displayed on correct location', getMessage('loginCO.user.unverified'), byId('display_WrongPassword_DisabledUser_Error').asText())
+        groovy.util.GroovyTestCase.assertEquals('Inactive account message not displayed / not displayed on correct location', getMessage('loginCO.user.unverified'), byId('display_WrongPassword_DisabledUser_Error').asText())
         assertTitle 'Minute Menu Plan : Minute Menu Plan'
         UserLogin userLogin = UserLogin.findByEmail(newUserFormData.email)
         VerificationToken token = VerificationToken.findByParty(userLogin.party)

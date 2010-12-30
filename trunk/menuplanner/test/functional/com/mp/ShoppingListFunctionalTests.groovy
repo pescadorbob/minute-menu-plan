@@ -1,3 +1,5 @@
+package com.mp
+
 import com.mp.domain.*
 import static com.mp.domain.TestConstants.*
 import com.mp.domain.party.Subscriber
@@ -405,7 +407,7 @@ class ShoppingListFunctionalTests extends MenuPlannerFunctionalTests {
         deleteUserButton.click()
         Integer finCount = Aisle.count()
         Integer userFinalCount = Subscriber.count()
-        assertEquals "Unable to Delete Aisle of User, when user is deleted", finCount + 1, initCount
+        assertEquals "Unable to Delete Aisle of User, when user is deleted", initCount-1, finCount
         assertEquals "Unable to delete User", userFinalCount + 1, userInitialCount
     }
 }

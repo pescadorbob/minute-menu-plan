@@ -16,7 +16,7 @@ class DirectorTests extends GrailsUnitTestCase {
     protected void setUp() {
         super.setUp()
         UserCO userCO = new UserCO()
-        userCO.roles = [PartyRoleType.Director.toString()]
+        userCO.roles = [PartyRoleType.Director.name()]
         userCO.isEnabled = true
         userCO.email = email
         userCO.password = "1234"
@@ -34,7 +34,7 @@ class DirectorTests extends GrailsUnitTestCase {
         Integer initialLoginCount = LoginCredential.count()
         Integer initialPartyCount = Party.count()
         UserCO userCO = new UserCO()
-        userCO.roles = [PartyRoleType.Director.toString()]
+        userCO.roles = [PartyRoleType.Director.name()]
         userCO.isEnabled = true
         userCO.email = "test@mymail.com"
         userCO.password = "1234"
@@ -56,7 +56,7 @@ class DirectorTests extends GrailsUnitTestCase {
         Integer initialLoginCount = LoginCredential.count()
         Integer initialPartyCount = Party.count()
         UserCO newUserCO = new UserCO()
-        newUserCO.roles = [PartyRoleType.SuperAdmin.toString(), PartyRoleType.Director.toString(), PartyRoleType.Admin.toString(), PartyRoleType.Subscriber.toString()]
+        newUserCO.roles = [PartyRoleType.SuperAdmin.name(), PartyRoleType.Director.name(), PartyRoleType.Admin.name(), PartyRoleType.Subscriber.name()]
         newUserCO.isEnabled = true
         newUserCO.email = newEmail
         newUserCO.password = "1234"
@@ -85,7 +85,7 @@ class DirectorTests extends GrailsUnitTestCase {
         Integer initialPartyCount = Party.count()
         Party party = userLogin?.party
         UserCO newUserCO = new UserCO(party)
-        newUserCO.roles = [PartyRoleType.Director.toString()]
+        newUserCO.roles = [PartyRoleType.Director.name()]
         newUserCO.isEnabled = true
         newUserCO.email = newEmail
         newUserCO.password = "1234"
@@ -108,7 +108,7 @@ class DirectorTests extends GrailsUnitTestCase {
         Integer initialSubscriberCount = Subscriber.count()
         Party party = userLogin?.party
         UserCO newUserCO = new UserCO(party)
-        newUserCO.roles = [PartyRoleType.Subscriber.toString()]
+        newUserCO.roles = [PartyRoleType.Subscriber.name()]
         newUserCO.isEnabled = true
         newUserCO.email = newEmail
         newUserCO.password = "1234"
@@ -134,7 +134,7 @@ class DirectorTests extends GrailsUnitTestCase {
         Integer initialAdminCount = Administrator.count()
         Party party = userLogin?.party
         UserCO newUserCO = new UserCO(party)
-        newUserCO.roles = [PartyRoleType.Director.toString(), PartyRoleType.Subscriber.toString(), PartyRoleType.Admin.toString()]
+        newUserCO.roles = [PartyRoleType.Director.name(), PartyRoleType.Subscriber.name(), PartyRoleType.Admin.name()]
         newUserCO.isEnabled = true
         newUserCO.email = email
         newUserCO.password = "1234"
