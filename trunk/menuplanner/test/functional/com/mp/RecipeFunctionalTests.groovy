@@ -272,7 +272,7 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         createRecipeData.serveWith_1 = servings_1
         createRecipe(createRecipeData)
         assertTitleContains "Minute Menu Plan : ${createRecipeData.name}"
-        Recipe recipe = Recipe.list().last()
+        Recipe recipe = Recipe.findByName(createRecipeData.name)
         logout()
 
         loginBySuperAdmin()
@@ -293,7 +293,7 @@ class RecipeFunctionalTests extends MenuPlannerFunctionalTests {
         createRecipeData.productName_1 = productName_1
         createRecipe(createRecipeData)
         assertTitleContains "Minute Menu Plan : ${createRecipeData.name}"
-        Recipe recipe = Recipe.list().last()
+        Recipe recipe = Recipe.findByName(createRecipeData.name)
         logout()
 
         loginBySuperAdmin()
