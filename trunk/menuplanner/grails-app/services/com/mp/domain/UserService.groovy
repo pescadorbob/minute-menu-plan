@@ -53,23 +53,23 @@ class UserService {
                 party = new Party()
                 String coachUUID = SessionUtils?.session?.coachUniqueId
                 party.name = name
-                party.isEnabled=true
+                party.isEnabled = true
                 party.save()
-                Subscriber subscriber = location ? new Subscriber(party:party,city: location) : new Subscriber(party:party)
+                Subscriber subscriber = location ? new Subscriber(party: party, city: location) : new Subscriber(party: party)
                 subscriber.save()
                 if (!coachUUID && coachUUIDFromCookies) {
                     coachUUID = coachUUIDFromCookies
                 }
                 if (coachUUID) {
-                    Coach coach = Coach.withCriteria {
-                      party {
-                        eq('uniqueId',coachUUID)
-                      }
-                    }.uniqueResult()
-                    if(coach){
-                      CoachSubscriber cs = new CoachSubscriber(activeFrom:new Date(),client:coach,supplier:subscriber,
-                              commission:coachRole.defaultCommission,)
-                      cs.s()
+                    Coach coach = Coach.withCriteria(uniqueResult: true) {
+                        party {
+                            eq('uniqueId', coachUUID)
+                        }
+                    }
+                    if (coach) {
+                        CoachSubscriber cs = new CoachSubscriber(activeFrom: new Date(), client: coach, supplier: subscriber,
+                                commission: coachRole.defaultCommission,)
+                        cs.s()
                     }
                 }
                 party.s()
@@ -194,12 +194,8 @@ class UserService {
             aisleToRemove*.delete()
         }
         if (party?.subscriber) {
-            CoachSubscriber cs = CoachSubscriber.withCriteria {
-              supplier {
-                idEq(party?.supplier?.id)
-              }
-            }.uniqueResult()
-            if(cs)  cs.delete()
+            CoachSubscriber cs = CoachSubscriber.findBySupplier(party.subscriber)
+            if (cs) cs.delete()
         }
         party.delete(flush: true)
     }
