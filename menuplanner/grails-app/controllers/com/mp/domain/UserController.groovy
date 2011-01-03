@@ -148,13 +148,13 @@ class UserController {
     }
 
     def chooseSubscription = {
-      String coachId = params?.coachId
-      String linkClicked = params?.linkClicked
-      UserCO userCO = new UserCO()
-      if (coachId) {
-          userCO.coachId = coachId
-      }
-      render(view: 'chooseSubscription', model: [availableProducts: ProductOffering.list(), userCO: userCO])
+        String coachId = params?.coachId
+        String linkClicked = params?.linkClicked
+        UserCO userCO = new UserCO()
+        if (coachId) {
+            userCO.coachId = coachId
+        }
+        render(view: 'chooseSubscription', model: [availableProducts: ProductOffering.list(), userCO: userCO])
 
     }
     def createUser = {
@@ -334,38 +334,38 @@ class UserController {
 
     def newUserCheckout = {UserCO userCO ->
         Party currentParty = UserTools.currentUser?.party
-        if(currentParty){
+        if (currentParty) {
             userCO = new UserCO(currentParty)
-            if(params.productId){
+            if (params.productId) {
                 forward(action: 'createSubscription', controller: 'subscription', params: [userId: currentParty.id, productId: params.productId])
             } else {
                 forward(action: 'chooseSubscription', availableProducts: ProductOffering.list(), userCO: userCO)
             }
-        }  else {
-        userCO.isEnabled = null
-        List<Cookie> cookies = request.cookies as List
-        Cookie coachId = cookies.find {it.name == 'coachId'}
-        if (coachId) {
-            userCO.coachId = coachId.value
-        }
-        if (!userCO.hasErrors()) {
-            Party party = userCO.createParty()
-            VerificationToken verificationToken = new VerificationToken()
-            verificationToken.party = party
-            verificationToken.s()
-
-            asynchronousMailService.sendAsynchronousMail {
-                to party.userLogin.email
-                subject "Email verification for Minute Menu Plan"
-                html g.render(template: '/user/accountVerification', model: [party: party, email: userCO.email, token: verificationToken.token])
-            }
-            forward(action: 'createSubscription', controller: 'subscription', params: [userId: party.id, productId: params.productId])
         } else {
-            userCO.errors.allErrors.each {
-                println it
+            userCO.isEnabled = null
+            List<Cookie> cookies = request.cookies as List
+            Cookie coachId = cookies.find {it.name == 'coachId'}
+            if (coachId) {
+                userCO.coachId = coachId.value
             }
-          render(view: 'chooseSubscription', model: [availableProducts: ProductOffering.list(), userCO: userCO, productId: params.productId])
-        }
+            if (!userCO.hasErrors()) {
+                Party party = userCO.createParty()
+                VerificationToken verificationToken = new VerificationToken()
+                verificationToken.party = party
+                verificationToken.s()
+
+                asynchronousMailService.sendAsynchronousMail {
+                    to party.userLogin.email
+                    subject "Email verification for Minute Menu Plan"
+                    html g.render(template: '/user/accountVerification', model: [party: party, email: userCO.email, token: verificationToken.token])
+                }
+                forward(action: 'createSubscription', controller: 'subscription', params: [userId: party.id, productId: params.productId])
+            } else {
+                userCO.errors.allErrors.each {
+                    println it
+                }
+                render(view: 'chooseSubscription', model: [availableProducts: ProductOffering.list(), userCO: userCO, productId: params.productId])
+            }
         }
     }
 
@@ -472,19 +472,19 @@ class UserCO {
             mouthsToFeed = party?.subscriber?.mouthsToFeed
             introduction = party?.subscriber?.introduction
             city = party?.subscriber?.city
-            CoachSubscriber cs = CoachSubscriber.withCriteria(uniqueResult:true){
+            CoachSubscriber cs = CoachSubscriber.withCriteria(uniqueResult: true) {
                 supplier {
-                  idEq(party.subscriber?.id)
+                    idEq(party.subscriber?.id)
                 }
             }
-          if(cs) coachId = cs?.client?.party?.id
+            if (cs) coachId = cs?.client?.party?.id
         }
         if (party?.coach) {
             Coach coach = party?.coach
-            DirectorCoach dc = DirectorCoach.withCriteria(uniqueResult:true) {
-              supplier {
-                idEq(coach.id)
-              }
+            DirectorCoach dc = DirectorCoach.withCriteria(uniqueResult: true) {
+                supplier {
+                    idEq(coach.id)
+                }
             }
             directorId = dc?.client?.id
             uniqueId = party.uniqueId
@@ -588,98 +588,98 @@ class UserCO {
         return party
     }
 
-  def  updateCheckedRoles(party, roles, coachId, showAlcoholicContent,
-          selectUserImagePath, introduction, mouthsToFeed, directorId, city, name){
-    party.name = name
-    if ((PartyRoleType.Subscriber.name() in roles)) {
-      Subscriber subscriber = party.subscriber ? party.subscriber : new Subscriber()
-      subscriber.city = city
-      subscriber.mouthsToFeed = mouthsToFeed
-      subscriber.introduction = introduction
-      attachImage(subscriber, selectUserImagePath)
-      subscriber.party = party
-      subscriber.party.showAlcoholicContent = showAlcoholicContent
-      subscriber.s()
-      if (coachId) {
-        Party coach = Party.get(coachId)
-        if (coach) {
-          def cs = CoachSubscriber.withCriteria(uniqueResult:true){
-            supplier {
-              idEq(subscriber.id)
+    def updateCheckedRoles(party, roles, coachId, showAlcoholicContent,
+                           selectUserImagePath, introduction, mouthsToFeed, directorId, city, name) {
+        party.name = name
+        if ((PartyRoleType.Subscriber.name() in roles)) {
+            Subscriber subscriber = party.subscriber ? party.subscriber : new Subscriber()
+            subscriber.city = city
+            subscriber.mouthsToFeed = mouthsToFeed
+            subscriber.introduction = introduction
+            attachImage(subscriber, selectUserImagePath)
+            subscriber.party = party
+            subscriber.party.showAlcoholicContent = showAlcoholicContent
+            subscriber.s()
+            if (coachId) {
+                Party coach = Party.get(coachId)
+                if (coach) {
+                    def cs = CoachSubscriber.withCriteria(uniqueResult: true) {
+                        supplier {
+                            idEq(subscriber.id)
+                        }
+                        or {
+                            isNull("activeTo")
+                            gt("activeTo": new Date())
+                        }
+                    }
+                    if (!cs) new CoachSubscriber(client: coach.coach, supplier: subscriber).s()
+                }
             }
-            or {
-              isNull("activeTo")
-              gt("activeTo":new Date())
-            }
-          }
-          if(!cs) new CoachSubscriber(client:coach.coach,supplier:subscriber).s()
         }
-      }
+
+        if ((PartyRoleType.Admin.name() in roles) && !party.administrator) {
+            new Administrator(party: party).s()
+        }
+
+        if ((PartyRoleType.Director.name() in roles) && !party.director) {
+            new Director(party: party).s()
+        }
+
+        if ((PartyRoleType.Coach.name() in roles) && !party.coach) {
+            Director director = Director.get(directorId)
+            if (director) {
+                Coach coach = Coach.findbyPartyId(party.id)
+                if (!coach) coach = new Coach(party: party).s()
+                new DirectorCoach(client: director, supplier: coach).s()
+            }
+        }
+        if ((PartyRoleType.Coach.name() in roles) && party.coach) {
+            Director director = Director.get(directorId)
+            if (director && (directorId != party?.coach?.id)) {
+                Coach coach = party?.coach
+                DirectorCoach dc = DirectorCoach.findBySupplier(coach)
+                if (!dc) dc = new DirectorCoach(client: director, supplier: coach, activeFrom: new Date()).s()
+            }
+        }
+
+        if (PartyRoleType.SuperAdmin.name() in roles && !party.superAdmin) {
+            new SuperAdmin(party: party).s()
+        }
     }
 
-    if ((PartyRoleType.Admin.name() in roles) && !party.administrator) {
-      new Administrator(party: party).s()
+    private def deleteUncheckedRoles(Party party, List<String> roles) {
+        Date now = new Date()
+        if (party.subscriber && !(PartyRoleType.Subscriber.name() in roles)) {
+            Subscriber subscriber = party.subscriber
+            subscriber.activeTo = now
+        }
+
+        if (party.director && !(PartyRoleType.Director.name() in roles)) {
+            Director director = party.director
+            director.activeTo = now
+            director.s();
+        }
+
+        if (party.coach && !(PartyRoleType.Coach.name() in roles)) {
+            Coach coach = party.coach
+            coach.activeTo = now
+            coach.s()
+        }
+
+        if (party.superAdmin && !(PartyRoleType.SuperAdmin.name() in roles)) {
+            SuperAdmin superAdmin = party.superAdmin
+            superAdmin.activeTo = now
+            superAdmin.s()
+        }
+
+        if (party.administrator && !(PartyRoleType.Admin.name() in roles)) {
+            Administrator administrator = party.administrator
+            administrator.activeTo = now
+            administrator.s()
+        }
     }
 
-    if ((PartyRoleType.Director.name() in roles) && !party.director) {
-      new Director(party: party).s()
-    }
-
-    if ((PartyRoleType.Coach.name() in roles) && !party.coach) {
-      Director director = Director.get(directorId)
-      if (director) {
-        Coach coach=Coach.findbyPartyId(party.id)
-          if(!coach) coach = new Coach(party: party).s()
-        new DirectorCoach(client: director, supplier: coach).s()
-      }
-    }
-    if ((PartyRoleType.Coach.name() in roles) && party.coach) {
-      Director director = Director.get(directorId)
-      if (director && (directorId != party?.coach?.id)) {
-        Coach coach = party?.coach
-        DirectorCoach dc = DirectorCoach.findBySupplier(coach)
-        if(!dc) dc = new DirectorCoach(client:director,supplier:coach,activeFrom: new Date()).s()
-      }
-    }
-
-    if (PartyRoleType.SuperAdmin.name() in roles && !party.superAdmin) {
-      new SuperAdmin(party: party).s()
-    }
-  }
-
-  private def deleteUncheckedRoles(Party party, List<String> roles) {
-    Date now = new Date()
-    if (party.subscriber && !(PartyRoleType.Subscriber.name() in roles)) {
-      Subscriber subscriber = party.subscriber
-      subscriber.activeTo = now
-    }
-
-    if (party.director && !(PartyRoleType.Director.name() in roles)) {
-      Director director = party.director
-      director.activeTo = now
-      director.s();
-    }
-
-    if (party.coach && !(PartyRoleType.Coach.name() in roles)) {
-      Coach coach = party.coach
-      coach.activeTo = now
-      coach.s()
-    }
-
-    if (party.superAdmin && !(PartyRoleType.SuperAdmin.name() in roles)) {
-      SuperAdmin superAdmin = party.superAdmin
-      superAdmin.activeTo = now
-      superAdmin.s()
-    }
-
-    if (party.administrator && !(PartyRoleType.Admin.name() in roles)) {
-      Administrator administrator = party.administrator
-      administrator.activeTo = now
-      administrator.s()
-    }
-  }
-
-  public boolean attachImage(Subscriber user, def imagePath) {
+    public boolean attachImage(Subscriber user, def imagePath) {
         List<Integer> imageSizes = USER_IMAGE_SIZES
         return Image.updateOwnerImage(user, imagePath, imageSizes)
     }
@@ -705,19 +705,19 @@ class UserCO {
                 if (coachId) {
                     Coach coach = Coach.get(coachId)
                     if (coach) {
-                        def cs = new CoachSubscriber(client:coach,supplier:subscriber).s()
+                        def cs = new CoachSubscriber(client: coach, supplier: subscriber).s()
                         assert cs
                     }
                 }
             }
             if (PartyRoleType.Admin.name() in roles) {
-                new Administrator(party:party).s()
+                new Administrator(party: party).s()
             }
             if (PartyRoleType.SuperAdmin.name() in roles) {
-                new SuperAdmin(party:party).s()
+                new SuperAdmin(party: party).s()
             }
             if (PartyRoleType.Director.name() in roles) {
-                new Director(party:party).s()
+                new Director(party: party).s()
             }
             if (PartyRoleType.Coach.name() in roles) {
                 Coach coach = new Coach(party: party).s()
@@ -725,7 +725,7 @@ class UserCO {
                 Director director = Director.get(directorId)
 
                 if (director) {
-                    DirectorCoach dc = new DirectorCoach(client:director,supplier:coach).s()
+                    DirectorCoach dc = new DirectorCoach(client: director, supplier: coach).s()
                     assert dc && dc.id
                 }
             }
