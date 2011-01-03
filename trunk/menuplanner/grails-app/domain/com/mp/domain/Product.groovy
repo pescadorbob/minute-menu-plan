@@ -24,10 +24,12 @@ class Product extends Item {
 
     def beforeInsert = {
         isAlcoholic = isProductAlcoholic()
+        return true
     }
 
     def beforeUpdate = {
         isAlcoholic = isProductAlcoholic()
+        return true //This line is required, else changes are not saved when isAlcoholic is false
     }
     static transients = ['detailString', 'contributorsString', 'contributors']
 

@@ -176,7 +176,7 @@ class BootStrap {
         }
         if (!Nutrient.count()) {masterDataBootStrapService.populateNutrients()}
         if (!Category.count()) {masterDataBootStrapService.populateCategories()}
-        if (!Product.count()) {masterDataBootStrapService.populateProductsWithAisles()}
+        if (!Product.count() && !(GrailsUtil.environment in ['dev', 'test'])) {masterDataBootStrapService.populateProductsWithAisles()}
         if (!SecurityRole.count()) {masterDataBootStrapService.populatePermissions()}
         if (!HomePage.count()) {masterDataBootStrapService.populateHomePageData()}
         if (!Feature.count()) {masterDataBootStrapService.populateProductOfferings()}
