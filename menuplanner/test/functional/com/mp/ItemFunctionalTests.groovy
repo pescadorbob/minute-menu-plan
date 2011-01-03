@@ -1,30 +1,27 @@
 package com.mp
 
 import com.mp.domain.Item
+import com.mp.domain.Product
 
 class ItemFunctionalTests extends MenuPlannerFunctionalTests {
 
     void test_ItemEdit() {
-      Item item = Item.get(210)
-      assert item
-      item.setName("Changed")
-      item.save(flush: true)
-      item = Item.findByname('Changed')
-      assert item
-       item = Item.get(210)
-
+        Item item = Product.list().last()
+        assert item
+        String oldName = System.currentTimeMillis().toString()
+        item.name = oldName
+        item.save(flush: true)
+        item = Item.findById(item.id)
+        assert item
         loginBySuperAdmin()
-        get('/item/show/210')
-        def editButton = byClass('edit')
-        editButton.click()
-      def nameEdit = byClass('name')
+        get('/item/edit/'+item.id)
+        String newName = System.currentTimeMillis().toString()
         form('itemEdit') {
-            name = "New name"
-            click("_action_edit")
+            name = newName
+            byName("_action_update").click()
         }
-      item = Item.get(210)
-      assertEquals('The item name isn\'t changed',"New name",item.name);
-        logout()
+        item = item.refresh()
+        assertEquals('The item name isn\'t changed', newName, item.name);
     }
 
 }

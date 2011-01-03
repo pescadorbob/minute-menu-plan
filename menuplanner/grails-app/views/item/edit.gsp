@@ -23,7 +23,7 @@
                 <g:renderErrors bean="${item}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form method="post" >
+            <g:form method="post" name="itemEdit">
                 <g:hiddenField name="id" value="${item?.id}" />
                 <g:hiddenField name="version" value="${item?.version}" />
                 <div class="dialog">
