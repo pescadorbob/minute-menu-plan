@@ -110,10 +110,10 @@ class UserControllerTests extends GrailsUnitTestCase {
             userCO.email = "user_${it}@mymail.com"
             userCO.password = "1234"
             userCO.isEnabled = true
+            userCO.roles = [PartyRoleType.Subscriber.name(), PartyRoleType.Director.name()]
             Party party = userCO.createParty()
-            party.addToRoles(new Subscriber())
-            party.addToRoles(new Director())
-            party.save(flush: true)
+            assertNotNull(party)
+            party = party.refresh()
         }
     }
 
@@ -126,9 +126,10 @@ class UserControllerTests extends GrailsUnitTestCase {
             userCO.email = "user_${it}@mymail.com"
             userCO.password = "1234"
             userCO.isEnabled = false
+            userCO.roles = [PartyRoleType.Admin.name()]
             Party party = userCO.createParty()
-            party.addToRoles(new Administrator())
-            party.save(flush: true)
+            assertNotNull(party)
+            party = party.refresh()
         }
     }
 }

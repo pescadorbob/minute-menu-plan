@@ -22,7 +22,8 @@ class DirectorTests extends GrailsUnitTestCase {
         userCO.password = "1234"
         userCO.confirmPassword = "1234"
         userCO.name = "New Director"
-        userCO.createParty()
+        Party party = userCO.createParty()
+        party = party.refresh()
     }
 
     protected void tearDown() {
@@ -95,9 +96,9 @@ class DirectorTests extends GrailsUnitTestCase {
         Integer finalDirectorCount = Director.count()
         Integer finalLoginCount = LoginCredential.count()
         Integer finalPartyCount = Party.count()
-        assertEquals("Created new director", finalDirectorCount, initialDirectorCount)
-        assertEquals("Created loginCredential for director", finalLoginCount, initialLoginCount)
-        assertEquals("Created party for director", finalPartyCount, initialPartyCount)
+        assertEquals("Created new director, should have updated old director", finalDirectorCount, initialDirectorCount)
+        assertEquals("Created loginCredential for director, should have updated old credentials", finalLoginCount, initialLoginCount)
+        assertEquals("Created party for director, should have updated old party", finalPartyCount, initialPartyCount)
     }
 
     void test_Update_Director_Remove_Director_Role() {
@@ -114,15 +115,16 @@ class DirectorTests extends GrailsUnitTestCase {
         newUserCO.password = "1234"
         newUserCO.confirmPassword = "1234"
         newUserCO.name = "Updated Director"
-        newUserCO.updateParty()
+        party = newUserCO.updateParty()
+        party = party.refresh()
         Integer finalDirectorCount = Director.count()
         Integer finalLoginCount = LoginCredential.count()
         Integer finalPartyCount = Party.count()
         Integer finalSubscriberCount = Subscriber.count()
-        assertEquals("Created new director", finalDirectorCount, initialDirectorCount - 1)
-        assertEquals("Created loginCredential for director", finalLoginCount, initialLoginCount)
-        assertEquals("Created party for director", finalPartyCount, initialPartyCount)
-        assertEquals("Unable to create subscriber for director", finalSubscriberCount, initialSubscriberCount + 1)
+        assertEquals("Created new director", initialDirectorCount, finalDirectorCount)
+        assertEquals("Created loginCredential for director", initialLoginCount, finalLoginCount)
+        assertEquals("Created party for director", initialPartyCount, finalPartyCount)
+        assertEquals("Unable to create subscriber for director", initialSubscriberCount + 1, finalSubscriberCount)
     }
 
     void test_Update_Director_Add_Roles() {

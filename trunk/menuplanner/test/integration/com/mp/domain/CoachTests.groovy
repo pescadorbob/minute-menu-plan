@@ -33,7 +33,8 @@ class CoachTests extends GrailsUnitTestCase {
         directorUserCO.confirmPassword = "1234"
         directorUserCO.name = "New Director"
         Party directorParty = directorUserCO.createParty()
-        Long directorId = directorParty?.director?.id
+        directorParty = directorParty.refresh()
+        Long directorId = directorParty.director.id
 
         /* -------creating coach--------------*/
         UserCO userCO = new UserCO()
@@ -46,14 +47,15 @@ class CoachTests extends GrailsUnitTestCase {
         userCO.name = "New Sub Director"
         if (userCO.validate()) {
             Party party = userCO.createParty()
+            assertNotNull(party)
         }
         Integer finalDirectorCount = Director.count()
         Integer finalSubscriberCount = Subscriber.count()
         Integer finalCoachCount = Coach.count()
 
-        assertEquals("Unable to create new Sub director", finalCoachCount, initialCoachCount + 1)
-        assertEquals("Unable to create new Subscriber", finalSubscriberCount, initialSubscriberCount + 1)
-        assertEquals("Created new director", finalDirectorCount, initialDirectorCount+1)
+        assertEquals("Unable to create new Sub director", initialCoachCount + 1, finalCoachCount)
+        assertEquals("Unable to create new Subscriber", initialSubscriberCount + 1, finalSubscriberCount)
+        assertEquals("Created new director", initialDirectorCount+1, finalDirectorCount)
     }
 
 }
