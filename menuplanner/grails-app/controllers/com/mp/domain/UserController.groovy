@@ -363,15 +363,6 @@ class UserController {
             }
             if (!userCO.hasErrors()) {
                 Party party = userCO.createParty()
-                VerificationToken verificationToken = new VerificationToken()
-                verificationToken.party = party
-                verificationToken.s()
-
-                asynchronousMailService.sendAsynchronousMail {
-                    to party.userLogin.email
-                    subject "Email verification for Minute Menu Plan"
-                    html g.render(template: '/user/accountVerification', model: [party: party, email: userCO.email, token: verificationToken.token])
-                }
                 forward(action: 'createSubscription', controller: 'subscription', params: [userId: party.id, productId: params.productId])
             } else {
                 userCO.errors.allErrors.each {
