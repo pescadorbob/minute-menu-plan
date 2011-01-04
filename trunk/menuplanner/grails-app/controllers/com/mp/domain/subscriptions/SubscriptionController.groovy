@@ -13,12 +13,15 @@ import com.mp.domain.accounting.AccountTransaction
 import org.apache.commons.httpclient.HttpClient
 import org.apache.commons.httpclient.methods.PostMethod
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import com.mp.domain.VerificationToken
 
 class SubscriptionController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
     def subscriptionService
     def accountingService
+    def asynchronousMailService
+
     def paymentConfirm = {
         render(view: '/subscription/confirm')
     }
@@ -58,6 +61,17 @@ class SubscriptionController {
                 switch (transactionType) {
                     case TransactionType.SUBSCRIPTION_SIGNUP.name:
                         subscriptionService.createSubscriptionForUserSignUp(party, params.long('item_number'))
+                        if (party.isEnabled == null) {
+                            VerificationToken verificationToken = new VerificationToken()
+                            verificationToken.party = party
+                            verificationToken.s()
+
+                            asynchronousMailService.sendAsynchronousMail {
+                                to party.userLogin.email
+                                subject "Email verification for Minute Menu Plan"
+                                html g.render(template: '/user/accountVerification', model: [party: party, email: party.email, token: verificationToken.token])
+                            }
+                        }
                         break;
                     case TransactionType.SUBSCRIPTION_CANCELLED.name:
                         new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription through Paypal has been cancelled", transactionType: AccountTransactionType.SUBSCRIPTION_CANCELLED).s()
