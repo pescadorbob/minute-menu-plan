@@ -105,24 +105,37 @@ class UserController {
         String name = params.searchName
         def userList
         Integer total
+        def criteriaClosure = {
+            if (name) {
+                ilike('name', "%${name}%")
+            }
+            if (params.userStatus == 'enabled') {
+                eq('isEnabled', true)
+            }
+            if (params.userStatus == 'disabled') {
+                eq('isEnabled', false)
+            }
+            if (params.userStatus == 'awaitingVerification') {
+                isNull('isEnabled')
+            }
+            projections{
+                distinct('id')
+            }
+        }
         if (name || params?.userStatus) {
-            userList = Party.createCriteria().listDistinct() {
-                if (name) {
-                    ilike('name', "%${name}%")
-                }
-                if (params.userStatus == 'enabled') {
-                    eq('isEnabled', true)
-                }
-                if (params.userStatus == 'disabled') {
-                    eq('isEnabled', false)
-                }
-                if (params.userStatus == 'awaitingVerification') {
-                    isNull('isEnabled')
-                }
+            def criteria1 = Party.createCriteria()
+            criteriaClosure.delegate = criteria1
+            def userIdsList = criteria1.listDistinct() {
+                criteriaClosure()
                 maxResults(params.max)
                 firstResult(params.offset)
             }
-            total = userList.getTotalCount()
+            userList = userIdsList ? Party.getAll(userIdsList) : []
+            def criteria2 = Party.createCriteria()
+            criteriaClosure.delegate = criteria2
+            total = criteria2.count() {
+                criteriaClosure()
+            }
         } else {
             userList = Party.list(params)
             total = Party.count()
