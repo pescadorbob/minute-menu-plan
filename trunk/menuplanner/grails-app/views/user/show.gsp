@@ -1,4 +1,4 @@
-<%@ page import="com.mp.domain.Permission; org.apache.commons.lang.StringUtils; org.codehaus.groovy.grails.commons.ConfigurationHolder; com.mp.domain.party.*; com.mp.domain.*" %>
+<%@ page import="com.mp.subscriptions.SubscriptionStatus; com.mp.domain.Permission; org.apache.commons.lang.StringUtils; org.codehaus.groovy.grails.commons.ConfigurationHolder; com.mp.domain.party.*; com.mp.domain.*" %>
 <html>
 <head>
     <meta name="layout" content="menu"/>
@@ -34,7 +34,21 @@
                         <li>Member since ${party?.joiningDate?.format('MMMM yyyy')}</li>
                         <li></li><li></li>
                       <h3>Roles</h3>
-                      <g:each in="${party?.roleTypes}" var="roleType"><li class="userRolesFT"><strong>${roleType}</strong></li></g:each>
+                      <g:each in="${party?.roleTypes}" var="roleType">
+                          <li class="userRolesFT">
+                              <strong>${roleType}</strong>
+                              <g:if test="${(roleType == PartyRoleType.Subscriber) && party.subscriber.subscriptions?.any{it.status == SubscriptionStatus.CURRENT}}">
+                                  <ul>
+                                      <li style="padding-left:20px;">Current Subscriptions:</li>
+                                      <g:each in="${party.subscriber.subscriptions.sort{it.activeFrom}}" var="subscription">
+                                          <g:if test="${subscription.status == SubscriptionStatus.CURRENT}">
+                                               <li style="padding-left:20px;">${subscription.originalProductOffering}</li>
+                                          </g:if>
+                                      </g:each>
+                                  </ul>
+                              </g:if>
+                          </li>
+                      </g:each>
                       <h3>Relationships</h3>
                         %{--<pty:relationships party="${party}" >--}%
                           %{--<li class="userRolesFT"><strong>${lhs}</strong>:${rhs}</li>--}%
