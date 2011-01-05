@@ -30,6 +30,14 @@ class SubscriptionController {
         render(view: '/subscription/cancel')
     }
 
+    def clickBankConfirm = {
+        render "Cofirmed"
+    }
+
+    def clickBankNotify = {
+        render "Notified"
+    }
+
     boolean validateRequestFromPayPal(String requestParameters) {
         HttpClient client = new HttpClient()
         String notificationUrl = ConfigurationHolder.config.grails.paypal.server + "?cmd=_notify-validate&" + requestParameters

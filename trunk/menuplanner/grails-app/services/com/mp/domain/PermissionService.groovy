@@ -34,10 +34,11 @@ class PermissionService {
 
     public Boolean hasPermission(Permission permission, Recipe recipe = null, Party party = null) {
         LoginCredential user = UserTools.currentUser
-        if (!user) {
-            return false
-        }
-        List<SecurityRole> roles = SecurityRole.findAllByNameInList(user.party.roles*.type.name)
+        if (!user) { return false }
+        List<String> roleNames = user.party.roles*.type.name
+        println "Current User's Security Roles: " + roleNames
+        if (!roleNames) { return false }
+        List<SecurityRole> roles = SecurityRole.findAllByNameInList(roleNames)
         Boolean result = roles?.any {SecurityRole role ->
             PermissionLevel permissionLevel = PermissionLevel.findByPermissionAndRole(permission, role)
             if (!permissionLevel) {return false}
