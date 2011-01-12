@@ -66,7 +66,6 @@
                 $(newHtmlSting).addClass('addGrocery')
                 $(".week${weekIndex}_groceries" + $("#aisleList_${weekIndex}").val()).append(newHtmlSting)
                 var groceryFieldName= 'week${weekIndex}.groceries.' + aisleIndex;
-                $('input[name='+groceryFieldName+']').val(grocery)
                 $('#addItemTxt_${weekIndex}').val('');
                 bindEvents()
             }
