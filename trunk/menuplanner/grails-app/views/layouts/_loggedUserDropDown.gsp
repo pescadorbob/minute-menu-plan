@@ -26,5 +26,9 @@
     </li>
 </g:if>
 <g:else>
-    <li><a href="#">Hi! Guest</a></li>
+
+    <li> <a href="#"><span>Hi! Guest</span></a>
+        <ul>
+            <li><g:link uri="/">Login</g:link></li>
+        </ul>
 </g:else>
