@@ -1,4 +1,4 @@
-<%@ page import="com.mp.domain.MealType" %>
+<%@ page import="com.mp.domain.PartyRoleType; com.mp.tools.UserTools; com.mp.domain.MealType" %>
 <html>
 <head>
     <meta name="layout" content="menu"/>
@@ -14,9 +14,10 @@
     .ui-sortable-placeholder * {
         visibility: hidden;
     }
-    .sharethis{
-        color:#ffffff;
-        }
+
+    .sharethis {
+        color: #ffffff;
+    }
     </style>
 
 </head>
@@ -27,12 +28,20 @@
         <g:render template="/quickFill/quickFills"/>
         <g:render template="/menuPlan/menuPlanData" model="[menuPlan:menuPlan]"/>
         <br/>
+
         <div id="button">
-            <ul>
-                <li><g:link action="edit" class="editMenuPlanButtonFT" id="${menuPlan.id}" name="editMenuPlan">
-                    <input type="button" class="button" value="Edit" id="edit"/></g:link>
-                </li>
-            </ul>
+            <g:if test="${UserTools.currentUser && ((UserTools.currentUser.party.roles*.type in [PartyRoleType.Admin, PartyRoleType.SuperAdmin])|| (UserTools.currentUser.party == menuPlan.owner))}">
+
+                <ul>
+                    <li><g:link action="edit" class="editMenuPlanButtonFT" id="${menuPlan.id}" name="editMenuPlan">
+                        <input type="button" class="button" value="Edit" id="edit"/></g:link>
+                    </li>
+                    <g:form name="formMenuPlanShow">
+                        <g:hiddenField name="id" value="${menuPlan?.id}"/>
+                        <g:actionSubmit class="button" controller="menuPlan" action="delete" name="delete" value="Delete" onclick="return confirm('Are you sure?');"/>
+                    </g:form>
+                </ul>
+            </g:if>
         </div>
     </div>
     <g:render template="/menuPlan/search" model='[categoryList:categoryList]'/>
