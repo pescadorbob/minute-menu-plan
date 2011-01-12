@@ -73,11 +73,11 @@
         <div id="country-cate">
             <ul>
                 <li>
-                    <g:each in="${categories?.sort{ it.name}}" var="category">
-                        <span class="pointer" onclick="showSubCategoryDiv('${category?.id}');">${category} ></span><br/>
+                    <g:each in="${categories}" var="category">
+                        <span class="pointer" onclick="showSubCategoryDiv('${category?.id}');">${category} &gt;</span><br/>
                         <div id="category${category?.id}" class="categoryMenu">
                             <a href="javascript:void(0);" onclick="jQuery(this).parent().hide();" style="float:right;">Close</a>
-                            <g:each in="${category.subCategories.findAll{it.id in subCategories*.id}.sort{ it.name}}" var="${subCategory}">
+                            <g:each in="${category.subCategories.findAll{it.id in subCategories*.id}}" var="${subCategory}">
                                 <span class="pointer" onclick="submitSearchForm(this, 'subCategoriesString', '${subCategory}');
                                 jQuery(this).parent().hide();">${subCategory}</span><br/>
                             </g:each>

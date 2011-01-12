@@ -14,4 +14,9 @@ class Category {
     static constraints = {
         name(unique: true)
     }
+
+    static mapping = {
+        sort 'name'
+        subCategories(lazy: false, sort: 'name')
+    }
 }

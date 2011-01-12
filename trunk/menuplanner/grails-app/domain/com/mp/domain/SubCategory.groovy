@@ -14,4 +14,9 @@ class SubCategory {
     String toString() {
         return name
     }
+
+    static mapping = {
+        sort 'name'
+    }
+
 }
