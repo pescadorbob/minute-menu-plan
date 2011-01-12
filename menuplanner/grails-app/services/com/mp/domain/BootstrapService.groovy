@@ -84,11 +84,11 @@ class BootstrapService {
     }
 
     public void populateBetaUsers() {
-        UserCO userCO1 = new UserCO(isEnabled: true, name: 'Brent Fisher', email: 'bc.fisher@yahoo.com', password: 'L3uv3n!', roles: [PartyRoleType.SuperAdmin])
-        UserCO userCO2 = new UserCO(isEnabled: true, name: 'Colleen Fisher', email: 'colleen_fisher@yahoo.com', password: 'L3uv3n!', roles: [PartyRoleType.SuperAdmin])
-        UserCO userCO3 = new UserCO(isEnabled: true, name: 'Marie Ricks', email: 'marie@houseoforder.com', password: 'M4ri3#', roles: [PartyRoleType.Subscriber], mouthsToFeed: 1)
-        UserCO userCO4 = new UserCO(isEnabled: true, name: 'Aman Aggarwal', email: 'aman@intelligrape.com', password: '1234', roles: [PartyRoleType.Admin, PartyRoleType.Subscriber], mouthsToFeed: 1)
-        UserCO userCO5 = new UserCO(isEnabled: true, name: 'Chandan Luthra', email: 'chandan@intelligrape.com', password: '1234', roles: [PartyRoleType.Admin, PartyRoleType.Subscriber], mouthsToFeed: 1,)
+        UserCO userCO1 = new UserCO(isEnabled: true, name: 'Brent Fisher', email: 'bc.fisher@yahoo.com', password: 'L3uv3n!', roles: [PartyRoleType.SuperAdmin.name()])
+        UserCO userCO2 = new UserCO(isEnabled: true, name: 'Colleen Fisher', email: 'colleen_fisher@yahoo.com', password: 'L3uv3n!', roles: [PartyRoleType.SuperAdmin.name()])
+        UserCO userCO3 = new UserCO(isEnabled: true, name: 'Marie Ricks', email: 'marie@houseoforder.com', password: 'M4ri3#', roles: [PartyRoleType.Subscriber.name()], mouthsToFeed: 1)
+        UserCO userCO4 = new UserCO(isEnabled: true, name: 'Aman Aggarwal', email: 'aman@intelligrape.com', password: '1234', roles: [PartyRoleType.Admin.name(), PartyRoleType.Subscriber.name()], mouthsToFeed: 1)
+        UserCO userCO5 = new UserCO(isEnabled: true, name: 'Chandan Luthra', email: 'chandan@intelligrape.com', password: '1234', roles: [PartyRoleType.Admin.name(), PartyRoleType.Subscriber.name()], mouthsToFeed: 1,)
         [userCO1, userCO2, userCO3, userCO4, userCO5].each {it.createParty()}
     }
 
