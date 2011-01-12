@@ -1,4 +1,4 @@
-<%@ page import="org.codehaus.groovy.grails.commons.ConfigurationHolder" %>
+<%@ page import="com.mp.domain.PartyRoleType; com.mp.tools.UserTools; org.codehaus.groovy.grails.commons.ConfigurationHolder" %>
 <div id="viewmenu">
 
     <ul>
@@ -13,9 +13,11 @@
                         <li id="printMonthlyMenuPlanBtn"><a href="">Print Monthly Menu Plan</a></li>
                         %{--<li><a href="">Print Weekly Menu Plan</a></li>--}%
                         <li id="printMenuPlanRecipesBtn"><a href="">Print Menu Plan Recipes</a></li>
-                        <li>
-                            <g:link controller="shoppingList" class="createShoppingListLinkFT" action="generateShoppingList" id="${menuPlan?.id}">Create Shopping List</g:link>
-                        </li>
+                        <g:if test="${UserTools.currentUser && ((UserTools.currentUser.party.roles*.type in [PartyRoleType.Admin, PartyRoleType.SuperAdmin])|| (UserTools.currentUser.party == menuPlan.owner))}">
+                            <li>
+                                <g:link controller="shoppingList" class="createShoppingListLinkFT" action="generateShoppingList" id="${menuPlan?.id}">Create Shopping List</g:link>
+                            </li>
+                        </g:if>
                         <li>
                             <g:if test="${(party?.coach)}">
                                 <mp:shareThis coachId="${party?.uniqueId}" shareUrl="${createLink(controller:'menuPlan',action:'show',id:menuPlan.id,absolute:true)}"/>
