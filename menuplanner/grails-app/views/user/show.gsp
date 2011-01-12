@@ -1,4 +1,4 @@
-<%@ page import="com.mp.subscriptions.SubscriptionStatus; com.mp.domain.Permission; org.apache.commons.lang.StringUtils; org.codehaus.groovy.grails.commons.ConfigurationHolder; com.mp.domain.party.*; com.mp.domain.*" %>
+<%@ page import="com.mp.tools.UserTools; com.mp.subscriptions.SubscriptionStatus; com.mp.domain.Permission; org.apache.commons.lang.StringUtils; org.codehaus.groovy.grails.commons.ConfigurationHolder; com.mp.domain.party.*; com.mp.domain.*" %>
 <html>
 <head>
     <meta name="layout" content="menu"/>
@@ -70,7 +70,9 @@
                 </div>
                 <div id="rightpanel">
                     <ul>
-                        <li><span><strong>Email :</strong></span><label>${party?.email}</label></li>
+                        <g:if test="${UserTools.currentUser && ((UserTools.currentUser.party.roles*.type in [PartyRoleType.Admin, PartyRoleType.SuperAdmin])|| (UserTools.currentUser.party == party))}">
+                            <li><span><strong>Email :</strong></span><label>${party?.email}</label></li>
+                        </g:if>
                         <li><span><strong>Name :</strong></span><label>${party?.name}</label></li>
                         <g:if test="${party?.subscriber}">
                             <li><span><strong>City :</strong></span><label>${party?.subscriber?.city ?: ''}</label></li>
