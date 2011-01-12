@@ -195,7 +195,6 @@ class Recipe extends Item implements Commentable, Rateable {
         directions cascade: 'all-delete-orphan'
         ingredients cascade: 'all-delete-orphan'
         sort 'name'
-        cache true
     }
 
     boolean equals(final Object o) {

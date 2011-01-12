@@ -20,6 +20,7 @@ class Product extends Item {
 
     static mapping = {
         tablePerHierarchy false
+        sort 'name'
     }
 
     def beforeInsert = {

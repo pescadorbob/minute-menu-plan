@@ -93,9 +93,11 @@ class MenuPlanController {
             List<Week> weeks = menuPlan.weeks
             menuPlan.weeks = []
             weeks*.delete(flush: true)
+            flash.message = "Your changes have been saved successfully to ${menuPlan?.name}"
         } else {
             menuPlan = new MenuPlan()
             menuPlan.owner = UserTools.currentUser.party
+            flash.message = "Menu Plan ${params.menuPlan?.name} has been created successfully"
         }
         menuPlan.name = params.menuPlan.name
         (0..3).each {Integer weekIndex ->

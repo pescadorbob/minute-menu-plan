@@ -17,6 +17,7 @@ class MeasurableProduct extends Product{
 
     static mapping = {
         tablePerHierarchy false
+        sort 'name'
     }
 
     boolean equals(final Object o) {

@@ -17,7 +17,7 @@
             </div>
             <div class="leftbox clearfix">
                 <g:if test="${flash.message}">
-                    <div id="flashMsgTst" class="userFlashMessage">
+                    <div id="flashMsgTst" class="flashMessage">
                         ${flash.message}
                     </div>
                 </g:if>

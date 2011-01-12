@@ -17,7 +17,7 @@ import com.mp.domain.CommentAbuse
 import com.mp.domain.RecipeAbuse
 import com.mp.domain.PartyRoleType
 
-class Party {
+public class Party {
     String name
     Date joiningDate
     FacebookAccount facebookAccount

@@ -160,6 +160,7 @@ class RecipeController {
     def update = {RecipeCO recipeCO ->
         if (recipeCO.validate()) {
             Recipe recipe = recipeCO.updateRecipe()
+            flash.message = "Your changes have been saved successfully to ${recipeCO.name}"
             redirect(action: 'show', id: recipeCO?.id)
             searchableService.reindex(class: Recipe, recipe?.id)
         } else {
@@ -180,6 +181,7 @@ class RecipeController {
             loggedUser?.party?.addToContributions(recipe)
             loggedUser.party?.s()
             searchableService.index(class: Recipe, recipe?.id)
+            flash.message = "Recipe ${recipe.name} has been created successfully"
             redirect(action: 'show', id: recipe?.id)
         } else {
             recipeCO.errors.allErrors.each {
@@ -242,6 +244,7 @@ class RecipeController {
         LoginCredential user = UserTools.currentUser
         Comment comment = Comment.get(params.id)
         new CommentAbuse(comment: comment, reporter: user?.party).s()
+        flash.message = "Abuse has been reported to the Administrator"
         redirect(action: 'show', id: params.recipeId)
     }
     def removeCommentAbuse = {
@@ -267,6 +270,7 @@ class RecipeController {
         recipeAbuse.recipe = Recipe.get(params?.id?.toLong())
         recipeAbuse.reporter = UserTools.currentUser?.party
         recipeAbuse.s()
+        flash.message = "Abuse has been reported to the Administrator"
         redirect(action: 'show', id: params?.id)
     }
     def removeRecipeAbuse = {
