@@ -116,11 +116,12 @@ class LoginFunctionalTests extends MenuPlannerFunctionalTests {
         urls.add("/recipe/show/${recipe.id}")
         urls.add("/recipe/edit/${recipe.id}")
         urls.add("/shoppingList/show/${shoppingList.id}")
-        urls.add("/shoppingList/edit/${shoppingList.id}")
+        urls.add("/shoppingList/edit?shoppingListId=${shoppingList.id}")
         urls.add("/user/show/${user.id}")
         urls.add("/menuPlan/show/${menuPlan.id}")
         urls.add("/menuPlan/edit/${menuPlan.id}")
         urls.each {String url ->
+            println "********** URL: " + url
             get(url)
             assertStatus(200)
         }
