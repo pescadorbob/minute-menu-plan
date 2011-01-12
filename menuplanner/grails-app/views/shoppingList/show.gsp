@@ -1,4 +1,4 @@
-<%@ page import="com.mp.domain.*" %>
+<%@ page import="com.mp.tools.UserTools; com.mp.domain.*" %>
 <html>
 <head>
     <meta name="layout" content="menu"/>
@@ -53,7 +53,10 @@
             <div class="winterButton">
             <ul><li>
                 <g:form name="formDetailShoppingList">
+                    <g:if test="${UserTools.currentUser && ((UserTools.currentUser.party.roles*.type in [PartyRoleType.Admin, PartyRoleType.SuperAdmin])|| (UserTools.currentUser.party == shoppingList.party))}">
                     <g:actionSubmit class="button" controller="shoppingList" action="edit" name="edit" value="Edit"/>
+                    <g:actionSubmit class="button" controller="shoppingList" action="delete" name="delete" value="Delete" onclick="return confirm('Are you sure?');"/>
+                        </g:if>
                     </li></ul>
                 </div>
                     <g:render template="/shoppingList/showShoppingListData" model="[shoppingList: shoppingList]"/>
@@ -61,7 +64,10 @@
                     <ul><li>
 
                     <g:hiddenField name="shoppingListId" value="${shoppingList?.id}"/>
+                    <g:if test="${UserTools.currentUser && ((UserTools.currentUser.party.roles*.type in [PartyRoleType.Admin, PartyRoleType.SuperAdmin])|| (UserTools.currentUser.party == shoppingList.party))}">
                     <g:actionSubmit class="button editShoppingListButtonFT" controller="shoppingList" action="edit" name="edit" value="Edit"/>
+                    <g:actionSubmit class="button" controller="shoppingList" action="delete" name="delete" value="Delete" onclick="return confirm('Are you sure?');"/>
+                    </g:if>
                 </g:form>
             </li></ul>
             </div>

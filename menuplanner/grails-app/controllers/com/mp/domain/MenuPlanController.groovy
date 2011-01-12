@@ -56,6 +56,36 @@ class MenuPlanController {
         render(view: 'edit', model: [menuPlan: menuPlan, categories: categories, subCategories: subCategories, itemList: results, itemTotal: total, openInNewWindow: true])
     }
 
+    def delete = {
+        MenuPlan menuPlan = MenuPlan.get(params.id)
+        LoginCredential loggedUser = UserTools.currentUser
+        if (menuPlan) {
+            try {
+                flash.message = message(code: 'menuPlan.deleted.success')
+                MenuPlan.withTransaction{
+                    List<ShoppingList> shoppingLists = ShoppingList.findAllByMenuPlan(menuPlan)
+                    shoppingLists.each{
+                        it.menuPlan = null
+                        it.s()
+                    }
+                    menuPlan.delete(flush: true)
+                }
+                redirect(uri: '/')
+                return
+            }
+            catch (org.springframework.dao.DataIntegrityViolationException e) {
+                flash.message = message(code: 'menuPlan.deleted.unsuccess')
+                redirect(action: "show", id: params.id)
+                return
+            }
+        }
+        else {
+            flash.message = "No such Menu Plan exists."
+            redirect(uri: '/')
+            return
+        }
+    }
+
     def saveAndUpdate = {
         MenuPlan menuPlan
         if (params.id) {

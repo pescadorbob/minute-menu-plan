@@ -24,6 +24,30 @@ class ShoppingListController {
         render(view: 'generateShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: mouthsToFeed])
     }
 
+    def delete = {
+        ShoppingList shoppingList = ShoppingList.get(params.shoppingListId)
+        if (shoppingList) {
+            try {
+                flash.message = message(code: 'shoppingList.deleted.success')
+                ShoppingList.withTransaction {
+                    shoppingList.delete(flush: true)
+                }
+                redirect(uri: '/')
+                return
+            }
+            catch (org.springframework.dao.DataIntegrityViolationException e) {
+                flash.message = message(code: 'shoppingList.deleted.unsuccess')
+                redirect(action: "show", id: params.id)
+                return
+            }
+        }
+        else {
+            flash.message = "No such Shopping List exists."
+            redirect(uri: '/')
+            return
+        }
+    }
+
     def createOriginal = {PrintShoppingListCO pslCO ->
         pslCO.areServingsRequired = false
         pslCO.areWeeksRequired = (params.shoppingList == "GENERATE_WITH_WEEKS")
@@ -149,16 +173,20 @@ class ShoppingListController {
 
     def edit = {
         ShoppingList shoppingList = ShoppingList.get(params?.shoppingListId?.toLong())
-        LoginCredential user = UserTools.currentUser
-        PrintShoppingListCO pslCO = new PrintShoppingListCO()
-        pslCO.name = shoppingList?.name
-        pslCO.menuPlanId = shoppingList?.menuPlan?.id
-        pslCO.servings = shoppingList?.servings
-        pslCO.isWeeklyShoppingList = shoppingList?.isWeeklyShoppingList
-        pslCO.weeks = shoppingList?.weeklyShoppingLists*.weekIndex*.toString()
-        List<MenuPlan> menuPlans = user?.party?.menuPlans as List
-        Integer mouthsToFeed = user?.party?.subscriber?.mouthsToFeed
-        render(view: 'generateShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, shoppingListId: shoppingList?.id, isWeeklyList: shoppingList?.isWeeklyShoppingList, servings: mouthsToFeed, shoppingList: shoppingList])
+        if (shoppingList.menuPlan) {
+            LoginCredential user = UserTools.currentUser
+            PrintShoppingListCO pslCO = new PrintShoppingListCO()
+            pslCO.name = shoppingList?.name
+            pslCO.menuPlanId = shoppingList?.menuPlan?.id
+            pslCO.servings = shoppingList?.servings
+            pslCO.isWeeklyShoppingList = shoppingList?.isWeeklyShoppingList
+            pslCO.weeks = shoppingList?.weeklyShoppingLists*.weekIndex*.toString()
+            List<MenuPlan> menuPlans = user?.party?.menuPlans as List
+            Integer mouthsToFeed = user?.party?.subscriber?.mouthsToFeed
+            render(view: 'generateShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, shoppingListId: shoppingList?.id, isWeeklyList: shoppingList?.isWeeklyShoppingList, servings: mouthsToFeed, shoppingList: shoppingList])
+        } else {
+            render(view: 'create', model: [shoppingList: shoppingList, shoppingListId: shoppingList?.id, isWeeklyList: shoppingList?.isWeeklyShoppingList])
+        }
     }
 
     def modifyShoppingListOriginal = {PrintShoppingListCO pslCO ->

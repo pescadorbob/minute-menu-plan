@@ -37,6 +37,7 @@
 .resultContainer .ui-state-highlight{ /*border: 1px dotted black !important;*/ display:none;}
 .downArrow{background:#FCFCFC url(../images/arrows.gif) no-repeat scroll right top}
 .menuContainer img:hover { cursor: pointer;}
+.menuContainer a {text-decoration: none; color: #E67432;}
 .ui-sortable-placeholder {border: 1px dotted black; visibility: visible !important;}
 .ui-sortable-placeholder * {visibility: hidden;background:#ff0000;}
 .ratingbox{clear:both;font-size:11px;color:#fff; font-family:Arial, Helvetica, sans-serif;}
