@@ -16,6 +16,11 @@
 <div id="container">
     <div id="wrapper" class="clearfix">
         <div id="content-wrapper" class="clearfix">
+            <g:if test="${flash.message}">
+                <div id="flashMsgTst" class="flashMessage">
+                    ${flash.message}
+                </div>
+            </g:if>
             <div class="headbox">
                 <h3>${shoppingList?.name}</h3>
             </div>

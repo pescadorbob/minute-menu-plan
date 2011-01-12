@@ -10,8 +10,8 @@ class LoginController {
     def asynchronousMailService
 
     def index = {
-        flash.message = ""
         if (UserTools.currentUser) {
+            flash.message = flash.message //This is required to forward any flash message from previous request during redirects
             redirect(controller: 'recipe', action: 'list')
         } else {
             render(view: 'home', model: [homePage: ThemeTools.activePage, testimonials: Testimonial.findAllByShowOnHomepage(true)])

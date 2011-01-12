@@ -9,7 +9,7 @@ class PartyRole {
     Date activeTo
     static belongsTo = [party: Party]
   static hasMany = [roleAccess: RoleAccess]
-      
+
     static constraints = {
       activeTo(nullable:true)
     }

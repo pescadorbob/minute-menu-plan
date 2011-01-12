@@ -23,6 +23,11 @@
 </head>
 <body>
 <div id="content-wrapper" class="clearfix">
+    <g:if test="${flash.message}">
+        <div id="flashMsgTst" class="flashMessage">
+            ${flash.message}
+        </div>
+    </g:if>
     <div id="left-panel">
         <g:render template="/menuPlan/actions" model="[menuPlan:menuPlan]"/>
         <g:render template="/quickFill/quickFills"/>

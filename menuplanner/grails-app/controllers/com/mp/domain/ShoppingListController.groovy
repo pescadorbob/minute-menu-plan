@@ -164,6 +164,7 @@ class ShoppingListController {
             shoppingList.addToWeeklyShoppingLists(weeklyShoppingList)
             weeklyShoppingList.s()
         }
+        flash.message = "Shopping List ${shoppingList?.name} has been created successfully"
         redirect(controller: 'shoppingList', action: 'show', id: shoppingList?.id)
     }
 
@@ -304,6 +305,7 @@ class ShoppingListController {
             shoppingList.addToWeeklyShoppingLists(weeklyShoppingList)
             weeklyShoppingList.s()
         }
+        flash.message = "Your changes have been saved successfully to ${shoppingList?.name}"
         redirect(controller: 'shoppingList', action: 'show', id: shoppingList?.id)
     }
 

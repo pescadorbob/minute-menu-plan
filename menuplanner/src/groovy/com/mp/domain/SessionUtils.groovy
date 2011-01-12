@@ -2,7 +2,7 @@ package com.mp.domain
 
 import org.springframework.web.context.request.RequestContextHolder
 
-class SessionUtils {
+public class SessionUtils {
 	public static session
     public static request
 
