@@ -17,6 +17,7 @@ class ShoppingList {
 
     static mapping = {
         weeklyShoppingLists casade: 'all-delete-orphan', fetch: 'join'
+        sort 'name'
     }
 
     static constraints = {

@@ -15,6 +15,7 @@ class MenuPlan {
 
     static mapping = {
         weeks casade: 'all-delete-orphan', fetch: 'join'
+        sort 'name'
     }
 
     String toString() {
