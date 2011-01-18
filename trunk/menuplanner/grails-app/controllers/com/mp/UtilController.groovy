@@ -12,6 +12,8 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile
 import com.mp.domain.party.Party
 import com.mp.domain.access.PermissionLevel
 import com.mp.domain.access.SecurityRole
+import com.mp.domain.party.Subscriber
+import org.apache.commons.codec.digest.DigestUtils
 
 class UtilController {
     def excelService
@@ -25,22 +27,11 @@ class UtilController {
 
     static config = ConfigurationHolder.config
 
-    def paypal = {
-        println "Success"
-        render "Success"
-    }
-
-    def cancelPaypal = {
-        println "Cancelled"
-        render "Cancelled"
-    }
-
     def index = {
         render "success"
     }
 
-
-    def updateSecurityRole={
+    def updateSecurityRole = {
         //Delete security roles and permissions, then create again
         SecurityRole.list().each {SecurityRole securityRole ->
             List<PermissionLevel> tempPermissionLevels = securityRole.permissionLevels as List
@@ -54,10 +45,10 @@ class UtilController {
         render "Updated Roles"
     }
 
-    def updateUniqueId={
-        Party.list().each{
-            if(!it.uniqueId){
-                it.uniqueId=UUID.randomUUID().toString()
+    def updateUniqueId = {
+        Party.list().each {
+            if (!it.uniqueId) {
+                it.uniqueId = UUID.randomUUID().toString()
             }
         }
         render "Updated UUID"

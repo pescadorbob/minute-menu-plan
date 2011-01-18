@@ -1,19 +1,25 @@
 package com.mp.domain.subscriptions
 
 import com.mp.tools.UserTools
-import com.mp.subscriptions.paypal.TransactionType
+import javax.servlet.http.Cookie
+import com.mp.subscriptions.paypal.PayPalTransactionType
 import com.mp.domain.accounting.AccountRole
 import com.mp.domain.accounting.AccountRoleType
 import com.mp.domain.party.Party
 import com.mp.domain.accounting.Account
-import com.mp.domain.accounting.OperationalAccount
-import static com.mp.MenuConstants.MMP_OPERATIONAL_ACCOUNT
+
 import com.mp.domain.accounting.AccountTransactionType
 import com.mp.domain.accounting.AccountTransaction
 import org.apache.commons.httpclient.HttpClient
 import org.apache.commons.httpclient.methods.PostMethod
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import com.mp.domain.VerificationToken
+import com.mp.domain.UserCO
+import com.mp.domain.PartyRoleType
+import org.apache.commons.codec.digest.DigestUtils
+import javax.servlet.http.HttpServletRequest
+import com.mp.domain.UserLogin
+import com.mp.subscriptions.clickBank.ClickBankTransactionType
 
 class SubscriptionController {
 
@@ -21,6 +27,17 @@ class SubscriptionController {
     def subscriptionService
     def accountingService
     def asynchronousMailService
+
+    private Long getCoachIdForClickBank(String customVariablesString) {
+        Map customVariables = [:]
+        customVariablesString.tokenize('&').each {String keyValue ->
+            def (String key, String value) = keyValue.tokenize('=')
+            if (key && value) {
+                customVariables[key] = value
+            }
+        }
+        return customVariables['coachId'] as Long
+    }
 
     def paymentConfirm = {
         render(view: '/subscription/confirm')
@@ -31,22 +48,64 @@ class SubscriptionController {
     }
 
     def clickBankConfirm = {
-        render "Cofirmed"
+        String email = params.cemail
+        String name = params.cname
+        render (view: "/subscription/clickBankConfirm", model: [name: name, email: email])
     }
 
     def clickBankNotify = {
-        render "Notified"
-    }
+        boolean isValid = validateRequestFromClickBank(request)
+        println "Validation: " + isValid
+        if (isValid) {
+            Party.withTransaction {
+                String transactionType = params.ctransaction
+                String transactionId = params.txn_id ?: UUID.randomUUID().toString()
 
-    boolean validateRequestFromPayPal(String requestParameters) {
-        HttpClient client = new HttpClient()
-        String notificationUrl = ConfigurationHolder.config.grails.paypal.server + "?cmd=_notify-validate&" + requestParameters
-        println "Notification URL: " + notificationUrl
-        PostMethod method = new PostMethod(notificationUrl)
-        int returnCode = client.executeMethod(method)
-        def response = method.getResponseBodyAsString()
-        println "Response: " + response
-        return (response == 'VERIFIED')
+                UserLogin userLogin = UserLogin.findByEmail(params.ccustemail)
+                Party party
+                AccountRole accountRole
+                Account account
+                Date now = new Date()
+                if (userLogin) {
+                    party = userLogin.party
+                    accountRole = AccountRole.findByTypeAndRoleFor(AccountRoleType.OWNER, party)
+                    account = accountRole?.describes
+                } else {
+                    UserCO userCO = new UserCO()
+                    userCO.name = params.ccustfullname
+                    userCO.email = params.ccustemail
+                    userCO.roles = [PartyRoleType.Subscriber.name()]
+                    userCO.password = params.ctransreceipt
+                    userCO.confirmPassword = params.ctransreceipt
+                    userCO.city = params.ccustcity
+                    Long coachId = getCoachIdForClickBank(params.cvendthru)
+                    if(coachId){
+                        userCO.coachId = coachId
+                    }
+                    party = userCO.createParty()
+                    account = accountingService.createNewAccount(party)
+                }
+
+                if(transactionType.startsWith('TEST')){transactionType -= 'TEST_'}
+                switch (transactionType) {
+                    case ClickBankTransactionType.SUBSCRIPTION_SIGNUP.name:
+                        subscriptionService.createSubscriptionForUserSignUp(party, params.long('cproditem'))
+                        if (party.isEnabled == null) {
+                            sendVerificationEmail(party)
+                        }
+                        break;
+                    case ClickBankTransactionType.SUBSCRIPTION_CANCELLED.name:
+                        new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription has been cancelled", transactionType: AccountTransactionType.SUBSCRIPTION_CANCELLED).s()
+                        break;
+                    case ClickBankTransactionType.SUBSCRIPTION_PAYMENT.name:
+                        Float amount = params.crebillamnt ? (params.long('crebillamnt') / 100).toFloat() : 0.0f
+                        new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: amount, description: "Subscription Payment Received: *** THANK YOU", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
+                        break;
+                }
+
+            }
+        }
+
     }
 
     def paymentNotify = {
@@ -67,32 +126,24 @@ class SubscriptionController {
                 Date now = new Date()
 
                 switch (transactionType) {
-                    case TransactionType.SUBSCRIPTION_SIGNUP.name:
+                    case PayPalTransactionType.SUBSCRIPTION_SIGNUP.name:
                         subscriptionService.createSubscriptionForUserSignUp(party, params.long('item_number'))
                         if (party.isEnabled == null) {
-                            VerificationToken verificationToken = new VerificationToken()
-                            verificationToken.party = party
-                            verificationToken.s()
-
-                            asynchronousMailService.sendAsynchronousMail {
-                                to party.userLogin.email
-                                subject "Email verification for Minute Menu Plan"
-                                html g.render(template: '/user/accountVerification', model: [party: party, email: party.email, token: verificationToken.token])
-                            }
+                            sendVerificationEmail(party)
                         }
                         break;
-                    case TransactionType.SUBSCRIPTION_CANCELLED.name:
-                        new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription through Paypal has been cancelled", transactionType: AccountTransactionType.SUBSCRIPTION_CANCELLED).s()
+                    case PayPalTransactionType.SUBSCRIPTION_CANCELLED.name:
+                        new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription has been cancelled", transactionType: AccountTransactionType.SUBSCRIPTION_CANCELLED).s()
                         break;
-                    case TransactionType.SUBSCRIPTION_EXPIRED.name:
-                        new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription through Paypal has expired", transactionType: AccountTransactionType.SUBSCRIPTION_EXPIRED).s()
+                    case PayPalTransactionType.SUBSCRIPTION_EXPIRED.name:
+                        new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription has expired", transactionType: AccountTransactionType.SUBSCRIPTION_EXPIRED).s()
                         break;
-                    case TransactionType.SUBSCRIPTION_FAILED.name:
-                        new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription Payment through Paypal has failed", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT_FAILED).s()
+                    case PayPalTransactionType.SUBSCRIPTION_FAILED.name:
+                        new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription Payment has failed", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT_FAILED).s()
                         break;
-                    case TransactionType.SUBSCRIPTION_PAYMENT.name:
+                    case PayPalTransactionType.SUBSCRIPTION_PAYMENT.name:
                         Float amount = params.float('amount3') ?: params.float('payment_gross')
-                        new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: amount, description: "Subscription Payment Through Paypal: *** THANK YOU", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
+                        new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: amount, description: "Subscription Payment Received: *** THANK YOU", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
                         break;
                 }
             }
@@ -121,6 +172,16 @@ class SubscriptionController {
                 item_description: item_description, item_price: item_price, item_currency: item_currency,
                 item_quantity: item_quantity, userId: userId.toLong(), item_number: po.id])
     }
+
+    def createClickBankSubscription = {
+        List<Cookie> cookies = request.cookies as List
+        Cookie coachId = cookies.find {it.name == 'coachId'}
+        int productId = ConfigurationHolder.config.grails.clickBank.featuredPlanId
+        String vendorKey = ConfigurationHolder.config.grails.clickBank.vendorKey
+        String url = "http://${productId}.${vendorKey}.pay.clickbank.net" + ((coachId)? "?coachId=${coachId.value}" : '' )
+        redirect(url: url)
+    }
+
     def list = {
         def now = new Date()
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
@@ -222,4 +283,53 @@ class SubscriptionController {
             redirect(action: "list")
         }
     }
+
+    private void sendVerificationEmail(Party party) {
+        VerificationToken verificationToken = new VerificationToken()
+        verificationToken.party = party
+        verificationToken.s()
+
+        asynchronousMailService.sendAsynchronousMail {
+            to party.userLogin.email
+            subject "Email verification for Minute Menu Plan"
+            html g.render(template: '/user/accountVerification', model: [party: party, email: party.email, token: verificationToken.token])
+        }
+    }
+
+    private boolean validateRequestFromPayPal(String requestParameters) {
+        HttpClient client = new HttpClient()
+        String notificationUrl = ConfigurationHolder.config.grails.paypal.server + "?cmd=_notify-validate&" + requestParameters
+        println "Notification URL: " + notificationUrl
+        PostMethod method = new PostMethod(notificationUrl)
+        int returnCode = client.executeMethod(method)
+        def response = method.getResponseBodyAsString()
+        println "Response: " + response
+        return (response == 'VERIFIED')
+    }
+
+    private boolean validateRequestFromClickBank(HttpServletRequest request) {
+        String secretKey = ConfigurationHolder.config.grails.clickBank.secretKey
+        List ipnFields = new ArrayList();
+        @SuppressWarnings("rawtypes")
+        Enumeration params = request.getParameterNames();
+        while (params.hasMoreElements()) {
+            String param = (String) params.nextElement();
+            // cverify is computed by all POST parameters so any get parameters
+            // on the notification url should be skipped as well.
+            if (param.equals("cverify")) {
+                continue;
+            }
+            ipnFields.add(param);
+        }
+        Collections.sort(ipnFields);
+        StringBuilder pop = new StringBuilder();
+        for (String field: ipnFields) {
+            pop.append(request.getParameter(field));
+            pop.append("|");
+        }
+        pop.append(secretKey);
+        String expectedCVerify = DigestUtils.shaHex(pop.toString().getBytes("UTF-8")).substring(0, 8);
+        return expectedCVerify.equalsIgnoreCase(request.getParameter("cverify"));
+    }
+
 }

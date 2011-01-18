@@ -33,6 +33,8 @@ import org.apache.commons.math.stat.descriptive.summary.Product
 
 public class SubscriptionService {
 
+    boolean transactional = true
+
     def accountingService
 
     public void renewSubscription(Party party, ProductOffering productOffering, Date startDate = new Date()) {
