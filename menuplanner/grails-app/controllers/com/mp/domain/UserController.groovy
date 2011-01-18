@@ -170,6 +170,15 @@ class UserController {
         render(view: 'chooseSubscription', model: [availableProducts: ProductOffering.list(), userCO: userCO])
 
     }
+
+    def clickBankPromotion = {
+        Long clickBankFeaturedPlanId = ConfigurationHolder.config.grails.clickBank.featuredPlanId
+        if(clickBankFeaturedPlanId && ProductOffering.exists(clickBankFeaturedPlanId)) {
+            render(view: 'clickBankLink')
+        } else {
+            render(view: 'noClickBankPromotion')
+        }
+    }
     def createUser = {
         UserCO userCO = new UserCO()
         render(view: 'createUser', model: [userCO: userCO])
@@ -344,6 +353,31 @@ class UserController {
             }
         }
     }
+
+//    def newClickBankSubscription = {UserCO userCO ->
+//        println "Inside action newClickBankSubscription"
+////        Party currentParty = UserTools.currentUser?.party
+////        if (currentParty) {
+////            userCO = new UserCO(currentParty)
+////                forward(action: 'createClickBankSubscription', controller: 'subscription', params: [userId: currentParty.id])
+////        } else {
+////            userCO.isEnabled = null
+//
+////            if (coachId) {
+////                userCO.coachId = coachId.value
+////            }
+////            if (!userCO.hasErrors()) {
+////                Party party = userCO.createParty()
+////                println "Created PArty: " + party?.id
+////                forward(action: 'createClickBankSubscription', controller: 'subscription', params: [userId: party.id])
+////            } else {
+////                userCO.errors.allErrors.each {
+////                    println it
+////                }
+//                render(view: 'clickBankPromotion', model: [userCO: userCO])
+////            }
+////        }
+//    }
 
     def newUserCheckout = {UserCO userCO ->
         Party currentParty = UserTools.currentUser?.party
@@ -689,6 +723,7 @@ class UserCO {
     }
 
     public Party createParty() {
+        println "Inside create PArty method.."
         Party party
         Party.withTransaction {
             party = new Party(name: name)
@@ -696,8 +731,11 @@ class UserCO {
             LoginCredential loginCredential = new UserLogin(email: email, password: password.encodeAsBase64(), party: party)
             party.loginCredentials = [loginCredential] as Set
             party.s()
+            println "roles: " + roles
 
             if (PartyRoleType.Subscriber.name() in roles) {
+                println "Inside subscriber"
+                println "X"
                 Subscriber subscriber = new Subscriber()
                 subscriber.city = city
                 subscriber.mouthsToFeed = mouthsToFeed
@@ -706,6 +744,7 @@ class UserCO {
                 subscriber.party.showAlcoholicContent = showAlcoholicContent
                 attachImage(subscriber, selectUserImagePath)
                 subscriber.s()
+                println "subscriber Id: " + subscriber.id
                 if (coachId) {
                     Coach coach = Coach.get(coachId)
                     if (coach) {
@@ -734,6 +773,7 @@ class UserCO {
                 }
             }
         }
+        party = party.refresh()
         return party
     }
 

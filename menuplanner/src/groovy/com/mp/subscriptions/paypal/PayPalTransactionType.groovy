@@ -1,6 +1,6 @@
 package com.mp.subscriptions.paypal;
 
-public enum TransactionType {
+public enum PayPalTransactionType {
     SUBSCRIPTION_CANCELLED('subscr_cancel'),
     SUBSCRIPTION_EXPIRED('subscr_eot'),
     SUBSCRIPTION_FAILED('subscr_failed'),
@@ -9,7 +9,7 @@ public enum TransactionType {
 
     String name
 
-    TransactionType(String name){
+    PayPalTransactionType(String name){
         this.name = name
     }
 
