@@ -55,7 +55,7 @@ class SubscriptionController {
 
     def clickBankNotify = {
         if (params.ctransaction == 'TEST') {
-            response.setStatus(200, 'NOTIFICATION RECEIVED')
+            render 'NOTIFICATION RECEIVED'
         } else {
 
             boolean isValid = validateRequestFromClickBank(request)
