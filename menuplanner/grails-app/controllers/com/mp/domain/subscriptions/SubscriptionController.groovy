@@ -94,6 +94,8 @@ class SubscriptionController {
                     switch (transactionType) {
                         case ClickBankTransactionType.SUBSCRIPTION_SIGNUP.name:
                             subscriptionService.createSubscriptionForUserSignUp(party, params.long('cproditem'))
+                            Float amount = params.crebillamnt ? (params.long('crebillamnt') / 100).toFloat() : 0.0f
+                            new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: amount, description: "Subscription Payment Received: *** THANK YOU", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
                             if (party.isEnabled == null) {
                                 sendVerificationEmail(party)
                             }
