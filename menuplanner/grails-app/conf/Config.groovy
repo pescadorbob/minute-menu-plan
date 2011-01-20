@@ -173,10 +173,10 @@ environments {
             shareThisKey = "d50f28c4-1205-472e-93eb-ca6165bb6cf9"
         }
         uiperformance.enabled = false
-        grails.clickBank.featuredPlanId = 3
-        grails.clickBank.vendorKey = "mmpqa"
-        grails.clickBank.secretKey = "MMPQASECRETKEY"
-        grails.clickBank.paymentLink = "http://3.mmpqa.pay.clickbank.net"
+        grails.clickBank.featuredPlanId = 1
+        grails.clickBank.vendorKey = "mmpdev"
+        grails.clickBank.secretKey = "MMPDEVSECRETKEY"
+        grails.clickBank.paymentLink = "http://1.mmpdev.pay.clickbank.net"
     }
     test {
         google.analytics.enabled = false
@@ -218,9 +218,9 @@ environments {
             shareThisKey = "d50f28c4-1205-472e-93eb-ca6165bb6cf9"
         }
         grails.clickBank.featuredPlanId = 3
-        grails.clickBank.vendorKey = "mmpdev"
-        grails.clickBank.secretKey = "MMPDEVSECRETKEY"
-        grails.clickBank.paymentLink = "http://3.mmpdev.pay.clickbank.net"
+        grails.clickBank.vendorKey = "mmpqa"
+        grails.clickBank.secretKey = "MMPQASECRETKEY"
+        grails.clickBank.paymentLink = "http://3.mmpqa.pay.clickbank.net"
     }
     beta {
         google.analytics.webPropertyID = 'UA-18954005-1'
