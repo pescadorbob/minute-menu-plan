@@ -220,7 +220,7 @@ environments {
         grails.clickBank.featuredPlanId = 3
         grails.clickBank.vendorKey = "mmpdev"
         grails.clickBank.secretKey = "MMPDEVSECRETKEY"
-        grails.clickBank.paymentLink = "http://1.mmpdev.pay.clickbank.net"
+        grails.clickBank.paymentLink = "http://3.mmpdev.pay.clickbank.net"
     }
     beta {
         google.analytics.webPropertyID = 'UA-18954005-1'
