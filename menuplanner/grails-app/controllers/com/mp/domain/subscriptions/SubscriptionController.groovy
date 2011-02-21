@@ -63,53 +63,56 @@ class SubscriptionController {
             if (isValid) {
                 Party.withTransaction {
                     String transactionType = params.ctransaction
-                    String transactionId = params.txn_id ?: UUID.randomUUID().toString()
+                    String transactionId = params.ctransreceipt ?: UUID.randomUUID().toString()
 
-                    UserLogin userLogin = UserLogin.findByEmail(params.ccustemail)
-                    Party party
-                    AccountRole accountRole
-                    Account account
-                    Date now = new Date()
-                    if (userLogin) {
-                        party = userLogin.party
-                        accountRole = AccountRole.findByTypeAndRoleFor(AccountRoleType.OWNER, party)
-                        account = accountRole?.describes
-                    } else {
-                        UserCO userCO = new UserCO()
-                        userCO.name = params.ccustfullname
-                        userCO.email = params.ccustemail
-                        userCO.roles = [PartyRoleType.Subscriber.name()]
-                        userCO.password = params.ctransreceipt
-                        userCO.confirmPassword = params.ctransreceipt
-                        userCO.city = params.ccustcity
-                        Long coachId = getCoachIdForClickBank(params.cvendthru)
-                        if (coachId) {
-                            userCO.coachId = coachId
-                        }
-                        party = userCO.createParty()
-                        account = accountingService.createNewAccount(party)
-                    }
-
-                    if (transactionType.startsWith('TEST')) {transactionType -= 'TEST_'}
-                    switch (transactionType) {
-                        case ClickBankTransactionType.SUBSCRIPTION_SIGNUP.name:
-                            subscriptionService.createSubscriptionForUserSignUp(party, params.long('cproditem'))
-                            Float amount = params.crebillamnt ? (params.long('crebillamnt') / 100).toFloat() : 0.0f
-                            new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: amount, description: "Subscription Payment Received: *** THANK YOU", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
-                            if (party.isEnabled == null) {
-                                sendVerificationEmail(party)
+                    if (!AccountTransaction.countByUniqueId(transactionId)) {
+                        UserLogin userLogin = UserLogin.findByEmail(params.ccustemail)
+                        Party party
+                        AccountRole accountRole
+                        Account account
+                        Date now = new Date()
+                        if (userLogin) {
+                            party = userLogin.party
+                            accountRole = AccountRole.findByTypeAndRoleFor(AccountRoleType.OWNER, party)
+                            account = accountRole?.describes
+                        } else {
+                            UserCO userCO = new UserCO()
+                            userCO.name = params.ccustfullname
+                            userCO.email = params.ccustemail
+                            userCO.roles = [PartyRoleType.Subscriber.name()]
+                            userCO.password = params.ctransreceipt
+                            userCO.confirmPassword = params.ctransreceipt
+                            userCO.city = params.ccustcity
+                            Long coachId = getCoachIdForClickBank(params.cvendthru)
+                            if (coachId) {
+                                userCO.coachId = coachId
                             }
-                            break;
-                        case ClickBankTransactionType.SUBSCRIPTION_CANCELLED.name:
-                            new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription has been cancelled", transactionType: AccountTransactionType.SUBSCRIPTION_CANCELLED).s()
-                            break;
-                        case ClickBankTransactionType.SUBSCRIPTION_PAYMENT.name:
-                            Float amount = params.crebillamnt ? (params.long('crebillamnt') / 100).toFloat() : 0.0f
-                            new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: amount, description: "Subscription Payment Received: *** THANK YOU", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
-                            break;
+                            party = userCO.createParty()
+                            account = accountingService.createNewAccount(party)
+                        }
+
+                        if (transactionType.startsWith('TEST')) {transactionType -= 'TEST_'}
+                        switch (transactionType) {
+                            case ClickBankTransactionType.SUBSCRIPTION_SIGNUP.name:
+                                subscriptionService.createSubscriptionForUserSignUp(party, params.long('cproditem'))
+                                Float amount = params.crebillamnt ? (params.long('crebillamnt') / 100).toFloat() : 0.0f
+                                new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: amount, description: "Subscription Payment Received: *** THANK YOU", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
+                                party.isEnabled = true
+                                party.s()
+                                sendWelcomeEmail(party)
+                                break;
+                            case ClickBankTransactionType.SUBSCRIPTION_CANCELLED.name:
+                                new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription has been cancelled", transactionType: AccountTransactionType.SUBSCRIPTION_CANCELLED).s()
+                                break;
+                            case ClickBankTransactionType.SUBSCRIPTION_PAYMENT.name:
+                                Float amount = params.crebillamnt ? (params.long('crebillamnt') / 100).toFloat() : 0.0f
+                                new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: amount, description: "Subscription Payment Received: *** THANK YOU", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
+                                break;
+                        }
                     }
 
                 }
+                render 'NOTIFICATION RECEIVED'
             }
         }
 
@@ -123,7 +126,7 @@ class SubscriptionController {
             String transactionType = params.txn_type
             String transactionId = params.txn_id ?: UUID.randomUUID().toString()
             Long partyId = params.long('custom')
-            if (transactionType && partyId && Party.exists(partyId)) {
+            if (!AccountTransaction.countByUniqueId(transactionId) && transactionType && partyId && Party.exists(partyId)) {
                 Party party = Party.get(partyId)
                 AccountRole accountRole = AccountRole.findByTypeAndRoleFor(AccountRoleType.OWNER, party)
                 Account account = accountRole?.describes
@@ -300,6 +303,14 @@ class SubscriptionController {
             to party.userLogin.email
             subject "Email verification for Minute Menu Plan"
             html g.render(template: '/user/accountVerification', model: [party: party, email: party.email, token: verificationToken.token])
+        }
+    }
+
+    private void sendWelcomeEmail(Party party) {
+        asynchronousMailService.sendAsynchronousMail {
+            to party.userLogin.email
+            subject "Welcome to Minute Menu Plan"
+            html g.render(template: '/user/welcomeEmail', model: [party: party])
         }
     }
 

@@ -23,12 +23,11 @@ class UtilController {
     def utilService
     def masterDataBootStrapService
     def messageSource
-    Object[] testArgs = {}
 
     static config = ConfigurationHolder.config
 
     def index = {
-        render "success"
+        render "No code here"
     }
 
     def updateSecurityRole = {
@@ -52,11 +51,6 @@ class UtilController {
             }
         }
         render "Updated UUID"
-    }
-
-    String getMessage(String key) {
-        def keyValue = messageSource.resolveCode(key, new java.util.Locale("EN"))
-        return keyValue?.format(testArgs)
     }
 
     def uploadRecipes = {

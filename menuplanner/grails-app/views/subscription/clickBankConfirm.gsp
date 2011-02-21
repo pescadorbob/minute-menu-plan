@@ -13,7 +13,8 @@
                 <div class="headbox">
                 <h3>Your payment has been processed successfully.</h3>
                     </div>
-                <span>Hi <b>${name}</b>, an email has been sent to <b>${email}</b>. Please click on <b>'Confirm Email'</b> link to confirm your email address. After confirmation, use following credentials to log-into the website:</span><br/><br/>
+                <span>Hi <b>${name}</b>, Welcome to <b>Minute Menu Plan.</b></span><br/><br/>
+                <span>You can log-into the website using following credentials:</span><br/><br/>
                 <span><b>Email: </b> ${email}</span><br/>
                 <span><b>Password: </b> [Your ClickBank Order Number]</span>
 
