@@ -18,6 +18,9 @@ public class PtyTagLib {
       out << body()
     }
   }
+  def coachID = {attrs, body ->
+    out << UserTools.getCurrentUser().party.uniqueId
+  }
   def coaches = {attrs, body ->
     def var = attrs.var ? attrs.var : "coach"
     def party = attrs.party ? attrs.party : null

@@ -1,4 +1,4 @@
-package com.mp.domain
+package menuplan
 
 import grails.test.*
 

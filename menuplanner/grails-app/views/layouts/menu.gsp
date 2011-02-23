@@ -19,7 +19,7 @@
         <div id="logo"><a href="${resource(dir: '/')}">
             <p:image src='logo.gif'/>
         </a>
-            <h1><nobr>Plan Your Month's Menu in a Minute!</nobr></h1>
+            <h1><nobr>Plan Your Month&apos;s Menu in a Minute!</nobr></h1>
         </div>
         <g:render template="/layouts/navigationBar"/>
     </div>

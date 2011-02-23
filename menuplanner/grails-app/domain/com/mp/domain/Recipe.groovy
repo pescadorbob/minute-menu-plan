@@ -12,7 +12,6 @@ class Recipe extends Item implements Commentable, Rateable {
 
     static searchable = true
 
-    static config = ConfigurationHolder.config
 
     RecipeDifficulty difficulty
     Image image
@@ -35,7 +34,7 @@ class Recipe extends Item implements Commentable, Rateable {
     Date dateCreated
 
     String getImageDir() {
-        return (config.recipesRootDir + this?.id + '/')
+        return (ConfigurationHolder.config.recipesRootDir + this?.id + '/')
     }
 
     void deleteImage() {
@@ -84,7 +83,7 @@ class Recipe extends Item implements Commentable, Rateable {
 
     List<Party> getFavouriteForUsers() {
         List<Party> users = []
-        if (!config.bootstrapMode) {
+        if (!ConfigurationHolder.config.bootstrapMode) {
             users = Party.createCriteria().list {
                 favourites {
                     eq('id', this.id)
@@ -96,7 +95,7 @@ class Recipe extends Item implements Commentable, Rateable {
 
     String getContributorsString() {
         String searchString = ''
-        if (!config.bootstrapMode) {
+        if (!ConfigurationHolder.config.bootstrapMode) {
             Party p = contributor
             searchString = (p) ? NumberTools.longToString(p?.id) : NumberTools.longToString(0L)
         }
@@ -113,10 +112,12 @@ class Recipe extends Item implements Commentable, Rateable {
 
     public void validateTimings() {
         if (!preparationTime) {
-            preparationTime = new Quantity(value: (config.bootstrapMode ? 10 : 1), unit: Unit.findByName(TIME_UNIT_MINUTES), savedUnit: Unit.findByName(TIME_UNIT_MINUTES)).s()
+            preparationTime = new Quantity(value: (ConfigurationHolder.config.bootstrapMode ? 10 : 1),
+                    unit: Unit.findByName(TIME_UNIT_MINUTES), savedUnit: Unit.findByName(TIME_UNIT_MINUTES)).s()
         }
         if (!cookingTime) {
-            cookingTime = new Quantity(value: (config.bootstrapMode ? 10 : 0), unit: Unit.findByName(TIME_UNIT_MINUTES), savedUnit: Unit.findByName(TIME_UNIT_MINUTES)).s()
+            cookingTime = new Quantity(value: (ConfigurationHolder.config.bootstrapMode ? 10 : 0), unit: Unit.findByName(TIME_UNIT_MINUTES),
+                    savedUnit: Unit.findByName(TIME_UNIT_MINUTES)).s()
         }
     }
 

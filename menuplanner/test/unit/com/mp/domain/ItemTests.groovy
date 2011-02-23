@@ -2,13 +2,27 @@ package com.mp.domain
 
 import grails.test.*
 import com.mp.domain.party.Party
+import com.mp.MenuConstants
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import static com.mp.MenuConstants.*
 
 class ItemTests extends GrailsUnitTestCase {
     protected void setUp() {
         super.setUp()
+        mockConfig '''bootstrapMode:true'''
+        def recipeInstances = []
         def instances = []
         def productInstances = []
         def measurableProductInstances = []
+
+        def unitInstances = [new Time(name: TIME_UNIT_MINUTES, symbol: TIME_UNIT_MINUTES_SYMBOL,
+              definition: "This is definition for minutes", metricType: MetricType.TIME)]
+        def quantityInstances = []
+        Object.metaClass.s = MenuConstants.s
+
+        mockDomain(Quantity, quantityInstances)
+        mockDomain(Unit, unitInstances)
+        mockDomain(Recipe, recipeInstances)
         mockDomain(Item, instances)
         mockDomain(Product, productInstances)
         mockDomain(MeasurableProduct, measurableProductInstances)
@@ -52,7 +66,8 @@ class ItemTests extends GrailsUnitTestCase {
     void test_getItemsForUser_First_User_Recipe_Invisible_To_Another() {
         Party party1 = Party.get(1)
         Party party2 = Party.get(2)
-        createRecipeInstances(10, party1)
+        def recs = createRecipeInstances(10, party1)
+        assertEquals "Recipes weren't created",10,recs.size()
         List<Item> recipeByUser = Item.getItemsForUser(party1)
         assertEquals "Unable to create recipes for user", 10, recipeByUser.size()
         List<Item> recipeForUser = Item.getItemsForUser(party2)
@@ -62,9 +77,10 @@ class ItemTests extends GrailsUnitTestCase {
     void test_getItemsForUser_First_User_Recipe_Visible_To_Another() {
         Party party1 = Party.get(1)
         Party party2 = Party.get(2)
-        createRecipeInstances(10, party1, true)
+        def recs = createRecipeInstances(10, party1,true)
+        assertEquals "Recipes weren't created",10,recs.size()
         List<Item> recipeByUser = Item.getItemsForUser(party1)
-        assertEquals "Unable to create recipes for user", 10, recipeByUser.size()
+        assertEquals "Unable to get recipes for user", 10, recipeByUser.size()
         List<Item> recipeForUser = Item.getItemsForUser(party2)
         assertEquals "Invisible recipe visible in other user's list", 10, recipeForUser.size()
     }
@@ -296,7 +312,7 @@ class ItemTests extends GrailsUnitTestCase {
     }
 
 
-    void createRecipeInstances(Integer count, Party party, Boolean shareWithCommunity = false, Boolean containsAlcohol = false) {
+    def createRecipeInstances(Integer count, Party party, Boolean shareWithCommunity = false, Boolean containsAlcohol = false) {
         (1..count).each {
             Item item = Item.get(1)
             RecipeIngredient recipeIngredient = new RecipeIngredient(ingredient: item)
@@ -312,6 +328,7 @@ class ItemTests extends GrailsUnitTestCase {
             party.contributions += recipe
             party.save()
         }
+      party.contributions
     }
 
     void createProductInstances(Integer count, Party party, Boolean containsAlcohol = false) {

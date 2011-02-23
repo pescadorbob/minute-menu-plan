@@ -7,6 +7,7 @@ class AisleTests extends GrailsUnitTestCase {
 
     protected void setUp() {
         super.setUp()
+        mockConfig '''bootstrapMode:true'''
         def partyInstances = []
         mockDomain(Party, partyInstances)
         mockDomain(Aisle)

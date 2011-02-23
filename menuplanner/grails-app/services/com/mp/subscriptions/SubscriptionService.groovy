@@ -1,25 +1,20 @@
 package com.mp.subscriptions
 
-import com.mp.domain.party.Party
-import com.mp.domain.subscriptions.Subscription
-import com.mp.domain.subscriptions.ControllerActionFeature
-import com.mp.domain.party.Subscriber
-import com.mp.domain.subscriptions.ProductOffering
-import groovy.time.TimeCategory
+import com.mp.MenuConstants
 import com.mp.domain.access.AccessFilter
 import com.mp.domain.access.AccessFilterType
-import com.mp.domain.subscriptions.ProductOfferingSubscription
-import com.mp.domain.subscriptions.ProductOfferingApplicability
-import com.mp.domain.accounting.OperationalAccount
-import com.mp.domain.accounting.AccountRoleType
-import com.mp.domain.accounting.AccountRole
-import com.mp.domain.accounting.Account
-import com.mp.domain.accounting.AccountTransactionType
-import static com.mp.MenuConstants.MMP_OPERATIONAL_ACCOUNT
+import com.mp.domain.party.Party
+import com.mp.domain.party.Subscriber
 import com.mp.domain.subscriptions.PricingComponent
-import com.mp.domain.accounting.AccountTransaction
+import com.mp.domain.subscriptions.ProductOffering
 import com.mp.domain.subscriptions.RecurringCharge
-import org.apache.commons.math.stat.descriptive.summary.Product
+import groovy.time.TimeCategory
+import static com.mp.MenuConstants.MMP_OPERATIONAL_ACCOUNT
+import com.mp.domain.accounting.*
+import com.mp.domain.subscriptions.ControllerActionFeature
+import com.mp.domain.subscriptions.ProductOfferingApplicability
+import com.mp.domain.subscriptions.ProductOfferingSubscription
+
 
 /**
  * Created on Nov 28, 2010
@@ -72,7 +67,9 @@ public class SubscriptionService {
     }
 
 
-
+    private void generateSubscription(partyName,poName,startDate = new Date()){
+      generateSubscription(Party.findByName(partyName),ProductOffering.findByName("1 Month Free Trial"))
+    }
     private void generateSubscription(Party party, ProductOffering productOffering, startDate = new Date()) {
         def start
         def endDate
