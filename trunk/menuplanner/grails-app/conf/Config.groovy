@@ -13,7 +13,7 @@ import com.mp.tools.UserTools
 // }
 grails.rateable.rater.evaluator = { UserTools.currentUser }
 grails.views.javascript.library = "jquery"
-grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
+grails.mime.file.extensions = false // enables the parsing of file extensions from URLs into the request format
 grails.mime.use.accept.header = false
 grails.mime.types = [html: ['text/html', 'application/xhtml+xml'],
         xml: ['text/xml', 'application/xml'],
@@ -117,6 +117,7 @@ uiperformance.bundles = [
                         'securityRole']]
 
 ]
+weceem.content.prefix = 'mpcontent'
 
 fckeditor {
     upload {

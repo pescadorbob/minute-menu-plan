@@ -20,69 +20,64 @@ import com.mp.domain.accounting.AccountTransaction
 import com.mp.domain.subscriptions.Subscription
 import com.mp.domain.access.SecurityRole
 import com.mp.domain.access.AccessFilterSet
-import com.mp.domain.subscriptions.ProductOffering
+import com.mp.MenuConstants
 
 class BootStrap {
 
-    def dataSource
-    def grailsApplication
-    def bootstrapService
-    def subscriptionService
-    def masterDataBootStrapService
-    def excelService
-    def searchableService
-    def recipeService
-    static config = ConfigurationHolder.config
+  def dataSource
+  def grailsApplication
+  def bootstrapService
+  def subscriptionService
+  def masterDataBootStrapService
+  def excelService
+  def searchableService
+  def recipeService
+  def wcmSecurityService
+  static config = ConfigurationHolder.config
 
-    def init = {servletContext ->
-        config.bootstrapMode = true
-        // Inject the helper s() method
-        Object.metaClass.s = {
-            def object = delegate.save(flush: true)
-            if (!object) {
-                delegate.errors.allErrors.each {
-                    println it
-                }
-            }
-            object
+
+  def init = {servletContext ->
+//    wcmSecurityService.securityDelegate = WcmSecurityDelegate.delegate
+    config.bootstrapMode = true
+    // Inject the helper s() method
+    Object.metaClass.s = MenuConstants.s
+
+    Object.metaClass.trimLength = {Integer stringLength ->
+
+      String trimString = delegate?.toString()
+      String concatenateString = "..."
+      List separators = [".", " "]
+
+      if (stringLength && (trimString?.length() > stringLength)) {
+        trimString = trimString.substring(0, stringLength - concatenateString.length())
+        String separator = separators.findAll {trimString.contains(it)}?.min {trimString.lastIndexOf(it)}
+        if (separator) {
+          trimString = trimString.substring(0, trimString.lastIndexOf(separator))
         }
+        trimString += concatenateString
+      }
+      return trimString
+    }
 
-        Object.metaClass.trimLength = {Integer stringLength ->
+    Fraction.metaClass.constructor << {String stringToParse ->
+      new ProperFractionFormat().parse(stringToParse)
+    }
 
-            String trimString = delegate?.toString()
-            String concatenateString = "..."
-            List separators = [".", " "]
+    Fraction.metaClass.myFormatUsingProperFractionFormat = {->
+      String f = new ProperFractionFormat().format(delegate, new StringBuffer(), new FieldPosition(0))?.toString()
+      if (f && f.endsWith('0 / 1')) {
+        f = f.tokenize(" ").first()
+      }
+      return f
+    }
 
-            if (stringLength && (trimString?.length() > stringLength)) {
-                trimString = trimString.substring(0, stringLength - concatenateString.length())
-                String separator = separators.findAll {trimString.contains(it)}?.min {trimString.lastIndexOf(it)}
-                if (separator) {
-                    trimString = trimString.substring(0, trimString.lastIndexOf(separator))
-                }
-                trimString += concatenateString
-            }
-            return trimString
-        }
+    Fraction.metaClass.myFormatUsingFractionFormat = {->
+      new FractionFormat().format(delegate)
+    }
 
-        Fraction.metaClass.constructor << {String stringToParse ->
-            new ProperFractionFormat().parse(stringToParse)
-        }
-
-        Fraction.metaClass.myFormatUsingProperFractionFormat = {->
-            String f = new ProperFractionFormat().format(delegate, new StringBuffer(), new FieldPosition(0))?.toString()
-            if (f && f.endsWith('0 / 1')) {
-                f = f.tokenize(" ").first()
-            }
-            return f
-        }
-
-        Fraction.metaClass.myFormatUsingFractionFormat = {->
-            new FractionFormat().format(delegate)
-        }
-
-        bootstrapMasterData()
+    bootstrapMasterData()
 //        if (false) {
-        if ((GrailsUtil.environment != Environment.PRODUCTION) && !Subscriber.count()) {
+    if ((GrailsUtil.environment != Environment.PRODUCTION) && !Subscriber.count()) {
 
             if (GrailsUtil.environment in ['qa', 'beta']) {
                 bootstrapService.populateBetaUsers()
@@ -100,29 +95,29 @@ class BootStrap {
 
 
 
-            String recipeFileName = (GrailsUtil.environment in ['qa', 'beta']) ? "/bootstrapData/recipeSpreadsheet.xls" : "/bootstrapData/recipeSpreadsheet_test.xls"
-            File recipeExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath(recipeFileName))
-            List<String> recipeLog = excelService.createLineItems(recipeExcelFile)
-            println "Populated Recipes"
-            bootstrapService.addCommentsFavouriteAndContributed()
-            println "Added Comments Favourite And Contributed"
-            if (GrailsUtil.environment == 'test') {
-                bootstrapService.addAbusesOnCommentsAndRecipes()
-                println "Added abuses on comments & recipes"
-                List<Party> users = Party.list()
-                users.each {Party user ->
-                    bootstrapService.populateMenuPlans(user)
-                }
-                println "Populated Menu Plans"
-                List<MenuPlan> menuPlans = MenuPlan.list()
-                menuPlans.each {MenuPlan menuPlan ->
-                    bootstrapService.populateShoppingList(menuPlan)
-                }
-                println "Populated Shopping Lists"
-            }
-            bootstrapService.populateQuickFills(5)
-            println "Populated Quick Fills"
+      String recipeFileName = (GrailsUtil.environment in ['qa', 'beta']) ? "/bootstrapData/recipeSpreadsheet.xls" : "/bootstrapData/recipeSpreadsheet_test.xls"
+      File recipeExcelFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath(recipeFileName))
+      List<String> recipeLog = excelService.createLineItems(recipeExcelFile)
+      println "Populated Recipes"
+      bootstrapService.addCommentsFavouriteAndContributed()
+      println "Added Comments Favourite And Contributed"
+      if (GrailsUtil.environment == 'test') {
+        bootstrapService.addAbusesOnCommentsAndRecipes()
+        println "Added abuses on comments & recipes"
+        List<Party> users = Party.list()
+        users.each {Party user ->
+          bootstrapService.populateMenuPlans(user)
         }
+        println "Populated Menu Plans"
+        List<MenuPlan> menuPlans = MenuPlan.list()
+        menuPlans.each {MenuPlan menuPlan ->
+          bootstrapService.populateShoppingList(menuPlan)
+        }
+        println "Populated Shopping Lists"
+      }
+      bootstrapService.populateQuickFills(5)
+      println "Populated Quick Fills"
+    }
 
 //      if ((GrailsUtil.environment != Environment.PRODUCTION) && !Subscription.count()) {
 //        def now = new Date()
@@ -132,40 +127,40 @@ class BootStrap {
 //        println "Populated Subscriptions"
 //      }
         if (!(GrailsUtil.environment in ['development', 'qa', 'test'])) {
-            executeLiquibase()
-        }
+      executeLiquibase()
+    }    
 
-        Thread.start {
-            searchableService.index()
-        }
-
-
-        config.bootstrapMode = false
-    }
-    def destroy = {
+    Thread.start {
+      searchableService.index()
     }
 
-    private void executeLiquibase() {
 
-        Liquibase liquibase = null
-        try {
-            def c = dataSource.getConnection()
-            if (c == null) {
-                throw new RuntimeException("Connection could not be created.");
-            }
-            def fileOpener = new FileSystemFileOpener()
-            def database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(c)
-            database.setDefaultSchemaName(c.catalog)
-            String filePath = grailsApplication.isWarDeployed() ? ApplicationHolder.application.parentContext.servletContext.getRealPath("migrations/changelog.xml") : "grails-app/migrations/changelog.xml"
-            liquibase = new Liquibase(filePath, fileOpener, database);
-            liquibase.update(null)
-        }
-        finally {
-            if (liquibase && liquibase.database) {
-                liquibase.database.close()
-            }
-        }
+    config.bootstrapMode = false
+  }
+  def destroy = {
+  }
+
+  private void executeLiquibase() {
+
+    Liquibase liquibase = null
+    try {
+      def c = dataSource.getConnection()
+      if (c == null) {
+        throw new RuntimeException("Connection could not be created.");
+      }
+      def fileOpener = new FileSystemFileOpener()
+      def database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(c)
+      database.setDefaultSchemaName(c.catalog)
+      String filePath = grailsApplication.isWarDeployed() ? ApplicationHolder.application.parentContext.servletContext.getRealPath("migrations/changelog.xml") : "grails-app/migrations/changelog.xml"
+      liquibase = new Liquibase(filePath, fileOpener, database);
+      liquibase.update(null)
     }
+    finally {
+      if (liquibase && liquibase.database) {
+        liquibase.database.close()
+      }
+    }
+  }
 
     private void bootstrapMasterData() {
         masterDataBootStrapService.populateAlcoholicContentList()

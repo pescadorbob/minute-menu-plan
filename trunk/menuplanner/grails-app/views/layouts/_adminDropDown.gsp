@@ -14,6 +14,9 @@
                 <g:if test="${(permission.hasPermission(permission: Permission.MANAGE_TESTIMONIAL))}">
                     <g:link class="testimonialLinkFT" name="manageTestimonials" controller="testimonial" action="list">Testimonials</g:link>
                 </g:if>
+                <g:if test="${(permission.hasPermission(permission: Permission.MANAGE_THEMES))}">
+                    <g:link class="testimonialLinkFT" name="manageContent" controller="wcmRepository">Manage Content</g:link>
+                </g:if>
             </li>
             <li>
                 <g:if test="${(permission.hasPermission(permission: Permission.MANAGE_SUBSCRIPTIONS))}">

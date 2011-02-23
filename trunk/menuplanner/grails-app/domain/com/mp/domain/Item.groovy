@@ -48,7 +48,8 @@ class Item {
         List<Item> itemsByUser = []
         List<Item> recipesByUser = []
         if (!party.showAlcoholicContent) {
-            items = Item?.findAllByNameIlikeAndIsAlcoholic(matchString, false)?.findAll {it?.shareWithCommunity} as List
+            items = Item?.findAllByNameIlikeAndIsAlcoholic(matchString, false) as List
+            items = items?.findAll {it?.shareWithCommunity} as List
             matchString = matchString.replace("%", ".*")
             itemsByUser = party?.ingredients?.findAll {it?.name?.matches(Pattern.compile(matchString, Pattern.CASE_INSENSITIVE)) && (!it.isAlcoholic)} as List
             recipesByUser = (party?.contributions as List).findAll {!it.shareWithCommunity && it?.name?.matches(Pattern.compile(matchString, Pattern.CASE_INSENSITIVE)) && (!it.isAlcoholic)} as List
