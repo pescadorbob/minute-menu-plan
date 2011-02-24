@@ -74,6 +74,8 @@ uiperformance {
     html.includeContentTypes = ['text/html', 'text/xml', 'text/plain', 'application/json']
 }
 
+uiperformance.exclusions = ['**/plugins/**']
+
 uiperformance.bundles = [
         [type: 'js',
                 name: 'allMenuJquery',
