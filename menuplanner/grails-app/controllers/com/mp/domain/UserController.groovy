@@ -18,6 +18,7 @@ import com.mp.domain.party.Administrator
 import com.mp.domain.party.SuperAdmin
 import static com.mp.MenuConstants.USER_IMAGE_SIZES
 import com.mp.domain.subscriptions.RecurringCharge
+import org.codehaus.groovy.grails.validation.Validateable
 
 class UserController {
 
@@ -471,6 +472,7 @@ class UserController {
     }
 
 }
+
 class UserCO {
 
     def asynchronousMailService

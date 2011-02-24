@@ -11,6 +11,7 @@ import com.mp.tools.UserTools
 // if(System.properties["${appName}.config.location"]) {
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
 // }
+grails.validateable.classes = [com.mp.domain.UserCO]
 grails.rateable.rater.evaluator = { UserTools.currentUser }
 grails.views.javascript.library = "jquery"
 grails.mime.file.extensions = false // enables the parsing of file extensions from URLs into the request format
