@@ -138,9 +138,9 @@ class SubscriptionController {
                 switch (transactionType) {
                     case PayPalTransactionType.SUBSCRIPTION_SIGNUP.name:
                         subscriptionService.createSubscriptionForUserSignUp(party, params.long('item_number'))
-                        if (party.isEnabled == null) {
-                            sendVerificationEmail(party)
-                        }
+                        party.isEnabled = true
+                        party.s()
+                        sendWelcomeEmail(party)
                         break;
                     case PayPalTransactionType.SUBSCRIPTION_CANCELLED.name:
                         new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription has been cancelled", transactionType: AccountTransactionType.SUBSCRIPTION_CANCELLED).s()
