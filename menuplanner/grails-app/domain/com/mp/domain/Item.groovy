@@ -48,18 +48,29 @@ class Item {
         List<Item> itemsByUser = []
         List<Item> recipesByUser = []
         if (!party.showAlcoholicContent) {
-            items = Item?.findAllByNameIlikeAndIsAlcoholic(matchString, false) as List
+            if(matchString == '%%'){
+                items = Item?.findAllByIsAlcoholic(false) as List
+                items.addAll(Recipe?.findAllByIsAlcoholic(false) as List)
+                items.addAll(Product?.findAllByIsAlcoholic(false) as List)
+                items.addAll(MeasurableProduct?.findAllByIsAlcoholic(false) as List)
+            } else {
+                items = Item?.findAllByNameIlikeAndIsAlcoholic(matchString, false) as List
+                items.addAll(Recipe?.findAllByNameIlikeAndIsAlcoholic(matchString, false) as List)
+                items.addAll(Product?.findAllByNameIlikeAndIsAlcoholic(matchString, false) as List)
+                items.addAll(MeasurableProduct?.findAllByNameIlikeAndIsAlcoholic(matchString, false) as List)
+            }
             items = items?.findAll {it?.shareWithCommunity} as List
             matchString = matchString.replace("%", ".*")
-            itemsByUser = party?.ingredients?.findAll {it?.name?.matches(Pattern.compile(matchString, Pattern.CASE_INSENSITIVE)) && (!it.isAlcoholic)} as List
-            recipesByUser = (party?.contributions as List).findAll {!it.shareWithCommunity && it?.name?.matches(Pattern.compile(matchString, Pattern.CASE_INSENSITIVE)) && (!it.isAlcoholic)} as List
+            itemsByUser = party?.ingredients?.findAll {!it.isAlcoholic && it?.name?.matches(Pattern.compile(matchString, Pattern.CASE_INSENSITIVE))} as List
+            recipesByUser = (party?.contributions as List).findAll {it?.name?.matches(Pattern.compile(matchString, Pattern.CASE_INSENSITIVE)) && (!it.isAlcoholic)} as List
         } else {
             items = Item?.findAllByNameIlike(matchString)?.findAll {it?.shareWithCommunity} as List
             matchString = matchString.replace("%", ".*")
             itemsByUser = party?.ingredients?.findAll {it?.name?.matches(Pattern.compile(matchString, Pattern.CASE_INSENSITIVE))} as List
-            recipesByUser = (party?.contributions as List).findAll {!it.shareWithCommunity && it?.name?.matches(Pattern.compile(matchString, Pattern.CASE_INSENSITIVE))} as List
+            recipesByUser = (party?.contributions as List).findAll {it?.name?.matches(Pattern.compile(matchString, Pattern.CASE_INSENSITIVE))} as List
         }
         totalItems = items + itemsByUser + recipesByUser
+        totalItems.unique()
         return totalItems.sort {it.name}
     }
 
