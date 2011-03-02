@@ -31,6 +31,7 @@
                     <g:link class="manageProductOfferingLinkFT" name="manageProductOffering" controller="productOffering" action="list">Product Offerings</g:link>
                     <g:link class="manageRecurringChargesLinkFT" name="manageRecurringCharges" controller="recurringCharge" action="list">Recurring Charges</g:link>
                     <g:link class="manageSubscriptionsLinkFT" name="manageSubscriptions" controller="subscription" action="list">Subscriptions</g:link>
+                    <g:link class="manageAccessFiltersFT" name="manageAccessFilters" controller="accessFilter" action="list">Access Fitlers</g:link>
                 </g:if>
                 %{--<a>Featured plans</a>--}%
             </li>

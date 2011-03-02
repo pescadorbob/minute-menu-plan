@@ -5,6 +5,8 @@ import com.mp.domain.access.AccessFilterType
 import javax.servlet.http.HttpServletResponse
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.Cookie
+import grails.util.GrailsUtil
+import org.codehaus.groovy.grails.commons.GrailsApplication
 
 /**
  * Created on Dec 4, 2010
@@ -17,7 +19,7 @@ import javax.servlet.http.Cookie
  */
 
 public class AccessTools {
-  static boolean isUnrestrictedAccess(String controller, String action, HttpServletResponse response,
+  static boolean isUnrestrictedAccess(String controller, String action, String uri, HttpServletResponse response,
                                       HttpServletRequest request, Cookie guestVisitor) {
     Date now = new Date()
     def unrestrictedAccessFilters = AccessFilter.withCriteria {
@@ -30,10 +32,13 @@ public class AccessTools {
         }
       }
     }
+    if (GrailsUtil.environment != GrailsApplication.ENV_PRODUCTION) {
+        println("Access Log:${new Date()}:uri[${uri}] controller:[${controller}] action[${action}]");
+    }
     boolean isUnrestrictedAccess = (unrestrictedAccessFilters && unrestrictedAccessFilters.findAll {
       (!it.controllerFilter || controller ==~ it.controllerFilter) &&
               (!it.actionFilter || action ==~ it.actionFilter) &&
-              (!it.uriFilter || request.requestURI ==~ it.uriFilter)
+              (!it.uriFilter || uri ==~ it.uriFilter)
     }.size() > 0)
     return isUnrestrictedAccess
   }
