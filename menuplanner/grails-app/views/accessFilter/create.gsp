@@ -73,7 +73,7 @@
                                     <label for="filterFor"><g:message code="accessFilter.filterFor.label" default="Filter For" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: accessFilter, field: 'filterFor', 'errors')}">
-                                    <g:select name="filterFor.id" from="${com.mp.domain.access.AccessFilterSet.list()}" optionKey="id" value="${accessFilter?.filterFor?.id}"  />
+                                    <g:select name="filterFor.id" from="${com.mp.domain.access.AccessFilterSet.list().collect{[name:it.name,id:it.id]}}" optionKey="id" value="${accessFilter?.filterFor?.id}"  />
                                 </td>
                             </tr>
                         
