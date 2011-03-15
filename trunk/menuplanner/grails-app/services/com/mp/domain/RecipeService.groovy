@@ -5,6 +5,7 @@ import static com.mp.MenuConstants.*
 import org.apache.commons.math.fraction.ProperFractionFormat
 import com.mp.domain.party.Party
 import com.mp.tools.UserTools
+import org.apache.lucene.document.NumberTools
 
 
 class RecipeService {
@@ -27,74 +28,42 @@ class RecipeService {
 
     public List<Recipe> getFilteredRecipeList(Integer max = 15, Long offset = 0) {
         Party currentUser = UserTools.currentUser?.party
-        Set<Recipe> currentUserRecipes = currentUser?.contributions
-        List<Recipe> recipes = Recipe.createCriteria().list {
-            or {
-                eq('shareWithCommunity', true)
-                if (currentUserRecipes) {
-                    'in'('id', currentUserRecipes*.id)
-                }
-            }
-            if (!currentUser?.showAlcoholicContent) {
-                eq('isAlcoholic', false)
-            }
-            maxResults(max)
-            firstResult(offset.toInteger())
+        String query = "(shareWithCommunity:true OR contributorsString:${NumberTools.longToString(currentUser.id ? currentUser.id : 0)})"
+        if (!currentUser?.showAlcoholicContent) { query += "  isAlcoholic:false" }
+        def recipes = Recipe.search([reload: true, max: max, offset: offset]) {
+            must(queryString(query))
         }
-        return recipes
+        return recipes?.results
     }
 
     public Integer getFilteredRecipeCount() {
         Party currentUser = UserTools.currentUser?.party
-        Set<Recipe> currentUserRecipes = currentUser?.contributions
-        Integer count = Recipe.createCriteria().count {
-            or {
-                eq('shareWithCommunity', true)
-                if (currentUserRecipes) {
-                    'in'('id', currentUserRecipes*.id)
-                }
-            }
-            if (!currentUser?.showAlcoholicContent) {
-                eq('isAlcoholic', false)
-            }
+        String query = "(shareWithCommunity:true OR contributorsString:${NumberTools.longToString(currentUser.id ? currentUser.id : 0)})"
+        if (!currentUser?.showAlcoholicContent) { query += "  isAlcoholic:false" }
+        def recipes = Recipe.search([reload: true]) {
+            must(queryString(query))
         }
-        return count
+        return recipes?.total
     }
 
     public List<Item> getFilteredItemList(Integer max = 15, Long offset = 0) {
-        Party currentParty = UserTools.currentUser?.party
-        Set<Item> currentUserItems = []
-        currentUserItems.addAll(currentParty?.contributions)
-        currentUserItems.addAll(currentParty?.ingredients)
-        List<Item> items = Item.createCriteria().list {
-            or {
-                eq('shareWithCommunity', true)
-                'in'('id', currentUserItems*.id)
-            }
-            if (!currentParty?.showAlcoholicContent) {
-                eq('isAlcoholic', false)
-            }
-            maxResults(max)
-            firstResult(offset.toInteger())
+        Party currentUser = UserTools.currentUser?.party
+        String query = "(shareWithCommunity:true OR contributorsString:${NumberTools.longToString(currentUser.id ? currentUser.id : 0)})"
+        if (!currentUser?.showAlcoholicContent) { query += "  isAlcoholic:false" }
+        def items = Item.search([reload: true, max: max, offset: offset]) {
+            must(queryString(query))
         }
-        return items
+        return items?.results
     }
 
     public Integer getFilteredItemCount() {
-        Party currentParty = UserTools.currentUser?.party
-        Set<Item> currentUserItems = []
-        currentUserItems.addAll(currentParty?.contributions)
-        currentUserItems.addAll(currentParty?.ingredients)
-        Integer count = Item.createCriteria().count {
-            or {
-                eq('shareWithCommunity', true)
-                'in'('id', currentUserItems*.id)
-            }
-            if (!currentParty?.showAlcoholicContent) {
-                eq('isAlcoholic', false)
-            }
+        Party currentUser = UserTools.currentUser?.party
+        String query = "(shareWithCommunity:true OR contributorsString:${NumberTools.longToString(currentUser.id ? currentUser.id : 0)})"
+        if (!currentUser?.showAlcoholicContent) { query += "  isAlcoholic:false" }
+        def items = Item.search([reload: true]) {
+            must(queryString(query))
         }
-        return count
+        return items?.total
     }
 
     List<RecipeIngredient> getRecipeIngredientsWithCustomServings(Recipe recipe, int customServings) {
