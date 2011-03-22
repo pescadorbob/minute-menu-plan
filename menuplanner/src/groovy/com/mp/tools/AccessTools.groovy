@@ -40,7 +40,6 @@ public class AccessTools {
               (!it.actionFilter || action ==~ it.actionFilter) &&
               (!it.uriFilter || uri ==~ it.uriFilter)
     }.size() > 0)
-//    return true
     return isUnrestrictedAccess
   }
 

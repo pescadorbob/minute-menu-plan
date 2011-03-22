@@ -7,6 +7,7 @@ import com.mp.domain.access.PermissionLevel
 import com.mp.domain.access.SecurityRole
 import com.mp.domain.party.Subscriber
 import com.mp.domain.subscriptions.ProductOffering
+import com.mp.domain.subscriptions.ProductOfferingSubscription
 
 class UtilController {
     def excelService
@@ -26,13 +27,17 @@ class UtilController {
     }
 
     def allocationTrailSubscription = {
+        if(!ProductOfferingSubscription.count()){
         Set<Party> parties = Subscriber.list().findAll {!it.subscriptions}*.party as Set
         println "Parties: " + parties.size()
         parties.each {Party party ->
             accountingService.findOrCreateNewAccount(party)
             subscriptionService.createSubscriptionForUserSignUp(party, ProductOffering.findByName('1 Month Free Trial').id)
         }
-        render "New code here"
+            render "Trail subscription allocated to all users"
+        } else {
+            render "Users have already been allocated trial subscriptions"
+        }
     }
 
     def updateSecurityRole = {
