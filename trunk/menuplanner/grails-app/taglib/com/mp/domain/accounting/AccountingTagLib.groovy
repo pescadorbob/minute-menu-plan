@@ -1,13 +1,7 @@
 package com.mp.domain.accounting
 
-import com.mp.domain.party.DirectorCoach
-import com.mp.domain.party.CoachSubscriber
-import org.codehaus.groovy.grails.plugins.web.taglib.FormatTagLib
-import java.text.NumberFormat
-import javax.swing.text.NumberFormatter
 import java.text.DecimalFormat
 import com.mp.domain.UserLogin
-import org.hibernate.Criteria
 
 public class AccountingTagLib {
   static namespace = "txn"

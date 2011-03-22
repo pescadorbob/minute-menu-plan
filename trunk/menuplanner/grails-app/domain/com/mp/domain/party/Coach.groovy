@@ -9,7 +9,7 @@ class Coach extends PartyRole {
     PartyRoleType type = PartyRoleType.Coach
 
     static transients = ['type']
-    float defaultCommission = 0 // the default commission for coaching
+    float defaultCommission = 0.20f // the default commission for coaching
 
     static constraints = {
       defaultCommission(nullable:true)

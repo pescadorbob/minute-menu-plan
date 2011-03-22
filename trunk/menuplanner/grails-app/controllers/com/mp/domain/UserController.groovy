@@ -385,7 +385,7 @@ class UserController {
         if (currentParty) {
             userCO = new UserCO(currentParty)
             if (params.productId) {
-                forward(action: 'createSubscription', controller: 'subscription', params: [userId: currentParty.id, productId: params.productId])
+                forward(action: 'createSubscription', controller: 'subscription', params: [userId: currentParty.uniqueId, productId: params.productId])
             } else {
                 forward(action: 'chooseSubscription', availableProducts: ProductOffering.list(), userCO: userCO)
             }
@@ -398,7 +398,7 @@ class UserController {
             }
             if (!userCO.hasErrors()) {
                 Party party = userCO.createParty()
-                forward(action: 'createSubscription', controller: 'subscription', params: [userId: party.id, productId: params.productId])
+                forward(action: 'createSubscription', controller: 'subscription', params: [userId: party.uniqueId, productId: params.productId])
             } else {
                 userCO.errors.allErrors.each {
                     println it
@@ -490,7 +490,7 @@ class UserCO {
     List<String> roles = []
     Boolean isEnabled
     Boolean showAlcoholicContent = false
-    long coachId
+    String coachId
     String uniqueId
 
     String id
@@ -513,20 +513,20 @@ class UserCO {
             introduction = party?.subscriber?.introduction
             city = party?.subscriber?.city
             CoachSubscriber cs = CoachSubscriber.withCriteria(uniqueResult: true) {
-                supplier {
-                    idEq(party.subscriber?.id)
+                client {
+                    eq('id',party.subscriber?.id)
                 }
             }
-            if (cs) coachId = cs?.client?.party?.id
+            if (cs) coachId = cs?.supplier?.party?.uniqueId
         }
         if (party?.coach) {
             Coach coach = party?.coach
             DirectorCoach dc = DirectorCoach.withCriteria(uniqueResult: true) {
-                supplier {
-                    idEq(coach.id)
+                client {
+                    eq('id', coach.id)
                 }
             }
-            directorId = dc?.client?.id
+            directorId = dc?.supplier?.id
             uniqueId = party.uniqueId
         }
 
@@ -589,19 +589,6 @@ class UserCO {
         return true
     }
 
-//    public Subscriber convertToUser() {
-//        Subscriber user = new Subscriber()
-//        user.party = new Party()
-//        user.party.name = name
-//        createParty(user)
-//        assignRoles(user)
-//        user?.s()
-//        attachImage(user, selectUserImagePath)
-//        user?.s()
-//        return user
-//    }
-//
-
     public Party updateParty() {
         Party party
         Party.withTransaction {
@@ -641,15 +628,15 @@ class UserCO {
             subscriber.party.showAlcoholicContent = showAlcoholicContent
             subscriber.s()
             if (coachId) {
-                Party coach = Party.get(coachId)
+                Party coach = Party.findByUniqueId(coachId)
                 if (coach) {
                     def cs = CoachSubscriber.withCriteria(uniqueResult: true) {
-                        supplier {
-                            idEq(subscriber.id)
+                        client {
+                            eq('id', subscriber.id)
                         }
                         or {
                             isNull("activeTo")
-                            gt("activeTo": new Date())
+                            gt("activeTo", new Date())
                         }
                     }
                     if (!cs) new CoachSubscriber(client: coach.coach, supplier: subscriber).s()
@@ -668,17 +655,17 @@ class UserCO {
         if ((PartyRoleType.Coach.name() in roles) && !party.coach) {
             Director director = Director.get(directorId)
             if (director) {
-                Coach coach = Coach.findbyPartyId(party.id)
+                Coach coach = Coach.findByParty(party)
                 if (!coach) coach = new Coach(party: party).s()
-                new DirectorCoach(client: director, supplier: coach).s()
+                new DirectorCoach(supplier: director, client: coach).s()
             }
         }
         if ((PartyRoleType.Coach.name() in roles) && party.coach) {
             Director director = Director.get(directorId)
             if (director && (directorId != party?.coach?.id)) {
                 Coach coach = party?.coach
-                DirectorCoach dc = DirectorCoach.findBySupplier(coach)
-                if (!dc) dc = new DirectorCoach(client: director, supplier: coach, activeFrom: new Date()).s()
+                DirectorCoach dc = DirectorCoach.findByClient(coach)
+                if (!dc) dc = new DirectorCoach(supplier: director, client: coach, activeFrom: new Date()).s()
             }
         }
 
@@ -725,7 +712,6 @@ class UserCO {
     }
 
     public Party createParty() {
-        println "Inside create PArty method.."
         Party party
         Party.withTransaction {
             party = new Party(name: name)
@@ -733,11 +719,8 @@ class UserCO {
             LoginCredential loginCredential = new UserLogin(email: email, password: password.encodeAsBase64(), party: party)
             party.loginCredentials = [loginCredential] as Set
             party.s()
-            println "roles: " + roles
 
             if (PartyRoleType.Subscriber.name() in roles) {
-                println "Inside subscriber"
-                println "X"
                 Subscriber subscriber = new Subscriber()
                 subscriber.city = city
                 subscriber.mouthsToFeed = mouthsToFeed
@@ -746,11 +729,10 @@ class UserCO {
                 subscriber.party.showAlcoholicContent = showAlcoholicContent
                 attachImage(subscriber, selectUserImagePath)
                 subscriber.s()
-                println "subscriber Id: " + subscriber.id
                 if (coachId) {
-                    Coach coach = Coach.get(coachId)
+                    Coach coach = Party.findByUniqueId(coachId)?.coach
                     if (coach) {
-                        def cs = new CoachSubscriber(client: coach, supplier: subscriber).s()
+                        def cs = new CoachSubscriber(client: subscriber, supplier: coach, commission: coach.defaultCommission).s()
                         assert cs
                     }
                 }
@@ -770,7 +752,7 @@ class UserCO {
                 Director director = Director.get(directorId)
 
                 if (director) {
-                    DirectorCoach dc = new DirectorCoach(client: director, supplier: coach).s()
+                    DirectorCoach dc = new DirectorCoach(supplier: director, client: coach).s()
                     assert dc && dc.id
                 }
             }
@@ -782,7 +764,7 @@ class UserCO {
     public void enableAndLoginUser(Party party) {
         party?.isEnabled = true
         party?.s()
-        HttpSession currentSession = ConfigurationHolder.config.sessions.find {it.userId == subscriber.id}
+        HttpSession currentSession = ConfigurationHolder.config.sessions.find {it.userId == party.id}
         currentSession.userId = null
         currentSession.loggedUserId = party?.loginCredentials?.toList()?.first()?.id?.toString()
         party.lastLogin = new Date()

@@ -6,8 +6,3 @@ eventCreateWarStart = {warName, File stagingDir ->
 	file.text = process.getText()
 	println "Adding current revision number information in web-app/versionInfo.txt"
 }
-
-eventClasspathStart = {
-  classpathSet = false
-  rootLoader.addURL(new File('grails-app/migrations').toURI().toURL())
-}

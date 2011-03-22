@@ -38,13 +38,11 @@ environments {
 	}
 	qa {
 		dataSource {
-			dbCreate = "update"
 			url = "jdbc:mysql://localhost:3306/menuplanner_qa?autoReconnect=true"
 		}
 	}
 	beta {
 		dataSource {
-			dbCreate = "update"
 			url = "jdbc:mysql://localhost:3306/menuplanner_beta?autoReconnect=true"
 		}
 	}
@@ -52,7 +50,6 @@ environments {
 		dataSource {
 			username = "root"
 			password = "mmdefault"
-			dbCreate = "update"
 			url = "jdbc:mysql://localhost:3306/menuplanner?autoReconnect=true"
 		}
 	}
