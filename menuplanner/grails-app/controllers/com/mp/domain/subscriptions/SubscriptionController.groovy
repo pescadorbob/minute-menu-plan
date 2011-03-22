@@ -28,7 +28,7 @@ class SubscriptionController {
     def accountingService
     def asynchronousMailService
 
-    private Long getCoachIdForClickBank(String customVariablesString) {
+    private String getCoachIdForClickBank(String customVariablesString) {
         Map customVariables = [:]
         customVariablesString.tokenize('&').each {String keyValue ->
             def (String key, String value) = keyValue.tokenize('=')
@@ -36,7 +36,7 @@ class SubscriptionController {
                 customVariables[key] = value
             }
         }
-        return customVariables['coachId'] as Long
+        return customVariables['coachId']
     }
 
     def paymentConfirm = {
@@ -83,18 +83,18 @@ class SubscriptionController {
                             userCO.password = params.ctransreceipt
                             userCO.confirmPassword = params.ctransreceipt
                             userCO.city = params.ccustcity
-                            Long coachId = getCoachIdForClickBank(params.cvendthru)
+                            String coachId = getCoachIdForClickBank(params.cvendthru)
                             if (coachId) {
                                 userCO.coachId = coachId
                             }
                             party = userCO.createParty()
-                            account = accountingService.createNewAccount(party)
+                            account = accountingService.findOrCreateNewAccount(party)
                         }
 
                         if (transactionType.startsWith('TEST')) {transactionType -= 'TEST_'}
                         switch (transactionType) {
                             case ClickBankTransactionType.SUBSCRIPTION_SIGNUP.name:
-                                subscriptionService.createSubscriptionForUserSignUp(party, params.long('cproditem'))
+                                subscriptionService.createSubscriptionForUserSignUp(party, params.long('cproditem'), now, transactionId)
                                 Float amount = params.crebillamnt ? (params.long('crebillamnt') / 100).toFloat() : 0.0f
                                 new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: amount, description: "Subscription Payment Received: *** THANK YOU", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
                                 party.isEnabled = true
@@ -107,6 +107,7 @@ class SubscriptionController {
                             case ClickBankTransactionType.SUBSCRIPTION_PAYMENT.name:
                                 Float amount = params.crebillamnt ? (params.long('crebillamnt') / 100).toFloat() : 0.0f
                                 new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: amount, description: "Subscription Payment Received: *** THANK YOU", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
+                                subscriptionService.makeCoachAndDirectorPayments(party, amount, now, transactionId)
                                 break;
                         }
                     }
@@ -125,19 +126,15 @@ class SubscriptionController {
         if (isValid) {
             String transactionType = params.txn_type
             String transactionId = params.txn_id ?: UUID.randomUUID().toString()
-            Long partyId = params.long('custom')
-            if (!AccountTransaction.countByUniqueId(transactionId) && transactionType && partyId && Party.exists(partyId)) {
-                Party party = Party.get(partyId)
-                AccountRole accountRole = AccountRole.findByTypeAndRoleFor(AccountRoleType.OWNER, party)
-                Account account = accountRole?.describes
-                if (!account) {
-                    account = accountingService.createNewAccount(party)
-                }
+            String partyUniqueId = params.custom
+            if (!AccountTransaction.countByUniqueId(transactionId) && transactionType && partyUniqueId && Party.countByUniqueId(partyUniqueId)) {
+                Party party = Party.findByUniqueId(partyUniqueId)
+                Account account = accountingService.findOrCreateNewAccount(party)
                 Date now = new Date()
 
                 switch (transactionType) {
                     case PayPalTransactionType.SUBSCRIPTION_SIGNUP.name:
-                        subscriptionService.createSubscriptionForUserSignUp(party, params.long('item_number'))
+                        subscriptionService.createSubscriptionForUserSignUp(party, params.long('item_number'), now, transactionId)
                         party.isEnabled = true
                         party.s()
                         sendWelcomeEmail(party)
@@ -154,6 +151,7 @@ class SubscriptionController {
                     case PayPalTransactionType.SUBSCRIPTION_PAYMENT.name:
                         Float amount = params.float('amount3') ?: params.float('payment_gross')
                         new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: amount, description: "Subscription Payment Received: *** THANK YOU", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
+                        subscriptionService.makeCoachAndDirectorPayments(party, amount, now, transactionId)
                         break;
                 }
             }
@@ -174,13 +172,10 @@ class SubscriptionController {
         RecurringCharge rc = po.pricing.toList().first()
         String item_description = rc.description
         String item_price = rc.value
-        String item_currency = "USD"
-        String item_quantity = "1"
         String recurrence = rc.recurrence
         String startAfter = rc.startAfter
         render(view: '/subscription/connectToPaypal', model: [startAfter: startAfter, recurrence: recurrence, item_name: item_name,
-                item_description: item_description, item_price: item_price, item_currency: item_currency,
-                item_quantity: item_quantity, userId: userId.toLong(), item_number: po.id])
+                item_description: item_description, item_price: item_price, userId: userId, item_number: po.id])
     }
 
     def createClickBankSubscription = {

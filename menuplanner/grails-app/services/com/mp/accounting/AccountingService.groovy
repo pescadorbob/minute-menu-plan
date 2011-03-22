@@ -20,84 +20,89 @@ import com.mp.domain.party.Party
  */
 
 public class AccountingService {
-  /*
-  OPENING_BALANCE('OPENING_BALANCE'),
-   SUBSCRIPTION_PAYMENT('SUBSCRIPTION_PAYMENT'),
-   AUTOMATED_FUNDING('AUTOMATED_FUNDING'),
-   FUNDING('FUNDING'),
-   AFFILIATE_PAYMENT('AFFILIATE_PAYMENT'),
-   REFUND('REFUND'),
-   ADJUSTMENT('ADJUSTMENT')
-   */
-  public void createTxn(opAcctNum, toAcctNum, txDate, txAmt, description, txType) {
-    if (log.isDebugEnabled()) log.debug """Op:${opAcctNum}
+    /*
+   OPENING_BALANCE('OPENING_BALANCE'),
+    SUBSCRIPTION_PAYMENT('SUBSCRIPTION_PAYMENT'),
+    AUTOMATED_FUNDING('AUTOMATED_FUNDING'),
+    FUNDING('FUNDING'),
+    AFFILIATE_PAYMENT('AFFILIATE_PAYMENT'),
+    REFUND('REFUND'),
+    ADJUSTMENT('ADJUSTMENT')
+    */
+
+    public void createTxn(opAcctNum, toAcctNum, txDate, txAmt, description, txType) {
+        if (log.isDebugEnabled()) log.debug """Op:${opAcctNum}
          acct:${toAcctNum}
          txDate:${txDate}
          txAmt:${txAmt}
          description:${description}"""
-    OperationalAccount opAcct = OperationalAccount.findByAccountNumber(opAcctNum)
-    Account toAcct = Account.findByAccountNumber(toAcctNum)
-    switch(txType){
-      case AccountTransactionType.OPENING_BALANCE:
-      case AccountTransactionType.SUBSCRIPTION_PAYMENT:
-      break
-      case AccountTransactionType.AUTOMATED_FUNDING:
-      case AccountTransactionType.FUNDING:
-      case AccountTransactionType.SUBSCRIPTION_CANCELLED:
-      case AccountTransactionType.SUBSCRIPTION_EXPIRED:
-      case AccountTransactionType.SUBSCRIPTION_PAYMENT_FAILED:
-      case AccountTransactionType.AFFILIATE_PAYMENT:
-      case AccountTransactionType.REFUND:
-      case AccountTransactionType.ADJUSTMENT:
-      new AccountTransaction(transactionFor: opAcct,
-              transactionDate: txDate, amount: -1*txAmt, description: description, transactionType: txType).s()
-      break
-    }
-    new AccountTransaction(transactionFor: toAcct,
-            transactionDate: txDate, amount: txAmt, description: description, transactionType: txType).s()
+        OperationalAccount opAcct = OperationalAccount.findByAccountNumber(opAcctNum)
+        Account toAcct = Account.findByAccountNumber(toAcctNum)
+        switch (txType) {
+            case AccountTransactionType.OPENING_BALANCE:
+            case AccountTransactionType.SUBSCRIPTION_PAYMENT:
+                break
+            case AccountTransactionType.AUTOMATED_FUNDING:
+            case AccountTransactionType.FUNDING:
+            case AccountTransactionType.SUBSCRIPTION_CANCELLED:
+            case AccountTransactionType.SUBSCRIPTION_EXPIRED:
+            case AccountTransactionType.SUBSCRIPTION_PAYMENT_FAILED:
+            case AccountTransactionType.AFFILIATE_PAYMENT:
+            case AccountTransactionType.REFUND:
+            case AccountTransactionType.ADJUSTMENT:
+                new AccountTransaction(transactionFor: opAcct,
+                        transactionDate: txDate, amount: -1 * txAmt, description: description, transactionType: txType).s()
+                break
+        }
+        new AccountTransaction(transactionFor: toAcct,
+                transactionDate: txDate, amount: txAmt, description: description, transactionType: txType).s()
 
-  }
-
-  def getCurrentBalance(Account acct) {
-    def c = AccountTransaction.createCriteria()
-    def balance = c.get {
-      transactionFor {
-        idEq(acct.id)
-      }
-      projections {
-        sum('amount')
-      }
-    }
-    println "Balance:${balance}"
-    balance
-  }
-
-    public Account createNewAccount(Party party){
-        Account account = new Account(name: "General Account:${party.name}").s()
-        new AccountRole(roleFor: party, describes: account, type: AccountRoleType.OWNER).s()
-        new AccountTransaction(transactionFor: account, transactionDate: new Date(), amount: 0.0, description: "Opening Balance", transactionType: AccountTransactionType.OPENING_BALANCE).s()
-        return account
     }
 
+    def getCurrentBalance(Account acct) {
+        def c = AccountTransaction.createCriteria()
+        def balance = c.get {
+            transactionFor {
+                idEq(acct.id)
+            }
+            projections {
+                sum('amount')
+            }
+        }
+        println "Balance:${balance}"
+        balance
+    }
 
-  def getBalance(AccountTransaction txn) {
-    def c = AccountTransaction.createCriteria()
-    def balance = c.get {
-      transactionFor {
-        idEq(txn.transactionFor.id)
-      }
-      and {
-        le('id', txn.id)
-        le('transactionDate', txn.transactionDate)
-      }
-      projections {
-        sum('amount')
-      }
+    public Account findOrCreateNewAccount(Party party) {
+        AccountRole accountRole = AccountRole.findByRoleFor(party)
+        if (accountRole) {
+            return accountRole.describes
+        } else {
+            Account account = new Account(name: "General Account:${party.name}").s()
+            new AccountRole(roleFor: party, describes: account, type: AccountRoleType.OWNER).s()
+            new AccountTransaction(transactionFor: account, transactionDate: new Date(), amount: 0.0, description: "Opening Balance", transactionType: AccountTransactionType.OPENING_BALANCE).s()
+            return account
+        }
     }
-    if(!balance){
-      println "Balance not found!"
-      balance = 0.0
+
+    def getBalance(AccountTransaction txn) {
+        def c = AccountTransaction.createCriteria()
+        def balance = c.get {
+            transactionFor {
+                idEq(txn.transactionFor.id)
+            }
+            and {
+                le('id', txn.id)
+                le('transactionDate', txn.transactionDate)
+            }
+            projections {
+                sum('amount')
+            }
+        }
+        if (!balance) {
+            println "Balance not found!"
+            balance = 0.0
+        }
+        balance
     }
-    balance
-  }
 }

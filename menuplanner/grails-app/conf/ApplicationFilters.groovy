@@ -112,7 +112,7 @@ class ApplicationFilters {
                     (!it.actionFilter || params.action ==~ it.actionFilter) &&
                     (!it.uriFilter || request.requestURI ==~ it.uriFilter)
         }.size() > 0
-        if (requiresPermission && !UserTools.hasRole(PartyRoletype.SuperAdmin)) {
+        if (requiresPermission && !UserTools.hasRole(PartyRoleType.SuperAdmin)) {
             boolean isVerified = permissionFilterService.verifyPermission(UserTools.currentUser, params.controller, params.action, request.requestURI, now)
             return isVerified
         }

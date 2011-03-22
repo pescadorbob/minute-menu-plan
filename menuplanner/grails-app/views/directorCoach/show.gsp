@@ -1,5 +1,3 @@
-
-<%@ page import="com.mp.domain.party.DirectorCoach" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />

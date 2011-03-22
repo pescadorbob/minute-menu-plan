@@ -288,17 +288,8 @@ class MenuplannerTagLib {
 
     def shareThis = { attrs ->
         String coachId = attrs['coachId']
-        if (coachId) {
-            out << """<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script><script type="text/javascript">
-                                            stLight.options({publisher:'${ConfigurationHolder.config.externalKeys.shareThisKey}',popup:true});</script>
-                                        <span class="st_sharethis" displayText="ShareThis" st_url="${attrs['shareUrl']}?guestVisitor=true&coachId=${coachId}"></span> """
-
-
-        } else {
-            out << """<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script><script type="text/javascript">
-                                            stLight.options({publisher:'${ConfigurationHolder.config.externalKeys.shareThisKey}',popup:true});</script>
-                                        <span class="st_sharethis" displayText="ShareThis" st_url="${attrs['shareUrl']}?guestVisitor=true"></span> """
-
-        }
+            out << """<script type="text/javascript">var switchTo5x=false;</script><script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+            <script type="text/javascript">stLight.options({publisher:'${ConfigurationHolder.config.externalKeys.shareThisKey}',popup:true});</script>
+            <span class="st_sharethis" displayText="ShareThis" st_url="${attrs['shareUrl']}?guestVisitor=true${(coachId ? ('&coachId='+coachId) : '')}"></span> """
     }
 }

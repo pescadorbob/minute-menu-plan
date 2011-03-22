@@ -67,8 +67,7 @@ class UserService {
                         }
                     }
                     if (coach) {
-                        CoachSubscriber cs = new CoachSubscriber(activeFrom: new Date(), client: coach, supplier: subscriber,
-                                commission: coachRole.defaultCommission,)
+                        CoachSubscriber cs = new CoachSubscriber(activeFrom: new Date(), supplier: coach, client: subscriber, commission: coach.defaultCommission)
                         cs.s()
                     }
                 }
@@ -194,7 +193,7 @@ class UserService {
             aisleToRemove*.delete()
         }
         if (party?.subscriber) {
-            CoachSubscriber cs = CoachSubscriber.findBySupplier(party.subscriber)
+            CoachSubscriber cs = CoachSubscriber.findByClient(party.subscriber)
             if (cs) cs.delete()
         }
         party.delete(flush: true)

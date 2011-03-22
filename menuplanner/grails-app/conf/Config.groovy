@@ -11,6 +11,8 @@ import com.mp.tools.UserTools
 // if(System.properties["${appName}.config.location"]) {
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
 // }
+migrations.enabled = true
+migrations.changelogs = ['migrations/changelog.xml']
 grails.validateable.classes = [com.mp.domain.UserCO]
 grails.rateable.rater.evaluator = { UserTools.currentUser }
 grails.views.javascript.library = "jquery"
@@ -158,6 +160,7 @@ environments {
         }
     }
     development {
+        migrations.enabled = false
         grails.paypal.server = "https://www.sandbox.paypal.com/cgi-bin/webscr"
         grails.paypal.email = "dev.mm_1293518198_biz@gmail.com"
         google.analytics.enabled = false
@@ -183,6 +186,7 @@ environments {
         grails.clickBank.paymentLink = "http://1.mmpdev.pay.clickbank.net"
     }
     test {
+        migrations.enabled = false
         google.analytics.enabled = false
         grails.serverURL = "http://qa.menuplanner.intelligrape.net"
         facebookConnect {

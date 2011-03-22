@@ -62,9 +62,17 @@
                     <g:if test="${(party?.director) && (permission.hasPermission(permission: Permission.CAN_VIEW_SUB_AFFILIATES))}">
                         <ul>
                             <li><h3>Coaches</h3></li>
-                            <party:coaches party="${party}" var="coach">
+                            <pty:coaches party="${party}" var="coach">
                               <li><g:link controller="user" action="show" id="${coach?.party?.id}">${coach}</g:link></li>
-                            </party:coaches>
+                            </pty:coaches>
+                        </ul>
+                    </g:if>
+                    <g:if test="${(party?.coach) && (permission.hasPermission(permission: Permission.CAN_VIEW_CLIENTS))}">
+                        <ul>
+                            <li><h3>Clients</h3></li>
+                            <pty:clients party="${party}" var="client">
+                              <li><g:link controller="user" action="show" id="${client?.party?.id}">${client}</g:link></li>
+                            </pty:clients>
                         </ul>
                     </g:if>
                 </div>

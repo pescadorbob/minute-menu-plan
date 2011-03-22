@@ -1,19 +1,12 @@
 package com.mp
 
-import com.mp.domain.*
-
-import static com.mp.MenuConstants.*
-import org.apache.commons.math.fraction.*
-
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
-import java.text.FieldPosition
-
 import org.springframework.web.multipart.commons.CommonsMultipartFile
 import com.mp.domain.party.Party
 import com.mp.domain.access.PermissionLevel
 import com.mp.domain.access.SecurityRole
 import com.mp.domain.party.Subscriber
-import org.apache.commons.codec.digest.DigestUtils
+import com.mp.domain.subscriptions.ProductOffering
 
 class UtilController {
     def excelService
@@ -23,11 +16,23 @@ class UtilController {
     def utilService
     def masterDataBootStrapService
     def messageSource
+    def subscriptionService
+    def accountingService
 
     static config = ConfigurationHolder.config
 
     def index = {
         render "No code here"
+    }
+
+    def allocationTrailSubscription = {
+        Set<Party> parties = Subscriber.list().findAll {!it.subscriptions}*.party as Set
+        println "Parties: " + parties.size()
+        parties.each {Party party ->
+            accountingService.findOrCreateNewAccount(party)
+            subscriptionService.createSubscriptionForUserSignUp(party, ProductOffering.findByName('1 Month Free Trial').id)
+        }
+        render "New code here"
     }
 
     def updateSecurityRole = {
@@ -42,15 +47,6 @@ class UtilController {
         }
         if (!SecurityRole.count()) {masterDataBootStrapService.populatePermissions()}
         render "Updated Roles"
-    }
-
-    def updateUniqueId = {
-        Party.list().each {
-            if (!it.uniqueId) {
-                it.uniqueId = UUID.randomUUID().toString()
-            }
-        }
-        render "Updated UUID"
     }
 
     def uploadRecipes = {

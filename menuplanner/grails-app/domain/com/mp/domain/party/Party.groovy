@@ -94,28 +94,23 @@ public class Party {
     }
 
     Subscriber getSubscriber() {
-        return getRole(PartyRoleType.Subscriber)
+        return Subscriber.findByParty(this)
     }
 
     Administrator getAdministrator() {
-        return getRole(PartyRoleType.Admin)
+        return Administrator.findByParty(this)
     }
 
     SuperAdmin getSuperAdmin() {
-        return getRole(PartyRoleType.SuperAdmin)
+        return SuperAdmin.findByParty(this)
     }
 
     Director getDirector() {
-        return getRole(PartyRoleType.Director)
+        return Director.findByParty(this)
     }
 
     Coach getCoach() {
-        return getRole(PartyRoleType.Coach)
-    }
-
-    PartyRole getRole(PartyRoleType type) {
-        PartyRole partyRole = roles?.find {it.type == type}
-        return partyRole
+        return Coach.findByParty(this)
     }
 
     def getRoleTypes() {

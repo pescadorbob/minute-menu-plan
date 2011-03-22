@@ -14,7 +14,8 @@ import com.mp.domain.accounting.*
 import com.mp.domain.subscriptions.ControllerActionFeature
 import com.mp.domain.subscriptions.ProductOfferingApplicability
 import com.mp.domain.subscriptions.ProductOfferingSubscription
-
+import com.mp.domain.party.DirectorCoach
+import com.mp.domain.party.CoachSubscriber
 
 /**
  * Created on Nov 28, 2010
@@ -47,7 +48,7 @@ public class SubscriptionService {
 
     }
 
-    public void createSubscriptionForUserSignUp(Party party, long offeringId, Date startDate = new Date()) {
+    public void createSubscriptionForUserSignUp(Party party, long offeringId, Date startDate = new Date(), String transactionId = UUID.randomUUID().toString()) {
         ProductOffering productOffering = ProductOffering.get(offeringId)
         generateSubscription(party, productOffering, startDate)
 
@@ -60,16 +61,27 @@ public class SubscriptionService {
             if (pricingComponent.instanceOf(RecurringCharge.class) && pricingComponent.startAfter && pricingComponent.startAfter.tokenize('.').first().toLong()) {
                 amount = 0.0
             }
-            new AccountTransaction(transactionFor: account, transactionDate: now, amount: -1 * amount, description: "Initial Subscription Charge", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
-            new AccountTransaction(transactionFor: opAcct, transactionDate: now, amount: amount, description: "Monthly Subscription Payment From Account: ${account.accountNumber}", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
+            new AccountTransaction(transactionFor: account, uniqueId: transactionId, transactionDate: now, amount: -1 * amount, description: "Initial Subscription Charge", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
+            new AccountTransaction(transactionFor: opAcct, uniqueId: transactionId, transactionDate: now, amount: amount, description: "Monthly Subscription Payment From Account: ${account.accountNumber}", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
+            makeCoachAndDirectorPayments(party, amount, now, transactionId)
         }
 
     }
 
-
-    private void generateSubscription(partyName,poName,startDate = new Date()){
-      generateSubscription(Party.findByName(partyName),ProductOffering.findByName("1 Month Free Trial"))
+    public void makeCoachAndDirectorPayments(Party party, Float amount, Date date, String transactionId) {
+        OperationalAccount opAcct = OperationalAccount.findByName(MMP_OPERATIONAL_ACCOUNT)
+        CoachSubscriber coachSubscriber = CoachSubscriber.findByClient(party.subscriber)
+        if (coachSubscriber) {
+            Account coachAccount = accountingService.findOrCreateNewAccount(coachSubscriber.supplier.party)
+            accountingService.createTxn(opAcct.accountNumber, coachAccount.accountNumber, date, (amount * coachSubscriber.commission), "Coach payment for tranasaction ${transactionId}", AccountTransactionType.AFFILIATE_PAYMENT)
+            DirectorCoach directorCoach = DirectorCoach.findByClient(coachSubscriber.supplier)
+            if (directorCoach) {
+                Account directorAccount = accountingService.findOrCreateNewAccount(directorCoach.supplier.party)
+                accountingService.createTxn(opAcct.accountNumber, directorAccount.accountNumber, date, (amount * directorCoach.commission), "Director payment for tranasaction ${transactionId}", AccountTransactionType.AFFILIATE_PAYMENT)
+            }
+        }
     }
+
     private void generateSubscription(Party party, ProductOffering productOffering, startDate = new Date()) {
         def start
         def endDate

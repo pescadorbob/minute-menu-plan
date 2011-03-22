@@ -78,7 +78,7 @@ class BootstrapService {
         }
         if (name == 'user1') { // this is the users name
           Coach coach = Coach.list()?.first()
-          userCO.coachId = coach?.id
+          userCO.coachId = coach?.party?.uniqueId
         }
         userCO.createParty()
     }
