@@ -17,7 +17,7 @@
                 </pty:hasRole>
                 <g:link name="addNewRecipeLink" class="addNewRecipeLinkF" controller="recipe" action="create">Add New Recipe</g:link>
                 <g:if test="${(PartyRoleType.Director in UserTools.currentUser?.party?.roleTypes ) && (permission.hasPermission(permission: Permission.MANAGE_SUB_AFFILIATE))}">
-                    <g:link class="addCoachFT" name="createCoach" controller="user" action="createCoach">Add Sub Director</g:link>
+                    <g:link class="addCoachFT" name="createCoach" controller="user" action="createCoach">Add Coach</g:link>
                 </g:if>
                 <g:link controller="user" action="chooseSubscription">Buy Subscription</g:link>
             </li>
