@@ -17,8 +17,6 @@ import com.mp.domain.party.CoachSubscriber
 import com.mp.domain.party.Administrator
 import com.mp.domain.party.SuperAdmin
 import static com.mp.MenuConstants.USER_IMAGE_SIZES
-import com.mp.domain.subscriptions.RecurringCharge
-import org.codehaus.groovy.grails.validation.Validateable
 
 class UserController {
 
@@ -513,20 +511,20 @@ class UserCO {
             introduction = party?.subscriber?.introduction
             city = party?.subscriber?.city
             CoachSubscriber cs = CoachSubscriber.withCriteria(uniqueResult: true) {
-                client {
+                to {
                     eq('id',party.subscriber?.id)
                 }
             }
-            if (cs) coachId = cs?.supplier?.party?.uniqueId
+            if (cs) coachId = cs?.frum?.party?.uniqueId
         }
         if (party?.coach) {
             Coach coach = party?.coach
             DirectorCoach dc = DirectorCoach.withCriteria(uniqueResult: true) {
-                client {
+                to {
                     eq('id', coach.id)
                 }
             }
-            directorId = dc?.supplier?.id
+            directorId = dc?.frum?.id
             uniqueId = party.uniqueId
         }
 
@@ -631,7 +629,7 @@ class UserCO {
                 Party coach = Party.findByUniqueId(coachId)
                 if (coach) {
                     def cs = CoachSubscriber.withCriteria(uniqueResult: true) {
-                        client {
+                        to {
                             eq('id', subscriber.id)
                         }
                         or {
@@ -639,7 +637,7 @@ class UserCO {
                             gt("activeTo", new Date())
                         }
                     }
-                    if (!cs) new CoachSubscriber(client: coach.coach, supplier: subscriber).s()
+                    if (!cs) new CoachSubscriber(frum: coach.coach, to: subscriber).s()
                 }
             }
         }
@@ -657,15 +655,15 @@ class UserCO {
             if (director) {
                 Coach coach = Coach.findByParty(party)
                 if (!coach) coach = new Coach(party: party).s()
-                new DirectorCoach(supplier: director, client: coach).s()
+                new DirectorCoach(frum: director, to: coach).s()
             }
         }
         if ((PartyRoleType.Coach.name() in roles) && party.coach) {
             Director director = Director.get(directorId)
             if (director && (directorId != party?.coach?.id)) {
                 Coach coach = party?.coach
-                DirectorCoach dc = DirectorCoach.findByClient(coach)
-                if (!dc) dc = new DirectorCoach(supplier: director, client: coach, activeFrom: new Date()).s()
+                DirectorCoach dc = DirectorCoach.findByTo(coach)
+                if (!dc) dc = new DirectorCoach(frum: director, to: coach, activeFrom: new Date()).s()
             }
         }
 
@@ -732,7 +730,7 @@ class UserCO {
                 if (coachId) {
                     Coach coach = Party.findByUniqueId(coachId)?.coach
                     if (coach) {
-                        def cs = new CoachSubscriber(client: subscriber, supplier: coach, commission: coach.defaultCommission).s()
+                        def cs = new CoachSubscriber(to: subscriber, frum: coach, commission: coach.defaultCommission).s()
                         assert cs
                     }
                 }
@@ -752,7 +750,7 @@ class UserCO {
                 Director director = Director.get(directorId)
 
                 if (director) {
-                    DirectorCoach dc = new DirectorCoach(supplier: director, client: coach).s()
+                    DirectorCoach dc = new DirectorCoach(frum: director, to: coach).s()
                     assert dc && dc.id
                 }
             }

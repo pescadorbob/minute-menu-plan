@@ -35,6 +35,7 @@ class ApplicationFilters {
 //                println("Verifying Access:${new Date()}:${params}");
                 List<Cookie> cookies = request.cookies as List
                 Cookie guestVisitor = cookies.find {it.name == 'guestVisitor'}
+                if(params.action != 'search'){
                 if((params.controller != 'paypal') && !(params.action in ['clickBankPromotion', 'newClickBankSubscription'])){
                   if (params.controller in ['recipe', 'menuPlan', 'shoppingList'] && params.action in ['show'] && params.guestVisitor) {
                       if (!guestVisitor && !UserTools.currentUser) {
@@ -67,6 +68,7 @@ class ApplicationFilters {
                       }
                   }
                 }
+            }
                 if (log.isDebugEnabled()) log.debug("Unrestricted Access");
             }
             after = {model ->

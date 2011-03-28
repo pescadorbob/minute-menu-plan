@@ -132,7 +132,7 @@ class MenuPlanController {
         boolean openInNewWindow = (params?.openInNewWindow == 'true') ? true : false
         Long offset = params.offset ? params.long('offset') : 0
         List<Item> results = []
-        Party currentUser = UserTools.currentUser.party
+        Party currentUser = UserTools.currentUser?.party
         Long currentUserId = currentUser?.id
         List<String> allQueries = []
         List<String> subCategoriesString = []
@@ -177,8 +177,8 @@ class MenuPlanController {
         if (query.startsWith('[')) {
             query = query.substring(1, query.length() - 1)
         }
-        query += " (shareWithCommunity:true OR contributorsString:${NumberTools.longToString(currentUserId)})"
-        if (!currentUser.showAlcoholicContent) {query += "  isAlcoholic:false"}
+        query += " (shareWithCommunity:true OR contributorsString:${NumberTools.longToString(currentUserId ?: 0)})"
+        if (!currentUser?.showAlcoholicContent) {query += "  isAlcoholic:false"}
 
         if (params.searchByDomainName == 'Item') {
             searchList = Item.search([reload: true, max: 4, offset: offset]) {

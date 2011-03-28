@@ -28,7 +28,7 @@ class RecipeService {
 
     public List<Recipe> getFilteredRecipeList(Integer max = 15, Long offset = 0) {
         Party currentUser = UserTools.currentUser?.party
-        String query = "(shareWithCommunity:true OR contributorsString:${NumberTools.longToString(currentUser.id ? currentUser.id : 0)})"
+        String query = "(shareWithCommunity:true OR contributorsString:${NumberTools.longToString(currentUser?.id ? currentUser?.id : 0)})"
         if (!currentUser?.showAlcoholicContent) { query += "  isAlcoholic:false" }
         def recipes = Recipe.search([reload: true, max: max, offset: offset]) {
             must(queryString(query))
@@ -38,7 +38,7 @@ class RecipeService {
 
     public Integer getFilteredRecipeCount() {
         Party currentUser = UserTools.currentUser?.party
-        String query = "(shareWithCommunity:true OR contributorsString:${NumberTools.longToString(currentUser.id ? currentUser.id : 0)})"
+        String query = "(shareWithCommunity:true OR contributorsString:${NumberTools.longToString(currentUser?.id ? currentUser?.id : 0)})"
         if (!currentUser?.showAlcoholicContent) { query += "  isAlcoholic:false" }
         def recipes = Recipe.search([reload: true]) {
             must(queryString(query))
@@ -48,7 +48,7 @@ class RecipeService {
 
     public List<Item> getFilteredItemList(Integer max = 15, Long offset = 0) {
         Party currentUser = UserTools.currentUser?.party
-        String query = "(shareWithCommunity:true OR contributorsString:${NumberTools.longToString(currentUser.id ? currentUser.id : 0)})"
+        String query = "(shareWithCommunity:true OR contributorsString:${NumberTools.longToString(currentUser?.id ? currentUser?.id : 0)})"
         if (!currentUser?.showAlcoholicContent) { query += "  isAlcoholic:false" }
         def items = Item.search([reload: true, max: max, offset: offset]) {
             must(queryString(query))
@@ -58,7 +58,7 @@ class RecipeService {
 
     public Integer getFilteredItemCount() {
         Party currentUser = UserTools.currentUser?.party
-        String query = "(shareWithCommunity:true OR contributorsString:${NumberTools.longToString(currentUser.id ? currentUser.id : 0)})"
+        String query = "(shareWithCommunity:true OR contributorsString:${NumberTools.longToString(currentUser?.id ? currentUser?.id : 0)})"
         if (!currentUser?.showAlcoholicContent) { query += "  isAlcoholic:false" }
         def items = Item.search([reload: true]) {
             must(queryString(query))

@@ -49,11 +49,11 @@
                     <g:each in="${directorCoachList}" status="i" var="directorCoach">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
-                            <td><g:link action="show" id="${directorCoach.id}">${directorCoach?.supplier?.party?.name}</g:link></td>
+                            <td><g:link action="show" id="${directorCoach.id}">${directorCoach?.to?.party?.name}</g:link></td>
                         
                             <td><g:formatDate date="${directorCoach.activeFrom}" /></td>
                         
-                            <td>${fieldValue(bean: directorCoach, field: "commission")}</td>
+                            <td class="percentage"><g:formatNumber number="${directorCoach.commission}" format="% #0"/></td>
                         
                         </tr>
                     </g:each>

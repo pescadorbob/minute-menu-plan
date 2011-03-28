@@ -30,13 +30,13 @@
             <tbody>
             <!--      CoachSubscriber.createCriteria()
                     [subscriberList: clients, subscriberTotal: clients.size()] -->
-            <g:each in="${subscriberList}" status="i" var="client">
+            <g:each in="${subscriberList}" status="i" var="coachSubscriber">
               <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 
-                <td><g:link action="show" controller="user" id="${client.supplier.party.id}">${client.supplier.party.name}</g:link></td>
-                <td><g:formatDate format="dd-MMM-yyyy" date="${client.activeFrom}"/></td>
-                <td><g:formatDate format="dd-MMM-yyyy" date="${client.supplier.party.lastLogin}"/></td>
-                <td><ul><g:each in="${client.supplier.subscriptions}" var="subscription">
+                <td><g:link action="show" controller="user" id="${coachSubscriber.to.party.id}">${coachSubscriber.to.party.name}</g:link></td>
+                <td><g:formatDate format="dd-MMM-yyyy" date="${coachSubscriber.activeFrom}"/></td>
+                <td><g:formatDate format="dd-MMM-yyyy" date="${coachSubscriber.to.party.lastLogin}"/></td>
+                <td><ul><g:each in="${coachSubscriber.to.subscriptions}" var="subscription">
                   <li>${subscription.originalProductOffering}
                   [<g:formatDate format="dd-MMM-yyyy" date="${subscription.activeFrom}"/> thru
                   <g:if test="${subscription.activeTo}">
@@ -47,7 +47,7 @@
                 </g:each></ul>
                 </td>
 
-                <td class="percentage"><g:formatNumber number="${client.commission}" format="% #0"/></td>
+                <td class="percentage"><g:formatNumber number="${coachSubscriber.commission}" format="% #0"/></td>
 
               </tr>
             </g:each>
@@ -55,7 +55,7 @@
           </table>
         </div>
         <div class="paginateButtons">
-          <g:paginate total="${subscriberTotal}"/>
+          <g:paginate total="${subscriberTotal}" id="${id}"/>
         </div>
       </div></div></div>
 </body>

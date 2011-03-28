@@ -47,16 +47,16 @@
                         </tr>
 
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="directorCoach.supplier.label" default="Supplier" /></td>
+                            <td valign="top" class="name"><g:message code="directorCoach.frum.label" default="Supplier" /></td>
                             
-                            <td valign="top" class="value"><g:link controller="partyRole" action="show" id="${directorCoach?.supplier?.id}">${directorCoach?.supplier?.encodeAsHTML()}</g:link></td>
+                            <td valign="top" class="value"><g:link controller="partyRole" action="show" id="${directorCoach?.frum?.id}">${directorCoach?.frum?.encodeAsHTML()}</g:link></td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="directorCoach.client.label" default="Client" /></td>
+                            <td valign="top" class="name"><g:message code="directorCoach.to.label" default="Client" /></td>
                             
-                            <td valign="top" class="value"><g:link controller="partyRole" action="show" id="${directorCoach?.client?.id}">${directorCoach?.client?.encodeAsHTML()}</g:link></td>
+                            <td valign="top" class="value"><g:link controller="partyRole" action="show" id="${directorCoach?.to?.id}">${directorCoach?.to?.encodeAsHTML()}</g:link></td>
                             
                         </tr>
                     

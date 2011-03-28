@@ -25,7 +25,7 @@ public class PtyTagLib {
         def coaches = []
         def now = new Date()
         DirectorCoach.withSession {
-            coaches = DirectorCoach.findAllBySupplierAndActiveFromLessThan(party.director, now)?.collect {it.client}
+            coaches = DirectorCoach.findAllByFrumAndActiveFromLessThan(party.director, now)?.collect {it.to}
         }
         coaches.each {
             out << body((var): it)
@@ -42,7 +42,7 @@ public class PtyTagLib {
         PartyRelationship.withSession {
             def c = PartyRelationship.createCriteria();
             relationships = c.list {
-                supplier {
+                frum {
                     party {
                         idEq(party?.id)
                     }
@@ -52,21 +52,21 @@ public class PtyTagLib {
                     isNull('activeTo')
                     gt('activeTo', now)
                 }
-//        fetchMode('client', FetchMode.EAGER)
-//        fetchMode('client.party', FetchMode.EAGER)
+//        fetchMode('to', FetchMode.EAGER)
+//        fetchMode('to.party', FetchMode.EAGER)
             }
         }
         relationships.each {
-            out << body((lhs): "${it.client.type}:${it.client.party.name}", (rhs): "${it.supplier.type}:(you)")
+            out << body((lhs): "${it.to.type}:${it.to.party.name}", (rhs): "${it.frum.type}:(you)")
         }
     }
     def clients = {attrs, body ->
-        def var = attrs.var ? attrs.var : "client"
+        def var = attrs.var ? attrs.var : "to"
         def party = attrs.party ? attrs.party : null
         def clients = []
         CoachSubscriber.withSession {
             def now = new Date();
-            clients = CoachSubscriber.findAllBySupplierAndActiveFromLessThan(party.coach, now)?.collect {it.client}
+            clients = CoachSubscriber.findAllByFrumAndActiveFromLessThan(party.coach, now)?.collect {it.to}
         }
         clients.each {
             out << body((var): it)

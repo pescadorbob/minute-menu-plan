@@ -29,9 +29,9 @@
                         
                             <g:sortableColumn property="commission" title="${message(code: 'directorCoach.commission.label', default: 'Commission')}" />
                         
-                            <th><g:message code="directorCoach.supplier.label" default="Supplier" /></th>
+                            <th><g:message code="directorCoach.frum.label" default="Supplier" /></th>
                    	    
-                            <th><g:message code="directorCoach.client.label" default="Client" /></th>
+                            <th><g:message code="directorCoach.to.label" default="Client" /></th>
                    	    
                         </tr>
                     </thead>
@@ -45,9 +45,9 @@
                         
                             <td>${fieldValue(bean: directorCoach, field: "commission")}</td>
                         
-                            <td>${fieldValue(bean: directorCoach, field: "supplier")}</td>
+                            <td>${fieldValue(bean: directorCoach, field: "frum")}</td>
                         
-                            <td>${fieldValue(bean: directorCoach, field: "client")}</td>
+                            <td>${fieldValue(bean: directorCoach, field: "to")}</td>
                         
                         </tr>
                     </g:each>

@@ -10,7 +10,6 @@ import groovy.sql.Sql
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.codehaus.groovy.grails.web.json.JSONElement
 import static com.mp.MenuConstants.USER_IMAGE_SIZES
-import com.mp.domain.*
 
 class UserService {
 
@@ -67,7 +66,7 @@ class UserService {
                         }
                     }
                     if (coach) {
-                        CoachSubscriber cs = new CoachSubscriber(activeFrom: new Date(), supplier: coach, client: subscriber, commission: coach.defaultCommission)
+                        CoachSubscriber cs = new CoachSubscriber(activeFrom: new Date(), frum: coach, to: subscriber, commission: coach.defaultCommission)
                         cs.s()
                     }
                 }
@@ -193,7 +192,7 @@ class UserService {
             aisleToRemove*.delete()
         }
         if (party?.subscriber) {
-            CoachSubscriber cs = CoachSubscriber.findByClient(party.subscriber)
+            CoachSubscriber cs = CoachSubscriber.findByTo(party.subscriber)
             if (cs) cs.delete()
         }
         party.delete(flush: true)
