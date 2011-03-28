@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="menu"/>
-    <title>Add Sub Director</title>
+    <title>Add Coach</title>
 </head>
 <body>
 
@@ -10,7 +10,7 @@
     <div id="wrapper" class="clearfix">
         <div id="content-wrapper" class="clearfix">
             <div class="headbox">
-                <h3>Add Sub Director</h3>
+                <h3>Add Coach</h3>
             </div>
             <g:hasErrors bean="${userCO}">
                 <div id="displayUserCOErrors" class="errors">

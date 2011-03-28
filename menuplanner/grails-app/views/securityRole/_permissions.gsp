@@ -22,7 +22,7 @@
         <g:render template="/securityRole/permissionCheckbox" model="[title: 'Manage Administrator', role: role, permissionName: 'MANAGE_ADMIN']"/>
         <g:render template="/securityRole/permissionCheckbox" model="[title: 'Manage Subscriber', role: role, permissionName: 'MANAGE_SUBSCRIBER']"/>
         <g:render template="/securityRole/permissionCheckbox" model="[title: 'Manage Director', role: role, permissionName: 'MANAGE_AFFILIATE']"/>
-        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Manage Sub Director', role: role, permissionName: 'MANAGE_SUB_AFFILIATE']"/>
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Manage coach', role: role, permissionName: 'MANAGE_SUB_AFFILIATE']"/>
     </ul>
 </li>
 <li class="dotsLine">
@@ -32,7 +32,7 @@
         <g:render template="/securityRole/permissionCheckbox" model="[title: 'Assign Administrator', role: role, permissionName: 'CAN_ASSIGN_ADMIN_ROLE']"/>
         <g:render template="/securityRole/permissionCheckbox" model="[title: 'Assign Subscriber', role: role, permissionName: 'CAN_ASSIGN_SUBSCRIBER_ROLE']"/>
         <g:render template="/securityRole/permissionCheckbox" model="[title: 'Assign Director', role: role, permissionName: 'CAN_ASSIGN_AFFILIATE_ROLE']"/>
-        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Assign Sub Director', role: role, permissionName: 'CAN_ASSIGN_SUB_AFFILIATE_ROLE']"/>
+        <g:render template="/securityRole/permissionCheckbox" model="[title: 'Assign Coach', role: role, permissionName: 'CAN_ASSIGN_SUB_AFFILIATE_ROLE']"/>
     </ul>
 </li>
 <li class="dotsLine">
