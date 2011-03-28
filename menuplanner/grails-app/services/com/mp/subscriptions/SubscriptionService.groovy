@@ -1,6 +1,5 @@
 package com.mp.subscriptions
 
-import com.mp.MenuConstants
 import com.mp.domain.access.AccessFilter
 import com.mp.domain.access.AccessFilterType
 import com.mp.domain.party.Party
@@ -70,13 +69,13 @@ public class SubscriptionService {
 
     public void makeCoachAndDirectorPayments(Party party, Float amount, Date date, String transactionId) {
         OperationalAccount opAcct = OperationalAccount.findByName(MMP_OPERATIONAL_ACCOUNT)
-        CoachSubscriber coachSubscriber = CoachSubscriber.findByClient(party.subscriber)
+        CoachSubscriber coachSubscriber = CoachSubscriber.findByTo(party.subscriber)
         if (coachSubscriber) {
-            Account coachAccount = accountingService.findOrCreateNewAccount(coachSubscriber.supplier.party)
+            Account coachAccount = accountingService.findOrCreateNewAccount(coachSubscriber.frum.party)
             accountingService.createTxn(opAcct.accountNumber, coachAccount.accountNumber, date, (amount * coachSubscriber.commission), "Coach payment for tranasaction ${transactionId}", AccountTransactionType.AFFILIATE_PAYMENT)
-            DirectorCoach directorCoach = DirectorCoach.findByClient(coachSubscriber.supplier)
+            DirectorCoach directorCoach = DirectorCoach.findByTo(coachSubscriber.frum)
             if (directorCoach) {
-                Account directorAccount = accountingService.findOrCreateNewAccount(directorCoach.supplier.party)
+                Account directorAccount = accountingService.findOrCreateNewAccount(directorCoach.frum.party)
                 accountingService.createTxn(opAcct.accountNumber, directorAccount.accountNumber, date, (amount * directorCoach.commission), "Director payment for tranasaction ${transactionId}", AccountTransactionType.AFFILIATE_PAYMENT)
             }
         }

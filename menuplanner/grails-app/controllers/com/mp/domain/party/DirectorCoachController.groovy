@@ -24,12 +24,12 @@ class DirectorCoachController {
       gt("activeFrom", from)
       lt("activeFrom", thru)
       gt('commission',0.0f)
-      client {
+      frum{
         party {
-          idEq(params.long('id'))
+          eq('id', params.long('id'))
         }
       }
-      supplier {
+      to {
         party {
           like('name', "%${nameFilter}%")
         }

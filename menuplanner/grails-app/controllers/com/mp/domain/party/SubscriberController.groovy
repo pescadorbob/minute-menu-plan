@@ -33,7 +33,22 @@ class SubscriberController {
     def showUserClients = {
         def c = CoachSubscriber.createCriteria();
         def clients = c.list {
-            supplier {
+            frum {
+                party {
+                    eq('id', params.long('id'))
+                }
+            }
+            lt('activeFrom', new Date())
+            or {
+                isNull('activeTo')
+                gt('activeTo', new Date())
+            }
+            maxResults(Math.min(params.max ? params.int('max') : 10, 100))
+            firstResult(params.offset ? params.int('offset'): 0)
+        }
+
+        def  subscriberTotal = CoachSubscriber.createCriteria().count {
+             frum {
                 party {
                     eq('id', params.long('id'))
                 }
@@ -44,7 +59,7 @@ class SubscriberController {
                 gt('activeTo', new Date())
             }
         }
-        [subscriberList: clients, subscriberTotal: clients.size()]
+        [subscriberList: clients, subscriberTotal: subscriberTotal, id: params.long('id')]
 
     }
 

@@ -1766,10 +1766,10 @@
                     <constraints nullable="false"/>
                 </column>
                 <column name="active_to" type="DATETIME"/>
-                <column name="client_id" type="BIGINT">
+                <column name="to_id" type="BIGINT">
                     <constraints nullable="false"/>
                 </column>
-                <column name="supplier_id" type="BIGINT">
+                <column name="frum_id" type="BIGINT">
                     <constraints nullable="false"/>
                 </column>
             </createTable>
@@ -2323,13 +2323,13 @@
             <sql>insert into coach (id, default_commission) select id, 0.20 as default_commission from sub_affiliate</sql>
         </changeSet>
         <changeSet author="aman (generated)" id="1300084594035-70">
-            <sql>insert into party_relationship (version, client_id, supplier_id, active_from) (select 0 as version, sub_affiliate_id as client_id, affiliate_sub_affiliates_id as supplier_id, (select joining_date from party where id=sub_affiliate_id) as active_from from affiliate_sub_affiliate)</sql>
+            <sql>insert into party_relationship (version, to_id, frum_id, active_from) (select 0 as version, sub_affiliate_id as to_id, affiliate_sub_affiliates_id as frum_id, (select joining_date from party where id=sub_affiliate_id) as active_from from affiliate_sub_affiliate)</sql>
         </changeSet>
         <changeSet author="aman (generated)" id="1300084594035-705">
             <sql>insert into director_coach (id, commission) select id, 0.20 as commission from party_relationship</sql>
         </changeSet>
         <changeSet author="aman (generated)" id="1300084594035-71">
-            <sql>insert into party_relationship (version, client_id, supplier_id, active_from) (select 0 as version, sub_role.id as client_id, sa_role.id as supplier_id, p.joining_date as active_from from party_party pp left join (select pr.id, pr.party_id from party_role pr inner join sub_affiliate sa on (sa.id=pr.id)) as sa_role on (sa_role.party_id=pp.party_clients_id) left join (select pr.id, pr.party_id from party_role pr inner join subscriber sub on (sub.id=pr.id)) as sub_role on (sub_role.party_id=pp.party_id)left join party p on (p.id=pp.party_id));</sql>
+            <sql>insert into party_relationship (version, to_id, frum_id, active_from) (select 0 as version, sub_role.id as to_id, sa_role.id as frum_id, p.joining_date as active_from from party_party pp left join (select pr.id, pr.party_id from party_role pr inner join sub_affiliate sa on (sa.id=pr.id)) as sa_role on (sa_role.party_id=pp.party_clients_id) left join (select pr.id, pr.party_id from party_role pr inner join subscriber sub on (sub.id=pr.id)) as sub_role on (sub_role.party_id=pp.party_id)left join party p on (p.id=pp.party_id));</sql>
         </changeSet>
         <changeSet author="aman (generated)" id="1300084594035-715">
             <sql>insert into coach_subscriber (id, commission) select id, 0.20 as commission from party_relationship where id > (select count(*) from sub_affiliate)</sql>
@@ -2414,10 +2414,10 @@
             <addForeignKeyConstraint baseColumnNames="element_for_id" baseTableName="page_element" constraintName="FKBA5F294C6F4CC4A5" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="theme"/>
         </changeSet>
         <changeSet author="aman (generated)" id="1300084594035-93">
-            <addForeignKeyConstraint baseColumnNames="client_id" baseTableName="party_relationship" constraintName="FKEF692AF1D8FADAB7" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="party_role"/>
+            <addForeignKeyConstraint baseColumnNames="to_id" baseTableName="party_relationship" constraintName="FKEF692AF1D8FADAB7" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="party_role"/>
         </changeSet>
         <changeSet author="aman (generated)" id="1300084594035-94">
-            <addForeignKeyConstraint baseColumnNames="supplier_id" baseTableName="party_relationship" constraintName="FKEF692AF12D4C8916" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="party_role"/>
+            <addForeignKeyConstraint baseColumnNames="frum_id" baseTableName="party_relationship" constraintName="FKEF692AF12D4C8916" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="party_role"/>
         </changeSet>
         <changeSet author="aman (generated)" id="1300084594035-95">
             <addForeignKeyConstraint baseColumnNames="pricing_for_id" baseTableName="pricing_component" constraintName="FK4EF037C45276CC3B" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product_offering"/>

@@ -2,13 +2,13 @@ package com.mp.domain.party
 
 class PartyRelationship {
 
-  PartyRole client
-  PartyRole supplier
+  PartyRole to
+  PartyRole frum
 
   Date activeFrom = new Date()
   Date activeTo
 
-  static belongsTo = [client: PartyRole]
+  static belongsTo = [to: PartyRole]
 
   static constraints = {
     activeTo(nullable: true)

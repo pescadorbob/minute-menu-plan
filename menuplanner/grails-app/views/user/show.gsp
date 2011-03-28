@@ -70,8 +70,8 @@
                     <g:if test="${(party?.coach) && (permission.hasPermission(permission: Permission.CAN_VIEW_CLIENTS))}">
                         <ul>
                             <li><h3>Clients</h3></li>
-                            <pty:clients party="${party}" var="client">
-                              <li><g:link controller="user" action="show" id="${client?.party?.id}">${client}</g:link></li>
+                            <pty:clients party="${party}" var="to">
+                              <li><g:link controller="user" action="show" id="${to?.party?.id}">${to}</g:link></li>
                             </pty:clients>
                         </ul>
                     </g:if>

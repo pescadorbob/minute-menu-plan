@@ -53,19 +53,19 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="supplier"><g:message code="directorCoach.supplier.label" default="Supplier" /></label>
+                                  <label for="frum"><g:message code="directorCoach.frum.label" default="Supplier" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: directorCoach, field: 'supplier', 'errors')}">
-                                    <g:select name="supplier.id" from="${com.mp.domain.party.PartyRole.list()}" optionKey="id" value="${directorCoach?.supplier?.id}"  />
+                                <td valign="top" class="value ${hasErrors(bean: directorCoach, field: 'frum', 'errors')}">
+                                    <g:select name="frum.id" from="${com.mp.domain.party.PartyRole.list()}" optionKey="id" value="${directorCoach?.frum?.id}"  />
                                 </td>
                             </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="client"><g:message code="directorCoach.client.label" default="Client" /></label>
+                                  <label for="to"><g:message code="directorCoach.to.label" default="Client" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: directorCoach, field: 'client', 'errors')}">
-                                    <g:select name="client.id" from="${com.mp.domain.party.PartyRole.list()}" optionKey="id" value="${directorCoach?.client?.id}"  />
+                                <td valign="top" class="value ${hasErrors(bean: directorCoach, field: 'to', 'errors')}">
+                                    <g:select name="to.id" from="${com.mp.domain.party.PartyRole.list()}" optionKey="id" value="${directorCoach?.to?.id}"  />
                                 </td>
                             </tr>
                         
