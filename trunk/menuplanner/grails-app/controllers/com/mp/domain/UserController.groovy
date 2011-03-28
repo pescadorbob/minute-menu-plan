@@ -100,7 +100,7 @@ class UserController {
 
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        params.offset = params.offset ? params.offset : 0
+        params.offset = params.offset ? params.int('offset') : 0
         String name = params.searchName
         def userList
         Integer total
@@ -117,11 +117,11 @@ class UserController {
             if (params.userStatus == 'awaitingVerification') {
                 isNull('isEnabled')
             }
+            order('name')
             projections{
                 distinct('id')
             }
         }
-        if (name || params?.userStatus) {
             def criteria1 = Party.createCriteria()
             criteriaClosure.delegate = criteria1
             def userIdsList = criteria1.listDistinct() {
@@ -135,10 +135,7 @@ class UserController {
             total = criteria2.count() {
                 criteriaClosure()
             }
-        } else {
-            userList = Party.list(params)
-            total = Party.count()
-        }
+
         if (!params.userStatus) {
             params.userStatus = 'all'
         }
