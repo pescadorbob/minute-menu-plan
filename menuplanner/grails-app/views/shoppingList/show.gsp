@@ -36,7 +36,10 @@
                             Email the Shopping List
                         </li>
                         <li style="cursor:pointer" id="printShoppingListBtn">
-                            <p:image src='printer.gif' alt="print" align="absmiddle"/> &nbsp; Print Shopping List
+                          <a href="javascript:void(0);" onclick="printList('med')"><p:image src='printer.gif' alt="print" align="absmiddle"/></a> 
+                          <a href="javascript:void(0);" onclick="printList('small')">small</a>
+                          <a href="javascript:void(0);" onclick="printList('med')">med</a>
+                          <a href="javascript:void(0);" onclick="printList('large')">large</a>
                         </li>
                         <li style="cursor:pointer" id="shareThisUrl">
                             <g:if test="${(party?.coach)}">
@@ -87,10 +90,16 @@
     </div>
 </div>
 <script type="text/javascript">
-    $("#printShoppingListBtn").click(function() {
-        window.open("${createLink(controller:'shoppingList',action:'printerFriendlyShoppingList',id:shoppingList.id)}", 'printShoppingList', 'width=800,height=800,scrollbars=yes')
+    document.printList = function(size) {
+        if(size == 'small'){
+          window.open("${createLink(controller:'shoppingList',action:'printerFriendlyShoppingList',id:shoppingList.id)}?size=small", 'printShoppingList', 'width=800,height=800,scrollbars=yes')
+        } else if(size == 'med'){
+          window.open("${createLink(controller:'shoppingList',action:'printerFriendlyShoppingList',size:'med',id:shoppingList.id)}?size=med", 'printShoppingList', 'width=800,height=800,scrollbars=yes')
+        } else if(size=='large'){
+          window.open("${createLink(controller:'shoppingList',action:'printerFriendlyShoppingList',size:'large',id:shoppingList.id)}?size=large", 'printShoppingList', 'width=800,height=800,scrollbars=yes')
+        }
         return false;
-    })
+    };
     $(function() {
         $("#emailShoppingListBtn").click(function() {
             jQuery('#emailShoppingList').show()
