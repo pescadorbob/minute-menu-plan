@@ -312,7 +312,7 @@ class ShoppingListController {
 
     def printerFriendlyShoppingList = {
         ShoppingList shoppingList = ShoppingList.get(params.id)
-        render(view: 'printerFriendlyShoppingList', model: [shoppingList: shoppingList])
+        render(view: 'printerFriendlyShoppingList', model: [size:params.size,shoppingList: shoppingList])
     }
 
     def emailShoppingList = {

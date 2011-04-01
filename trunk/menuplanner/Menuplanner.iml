@@ -96,6 +96,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../../Users/Brent/.grails/1.3.6/projects/menuplanner/plugins/jquery-ui-1.8.6.1/grails-app/taglib" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../Users/Brent/.grails/1.3.6/projects/menuplanner/plugins/liquibase-1.9.3.3/src/groovy" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../Users/Brent/.grails/1.3.6/projects/menuplanner/plugins/liquibase-1.9.3.3/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../Users/Brent/.grails/1.3.6/projects/menuplanner/plugins/liquibase-runner-1.2/src/groovy" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../Users/Brent/.grails/1.3.6/projects/menuplanner/plugins/mail-0.9/grails-app/services" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../Users/Brent/.grails/1.3.6/projects/menuplanner/plugins/mail-0.9/grails-app/taglib" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../Users/Brent/.grails/1.3.6/projects/menuplanner/plugins/mail-0.9/src/groovy" isTestSource="false" />
