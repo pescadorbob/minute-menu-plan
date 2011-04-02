@@ -2509,4 +2509,7 @@
         <changeSet author="aman (generated)" id="1300084594035-124">
             <dropTable tableName="subscription_transaction"/>
         </changeSet>
+        <changeSet author="brent" id="1300084594035-125">
+            <sql>UPDATE comment SET poster_class='com.mp.domain.party.Party'  WHERE  poster_class='com.mp.domain.Party'</sql>
+        </changeSet>
 </databaseChangeLog>
