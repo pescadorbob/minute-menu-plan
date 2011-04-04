@@ -58,6 +58,7 @@
       div.winter-week {
         border: #eee solid medium;
         margin:2px;
+        vertical-align:middle;
       }
       div.winter-week strong {
         margin:5px;

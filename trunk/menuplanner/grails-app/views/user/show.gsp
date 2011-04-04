@@ -49,15 +49,6 @@
                                 </g:if>
                             </li>
                         </g:each>
-                        <h3>Relationships</h3>
-                        %{--<pty:relationships party="${party}" >--}%
-                        %{--<li class="userRolesFT"><strong>${lhs}</strong>:${rhs}</li>--}%
-                        %{--</pty:relationships>--}%
-
-                        <li><h3>Contributed Recipes</h3></li>
-                        <g:render template="/user/contributedRecipes" model="[party:party]"/>
-                        <li><h3>Favorites</h3></li>
-                        <g:render template="/user/favoriteRecipes" model="[party:party]"/>
                     </ul>
                     <g:if test="${(party?.director) && (permission.hasPermission(permission: Permission.CAN_VIEW_SUB_AFFILIATES))}">
                         <ul>
@@ -148,6 +139,18 @@
                             </ul>
                         </g:if>
                     </div>
+                </div>
+                <div class="contributedRecipes">
+                  <h3>Contributed Recipes</h3>
+                  <ul>
+                  <g:render template="/user/contributedRecipes" model="[party:party]"/>
+                  </ul>
+                </div>
+              <div class="favoriteRecipes">
+                <h3>Favorites</h3>
+                <ul>
+                  <g:render template="/user/favoriteRecipes" model="[party:party]"/>
+                  </ul>
                 </div>
                 <div id="button">
                     <g:form name="formUserDetail">

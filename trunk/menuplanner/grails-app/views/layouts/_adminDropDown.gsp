@@ -18,8 +18,8 @@
                     <g:link class="testimonialLinkFT" name="manageContent" controller="wcmRepository">Manage Content</g:link>
                 </g:if>
             </li>
+          <g:if test="${(permission.hasPermission(permission: Permission.MANAGE_SUBSCRIPTIONS))}">
             <li>
-                <g:if test="${(permission.hasPermission(permission: Permission.MANAGE_SUBSCRIPTIONS))}">
                   <g:link class="showGeneralLedgerLinkFT"  controller="account" action="showGeneralLedger">General Ledger</g:link>
                     <g:link class="manageBasePriceLinkFT" name="manageBasePrice" controller="basePrice" action="list">Base Price</g:link>
                     <g:link class="manageContentLinkFT" name="manageContent" controller="content" action="list">Content</g:link>
@@ -31,21 +31,19 @@
                     <g:link class="manageProductOfferingLinkFT" name="manageProductOffering" controller="productOffering" action="list">Product Offerings</g:link>
                     <g:link class="manageRecurringChargesLinkFT" name="manageRecurringCharges" controller="recurringCharge" action="list">Recurring Charges</g:link>
                     <g:link class="manageSubscriptionsLinkFT" name="manageSubscriptions" controller="subscription" action="list">Subscriptions</g:link>
-                    <g:link class="manageAccessFiltersFT" name="manageAccessFilters" controller="accessFilter" action="list">Access Fitlers</g:link>
-                </g:if>
+                    <g:link class="manageAccessFiltersFT" name="manageAccessFilters" controller="accessFilter" action="list">Access Filters</g:link>
                 %{--<a>Featured plans</a>--}%
             </li>
+          </g:if>
+          <pty:hasPermission bean="${loggedUser?.party}" permission="${Permission.MANAGE_THEMES}">
             <li><!-- Theme -->
-                <pty:hasPermission bean="${loggedUser?.party}" permission="${Permission.MANAGE_THEMES}">
                   <g:link controller="account" action="bootstrapAccounts">Populate Accounts</g:link>
                     <g:link controller="theme" action="list">Themes</g:link>
                     <g:link controller="pageElement" action="list">Page Elements</g:link>
-                </pty:hasPermission>
                 %{--<a>Featured plans</a>--}%
             </li>
-            <li><!-- Bootstrap -->
+          </pty:hasPermission>
 
-            </li>
         </ul>
     </li>
 </g:if>
