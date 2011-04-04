@@ -1,38 +1,46 @@
 package com.mp.domain
 
 import com.mp.IngredientItemVO
+import com.mp.domain.party.Party
+import com.mp.domain.subscriptions.ProductOffering
 
 class UtilService {
+    def accountingService
+    def subscriptionService
 
+    void allocateTrailSubscription(Party party) {
+        accountingService.findOrCreateNewAccount(party)
+        subscriptionService.createSubscriptionForUserSignUp(party, ProductOffering.findByName('1 Month Free Trial').id)
+    }
 
-    List<IngredientItemVO> parseIngredients(String rawIngredients){
-        List list=rawIngredients.readLines()
+    List<IngredientItemVO> parseIngredients(String rawIngredients) {
+        List list = rawIngredients.readLines()
         List<IngredientItemVO> ingredientItemVos = []
 
         IngredientItemVO ingredientItemVo
-        list.each{
+        list.each {
             ingredientItemVo = new IngredientItemVO()
-            def matcher= it =~ /[-]+.+[:]*/
-            ingredientItemVo.preparationMethod=matcher?matcher[0]?.replace("--","")?.replace(":","")?.trim():''
+            def matcher = it =~ /[-]+.+[:]*/
+            ingredientItemVo.preparationMethod = matcher ? matcher[0]?.replace("--", "")?.replace(":", "")?.trim() : ''
 
             println ""
 
-            matcher= it =~ /[:].+/
-            ingredientItemVo.aisle=matcher?matcher[0]?.replace(":","")?.trim():''
+            matcher = it =~ /[:].+/
+            ingredientItemVo.aisle = matcher ? matcher[0]?.replace(":", "")?.trim() : ''
 
-            matcher= it =~ /\d+[\s]*([\d]*[\/][\d])*/
-            ingredientItemVo.amount=matcher?matcher[0][0]?.trim():''
+            matcher = it =~ /\d+[\s]*([\d]*[\/][\d])*/
+            ingredientItemVo.amount = matcher ? matcher[0][0]?.trim() : ''
 
-            matcher= it =~ /[a-zA-Z]+/
-            ingredientItemVo.measure=matcher?matcher[0]?.trim():''
+            matcher = it =~ /[a-zA-Z]+/
+            ingredientItemVo.measure = matcher ? matcher[0]?.trim() : ''
 
-            matcher= it =~ /[a-zA-z]+\s?(\s*[a-zA-Z]+.*[--]*)/
-            ingredientItemVo.ingredient=matcher?matcher[0][1]?.trim()?.replace("--",""):''
+            matcher = it =~ /[a-zA-z]+\s?(\s*[a-zA-Z]+.*[--]*)/
+            ingredientItemVo.ingredient = matcher ? matcher[0][1]?.trim()?.replace("--", "") : ''
 
-            ingredientItemVos+=ingredientItemVo
+            ingredientItemVos += ingredientItemVo
         }
 
-         return ingredientItemVos 
-        
+        return ingredientItemVos
+
     }
 }
