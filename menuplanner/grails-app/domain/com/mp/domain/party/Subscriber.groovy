@@ -18,7 +18,11 @@ class Subscriber extends PartyRole{
     String introduction
     String city
 
-    static transients = ['imageDir', 'type']
+    static transients = ['imageDir', 'type', 'coach']
+
+    Coach getCoach(){
+        return (CoachSubscriber.findByTo(this)?.frum as Coach)
+    }
 
     void deleteImage(){
         Image image = this?.image
