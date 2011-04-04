@@ -26,20 +26,6 @@ class UtilController {
         render "No code here"
     }
 
-    def allocationTrailSubscription = {
-        if(!ProductOfferingSubscription.count()){
-        Set<Party> parties = Subscriber.list().findAll {!it.subscriptions}*.party as Set
-        println "Parties: " + parties.size()
-        parties.each {Party party ->
-            accountingService.findOrCreateNewAccount(party)
-            subscriptionService.createSubscriptionForUserSignUp(party, ProductOffering.findByName('1 Month Free Trial').id)
-        }
-            render "Trail subscription allocated to all users"
-        } else {
-            render "Users have already been allocated trial subscriptions"
-        }
-    }
-
     def updateSecurityRole = {
         //Delete security roles and permissions, then create again
         SecurityRole.list().each {SecurityRole securityRole ->

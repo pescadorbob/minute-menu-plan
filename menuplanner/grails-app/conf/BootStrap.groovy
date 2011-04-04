@@ -28,6 +28,7 @@ import com.mp.domain.party.SuperAdmin
 
 class BootStrap {
 
+    def utilService
     def dataSource
     def grailsApplication
     def bootstrapService
@@ -116,6 +117,8 @@ class BootStrap {
             println "Populated Quick Fills"
         }
 
+        allocateTrailSubscriptions()
+
         Thread.start {
             searchableService.index()
         }
@@ -123,6 +126,18 @@ class BootStrap {
         config.bootstrapMode = false
     }
     def destroy = {
+    }
+
+    void allocateTrailSubscriptions(){
+        println "Allocating Trail Subscriptions."
+        Set<Party> parties = Subscriber.list().findAll {!it.subscriptions}*.party as Set
+        long startTime = System.currentTimeMillis()
+        parties.each {Party party ->
+            utilService.allocateTrailSubscription(party)
+        }
+        long endTime = System.currentTimeMillis()
+        println "Trail subscription allocated to ${parties.size()} users in ${((endTime - startTime).toFloat() / 1000)} Seconds."
+
     }
 
     private void bootstrapMasterData() {
