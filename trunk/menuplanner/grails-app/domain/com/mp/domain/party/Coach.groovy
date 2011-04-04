@@ -8,11 +8,11 @@ class Coach extends PartyRole {
 
     PartyRoleType type = PartyRoleType.Coach
 
-    static transients = ['type']
+    static transients = ['type', 'director']
     float defaultCommission = 0.20f // the default commission for coaching
 
     static constraints = {
-      defaultCommission(nullable:true)
+        defaultCommission(nullable: true)
     }
     static mapping = {
         tablePerHierarchy false
@@ -20,6 +20,10 @@ class Coach extends PartyRole {
 
     String toString() {
         return party?.name
+    }
+
+    Director getDirector() {
+        return (DirectorCoach.findByTo(this)?.frum as Director)
     }
 
     boolean equals(final Object o) {
