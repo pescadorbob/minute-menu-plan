@@ -41,8 +41,8 @@ public class SubscriptionService {
         OperationalAccount opAcct = OperationalAccount.findByName(MMP_OPERATIONAL_ACCOUNT)
         productOffering.pricing.each {PricingComponent pricingComponent ->
             Float amount = pricingComponent.value
-            new AccountTransaction(transactionFor: account, transactionDate: now, amount: -1 * amount, description: "Recurring Subscription Charge", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
-            new AccountTransaction(transactionFor: opAcct, transactionDate: now, amount: amount, description: "Subscription Payment From Account: ${account.accountNumber}", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
+            new AccountTransaction(transactionFor: account, transactionDate: now, amount: -1 * amount, description: "Recurring Subscription Charge", transactionType: AccountTransactionType.SUBSCRIPTION_CHARGE).s()
+            new AccountTransaction(transactionFor: opAcct, transactionDate: now, amount: amount, description: "Subscription Payment From Account: ${account.accountNumber}", transactionType: AccountTransactionType.SUBSCRIPTION_CHARGE).s()
         }
 
     }
@@ -60,8 +60,8 @@ public class SubscriptionService {
             if (pricingComponent.instanceOf(RecurringCharge.class) && pricingComponent.startAfter && pricingComponent.startAfter.tokenize('.').first().toLong()) {
                 amount = 0.0
             }
-            new AccountTransaction(transactionFor: account, uniqueId: transactionId, transactionDate: now, amount: -1 * amount, description: "Initial Subscription Charge", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
-            new AccountTransaction(transactionFor: opAcct, uniqueId: transactionId, transactionDate: now, amount: amount, description: "Monthly Subscription Payment From Account: ${account.accountNumber}", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
+            new AccountTransaction(transactionFor: account, uniqueId: transactionId, transactionDate: now, amount: -1 * amount, description: "Initial Subscription Charge", transactionType: AccountTransactionType.SUBSCRIPTION_CHARGE).s()
+            new AccountTransaction(transactionFor: opAcct, uniqueId: transactionId, transactionDate: now, amount: amount, description: "Monthly Subscription Payment From Account: ${account.accountNumber}", transactionType: AccountTransactionType.SUBSCRIPTION_CHARGE).s()
             makeCoachAndDirectorPayments(party, amount, now, transactionId)
         }
 
