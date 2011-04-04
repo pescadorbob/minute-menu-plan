@@ -1,12 +1,14 @@
 <%@ page import="com.mp.domain.Permission" %>
+<li class="product"><ul >
 <g:each in="${party?.favourites?.sort{it.name}}" var="recipe">
-    <li>
-        <a href="${createLink(controller: 'recipe', action: 'show', id: recipe?.id)}">${recipe?.name}</a>
+    <li  class="user-recipes">
+      <g:render template="/recipe/showRecipeDetailForRecipeCard" model="['item':recipe ,'openInNewWindow':true]"/>
         <g:if test="${permission.hasPermission(permission: Permission.REMOVE_RECIPE_FROM_FAVOURITES, party: party)}">
             <a href="#" onclick="return removeFromFavorite(this, '${createLink(controller: 'user', action: 'removeFavorite', id: recipe?.id)}')">remove</a>
         </g:if>
     </li>
 </g:each>
+  </ul></li>
 <script type="text/javascript">
     function removeFromFavorite(elementToRemove, ajaxUrl) {
         jQuery.get(ajaxUrl,

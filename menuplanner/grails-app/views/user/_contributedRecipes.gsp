@@ -1,3 +1,5 @@
+<li class="product"><ul >
 <g:each in="${party?.contributions?.sort { it.name }}" var="recipe">
-    <li><a href="${createLink(controller: 'recipe', action: 'show', id: recipe?.id)}">${recipe?.name}</a></li>
+  <li class="user-recipes"><g:render template="/recipe/showRecipeDetailForRecipeCard" model="['item':recipe ,'openInNewWindow':true]"/></li>
 </g:each>
+</ul></li>
