@@ -290,10 +290,20 @@ div.errors{border:red 1px solid;font-size:smaller;color:red;padding:10px;margin-
 .showAllStepsHere ul {list-style:disc; margin-left:12px;}
 
 .favoriteRecipes,
-.contributedRecipes {
+.contributedRecipes,
+div.menuPlans,
+div.coaches,
+div.clients {
     clear: both;
     padding: 20px 10px;
     list-style: none outside none
+}
+.clients ul li, 
+.coaches ul li,
+.menuPlans ul li
+{
+    float: left;
+    padding: 10px 20px;
 }
 li.product ul li.user-recipes {
     width: 205px;
