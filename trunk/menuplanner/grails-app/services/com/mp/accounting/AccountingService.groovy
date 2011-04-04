@@ -23,6 +23,7 @@ public class AccountingService {
     /*
    OPENING_BALANCE('OPENING_BALANCE'),
     SUBSCRIPTION_PAYMENT('SUBSCRIPTION_PAYMENT'),
+    SUBSCRIPTION_CHARGE('SUBSCRIPTION_CHARGE'),
     AUTOMATED_FUNDING('AUTOMATED_FUNDING'),
     FUNDING('FUNDING'),
     AFFILIATE_PAYMENT('AFFILIATE_PAYMENT'),
@@ -56,7 +57,6 @@ public class AccountingService {
         }
         new AccountTransaction(transactionFor: toAcct,
                 transactionDate: txDate, amount: txAmt, description: description, transactionType: txType).s()
-
     }
 
     def getCurrentBalance(Account acct) {
