@@ -50,22 +50,6 @@
                             </li>
                         </g:each>
                     </ul>
-                    <g:if test="${(party?.director) && (permission.hasPermission(permission: Permission.CAN_VIEW_SUB_AFFILIATES))}">
-                        <ul>
-                            <li><h3>Coaches</h3></li>
-                            <pty:coaches party="${party}" var="coach">
-                                <li><g:link controller="user" action="show" id="${coach?.party?.id}">${coach}</g:link></li>
-                            </pty:coaches>
-                        </ul>
-                    </g:if>
-                    <g:if test="${(party?.coach) && (permission.hasPermission(permission: Permission.CAN_VIEW_CLIENTS))}">
-                        <ul>
-                            <li><h3>Clients</h3></li>
-                            <pty:clients party="${party}" var="to">
-                                <li><g:link controller="user" action="show" id="${to?.party?.id}">${to}</g:link></li>
-                            </pty:clients>
-                        </ul>
-                    </g:if>
                 </div>
                 <div id="rightpanel">
                     <ul>
@@ -95,29 +79,7 @@
                        <textArea name="uniqueUrl" readonly="true" cols="90" rows="1" class="urlTextArea">${ConfigurationHolder.config.grails.serverURL + '/?coachId=' + party?.uniqueId}</textArea>
                         </li>
                         </g:if>
-                    %{--<li><span>&nbsp;</span>--}%
-                    %{--<label>--}%
-                    %{--<input name="" type="checkbox" value=""/>--}%
-                    %{--<strong>Automatically renews</strong></label>--}%
-                    %{--</li>--}%
-                    %{--<li><span>&nbsp;</span>--}%
-                    %{--<label>--}%
 
-                    %{--<input name="" type="checkbox" value=""/>--}%
-                    %{--<strong>Unlimited subscription</strong></label>--}%
-                    %{--</li>--}%
-                    %{--<li><span>&nbsp;</span>--}%
-                    %{--<label><strong>Last day of subscription</strong> &nbsp;--}%
-                    %{--<input type="text" class="inpboxSmall" value="2 / 2 / 2010"/>--}%
-                    %{--&nbsp;--}%
-                    %{--<img src="${resource(dir: 'images', file: 'calendar.png')}" alt="Calendar " align="absmiddle"/>--}%
-                    %{--</label>--}%
-                    %{--</li>--}%
-                    %{--<li><span>&nbsp;</span>--}%
-                    %{--<label>--}%
-                    %{--<input name="" type="checkbox" value=""/>--}%
-                    %{--<strong>Account enabled</strong></label>--}%
-                    %{--</li>--}%
                     </ul>
                     <div id="right-link">
                         <g:if test="${party?.inappropriateFlagsCount}">
@@ -140,6 +102,24 @@
                         </g:if>
                     </div>
                 </div>
+              <g:if test="${(party?.director) && (permission.hasPermission(permission: Permission.CAN_VIEW_SUB_AFFILIATES))}">
+                <div class="coaches">
+                  <h3>Coaches</h3>
+                  <ul>
+                      <pty:coaches party="${party}" var="coach">
+                          <li><g:link controller="user" action="show" id="${coach?.party?.id}">${coach}</g:link></li>
+                      </pty:coaches>
+                  </ul>
+                </div>
+              </g:if>
+              <g:if test="${(party?.coach) && (permission.hasPermission(permission: Permission.CAN_VIEW_CLIENTS))}">
+                  <div class="clients"><h3>Clients</h3><ul>
+                      <pty:clients party="${party}" var="to">
+                          <li><g:link controller="user" action="show" id="${to?.party?.id}">${to}</g:link></li>
+                      </pty:clients>
+                  </ul> </div>
+              </g:if>
+
                 <div class="contributedRecipes">
                   <h3>Contributed Recipes</h3>
                   <ul>
@@ -150,6 +130,14 @@
                 <h3>Favorites</h3>
                 <ul>
                   <g:render template="/user/favoriteRecipes" model="[party:party]"/>
+                  </ul>
+                </div>
+              <div class="menuPlans">
+                <h3>Menu Plans</h3>
+                <ul>
+                  <g:each in="${MenuPlan.findAllByOwner(party)}" var="menuPlan">
+                      <li><g:link controller="menuPlan" action="show" id="${menuPlan.id}">${menuPlan.name}</g:link></li>
+                  </g:each>
                   </ul>
                 </div>
                 <div id="button">
