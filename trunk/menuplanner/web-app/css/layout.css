@@ -299,15 +299,46 @@ div.clients {
     list-style: none outside none
 }
 .clients ul li, 
-.coaches ul li,
+.coaches ul li
+{
+    float: left;
+    padding: 2px;
+    border: none;
+
+}
+.clients ul li a,
+.clients ul li a img,
+.coaches ul li a,
+.coaches ul li a img,
+{}
+
 .menuPlans ul li
 {
     float: left;
     padding: 10px 20px;
     width: 15%;
+    border: none;
+    text-decoration:none;
+}
+.menuPlans ul li a
+{
+    float: left;
+    padding: 10px 20px;
+    border: none;
+    text-decoration:none;
+}
+.clients a img ,
+.clients img,
+    .coaches a img ,
+    .coaches img
+{
+    border: none;
+    text-decoration:none;
+    font-size:9px
 }
 
 li.product ul li.user-recipes {
     width: 205px;
      margin: 0 9px;
 }
+.userThumbnail{font-size:11px;font-family:Arial, Helvetica, sans-serif; background:#fff;}

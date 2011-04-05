@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="menu"/>
-    <title>Show User</title>
+    <title>${StringUtils.capitaliseAllWords(party?.toString())} Profile</title>
 </head>
 <body>
 
@@ -25,8 +25,8 @@
                 <div id="leftpanel">
                     <g:if test="${party?.subscriber}">
                         <div class="scaleImageSizeUpperDiv" style="height:180px;width:180px;border:none;">
-                            <div id="photo" class="scaleImageSize">
-                                <mp:image size="200" id="${party?.subscriber?.image?.id}"/>
+                            <div class="scaleImageSize">
+                                <mp:image size="200" id="${party?.subscriber?.image?.id}" title="${party?.subscriber}"/>
                             </div>
                         </div>
                     </g:if>
@@ -103,21 +103,55 @@
                     </div>
                 </div>
               <g:if test="${(party?.director) && (permission.hasPermission(permission: Permission.CAN_VIEW_SUB_AFFILIATES))}">
-                <div class="coaches">
-                  <h3>Coaches</h3>
+                <div class="contributedRecipes">
+                    <h3>Clients&nbsp;<span id="emailCoachesNoteBtn" style="cursor:pointer"><p:image src='emailMe.jpeg' alt="" align="absmiddle" style="width:29px;height:23px"/></span></h3>
+                    <div class="emailNote" id="emailCoachesNote" style="display:none">
+                    <g:formRemote name="emailCoachesNoteForm" url="${[action:'emailNote']}">
+                      <div>Email a note to all your coaches:</div>
+                        <div><g:textArea name="note" rows="5" cols="40" /></div>
+                        <g:hiddenField name="partyId" value="${party?.id}"/>
+                        <g:hiddenField name="role" value="director"/>
+                        <g:submitButton name="submit" value="send" id="emailCoachesSubmitButton" onClick="attachPaginationLinkEvents()"/>
+                    </g:formRemote>
+                      </div>
                   <ul>
-                      <pty:coaches party="${party}" var="coach">
-                          <li><g:link controller="user" action="show" id="${coach?.party?.id}">${coach}</g:link></li>
+                  <li class="product"><ul>
+                      <pty:coaches party="${party}" var="coach" status="index">
+                        <g:if test="${index %4==0}">
+                        </ul><ul class="clearfix">
+                        </g:if>
+                             <g:render template="/user/thumbnail" model="[party:coach?.party]"/>
                       </pty:coaches>
+                  </ul></li>
                   </ul>
                 </div>
               </g:if>
               <g:if test="${(party?.coach) && (permission.hasPermission(permission: Permission.CAN_VIEW_CLIENTS))}">
-                  <div class="clients"><h3>Clients</h3><ul>
-                      <pty:clients party="${party}" var="to">
-                          <li><g:link controller="user" action="show" id="${to?.party?.id}">${to}</g:link></li>
+
+
+                  <div class="clients">
+                    <h3>Clients&nbsp;<span id="emailNoteBtn" style="cursor:pointer"><p:image src='emailMe.jpeg' alt="" align="absmiddle" style="width:29px;height:23px"/></span></h3>
+                    <div class="emailNote" id="emailShoppingList" style="display:none">
+                    <g:formRemote name="emailNoteForm" url="${[action:'emailNote']}">
+                      <div>Email a note to all your clients:</div>
+                        <div><g:textArea name="note" rows="5" cols="40" /></div>
+                        <g:hiddenField name="partyId" value="${party?.id}"/>
+                        <g:hiddenField name="role" value="coach"/>
+                        <g:submitButton name="submit" value="send" id="emailSubmitButton" onClick="attachPaginationLinkEvents()"/>
+                    </g:formRemote>
+                </div>
+                     <ul>
+                     <li class="product"><ul>
+                      <pty:clients party="${party}" var="client" status="index">
+                        <g:if test="${index %4==0}">
+                        </ul><ul class="clearfix">
+                        </g:if>
+                             <g:render template="/user/thumbnail" model="[party:client?.party]"/>
                       </pty:clients>
-                  </ul> </div>
+                     </ul></li>
+                  </ul>
+
+                  </div>
               </g:if>
 
                 <div class="contributedRecipes">
@@ -173,6 +207,9 @@
                     </g:form>
                 </div>
             </div>
+          <div id="emailMessageTemplate">
+              <g:render template="/shoppingList/ajaxEmailSendingMessage"/>
+          </div>
             <div class="bottom-shadow">
                 <label>&nbsp;</label>
             </div>
@@ -185,5 +222,17 @@
 %{--return false;--}%
 %{--})--}%
 %{--//</script>--}%
+<script type="text/javascript">
+  $(function() {
+        $("#emailNoteBtn").click(function() {
+            jQuery('#emailShoppingList').show()
+        })
+    })
+  $(function() {
+        $("#emailCoachesNoteBtn").click(function() {
+            jQuery('#emailCoachesNote').show()
+        })
+    })
+</script>
 </body>
 </html>
