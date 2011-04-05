@@ -97,7 +97,7 @@ class RecipeController {
             query = query.substring(1, query.length() - 1)
         }
         Integer total
-        query += " (shareWithCommunity:true OR contributorsString:${NumberTools.longToString(currentUserId ? currentUserId : 0)})"
+        query += " (shareWithCommunity:true${(currentUser ? (" OR contributorsString:" + NumberTools.longToString(currentUser?.id)) : '')})"
         if (!currentUser?.showAlcoholicContent) { query += "  isAlcoholic:false" }
         def searchList = Recipe.search([reload: true, max: 15, offset: params.offset ? params.long('offset') : 0]) {
             must(queryString(query))

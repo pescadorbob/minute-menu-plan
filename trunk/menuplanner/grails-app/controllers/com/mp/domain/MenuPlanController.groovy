@@ -177,7 +177,7 @@ class MenuPlanController {
         if (query.startsWith('[')) {
             query = query.substring(1, query.length() - 1)
         }
-        query += " (shareWithCommunity:true OR contributorsString:${NumberTools.longToString(currentUserId ?: 0)})"
+        query += " (shareWithCommunity:true${(currentUser ? (" OR contributorsString:" + NumberTools.longToString(currentUser?.id)) : '')})"
         if (!currentUser?.showAlcoholicContent) {query += "  isAlcoholic:false"}
 
         if (params.searchByDomainName == 'Item') {
