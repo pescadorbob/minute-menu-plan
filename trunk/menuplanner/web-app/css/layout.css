@@ -304,7 +304,9 @@ div.clients {
 {
     float: left;
     padding: 10px 20px;
+    width: 15%;
 }
+
 li.product ul li.user-recipes {
     width: 205px;
      margin: 0 9px;
