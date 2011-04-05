@@ -31,12 +31,10 @@
                       </li>
                     </g:if>
                 <li></li>
-                <g:if test="${printRecipe}">
                 <li>
                     <g:render template="/recipe/contributor" model="[recipe:recipe]"/>
                 </li>
                 <li></li>
-                </g:if>
             </ul>
         </li>
         <li id="rightLiElements">
