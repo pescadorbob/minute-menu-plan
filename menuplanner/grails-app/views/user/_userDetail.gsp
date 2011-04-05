@@ -7,7 +7,7 @@
 %{--<fb:profile-pic uid="loggedinuser" size="square" facebook-logo="true"></fb:profile-pic>--}%
 %{--<fb:name uid="loggedinuser" useyou="false" linked="true"></fb:name>--}%
 
-<div id="rightpanel">
+<div class="rightpanel">
 
     <ul>
         <g:if test="${userCO.id}">

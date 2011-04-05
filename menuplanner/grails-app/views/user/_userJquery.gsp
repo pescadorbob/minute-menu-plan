@@ -40,5 +40,18 @@
             jQuery('#directorsList').show()
         }
     });
+    jQuery('#chk_Subscriber').click(function() {
+        if (jQuery('#coachesList').is(':hidden')) {
+            jQuery('#coachesList').show()
+        } else {
+            jQuery('#coachesList').hide()
+        }
+    })
+
+    jQuery(function() {
+        if (jQuery('#chk_Subscriber').attr('checked')) {
+            jQuery('#coachesList').show()
+        }
+    });
 
 </script>

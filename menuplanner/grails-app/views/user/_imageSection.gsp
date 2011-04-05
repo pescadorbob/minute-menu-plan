@@ -1,4 +1,4 @@
-<%@ page import="com.mp.domain.party.Director; com.mp.domain.party.Director; com.mp.domain.Permission; com.mp.domain.PartyRoleType" %>
+<%@ page import="com.mp.domain.party.Coach; com.mp.domain.party.Director; com.mp.domain.party.Director; com.mp.domain.Permission; com.mp.domain.PartyRoleType" %>
 <div id="leftpanel">
     <pty:hasRole role="${PartyRoleType.Subscriber}" bean="${party}">
         <div class="scaleImageSizeUpperDiv" style="height:180px;width:180px;float:right;border:none;">
@@ -17,11 +17,5 @@
         <div id="directorsList" style="display:none">
             <span style="margin-left:10px;"><g:select  style="width:130px;" class="inpbox ${hasErrors(bean: userCO, field: 'directorId', 'errors')}" name="directorId" from="${Director?.list()}" value="${userCO?.directorId}" optionKey="id" noSelection='["":"Select Director"]'/></span>
         </div>
-        <g:if test="${params.action != 'create'}">
-            <li><h3>Contributed Recipes</h3></li>
-            <g:render template="/user/contributedRecipes" model="[party:party]"/>
-            <li><h3>Favorites</h3></li>
-            <g:render template="/user/favoriteRecipes" model="[party:party]"/>
-        </g:if>
     </ul>
 </div>

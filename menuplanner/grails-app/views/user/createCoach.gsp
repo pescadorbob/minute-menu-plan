@@ -27,7 +27,7 @@
                         <g:if test="${userCO?.joiningDate}"><li>Member since ${userCO?.joiningDate?.format('MMMM yyyy')}</li></g:if>
                     </div>
                     <input type="hidden" name="roles"  value="${userCO?.roles}"/>
-                    <div id="rightpanel">
+                    <div class="rightpanel">
                         <ul>
                             <li><span><strong>Email :</strong></span>
                                 <label>

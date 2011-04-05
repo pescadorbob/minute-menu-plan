@@ -44,7 +44,7 @@
 .contributor-image ul li{padding:2px 0 !important; clear:both;}
 .contributor-image span{padding:0 5px; width:375px;}
 /* end leftpanel start rightpanel  */
-#rightpanel {
+.rightpanel {
     float: right;
     width: 77%;
     margin-top: 10px;
@@ -52,19 +52,19 @@
     font-size: 12px;
 }
 
-#rightpanel ul li {
+.rightpanel ul li {
     clear: both;
     padding: 10px;
 }
 
-#rightpanel ul li>span {
+.rightpanel ul li>span {
     float: left;
     width: 170px;
     text-align: right;
     padding-right: 15px;
 }
 
-#rightpanel ul li>label {
+.rightpanel ul li>label {
     float: left;
     width: 530px;
 }
