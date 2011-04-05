@@ -15,6 +15,7 @@ class MenuplannerTagLib {
     def recipeService
     static config = ConfigurationHolder.config
 
+
     def showEditRecipe = {attrs ->
         Long recipeId = attrs['recipeId']?.toLong()
         Recipe recipe = Recipe.get(recipeId)
@@ -69,6 +70,8 @@ class MenuplannerTagLib {
     }
 
     def image = {attrs ->
+        String alt = attrs['alt']
+        String title = attrs['title']
         String height = attrs['height']
         String width = attrs['width']
         String size = attrs['size']
@@ -76,6 +79,8 @@ class MenuplannerTagLib {
         String noImage = (attrs['noImage']) ? attrs['noImage'] : 'no-img.gif'
         String clas = attrs['class']
         String imgTag = "<img "
+        if (title) {imgTag += "title='${title}' "}
+        if (alt) {imgTag += "alt='${alt}' "}
         if (clas) {imgTag += "class='${clas}' "}
         if (height) {imgTag += "height='${height}' "}
         if (width) {imgTag += "width='${width}' "}
@@ -261,6 +266,7 @@ class MenuplannerTagLib {
             out << g.render(template: "/recipe/recipeIngredients", model: [ingredients: customRecipeIngredients])
         }
     }
+   
     def recipeIngredientsForRecipeCard = {attrs ->
         Recipe recipe = Recipe.get(attrs['recipeId'])
         List<Item> items = []

@@ -29,7 +29,45 @@ class UserController {
     def index = {
         redirect(action: 'list')
     }
-
+    def emailNote = {
+      Party party = Party.get(params?.partyId)
+      String note = params?.note
+      def emails;
+      String role = params?.role;
+      if(role.equals('coach')) emails = getClientEmails(party)
+      if(role.equals('director')) emails = getCoachesEmails(party)
+      emails.each { email ->
+        asynchronousMailService.sendAsynchronousMail {
+          from party?.email
+          to email
+          subject "A Note from your ${role} : ${party}"
+          html g.render(template: '/user/note', model: [party: party, note: note])
+        }
+      }
+      render "Emails sent to clients"
+    }
+    def getCoachesEmails = {party ->
+      def coaches = []
+      DirectorCoach.withSession {
+        def now = new Date();
+        coaches = DirectorCoach.findAllByFrumAndActiveFromLessThan(party.director, now)?.collect {it.to}
+      }
+      def emails = coaches.collect {
+        it?.party?.email
+      }
+      emails
+    }
+    def getClientEmails = {party ->
+      def clients = []
+      CoachSubscriber.withSession {
+        def now = new Date();
+        clients = CoachSubscriber.findAllByFrumAndActiveFromLessThan(party.coach, now)?.collect {it.to}
+      }
+      def emails = clients.collect {
+        it?.party?.email
+      }
+      emails
+    }
     def delete = {
         Party party = Party.get(params.long('id'))
         if (party) {
@@ -765,5 +803,6 @@ class UserCO {
         party.lastLogin = new Date()
         party.s()
     }
+
 
 }

@@ -18,6 +18,7 @@ function modalAfterTimeout() {
 }
 
 function messageSent() {
+    jQuery('#emailCoachesNote').hide()
     jQuery('#emailShoppingList').hide()
     $("#modalLoader").hide()
 }
