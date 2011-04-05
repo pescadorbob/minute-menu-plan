@@ -51,7 +51,7 @@
                         </g:each>
                     </ul>
                 </div>
-                <div id="rightpanel">
+                <div class="rightpanel">
                     <ul>
                         <g:if test="${UserTools.currentUser && ((UserTools.currentUser.party.roles*.type in [PartyRoleType.Admin, PartyRoleType.SuperAdmin])|| (UserTools.currentUser.party == party))}">
                             <li><span><strong>Email :</strong></span><label>${party?.email}</label></li>
@@ -62,17 +62,25 @@
                             <li><span><strong>Mouths to Feed :</strong></span><label>${party?.subscriber?.mouthsToFeed}</label></li>
                             <li><span><strong>Something about yourself :</strong></span><label>${party?.subscriber?.introduction}</label></li>
                             <li><span><strong>Show Content Using Alcohol :</strong></span><label>${party?.showAlcoholicContent ? "Yes" : "No"}</label></li>
-                            <g:if test="${party?.subscriber?.coach}">
-                                <li><span><strong>Coach :</strong></span>
-                                    <label><g:link controller="user" action="show" id="${party?.subscriber?.coach?.party?.id}">${party?.subscriber?.coach}</g:link></label>
-                                </li>
-                            </g:if>
-
+                          <g:if test="${party?.subscriber?.coach}">
+                            <li><span><strong>Coach :</strong></span>
+                              <label><div class="helpers">
+                            <ul><li class="product">
+                            <ul class="clearfix">
+                                   <g:render template="/user/thumbnail" model="[party:party?.subscriber?.coach?.party]"/>
+                             </ul></li></ul>
+                            </div></label></li>
+                          </g:if>
                         </g:if>
                         <g:if test="${party?.coach?.director}">
-                            <li><span><strong>Director :</strong></span>
-                                <label><g:link controller="user" action="show" id="${party?.coach?.director?.party?.id}">${party?.coach?.director}</g:link></label>
-                            </li>
+                          <li><span><strong>Director :</strong></span>
+                          <label><div class="helpers">
+                            <ul><li class="product">
+                            <ul class="clearfix">
+                                   <g:render template="/user/thumbnail" model="[party:party?.coach?.director?.party]"/>
+                             </ul>
+                            </li></ul>
+                          </div></label></li>                          
                         </g:if>
                         <g:if test="${(party?.coach)&& (permission.hasPermission(permission: Permission.CAN_VIEW_INVITATION_URL))}">
                             <li><strong>Url to Invite Subscribers</strong></br>
@@ -104,7 +112,7 @@
                 </div>
               <g:if test="${(party?.director) && (permission.hasPermission(permission: Permission.CAN_VIEW_SUB_AFFILIATES))}">
                 <div class="contributedRecipes">
-                    <h3>Clients&nbsp;<span id="emailCoachesNoteBtn" style="cursor:pointer"><p:image src='emailMe.jpeg' alt="" align="absmiddle" style="width:29px;height:23px"/></span></h3>
+                    <h3>Coaches&nbsp;<span id="emailCoachesNoteBtn" style="cursor:pointer"><p:image src='emailMe.jpeg' alt="" align="absmiddle" style="width:29px;height:23px"/></span></h3>
                     <div class="emailNote" id="emailCoachesNote" style="display:none">
                     <g:formRemote name="emailCoachesNoteForm" url="${[action:'emailNote']}">
                       <div>Email a note to all your coaches:</div>

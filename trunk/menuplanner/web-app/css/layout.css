@@ -298,6 +298,13 @@ div.clients {
     padding: 20px 10px;
     list-style: none outside none
 }
+div.helpers>ul>li.product ,
+div.helpers>ul>li.product ul li
+
+{
+   clear: none;
+    padding: inherit; 
+}
 .clients ul li, 
 .coaches ul li
 {

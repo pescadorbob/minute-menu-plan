@@ -520,6 +520,7 @@ class UserCO {
     String introduction
     Date joiningDate
     Long directorId
+    Long coachDbId
     List<String> roles = []
     Boolean isEnabled
     Boolean showAlcoholicContent = false
@@ -547,10 +548,13 @@ class UserCO {
             city = party?.subscriber?.city
             CoachSubscriber cs = CoachSubscriber.withCriteria(uniqueResult: true) {
                 to {
-                    eq('id',party.subscriber?.id)
+                    eq('id', party.subscriber.id)
                 }
             }
-            if (cs) coachId = cs?.frum?.party?.uniqueId
+            if (cs){
+              coachDbId = cs.frum?.id
+              coachId = cs?.frum?.party?.uniqueId
+            }
         }
         if (party?.coach) {
             Coach coach = party?.coach
@@ -673,6 +677,25 @@ class UserCO {
                         }
                     }
                     if (!cs) new CoachSubscriber(frum: coach.coach, to: subscriber).s()
+                }
+            }
+            if (coachDbId) {
+                Coach coach = Coach.get(coachDbId)
+                if (coach) {
+                    CoachSubscriber cs = CoachSubscriber.withCriteria(uniqueResult: true) {
+                        to {
+                            eq('id', subscriber.id)
+                        }
+                        or {
+                            isNull("activeTo")
+                            gt("activeTo", new Date())
+                        }
+                    }
+                    if (!cs) new CoachSubscriber(frum: coach, to: subscriber).s()
+                    else {
+                      cs.frum = coach
+                      cs.s()
+                    }
                 }
             }
         }
