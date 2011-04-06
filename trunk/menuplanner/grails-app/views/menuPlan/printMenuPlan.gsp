@@ -13,7 +13,10 @@
         border: 1px dotted black;
         visibility: visible !important;
     }
-
+    a, a:active, a:hover, a:visited {
+      text-decoration:none;
+      color: #000;
+    }
     .ui-sortable-placeholder * {
         visibility: hidden;
     }
@@ -42,7 +45,7 @@
     .week ul li ul li {
         float: left;
         border: #d5d4d4 1px solid;
-        width: 115px;
+        width: 125px;
         margin-left: 4px;
         padding: 6px 6px 6px 0px;
         clear: none;
@@ -53,10 +56,11 @@
         float: left;
         border: none;
         background: #b1bdc1;
-        width: 90px;
+        width: 10px;
         text-align: center;
         color: #000;
         font-size: 20px !important;
+      padding: 6px 6px 6px 3px;
         display: block;
     }
 
@@ -78,19 +82,23 @@
     }
 
     #daymenu ul li.first {
-        width: 110px;
+        width: 10px;
         float: left;
         background: url(images/day-menu-first.gif) repeat-x top left;
         border-right: 1px solid #fff;
+          margin-left: 4px;
+    padding: 6px 6px 6px 0;
     }
 
     #daymenu ul li {
         float: left;
     }
-
+    .tiny {
+      font-size:8px;
+    }
     #daymenu ul li li {
         float: left;
-        width: 115px;
+        width: 125px;
         font-size: 18px;
         color: #000;
         margin-left: 4px;

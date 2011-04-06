@@ -4,6 +4,7 @@ class Metric {
 
     String name
     String symbol
+    String small
     String definition
     MetricType metricType
 
@@ -13,8 +14,10 @@ class Metric {
 
     static constraints = {
         name(unique: true, nullable:false)
+        small(nullable:true)
     }
     static mapping = {
         tablePerHierarchy false
     }
+
 }
