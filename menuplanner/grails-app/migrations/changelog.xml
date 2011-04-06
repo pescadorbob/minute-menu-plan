@@ -2512,4 +2512,19 @@
         <changeSet author="brent" id="1300084594035-125">
             <sql>UPDATE comment SET poster_class='com.mp.domain.party.Party'  WHERE  poster_class='com.mp.domain.Party'</sql>
         </changeSet>
+        <changeSet author="brent" id="1300084594035-126">
+            <addColumn tableName="metric">
+                <column name="small" type="VARCHAR(255)">
+                    <constraints nullable="true"/>
+                </column>
+            </addColumn>
+        </changeSet>
+        <changeSet author="brent" id="1300084594035-127">
+            <sql>UPDATE metric SET small = ''</sql>
+            <sql>UPDATE metric SET small = 'h' where symbol='hrs'</sql>
+            <sql>UPDATE metric SET small = 'm' where symbol='mins'</sql>
+        </changeSet>
+        <changeSet author="brent" id="1300084594035-128">
+            <addNotNullConstraint columnDataType="VARCHAR(255)" columnName="small" tableName="metric"/>
+        </changeSet>
 </databaseChangeLog>
