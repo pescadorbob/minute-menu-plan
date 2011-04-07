@@ -11,6 +11,7 @@ import com.mp.domain.party.Party
 import com.mp.tools.UserTools
 import com.mp.domain.party.Coach
 import grails.util.GrailsUtil
+import com.mp.email.Tag
 
 class RecipeController {
   static config = ConfigurationHolder.config
@@ -216,7 +217,7 @@ class RecipeController {
           replyTo user?.party?.email
           from user?.party?.email
           to contributor?.email
-          subject "A comment was made on your recipe: ${recipe?.name}"
+          subject "${Tag.comment} A comment was made on your recipe: ${recipe?.name}"
           html g.render(template: '/recipe/comment', model: [party: user?.party, note: params?.comment, recipeId: recipe?.id])
         }
       }
@@ -228,7 +229,7 @@ class RecipeController {
           replyTo user?.party?.email
           from user?.party?.email
           to coach?.party?.email
-          subject "A comment was made on your client's [${contributor.name}] recipe: ${recipe?.name}"
+          subject "${Tag.comment} A comment was made on your client's [${contributor.name}] recipe: ${recipe?.name}"
           html g.render(template: '/recipe/comment', model: [party: user?.party, note: params?.comment, recipeId: recipe?.id])
         }
       }
@@ -239,7 +240,7 @@ class RecipeController {
           replyTo user?.party?.email
           from user?.party?.email
           to director?.party?.email
-          subject "A comment was made on one of your coaches [${coach?.party?.name}] client's [${contributor?.name}] recipe: ${recipe?.name}"
+          subject "${Tag.comment} A comment was made on one of your coaches [${coach?.party?.name}] client's [${contributor?.name}] recipe: ${recipe?.name}"
           html g.render(template: '/recipe/comment', model: [party: user?.party, note: params?.comment, recipeId: recipe?.id])
         }
       }
@@ -248,7 +249,7 @@ class RecipeController {
           replyTo user?.party?.email
           from user?.party?.email
           to poster?.email
-          subject "A comment was made on a recipe you have commented on: ${recipe?.name}"
+          subject "${Tag.comment} A comment was made on a recipe you have commented on: ${recipe?.name}"
           html g.render(template: '/recipe/comment', model: [party: user?.party, note: params?.comment, recipeId: recipe?.id])
         }
       }

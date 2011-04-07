@@ -4,6 +4,7 @@ import org.springframework.web.context.request.RequestContextHolder
 import com.mp.domain.themes.HomePage
 import com.mp.tools.UserTools
 import com.mp.tools.ThemeTools
+import com.mp.email.Tag
 
 class LoginController {
 
@@ -30,7 +31,7 @@ class LoginController {
             loginCredential.s()
             asynchronousMailService.sendAsynchronousMail {
                 to loginCredential?.email
-                subject "Your password for http://www.minutemenuplan.com/ has been reset."
+                subject "${Tag.passwordReset} Your password for http://www.minutemenuplan.com/ has been reset."
                 html g.render(template: '/login/passwordChangedNotification', model: [loginCredential: loginCredential, password: newPassword])
             }
             flash.message = message(code: 'login.password.change.sucessfull')
@@ -108,7 +109,7 @@ class LoginController {
 
             asynchronousMailService.sendAsynchronousMail {
                 to userLogin.email
-                subject "Email verification for Minute Menu Plan"
+                subject "${Tag.emailVerification} Email verification for Minute Menu Plan"
                 html g.render(template: '/user/accountVerification', model: [party: userLogin.party, email: userLogin.email, token: verificationToken.token])
             }
             flash.message = message(code: 'resend.verification.email.successful')
