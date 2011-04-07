@@ -12,7 +12,6 @@ import com.mp.domain.subscriptions.ProductOfferingSubscription
 class UtilController {
     def excelService
     def userService
-    def asynchronousMailService
     def facebookConnectService
     def utilService
     def masterDataBootStrapService

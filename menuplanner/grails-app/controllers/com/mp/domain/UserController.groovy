@@ -17,6 +17,7 @@ import com.mp.domain.party.CoachSubscriber
 import com.mp.domain.party.Administrator
 import com.mp.domain.party.SuperAdmin
 import static com.mp.MenuConstants.USER_IMAGE_SIZES
+import com.mp.email.Tag
 
 class UserController {
 
@@ -40,7 +41,7 @@ class UserController {
         asynchronousMailService.sendAsynchronousMail {
           from party?.email
           to email
-          subject "A Note from your ${role} : ${party}"
+          subject "${Tag.note} A Note from your ${role} : ${party}"
           html g.render(template: '/user/note', model: [party: party, note: note])
         }
       }

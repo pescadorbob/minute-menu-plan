@@ -15,3 +15,4 @@ After activation you may login to
 -- Admin
 
 
+<g:render template="/mail/compliance" />

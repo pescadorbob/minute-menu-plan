@@ -3,6 +3,7 @@ package com.mp.domain
 import javax.servlet.http.Cookie
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import com.mp.tools.UserTools
+import com.mp.email.Tag
 
 class ShoppingListController {
 
@@ -320,7 +321,7 @@ class ShoppingListController {
         String emailAddress = params?.emailId
         asynchronousMailService.sendAsynchronousMail {
             to emailAddress
-            subject "Your Shopping List : ${shoppingList.name}"
+            subject "${Tag.shoppingList} Your Shopping List : ${shoppingList.name}"
             html g.render(template: '/shoppingList/emailShoppingList', model: [shoppingList: shoppingList])
         }
         render "Email sent to ${emailAddress}"
