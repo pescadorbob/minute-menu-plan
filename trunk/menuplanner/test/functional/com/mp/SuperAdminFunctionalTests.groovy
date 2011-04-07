@@ -63,7 +63,7 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
         loginBySuperAdmin()
         byClass('userProfileLinkFT').click()
         assertStatus 200
-        assertTitle 'Minute Menu Plan : Show User'
+        assertTitle 'Minute Menu Plan : SuperAdmin Profile'
         def editUserButton = byClass('editUserButtonFT')
         editUserButton.click()
         def subscriberCheckbox = byId('chk_Subscriber')
@@ -74,7 +74,7 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
         updateUserButton.click()
         redirectEnabled = false
         followRedirect()
-        assertTitle 'Minute Menu Plan : Show User'
+        assertTitle 'Minute Menu Plan : SuperAdmin Profile'
         ['Admin', 'Subscriber', 'Super Admin'].each {role ->
             junit.framework.Assert.assertTrue(role in byClass('userRolesFT')*.asText())
         }
@@ -129,7 +129,7 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
         Integer finalPartyCount = Party.count()
         Integer finalAdminCount = Administrator.count()
         assertStatus 200
-        assertTitle 'Minute Menu Plan : Show User'
+        assertTitle 'Minute Menu Plan : Testuser1 Profile'
         junit.framework.Assert.assertTrue('Unable to create a party object for user', (finalPartyCount - initialPartyCount == 1))
         junit.framework.Assert.assertTrue('Unable to assign Administrator role to user', (finalAdminCount - initialAdminCount == 1))
         junit.framework.Assert.assertTrue('Unable to assign Subscriber role to user', (finalCount - initialCount == 1))
@@ -208,7 +208,7 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
 
         Integer intermediateSubscriberCount = Subscriber.count()
         Integer intermediateCoachCount = Coach.count()
-        assertTitle 'Minute Menu Plan : Show User'
+        assertTitle 'Minute Menu Plan : Sub Director User Profile'
         junit.framework.Assert.assertTrue('Unable to created a Subscriber', (intermediateSubscriberCount - initialSubscriberCount == 1))
         junit.framework.Assert.assertTrue('unable to created a Sub-Director', (intermediateCoachCount - initialCoachCount == 1))
         byClass('editUserButtonFT').click()
@@ -216,12 +216,12 @@ class SuperAdminFunctionalTests extends MenuPlannerFunctionalTests {
         byClass('updateUserButtonFT').click()
         redirectEnabled = false
         followRedirect()
-        assertTitle 'Minute Menu Plan : Show User'
+        assertTitle 'Minute Menu Plan : Sub Director User Profile'
         assertElementTextContains('flashMsgTst', getMessage('user.updateded.success'))
 
         Integer finalSubscriberCount = Subscriber.count()
         Integer finalCoachCount = Coach.count()
-        assertTitle 'Minute Menu Plan : Show User'
+        assertTitle 'Minute Menu Plan : Sub Director User Profile'
         junit.framework.Assert.assertTrue('Unable to created a Subscriber', (finalSubscriberCount - initialSubscriberCount == 1))
         junit.framework.Assert.assertTrue('unable to created a Sub-Director', (finalCoachCount - initialCoachCount == 1))
         logout()
