@@ -10,6 +10,7 @@ import javax.servlet.http.Cookie
 import com.mp.domain.party.Party
 import com.mp.tools.UserTools
 import com.mp.domain.party.Coach
+import grails.util.GrailsUtil
 
 class RecipeController {
   static config = ConfigurationHolder.config
@@ -206,50 +207,52 @@ class RecipeController {
 
     recipe?.addComment(user?.party, params?.comment)
     Party contributor = recipe?.contributor
-    // send a note to the contributor
-    if (contributor) {
-      posters.remove(contributor)
-      asynchronousMailService.sendAsynchronousMail {
-        replyTo user?.party?.email
-        from user?.party?.email
-        to contributor?.email
-        subject "A comment was made on your recipe: ${recipe?.name}"
-        html g.render(template: '/recipe/comment', model: [party: user?.party, note: params?.comment, recipeId: recipe?.id])
-      }
-    }
-    // send a note to the coach
-    Coach coach = contributor?.coach
-    if (coach) {
-      posters.remove(coach)
-      asynchronousMailService.sendAsynchronousMail {
-        replyTo user?.party?.email
-        from user?.party?.email
-        to coach?.party?.email
-        subject "A comment was made on your client's [${contributor.name}] recipe: ${recipe?.name}"
-        html g.render(template: '/recipe/comment', model: [party: user?.party, note: params?.comment, recipeId: recipe?.id])
-      }
-    }
-    def director = coach.director
-    if (director) {
-      posters.remove(director)
-      asynchronousMailService.sendAsynchronousMail {
-        replyTo user?.party?.email
-        from user?.party?.email
-        to director?.party?.email
-        subject "A comment was made on one of your coaches [${coach?.party?.name}] client's [${contributor?.name}] recipe: ${recipe?.name}"
-        html g.render(template: '/recipe/comment', model: [party: user?.party, note: params?.comment, recipeId: recipe?.id])
-      }
-    }
-    posters.each {poster ->
-      asynchronousMailService.sendAsynchronousMail {
-        replyTo user?.party?.email
-        from user?.party?.email
-        to poster?.email
-        subject "A comment was made on a recipe you have commented on: ${recipe?.name}"
-        html g.render(template: '/recipe/comment', model: [party: user?.party, note: params?.comment, recipeId: recipe?.id])
-      }
-    }
+    if (GrailsUtil.environment != 'test'){
 
+      // send a note to the contributor
+      if (contributor) {
+        posters.remove(contributor)
+        asynchronousMailService.sendAsynchronousMail {
+          replyTo user?.party?.email
+          from user?.party?.email
+          to contributor?.email
+          subject "A comment was made on your recipe: ${recipe?.name}"
+          html g.render(template: '/recipe/comment', model: [party: user?.party, note: params?.comment, recipeId: recipe?.id])
+        }
+      }
+      // send a note to the coach
+      Coach coach = contributor?.coach
+      if (coach) {
+        posters.remove(coach)
+        asynchronousMailService.sendAsynchronousMail {
+          replyTo user?.party?.email
+          from user?.party?.email
+          to coach?.party?.email
+          subject "A comment was made on your client's [${contributor.name}] recipe: ${recipe?.name}"
+          html g.render(template: '/recipe/comment', model: [party: user?.party, note: params?.comment, recipeId: recipe?.id])
+        }
+      }
+      def director = coach.director
+      if (director) {
+        posters.remove(director)
+        asynchronousMailService.sendAsynchronousMail {
+          replyTo user?.party?.email
+          from user?.party?.email
+          to director?.party?.email
+          subject "A comment was made on one of your coaches [${coach?.party?.name}] client's [${contributor?.name}] recipe: ${recipe?.name}"
+          html g.render(template: '/recipe/comment', model: [party: user?.party, note: params?.comment, recipeId: recipe?.id])
+        }
+      }
+      posters.each {poster ->
+        asynchronousMailService.sendAsynchronousMail {
+          replyTo user?.party?.email
+          from user?.party?.email
+          to poster?.email
+          subject "A comment was made on a recipe you have commented on: ${recipe?.name}"
+          html g.render(template: '/recipe/comment', model: [party: user?.party, note: params?.comment, recipeId: recipe?.id])
+        }
+      }
+    }
     redirect(action: 'show', controller: 'recipe', params: [id: recipe?.id])
   }
 

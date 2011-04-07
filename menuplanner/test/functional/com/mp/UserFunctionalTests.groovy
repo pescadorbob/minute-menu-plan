@@ -22,7 +22,7 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
         assertStatus 200
         Integer finalCount = Subscriber.count()
         assertTrue('Add User with valid values failed', (finalCount - initialCount == 1))
-        assertTitle 'Minute Menu Plan : Show User'
+        assertTitle 'Minute Menu Plan : Testuser1 Profile'
         assertElementTextContains('flashMsgTst', getMessage('user.created.success'))
         logout()
     }
@@ -74,13 +74,13 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
         loginToHomepage(loginFormData)
         javaScriptEnabled = false
         byName('profileLinkTst').click()
-        assertTitle 'Minute Menu Plan : Show User'
+        assertTitle 'Minute Menu Plan : User1 Profile'
         byClass('editUserButtonFT').click()
         assertTitle 'Minute Menu Plan : Edit User'
         byClass('updateUserButtonFT').click()
         redirectEnabled = false
         followRedirect()
-        assertTitle 'Minute Menu Plan : Show User'
+        assertTitle 'Minute Menu Plan : User1 Profile'
         assertElementTextContains('flashMsgTst', getMessage('user.updateded.success'))
         logout()
     }
@@ -122,7 +122,7 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
 
     public void changePasswordAndLogin(String newPassword) {
         byName('profileLinkTst').click()
-        assertTitle 'Minute Menu Plan : Show User'
+        assertTitle 'Minute Menu Plan : User1 Profile'
         byClass('editUserButtonFT').click()
         assertTitle 'Minute Menu Plan : Edit User'
         byName('password').setValue(newPassword)
@@ -130,7 +130,7 @@ class UserFunctionalTests extends MenuPlannerFunctionalTests {
         byClass('updateUserButtonFT').click()
         redirectEnabled = false
         followRedirect()
-        assertTitle 'Minute Menu Plan : Show User'
+        assertTitle 'Minute Menu Plan : User1 Profile'
         assertElementTextContains('flashMsgTst', getMessage('user.updateded.success'))
         logout()
     }
