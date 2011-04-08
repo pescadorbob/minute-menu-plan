@@ -54,12 +54,9 @@ public class AccountingTagLib {
       }
       ge('transactionDate',from)
       le('transactionDate',thru+1)
-    }?.sort { a, b ->
-      def dateCompare = a.transactionDate.compareTo(b.transactionDate)
-      if(!dateCompare)
-         return a.id - b.id
-      else return dateCompare
-    }.eachWithIndex {it, i ->
+        order('transactionDate')
+        order('id')
+    }?.eachWithIndex {it, i ->
       out << body((var): it, (status): i)
     }
   }

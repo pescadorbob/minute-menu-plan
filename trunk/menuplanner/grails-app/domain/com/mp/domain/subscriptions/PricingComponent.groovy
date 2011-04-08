@@ -14,4 +14,9 @@ ProductOffering pricingFor
   Float value
   String name
   String description
+
+    static mapping = {
+        tablePerHierarchy false
+    }
+
 }

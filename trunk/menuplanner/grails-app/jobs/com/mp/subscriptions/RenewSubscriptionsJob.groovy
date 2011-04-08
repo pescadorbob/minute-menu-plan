@@ -6,6 +6,7 @@ import com.mp.domain.accounting.AccountRoleType
 import com.mp.domain.accounting.Account
 import com.mp.domain.subscriptions.ProductOffering
 import com.mp.domain.party.Party
+import com.mp.domain.subscriptions.RecurringCharge
 
 class RenewSubscriptionsJob {
 
@@ -36,14 +37,16 @@ class RenewSubscriptionsJob {
                 AccountRole accountRole = AccountRole.findByTypeAndRoleFor(AccountRoleType.OWNER, party)
                 Account account = accountRole.describes
                 ProductOffering productOffering = subscription.subscribedProductOffering
-                Float costOfOffering = productOffering.pricing.sum {it.value} as Float
-                if (account.balance > costOfOffering) {
-                    println "Renewing expired subscription: " + subscription.id
-                    subscriptionService.renewSubscription(party, productOffering, subscription.activeTo)
-                    subscription.status = SubscriptionStatus.RENEWED
-                    subscription.s()
-                } else {
-                    println "Insufficient funds for expired subscription: " + subscription.id
+                RecurringCharge recurringCharge = productOffering.recurringCharge
+                if (recurringCharge) {
+                    if (account.balance > recurringCharge.value) {
+                        println "Renewing expired subscription: " + subscription.id
+                        subscriptionService.renewSubscription(party, productOffering, recurringCharge, subscription.activeTo)
+                        subscription.status = SubscriptionStatus.RENEWED
+                        subscription.s()
+                    } else {
+                        println "Insufficient funds for expired subscription: " + subscription.id
+                    }
                 }
             }
         }

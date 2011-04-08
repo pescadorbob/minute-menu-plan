@@ -46,7 +46,9 @@
             <input type="hidden" name="roles" value="${com.mp.domain.PartyRoleType.Subscriber.name()}"/>
             <div id="leftpanelbox">
                 <h1>Available Subscriptions:</h1>
-
+                <g:if test="${blankSubscriptionError}">
+                    <div class="errors">Please choose a Subscription.</div>
+                </g:if>
                 <table class="data"><tbody>
                 <tr>
                     <th>Subscription</th><th>Price</th>
@@ -55,10 +57,10 @@
                     <tr>
                         <td nowrap>
                             <g:radio value="${productOffering.id}" name="productId" checked="${productOffering.id == params.long('productId')}"/>
-                            <label for="${productOffering.id}">${productOffering.name} : ${productOffering.pricing*.description.join(' : ')}</label>
+                            <label for="${productOffering.id}">${productOffering.name} : ${productOffering.basePrice.description}</label>
                         </td>
                         <td align="right">
-                            <g:formatNumber number="${productOffering.pricing.sum{it.value}}" type="currency" currencyCode="USD"/>
+                            <g:formatNumber number="${productOffering.basePrice?.value}" type="currency" currencyCode="USD"/>
                         </td>
                     </tr>
                 </g:each>

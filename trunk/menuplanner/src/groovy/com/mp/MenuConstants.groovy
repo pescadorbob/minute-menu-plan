@@ -169,6 +169,7 @@ class MenuConstants {
     public static final Integer IMAGE_RENDERING_TYPE = 1
 
     public static final List<Integer> USER_IMAGE_SIZES = [50,200]
+    public static final String TRAIL_SUBSCRIPTION = '1 Month Free Trial'
 
     public static final s = {
       def object = delegate.save(flush: true)
