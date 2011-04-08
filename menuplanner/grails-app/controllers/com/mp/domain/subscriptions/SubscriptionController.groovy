@@ -136,7 +136,7 @@ class SubscriptionController {
                 switch (transactionType) {
                     case PayPalTransactionType.SUBSCRIPTION_SIGNUP.name:
                         Float amount = (params.float('amount1') ?: (params.float('payment_gross') ?: 0.0))
-                        new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: amount, description: "Subscription Payment Received: *** THANK YOU", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
+//                        new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: amount, description: "Subscription Signup Payment Received: *** THANK YOU", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
                         subscriptionService.createSubscriptionForUserSignUp(party, params.long('item_number'), now)
                         subscriptionService.makeCoachAndDirectorPayments(party, amount, now, transactionId)
                         party.isEnabled = true
