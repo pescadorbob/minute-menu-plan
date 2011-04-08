@@ -19,4 +19,4 @@ h1, h2, h3, h4, h5, h6, form, p, ul, li {
         </div>
     </div>
 </div>
-<g:render template="/mail/compliance" />
+<g:render template="/mail/compliance" model="['tag':'note']" />

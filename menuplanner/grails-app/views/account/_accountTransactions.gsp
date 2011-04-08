@@ -30,4 +30,3 @@
     </txn:eachTransaction>
     </tbody>
 </table>
-<g:render template="/mail/compliance" />

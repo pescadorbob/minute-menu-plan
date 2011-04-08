@@ -32,7 +32,7 @@ class LoginController {
             asynchronousMailService.sendAsynchronousMail {
                 to loginCredential?.email
                 subject "${Tag.passwordReset} Your password for http://www.minutemenuplan.com/ has been reset."
-                html g.render(template: '/login/passwordChangedNotification', model: [loginCredential: loginCredential, password: newPassword])
+                html g.render(template: '/login/passwordChangedNotification', model: [tag:Tag.passwordReset,loginCredential: loginCredential, password: newPassword])
             }
             flash.message = message(code: 'login.password.change.sucessfull')
             render(view: 'forgotPassword', model: [passwordChanged: true])
@@ -110,7 +110,7 @@ class LoginController {
             asynchronousMailService.sendAsynchronousMail {
                 to userLogin.email
                 subject "${Tag.emailVerification} Email verification for Minute Menu Plan"
-                html g.render(template: '/user/accountVerification', model: [party: userLogin.party, email: userLogin.email, token: verificationToken.token])
+                html g.render(template: '/user/accountVerification', model: [ party: userLogin.party, email: userLogin.email, token: verificationToken.token])
             }
             flash.message = message(code: 'resend.verification.email.successful')
             render(view: 'forgotPassword', model: [passwordChanged: true])

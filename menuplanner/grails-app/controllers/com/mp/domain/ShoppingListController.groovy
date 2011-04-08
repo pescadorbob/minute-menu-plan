@@ -322,7 +322,7 @@ class ShoppingListController {
         asynchronousMailService.sendAsynchronousMail {
             to emailAddress
             subject "${Tag.shoppingList} Your Shopping List : ${shoppingList.name}"
-            html g.render(template: '/shoppingList/emailShoppingList', model: [shoppingList: shoppingList])
+            html g.render(template: '/shoppingList/emailShoppingList', model: [tag:Tag.shoppingList,shoppingList: shoppingList])
         }
         render "Email sent to ${emailAddress}"
     }

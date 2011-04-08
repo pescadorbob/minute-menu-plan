@@ -20,7 +20,7 @@ public class Tag {
     GrailsUtil.environment == "production"?"[tag: shopping-list]":''
   }
   static  note = {
-    GrailsUtil.environment == "production"?"[tag: note]":''
+    GrailsUtil.environment == "production"?"[tag: note] ":''
   }
   static  passwordReset = {
     GrailsUtil.environment == "production"?"[tag: password-reset]":''

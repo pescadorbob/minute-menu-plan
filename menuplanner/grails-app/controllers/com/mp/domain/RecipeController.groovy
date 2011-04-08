@@ -218,7 +218,7 @@ class RecipeController {
           from user?.party?.email
           to contributor?.email
           subject "${Tag.comment} A comment was made on your recipe: ${recipe?.name}"
-          html g.render(template: '/recipe/comment', model: [party: user?.party, note: params?.comment, recipeId: recipe?.id])
+          html g.render(template: '/recipe/comment', model: [tag:Tag.comment,party: user?.party, note: params?.comment, recipeId: recipe?.id])
         }
       }
       // send a note to the coach
@@ -230,7 +230,7 @@ class RecipeController {
           from user?.party?.email
           to coach?.party?.email
           subject "${Tag.comment} A comment was made on your client's [${contributor.name}] recipe: ${recipe?.name}"
-          html g.render(template: '/recipe/comment', model: [party: user?.party, note: params?.comment, recipeId: recipe?.id])
+          html g.render(template: '/recipe/comment', model: [tag:Tag.comment,party: user?.party, note: params?.comment, recipeId: recipe?.id])
         }
       }
       def director = coach.director
@@ -241,7 +241,7 @@ class RecipeController {
           from user?.party?.email
           to director?.party?.email
           subject "${Tag.comment} A comment was made on one of your coaches [${coach?.party?.name}] client's [${contributor?.name}] recipe: ${recipe?.name}"
-          html g.render(template: '/recipe/comment', model: [party: user?.party, note: params?.comment, recipeId: recipe?.id])
+          html g.render(template: '/recipe/comment', model: [tag:Tag.comment,party: user?.party, note: params?.comment, recipeId: recipe?.id])
         }
       }
       posters.each {poster ->
@@ -250,7 +250,7 @@ class RecipeController {
           from user?.party?.email
           to poster?.email
           subject "${Tag.comment} A comment was made on a recipe you have commented on: ${recipe?.name}"
-          html g.render(template: '/recipe/comment', model: [party: user?.party, note: params?.comment, recipeId: recipe?.id])
+          html g.render(template: '/recipe/comment', model: [tag:Tag.comment,party: user?.party, note: params?.comment, recipeId: recipe?.id])
         }
       }
     }

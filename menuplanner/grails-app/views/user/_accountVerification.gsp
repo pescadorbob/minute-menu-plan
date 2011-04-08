@@ -15,4 +15,4 @@ After activation you may login to
 -- Admin
 
 
-<g:render template="/mail/compliance" />
+<g:render template="/mail/compliance" model="['tag':'account-verification']"/>
