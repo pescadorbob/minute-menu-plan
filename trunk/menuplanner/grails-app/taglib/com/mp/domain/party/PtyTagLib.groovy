@@ -75,6 +75,22 @@ public class PtyTagLib {
       out << body((var): obj, (status): index)
     }
   }
+  def clientCount = {attrs, body ->
+    def party = attrs.party ? attrs.party : null
+    def clients = 0
+    CoachSubscriber.withSession {
+      def now = new Date();
+      def c = CoachSubscriber.createCriteria()
+      clients = c.get {
+          projections {
+              countDistinct "to"
+          }
+          eq("frum",party.coach)
+          lt("activeFrom",now)
+      }
+    }
+    out << clients
+  }
   def emailClients = {attrs ->
     def party = attrs.party ? attrs.party : null
     def clients = []
