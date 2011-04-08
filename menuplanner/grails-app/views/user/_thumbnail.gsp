@@ -23,6 +23,9 @@
               <li>${party?.subscriber?.city ?: ''}</li>
               <li>${MenuPlan.findAllByOwner(party)?.size()} menu plans</li>
               <li>${party?.subscriber?.mouthsToFeed} mouths</li>
+              <g:if test="${party?.coach}">
+                <li><pty:clientCount party="${party}" /> clients</li>
+                </g:if>
               <g:if test="${party?.email}">
                 <li><a href="mailto:${party.email}">email</a></li>
                 </g:if>
