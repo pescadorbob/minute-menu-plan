@@ -94,9 +94,10 @@ class SubscriptionController {
                         if (transactionType.startsWith('TEST')) {transactionType -= 'TEST_'}
                         switch (transactionType) {
                             case ClickBankTransactionType.SUBSCRIPTION_SIGNUP.name:
-                                subscriptionService.createSubscriptionForUserSignUp(party, params.long('cproditem'), now, transactionId)
                                 Float amount = params.crebillamnt ? (params.long('crebillamnt') / 100).toFloat() : 0.0f
                                 new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: amount, description: "Subscription Payment Received: *** THANK YOU", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
+                                subscriptionService.createSubscriptionForUserSignUp(party, params.long('cproditem'), now)
+                                subscriptionService.makeCoachAndDirectorPayments(party, amount, now, transactionId)
                                 party.isEnabled = true
                                 party.s()
                                 sendWelcomeEmail(party)
@@ -134,7 +135,10 @@ class SubscriptionController {
 
                 switch (transactionType) {
                     case PayPalTransactionType.SUBSCRIPTION_SIGNUP.name:
-                        subscriptionService.createSubscriptionForUserSignUp(party, params.long('item_number'), now, transactionId)
+                        Float amount = (params.float('amount1') ?: (params.float('payment_gross') ?: 0.0))
+                        new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: amount, description: "Subscription Payment Received: *** THANK YOU", transactionType: AccountTransactionType.SUBSCRIPTION_PAYMENT).s()
+                        subscriptionService.createSubscriptionForUserSignUp(party, params.long('item_number'), now)
+                        subscriptionService.makeCoachAndDirectorPayments(party, amount, now, transactionId)
                         party.isEnabled = true
                         party.s()
                         sendWelcomeEmail(party)
@@ -169,7 +173,7 @@ class SubscriptionController {
         int productId = params?.int('productId')
         ProductOffering po = ProductOffering.get(productId)
         String item_name = po.name
-        RecurringCharge rc = po.pricing.toList().first()
+        RecurringCharge rc = po.recurringCharge
         String item_description = rc.description
         String item_price = rc.value
         String recurrence = rc.recurrence

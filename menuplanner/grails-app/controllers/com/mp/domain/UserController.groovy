@@ -17,6 +17,7 @@ import com.mp.domain.party.CoachSubscriber
 import com.mp.domain.party.Administrator
 import com.mp.domain.party.SuperAdmin
 import static com.mp.MenuConstants.USER_IMAGE_SIZES
+import static com.mp.MenuConstants.TRAIL_SUBSCRIPTION
 import com.mp.email.Tag
 
 class UserController {
@@ -31,43 +32,45 @@ class UserController {
         redirect(action: 'list')
     }
     def emailNote = {
-      Party party = Party.get(params?.partyId)
-      String note = params?.note
-      def emails;
-      String role = params?.role;
-      if(role.equals('coach')) emails = getClientEmails(party)
-      if(role.equals('director')) emails = getCoachesEmails(party)
-      emails.each { email ->
-        asynchronousMailService.sendAsynchronousMail {
-          from party?.email
-          to email
-          subject "${Tag.note}A Note from your ${role} : ${party}"
-          html g.render(template: '/user/note', model: [party: party, note: note])
+        Party party = Party.get(params?.partyId)
+        String note = params?.note
+        def emails;
+        String role = params?.role;
+        if (role.equals('coach')) emails = getClientEmails(party)
+        if (role.equals('director')) emails = getCoachesEmails(party)
+        emails.each { email ->
+            asynchronousMailService.sendAsynchronousMail {
+                from party?.email
+                to email
+                subject "${Tag.note} A Note from your ${role} : ${party}"
+                html g.render(template: '/user/note', model: [party: party, note: note])
+            }
         }
-      }
-      render "Emails sent to clients"
+        render "Emails sent to clients"
     }
+
     def getCoachesEmails = {party ->
-      def coaches = []
-      DirectorCoach.withSession {
-        def now = new Date();
-        coaches = DirectorCoach.findAllByFrumAndActiveFromLessThan(party.director, now)?.collect {it.to}
-      }
-      def emails = coaches.collect {
-        it?.party?.email
-      }
-      emails
+        def coaches = []
+        DirectorCoach.withSession {
+            def now = new Date();
+            coaches = DirectorCoach.findAllByFrumAndActiveFromLessThan(party.director, now)?.collect {it.to}
+        }
+        def emails = coaches.collect {
+            it?.party?.email
+        }
+        emails
     }
+
     def getClientEmails = {party ->
-      def clients = []
-      CoachSubscriber.withSession {
-        def now = new Date();
-        clients = CoachSubscriber.findAllByFrumAndActiveFromLessThan(party.coach, now)?.collect {it.to}
-      }
-      def emails = clients.collect {
-        it?.party?.email
-      }
-      emails
+        def clients = []
+        CoachSubscriber.withSession {
+            def now = new Date();
+            clients = CoachSubscriber.findAllByFrumAndActiveFromLessThan(party.coach, now)?.collect {it.to}
+        }
+        def emails = clients.collect {
+            it?.party?.email
+        }
+        emails
     }
     def delete = {
         Party party = Party.get(params.long('id'))
@@ -157,23 +160,23 @@ class UserController {
                 isNull('isEnabled')
             }
             order('name')
-            projections{
+            projections {
                 distinct('id')
             }
         }
-            def criteria1 = Party.createCriteria()
-            criteriaClosure.delegate = criteria1
-            def userIdsList = criteria1.listDistinct() {
-                criteriaClosure()
-                maxResults(params.max)
-                firstResult(params.offset)
-            }
-            userList = userIdsList ? Party.getAll(userIdsList) : []
-            def criteria2 = Party.createCriteria()
-            criteriaClosure.delegate = criteria2
-            total = criteria2.count() {
-                criteriaClosure()
-            }
+        def criteria1 = Party.createCriteria()
+        criteriaClosure.delegate = criteria1
+        def userIdsList = criteria1.listDistinct() {
+            criteriaClosure()
+            maxResults(params.max)
+            firstResult(params.offset)
+        }
+        userList = userIdsList ? Party.getAll(userIdsList) : []
+        def criteria2 = Party.createCriteria()
+        criteriaClosure.delegate = criteria2
+        total = criteria2.count() {
+            criteriaClosure()
+        }
 
         if (!params.userStatus) {
             params.userStatus = 'all'
@@ -202,13 +205,13 @@ class UserController {
         if (coachId) {
             userCO.coachId = coachId
         }
-        render(view: 'chooseSubscription', model: [availableProducts: ProductOffering.list(), userCO: userCO])
+        render(view: 'chooseSubscription', model: [availableProducts: ProductOffering.list() - ProductOffering.findByName(TRAIL_SUBSCRIPTION), userCO: userCO])
 
     }
 
     def clickBankPromotion = {
         Long clickBankFeaturedPlanId = ConfigurationHolder.config.grails.clickBank.featuredPlanId
-        if(clickBankFeaturedPlanId && ProductOffering.exists(clickBankFeaturedPlanId)) {
+        if (clickBankFeaturedPlanId && ProductOffering.exists(clickBankFeaturedPlanId)) {
             render(view: 'clickBankLink')
         } else {
             render(view: 'noClickBankPromotion')
@@ -415,31 +418,32 @@ class UserController {
 //    }
 
     def newUserCheckout = {UserCO userCO ->
-        Party currentParty = UserTools.currentUser?.party
-        if (currentParty) {
-            userCO = new UserCO(currentParty)
-            if (params.productId) {
+        if (params.productId) {
+            Party currentParty = UserTools.currentUser?.party
+            if (currentParty) {
+                userCO = new UserCO(currentParty)
                 forward(action: 'createSubscription', controller: 'subscription', params: [userId: currentParty.uniqueId, productId: params.productId])
             } else {
-                forward(action: 'chooseSubscription', availableProducts: ProductOffering.list(), userCO: userCO)
+                userCO.isEnabled = null
+                List<Cookie> cookies = request.cookies as List
+                Cookie coachId = cookies.find {it.name == 'coachId'}
+                if (coachId) {
+                    userCO.coachId = coachId.value
+                }
+                if (!userCO.hasErrors()) {
+                    Party party = userCO.createParty()
+                    forward(action: 'createSubscription', controller: 'subscription', params: [userId: party.uniqueId, productId: params.productId])
+                } else {
+                    userCO.errors.allErrors.each {
+                        println it
+                    }
+                    render(view: 'chooseSubscription', model: [availableProducts: ProductOffering.list() - ProductOffering.findByName(TRAIL_SUBSCRIPTION), userCO: userCO, productId: params.productId])
+                }
             }
         } else {
-            userCO.isEnabled = null
-            List<Cookie> cookies = request.cookies as List
-            Cookie coachId = cookies.find {it.name == 'coachId'}
-            if (coachId) {
-                userCO.coachId = coachId.value
-            }
-            if (!userCO.hasErrors()) {
-                Party party = userCO.createParty()
-                forward(action: 'createSubscription', controller: 'subscription', params: [userId: party.uniqueId, productId: params.productId])
-            } else {
-                userCO.errors.allErrors.each {
-                    println it
-                }
-                render(view: 'chooseSubscription', model: [availableProducts: ProductOffering.list(), userCO: userCO, productId: params.productId])
-            }
+            render(view: 'chooseSubscription', model: [availableProducts: ProductOffering.list() - ProductOffering.findByName(TRAIL_SUBSCRIPTION), userCO: userCO, blankSubscriptionError: true])
         }
+
     }
 
     def verify = {
@@ -552,9 +556,9 @@ class UserCO {
                     eq('id', party.subscriber.id)
                 }
             }
-            if (cs){
-              coachDbId = cs.frum?.id
-              coachId = cs?.frum?.party?.uniqueId
+            if (cs) {
+                coachDbId = cs.frum?.id
+                coachId = cs?.frum?.party?.uniqueId
             }
         }
         if (party?.coach) {
@@ -694,8 +698,8 @@ class UserCO {
                     }
                     if (!cs) new CoachSubscriber(frum: coach, to: subscriber).s()
                     else {
-                      cs.frum = coach
-                      cs.s()
+                        cs.frum = coach
+                        cs.s()
                     }
                 }
             }

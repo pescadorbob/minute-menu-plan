@@ -4,9 +4,9 @@ package com.mp.domain.subscriptions
  * Created by Brent Fisher
  *
  */
- 
+
 public class BasePrice extends PricingComponent {
-         static mapping = {
+    static mapping = {
         tablePerHierarchy false
     }
 }

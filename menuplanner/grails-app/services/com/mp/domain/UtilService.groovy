@@ -1,5 +1,6 @@
 package com.mp.domain
 
+import static com.mp.MenuConstants.*
 import com.mp.IngredientItemVO
 import com.mp.domain.party.Party
 import com.mp.domain.subscriptions.ProductOffering
@@ -10,7 +11,7 @@ class UtilService {
 
     void allocateTrailSubscription(Party party) {
         accountingService.findOrCreateNewAccount(party)
-        subscriptionService.createSubscriptionForUserSignUp(party, ProductOffering.findByName('1 Month Free Trial').id)
+        subscriptionService.createSubscriptionForUserSignUp(party, ProductOffering.findByName(TRAIL_SUBSCRIPTION).id)
     }
 
     List<IngredientItemVO> parseIngredients(String rawIngredients) {

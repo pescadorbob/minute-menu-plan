@@ -63,7 +63,7 @@ public class AccountingService {
         def c = AccountTransaction.createCriteria()
         def balance = c.get {
             transactionFor {
-                idEq(acct.id)
+                eq('id', acct.id)
             }
             projections {
                 sum('amount')
@@ -89,7 +89,7 @@ public class AccountingService {
         def c = AccountTransaction.createCriteria()
         def balance = c.get {
             transactionFor {
-                idEq(txn.transactionFor.id)
+                eq('id', txn.transactionFor.id)
             }
             and {
                 le('id', txn.id)

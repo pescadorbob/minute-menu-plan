@@ -2527,4 +2527,31 @@
         <changeSet author="brent" id="1300084594035-128">
             <addNotNullConstraint columnDataType="VARCHAR(255)" columnName="small" tableName="metric"/>
         </changeSet>
+        <changeSet author="aman (generated)" id="1302180580647-1">
+            <createTable tableName="base_price">
+                <column name="id" type="BIGINT">
+                    <constraints nullable="false" primaryKey="true"/>
+                </column>
+            </createTable>
+        </changeSet>
+        <changeSet author="aman (generated)" id="1302180580647-2">
+            <createTable tableName="recurring_charge">
+                <column name="id" type="BIGINT">
+                    <constraints nullable="false" primaryKey="true"/>
+                </column>
+                <column name="recurrence" type="VARCHAR(255)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="start_after" type="VARCHAR(255)"/>
+            </createTable>
+        </changeSet>
+        <changeSet author="aman (generated)" id="1302180580647-34">
+            <dropColumn columnName="class" tableName="pricing_component"/>
+        </changeSet>
+        <changeSet author="aman (generated)" id="1302180580647-35">
+            <dropColumn columnName="recurrence" tableName="pricing_component"/>
+        </changeSet>
+        <changeSet author="aman (generated)" id="1302180580647-36">
+            <dropColumn columnName="start_after" tableName="pricing_component"/>
+        </changeSet>
 </databaseChangeLog>
