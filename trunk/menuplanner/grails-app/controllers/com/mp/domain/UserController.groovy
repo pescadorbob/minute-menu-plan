@@ -41,7 +41,7 @@ class UserController {
         asynchronousMailService.sendAsynchronousMail {
           from party?.email
           to email
-          subject "${Tag.note} A Note from your ${role} : ${party}"
+          subject "${Tag.note}A Note from your ${role} : ${party}"
           html g.render(template: '/user/note', model: [party: party, note: note])
         }
       }

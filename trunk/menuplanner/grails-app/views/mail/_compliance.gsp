@@ -1,6 +1,8 @@
-<a href='<mxm var="unsub" />'>Your unsub text goes here</a>
+
+This email was sent as part of your membership in the MinuteMenuPlan community.<br/>
+If you don't want to recieve any more <em>${tag}</em> emails click <a href='<mxm var="unsub" />'>unsubscribe</a>.
 <div class="address">
-  <span>Access-Wealth, LLC.</span>
-  <span>2576 Campus Drive</span>
-  <span>Cottonwood Heights, UT 84121</span>
+  <span>MinuteMenuPlan.com<br/>
+  2576 Campus Drive<br/>
+  Cottonwood Heights, UT 84121</span>
 </div>
