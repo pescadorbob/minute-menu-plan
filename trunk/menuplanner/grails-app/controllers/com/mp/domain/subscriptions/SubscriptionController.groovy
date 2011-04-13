@@ -100,7 +100,7 @@ class SubscriptionController {
                                 subscriptionService.makeCoachAndDirectorPayments(party, amount, now, transactionId)
                                 party.isEnabled = true
                                 party.s()
-                                sendWelcomeEmail(party)
+                                sendWelcomeEmail(party, '/user/clickBankWelcomeEmail')
                                 break;
                             case ClickBankTransactionType.SUBSCRIPTION_CANCELLED.name:
                                 new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription has been cancelled", transactionType: AccountTransactionType.SUBSCRIPTION_CANCELLED).s()
@@ -141,7 +141,7 @@ class SubscriptionController {
                         subscriptionService.makeCoachAndDirectorPayments(party, amount, now, transactionId)
                         party.isEnabled = true
                         party.s()
-                        sendWelcomeEmail(party)
+                        sendWelcomeEmail(party, '/user/paypalWelcomeEmail')
                         break;
                     case PayPalTransactionType.SUBSCRIPTION_CANCELLED.name:
                         new AccountTransaction(uniqueId: transactionId, transactionFor: account, transactionDate: now, amount: 0.0, description: "Subscription has been cancelled", transactionType: AccountTransactionType.SUBSCRIPTION_CANCELLED).s()
@@ -305,11 +305,11 @@ class SubscriptionController {
         }
     }
 
-    private void sendWelcomeEmail(Party party) {
+    private void sendWelcomeEmail(Party party, String template) {
         asynchronousMailService.sendAsynchronousMail {
             to party.userLogin.email
             subject "Welcome to Minute Menu Plan"
-            html g.render(template: '/user/welcomeEmail', model: [party: party])
+            html g.render(template: template, model: [party: party])
         }
     }
 
