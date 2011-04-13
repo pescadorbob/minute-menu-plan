@@ -108,7 +108,7 @@
                                 <span class="pointer" onclick="showSubCategoryDivMenuPlan('${category?.id}');">< ${category}</span><br/>
                                 <div id="category${category?.id}" class="categoryMenuPlan">
                                     <a href="javascript:void(0);" onclick="jQuery(this).parent().hide();" style="float:right;">Close</a>
-                                    <g:each in="${category.subCategories.findAll{it.id in subCategories*.id}}" var="${subCategory}">
+                                    <g:each in="${category.subCategories.toList().findAll{it.id in subCategories*.id}}" var="${subCategory}">
                                         <span class="pointer" onclick="submitSearchForm(this, 'subCategoriesString', '${subCategory}');
                                         jQuery(this).parent().hide();">${subCategory}</span><br/>
                                     </g:each>
