@@ -58,16 +58,15 @@ sessions = []
 // set per-environment serverURL stem for creating absolute links
 grails {
     mail {
-        host = "smtp.gmail.com"
-        port = 465
-        username = "qa.menuplanner@gmail.com"
-        password = "minutemenu"
-        props = ["mail.smtp.auth": "true",
-                "mail.smtp.socketFactory.port": "465",
-                "mail.smtp.socketFactory.class": "javax.net.ssl.SSLSocketFactory",
-                "mail.smtp.socketFactory.fallback": "false"]
+        host = "aws-smtp.critsend.com"
+        port = 587
+        username = "bc.fisher@yahoo.com"
+        password = "y8dUV6SXWT1nTR"
+        props = ["mail.smtp.starttls.enable": "true",
+                "mail.smtp.port": "587"]
     }
 }
+grails.mail.default.from = "MinuteMenuPlan Admin <bc.fisher@yahoo.com>"
 
 uiperformance {
     html.compress = true
