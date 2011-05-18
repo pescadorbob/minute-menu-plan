@@ -1,0 +1,5 @@
+export JAVA_HOME=/usr/lib/jvm/java-6-sun/
+export PATH=$PATH:/opt/grails-1.2.1/bin
+export GRAILS_PROJECT_HOME=~/menuplanner
+export GRAILS_VERSION=1.2.1
+alias sql='mysql --user=root --password=mmdefault'
