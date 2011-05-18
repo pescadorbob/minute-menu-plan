@@ -1,0 +1,20 @@
+Comment following line in /etc/mysql/my.cnf:
+#bind-address = 127.0.0.1
+
+Eexecuted following commands:
+
+CREATE USER 'admin'@'%' IDENTIFIED BY 'admin';
+GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%' WITH GRANT OPTION;
+
+Restart MySql
+
+Access using:
+mysql -h www.minutemenuplan.com --user=admin --password=admin
+
+Other than this, I opened port 3306 on server firewall.
+To change your password you can use following sql commands on server:
+mysql -u root -p
+use mysql
+update user set password=PASSWORD("mynewpassword") where User='admin';
+flush privileges
+quit
