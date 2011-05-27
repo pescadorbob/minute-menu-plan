@@ -1,2 +1,2 @@
 # m h  dom mon dow   command
-* 0/4 * * * /home/ubuntu/backupDataToS3.sh
+0 */4 * * * /home/ubuntu/backupDataToS3.sh
