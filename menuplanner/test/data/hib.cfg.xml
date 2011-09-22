@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory >
+        <property name="connection.url">jdbc:mysql://localhost:3306/menuplanner?autoReconnect=true</property>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">igdefault</property>
+        <property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+        <!-- JDBC connection settings -->
+        <!-- JDBC connection pool, use Hibernate internal connection pool -->
+        <property name="connection.pool_size">5</property>
+        <!-- Enable Hibernate's automatic session context management -->
+        <property name="current_session_context_class">thread</property>
+
+        <!-- Disable the second-level cache  -->
+        <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+
+        <!-- Display and format all executed SQL to stdout -->
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+
+        <!-- Drop and re-create the database schema on startup -->
+        <!--<property name="hbm2ddl.auto"></property>-->
+
+        <!-- Mapping to hibernate mapping files -->
+        <!-- DB schema will be updated if needed -->
+        <!-- <property name="hbm2ddl.auto">update</property> -->
+        <mapping class="com.mp.domain.Aisle"/>
+        <mapping class="com.mp.domain.Category"/>
+        <mapping class="com.mp.domain.CommentAbuse"/>
+        <mapping class="com.mp.domain.Company"/>
+        <mapping class="com.mp.domain.Day"/>
+        <mapping class="com.mp.domain.FacebookAccount"/>
+        <mapping class="com.mp.domain.Image"/>
+        <mapping class="com.mp.domain.Item"/>
+        <mapping class="com.mp.domain.LoginCredential"/>
+        <mapping class="com.mp.domain.Meal"/>
+        <mapping class="com.mp.domain.MeasurableProduct"/>
+        <mapping class="com.mp.domain.MenuPlan"/>
+        <mapping class="com.mp.domain.Metric"/>
+        <mapping class="com.mp.domain.Nutrient"/>
+        <mapping class="com.mp.domain.PreparationMethod"/>
+        <mapping class="com.mp.domain.Product"/>
+        <mapping class="com.mp.domain.Quantity"/>
+        <mapping class="com.mp.domain.QuickFill"/>
+
+    </session-factory>
+</hibernate-configuration>

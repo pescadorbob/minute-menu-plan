@@ -10,7 +10,9 @@ class ImageController {
 
     def image = {
         Image image
-        if (params?.id) {
+        if (params?.image){
+          image = params.image
+        } else if (params?.id) {
             image = Image.get(params.id)
         }
         byte[] fileContent

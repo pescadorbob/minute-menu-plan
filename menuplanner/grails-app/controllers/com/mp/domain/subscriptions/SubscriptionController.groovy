@@ -20,10 +20,14 @@ import org.apache.commons.codec.digest.DigestUtils
 import javax.servlet.http.HttpServletRequest
 import com.mp.domain.UserLogin
 import com.mp.subscriptions.clickBank.ClickBankTransactionType
+import com.mp.subscriptions.SubscriptionStatus
+import groovy.time.TimeCategory
+import com.mp.MenuConstants
 
 class SubscriptionController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    def utilService
     def subscriptionService
     def accountingService
     def asynchronousMailService
@@ -168,18 +172,49 @@ class SubscriptionController {
     def index = {
         redirect(action: "list", params: params)
     }
+    def completeCommunitySubscription = {
+      String item_name = po.name
+      Party party = Party.findByUniqueId(params.userId)
+      VerificationToken verificationToken = new VerificationToken()
+      verificationToken.party = party
+      verificationToken.s()
+
+      asynchronousMailService.sendAsynchronousMail {
+          to party.userLogin.email
+          subject "Email verification for Minute Menu Plan"
+          html g.render(template: '/user/accountVerification', model: [party: party, email: party.userLogin.email, token: verificationToken.token])
+      }
+      render(view: '/user/registrationAcknowledgement', model: [user: party])
+
+    }
     def createSubscription = {
         String userId = params?.userId
         int productId = params?.int('productId')
         ProductOffering po = ProductOffering.get(productId)
         String item_name = po.name
-        RecurringCharge rc = po.recurringCharge
-        String item_description = rc.description
-        String item_price = rc.value
-        String recurrence = rc.recurrence
-        String startAfter = rc.startAfter
-        render(view: '/subscription/connectToPaypal', model: [startAfter: startAfter, recurrence: recurrence, item_name: item_name,
-                item_description: item_description, item_price: item_price, userId: userId, item_number: po.id])
+        if(po.basePrice?.value <= 0){
+          Party party = Party.findByUniqueId(params.userId)
+          party.isEnabled = true
+          party.s()
+          utilService.allocatePendingCommunitySubscription(party)
+          //log in the user...
+          session.loggedUserId = party?.id?.toString()
+          session.setMaxInactiveInterval(MenuConstants.SESSION_TIMEOUT);
+          party?.lastLogin = new Date()
+          party?.s()
+
+          render(view: '/user/registrationAcknowledgement', model: [user: party])
+
+        } else {
+          Party party = userCO.createParty()
+          RecurringCharge rc = po.recurringCharge
+          String item_description = rc.description
+          String item_price = rc.value
+          String recurrence = rc.recurrence
+          String startAfter = rc.startAfter
+          render(view: '/subscription/connectToPaypal', model: [startAfter: startAfter, recurrence: recurrence, item_name: item_name,
+                  item_description: item_description, item_price: item_price, userId: userId, item_number: po.id])
+        }
     }
 
     def createClickBankSubscription = {

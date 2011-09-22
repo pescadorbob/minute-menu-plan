@@ -6,7 +6,9 @@
          <g:if test="${index %3==0}">
           </div><div class="clearfix">
          </g:if>
-          <g:render template="/recipe/showRecipeForRecipeCard" model="['item':item ,'index':index]"/>
+          <analytics:profile name="recipe:${item.name}" details="">
+            <g:render template="/recipe/showRecipeForRecipeCard" model="['item':item ,'index':index]"/>
+          </analytics:profile>
         </g:each>
        </div>
     </ul>

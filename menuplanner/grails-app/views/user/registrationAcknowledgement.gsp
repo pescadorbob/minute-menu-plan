@@ -18,7 +18,13 @@
             <div class="leftbox clearfix">
                 <div id="rightpanel-welcome">
                     <ul>
-                        <li><g:message code="new.freeUser.registration.acknowledgement"/></li>
+                        <li>
+Thank you for registering with the Minute Menu Plan.<br/>
+<g:if test="${!user?.subscriber?.subscriptions*.requirements*.fulfilledBy}">
+To complete your registration, please complete the following:
+  <g:render template="pendingSubscriptions" model="[pendingSubscriptions:pendingSubscriptions]" />
+       </g:if>
+                        </li>
                     </ul>
                     <div id="right-link-back">
                         Click here to go back to <g:link class="registrationAcknowledgementFT" uri="/">Home Page</g:link>

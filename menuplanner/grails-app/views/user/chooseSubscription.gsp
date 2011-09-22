@@ -34,15 +34,21 @@
         </g:if>
 
         <div class="clearfix"><br/>
-            The Minute Menu plan is an online software service.
-            Please choose a subscription level from the options below.<br/>
-            <br/>
+            Some information is available to subscribed community members only.<br/>
+            Why not subscribe to the Minute Menu Plan community to see more.<br/>          
+          <g:if test="${UserTools.currentUser}">
+          <g:if test="${pendingSubscriptions?.size()>0}">
+            The following PENDING subscriptions were found that you could activate: </br>
+            <g:render template="pendingSubscriptions" model="[pendingSubscriptions:pendingSubscriptions]" />
+          </g:if>
+          </g:if>
+          <i>If you really want don't want to contribute a recipe, then you can purchase a subscription.  You choose.</i>
         </div>
 
     %{--<div id="ajaxPaypalForm" style="display:none">--}%
     %{----}%
     %{--</div>--}%
-        <g:form name="googleCheckoutForm" action="newUserCheckout">
+        <g:form name="googleCheckoutForm" action="newUserCheckout" id="createAccountForm">
             <input type="hidden" name="roles" value="${com.mp.domain.PartyRoleType.Subscriber.name()}"/>
             <div id="leftpanelbox">
                 <h1>Available Subscriptions:</h1>
@@ -53,19 +59,30 @@
                 <tr>
                     <th>Subscription</th><th>Price</th>
                 </tr>
+                <%
+                   boolean isSelectedProductFree = false
+                %>
                 <g:each in="${availableProducts}" var="productOffering">
+                  <%
+                    if(productOffering.id == params.long('productId')&&
+                       productOffering.basePrice?.value <=0) isSelectedProductFree = true
+                  %>
+                  <g:if test="${(UserTools.currentUser  && productOffering.basePrice?.value > 0) ||
+                                 !UserTools.currentUser}">
+
                     <tr>
-                        <td nowrap>
-                            <g:radio value="${productOffering.id}" name="productId" checked="${productOffering.id == params.long('productId')}"/>
-                            <label for="${productOffering.id}">${productOffering.name} : ${productOffering.basePrice.description}</label>
+                        <td class="${productOffering.basePrice?.value <=0? "free":"paypal"}" nowrap>
+                            <g:radio id="productOffering_${productOffering.id}" value="${productOffering.id}" name="productId" checked="${productOffering.id == params.long('productId')}"/>
+
+                            <label for="productOffering_${productOffering.id}">${productOffering.name} : ${productOffering.basePrice?.description}</label>
                         </td>
                         <td align="right">
                             <g:formatNumber number="${productOffering.basePrice?.value}" type="currency" currencyCode="USD"/>
                         </td>
                     </tr>
+                  </g:if>
                 </g:each>
                 </tbody></table>
-
                 <g:if test="${!UserTools.currentUser}">
                     <div class="account-link">
                         <h1>Profile Information</h1>
@@ -133,7 +150,11 @@
 
                         </g:if>
                         <li>
-                            <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_subscribeCC_LG.gif" id="submitForm"/>
+                          <g:if test="${isSelectedProductFree}">
+                            <input type="image" src="${resource(dir:'images', file:'click-FreeUserSignup.jpg')}" id="submitForm"/>
+                            </g:if><g:else>
+                          <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_subscribeCC_LG.gif" id="submitForm"/>
+                        </g:else>
                             %{--<g:render template="/user/googleCheckout"/>--}%
                         </li>
                     </ul>
@@ -152,14 +173,16 @@
 
     </div>
 </div>
-%{--<script type="text/javascript">--}%
-%{--jQuery("#submitForm").click(function(){--}%
-%{--jQuery.post("${createLink(action:'newUserCheckout')}",function(htmlData){--}%
-%{--//                  jQuery("#googleCheckoutForm").hide()--}%
-%{--jQuery("#ajaxPaypalForm").html(htmlData)--}%
-%{--})--}%
-%{--return false;--}%
-%{--})--}%
-%{--</script>--}%
+<script type="text/javascript">
+jQuery("td.free").click(function(){
+
+  jQuery("#submitForm").attr( 'src', '${resource(dir:'images', file:'click-FreeUserSignup.jpg')}' )
+  return true;
+})
+jQuery("td.paypal").click(function(){
+  jQuery("#submitForm").attr( 'src', 'https://www.paypal.com/en_US/i/btn/btn_subscribeCC_LG.gif' )
+  return true;
+})
+</script>
 </body>
 </html>

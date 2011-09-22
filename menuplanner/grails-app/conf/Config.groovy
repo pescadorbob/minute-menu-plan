@@ -187,7 +187,7 @@ environments {
     test {
         migrations.enabled = false
         google.analytics.enabled = false
-        grails.serverURL = "http://qa.menuplanner.intelligrape.net"
+        grails.serverURL = "http://localhost:8080/menuplanner"
         facebookConnect {
             apiKey = "c7cb03d1076112dfdee19d3e4972c3eb"
             secretKey = "2f069ab14fb4c6ab88cfe463aa9d4344"
@@ -299,6 +299,7 @@ log4j = {
 
             warn 'org.mortbay.log'
             debug "grails.app", "grails.app.tagLib", "com.mp", "grails.app.filter"
+            info "com.linkedin.grails"
         }
     }
 

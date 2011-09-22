@@ -73,6 +73,11 @@
               </g:if>
         </li>
     </ul>
+
+</div>
+    <g:if test="${nutrition}&& !${recipe?.nutrients}">
+                    <g:render template="nutritionFacts" model="[nutrition:nutrition]"/>
+    </g:if>
     <g:if test="${UserTools.currentUser}">
         <g:if test="${isPrintable}">
             <mp:commentsForPrinting recipeId="${recipe?.id}"/>
@@ -87,4 +92,3 @@
             <g:link controller="user" action="chooseSubscription"><div class="orderbtn"><h3>60 day Risk-Free</h3>Sign Up Now</div></g:link>
         </div>
     </g:else>
-</div>

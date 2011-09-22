@@ -3,6 +3,7 @@ package com.mp.subscriptions
 public enum SubscriptionStatus {
 
     CURRENT('CURRENT'),
+    PENDING('PENDING'),
     EXPIRED('EXPIRED'),
     RENEWED('RENEWED')
 

@@ -36,15 +36,7 @@
                                 </td>
                             </tr>
                         
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="rule"><g:message code="feature.rule.label" default="Rule" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: feature, field: 'rule', 'errors')}">
-                                    <g:textField name="rule" value="${feature?.rule}" />
-                                </td>
-                            </tr>
-                        
+
                             <tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="name"><g:message code="feature.name.label" default="Name" /></label>
@@ -54,6 +46,22 @@
                                 </td>
                             </tr>
                         
+                        <tr class="prop">
+                            <td valign="top" class="name">
+                                <label for="description"><g:message code="feature.description.label" default="Description" /></label>
+                            </td>
+                            <td valign="top" class="value ${hasErrors(bean: feature, field: 'description', 'errors')}">
+                                <g:textField name="description" value="${feature?.description}" />
+                            </td>
+                        </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name">
+                                <label for="rule"><g:message code="feature.rule.label" default="Rule" /></label>
+                            </td>
+                            <td valign="top" class="value ${hasErrors(bean: feature, field: 'rule', 'errors')}">
+                                <g:textField name="rule" value="${feature?.rule}" />
+                            </td>
+                        </tr>
                             <tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="activeFrom"><g:message code="feature.activeFrom.label" default="Active From" /></label>

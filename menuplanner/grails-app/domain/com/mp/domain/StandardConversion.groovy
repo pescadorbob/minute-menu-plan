@@ -6,10 +6,13 @@ import org.apache.commons.math.fraction.ProperFractionFormat
 import static com.mp.MenuConstants.*
 
 class StandardConversion {
+  static transients = {'getQuantityToSave'
+    'getQuantityValueString'}
     Unit sourceUnit
     Unit targetUnit
     Float conversionFactor
 
+  // every unit has a conversion to target mL
     public static Quantity getQuantityToSave(String amountFraction, Unit displayUnit, Float density = 1.0f, List<StandardConversion> standardConversions = []) {
         Quantity result
         Float amount

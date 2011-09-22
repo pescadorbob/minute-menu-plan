@@ -18,4 +18,12 @@ function showPrintInstruction() {
     jQuery('#showPrintInstructions').show()
     return false;
 }
+function showNutritionFacts(){
+    jQuery('#nutri-info').show();
+    jQuery('#nutritional-information').hide();
+}
+function hideNutritionFacts(){
+    jQuery('#nutri-info').hide();
+    jQuery('#nutritional-information').show();
+}
 

@@ -5,6 +5,7 @@ import com.mp.domain.themes.HomePage
 import com.mp.tools.UserTools
 import com.mp.tools.ThemeTools
 import com.mp.email.Tag
+import com.mp.MenuConstants
 
 class LoginController {
 
@@ -13,6 +14,7 @@ class LoginController {
     def index = {
         if (UserTools.currentUser) {
             flash.message = flash.message //This is required to forward any flash message from previous request during redirects
+            session.setMaxInactiveInterval(MenuConstants.SESSION_TIMEOUT);
             redirect(controller: 'recipe', action: 'list')
         } else {
             render(view: 'home', model: [homePage: ThemeTools.activePage, testimonials: Testimonial.findAllByShowOnHomepage(true)])
@@ -53,6 +55,7 @@ class LoginController {
             if (loginCredential) {
                 if (loginCredential.party.isEnabled) {
                     session.loggedUserId = loginCredential?.party?.id?.toString()
+                    session.setMaxInactiveInterval(MenuConstants.SESSION_TIMEOUT);
                     loginCredential?.party?.lastLogin = new Date()
                     loginCredential?.party?.s()
                     if (params.targetUri?.size()) {

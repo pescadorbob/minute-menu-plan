@@ -4,7 +4,7 @@
     <ul><li><nobr>
       <theme:gadget location="${ElementLocation.MENU}" contextRule="Featured Menus"/>
         <g:each in="${menuPlans}" var="menuPlan">
-            <g:link controller="menuPlan" action="show" id="${menuPlan.id}">${menuPlan.name}</g:link>
+            <g:link controller="menuPlan" action="show" id="${menuPlan[0]}">${menuPlan[1]}</g:link>
         </g:each>
     </nobr></li>
         <li><nobr>

@@ -18,6 +18,7 @@
             </table>
             <table id="tableIngredients" cellspacing="0px" cellpadding="0px" width="100%" class="menuplannerTab">
                 <tr id="tableIngredientsHeader" class="mnuTableHeader">
+                    <td width="18" ></td>
                     <td width="75" align="center"><strong>Amount</strong></td>
                     <td width="105"><strong>Unit</strong></td>
                     <td width="115"><strong>Ingredient</strong></td>
@@ -37,6 +38,8 @@
                             hiddenIngredientProductNames:recipeCO?.hiddenIngredientProductNames[i],
                             hiddenIngredientAisleNames:recipeCO?.hiddenIngredientAisleNames[i],
                             hiddenIngredientPreparationMethodNames:recipeCO?.hiddenIngredientPreparationMethodNames[i],
+                            hiddenIngredientFoodMapName:recipeCO?.hiddenIngredientFoodMapNames[i],
+                            ingredientFoodMapId:recipeCO?.ingredientFoodMapIds[i],
                             ingredientQuantity:recipeCO?.ingredientQuantities[i],
                             ingredientUnitId:recipeCO?.ingredientUnitIds[i],
                             ingredientProductId:recipeCO?.ingredientProductIds[i],

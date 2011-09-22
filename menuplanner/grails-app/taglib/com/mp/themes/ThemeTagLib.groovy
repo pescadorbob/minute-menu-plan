@@ -22,6 +22,7 @@ public class ThemeTagLib {
 
   def gadget = {attrs, body ->
     def gadgets = new ArrayList()
+    def start = System.currentTimeMillis()
     Theme.withSession {
       def themes = Theme.list()?.findAll {theme ->
         if (log.isDebugEnabled()) {
@@ -72,9 +73,11 @@ public class ThemeTagLib {
           log.error("Couldn't process the template ${it.name}", e)
         }
       } else {
-        out << it.text
+        out << it.text      
       }
 
     }
+    def end = System.currentTimeMillis()
+    println "Time to process Themes:${end-start}"
   }
 }

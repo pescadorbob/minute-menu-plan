@@ -12,7 +12,6 @@ class Recipe extends Item implements Commentable, Rateable {
 
     static searchable = true
 
-
     RecipeDifficulty difficulty
     Image image
     Integer servings

@@ -4,7 +4,8 @@ import com.mp.domain.PartyRoleType
 import com.mp.domain.PartyRoleType
 
 class MenuConstants {
-    public static final String MMP_OPERATIONAL_ACCOUNT = 'MMP Operational Account'
+
+  public static final String MMP_OPERATIONAL_ACCOUNT = 'MMP Operational Account'
 
     public static final String SYSTEM_OF_UNIT_USA = "United States Customary System"
     public static final String SYSTEM_OF_UNIT_USA_STANDARDIZATION_BODY = "EEUU"
@@ -169,7 +170,9 @@ class MenuConstants {
     public static final Integer IMAGE_RENDERING_TYPE = 1
 
     public static final List<Integer> USER_IMAGE_SIZES = [50,200]
-    public static final String TRAIL_SUBSCRIPTION = '1 Month Free Trial'
+    public static final String TRIAL_SUBSCRIPTION = '1 Month Free Trial'
+    public static final String COMMUNITY_SUBSCRIPTION = 'Community Subscription'
+    public static final String PREVIEW_TRACKER = 'previewTracker'
 
     public static final s = {
       def object = delegate.save(flush: true)
@@ -180,4 +183,7 @@ class MenuConstants {
       }
       object
     }
+  // 3 weeks = 3weeks*7days/week*24hours/day*60min/hour*60sec/hour*1000ms/sec
+  static Integer SESSION_TIMEOUT = 3*7*24*60*60*1000
+  static final String CONTRIBUTION = "Contribution"
 }

@@ -10,12 +10,17 @@ class PermissionTagLib {
     static namespace = "permission"
 
     def hasPermission = {attrs, body ->
+      def start = System.currentTimeMillis()
+
         Permission permission = attrs['permission']
         Recipe recipe = attrs['recipe']
         Party party = attrs['party']
         if (permission && permissionService.hasPermission(permission, recipe, party)) {
             out << true
         }
+      def end = System.currentTimeMillis()
+      println("hasPermission:${end-start}:${permission}");
+
     }
 
     def isPermissionChecked = {attrs ->

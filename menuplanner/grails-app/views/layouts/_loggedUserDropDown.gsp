@@ -5,6 +5,7 @@
         <ul>
             <li>
                 <g:link name="profileLinkTst" class="userProfileLinkFT" controller="user" action="show" id="${loggedUser?.party?.id}">Profile</g:link>
+                <g:link name="userMessages" controller="message" action="list" id="${loggedUser?.party?.id}">Messages</g:link>
                 <g:link name="userAccount" controller="account" action="showUserAccount" id="${loggedUser?.party?.id}">Account</g:link>
                 <pty:hasRole bean="${loggedUser?.party}" role="${PartyRoleType.Coach}">
                   <g:link name="clients" controller="subscriber" action="showUserClients" id="${loggedUser?.party?.id}">Clients</g:link>

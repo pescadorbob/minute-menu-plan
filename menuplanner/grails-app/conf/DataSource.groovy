@@ -26,6 +26,8 @@ environments {
 	development {
 		dataSource {
 //			dbCreate = "create" // one of 'create', 'create-drop','update'
+			loggingSql = true
+//            driverClassName = "com.p6spy.engine.spy.P6SpyDriver" // use this driver to enable p6spy logging
             dbCreate = "update"
 			url = "jdbc:mysql://localhost:3306/menuplanner?autoReconnect=true"
 		}
@@ -33,6 +35,7 @@ environments {
 	test {
 		dataSource {
 			dbCreate = "create"
+			loggingSql = true
 			url = "jdbc:mysql://localhost:3306/menuplanner_test?autoReconnect=true"
 		}
 	}

@@ -1,11 +1,14 @@
 package com.mp.domain
 
+import com.mp.domain.Product
+import com.mp.domain.Unit
+import com.mp.domain.ndb.ItemNutritionLink
+import com.mp.domain.ndb.ItemNutritionLink
+
 class MeasurableProduct extends Product{
     static searchable = true
               
-    static hasMany = [possibleUnits: Unit]
     Unit preferredUnit
-
     String toString() {
         return name
     }

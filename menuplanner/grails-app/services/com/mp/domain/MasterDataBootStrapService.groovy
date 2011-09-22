@@ -30,11 +30,15 @@ import com.mp.domain.access.AccessFilter
 import com.mp.domain.subscriptions.ProductOfferingApplicability
 import com.mp.domain.party.SuperAdmin
 import com.mp.domain.subscriptions.BasePrice
+import com.mp.ndb.NdbService
+import com.mp.domain.subscriptions.FeaturedOfferingApplicability
+import com.mp.domain.subscriptions.Feature
 
 class MasterDataBootStrapService implements ApplicationContextAware {
 
     boolean transactional = false
     AccountingService accountingService
+    NdbService ndbService
     static config = ConfigurationHolder.config
     def messageSource
     Object[] testArgs = {}
@@ -194,12 +198,31 @@ class MasterDataBootStrapService implements ApplicationContextAware {
     public void populateProductOfferings() {
         Date activeFrom = new Date();
         Date activeTo = activeFrom + 100;
-        def f1 = new ControllerActionFeature(controllerFilter: ".*", actionFilter: ".*", uriFilter: ".*", activeTo: activeTo, activeFrom: activeFrom, description: "Full Access to everything", name: "Full Access", rule: "true").s()
+        def f1 = new ControllerActionFeature(controllerFilter: ".*", actionFilter: ".*", uriFilter: ".*",
+                activeTo: activeTo, activeFrom: activeFrom, description: "Full Access to everything",
+                name: "Full Access", rule: "true").s()
+        ProductOffering communitySubscriptionOffering = new ProductOffering(name: COMMUNITY_SUBSCRIPTION, activeTo: activeTo,
+                activeFrom: activeFrom).s()
+        BasePrice basePriceForCommunitySubscription = new BasePrice(pricingFor: communitySubscriptionOffering, activeTo: activeTo,
+                activeFrom: activeFrom, value: 0.0, name: "Community Subscription", description: "Subscription for Contributing Community Members").s();
+        communitySubscriptionOffering.addToPricing(basePriceForCommunitySubscription)
+        ControllerActionFeature contributionDescription = new ControllerActionFeature(activeFrom:activeFrom,name:CONTRIBUTION,
+                description:"Contribute your favorite Recipe.",rule:"[action:'create',controller:'recipe']",
+        controller:'recipe',action:'create')
+        contributionDescription.s()
+        FeaturedOfferingApplicability foa = new FeaturedOfferingApplicability(availableFor:communitySubscriptionOffering,
+                 describedBy:contributionDescription,
+                applicableFrom:'subscriptionDate',
+                applicableFromDescription:'Applicable from date of subscription',
+                applicableThru:'subscriptionDate+1y',
+                applicableThruDescription:'Applicable from one year of date of subscription.')
+        foa.s()
+        communitySubscriptionOffering.s()
         ProductOffering year = new ProductOffering(name: "Annual Subscription", activeTo: activeTo, activeFrom: activeFrom)
         year.s()
-        ProductOffering freeTrial = new ProductOffering(name: TRAIL_SUBSCRIPTION, activeTo: activeTo, activeFrom: activeFrom)
+        ProductOffering freeTrial = new ProductOffering(name: TRIAL_SUBSCRIPTION, activeTo: activeTo, activeFrom: activeFrom)
         freeTrial.s()
-        BasePrice basePriceForFreeTrail = new BasePrice(pricingFor: freeTrial, activeTo: activeTo, activeFrom: activeFrom, value: 0.0, name: "Free Trial Subscription", description: "Free trail subscription for existing users").s();
+        BasePrice basePriceForFreeTrail = new BasePrice(pricingFor: freeTrial, activeTo: activeTo, activeFrom: activeFrom, value: 0.0, name: "Free Trial Subscription", description: "Free trial subscription for existing users").s();
         freeTrial.addToPricing(basePriceForFreeTrail)
         freeTrial.s()
         BasePrice basePriceForYear = new BasePrice(pricingFor: year, activeTo: activeTo, activeFrom: activeFrom, value: 50.0, name: "Annual Subscription Sign-up charge", description: "Annual Subscription Sign-up charge").s();
@@ -209,6 +232,7 @@ class MasterDataBootStrapService implements ApplicationContextAware {
         year.s()
         new ProductOfferingApplicability(availableFor: year, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'startDate + 1.year', applicableThruDescription: 'Valid for 1 year').s()
         new ProductOfferingApplicability(availableFor: freeTrial, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'startDate + 1.month', applicableThruDescription: 'Valid for 1 month').s()
+        new ProductOfferingApplicability(availableFor: communitySubscriptionOffering, applicableFrom: 'startDate', applicableFromDescription: 'Start Date', applicableThru: 'startDate + 1.year', applicableThruDescription: 'Valid for 1 year').s()
     }
 
     public void populatePermissions() {
@@ -439,7 +463,7 @@ class MasterDataBootStrapService implements ApplicationContextAware {
         def unrestrictedSet = new AccessFilterSet(name: "Default", description: "Default Unlimited Access Filter Set",
                 activeFrom: new Date(), type: AccessFilterType.UNRESTRICTED_ACCESS).s();
         new AccessFilter(name: "Browse Recipes", description: "Allows Free browsing of all of the recipes",
-                controllerFilter: "recipe", actionFilter: "list|search|printRecipes|index|browse|view|show", filterFor: unrestrictedSet).s()
+                controllerFilter: "recipe", actionFilter: "create|edit|list|search|printRecipes|index|browse|view|show", filterFor: unrestrictedSet).s()
         new AccessFilter(name: "View Menu Plans", description: "Allows viewing menu plans",
                 controllerFilter: "menuPlan", actionFilter: "view|show|printerFriendlyMenuPlan", filterFor: unrestrictedSet).s()
         new AccessFilter(name: "View Shopping Lists", description: "Allows viewing shopping lists",
@@ -484,4 +508,13 @@ class MasterDataBootStrapService implements ApplicationContextAware {
                 controllerFilter: ".*", actionFilter: ".*", filterFor: subscriptionSet).s()
 
     }
+
+  def populateNDBFood = {
+    String productsFileName = "/bootstrapData/ABBREV.txt"
+    File foodFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath(productsFileName))
+    ndbService.importFoodData(foodFile, "23", new Date(), new Date())
+    String weightFileName = "/bootstrapData/WEIGHT.txt"
+    File weightFile = new File(ApplicationHolder.application.parentContext.servletContext.getRealPath(weightFileName))
+    ndbService.importWeight(weightFile, "23", new Date(), new Date())
+  }
 }

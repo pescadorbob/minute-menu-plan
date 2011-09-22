@@ -18,5 +18,8 @@ ProductOffering pricingFor
     static mapping = {
         tablePerHierarchy false
     }
-
+   static constraints = {
+        activeTo(nullable: true)
+        description(nullable: true)
+    }
 }

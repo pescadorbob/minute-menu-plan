@@ -3,17 +3,20 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="layout" content="main" />
+        <meta name="layout" content="menu" />
         <g:set var="entityName" value="${message(code: 'unit.label', default: 'Unit')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
+       <div id="container">
+  <div id="wrapper" class="clearfix">
+    <div id="content-wrapper" class="clearfix">
         <div class="nav">
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}">Home</a></span>
             <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
-            <h1><g:message code="default.list.label" args="[entityName]" /></h1>
+            <h3><g:message code="default.list.label" args="[entityName]" /></h3>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -26,9 +29,13 @@
                         
                             <g:sortableColumn property="name" title="${message(code: 'unit.name.label', default: 'Name')}" />
                         
-                            <g:sortableColumn property="symbol" title="${message(code: 'unit.symbol.label', default: 'Symbol')}" />
+                            <g:sortableColumn property="small" title="${message(code: 'unit.small.label', default: 'Small')}" />
                         
+                            <th><g:message code="unit.party.label" default="Party" /></th>
+                   	    
                             <g:sortableColumn property="definition" title="${message(code: 'unit.definition.label', default: 'Definition')}" />
+                        
+                            <g:sortableColumn property="isConvertible" title="${message(code: 'unit.isConvertible.label', default: 'Is Convertible')}" />
                         
                         </tr>
                     </thead>
@@ -40,9 +47,13 @@
                         
                             <td>${fieldValue(bean: unit, field: "name")}</td>
                         
-                            <td>${fieldValue(bean: unit, field: "symbol")}</td>
+                            <td>${fieldValue(bean: unit, field: "small")}</td>
+                        
+                            <td>${fieldValue(bean: unit, field: "party")}</td>
                         
                             <td>${fieldValue(bean: unit, field: "definition")}</td>
+                        
+                            <td><g:formatBoolean boolean="${unit.isConvertible}" /></td>
                         
                         </tr>
                     </g:each>
@@ -52,6 +63,7 @@
             <div class="paginateButtons">
                 <g:paginate total="${unitTotal}" />
             </div>
+          </div></div></div>                      
         </div>
     </body>
 </html>
