@@ -33,18 +33,25 @@
                     <ul>
                         <li>Member since ${party?.joiningDate?.format('MMMM yyyy')}</li>
                         <li></li><li></li>
-                        <h3>Roles</h3>
+                        <h1>Roles</h1>
                         <g:each in="${party?.roleTypes}" var="roleType">
                             <li class="userRolesFT">
-                                <strong>${roleType}</strong>
-                                <g:if test="${(roleType == PartyRoleType.Subscriber) && party.subscriber.subscriptions?.any{it.status == SubscriptionStatus.CURRENT}}">
+                                <strong><h2>${roleType}</h2></strong>
+                                <g:if test="${(roleType == PartyRoleType.Subscriber)}">
                                     <ul>
-                                        <li style="padding-left:20px;">Current Subscriptions:</li>
+                                      <li style="padding-left:20px;"><h3>Current Subscriptions:</h3>
                                         <g:each in="${party.subscriber.subscriptions.sort{it.activeFrom}}" var="subscription">
-                                            <g:if test="${subscription.status == SubscriptionStatus.CURRENT}">
-                                                <li style="padding-left:20px;">${subscription.originalProductOffering}</li>
-                                            </g:if>
+                                            <h4>${subscription.originalProductOffering}</h4>
+                                          <g:if test="${subscription.requirements.find{!it.fulfilledBy}}">
+                                              To complete your subscription requirements, please complete the following:
+                                              <ul>
+                                              <g:each in="${subscription.requirements.findAll{!it.fulfilledBy}}" var="req">
+                                                <li><g:link controller="${req.requires.controllerName}" action="${req.requires.actionName}">${req.requires.description}</g:link></li>
+                                              </g:each>
+                                              </ul>
+                                          </g:if>
                                         </g:each>
+                                      </li>
                                     </ul>
                                 </g:if>
                             </li>
@@ -163,19 +170,19 @@
               </g:if>
 
                 <div class="contributedRecipes">
-                  <h3>Contributed Recipes</h3>
+                  <h2>Contributed Recipes</h2>
                   <ul>
                   <g:render template="/user/contributedRecipes" model="[party:party]"/>
                   </ul>
                 </div>
               <div class="favoriteRecipes">
-                <h3>Favorites</h3>
+                <h2>Favorites</h2>
                 <ul>
                   <g:render template="/user/favoriteRecipes" model="[party:party]"/>
                   </ul>
                 </div>
               <div class="menuPlans">
-                <h3>Menu Plans</h3>
+                <h2>Menu Plans</h2>
                 <ul>
                   <g:each in="${MenuPlan.findAllByOwner(party)}" var="menuPlan">
                       <li><g:link controller="menuPlan" action="show" id="${menuPlan.id}">${menuPlan.name}</g:link></li>

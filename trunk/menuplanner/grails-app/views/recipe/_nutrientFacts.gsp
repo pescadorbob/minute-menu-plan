@@ -1,6 +1,10 @@
 <%@ page import="com.mp.domain.RecipeDifficulty" %>
 <div class="clearfix" id=panelNutritionFacts>
-   <div class="recipeSubhead" style="${hasErrors(bean: recipeCO, field: 'nutrientQuantities', 'color:red;')}">Nutrition&nbsp;Facts:</div>
+   <div class="recipeSubhead" style="${hasErrors(bean: recipeCO, field: 'nutrientQuantities', 'color:red;')}">Nutrition&nbsp;Facts:
+   <g:form name="calculateNutrition" action="calculateNutrition" >
+     <g:hiddenField name="recipeId" value="${recipeCO?.id}"/>
+     <g:actionSubmit name="submitCalcNut" value="Calculate Nutrition"/>
+     </g:form></div>
     <div class="formElement">
         <div style="background-color:#ddd;">
             <table cellspacing="0px" cellpadding="0px" width="100%" class="menuplannerTab">
@@ -19,7 +23,7 @@
                             <input type="hidden" value="${nutrient?.preferredUnit?.symbol}" name="nutrientUnitSymbols"/>
                         </td>
                         <td>
-                            <input id="txt${nutrient?.name}" class="inpboxSmall" type="text" name="nutrientQuantities" value="${((recipeCO) ? recipeCO.nutrientQuantities[i] : '')}"/>
+                            <input id="txt${nutrient?.name}" class="inpboxSmall" type="text" name="nutrientQuantities" value="${((recipeCO) ? recipeCO?.nutrientQuantities[i] : '')}"/>
                         </td>
                         <td>
                             ${nutrient?.preferredUnit?.symbol}  ${nutrient?.name}

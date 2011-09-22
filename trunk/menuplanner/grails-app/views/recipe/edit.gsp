@@ -24,7 +24,7 @@
                     <ul>
                         <li><a class="tabs current" id="tabGeneralInfo" style="${mp.checkGeneralInfoTabError(bean: recipeCO, fields: ['name', 'makesServing', 'preparationTime', 'cookTime', 'difficulty', 'categoryIds'])}"><span>General&nbsp;Info</span></a></li>
                     </ul>
-                </div>
+                </div>              
                 <g:uploadForm name="formEditRecipe">
                     <g:hiddenField name='id' value='${recipeCO?.id}'/>
                     <div class="tabPanel leftbox clearfix" id=panelGeneralInfo>
@@ -32,7 +32,6 @@
                         <g:render template="/recipe/ingredients" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
                         <g:render template="/recipe/cookingSteps" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
                         <g:render template="/recipe/serveWith" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
-                        <g:render template="/recipe/nutrientFacts" model="[recipeCO: recipeCO, metricUnits: metricUnits]"/>
                         <g:render template="/recipe/usesAlcohol" model="[recipeCO: recipeCO]"/>
                     </div>
                     <div class="bottom-shadow">

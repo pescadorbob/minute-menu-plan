@@ -33,7 +33,11 @@
     </span>
     <div id="footer"></div>
     
-    <div class="footer"><theme:gadget location="${ElementLocation.FOOTER}"/></div>
+    <div class="footer"><theme:gadget location="${ElementLocation.FOOTER}"/>
+
+        <div class="analytics"><analytics:time/></div>
+      
+        </div>
 
     <!-- end header -->
 </div>

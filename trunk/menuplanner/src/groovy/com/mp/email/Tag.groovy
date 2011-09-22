@@ -28,4 +28,7 @@ public class Tag {
   static  emailVerification = {
     GrailsUtil.environment == "production"?"[tag: email-verification]":''
   }
+  static  message = {
+    GrailsUtil.environment == "production"?"[tag: message]":''
+  }
 }

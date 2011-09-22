@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="ehcache.xsd" >
+
+    <diskStore path="java.io.tmpdir"/>
+
+    <cacheManagerEventListenerFactory class="" properties=""/>
+
+    <defaultCache
+         maxElementsInMemory="10000"
+         eternal="false"
+         timeToIdleSeconds="1800"
+         timeToLiveSeconds="6000"
+         overflowToDisk="false"
+         memoryStoreEvictionPolicy="LRU"
+         />
+
+     <cache name="gspCache"
+         maxElementsInMemory="5000"
+         eternal="false"
+         timeToIdleSeconds="3600"
+         timeToLiveSeconds="3600"
+         overflowToDisk="false"
+         memoryStoreEvictionPolicy="LFU"/>
+
+     <cache name="uriToContentCache"
+         maxElementsInMemory="1000"
+         eternal="false"
+         timeToIdleSeconds="3600"
+         timeToLiveSeconds="3600"
+         overflowToDisk="false"
+         memoryStoreEvictionPolicy="LFU"/>
+
+     <cache name="contentCache"
+         maxElementsInMemory="1000"
+         eternal="false"
+         timeToIdleSeconds="3600"
+         timeToLiveSeconds="3600"
+         overflowToDisk="false"
+         memoryStoreEvictionPolicy="LFU"/>
+
+     <!-- For immutable constants/pre-prepared data only -->
+     <cache name="eternalCache"
+            maxElementsInMemory="10000"
+            eternal="true"
+            overflowToDisk="false"/>
+
+
+    <cache name="com.mp.domain.StandardConversion"
+           eternal="true"
+           timeToIdleSeconds="300"
+            />
+
+    <cache name="com.mp.domain.Unit"
+           eternal="true"
+           timeToIdleSeconds="300"
+            />
+    <cache name="com.mp.domain.ndb.NDBFileInfo"
+           eternal="true"
+           timeToIdleSeconds="300"
+            />
+    <cache name="com.mp.domain.ndb.NDBFood"
+           eternal="true"
+           timeToIdleSeconds="300"
+            />
+    <cache name="com.mp.domain.ndb.NDBWeight"
+           eternal="true"
+           timeToIdleSeconds="300"
+            />
+    <cache name="com.mp.domain.Category"
+           eternal="true"
+           timeToIdleSeconds="300"
+            />
+    <cache name="com.mp.domain.Time"
+           eternal="true"
+           timeToIdleSeconds="300"
+            />
+
+    <cache name="org.hibernate.cache.UpdateTimestampsCache"
+           maxElementsInMemory="10000"
+           timeToIdleSeconds="300"
+            />
+
+    <cache name="org.hibernate.cache.StandardQueryCache"
+           maxElementsInMemory="10000"
+           timeToIdleSeconds="300"
+            />
+
+
+
+</ehcache>

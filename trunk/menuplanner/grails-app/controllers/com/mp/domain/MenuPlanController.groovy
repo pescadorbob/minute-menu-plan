@@ -38,7 +38,7 @@ class MenuPlanController {
         }
         params.max = 4
         List<Recipe> results = []
-        results = recipeService.getFilteredRecipeList(4, 0)
+        results = recipeService.getFilteredRecipeList(4, 0,UserTools.currentUser?.party)
         Integer total = recipeService.getFilteredRecipeCount()
         List<SubCategory> subCategories = (Recipe.list()*.subCategories)?.flatten()?.unique {it.id}?.sort {it.name}
         List<Category> categories = (subCategories*.category)?.flatten()?.unique {it.id}?.sort {it.name}
@@ -48,7 +48,7 @@ class MenuPlanController {
     def edit = {
         params.max = 4
         List<Recipe> results = []
-        results = recipeService.getFilteredRecipeList(4, 0)
+        results = recipeService.getFilteredRecipeList(4, 0,UserTools.currentUser?.party)
         Integer total = recipeService.getFilteredRecipeCount()
         MenuPlan menuPlan = MenuPlan.get(params.long("id"))
         List<SubCategory> subCategories = (Recipe.list()*.subCategories)?.flatten()?.unique {it.id}?.sort {it.name}

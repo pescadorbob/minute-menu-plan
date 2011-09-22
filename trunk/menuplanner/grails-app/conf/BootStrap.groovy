@@ -25,10 +25,12 @@ import com.mp.domain.accounting.OperationalAccount
 import com.mp.domain.accounting.AccountRole
 import com.mp.domain.accounting.AccountRoleType
 import com.mp.domain.party.SuperAdmin
+import com.mp.domain.ndb.NDBFileInfo
+import com.mp.domain.ndb.NDBFood
 
 class BootStrap {
 
-    def utilService
+  def utilService
     def dataSource
     def grailsApplication
     def bootstrapService
@@ -117,10 +119,10 @@ class BootStrap {
             println "Populated Quick Fills"
         }
 
-        allocateTrailSubscriptions()
+        allocateTrialSubscriptions()
 
         Thread.start {
-            searchableService.index()
+//            searchableService.index()
         }
 
         config.bootstrapMode = false
@@ -128,20 +130,53 @@ class BootStrap {
     def destroy = {
     }
 
-    void allocateTrailSubscriptions(){
-        println "Allocating Trail Subscriptions."
-        Set<Party> parties = Subscriber.list().findAll {!it.subscriptions}*.party as Set
-        long startTime = System.currentTimeMillis()
+    void allocateTrialSubscriptions(){
+        println "Allocating Trial Subscriptions."
+
+      long startTime = System.currentTimeMillis()
+
+//      Book.findAll("from Book as b where not exists (from Borrow as br where br.book = b)")
+      def subscribers = Subscriber.findAll("from Subscriber s where not exists (from Subscription sub where sub.subscriptionFor = s)")
+        Set<Party> parties = subscribers*.party as Set
         parties.each {Party party ->
-            utilService.allocateTrailSubscription(party)
+            utilService.allocateTrialSubscription(party)
         }
         long endTime = System.currentTimeMillis()
-        println "Trail subscription allocated to ${parties.size()} users in ${((endTime - startTime).toFloat() / 1000)} Seconds."
+        println "Trial subscription allocated to ${parties.size()} users in ${((endTime - startTime).toFloat() / 1000)} Seconds."
 
     }
 
     private void bootstrapMasterData() {
-        masterDataBootStrapService.populateAlcoholicContentList()
+      masterDataBootStrapService.populateAlcoholicContentList()
+      // prime StandardConversions, Units, Time, Categories,
+      // NDBFileInfo,NDBFood, NDBWeight
+      println 'loading caches'
+      def start = System.currentTimeMillis()
+      def cachedConversions = StandardConversion.findAll(
+              'from StandardConversion as s \
+      inner join fetch s.sourceUnit  source \
+      inner join fetch s.targetUnit  target \
+      inner join fetch source.systemOfUnits sourceSystem  \
+      inner join fetch target.systemOfUnits targetSystem ')
+      def cachedUnits = Unit.findAll(
+              'from Unit as s \
+      inner join fetch s.systemOfUnits system ')
+
+      def cachedTimeUnits = Time.findAll(
+              'from Time as t \
+      inner join fetch t.systemOfUnits system ')
+
+      def cachedCategories = Category.findAll(
+              'from Category c \
+      inner join fetch c.subCategories subcategories ')
+
+      def nutritionalValues = NDBFood.findAll(
+              'from NDBFood food \
+      inner join fetch food.weights weights \
+      inner join fetch food.fileInfo file ')
+      def end = System.currentTimeMillis()
+      println 'Caches loaded in ${(end-start)}ms'
+
         if (!SystemOfUnit.count()) {masterDataBootStrapService.populateSystemOfUnits()}
         if (!Time.count()) {masterDataBootStrapService.populateTimeUnits()}
         if (StandardConversion.count() < 3) {
@@ -156,6 +191,10 @@ class BootStrap {
         if (!Testimonial.count()) {masterDataBootStrapService.populateTestimonials()}
         if (!Theme.count()) {masterDataBootStrapService.populateThemes()}
         if (!AccessFilterSet.count()) {masterDataBootStrapService.populateAccessFilterSets()}
+        if (!NDBFileInfo.findByFileVersion("23")&& !(GrailsUtil.environment in ['development', 'test'])) {
+          masterDataBootStrapService.populateNDBFood()
+          assert NDBFood.count() > 7600
+        }
         if (!OperationalAccount.count() && SuperAdmin.count()) {
             OperationalAccount opAcct = new OperationalAccount(name: MMP_OPERATIONAL_ACCOUNT).s()
             def superAdmin = SuperAdmin.list().first().party

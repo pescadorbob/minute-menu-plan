@@ -27,6 +27,23 @@
                     <table>
                         <tbody>
                         
+                        <tr class="prop">
+                            <td valign="top" class="name">
+                                <label for="name"><g:message code="pricingComponent.name.label" default="Name" /></label>
+                            </td>
+                            <td valign="top" class="value ${hasErrors(bean: pricingComponent, field: 'name', 'errors')}">
+                                <g:textField name="name" value="${pricingComponent?.name}" />
+                            </td>
+                        </tr>
+
+                        <tr class="prop">
+                            <td valign="top" class="name">
+                                <label for="description"><g:message code="pricingComponent.description.label" default="Description" /></label>
+                            </td>
+                            <td valign="top" class="value ${hasErrors(bean: pricingComponent, field: 'description', 'errors')}">
+                                <g:textField name="description" value="${pricingComponent?.description}" />
+                            </td>
+                        </tr>
                             <tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="value"><g:message code="basePrice.value.label" default="Value" /></label>
@@ -36,6 +53,14 @@
                                 </td>
                             </tr>
                         
+                        <tr class="prop">
+                            <td valign="top" class="name">
+                                <label for="activeFrom"><g:message code="basePrice.activeFrom.label" default="Active From" /></label>
+                            </td>
+                            <td valign="top" class="value ${hasErrors(bean: basePrice, field: 'activeFrom', 'errors')}">
+                                <g:datePicker name="activeFrom" precision="day" value="${basePrice?.activeFrom}"  />
+                            </td>
+                        </tr>
                             <tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="activeTo"><g:message code="basePrice.activeTo.label" default="Active To" /></label>
@@ -45,15 +70,16 @@
                                 </td>
                             </tr>
                         
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="activeFrom"><g:message code="basePrice.activeFrom.label" default="Active From" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: basePrice, field: 'activeFrom', 'errors')}">
-                                    <g:datePicker name="activeFrom" precision="day" value="${basePrice?.activeFrom}"  />
-                                </td>
-                            </tr>
-                        
+
+                        <tr class="prop">
+                            <td valign="top" class="name">
+                                <label for="pricingFor"><g:message code="pricingComponent.pricingFor.label" default="Pricing For" /></label>
+                            </td>
+                            <td valign="top" class="value ${hasErrors(bean: pricingComponent, field: 'pricingFor', 'errors')}">
+                                <g:select name="pricingFor.id" from="${com.mp.domain.subscriptions.ProductOffering.list()}" optionKey="id" value="${pricingComponent?.pricingFor?.id}"  />
+                            </td>
+                        </tr>
+
                         </tbody>
                     </table>
                 </div>

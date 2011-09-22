@@ -3,18 +3,23 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="layout" content="main" />
+        <meta name="layout" content="menu" />
         <g:set var="entityName" value="${message(code: 'unit.label', default: 'Unit')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
     </head>
     <body>
+<div id="container">
+  <div id="wrapper" class="clearfix">
+    <div id="content-wrapper" class="clearfix">
         <div class="nav">
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}">Home</a></span>
             <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
             <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
-            <h1><g:message code="default.show.label" args="[entityName]" /></h1>
+          <div class="headbox">
+            <h3><g:message code="default.show.label" args="[entityName]" /></h3>
+            </div>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -37,9 +42,16 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="unit.symbol.label" default="Symbol" /></td>
+                            <td valign="top" class="name"><g:message code="unit.small.label" default="Small" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: unit, field: "symbol")}</td>
+                            <td valign="top" class="value">${fieldValue(bean: unit, field: "small")}</td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="unit.party.label" default="Party" /></td>
+                            
+                            <td valign="top" class="value"><g:link controller="party" action="show" id="${unit?.party?.id}">${unit?.party?.encodeAsHTML()}</g:link></td>
                             
                         </tr>
                     
@@ -47,6 +59,47 @@
                             <td valign="top" class="name"><g:message code="unit.definition.label" default="Definition" /></td>
                             
                             <td valign="top" class="value">${fieldValue(bean: unit, field: "definition")}</td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="unit.isConvertible.label" default="Is Convertible" /></td>
+                            
+                            <td valign="top" class="value"><g:formatBoolean boolean="${unit?.isConvertible}" /></td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="unit.isWeightUnit.label" default="Is Weight Unit" /></td>
+                            
+                            <td valign="top" class="value"><g:formatBoolean boolean="${unit?.isWeightUnit}" /></td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="unit.metricType.label" default="Metric Type" /></td>
+                            
+                            <td valign="top" class="value">${unit?.metricType?.encodeAsHTML()}</td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="unit.symbol.label" default="Symbol" /></td>
+                            
+                            <td valign="top" class="value">${fieldValue(bean: unit, field: "symbol")}</td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="unit.systemOfUnits.label" default="System Of Units" /></td>
+                            
+                            <td valign="top" style="text-align: left;" class="value">
+                                <ul>
+                                <g:each in="${unit.systemOfUnits}" var="s">
+                                    <li><g:link controller="systemOfUnit" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></li>
+                                </g:each>
+                                </ul>
+                            </td>
                             
                         </tr>
                     
@@ -61,5 +114,7 @@
                 </g:form>
             </div>
         </div>
+    </div></div></div>
+
     </body>
 </html>

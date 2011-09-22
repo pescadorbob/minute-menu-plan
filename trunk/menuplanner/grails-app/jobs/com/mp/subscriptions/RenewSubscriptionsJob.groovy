@@ -7,12 +7,18 @@ import com.mp.domain.accounting.Account
 import com.mp.domain.subscriptions.ProductOffering
 import com.mp.domain.party.Party
 import com.mp.domain.subscriptions.RecurringCharge
+import grails.util.GrailsUtil
 
 class RenewSubscriptionsJob {
 
     static triggers = {
-        simple name: 'renewSubscriptionsTrigger', startDelay: 60 * 1000, repeatInterval: 30 * 1000
+      if((!GrailsUtil.environment in ['test','development'])){
+        cron name: 'renewSubscriptionsTrigger', cronExpression: "0 0 0 1 * ?", startDelay: 60 * 1000
+      } else {
+        simple name: 'renewSubscriptionsTrigger', startDelay: 60*60 * 1000, repeatInterval: 24*60*60*1000
+      }   
     }
+
     def concurrent = false
 
     def userService

@@ -17,7 +17,7 @@ class QuickFillController {
             quickFill = QuickFill.get(params.long("id"))
         }
         List<Recipe> results = []
-        results = recipeService.getFilteredRecipeList(4, 0)
+        results = recipeService.getFilteredRecipeList(4, 0,UserTools.currentUser?.party)
         Integer total = recipeService.getFilteredRecipeCount()
         List<SubCategory> subCategories = (Recipe.list()*.subCategories)?.flatten()?.unique {it.id}?.sort {it.name}
         List<Category> categories = (subCategories*.category)?.flatten()?.unique {it.id}?.sort {it.name}

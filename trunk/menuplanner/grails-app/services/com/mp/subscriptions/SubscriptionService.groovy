@@ -16,6 +16,7 @@ import com.mp.domain.subscriptions.ProductOfferingSubscription
 import com.mp.domain.party.DirectorCoach
 import com.mp.domain.party.CoachSubscriber
 import com.mp.domain.subscriptions.BasePrice
+import com.mp.domain.subscriptions.Subscription
 
 /**
  * Created on Nov 28, 2010
@@ -33,9 +34,9 @@ public class SubscriptionService {
 
     def accountingService
 
-    public void renewSubscription(Party party, ProductOffering productOffering, RecurringCharge recurringCharge, Date startDate = new Date()) {
+    public void renewSubscription(Party party, ProductOffering productOffering, RecurringCharge recurringCharge, Date startDate = new Date(),subscriptionCreationClosure) {
         if (recurringCharge) {
-            generateSubscription(party, productOffering, startDate)
+            generateSubscription(party, productOffering, startDate,subscriptionCreationClosure)
 
             AccountRole accountRole = AccountRole.findByTypeAndRoleFor(AccountRoleType.OWNER, party)
             Account account = accountRole.describes
@@ -48,9 +49,9 @@ public class SubscriptionService {
         }
     }
 
-    public void createSubscriptionForUserSignUp(Party party, long offeringId, Date startDate = new Date()) {
+    public void createSubscriptionForUserSignUp(Party party, long offeringId, Date startDate = new Date(),subscriptionCreationClosure) {
         ProductOffering productOffering = ProductOffering.get(offeringId)
-        generateSubscription(party, productOffering, startDate)
+        generateSubscription(party, productOffering, startDate, subscriptionCreationClosure)
 
         AccountRole accountRole = AccountRole.findByTypeAndRoleFor(AccountRoleType.OWNER, party)
         Account account = accountRole.describes
@@ -76,7 +77,8 @@ public class SubscriptionService {
         }
     }
 
-    private void generateSubscription(Party party, ProductOffering productOffering, startDate = new Date()) {
+    private void generateSubscription(Party party, ProductOffering productOffering,
+                                      startDate = new Date(), subscriptionCreationClosure ) {
         def start
         def endDate
         Subscriber subscriber = party.subscriber
@@ -88,9 +90,9 @@ public class SubscriptionService {
             start = shell.evaluate(applicability.applicableFrom)
             endDate = shell.evaluate(applicability.applicableThru)
         }
-        ProductOfferingSubscription pos = new ProductOfferingSubscription(subscribedProductOffering: productOffering, subscriptionFor: subscriber,
-                originalProductOffering: productOffering?.name, activeFrom: start, activeTo: endDate)
-        assert pos.s()
+        def subscription = subscriptionCreationClosure(productOffering,subscriber,start,endDate)
+
+        assert subscription.s()
     }
     // runs through all time valid subscriptions and evaluates the feature to see if it is active
 
@@ -98,22 +100,22 @@ public class SubscriptionService {
         def subscriptionFilters = AccessFilter.withCriteria {
             filterFor {
                 eq('type', AccessFilterType.SUBSCRIPTION)
-                gt('activeFrom', now)
+                lt('activeFrom', now)
                 or {
                     isNull('activeTo')
-                    lt('activeTo', now)
-                }
+                    gt('activeTo', now)   
+                } 
             }
         }
-        boolean requiresSubscription = subscriptionFilters.find {
-            (!it.controllerFilter || controllername ==~ it.controllerFilter) &&
+        boolean requiresSubscription = subscriptionFilters.findAll {
+            (!it.controllerFilter || controllerName ==~ it.controllerFilter) &&
                     (!it.actionFilter || actionName ==~ it.actionFilter) &&
                     (!it.uriFilter || uri ==~ it.uriFilter)
         }?.size() > 0
         if (!requiresSubscription) return true // its a resource unprotected by subscription access control
         if (!user) return false
         Party theParty = user?.party
-        def retValue = false
+        def hasActiveSubscription = false
         def c = Subscription.createCriteria()
         c.list {
             subscriptionFor {
@@ -122,27 +124,32 @@ public class SubscriptionService {
                 }
             }
             le('activeFrom', now)
-            ge('activeTo', now - 1)
+            or {
+              isNull('activeTo')
+              ge('activeTo', now - 1)
+            }
+            eq('status',SubscriptionStatus.CURRENT)
         }.each {subscription ->
-            def feature = subscription.subscribedFeature
+          subscription.subscribedProductOffering.applicableFeatures*.describedBy.each { feature ->
             if (feature.class == ControllerActionFeature.class) {
                 if (log.isDebugEnabled()) {
                     log.debug """feature filters:
+            name:${feature.name}
             action:${!feature.actionFilter || actionName ==~ feature.actionFilter}
             uri:${(!feature.uriFilter || uri ==~ feature.uriFilter)}
             controller:${!feature.controllerFilter || controllerName ==~ feature.controllerFilter}
             activeFrom:${feature.activeFrom <= new Date()}
             activeTo:${(!feature.activeTo || (feature.activeTo > now))}"""
                 }
-                retValue |= ((!feature.uriFilter || uri ==~ feature.uriFilter)
+                hasActiveSubscription |= ((!feature.uriFilter || uri ==~ feature.uriFilter)
                         && (!feature.actionFilter || actionName ==~ feature.actionFilter)
                         && (!feature.controllerFilter || controllerName ==~ feature.controllerFilter)
                         && (feature.activeFrom <= now)
                         && (!feature.activeTo || (feature.activeTo > now)))
             }
-
+          }
         }
-        retValue
+        hasActiveSubscription
     }
 
 }

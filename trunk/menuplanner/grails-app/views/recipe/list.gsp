@@ -1,4 +1,6 @@
 <%@ page import="com.mp.domain.*" %>
+<analytics:profile name="list-recipe-full" details="">
+
 <html>
 <head>
     <meta name="layout" content="menu"/>
@@ -26,7 +28,9 @@
                     <label>&nbsp;</label>
                 </div>
                 <div id="rightContainer" class="leftbox clearfix">
+                  <analytics:profile name="list-recipe" details="">
                     <g:render template="/recipe/searchResultRecipe" model="['recipeList':recipeList]"/>
+                  </analytics:profile>
                 </div>
                 <div class="bottom-shadow">
                     <label>&nbsp;</label>
@@ -37,3 +41,4 @@
 </div>
 </body>
 </html>
+</analytics:profile>

@@ -1,4 +1,5 @@
-<li style="width:554px;display:${display ?: ''}">
+<li style="width:572px;display:${display ?: ''}">
+  <g:render template="nutrientLink" model="[ingredientFoodMapId:ingredientFoodMapId,hiddenIngredientFoodMapName:hiddenIngredientFoodMapName]"/>
     <span class="toolBoxes addIngredientBox" style="width:400px;">
         <span id="ingredientToBeAdded">
             <div style="float:left;">
@@ -6,6 +7,7 @@
                 <input name="hiddenIngredientUnitNames" value="${hiddenIngredientUnitNames}" class="inpbox showToolTip iUnit" title="${g.message(code: 'toolTip.recipe.unit')}" style="width:90px;">
                 <input type="hidden" value="${ingredientUnitId}" name="ingredientUnitIds"/>
                 <input type="hidden" name="hiddenIngredientUnitSymbols" value="${hiddenIngredientUnitSymbol}"/>
+                <input type="hidden" value="${ingredientFoodMapId}" name="ingredientFoodMapIds"/>
             </div>
             <div style="float:left; padding-left:5px;">
                 <input class="inpbox showToolTip iProduct" name="hiddenIngredientProductNames" value="${hiddenIngredientProductNames?.encodeAsHTML()}" title="${g.message(code: 'toolTip.recipe.ingredient')}" style="width:90px;"/>

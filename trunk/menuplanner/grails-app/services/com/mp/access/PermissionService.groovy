@@ -83,7 +83,7 @@ public class PermissionService {
       }
     }
     boolean requiresAccess = accessFilters.find{
-                      (!it.controllerFilter || controllername ==~ it.controllerFilter) &&
+                      (!it.controllerFilter || controllerName ==~ it.controllerFilter) &&
                               (!it.actionFilter || actionName ==~ it.actionFilter) &&
                               (!it.uriFilter || uri ==~ it.uriFilter)
                   }.size()>0

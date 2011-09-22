@@ -1,14 +1,12 @@
 package com.mp.domain
 
 import org.apache.lucene.document.NumberTools
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import com.mp.domain.party.Party
 
 class Product extends Item {
     static searchable = true
 
     Boolean isVisible = false
-    static config = ConfigurationHolder.config
 
     String toString() {
         return name
@@ -36,7 +34,7 @@ class Product extends Item {
 
     String getContributorsString() {
         String searchString = ''
-        if (!config?.bootstrapMode) {
+        if (!org.codehaus.groovy.grails.commons.ConfigurationHolder.config.bootstrapMode) {
             List<Party> parties = contributors
             List<String> searchList = []
             if (parties) {
@@ -63,7 +61,7 @@ class Product extends Item {
     Boolean isProductAlcoholic() {
         Boolean result = false
         String productString = getDetailString()
-        List<String> alcoholicStrings = config?.alcoholicContentList ? config?.alcoholicContentList : []
+        List<String> alcoholicStrings = org.codehaus.groovy.grails.commons.ConfigurationHolder.config?.alcoholicContentList ? org.codehaus.groovy.grails.commons.ConfigurationHolder.config?.alcoholicContentList : []
         alcoholicStrings = alcoholicStrings*.toLowerCase()
         result = alcoholicStrings.any {
             def pattern = /\b${it}\b/

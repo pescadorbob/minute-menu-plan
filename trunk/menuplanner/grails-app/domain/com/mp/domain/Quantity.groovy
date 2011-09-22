@@ -26,7 +26,7 @@ class Quantity {
     return result.trim()
   }
 
-  static transients = ['small']
+  static transients = ['small','toReadableTimeString','addTime','add','toBiggestUnitString','getSmall']
 
   static constraints = {
     value(nullable: true, blank: true)

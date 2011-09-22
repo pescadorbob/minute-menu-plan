@@ -17,13 +17,18 @@ import com.mp.domain.party.CoachSubscriber
 import com.mp.domain.party.Administrator
 import com.mp.domain.party.SuperAdmin
 import static com.mp.MenuConstants.USER_IMAGE_SIZES
-import static com.mp.MenuConstants.TRAIL_SUBSCRIPTION
+import static com.mp.MenuConstants.TRIAL_SUBSCRIPTION
 import com.mp.email.Tag
+import com.mp.domain.subscriptions.Subscription
+import com.mp.MenuConstants
+import com.mp.domain.subscriptions.RecurringCharge
+import com.mp.subscriptions.SubscriptionStatus
 
 class UserController {
 
     static config = ConfigurationHolder.config
     def userService
+    def utilService
     def asynchronousMailService
     def facebookConnectService
     def googleCheckoutService
@@ -205,7 +210,16 @@ class UserController {
         if (coachId) {
             userCO.coachId = coachId
         }
-        render(view: 'chooseSubscription', model: [availableProducts: ProductOffering.list() - ProductOffering.findByName(TRAIL_SUBSCRIPTION), userCO: userCO])
+        def pendingSubscriptions = UserTools.getCurrentUser()?Subscription.withCriteria {
+            subscriptionFor {
+                party {
+                  idEq(UserTools.getCurrentUser().party.id)
+                }
+            }
+            eq('status',SubscriptionStatus.PENDING)
+        }:[]
+        def availableProducts = ProductOffering.list() - ProductOffering.findByName(TRIAL_SUBSCRIPTION) 
+        render(view: 'chooseSubscription', model: [pendingSubscriptions:pendingSubscriptions,availableProducts: availableProducts, userCO: userCO])
 
     }
 
@@ -417,6 +431,9 @@ class UserController {
 ////        }
 //    }
 
+  def createFreeUser = {
+    forward(action: 'chooseSubscription')
+  }
     def newUserCheckout = {UserCO userCO ->
         if (params.productId) {
             Party currentParty = UserTools.currentUser?.party
@@ -430,21 +447,72 @@ class UserController {
                 if (coachId) {
                     userCO.coachId = coachId.value
                 }
-                if (!userCO.hasErrors()) {
-                    Party party = userCO.createParty()
-                    forward(action: 'createSubscription', controller: 'subscription', params: [userId: party.uniqueId, productId: params.productId])
+                if (userCO.validate()) {
+                  def userId = utilService.createPartyWithSubscription(userCO,params.int('productId'))
+                  ProductOffering po = ProductOffering.get(params.int('productId'))
+                  String item_name = po.name
+                  Party newParty = Party.findByUniqueId(userId)
+                  if(po.basePrice?.value <= 0){
+                    //log in the user...
+                    session.loggedUserId = newParty?.id?.toString()
+                    session.setMaxInactiveInterval(MenuConstants.SESSION_TIMEOUT);
+                    def pendingSubscriptions = UserTools.getCurrentUser()?Subscription.withCriteria {
+                        subscriptionFor {
+                            party {
+                              idEq(newParty.id)
+                            }
+                        }
+                        eq('status',SubscriptionStatus.PENDING)
+                    }:[]
+                           
+                    render(view: '/user/registrationAcknowledgement', model: [user: newParty,pendingSubscriptions:pendingSubscriptions])
+                  } else {
+                    RecurringCharge rc = po.recurringCharge
+                    String item_description = rc.description
+                    String item_price = rc.value
+                    String recurrence = rc.recurrence
+                    String startAfter = rc.startAfter
+                    render(view: '/subscription/connectToPaypal', model: [startAfter: startAfter, recurrence: recurrence, item_name: item_name,
+                            item_description: item_description, item_price: item_price, userId: userId, item_number: po.id])
+                  }
                 } else {
-                    userCO.errors.allErrors.each {
-                        println it
-                    }
-                    render(view: 'chooseSubscription', model: [availableProducts: ProductOffering.list() - ProductOffering.findByName(TRAIL_SUBSCRIPTION), userCO: userCO, productId: params.productId])
+                    render(view: 'chooseSubscription', model: [availableProducts: ProductOffering.list() - ProductOffering.findByName(TRIAL_SUBSCRIPTION), userCO: userCO, productId: params.productId])
                 }
             }
         } else {
-            render(view: 'chooseSubscription', model: [availableProducts: ProductOffering.list() - ProductOffering.findByName(TRAIL_SUBSCRIPTION), userCO: userCO, blankSubscriptionError: true])
+            render(view: 'chooseSubscription', model: [availableProducts: ProductOffering.list() - ProductOffering.findByName(TRIAL_SUBSCRIPTION), userCO: userCO, blankSubscriptionError: true])
         }
 
     }
+  def newFreeUserSignUp = {UserCO userCO ->
+      userCO.roles.add(PartyRoleType.Subscriber.name())
+      userCO.isEnabled = null
+      String coachUUID = params?.coachId
+      if (coachUUID) {
+          userCO.coachId = coachUUID
+      } else {
+          List<Cookie> cookies = request.cookies as List
+          Cookie coachId = cookies.find {it.name == 'coachId'}
+          if (coachId) {
+              userCO.coachId = coachId.value
+          }
+      }
+      if (userCO.validate()) {
+        def userId = utilService.createPartyWithSubscription(userCO,params.int('productId'))
+        //log in the user...
+        session.loggedUserId = party?.id?.toString()
+        session.setMaxInactiveInterval(MenuConstants.SESSION_TIMEOUT);
+        party?.lastLogin = new Date()
+        party?.s()
+
+        render(view: '/user/registrationAcknowledgement', model: [user: party])
+      } else {
+//          userCO.errors.allErrors.each {
+//              println it
+//          }
+        render(view: 'chooseSubscription', model: [availableProducts: ProductOffering.list() - ProductOffering.findByName(TRIAL_SUBSCRIPTION), userCO: userCO, productId: params.productId])
+      }
+  }
 
     def verify = {
         VerificationToken token = VerificationToken.findByToken(params.token)
@@ -487,7 +555,8 @@ class UserController {
     def welcome = {
         if (session.userId) {
             Subscriber user = Subscriber.get(session.userId)
-            render(view: 'registrationAcknowledgement', model: [user: user])
+
+            render(view: 'registrationAcknowledgement', model: [user: user.party])
         }
         else if (session.loggedUserId) {
             Subscriber user = Subscriber.get(session.loggedUserId)
@@ -590,9 +659,9 @@ class UserCO {
     static constraints = {
         id(nullable: true)
         email(blank: false, nullable: false, email: true, validator: {val, obj ->
-            if (val && !obj.id) {
+            if (val ) {
                 LoginCredential credential = UserLogin.findByEmail(val)
-                if (credential && (credential?.id != obj?.id?.toLong())) {
+                if (credential ) {
                     return "userCO.email.unique.error"
                 }
             }
@@ -778,9 +847,8 @@ class UserCO {
             party = new Party(name: name)
             party.isEnabled = isEnabled
             LoginCredential loginCredential = new UserLogin(email: email, password: password.encodeAsBase64(), party: party)
-            party.loginCredentials = [loginCredential] as Set
-            party.s()
-
+            party.loginCredentials = [loginCredential] as Set            
+          if (!party.hasErrors() && party.save(flush: true)) {
             if (PartyRoleType.Subscriber.name() in roles) {
                 Subscriber subscriber = new Subscriber()
                 subscriber.city = city
@@ -817,6 +885,9 @@ class UserCO {
                     assert dc && dc.id
                 }
             }
+          } else {
+            throw new RuntimeException("Couldn't create party")
+          }
         }
         party = party.refresh()
         return party

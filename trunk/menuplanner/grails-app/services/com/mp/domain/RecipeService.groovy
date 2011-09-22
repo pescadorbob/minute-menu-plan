@@ -6,12 +6,19 @@ import org.apache.commons.math.fraction.ProperFractionFormat
 import com.mp.domain.party.Party
 import com.mp.tools.UserTools
 import org.apache.lucene.document.NumberTools
+import com.mp.domain.ndb.NutritionLink
+import com.mp.domain.ndb.ItemNutritionLink
+import com.mp.domain.ndb.IngredientNutritionLink
+import java.util.regex.Pattern
+import com.mp.domain.party.Party
+import com.mp.tools.UserTools
 
 
 class RecipeService {
 
     static config = ConfigurationHolder.config
     boolean transactional = true
+    def profilerLog
 
     public boolean deleteRecipe(Recipe recipe, Party user) {
         user.removeFromContributions(recipe)
@@ -26,18 +33,18 @@ class RecipeService {
         return query.replace(oldKeyword, newKeyword)
     }
 
-    public List<Recipe> getFilteredRecipeList(Integer max = 15, Long offset = 0) {
-        Party currentUser = UserTools.currentUser?.party
+    public List<Recipe> getFilteredRecipeList(Integer max = 15, Long offset = 0,Party currentUser) {
         String query = "(shareWithCommunity:true${(currentUser ? (" OR contributorsString:" + NumberTools.longToString(currentUser?.id)) : '')})"
         if (!currentUser?.showAlcoholicContent) { query += "  isAlcoholic:false" }
-        def recipes = Recipe.search([reload: true, max: max, offset: offset]) {
+        def recipes = Recipe.search([reload: false, max: max, offset: offset]) {
             must(queryString(query))
         }
+      
+
         return recipes?.results
     }
 
-    public Integer getFilteredRecipeCount() {
-        Party currentUser = UserTools.currentUser?.party
+    public Integer getFilteredRecipeCount(Party currentUser) {
         String query = "(shareWithCommunity:true${(currentUser ? (" OR contributorsString:" + NumberTools.longToString(currentUser?.id)) : '')})"
         if (!currentUser?.showAlcoholicContent) { query += "  isAlcoholic:false" }
         def recipes = Recipe.search([reload: true]) {
@@ -88,6 +95,7 @@ class RecipeService {
             recipeIngredientNew.quantity = quantity
 
             recipeIngredientNew.aisle = recipeIngredient.aisle
+//            recipeIngredientNew.foodMapping = recipeIngredient.foodMapping
             recipeIngredientNew.preparationMethod = recipeIngredient?.preparationMethod
             if (customServings && recipeIngredient?.quantity && recipeIngredient?.quantity?.value && (customServings != recipe?.servings)) {
                 Float value = (recipeIngredientNew?.quantity?.value) ? recipeIngredientNew.quantity.value : 1.0f
@@ -135,418 +143,182 @@ class RecipeService {
         detailedString = allStrings.join(',')
         return detailedString.toLowerCase()
     }
-}
+    def nutrients = [NUTRIENT_CALORIES
+  ,NUTRIENT_TOTAL_FAT
+  ,NUTRIENT_SATURATED_FAT
+  ,NUTRIENT_CHOLESTEROL
+  ,NUTRIENT_SODIUM
+  ,NUTRIENT_CARBOHYDRATES
+  ,NUTRIENT_FIBER
+  ,NUTRIENT_PROTEIN  ]
 
-class RecipeCO {
-    static config = ConfigurationHolder.config
-    def recipeService
-    def searchableService
-
-    RecipeCO() {} //constructor
-    Long imageId
-    Long id
-    String name
-    String difficulty
-    String description
-    Boolean shareWithCommunity
-    Boolean isAlcoholic
-    Integer makesServing
-    Integer preparationTime
-    Long preparationUnitId
-    Integer cookTime
-    Long cookUnitId
-    def selectRecipeImage
-    def selectRecipeImagePath
-
-    Set<Long> subCategoryIds = []
-    Set<String> categoryNames = []
-
-    Set<String> serveWithItems = []
-
-    List<String> ingredientQuantities = []
-    List<String> ingredientUnitIds = []
-    List<String> ingredientProductIds = []
-    List<String> ingredientPreparationMethodIds = []
-    List<String> ingredientAisleIds = []
-    List<String> hiddenIngredientUnitNames = []
-    List<String> hiddenIngredientUnitSymbols = []
-    List<String> hiddenIngredientProductNames = []
-    List<String> hiddenIngredientPreparationMethodNames = []
-    List<String> hiddenIngredientAisleNames = []
-
-    List<String> directions = []
-
-    List<Long> nutrientIds = []
-    def nutrientQuantities = []
-
-    RecipeCO(Recipe recipe) {
-        id = recipe?.id
-        imageId = recipe?.image?.id
-        name = recipe?.name
-        description = recipe?.description
+  
+    public RecipeCO initRecipeCO(Recipe recipe) {
+      RecipeCO recipeCO = new RecipeCO();
+      recipeCO.id = recipe?.id
+        recipeCO.imageId = recipe?.image?.id
+        recipeCO.name = recipe?.name
+        recipeCO.description = recipe?.description
 
         if (recipe?.image) {
             int firstIndex = recipe?.image?.storedName?.indexOf('.')
             String name = recipe?.image?.storedName?.substring(0, firstIndex)
-            selectRecipeImagePath = recipe?.image?.path + name + "_640.jpg"
+            recipeCO.selectRecipeImagePath = recipe?.image?.path + name + "_640.jpg"
         } else {
-            selectRecipeImagePath = ''
+            recipeCO.selectRecipeImagePath = ''
         }
 
-        difficulty = recipe?.difficulty?.name()
-        shareWithCommunity = recipe?.shareWithCommunity
-        makesServing = recipe?.servings
-        serveWithItems = (recipe?.items) ? (recipe?.items*.name) : []
-        isAlcoholic = recipe?.isAlcoholic
+        recipeCO.difficulty = recipe?.difficulty?.name()
+        recipeCO.shareWithCommunity = recipe?.shareWithCommunity
+        recipeCO.makesServing = recipe?.servings
+        recipeCO.serveWithItems = (recipe?.items) ? (recipe?.items*.name) : []
+        recipeCO.isAlcoholic = recipe?.isAlcoholic
 
 
-        preparationUnitId = recipe?.preparationTime?.unit?.id
-        preparationTime = recipe?.preparationTime ? StandardConversion.getQuantityValueString(recipe?.preparationTime)?.toInteger() : null
+        recipeCO.preparationUnitId = recipe?.preparationTime?.unit?.id
+        recipeCO.preparationTime = recipe?.preparationTime ? StandardConversion.getQuantityValueString(recipe?.preparationTime)?.toInteger() : null
 
-        cookUnitId = recipe?.cookingTime?.unit?.id
-        cookTime = recipe?.cookingTime ? StandardConversion.getQuantityValueString(recipe?.cookingTime)?.toInteger() : null
+        recipeCO.cookUnitId = recipe?.cookingTime?.unit?.id
+        recipeCO.cookTime = recipe?.cookingTime ? StandardConversion.getQuantityValueString(recipe?.cookingTime)?.toInteger() : null
 
-        subCategoryIds = recipe?.subCategories*.id as Set
-        directions = recipe?.directions
+        recipeCO.subCategoryIds = recipe?.subCategories*.id as Set
+        recipeCO.directions = recipe?.directions
 
-        hiddenIngredientProductNames = recipe?.ingredients*.ingredient?.name
-        ingredientProductIds = recipe?.ingredients*.ingredient?.id
+        recipeCO.hiddenIngredientProductNames = recipe?.ingredients*.ingredient?.name
+        recipeCO.ingredientProductIds = recipe?.ingredients*.ingredient?.id
 
         recipe?.ingredients*.aisle?.each {Aisle aisle ->
-            ingredientAisleIds.add(aisle?.id?.toString())
-            hiddenIngredientAisleNames.add(aisle?.name)
+            recipeCO.ingredientAisleIds.add(aisle?.id?.toString())
+            recipeCO.hiddenIngredientAisleNames.add(aisle?.name)
         }
 
+        recipe?.ingredients.each {RecipeIngredient ri ->
+          def mapping = IngredientNutritionLink.findByIngredient(ri)
+          if(!mapping){
+            def query = "from ItemNutritionLink as link where \
+            link.product = :product and "
+            def map = [product:ri.ingredient]
+            if(ri.preparationMethod){
+              query += " prep = :prep "
+              map.prep = ri.preparationMethod
+            } else {
+              query += " prep is null "
+            }
+            if(ri.quantity?.unit){
+              query += " and (unit.isConvertible=1  or unit = :unit )"
+              map.unit = ri.quantity.unit
+            } else {
+              query += " and unit is null"
+            }
+            def links =ItemNutritionLink.executeQuery("select distinct link " + query,map)
+            if(links.size()>0) mapping = links[0]
+          }
+            recipeCO.ingredientFoodMapIds.add(mapping?.id?.toString())
+            recipeCO.hiddenIngredientFoodMapNames.add(mapping?("${mapping?.nutrition?.weightFor?.shrtDesc} ${mapping?.nutrition?.msreDesc} " ):'')
+        }
+
+
         recipe?.ingredients*.preparationMethod?.each {PreparationMethod preparationMethod ->
-            ingredientPreparationMethodIds.add(preparationMethod?.id?.toString())
-            hiddenIngredientPreparationMethodNames.add(preparationMethod?.name)
+            recipeCO.ingredientPreparationMethodIds.add(preparationMethod?.id?.toString())
+            recipeCO.hiddenIngredientPreparationMethodNames.add(preparationMethod?.name)
         }
         recipe?.ingredients*.quantity?.unit?.eachWithIndex {Unit unit, Integer index ->
-            ingredientUnitIds.add(unit?.id)
-            hiddenIngredientUnitNames.add(unit?.name)
-            hiddenIngredientUnitSymbols.add(unit?.symbol)
+            recipeCO.ingredientUnitIds.add(unit?.id)
+            recipeCO.hiddenIngredientUnitNames.add(unit?.name)
+            recipeCO.hiddenIngredientUnitSymbols.add(unit?.symbol)
         }
 
         recipe?.ingredients*.quantity?.value?.eachWithIndex {Float val, Integer index ->
             String usValue = StandardConversion.getQuantityValueString(recipe?.ingredients?.getAt(index)?.quantity)
-            ingredientQuantities.add(usValue)
+            recipeCO.ingredientQuantities.add(usValue)
         }
 
-        nutrientIds = Nutrient.list()*.id
+        recipeCO.nutrientIds = Nutrient.list()*.id
         Nutrient.count().times {
-            nutrientQuantities[it] = ""
+            recipeCO.nutrientQuantities[it] = ""
         }
         recipe?.nutrients.each {RecipeNutrient recipeNutrient ->
             Integer val = StandardConversion.getQuantityValueString(recipeNutrient?.quantity)?.toBigDecimal()
-            nutrientQuantities[recipeNutrient?.nutrient?.id?.toInteger() - 1] = val
+            recipeCO.nutrientQuantities[recipeNutrient?.nutrient?.id?.toInteger() - 1] = val
         }
+      recipeCO
     }
+  public  List<Item> getItemsForCurrentUser(String matches = "%%") {
+      Party party = UserTools.currentUser?.party
+      List<Item> itemsByUser = getItemsForUser(party, matches)
+      return itemsByUser
+  }
 
-    void setNutrientQuantities(def listOfNq) {
-        [listOfNq].flatten().each {
-            try {nutrientQuantities << new Float(it)} catch (ex) {nutrientQuantities << it}
+  public  List<Item> getItemsForUser(Party party, String matchString = "%%") {
+      if(profilerLog.profiling) profilerLog.startProfiling("getItemsForUser")
+      Boolean showAlcoholicContent = party.showAlcoholicContent
+      List<Item> totalItems = []
+      List<Item> items = []
+      List<Item> itemsByUser = []
+      List<Item> recipesByUser = []
+      totalItems = Item.withCriteria(unique:true) {
+        if(!party.showAlcoholicContent)
+          eq('isAlcoholic',false)
+        or{
+          eq('shareWithCommunity',true)
+          if(party?.ingredients.size()>0)
+            inList('id',party?.ingredients*.id)
+          if(party?.contributions.size()>0)
+            inList('id',party?.contributions*.id)
         }
-    }
+        if(matchString!='%%') ilike('name',matchString)
+      }
+//      if (!party.showAlcoholicContent) {
+//          if(matchString == '%%'){
+//              items = Item?.findAllByIsAlcoholic(false) as List
+//              items.addAll(Recipe?.findAllByIsAlcoholic(false) as List)
+//              items.addAll(Product?.findAllByIsAlcoholic(false) as List)
+//              items.addAll(MeasurableProduct?.findAllByIsAlcoholic(false) as List)
+//          } else {
+//              items = Item?.findAllByNameIlikeAndIsAlcoholic(matchString, false) as List
+//              items.addAll(Recipe?.findAllByNameIlikeAndIsAlcoholic(matchString, false) as List)
+//              items.addAll(Product?.findAllByNameIlikeAndIsAlcoholic(matchString, false) as List)
+//              items.addAll(MeasurableProduct?.findAllByNameIlikeAndIsAlcoholic(matchString, false) as List)
+//          }
+//          items = items?.findAll {it?.shareWithCommunity} as List
+//          matchString = matchString.replace("%", ".*")
+//          itemsByUser = party?.ingredients?.findAll {!it.isAlcoholic && it?.name?.matches(Pattern.compile(matchString, Pattern.CASE_INSENSITIVE))} as List
+//          recipesByUser = (party?.contributions as List).findAll {it?.name?.matches(Pattern.compile(matchString, Pattern.CASE_INSENSITIVE)) && (!it.isAlcoholic)} as List
+//      } else {
+//          items = Item?.findAllByNameIlike(matchString)?.findAll {it?.shareWithCommunity} as List
+//          matchString = matchString.replace("%", ".*")
+//          itemsByUser = party?.ingredients?.findAll {it?.name?.matches(Pattern.compile(matchString, Pattern.CASE_INSENSITIVE))} as List
+//          recipesByUser = (party?.contributions as List).findAll {it?.name?.matches(Pattern.compile(matchString, Pattern.CASE_INSENSITIVE))} as List
+//      }
+//      totalItems = items + itemsByUser + recipesByUser
+//      totalItems.unique()
+      return totalItems.sort {it.name}
+    if(profilerLog.profiling) profilerLog.stopProfiling()
 
-    static constraints = {
-        id(nullable: true)
-        name(validator: {val ->
-            if (!val) {
-                return 'recipeCO.name.blank.error.name'
-            }
-        })
+  }
 
-        difficulty(blank: true, nullable: true)
-        description(blank: true, nullable: true)
-        makesServing(nullable: true, blank: true)
-        selectRecipeImagePath(nullable: true, blank: true)
-        selectRecipeImage(nullable: true, blank: true)
-        preparationTime(nullable: true, blank: true)
-        cookTime(nullable: true, blank: true)
+  public  List<Item> getProductsForCurrentUser(String matches = "%%"){
+      Party party = UserTools.currentUser?.party
+      List<Item> itemsByUser = getProductsForUser(party, matches)
+      return itemsByUser
+  }
 
-        nutrientQuantities(validator: {val ->
-            if (val.findAll {!(it instanceof Float || it == "")}.size() > 0) {
-                return 'recipeCO.nutrientQuantities.matches.invalid.nutrientQuantities'
-            }
-        })
-
-        ingredientQuantities(validator: { values ->
-            for(value in values) {
-                if (value && !value.isNumber()) {
-                    try {
-                        new ProperFractionFormat().parse(value)?.floatValue()
-                    }
-                    catch (Exception e) {
-                        println "Exception caught"
-                        return 'recipeCO.ingredientQuantities.validator.error.java.util.List'
-                    }
-                }
-            }
-        })
-
-        hiddenIngredientProductNames(validator: {val, obj ->
-            List<String> tempProd = []
-            val.each { tempProd.add(it) }
-            if (!val.any {it}) {
-                return 'recipeCO.ingredient.not.Provided.message'
-            }
-            if ((val.size() != tempProd?.unique()?.size()) && !(val.contains(''))) {
-                return 'recipeCO.ingredientProduct.Repeated.message'
-            }
-        })
-
-
-        directions(validator: {val, obj ->
-            if ((val.size() < 1) || (val.any {!it})) {
-                return 'recipeCO.directions.not.valid.message'
-            }
-        })
-    }
-
-    public Recipe updateRecipe() {
-        Recipe recipe = Recipe.get(id)
-        recipe.name = name
-        recipe.description = description
-        recipe.shareWithCommunity = shareWithCommunity
-        recipe.isAlcoholic = isAlcoholic
-        recipe.servings = makesServing
-        if (difficulty) {
-            recipe.difficulty = RecipeDifficulty."${difficulty}"
-        }
-        recipe.preparationTime = makeTimeQuantity(preparationTime, preparationUnitId)
-        recipe.cookingTime = makeTimeQuantity(cookTime, cookUnitId)
-
-        recipe.subCategories = []
-        addSubCategoriesToRecipe(recipe, subCategoryIds)
-
-        def tempIngredients = recipe.ingredients
-        recipe.ingredients = []
-        tempIngredients*.delete(flush: true)
-        addIngredientsToRecipe(recipe, ingredientQuantities, ingredientUnitIds, hiddenIngredientProductNames, hiddenIngredientAisleNames, hiddenIngredientPreparationMethodNames)
-
-        recipe.directions = []
-        addDirectionsToRecipe(recipe, directions)
-
-        addServeWithToRecipe(recipe, serveWithItems)
-
-        def tempNutrients = recipe.nutrients
-        recipe.nutrients = []
-        tempNutrients*.delete(flush: true)
-        addNutrientsToRecipe(recipe, nutrientQuantities, nutrientIds)
-
-        recipe.s()
-        attachImage(recipe, selectRecipeImagePath)
-        recipe.isAlcoholic = recipe.isAlcoholic ? true : recipeService.isRecipeAlcoholic(recipe?.id)
-        recipe.s()
-
-        return recipe
-    }
-
-    public Recipe convertToRecipe(Party byUser) {
-        Recipe recipe = new Recipe()
-
-        recipe.name = name
-        recipe.description = description
-        recipe.shareWithCommunity = shareWithCommunity
-        recipe.servings = makesServing
-        recipe.difficulty = RecipeDifficulty."${difficulty}"
-        recipe.preparationTime = makeTimeQuantity(preparationTime, preparationUnitId)
-        recipe.cookingTime = makeTimeQuantity(cookTime, cookUnitId)
-        recipe.isAlcoholic = isAlcoholic
-        addSubCategoriesToRecipe(recipe, subCategoryIds)
-        addDirectionsToRecipe(recipe, directions)
-        addIngredientsToRecipe(recipe, ingredientQuantities, ingredientUnitIds, hiddenIngredientProductNames, hiddenIngredientAisleNames, hiddenIngredientPreparationMethodNames)
-        addServeWithToRecipe(recipe, serveWithItems)
-        addNutrientsToRecipe(recipe, nutrientQuantities, nutrientIds)
-
-        recipe.s()
-        attachImage(recipe, selectRecipeImagePath)
-        recipe.isAlcoholic = recipe.isAlcoholic ? true : recipeService.isRecipeAlcoholic(recipe?.id)
-        recipe.s()
-        return recipe
-    }
-
-    public boolean attachImage(Recipe recipe, String imagePath) {
-        List<Integer> imageSizes = RECIPE_IMAGE_SIZES
-        return Image.updateOwnerImage(recipe, imagePath, imageSizes)
-    }
-
-    public Quantity makeTimeQuantity(Integer minutes, Long unitId) {
-        if (minutes == null) {
-            return null
-        }
-        Quantity time = new Quantity()
-        Unit unit = Unit.get(unitId)
-        time = StandardConversion.getQuantityToSave(minutes.toString(), unit)
-        time?.s()
-        if (time) {
-            return time
-        } else {
-            return null
-        }
-    }
-
-    public List<RecipeIngredient> recipeIngredientList(List<String> amounts, List<String> unitIds, List<String> productNames, List<String> aisleNames, List<String> preparationMethodNames) {
-        List<RecipeIngredient> recipeIngredients = []
-        productNames?.eachWithIndex {String productName, Integer index ->
-            if (productName) {
-                Party party = UserTools.currentUser?.party
-                RecipeIngredient recipeIngredient = new RecipeIngredient()
-                Unit unit = (unitIds[index]) ? Unit?.get(unitIds[index]?.toLong()) : null
-                Aisle aisle = null
-                if (aisleNames[index]) {
-                    aisle = getAisleForRecipeIngredient(aisleNames[index], party)
-                }
-                if (productName) {
-                    Item product = getProductForRecipeIngredient(productName, party, unit, aisle)
-                    PreparationMethod preparationMethod = getPreparationMethodForRecipeIngredient(preparationMethodNames[index])
-                    Quantity quantity = StandardConversion.getQuantityToSave(amounts?.getAt(index) ? amounts[index] : null, unit, product.density)
-                    quantity?.s()
-                    recipeIngredient.ingredient = product
-                    recipeIngredient.quantity = quantity
-                    recipeIngredient.preparationMethod = preparationMethod
-                    recipeIngredient.aisle = aisle
-                    recipeIngredients.add(recipeIngredient)
-                }
-            }
-        }
-        return recipeIngredients
-    }
-
-    public boolean addIngredientsToRecipe(Recipe recipe, List<String> amounts, List<String> unitIds, List<String> productNames, List<String> aisleNames, List<String> preparationMethodNames) {
-        List<RecipeIngredient> recipeIngredients = recipeIngredientList(amounts, unitIds, productNames, aisleNames, preparationMethodNames)
-        recipeIngredients?.eachWithIndex {RecipeIngredient recipeIngredient, Integer index ->
-            recipeIngredient.recipe = recipe
-            recipe.addToIngredients(recipeIngredient)
-        }
-        return true
-    }
-
-    public boolean addDirectionsToRecipe(Recipe recipe, List<String> directions) {
-        directions = directions.findAll { it && it != "" }
-        recipe.directions = directions
-        return true
-    }
-
-    public List<RecipeNutrient> recipeNutrientList(def amounts, List<Long> nutrientIds) {
-        List<RecipeNutrient> recipeNutrientList = []
-        amounts.eachWithIndex {def amount, Integer index ->
-            if (amount) {
-                RecipeNutrient recipeNutrient = new RecipeNutrient()
-                recipeNutrient.nutrient = Nutrient.get(nutrientIds[index])
-                Quantity quantity = StandardConversion.getQuantityToSave(amount?.toInteger()?.toString(), Nutrient.get(nutrientIds[index]).preferredUnit)
-                quantity?.s()
-                recipeNutrient.quantity = quantity
-                recipeNutrientList.add(recipeNutrient)
-            }
-        }
-        return recipeNutrientList
-    }
-
-    public boolean addNutrientsToRecipe(Recipe recipe, def amounts, List<Long> nutrientIds) {
-        List<RecipeNutrient> recipeNutrients = recipeNutrientList(amounts, nutrientIds)
-        recipeNutrients.eachWithIndex {RecipeNutrient nutrient, Integer index ->
-            nutrient.recipe = recipe
-            recipe.addToNutrients(nutrient)
-        }
-        return true
-    }
-
-    public List<Item> serveWithList(Set<Long> itemIds) {
-        List<Item> items = []
-        itemIds.each {Long itemId ->
-            Item item = Item.get(itemId)
-            items.add(item)
-        }
-        return items
-    }
-
-    public boolean addServeWithToRecipe(Recipe recipe, Set<String> itemIds) {
-        Set<Item> items = []
-        Party party = UserTools.currentUser?.party
-        Item item
-        itemIds.each {String itemName ->
-            if (itemName) {
-                item = Recipe.findByName(itemName)
-                if (item) {
-                    items.add(item)
-                } else {
-                    item = Item.countByName(itemName) ? Item.findByName(itemName) : new Product(name: itemName).s()
-                    party.addToIngredients(item)
-                    party.s()
-                    items.add(item)
-                    Item.countByName(itemName) ? searchableService.reindex(class: Item, item?.id) : searchableService.index(class: Product, item?.id)
-                }
-            }
-        }
-        recipe.items = items
-        return true
-    }
-
-    public boolean addSubCategoriesToRecipe(Recipe recipe, Set<Long> subCategoryIds) {
-        subCategoryIds.each {Long categoryId ->
-            if (categoryId) {
-                SubCategory category = SubCategory.get(categoryId)
-                recipe.addToSubCategories(category)
-            }
-        }
-        return true
-    }
-
-    public Item getProductForRecipeIngredient(String productName, Party party, Unit unit, Aisle aisle) {
-        List<Item> products = Item.getItemsForCurrentUser()
-        Item product = products.find {it.name == productName}
-        if (!product) {
-            product = Product.findByName(productName)
-            if (product) {
-                party.addToIngredients(product)
-                party.s()
-                searchableService.reindex(class: Product, product?.id)
-            } else {
-                if (unit) {
-                    product = new MeasurableProduct(name: productName, isVisible: false, preferredUnit: unit, suggestedAisle: aisle)
-                    product.s()
-                    party.addToIngredients(product)
-                    party.s()
-                    searchableService.index(class: MeasurableProduct, product?.id)
-                } else {
-                    product = new Product(name: productName, isVisible: false, suggestedAisle: aisle)
-                    product.s()
-                    party.addToIngredients(product)
-                    party.s()
-                    searchableService.index(class: Product, product?.id)
-                }
-            }
-        }
-        return product
-    }
-
-    public Aisle getAisleForRecipeIngredient(String aisleName, Party party) {
-        List<Aisle> aislesForUser = Aisle.getAislesForCurrentUser()
-        Aisle aisle = aislesForUser.find {it.name == aisleName}
-        if (!aisle) {
-            Aisle aisleInList = Aisle.list().find {it.name == aisleName}
-            if (aisleInList) {
-                aisleInList.ownedByUser = true
-                aisleInList.s()
-                party.addToAisles(aisleInList)
-                party.s()
-            } else {
-                aisle = new Aisle(name: aisleName, ownedByUser: true)
-                aisle.s()
-                party.addToAisles(aisle)
-                party.s()
-            }
-        }
-        return aisle
-    }
-
-    public PreparationMethod getPreparationMethodForRecipeIngredient(String methodString) {
-        String preparationMethodString = methodString?.trim()
-        PreparationMethod preparationMethod = (preparationMethodString) ? PreparationMethod.findByName(preparationMethodString) : null
-        if (!preparationMethod && preparationMethodString) {
-            preparationMethod = new PreparationMethod(name: preparationMethodString).s()
-        }
-        return preparationMethod
-    }
+  public  List<Item> getProductsForUser(Party party, String matchString = "%%") {
+      List<Item> totalItems = []
+      List<Item> items = []
+      List<Item> itemsByUser = []
+      if (!party.showAlcoholicContent) {
+          items = Product?.findAllByNameIlikeAndIsAlcoholic(matchString, false)?.findAll {it?.shareWithCommunity} as List
+          items+=MeasurableProduct?.findAllByNameIlikeAndIsAlcoholic(matchString, false)?.findAll {it?.shareWithCommunity} as List
+          matchString = matchString.replace("%", ".*")
+          itemsByUser = party?.ingredients?.findAll {it?.name?.matches(Pattern.compile(matchString, Pattern.CASE_INSENSITIVE)) && (!it.isAlcoholic)} as List
+      } else {
+          items = Product?.findAllByNameIlike(matchString)?.findAll {it?.shareWithCommunity} as List
+          items+=MeasurableProduct?.findAllByNameIlikeAndIsAlcoholic(matchString, false)?.findAll {it?.shareWithCommunity} as List
+          matchString = matchString.replace("%", ".*")
+          itemsByUser = party?.ingredients?.findAll {it?.name?.matches(Pattern.compile(matchString, Pattern.CASE_INSENSITIVE))} as List
+      }
+      totalItems = items + itemsByUser
+      return totalItems.sort {it.name}
+  }
 }
