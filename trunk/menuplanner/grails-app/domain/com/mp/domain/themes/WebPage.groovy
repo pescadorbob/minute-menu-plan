@@ -8,21 +8,21 @@ package com.mp.domain.themes
  * (c) Copyright 1998-2010 Access-Wealth, LLC.
  * All rights reserved.
  */
- 
-public class WebPage {
-  String name
-   String activeFrom
-  String activeTo
-  String template
-  Date lastModified = new Date()
 
-  static constraints = {
-      name(unique: true, blank: false)
-      template(nullable: true, blank: true, maxSize: 10000)
-      lastModified(nullable: true, blank: true)
-      activeTo(nullable: true, blank: true)
-  }
-  static mapping = {
+public class WebPage {
+    String name
+    String activeFrom
+    String activeTo
+    String pageTemplate
+    Date lastModified = new Date()
+
+    static constraints = {
+        name(unique: true, blank: false)
+        pageTemplate(nullable: true, blank: true, maxSize: 10000)
+        lastModified(nullable: true, blank: true)
+        activeTo(nullable: true, blank: true)
+    }
+    static mapping = {
         tablePerHierarchy false
     }
 

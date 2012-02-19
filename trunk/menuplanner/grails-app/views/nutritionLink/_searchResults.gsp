@@ -84,6 +84,7 @@
         </div>
         <g:if test="${haveQuery && !haveResults && !parseException}">
           <p>Nothing matched your query - <strong>${params.nutritionalName}</strong></p>
+            <p>Perhaps the ndb hasn't been loaded.  Click <g:link controller="nutritionLink" action="loadNDB">here</g:link> to load it now.</p>
           <g:if test="${!searchResult?.suggestedQuery}">
             <p>Suggestions:</p>
             <ul>
@@ -166,7 +167,7 @@
       var units = {}
       <g:each var="unit" in="${Unit.list()}" status="index">
          units['name-${unit.id}'] = '${unit.name}'
-         units['small-${unit.id}'] = '${unit.small.length()>0?unit.small:'empty'}'
+         units['small-${unit.id}'] = '${unit.small?.length()>0?unit.small:'empty'}'
         </g:each>
 
       var ingredientsWithUnits = {}
