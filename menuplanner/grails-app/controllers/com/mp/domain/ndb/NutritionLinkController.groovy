@@ -5,16 +5,26 @@ import com.mp.domain.ndb.NDBFood
 import com.mp.domain.ndb.NDBWeight
 import org.compass.core.engine.SearchEngineQueryParseException
 import com.mp.domain.*
+import grails.util.GrailsUtil
 
 class NutritionLinkController {
 
   def ndbService
   def searchableService
-  
+  def masterDataBootStrapService
+
   static allowedMethods = [save: "POST", update: "POST"]
 
   def index = {
     redirect(action: "list", params: params)
+  }
+
+  def loadNDB = {
+      runAsync {
+          masterDataBootStrapService.populateNDBFood()
+      }
+      flash.message = "ndb loading has begun.  Come back in about 1/2 hour"
+      redirect(action: "list",params: params)
   }
 
   def match = {errors ->

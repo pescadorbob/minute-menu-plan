@@ -1,32 +1,25 @@
-import org.apache.commons.math.fraction.*
-import java.text.FieldPosition
-import grails.util.GrailsUtil
-import grails.util.Environment
-import org.codehaus.groovy.grails.commons.ApplicationHolder
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
-import com.mp.domain.*
-import liquibase.Liquibase
-import liquibase.FileSystemFileOpener
-import liquibase.database.DatabaseFactory
-import static com.mp.MenuConstants.*
-import org.apache.commons.lang.StringUtils
+import com.mp.MenuConstants
+import com.mp.domain.access.AccessFilterSet
+import com.mp.domain.access.SecurityRole
+import com.mp.domain.ndb.NDBFileInfo
+import com.mp.domain.ndb.NDBFood
+import com.mp.domain.party.Party
+import com.mp.domain.party.Subscriber
+import com.mp.domain.party.SuperAdmin
 import com.mp.domain.subscriptions.Feature
 import com.mp.domain.themes.HomePage
 import com.mp.domain.themes.Theme
-import com.mp.domain.accounting.Account
-import com.mp.domain.party.Party
-import com.mp.domain.party.Subscriber
-import com.mp.domain.accounting.AccountTransaction
-import com.mp.domain.subscriptions.Subscription
-import com.mp.domain.access.SecurityRole
-import com.mp.domain.access.AccessFilterSet
-import com.mp.MenuConstants
-import com.mp.domain.accounting.OperationalAccount
-import com.mp.domain.accounting.AccountRole
-import com.mp.domain.accounting.AccountRoleType
-import com.mp.domain.party.SuperAdmin
-import com.mp.domain.ndb.NDBFileInfo
-import com.mp.domain.ndb.NDBFood
+import grails.util.Environment
+import grails.util.GrailsUtil
+import java.text.FieldPosition
+import org.apache.commons.math.fraction.Fraction
+import org.apache.commons.math.fraction.FractionFormat
+import org.apache.commons.math.fraction.ProperFractionFormat
+import org.codehaus.groovy.grails.commons.ApplicationHolder
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import static com.mp.MenuConstants.MMP_OPERATIONAL_ACCOUNT
+import com.mp.domain.*
+import com.mp.domain.accounting.*
 
 class BootStrap {
 
@@ -121,10 +114,11 @@ class BootStrap {
 
         allocateTrialSubscriptions()
 
-        Thread.start {
-//            searchableService.index()
+        if ( !(GrailsUtil.environment in ['development', 'test'])) {
+            Thread.start {
+                searchableService.index()
+            }
         }
-
         config.bootstrapMode = false
     }
     def destroy = {

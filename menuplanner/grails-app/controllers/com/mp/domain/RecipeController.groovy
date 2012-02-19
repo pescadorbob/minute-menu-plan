@@ -401,8 +401,10 @@ class RecipeController {
   def show = {
     def recipe = getRecipe(params?.long("id"))
     def nutritionFacts = nutritionFacts(recipe)
-    nutritionFacts = nutritionFacts.size() == recipe.ingredients.size()?nutritionFacts:[:]
-    render(view: 'show', model: [nutrition:nutritionFacts,recipe: recipe, party: UserTools.currentUser?.party])
+      // if there aren't equal number of nutritional facts as ingredients, then all of the nutritional facts aren't
+      // know for the recipe, and so the nutrition facts will be sent as null
+    nutritionFacts = nutritionFacts.size() == recipe.ingredients.size()?nutritionFacts:null
+    render(view: 'show', model: ['nutrition':nutritionFacts,recipe: recipe, party: UserTools.currentUser?.party])
   }
 
   def nutritionFacts = { recipe ->
@@ -421,7 +423,7 @@ where ri.recipe = :recipe \
     def map = [recipe:recipe]
     def nutrition = NutritionLink.executeQuery(query,map)
     def linksMap = [:]
-    def links = nutrition.each { link->
+    nutrition.each { link->
       def conversion = link[0].unit?getStandardConversion(link[0].unit):null
       linksMap[link[1].id] = [link[0],link[1],conversion]
     }

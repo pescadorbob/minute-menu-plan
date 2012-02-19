@@ -474,6 +474,8 @@ class MasterDataBootStrapService implements ApplicationContextAware {
                 controllerFilter: "user", actionFilter: "create|createUser|createFreeUser|chooseSubscription|newFreeUserSignUp|enableUser|newUserCheckout|welcome|facebookConnect|verify", filterFor: unrestrictedSet).s()
         new AccessFilter(name: "Misc util", description: "Miscellaneous stuff",
                 controllerFilter: "util|login|image|subscription", actionFilter: ".*", filterFor: unrestrictedSet).s()
+        new AccessFilter(name: "WeCeem CMS", description: "All of the WeCeem content",
+                controllerFilter: "wcmContent", actionFilter: ".*", filterFor: unrestrictedSet).s()
 
         def permissionSet = new AccessFilterSet(name: "Default PermissionList", description: "Default Permission Access Filter Set",
                 activeFrom: new Date(), type: AccessFilterType.PERMISSION).s();

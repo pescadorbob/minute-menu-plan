@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <databaseChangeLog logicalFilePath="WEB-INF/migrations/changelog.xml"
-    xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
-    <changeSet author="aman (generated)" id="1281344986756-1">
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet author="aman (generated)" id="1281344986756-1" runOnChange="false">
         <createTable tableName="account">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1001,356 +1002,361 @@
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-81">
         <addForeignKeyConstraint
-            baseColumnNames="account_transaction_id"
-            baseTableName="account_account_transaction"
-            constraintName="FKB1061EBAC663DB2B" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="account_transaction"/>
+                baseColumnNames="account_transaction_id"
+                baseTableName="account_account_transaction"
+                constraintName="FKB1061EBAC663DB2B" deferrable="false"
+                initiallyDeferred="false" referencedColumnNames="id" referencedTableName="account_transaction"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-82">
         <addForeignKeyConstraint baseColumnNames="message_id"
-            baseTableName="asynchronous_mail_attachment"
-            constraintName="FKD4396AB474651218" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="asynchronous_mail_message"/>
+                                 baseTableName="asynchronous_mail_attachment"
+                                 constraintName="FKD4396AB474651218" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id"
+                                 referencedTableName="asynchronous_mail_message"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-83">
         <addForeignKeyConstraint baseColumnNames="parent_id"
-            baseTableName="category" constraintName="FK302BCFE4618C71A"
-            deferrable="false" initiallyDeferred="false"
-            referencedColumnNames="id" referencedTableName="category"/>
+                                 baseTableName="category" constraintName="FK302BCFE4618C71A"
+                                 deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="id" referencedTableName="category"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-84">
         <addForeignKeyConstraint baseColumnNames="comment_id"
-            baseTableName="comment_abuse"
-            constraintName="FKBD0D07E6F37C8E8A" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="comment"/>
+                                 baseTableName="comment_abuse"
+                                 constraintName="FKBD0D07E6F37C8E8A" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="comment"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-85">
         <addForeignKeyConstraint baseColumnNames="reporter_id"
-            baseTableName="comment_abuse"
-            constraintName="FKBD0D07E6F06D7A53" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="party"/>
+                                 baseTableName="comment_abuse"
+                                 constraintName="FKBD0D07E6F06D7A53" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="party"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-86">
         <addForeignKeyConstraint baseColumnNames="comment_id"
-            baseTableName="comment_link"
-            constraintName="FK2F689DDAF37C8E8A" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="comment"/>
+                                 baseTableName="comment_link"
+                                 constraintName="FK2F689DDAF37C8E8A" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="comment"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-87">
         <addForeignKeyConstraint baseColumnNames="week_id"
-            baseTableName="day" constraintName="FK1839C61DFDC86"
-            deferrable="false" initiallyDeferred="false"
-            referencedColumnNames="id" referencedTableName="week"/>
+                                 baseTableName="day" constraintName="FK1839C61DFDC86"
+                                 deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="id" referencedTableName="week"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-88">
         <addForeignKeyConstraint baseColumnNames="meal_id"
-            baseTableName="day_meal" constraintName="FK731A2A8650A51626"
-            deferrable="false" initiallyDeferred="false"
-            referencedColumnNames="id" referencedTableName="meal"/>
+                                 baseTableName="day_meal" constraintName="FK731A2A8650A51626"
+                                 deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="id" referencedTableName="meal"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-89">
         <addForeignKeyConstraint baseColumnNames="suggested_aisle_id"
-            baseTableName="item" constraintName="FK317B13D969AB0A"
-            deferrable="false" initiallyDeferred="false"
-            referencedColumnNames="id" referencedTableName="aisle"/>
+                                 baseTableName="item" constraintName="FK317B13D969AB0A"
+                                 deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="id" referencedTableName="aisle"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-90">
         <addForeignKeyConstraint baseColumnNames="party_id"
-            baseTableName="login_credential"
-            constraintName="FK3A1DC2ED45AFCA2E" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="party"/>
+                                 baseTableName="login_credential"
+                                 constraintName="FK3A1DC2ED45AFCA2E" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="party"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-91">
         <addForeignKeyConstraint baseColumnNames="item_id"
-            baseTableName="meal_item"
-            constraintName="FKE5EE020F96DC1426" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="item"/>
+                                 baseTableName="meal_item"
+                                 constraintName="FKE5EE020F96DC1426" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="item"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-92">
         <addForeignKeyConstraint baseColumnNames="preferred_unit_id"
-            baseTableName="measurable_product"
-            constraintName="FKBDA2C471E3C954C8" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="unit"/>
+                                 baseTableName="measurable_product"
+                                 constraintName="FKBDA2C471E3C954C8" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-93">
         <addForeignKeyConstraint
-            baseColumnNames="measurable_product_possible_units_id"
-            baseTableName="measurable_product_unit"
-            constraintName="FKB3BCEC92EA7FAECD" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="measurable_product"/>
+                baseColumnNames="measurable_product_possible_units_id"
+                baseTableName="measurable_product_unit"
+                constraintName="FKB3BCEC92EA7FAECD" deferrable="false"
+                initiallyDeferred="false" referencedColumnNames="id" referencedTableName="measurable_product"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-94">
         <addForeignKeyConstraint baseColumnNames="unit_id"
-            baseTableName="measurable_product_unit"
-            constraintName="FKB3BCEC927AAB286" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="unit"/>
+                                 baseTableName="measurable_product_unit"
+                                 constraintName="FKB3BCEC927AAB286" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-95">
         <addForeignKeyConstraint baseColumnNames="owner_id"
-            baseTableName="menu_plan"
-            constraintName="FKA4FDB20961EDC341" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="party"/>
+                                 baseTableName="menu_plan"
+                                 constraintName="FKA4FDB20961EDC341" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="party"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-96">
         <addForeignKeyConstraint baseColumnNames="preferred_unit_id"
-            baseTableName="nutrient" constraintName="FK9C643FE7E3C954C8"
-            deferrable="false" initiallyDeferred="false"
-            referencedColumnNames="id" referencedTableName="unit"/>
+                                 baseTableName="nutrient" constraintName="FK9C643FE7E3C954C8"
+                                 deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-97">
         <addForeignKeyConstraint
-            baseColumnNames="nutrient_possible_units_id"
-            baseTableName="nutrient_unit"
-            constraintName="FK930C2ADC7C5F3DD4" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="nutrient"/>
+                baseColumnNames="nutrient_possible_units_id"
+                baseTableName="nutrient_unit"
+                constraintName="FK930C2ADC7C5F3DD4" deferrable="false"
+                initiallyDeferred="false" referencedColumnNames="id" referencedTableName="nutrient"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-98">
         <addForeignKeyConstraint baseColumnNames="unit_id"
-            baseTableName="nutrient_unit"
-            constraintName="FK930C2ADC7AAB286" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="unit"/>
+                                 baseTableName="nutrient_unit"
+                                 constraintName="FK930C2ADC7AAB286" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-99">
         <addForeignKeyConstraint baseColumnNames="party_id"
-            baseTableName="order_status"
-            constraintName="FK3E12120345AFCA2E" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="party"/>
+                                 baseTableName="order_status"
+                                 constraintName="FK3E12120345AFCA2E" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="party"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-100">
         <addForeignKeyConstraint baseColumnNames="facebook_account_id"
-            baseTableName="party" constraintName="FK6581AE62FF25541"
-            deferrable="false" initiallyDeferred="false"
-            referencedColumnNames="id" referencedTableName="facebook_account"/>
+                                 baseTableName="party" constraintName="FK6581AE62FF25541"
+                                 deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="id" referencedTableName="facebook_account"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-101">
         <addForeignKeyConstraint
-            baseColumnNames="party_contributions_id"
-            baseTableName="party_recipe"
-            constraintName="FK433B49076F2EA9CA" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="party"/>
+                baseColumnNames="party_contributions_id"
+                baseTableName="party_recipe"
+                constraintName="FK433B49076F2EA9CA" deferrable="false"
+                initiallyDeferred="false" referencedColumnNames="id" referencedTableName="party"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-102">
         <addForeignKeyConstraint baseColumnNames="party_favourites_id"
-            baseTableName="party_recipe"
-            constraintName="FK433B4907E3D6E411" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="party"/>
+                                 baseTableName="party_recipe"
+                                 constraintName="FK433B4907E3D6E411" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="party"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-103">
         <addForeignKeyConstraint baseColumnNames="recipe_id"
-            baseTableName="party_recipe"
-            constraintName="FK433B4907F331B46" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="recipe"/>
+                                 baseTableName="party_recipe"
+                                 constraintName="FK433B4907F331B46" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="recipe"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-104">
         <addForeignKeyConstraint baseColumnNames="party_id"
-            baseTableName="party_role"
-            constraintName="FK1C92FE2F45AFCA2E" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="party"/>
+                                 baseTableName="party_role"
+                                 constraintName="FK1C92FE2F45AFCA2E" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="party"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-105">
         <addForeignKeyConstraint baseColumnNames="role_id"
-            baseTableName="permission_level"
-            constraintName="FK4B65ED14C4C734A6" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="security_role"/>
+                                 baseTableName="permission_level"
+                                 constraintName="FK4B65ED14C4C734A6" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id"
+                                 referencedTableName="security_role"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-106">
         <addForeignKeyConstraint baseColumnNames="saved_unit_id"
-            baseTableName="quantity" constraintName="FKB368648B908550CE"
-            deferrable="false" initiallyDeferred="false"
-            referencedColumnNames="id" referencedTableName="unit"/>
+                                 baseTableName="quantity" constraintName="FKB368648B908550CE"
+                                 deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-107">
         <addForeignKeyConstraint baseColumnNames="unit_id"
-            baseTableName="quantity" constraintName="FKB368648B7AAB286"
-            deferrable="false" initiallyDeferred="false"
-            referencedColumnNames="id" referencedTableName="unit"/>
+                                 baseTableName="quantity" constraintName="FKB368648B7AAB286"
+                                 deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-108">
         <addForeignKeyConstraint baseColumnNames="meal_id"
-            baseTableName="quick_fill_meal"
-            constraintName="FK51F92D2D50A51626" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="meal"/>
+                                 baseTableName="quick_fill_meal"
+                                 constraintName="FK51F92D2D50A51626" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="meal"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-109">
         <addForeignKeyConstraint baseColumnNames="rating_id"
-            baseTableName="rating_link"
-            constraintName="FK1827315C45884E64" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="rating"/>
+                                 baseTableName="rating_link"
+                                 constraintName="FK1827315C45884E64" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="rating"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-110">
         <addForeignKeyConstraint baseColumnNames="cooking_time_id"
-            baseTableName="recipe" constraintName="FKC846558EBB4F7DFF"
-            deferrable="false" initiallyDeferred="false"
-            referencedColumnNames="id" referencedTableName="quantity"/>
+                                 baseTableName="recipe" constraintName="FKC846558EBB4F7DFF"
+                                 deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="id" referencedTableName="quantity"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-111">
         <addForeignKeyConstraint baseColumnNames="image_id"
-            baseTableName="recipe" constraintName="FKC846558ECB323A0E"
-            deferrable="false" initiallyDeferred="false"
-            referencedColumnNames="id" referencedTableName="image"/>
+                                 baseTableName="recipe" constraintName="FKC846558ECB323A0E"
+                                 deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="id" referencedTableName="image"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-112">
         <addForeignKeyConstraint baseColumnNames="preparation_time_id"
-            baseTableName="recipe" constraintName="FKC846558EEFC613FC"
-            deferrable="false" initiallyDeferred="false"
-            referencedColumnNames="id" referencedTableName="quantity"/>
+                                 baseTableName="recipe" constraintName="FKC846558EEFC613FC"
+                                 deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="id" referencedTableName="quantity"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-113">
         <addForeignKeyConstraint baseColumnNames="recipe_id"
-            baseTableName="recipe_abuse"
-            constraintName="FK6CC90FD5F331B46" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="recipe"/>
+                                 baseTableName="recipe_abuse"
+                                 constraintName="FK6CC90FD5F331B46" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="recipe"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-114">
         <addForeignKeyConstraint baseColumnNames="reporter_id"
-            baseTableName="recipe_abuse"
-            constraintName="FK6CC90FD5F06D7A53" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="party"/>
+                                 baseTableName="recipe_abuse"
+                                 constraintName="FK6CC90FD5F06D7A53" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="party"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-115">
         <addForeignKeyConstraint baseColumnNames="category_id"
-            baseTableName="recipe_category"
-            constraintName="FK122DF88F265AC246" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="category"/>
+                                 baseTableName="recipe_category"
+                                 constraintName="FK122DF88F265AC246" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="category"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-116">
         <addForeignKeyConstraint baseColumnNames="recipe_id"
-            baseTableName="recipe_category"
-            constraintName="FK122DF88FF331B46" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="recipe"/>
+                                 baseTableName="recipe_category"
+                                 constraintName="FK122DF88FF331B46" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="recipe"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-117">
         <addForeignKeyConstraint baseColumnNames="aisle_id"
-            baseTableName="recipe_ingredient"
-            constraintName="FKE4FD0D22D71B4D6E" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="aisle"/>
+                                 baseTableName="recipe_ingredient"
+                                 constraintName="FKE4FD0D22D71B4D6E" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="aisle"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-118">
         <addForeignKeyConstraint baseColumnNames="ingredient_id"
-            baseTableName="recipe_ingredient"
-            constraintName="FKE4FD0D226385BCA8" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="item"/>
+                                 baseTableName="recipe_ingredient"
+                                 constraintName="FKE4FD0D226385BCA8" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="item"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-119">
         <addForeignKeyConstraint baseColumnNames="preparation_method_id"
-            baseTableName="recipe_ingredient"
-            constraintName="FKE4FD0D225204AC1D" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="preparation_method"/>
+                                 baseTableName="recipe_ingredient"
+                                 constraintName="FKE4FD0D225204AC1D" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id"
+                                 referencedTableName="preparation_method"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-120">
         <addForeignKeyConstraint baseColumnNames="quantity_id"
-            baseTableName="recipe_ingredient"
-            constraintName="FKE4FD0D225C657B26" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="quantity"/>
+                                 baseTableName="recipe_ingredient"
+                                 constraintName="FKE4FD0D225C657B26" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="quantity"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-121">
         <addForeignKeyConstraint baseColumnNames="recipe_id"
-            baseTableName="recipe_ingredient"
-            constraintName="FKE4FD0D22F331B46" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="recipe"/>
+                                 baseTableName="recipe_ingredient"
+                                 constraintName="FKE4FD0D22F331B46" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="recipe"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-122">
         <addForeignKeyConstraint baseColumnNames="item_id"
-            baseTableName="recipe_item"
-            constraintName="FK7723272496DC1426" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="item"/>
+                                 baseTableName="recipe_item"
+                                 constraintName="FK7723272496DC1426" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="item"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-123">
         <addForeignKeyConstraint baseColumnNames="recipe_items_id"
-            baseTableName="recipe_item"
-            constraintName="FK7723272433BC3F65" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="recipe"/>
+                                 baseTableName="recipe_item"
+                                 constraintName="FK7723272433BC3F65" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="recipe"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-124">
         <addForeignKeyConstraint baseColumnNames="nutrient_id"
-            baseTableName="recipe_nutrient"
-            constraintName="FKAB8F7B78DA3D6DA6" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="nutrient"/>
+                                 baseTableName="recipe_nutrient"
+                                 constraintName="FKAB8F7B78DA3D6DA6" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="nutrient"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-125">
         <addForeignKeyConstraint baseColumnNames="quantity_id"
-            baseTableName="recipe_nutrient"
-            constraintName="FKAB8F7B785C657B26" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="quantity"/>
+                                 baseTableName="recipe_nutrient"
+                                 constraintName="FKAB8F7B785C657B26" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="quantity"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-126">
         <addForeignKeyConstraint baseColumnNames="recipe_id"
-            baseTableName="recipe_nutrient"
-            constraintName="FKAB8F7B78F331B46" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="recipe"/>
+                                 baseTableName="recipe_nutrient"
+                                 constraintName="FKAB8F7B78F331B46" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="recipe"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-127">
         <addForeignKeyConstraint baseColumnNames="aisle_id"
-            baseTableName="shopping_ingredient"
-            constraintName="FKA5936508D71B4D6E" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="aisle"/>
+                                 baseTableName="shopping_ingredient"
+                                 constraintName="FKA5936508D71B4D6E" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="aisle"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-128">
         <addForeignKeyConstraint baseColumnNames="menu_plan_id"
-            baseTableName="shopping_list"
-            constraintName="FK9DBC1915D2833D85" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="menu_plan"/>
+                                 baseTableName="shopping_list"
+                                 constraintName="FK9DBC1915D2833D85" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="menu_plan"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-129">
         <addForeignKeyConstraint baseColumnNames="party_id"
-            baseTableName="shopping_list"
-            constraintName="FK9DBC191545AFCA2E" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="party"/>
+                                 baseTableName="shopping_list"
+                                 constraintName="FK9DBC191545AFCA2E" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="party"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-130">
         <addForeignKeyConstraint baseColumnNames="source_unit_id"
-            baseTableName="standard_conversion"
-            constraintName="FK93D2D3D83F1A7662" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="unit"/>
+                                 baseTableName="standard_conversion"
+                                 constraintName="FK93D2D3D83F1A7662" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-131">
         <addForeignKeyConstraint baseColumnNames="target_unit_id"
-            baseTableName="standard_conversion"
-            constraintName="FK93D2D3D8317AA9D8" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="unit"/>
+                                 baseTableName="standard_conversion"
+                                 constraintName="FK93D2D3D8317AA9D8" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-132">
         <addForeignKeyConstraint baseColumnNames="image_id"
-            baseTableName="subscriber"
-            constraintName="FKB74BCC68CB323A0E" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="image"/>
+                                 baseTableName="subscriber"
+                                 constraintName="FKB74BCC68CB323A0E" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="image"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-133">
         <addForeignKeyConstraint baseColumnNames="system_of_unit_id"
-            baseTableName="system_of_unit_units"
-            constraintName="FK83E0B24CBDFE11B4" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="system_of_unit"/>
+                                 baseTableName="system_of_unit_units"
+                                 constraintName="FK83E0B24CBDFE11B4" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id"
+                                 referencedTableName="system_of_unit"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-134">
         <addForeignKeyConstraint baseColumnNames="unit_id"
-            baseTableName="system_of_unit_units"
-            constraintName="FK83E0B24C7AAB286" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="unit"/>
+                                 baseTableName="system_of_unit_units"
+                                 constraintName="FK83E0B24C7AAB286" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-135">
         <addForeignKeyConstraint baseColumnNames="party_id"
-            baseTableName="unit" constraintName="FK36D98445AFCA2E"
-            deferrable="false" initiallyDeferred="false"
-            referencedColumnNames="id" referencedTableName="party"/>
+                                 baseTableName="unit" constraintName="FK36D98445AFCA2E"
+                                 deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="id" referencedTableName="party"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-136">
         <addForeignKeyConstraint baseColumnNames="menu_plan_id"
-            baseTableName="week" constraintName="FK379FF4D2833D85"
-            deferrable="false" initiallyDeferred="false"
-            referencedColumnNames="id" referencedTableName="menu_plan"/>
+                                 baseTableName="week" constraintName="FK379FF4D2833D85"
+                                 deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="id" referencedTableName="menu_plan"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-137">
         <addForeignKeyConstraint baseColumnNames="shopping_list_id"
-            baseTableName="weekly_shopping_list"
-            constraintName="FK2649F5D7A8AB39F7" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="shopping_list"/>
+                                 baseTableName="weekly_shopping_list"
+                                 constraintName="FK2649F5D7A8AB39F7" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id"
+                                 referencedTableName="shopping_list"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-138">
         <addForeignKeyConstraint
-            baseColumnNames="shopping_ingredient_id"
-            baseTableName="weekly_shopping_list_shopping_ingredient"
-            constraintName="FKB9D596A0A0E05757" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="shopping_ingredient"/>
+                baseColumnNames="shopping_ingredient_id"
+                baseTableName="weekly_shopping_list_shopping_ingredient"
+                constraintName="FKB9D596A0A0E05757" deferrable="false"
+                initiallyDeferred="false" referencedColumnNames="id" referencedTableName="shopping_ingredient"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-139">
         <update tableName="recipe">
@@ -1358,7 +1364,9 @@
         </update>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-140">
-        <sql>insert into recipe_sub_category(recipe_sub_categories_id, sub_category_id) select recipe_id, category_id from recipe_category where category_id &lt; 4;</sql>
+        <sql>insert into recipe_sub_category(recipe_sub_categories_id, sub_category_id) select recipe_id, category_id
+            from recipe_category where category_id &lt; 4;
+        </sql>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-141">
         <dropTable tableName="recipe_category"/>
@@ -1378,26 +1386,25 @@
         <dropColumn tableName="subscriber" columnName="screen_name"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-146">
-        <sql>delete from item where id NOT in (select item_id from meal_item UNION select ingredient_id from recipe_ingredient UNION select item_id from recipe_item) and id &lt; 6701;</sql>
+        <sql>delete from item where id NOT in (select item_id from meal_item UNION select ingredient_id from
+            recipe_ingredient UNION select item_id from recipe_item) and id &lt; 6701;
+        </sql>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-147">
         <dropNotNullConstraint tableName="shopping_list" columnName="menu_plan_id" columnDataType="BIGINT"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-148">
         <addForeignKeyConstraint baseColumnNames="party_id"
-            baseTableName="shopping_list"
-            constraintName="FKA4FDB56737EDC341" deferrable="false"
-            initiallyDeferred="false" referencedColumnNames="id" referencedTableName="party"/>
+                                 baseTableName="shopping_list"
+                                 constraintName="FKA4FDB56737EDC341" deferrable="false"
+                                 initiallyDeferred="false" referencedColumnNames="id" referencedTableName="party"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-149">
-        <modifyColumn tableName="recipe_directions">
-            <column name="directions_string" type="varchar(5000)"/>
-        </modifyColumn>
+        <modifyDataType tableName="recipe_directions"
+                        columnName="directions_string" newDataType="varchar(5000)"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-150">
-        <modifyColumn tableName="recipe">
-            <column name="description" type="varchar(5000)"/>
-        </modifyColumn>
+        <modifyDataType tableName="recipe" columnName="description" newDataType="varchar(5000)"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-151">
         <delete tableName="system_of_unit_units">
@@ -1425,13 +1432,19 @@
         </delete>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-156">
-        <sql>update quantity set value=value/(select conversion_factor from standard_conversion where source_unit_id=unit_id) where unit_id in (select id from metric where name like '%can%');</sql>
+        <sql>update quantity set value=value/(select conversion_factor from standard_conversion where
+            source_unit_id=unit_id) where unit_id in (select id from metric where name like '%can%');
+        </sql>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-157">
-        <sql>update quantity set unit_id=(select id from metric where symbol='can') where unit_id in (select id from metric where symbol like '% can');</sql>
+        <sql>update quantity set unit_id=(select id from metric where symbol='can') where unit_id in (select id from
+            metric where symbol like '% can');
+        </sql>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-158">
-        <sql>update measurable_product set preferred_unit_id=(select id from metric where symbol='can') where preferred_unit_id in (select id from metric where symbol like '% can');</sql>
+        <sql>update measurable_product set preferred_unit_id=(select id from metric where symbol='can') where
+            preferred_unit_id in (select id from metric where symbol like '% can');
+        </sql>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-159">
         <delete tableName="system_of_unit_units">
@@ -1459,16 +1472,23 @@
         </delete>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-164">
-        <sql>update quantity set value=value/(select conversion_factor from standard_conversion where source_unit_id=unit_id) where unit_id in (select id from metric where name like '%package%');</sql>
+        <sql>update quantity set value=value/(select conversion_factor from standard_conversion where
+            source_unit_id=unit_id) where unit_id in (select id from metric where name like '%package%');
+        </sql>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-165">
-        <sql>delete from standard_conversion where source_unit_id in (select id from unit where is_convertible=false);</sql>
+        <sql>delete from standard_conversion where source_unit_id in (select id from unit where is_convertible=false);
+        </sql>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-166">
-        <sql>update quantity set unit_id=(select id from metric where symbol='package') where unit_id in (select id from metric where symbol like '% package');</sql>
+        <sql>update quantity set unit_id=(select id from metric where symbol='package') where unit_id in (select id from
+            metric where symbol like '% package');
+        </sql>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-167">
-        <sql>update measurable_product set preferred_unit_id=(select id from metric where symbol='package') where preferred_unit_id in (select id from metric where symbol like '% package');</sql>
+        <sql>update measurable_product set preferred_unit_id=(select id from metric where symbol='package') where
+            preferred_unit_id in (select id from metric where symbol like '% package');
+        </sql>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-168">
         <delete tableName="system_of_unit_units">
@@ -1499,7 +1519,8 @@
         <sql>update recipe_ingredient set aisle_id=NULL where aisle_id=(select id from aisle where name='');</sql>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-174">
-        <sql>update item set suggested_aisle_id=NULL where suggested_aisle_id=(select id from aisle where name='');</sql>
+        <sql>update item set suggested_aisle_id=NULL where suggested_aisle_id=(select id from aisle where name='');
+        </sql>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-175">
         <delete tableName="aisle">
@@ -1507,1051 +1528,1635 @@
         </delete>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-176">
-        <dropColumn tableName="recipe" columnName="share_with_community" />
+        <dropColumn tableName="recipe" columnName="share_with_community"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-177">
         <update tableName="item">
-            <column name="share_with_community" valueBoolean="true" />
+            <column name="share_with_community" valueBoolean="true"/>
         </update>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-178">
         <update tableName="aisle">
-            <column name="owned_by_user" valueBoolean="false" />
+            <column name="owned_by_user" valueBoolean="false"/>
         </update>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-179">
         <update tableName="party">
-            <column name="show_alcoholic_content" valueBoolean="true" />
+            <column name="show_alcoholic_content" valueBoolean="true"/>
         </update>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-180">
-        <dropColumn tableName="recipe" columnName="is_alcoholic" />
+        <dropColumn tableName="recipe" columnName="is_alcoholic"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-181">
         <update tableName="shopping_list">
-            <column name="is_weekly_shopping_list" valueBoolean="true" />
+            <column name="is_weekly_shopping_list" valueBoolean="true"/>
         </update>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-182">
         <update tableName="party">
-            <column name="unique_id" type="VARCHAR(255)" />
+            <column name="unique_id" type="VARCHAR(255)"/>
         </update>
     </changeSet>
     <changeSet author="aman (generated)" id="1300084594035-1">
-            <createTable tableName="access_filter">
-                <column autoIncrement="true" name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="version" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="action_filter" type="VARCHAR(255)"/>
-                <column name="controller_filter" type="VARCHAR(255)"/>
-                <column name="description" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="filter_for_id" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="name" type="VARCHAR(255)"/>
-                <column name="uri_filter" type="VARCHAR(255)"/>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-2">
-            <createTable tableName="access_filter_set">
-                <column autoIncrement="true" name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="version" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="active_from" type="DATETIME">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="active_to" type="DATETIME"/>
-                <column name="description" type="VARCHAR(255)"/>
-                <column name="name" type="VARCHAR(255)"/>
-                <column name="type" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-3">
-            <createTable tableName="account_role">
-                <column autoIncrement="true" name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="version" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="describes_id" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="role_for_id" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="type" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-4">
-            <createTable tableName="coach">
-                <column name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="default_commission" type="FLOAT">
-                    <constraints nullable="false"/>
-                </column>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-5">
-            <createTable tableName="coach_subscriber">
-                <column name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="commission" type="FLOAT"/>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-6">
-            <createTable tableName="content">
-                <column autoIncrement="true" name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="version" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="content_url_pattern" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-7">
-            <createTable tableName="content_subscription">
-                <column name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="content_id" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-8">
-            <createTable tableName="director">
-                <column name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-9">
-            <createTable tableName="director_coach">
-                <column name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="commission" type="FLOAT"/>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-10">
-            <createTable tableName="feature">
-                <column autoIncrement="true" name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="version" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="active_from" type="DATETIME">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="active_to" type="DATETIME"/>
-                <column name="description" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="name" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="rule" type="VARCHAR(255)"/>
-                <column name="class" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="action_filter" type="VARCHAR(255)"/>
-                <column name="controller_filter" type="VARCHAR(255)"/>
-                <column name="uri_filter" type="VARCHAR(255)"/>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-11">
-            <createTable tableName="feature_subscription">
-                <column name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="subscribed_feature_id" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-12">
-            <createTable tableName="featured_offering_applicability">
-                <column autoIncrement="true" name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="version" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="applicable_from" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="applicable_from_description" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="applicable_thru" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="applicable_thru_description" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="available_for_id" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="described_by_id" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-13">
-            <createTable tableName="operational_account">
-                <column name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-14">
-            <createTable tableName="page_element">
-                <column autoIncrement="true" name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="version" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="action_filter" type="VARCHAR(255)"/>
-                <column name="context_rule" type="VARCHAR(255)"/>
-                <column name="controller_filter" type="VARCHAR(255)"/>
-                <column name="element_for_id" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="is_template" type="BIT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="last_modified" type="DATETIME"/>
-                <column name="list_order" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="location" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="name" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="text" type="VARCHAR(20000)"/>
-                <column name="uri_filter" type="VARCHAR(255)"/>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-15">
-            <createTable tableName="party_relationship">
-                <column autoIncrement="true" name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="version" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="active_from" type="DATETIME">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="active_to" type="DATETIME"/>
-                <column name="to_id" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="frum_id" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-16">
-            <createTable tableName="permission_denial_page">
-                <column name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-17">
-            <createTable tableName="pricing_component">
-                <column autoIncrement="true" name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="version" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="active_from" type="DATETIME">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="active_to" type="DATETIME">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="description" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="name" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="pricing_for_id" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="value" type="FLOAT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="class" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="recurrence" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="start_after" type="VARCHAR(255)"/>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-18">
-            <createTable tableName="product_offering">
-                <column autoIncrement="true" name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="version" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="active_from" type="DATETIME">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="active_to" type="DATETIME">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="name" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-19">
-            <createTable tableName="product_offering_applicability">
-                <column autoIncrement="true" name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="version" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="applicable_from" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="applicable_from_description" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="applicable_thru" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="applicable_thru_description" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="available_for_id" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-20">
-            <createTable tableName="product_offering_subscription">
-                <column name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="subscribed_product_offering_id" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-21">
-            <createTable tableName="product_order">
-                <column autoIncrement="true" name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="version" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="date" type="DATETIME">
-                    <constraints nullable="false"/>
-                </column>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-22">
-            <createTable tableName="role_access">
-                <column autoIncrement="true" name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="version" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="from_id" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="to_id" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-23">
-            <createTable tableName="subscription">
-                <column autoIncrement="true" name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="version" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="active_from" type="DATETIME">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="active_to" type="DATETIME">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="original_product_offering" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="status" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="subscription_for_id" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-24">
-            <createTable tableName="subscription_offering_page">
-                <column name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-25">
-            <createTable tableName="subscription_order">
-                <column autoIncrement="true" name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="version" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="order_id" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="subscription_id" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-26">
-            <createTable tableName="tag_links">
-                <column autoIncrement="true" name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="version" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="tag_id" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="tag_ref" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="type" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-27">
-            <createTable tableName="tags">
-                <column autoIncrement="true" name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="version" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="name" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-28">
-            <createTable tableName="theme">
-                <column autoIncrement="true" name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="version" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="action_filter" type="VARCHAR(255)"/>
-                <column name="active_from" type="DATETIME">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="active_to" type="DATETIME"/>
-                <column name="controller_filter" type="VARCHAR(255)"/>
-                <column name="last_modified" type="DATETIME"/>
-                <column name="name" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="uri_filter" type="VARCHAR(255)"/>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-29">
-            <createTable tableName="wcm_content">
-                <column autoIncrement="true" name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="version" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="aliasuri" type="VARCHAR(50)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="changed_by" type="VARCHAR(255)"/>
-                <column name="changed_on" type="DATETIME"/>
-                <column name="created_by" type="VARCHAR(255)"/>
-                <column name="created_on" type="DATETIME"/>
-                <column name="description" type="VARCHAR(500)"/>
-                <column name="identifier" type="VARCHAR(80)"/>
-                <column name="language" type="VARCHAR(3)"/>
-                <column name="meta_copyright" type="VARCHAR(200)"/>
-                <column name="meta_creator" type="VARCHAR(80)"/>
-                <column name="meta_publisher" type="VARCHAR(80)"/>
-                <column name="meta_source" type="VARCHAR(80)"/>
-                <column name="order_index" type="INT"/>
-                <column name="parent_id" type="BIGINT"/>
-                <column name="publish_from" type="DATETIME"/>
-                <column name="publish_until" type="DATETIME"/>
-                <column name="space_id" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="status_id" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="title" type="VARCHAR(100)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="class" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="color" type="INT"/>
-                <column name="content" type="LONGTEXT"/>
-                <column name="height" type="INT"/>
-                <column name="width" type="INT"/>
-                <column name="comment_markup" type="VARCHAR(4)"/>
-                <column name="max_entries_to_display" type="INT"/>
-                <column name="template_id" type="BIGINT"/>
-                <column name="url" type="VARCHAR(1000)"/>
-                <column name="allowed_methods" type="VARCHAR(40)"/>
-                <column name="script_id" type="BIGINT"/>
-                <column name="author" type="VARCHAR(80)"/>
-                <column name="email" type="VARCHAR(80)"/>
-                <column name="ip_address" type="VARCHAR(50)"/>
-                <column name="website_url" type="VARCHAR(100)"/>
-                <column name="keywords" type="VARCHAR(255)"/>
-                <column name="file_mime_type" type="VARCHAR(255)"/>
-                <column name="file_size" type="BIGINT"/>
-                <column name="sync_status" type="SMALLINT"/>
-                <column name="files_count" type="INT"/>
-                <column name="summary" type="VARCHAR(500)"/>
-                <column name="allowgsp" type="BIT"/>
-                <column name="html_title" type="LONGTEXT"/>
-                <column name="menu_title" type="VARCHAR(40)"/>
-                <column name="target_id" type="BIGINT"/>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-30">
-            <createTable tableName="wcm_content_version">
-                <column autoIncrement="true" name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="version" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="content_title" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="created_by" type="VARCHAR(255)"/>
-                <column name="created_on" type="DATETIME"/>
-                <column name="object_class_name" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="object_content" type="LONGTEXT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="object_key" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="revision" type="INT"/>
-                <column name="space_name" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-31">
-            <createTable tableName="wcm_related_content">
-                <column autoIncrement="true" name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="version" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="is_internal" type="BIT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="last_checked_on" type="DATETIME">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="relation_type" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="source_content_id" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="status" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="target_content_id" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-32">
-            <createTable tableName="wcm_space">
-                <column autoIncrement="true" name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="version" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="aliasuri" type="VARCHAR(80)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="name" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-33">
-            <createTable tableName="wcm_status">
-                <column autoIncrement="true" name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="version" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="code" type="INT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="description" type="VARCHAR(80)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="public_content" type="BIT">
-                    <constraints nullable="false"/>
-                </column>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-34">
-            <createTable tableName="web_page">
-                <column autoIncrement="true" name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="version" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="active_from" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="active_to" type="VARCHAR(255)"/>
-                <column name="last_modified" type="DATETIME"/>
-                <column name="name" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="template" type="VARCHAR(10000)"/>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-35">
-            <addColumn tableName="account">
-                <column name="last_transaction" type="DATETIME"/>
-            </addColumn>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-36">
-            <addColumn tableName="account">
-                <column name="name" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-            </addColumn>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-37">
-            <addColumn tableName="account_transaction">
-                <column name="description" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-            </addColumn>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-38">
-            <addColumn tableName="account_transaction">
-                <column name="is_void" type="BIT">
-                    <constraints nullable="false"/>
-                </column>
-            </addColumn>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-39">
-            <addColumn tableName="account_transaction">
-                <column name="transaction_date" type="DATETIME">
-                    <constraints nullable="false"/>
-                </column>
-            </addColumn>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-40">
-            <addColumn tableName="account_transaction">
-                <column name="transaction_for_id" type="BIGINT">
-                    <constraints nullable="false"/>
-                </column>
-            </addColumn>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-41">
-            <addColumn tableName="account_transaction">
-                <column name="transaction_type" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-            </addColumn>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-42">
-            <addColumn tableName="account_transaction">
-                <column name="unique_id" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-            </addColumn>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-43">
-            <addColumn tableName="asynchronous_mail_message">
-                <column name="mark_delete" type="BIT">
-                    <constraints nullable="false"/>
-                </column>
-            </addColumn>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-44">
-            <addColumn tableName="order_status">
-                <column name="class" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-            </addColumn>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-45">
-            <addColumn tableName="party_role">
-                <column name="active_from" type="DATETIME">
-                    <constraints nullable="false"/>
-                </column>
-            </addColumn>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-46">
-            <addColumn tableName="party_role">
-                <column name="active_to" type="DATETIME"/>
-            </addColumn>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-47">
-            <addNotNullConstraint columnDataType="BIT" columnName="owned_by_user" tableName="aisle"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-48">
-            <modifyColumn tableName="asynchronous_mail_attachment">
-                <column name="content" type="LONGBLOB"/>
-            </modifyColumn>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-49">
-            <addNotNullConstraint columnDataType="VARCHAR(255)" columnName="oauth_token" tableName="facebook_account"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-50">
-            <addNotNullConstraint columnDataType="BIGINT" columnName="uid" tableName="facebook_account"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-51">
-            <addNotNullConstraint columnDataType="BIT" columnName="is_alcoholic" tableName="item"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-52">
-            <addNotNullConstraint columnDataType="BIT" columnName="share_with_community" tableName="item"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-53">
-            <addNotNullConstraint columnDataType="BIGINT" columnName="preferred_unit_id" tableName="measurable_product"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-54">
-            <dropNotNullConstraint columnDataType="DATETIME" columnName="date_created" tableName="order_status"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-55">
-            <dropNotNullConstraint columnDataType="VARCHAR(255)" columnName="financial_status" tableName="order_status"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-56">
-            <dropNotNullConstraint columnDataType="VARCHAR(255)" columnName="fulfillment_status" tableName="order_status"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-57">
-            <dropNotNullConstraint columnDataType="VARCHAR(255)" columnName="order_id" tableName="order_status"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-58">
-            <dropNotNullConstraint columnDataType="BIGINT" columnName="party_id" tableName="order_status"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-59">
-            <dropNotNullConstraint columnDataType="VARCHAR(255)" columnName="transaction_id" tableName="order_status"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-60">
-            <addNotNullConstraint columnDataType="BIT" columnName="show_alcoholic_content" tableName="party"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-61">
-            <addNotNullConstraint columnDataType="BIT" columnName="is_visible" tableName="product"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-62">
-            <sql>alter table recipe modify date_created datetime not null;</sql>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-64">
-            <addNotNullConstraint columnDataType="BIT" columnName="is_weekly_shopping_list" tableName="shopping_list"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-65">
-            <addNotNullConstraint columnDataType="BIT" columnName="is_convertible" tableName="unit"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-66">
-            <addNotNullConstraint columnDataType="BIT" columnName="is_weight_unit" tableName="unit"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-67">
-            <addNotNullConstraint columnDataType="VARCHAR(255)" columnName="email" tableName="user_login"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-68">
-            <sql>insert into director select id from affiliate</sql>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-69">
-            <sql>insert into coach (id, default_commission) select id, 0.20 as default_commission from sub_affiliate</sql>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-70">
-            <sql>insert into party_relationship (version, to_id, frum_id, active_from) (select 0 as version, sub_affiliate_id as to_id, affiliate_sub_affiliates_id as frum_id, (select joining_date from party where id=sub_affiliate_id) as active_from from affiliate_sub_affiliate)</sql>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-705">
-            <sql>insert into director_coach (id, commission) select id, 0.20 as commission from party_relationship</sql>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-71">
-            <sql>insert into party_relationship (version, to_id, frum_id, active_from) (select 0 as version, sub_role.id as to_id, sa_role.id as frum_id, p.joining_date as active_from from party_party pp left join (select pr.id, pr.party_id from party_role pr inner join sub_affiliate sa on (sa.id=pr.id)) as sa_role on (sa_role.party_id=pp.party_clients_id) left join (select pr.id, pr.party_id from party_role pr inner join subscriber sub on (sub.id=pr.id)) as sub_role on (sub_role.party_id=pp.party_id)left join party p on (p.id=pp.party_id));</sql>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-715">
-            <sql>insert into coach_subscriber (id, commission) select id, 0.20 as commission from party_relationship where id > (select count(*) from sub_affiliate)</sql>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-72">
-            <sql>update party_role left join party on party_role.party_id = party.id set party_role.active_from=party.joining_date</sql>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-73">
-            <dropForeignKeyConstraint baseTableName="account_account_transaction" constraintName="FKB1061EBAC663DB2B"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-74">
-            <dropForeignKeyConstraint baseTableName="affiliate_sub_affiliate" constraintName="FKD9FCFA9C11BB6325"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-75">
-            <dropForeignKeyConstraint baseTableName="aisle_party" constraintName="FK91CDCAEB45AFCA2E"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-76">
-            <dropForeignKeyConstraint baseTableName="party_party" constraintName="FK75AA544D45AFCA2E"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-77">
-            <createIndex indexName="unique_id" tableName="account_transaction" unique="true">
-                <column name="unique_id"/>
-            </createIndex>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-78">
-            <createIndex indexName="uid" tableName="facebook_account" unique="true">
-                <column name="uid"/>
-            </createIndex>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-79">
-            <createIndex indexName="name" tableName="page_element" unique="true">
-                <column name="name"/>
-            </createIndex>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-80">
-            <createIndex indexName="name" tableName="tags" unique="true">
-                <column name="name"/>
-            </createIndex>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-81">
-            <createIndex indexName="name" tableName="theme" unique="true">
-                <column name="name"/>
-            </createIndex>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-82">
-            <createIndex indexName="parent_id" tableName="wcm_content" unique="true">
-                <column name="parent_id"/>
-                <column name="space_id"/>
-                <column name="aliasuri"/>
-            </createIndex>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-83">
-            <createIndex indexName="name" tableName="web_page" unique="true">
-                <column name="name"/>
-            </createIndex>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-84">
-            <addForeignKeyConstraint baseColumnNames="filter_for_id" baseTableName="access_filter" constraintName="FKE920FAB3ABB27B40" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="access_filter_set"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-85">
-            <addForeignKeyConstraint baseColumnNames="describes_id" baseTableName="account_role" constraintName="FK410D034880108F92" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="account"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-86">
-            <addForeignKeyConstraint baseColumnNames="role_for_id" baseTableName="account_role" constraintName="FK410D0348639DC94C" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="party"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-87">
-            <addForeignKeyConstraint baseColumnNames="transaction_for_id" baseTableName="account_transaction" constraintName="FK7E69DFCCD98C16B2" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="account"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-88">
-            <addForeignKeyConstraint baseColumnNames="content_id" baseTableName="content_subscription" constraintName="FK4E675B23BAB7E256" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="content"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-89">
-            <addForeignKeyConstraint baseColumnNames="subscribed_feature_id" baseTableName="feature_subscription" constraintName="FK45C947C6FD2223B" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="feature"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-90">
-            <addForeignKeyConstraint baseColumnNames="available_for_id" baseTableName="featured_offering_applicability" constraintName="FK7448DB7DDE4307D8" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product_offering"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-91">
-            <addForeignKeyConstraint baseColumnNames="described_by_id" baseTableName="featured_offering_applicability" constraintName="FK7448DB7D1C4C836F" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="feature"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-92">
-            <addForeignKeyConstraint baseColumnNames="element_for_id" baseTableName="page_element" constraintName="FKBA5F294C6F4CC4A5" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="theme"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-93">
-            <addForeignKeyConstraint baseColumnNames="to_id" baseTableName="party_relationship" constraintName="FKEF692AF1D8FADAB7" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="party_role"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-94">
-            <addForeignKeyConstraint baseColumnNames="frum_id" baseTableName="party_relationship" constraintName="FKEF692AF12D4C8916" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="party_role"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-95">
-            <addForeignKeyConstraint baseColumnNames="pricing_for_id" baseTableName="pricing_component" constraintName="FK4EF037C45276CC3B" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product_offering"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-96">
-            <addForeignKeyConstraint baseColumnNames="available_for_id" baseTableName="product_offering_applicability" constraintName="FK200FA99CDE4307D8" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product_offering"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-97">
-            <addForeignKeyConstraint baseColumnNames="subscribed_product_offering_id" baseTableName="product_offering_subscription" constraintName="FK100C8D661E0ED690" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product_offering"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-98">
-            <addForeignKeyConstraint baseColumnNames="from_id" baseTableName="role_access" constraintName="FKEFCE14D270C3678" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="party_role"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-99">
-            <addForeignKeyConstraint baseColumnNames="to_id" baseTableName="role_access" constraintName="FKEFCE14DE8F76319" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="access_filter"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-100">
-            <addForeignKeyConstraint baseColumnNames="subscription_for_id" baseTableName="subscription" constraintName="FK1456591D81EC676F" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="subscriber"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-101">
-            <addForeignKeyConstraint baseColumnNames="order_id" baseTableName="subscription_order" constraintName="FKACF239ACC10C9728" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="product_order"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-102">
-            <addForeignKeyConstraint baseColumnNames="subscription_id" baseTableName="subscription_order" constraintName="FKACF239ACB80836DE" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="subscription"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-103">
-            <addForeignKeyConstraint baseColumnNames="tag_id" baseTableName="tag_links" constraintName="FK7C35D6D45A3B441D" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="tags"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-104">
-            <addForeignKeyConstraint baseColumnNames="parent_id" baseTableName="wcm_content" constraintName="FK951FF55BE1775669" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="wcm_content"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-105">
-            <addForeignKeyConstraint baseColumnNames="script_id" baseTableName="wcm_content" constraintName="FK951FF55B3A4CE4A4" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="wcm_content"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-106">
-            <addForeignKeyConstraint baseColumnNames="space_id" baseTableName="wcm_content" constraintName="FK951FF55BF1D5C51A" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="wcm_space"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-107">
-            <addForeignKeyConstraint baseColumnNames="status_id" baseTableName="wcm_content" constraintName="FK951FF55B68CFF5A" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="wcm_status"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-108">
-            <addForeignKeyConstraint baseColumnNames="target_id" baseTableName="wcm_content" constraintName="FK951FF55B3573F022" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="wcm_content"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-109">
-            <addForeignKeyConstraint baseColumnNames="template_id" baseTableName="wcm_content" constraintName="FK951FF55B988A1A5A" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="wcm_content"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-110">
-            <addForeignKeyConstraint baseColumnNames="source_content_id" baseTableName="wcm_related_content" constraintName="FKDE7BDB47AD0EC2DE" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="wcm_content"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-111">
-            <addForeignKeyConstraint baseColumnNames="target_content_id" baseTableName="wcm_related_content" constraintName="FKDE7BDB47361353A8" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="wcm_content"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-112">
-            <dropColumn columnName="date" tableName="account_transaction"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-113">
-            <dropColumn columnName="coach_id" tableName="subscriber"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-114">
-            <dropTable tableName="account_account_transaction"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-115">
-            <dropTable tableName="affiliate"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-116">
-            <dropTable tableName="affiliate_account"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-117">
-            <dropTable tableName="affiliate_sub_affiliate"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-118">
-            <dropTable tableName="aisle_party"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-119">
-            <dropTable tableName="operator_account"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-120">
-            <dropTable tableName="party_party"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-121">
-            <dropTable tableName="person"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-122">
-            <dropTable tableName="sub_affiliate"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-123">
-            <dropTable tableName="subscriber_account"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1300084594035-124">
-            <dropTable tableName="subscription_transaction"/>
-        </changeSet>
-        <changeSet author="brent" id="1300084594035-125">
-            <sql>UPDATE comment SET poster_class='com.mp.domain.party.Party'  WHERE  poster_class='com.mp.domain.Party'</sql>
-        </changeSet>
-        <changeSet author="brent" id="1300084594035-126">
-            <addColumn tableName="metric">
-                <column name="small" type="VARCHAR(255)">
-                    <constraints nullable="true"/>
-                </column>
-            </addColumn>
-        </changeSet>
-        <changeSet author="brent" id="1300084594035-127">
-            <sql>UPDATE metric SET small = ''</sql>
-            <sql>UPDATE metric SET small = 'h' where symbol='hrs'</sql>
-            <sql>UPDATE metric SET small = 'm' where symbol='mins'</sql>
-        </changeSet>
-        <changeSet author="brent" id="1300084594035-128">
-            <addNotNullConstraint columnDataType="VARCHAR(255)" columnName="small" tableName="metric"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1302180580647-1">
-            <createTable tableName="base_price">
-                <column name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1302180580647-2">
-            <createTable tableName="recurring_charge">
-                <column name="id" type="BIGINT">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-                <column name="recurrence" type="VARCHAR(255)">
-                    <constraints nullable="false"/>
-                </column>
-                <column name="start_after" type="VARCHAR(255)"/>
-            </createTable>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1302180580647-34">
-            <dropColumn columnName="class" tableName="pricing_component"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1302180580647-35">
-            <dropColumn columnName="recurrence" tableName="pricing_component"/>
-        </changeSet>
-        <changeSet author="aman (generated)" id="1302180580647-36">
-            <dropColumn columnName="start_after" tableName="pricing_component"/>
-        </changeSet>
+        <createTable tableName="access_filter">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="action_filter" type="VARCHAR(255)"/>
+            <column name="controller_filter" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="filter_for_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="uri_filter" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-2">
+        <createTable tableName="access_filter_set">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active_from" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active_to" type="DATETIME"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-3">
+        <createTable tableName="account_role">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="describes_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_for_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-4">
+        <createTable tableName="coach">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="default_commission" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-5">
+        <createTable tableName="coach_subscriber">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="commission" type="FLOAT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-6">
+        <createTable tableName="content">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content_url_pattern" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-7">
+        <createTable tableName="content_subscription">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="content_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-8">
+        <createTable tableName="director">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-9">
+        <createTable tableName="director_coach">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="commission" type="FLOAT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-10">
+        <createTable tableName="feature">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active_from" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active_to" type="DATETIME"/>
+            <column name="description" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rule" type="VARCHAR(255)"/>
+            <column name="class" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="action_filter" type="VARCHAR(255)"/>
+            <column name="controller_filter" type="VARCHAR(255)"/>
+            <column name="uri_filter" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-11">
+        <createTable tableName="feature_subscription">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="subscribed_feature_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-12">
+        <createTable tableName="featured_offering_applicability">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="applicable_from" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="applicable_from_description" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="applicable_thru" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="applicable_thru_description" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="available_for_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="described_by_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-13">
+        <createTable tableName="operational_account">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-14">
+        <createTable tableName="page_element">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="action_filter" type="VARCHAR(255)"/>
+            <column name="context_rule" type="VARCHAR(255)"/>
+            <column name="controller_filter" type="VARCHAR(255)"/>
+            <column name="element_for_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_template" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_modified" type="DATETIME"/>
+            <column name="list_order" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="location" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="text" type="VARCHAR(20000)"/>
+            <column name="uri_filter" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-15">
+        <createTable tableName="party_relationship">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active_from" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active_to" type="DATETIME"/>
+            <column name="to_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="frum_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-16">
+        <createTable tableName="permission_denial_page">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-18">
+        <createTable tableName="product_offering">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active_from" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active_to" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-19">
+        <createTable tableName="product_offering_applicability">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="applicable_from" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="applicable_from_description" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="applicable_thru" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="applicable_thru_description" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="available_for_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-20">
+        <createTable tableName="product_offering_subscription">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="subscribed_product_offering_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-21">
+        <createTable tableName="product_order">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-22">
+        <createTable tableName="role_access">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="from_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="to_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-23">
+        <createTable tableName="subscription">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active_from" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active_to" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="original_product_offering" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subscription_for_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-24">
+        <createTable tableName="subscription_offering_page">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-25">
+        <createTable tableName="subscription_order">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subscription_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-26">
+        <createTable tableName="tag_links">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tag_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tag_ref" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-27">
+        <createTable tableName="tags">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-28">
+        <createTable tableName="theme">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="action_filter" type="VARCHAR(255)"/>
+            <column name="active_from" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active_to" type="DATETIME"/>
+            <column name="controller_filter" type="VARCHAR(255)"/>
+            <column name="last_modified" type="DATETIME"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="uri_filter" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-45">
+        <createTable tableName="wcm_content">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="aliasuri" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="changed_by" type="VARCHAR(255)"/>
+            <column name="changed_on" type="DATETIME"/>
+            <column name="content_dependencies" type="VARCHAR(500)"/>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="created_on" type="DATETIME"/>
+            <column name="description" type="VARCHAR(500)"/>
+            <column name="identifier" type="VARCHAR(80)"/>
+            <column name="language" type="VARCHAR(3)"/>
+            <column name="meta_copyright" type="VARCHAR(200)"/>
+            <column name="meta_creator" type="VARCHAR(80)"/>
+            <column name="meta_publisher" type="VARCHAR(80)"/>
+            <column name="meta_source" type="VARCHAR(80)"/>
+            <column name="order_index" type="INT"/>
+            <column name="parent_id" type="BIGINT"/>
+            <column name="publish_from" type="DATETIME"/>
+            <column name="publish_until" type="DATETIME"/>
+            <column name="space_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="valid_for" type="INT"/>
+            <column name="class" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_mime_type" type="VARCHAR(255)"/>
+            <column name="file_size" type="BIGINT"/>
+            <column name="sync_status" type="SMALLINT"/>
+            <column name="files_count" type="INT"/>
+            <column name="allowed_methods" type="VARCHAR(40)"/>
+            <column name="script_id" type="BIGINT"/>
+            <column name="comment_markup" type="VARCHAR(4)"/>
+            <column name="max_entries_to_display" type="INT"/>
+            <column name="template_id" type="BIGINT"/>
+            <column name="content" type="LONGTEXT"/>
+            <column name="keywords" type="VARCHAR(255)"/>
+            <column name="target_id" type="BIGINT"/>
+            <column name="user_specific_content" type="BIT"/>
+            <column name="author" type="VARCHAR(80)"/>
+            <column name="email" type="VARCHAR(80)"/>
+            <column name="ip_address" type="VARCHAR(50)"/>
+            <column name="website_url" type="VARCHAR(100)"/>
+            <column name="allowgsp" type="BIT"/>
+            <column name="html_title" type="LONGTEXT"/>
+            <column name="menu_title" type="VARCHAR(40)"/>
+            <column name="url" type="VARCHAR(1000)"/>
+            <column name="color" type="INT"/>
+            <column name="height" type="INT"/>
+            <column name="width" type="INT"/>
+            <column name="summary" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-46">
+        <createTable tableName="wcm_content_version">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content_title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="created_on" type="DATETIME"/>
+            <column name="object_class_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="object_content" type="LONGTEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="object_key" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision" type="INT"/>
+            <column name="space_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-47">
+        <createTable tableName="wcm_related_content">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_internal" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_checked_on" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="relation_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source_content_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="target_content_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-48">
+        <createTable tableName="wcm_space">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="aliasuri" type="VARCHAR(80)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-49">
+        <createTable tableName="wcm_status">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="code" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(80)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="public_content" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-50">
+        <createTable tableName="web_page">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active_from" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active_to" type="VARCHAR(255)"/>
+            <column name="last_modified" type="DATETIME"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="page_template" type="VARCHAR(10000)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-35">
+        <addColumn tableName="account">
+            <column name="last_transaction" type="DATETIME"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-36">
+        <addColumn tableName="account">
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-37">
+        <addColumn tableName="account_transaction">
+            <column name="description" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-38">
+        <addColumn tableName="account_transaction">
+            <column name="is_void" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-39">
+        <addColumn tableName="account_transaction">
+            <column name="transaction_date" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-40">
+        <addColumn tableName="account_transaction">
+            <column name="transaction_for_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-41">
+        <addColumn tableName="account_transaction">
+            <column name="transaction_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-42">
+        <addColumn tableName="account_transaction">
+            <column name="unique_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-43">
+        <addColumn tableName="asynchronous_mail_message">
+            <column name="mark_delete" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-44">
+        <addColumn tableName="order_status">
+            <column name="class" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-45">
+        <addColumn tableName="party_role">
+            <column name="active_from" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-46">
+        <addColumn tableName="party_role">
+            <column name="active_to" type="DATETIME"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-47">
+        <addNotNullConstraint columnDataType="BIT" columnName="owned_by_user" tableName="aisle"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-48">
+        <modifyDataType tableName="asynchronous_mail_attachment"
+                        columnName="content" newDataType="LONGBLOB"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-49">
+        <addNotNullConstraint columnDataType="VARCHAR(255)" columnName="oauth_token" tableName="facebook_account"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-50">
+        <addNotNullConstraint columnDataType="BIGINT" columnName="uid" tableName="facebook_account"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-51">
+        <addNotNullConstraint columnDataType="BIT" columnName="is_alcoholic" tableName="item"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-52">
+        <addNotNullConstraint columnDataType="BIT" columnName="share_with_community" tableName="item"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-53">
+        <addNotNullConstraint columnDataType="BIGINT" columnName="preferred_unit_id" tableName="measurable_product"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-54">
+        <dropNotNullConstraint columnDataType="DATETIME" columnName="date_created" tableName="order_status"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-55">
+        <dropNotNullConstraint columnDataType="VARCHAR(255)" columnName="financial_status" tableName="order_status"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-56">
+        <dropNotNullConstraint columnDataType="VARCHAR(255)" columnName="fulfillment_status" tableName="order_status"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-57">
+        <dropNotNullConstraint columnDataType="VARCHAR(255)" columnName="order_id" tableName="order_status"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-58">
+        <dropNotNullConstraint columnDataType="BIGINT" columnName="party_id" tableName="order_status"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-59">
+        <dropNotNullConstraint columnDataType="VARCHAR(255)" columnName="transaction_id" tableName="order_status"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-60">
+        <addNotNullConstraint columnDataType="BIT" columnName="show_alcoholic_content" tableName="party"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-61">
+        <addNotNullConstraint columnDataType="BIT" columnName="is_visible" tableName="product"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-62">
+        <sql>alter table recipe modify date_created datetime not null;</sql>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-64">
+        <addNotNullConstraint columnDataType="BIT" columnName="is_weekly_shopping_list" tableName="shopping_list"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-65">
+        <addNotNullConstraint columnDataType="BIT" columnName="is_convertible" tableName="unit"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-66">
+        <addNotNullConstraint columnDataType="BIT" columnName="is_weight_unit" tableName="unit"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-67">
+        <addNotNullConstraint columnDataType="VARCHAR(255)" columnName="email" tableName="user_login"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-68">
+        <sql>insert into director select id from affiliate</sql>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-69">
+        <sql>insert into coach (id, default_commission) select id, 0.20 as default_commission from sub_affiliate</sql>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-70">
+        <sql>insert into party_relationship (version, to_id, frum_id, active_from) (select 0 as version,
+            sub_affiliate_id as to_id, affiliate_sub_affiliates_id as frum_id, (select joining_date from party where
+            id=sub_affiliate_id) as active_from from affiliate_sub_affiliate)
+        </sql>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-705">
+        <sql>insert into director_coach (id, commission) select id, 0.20 as commission from party_relationship</sql>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-71">
+        <sql>insert into party_relationship (version, to_id, frum_id, active_from) (select 0 as version, sub_role.id as
+            to_id, sa_role.id as frum_id, p.joining_date as active_from from party_party pp left join (select pr.id,
+            pr.party_id from party_role pr inner join sub_affiliate sa on (sa.id=pr.id)) as sa_role on
+            (sa_role.party_id=pp.party_clients_id) left join (select pr.id, pr.party_id from party_role pr inner join
+            subscriber sub on (sub.id=pr.id)) as sub_role on (sub_role.party_id=pp.party_id)left join party p on
+            (p.id=pp.party_id));
+        </sql>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-715">
+        <sql>insert into coach_subscriber (id, commission) select id, 0.20 as commission from party_relationship where
+            id > (select count(*) from sub_affiliate)
+        </sql>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-72">
+        <sql>update party_role left join party on party_role.party_id = party.id set
+            party_role.active_from=party.joining_date
+        </sql>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-73">
+        <dropForeignKeyConstraint baseTableName="account_account_transaction" constraintName="FKB1061EBAC663DB2B"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-74">
+        <dropForeignKeyConstraint baseTableName="affiliate_sub_affiliate" constraintName="FKD9FCFA9C11BB6325"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-75">
+        <dropForeignKeyConstraint baseTableName="aisle_party" constraintName="FK91CDCAEB45AFCA2E"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-76">
+        <dropForeignKeyConstraint baseTableName="party_party" constraintName="FK75AA544D45AFCA2E"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-77">
+        <createIndex indexName="unique_id" tableName="account_transaction" unique="true">
+            <column name="unique_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-78">
+        <createIndex indexName="uid" tableName="facebook_account" unique="true">
+            <column name="uid"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-79">
+        <createIndex indexName="name" tableName="page_element" unique="true">
+            <column name="name"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-80">
+        <createIndex indexName="name" tableName="tags" unique="true">
+            <column name="name"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-81">
+        <createIndex indexName="name" tableName="theme" unique="true">
+            <column name="name"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-82">
+        <createIndex indexName="parent_id" tableName="wcm_content" unique="true">
+            <column name="parent_id"/>
+            <column name="space_id"/>
+            <column name="aliasuri"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-83">
+        <createIndex indexName="name" tableName="web_page" unique="true">
+            <column name="name"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-84">
+        <addForeignKeyConstraint baseColumnNames="filter_for_id" baseTableName="access_filter"
+                                 constraintName="FKE920FAB3ABB27B40" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="access_filter_set"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-85">
+        <addForeignKeyConstraint baseColumnNames="describes_id" baseTableName="account_role"
+                                 constraintName="FK410D034880108F92" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="account"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-86">
+        <addForeignKeyConstraint baseColumnNames="role_for_id" baseTableName="account_role"
+                                 constraintName="FK410D0348639DC94C" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="party"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-87">
+        <addForeignKeyConstraint baseColumnNames="transaction_for_id" baseTableName="account_transaction"
+                                 constraintName="FK7E69DFCCD98C16B2" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="account"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-88">
+        <addForeignKeyConstraint baseColumnNames="content_id" baseTableName="content_subscription"
+                                 constraintName="FK4E675B23BAB7E256" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="content"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-89">
+        <addForeignKeyConstraint baseColumnNames="subscribed_feature_id" baseTableName="feature_subscription"
+                                 constraintName="FK45C947C6FD2223B" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="feature"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-90">
+        <addForeignKeyConstraint baseColumnNames="available_for_id" baseTableName="featured_offering_applicability"
+                                 constraintName="FK7448DB7DDE4307D8" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="product_offering"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-91">
+        <addForeignKeyConstraint baseColumnNames="described_by_id" baseTableName="featured_offering_applicability"
+                                 constraintName="FK7448DB7D1C4C836F" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="feature"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-92">
+        <addForeignKeyConstraint baseColumnNames="element_for_id" baseTableName="page_element"
+                                 constraintName="FKBA5F294C6F4CC4A5" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="theme"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-93">
+        <addForeignKeyConstraint baseColumnNames="to_id" baseTableName="party_relationship"
+                                 constraintName="FKEF692AF1D8FADAB7" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="party_role"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-94">
+        <addForeignKeyConstraint baseColumnNames="frum_id" baseTableName="party_relationship"
+                                 constraintName="FKEF692AF12D4C8916" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="party_role"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-28">
+        <createTable tableName="pricing_component">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active_from" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active_to" type="DATETIME"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pricing_for_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-95">
+        <addForeignKeyConstraint baseColumnNames="pricing_for_id" baseTableName="pricing_component"
+                                 constraintName="FK4EF037C45276CC3B" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="product_offering"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-96">
+        <addForeignKeyConstraint baseColumnNames="available_for_id" baseTableName="product_offering_applicability"
+                                 constraintName="FK200FA99CDE4307D8" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="product_offering"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-97">
+        <addForeignKeyConstraint baseColumnNames="subscribed_product_offering_id"
+                                 baseTableName="product_offering_subscription" constraintName="FK100C8D661E0ED690"
+                                 deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="product_offering"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-98">
+        <addForeignKeyConstraint baseColumnNames="from_id" baseTableName="role_access"
+                                 constraintName="FKEFCE14D270C3678" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="party_role"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-99">
+        <addForeignKeyConstraint baseColumnNames="to_id" baseTableName="role_access" constraintName="FKEFCE14DE8F76319"
+                                 deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="access_filter"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-100">
+        <addForeignKeyConstraint baseColumnNames="subscription_for_id" baseTableName="subscription"
+                                 constraintName="FK1456591D81EC676F" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="subscriber"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-101">
+        <addForeignKeyConstraint baseColumnNames="order_id" baseTableName="subscription_order"
+                                 constraintName="FKACF239ACC10C9728" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="product_order"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-102">
+        <addForeignKeyConstraint baseColumnNames="subscription_id" baseTableName="subscription_order"
+                                 constraintName="FKACF239ACB80836DE" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="subscription"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-103">
+        <addForeignKeyConstraint baseColumnNames="tag_id" baseTableName="tag_links" constraintName="FK7C35D6D45A3B441D"
+                                 deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="tags"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-104">
+        <addForeignKeyConstraint baseColumnNames="parent_id" baseTableName="wcm_content"
+                                 constraintName="FK951FF55BE1775669" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="wcm_content"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-105">
+        <addForeignKeyConstraint baseColumnNames="script_id" baseTableName="wcm_content"
+                                 constraintName="FK951FF55B3A4CE4A4" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="wcm_content"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-106">
+        <addForeignKeyConstraint baseColumnNames="space_id" baseTableName="wcm_content"
+                                 constraintName="FK951FF55BF1D5C51A" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="wcm_space"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-107">
+        <addForeignKeyConstraint baseColumnNames="status_id" baseTableName="wcm_content"
+                                 constraintName="FK951FF55B68CFF5A" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="wcm_status"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-108">
+        <addForeignKeyConstraint baseColumnNames="target_id" baseTableName="wcm_content"
+                                 constraintName="FK951FF55B3573F022" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="wcm_content"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-109">
+        <addForeignKeyConstraint baseColumnNames="template_id" baseTableName="wcm_content"
+                                 constraintName="FK951FF55B988A1A5A" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="wcm_content"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-110">
+        <addForeignKeyConstraint baseColumnNames="source_content_id" baseTableName="wcm_related_content"
+                                 constraintName="FKDE7BDB47AD0EC2DE" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="wcm_content"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-111">
+        <addForeignKeyConstraint baseColumnNames="target_content_id" baseTableName="wcm_related_content"
+                                 constraintName="FKDE7BDB47361353A8" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="wcm_content"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-112">
+        <dropColumn columnName="date" tableName="account_transaction"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-113">
+        <dropColumn columnName="coach_id" tableName="subscriber"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-114">
+        <dropTable tableName="account_account_transaction"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-115">
+        <dropTable tableName="affiliate"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-116">
+        <dropTable tableName="affiliate_account"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-117">
+        <dropTable tableName="affiliate_sub_affiliate"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-118">
+        <dropTable tableName="aisle_party"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-119">
+        <dropTable tableName="operator_account"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-120">
+        <dropTable tableName="party_party"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-121">
+        <dropTable tableName="person"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-122">
+        <dropTable tableName="sub_affiliate"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-123">
+        <dropTable tableName="subscriber_account"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1300084594035-124">
+        <dropTable tableName="subscription_transaction"/>
+    </changeSet>
+    <changeSet author="brent" id="1300084594035-125">
+        <sql>UPDATE comment SET poster_class='com.mp.domain.party.Party' WHERE poster_class='com.mp.domain.Party'</sql>
+    </changeSet>
+    <changeSet author="brent" id="1300084594035-126">
+        <addColumn tableName="metric">
+            <column name="small" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="brent" id="1300084594035-127">
+        <sql>UPDATE metric SET small = ''</sql>
+        <sql>UPDATE metric SET small = 'h' where symbol='hrs'</sql>
+        <sql>UPDATE metric SET small = 'm' where symbol='mins'</sql>
+    </changeSet>
+    <changeSet author="brent" id="1300084594035-128">
+        <addNotNullConstraint columnDataType="VARCHAR(255)" columnName="small" tableName="metric"/>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1302180580647-1">
+        <createTable tableName="base_price">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="aman (generated)" id="1302180580647-2">
+        <createTable tableName="recurring_charge">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="recurrence" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_after" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-4">
+        <createTable tableName="app_request">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="unique_id" type="VARCHAR(255)"/>
+            <column name="within_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-8">
+        <createTable tableName="community_subscription">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-11">
+        <createTable tableName="contribution_fulfillment">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="completed" type="DATETIME"/>
+            <column name="created" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="class" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="recipe_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-12">
+        <createTable tableName="contribution_requirement">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="action_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="controller_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-18">
+        <createTable tableName="message">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="body" type="VARCHAR(5000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="frum_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reply_to_id" type="BIGINT"/>
+            <column name="subject" type="VARCHAR(255)"/>
+            <column name="to_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-19">
+        <createTable tableName="message_status">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="history_for_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-20">
+        <createTable tableName="ndbfile_info">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_version" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="frum" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="imported_date" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="thru" type="DATETIME"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-21">
+        <createTable tableName="ndbfood">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="alpha_carot" type="FLOAT"/>
+            <column name="ash" type="FLOAT"/>
+            <column name="beta_carot" type="FLOAT"/>
+            <column name="beta_crypt" type="FLOAT"/>
+            <column name="calcium" type="FLOAT"/>
+            <column name="carbohydrt" type="FLOAT"/>
+            <column name="cholestrl" type="FLOAT"/>
+            <column name="choline_tot" type="FLOAT"/>
+            <column name="copper" type="FLOAT"/>
+            <column name="energ_kcal" type="FLOAT"/>
+            <column name="fa_mono" type="FLOAT"/>
+            <column name="fa_poly" type="FLOAT"/>
+            <column name="fa_sat" type="FLOAT"/>
+            <column name="fibertd" type="FLOAT"/>
+            <column name="file_info_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_version" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="folatedfe" type="FLOAT"/>
+            <column name="folate_tot" type="FLOAT"/>
+            <column name="folic_acid" type="FLOAT"/>
+            <column name="food_folate" type="FLOAT"/>
+            <column name="gm_wt1" type="FLOAT"/>
+            <column name="gm_wt2" type="FLOAT"/>
+            <column name="gm_wt_desc1" type="VARCHAR(255)"/>
+            <column name="gm_wt_desc2" type="VARCHAR(255)"/>
+            <column name="iron" type="FLOAT"/>
+            <column name="lipid_tot" type="FLOAT"/>
+            <column name="lut_zea" type="FLOAT"/>
+            <column name="lycopene" type="FLOAT"/>
+            <column name="magnesium" type="FLOAT"/>
+            <column name="manganese" type="FLOAT"/>
+            <column name="ndb_no" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="niacin" type="FLOAT"/>
+            <column name="panto_acid" type="FLOAT"/>
+            <column name="phosphorus" type="FLOAT"/>
+            <column name="potassium" type="FLOAT"/>
+            <column name="protein" type="FLOAT"/>
+            <column name="refuse_pct" type="FLOAT"/>
+            <column name="retinol" type="FLOAT"/>
+            <column name="riboflavin" type="FLOAT"/>
+            <column name="selenium" type="FLOAT"/>
+            <column name="shrt_desc" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sodium" type="FLOAT"/>
+            <column name="sugar_tot" type="FLOAT"/>
+            <column name="thiamin" type="FLOAT"/>
+            <column name="vita_iu" type="FLOAT"/>
+            <column name="vita_rae" type="FLOAT"/>
+            <column name="vitb12" type="FLOAT"/>
+            <column name="vitb6" type="FLOAT"/>
+            <column name="vitc" type="FLOAT"/>
+            <column name="vitd_iu" type="FLOAT"/>
+            <column name="vitd_mcg" type="FLOAT"/>
+            <column name="vite" type="FLOAT"/>
+            <column name="vitk" type="FLOAT"/>
+            <column name="water" type="FLOAT"/>
+            <column name="zinc" type="FLOAT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-22">
+        <createTable tableName="ndbweight">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="gm_wgt" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="msre_desc" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="num_data_pts" type="FLOAT"/>
+            <column name="seq" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="std_dev" type="FLOAT"/>
+            <column name="weight_for_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-23">
+        <createTable tableName="nutrition_link">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="factor" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="frum" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nutrition_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="thru" type="DATETIME"/>
+            <column name="unit_id" type="BIGINT"/>
+            <column name="class" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity_id" type="BIGINT"/>
+            <column name="prep_id" type="BIGINT"/>
+            <column name="product_id" type="BIGINT"/>
+            <column name="ingredient_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-36">
+        <createTable tableName="subscription_contribution_requirement">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fulfilled_by_id" type="BIGINT"/>
+            <column name="fulfilled_date" type="DATETIME"/>
+            <column name="required_by" type="DATETIME"/>
+            <column name="required_for_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="requires_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-39">
+        <createTable tableName="subscription_requirement">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="community_subscription_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contribution_requirement_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-42">
+        <createTable tableName="test_interval">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="details" type="VARCHAR(5000)"/>
+            <column name="in_time" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="out_time" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="within_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-43">
+        <createTable tableName="test_scenario">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(5000)"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="notes" type="VARCHAR(5000)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-64">
+        <addColumn tableName="recipe_ingredient">
+            <column name="food_mapping_id" type="BIGINT"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-89">
+        <dropForeignKeyConstraint baseTableName="measurable_product_unit" constraintName="FKB3BCEC92EA7FAECD"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-90">
+        <dropForeignKeyConstraint baseTableName="measurable_product_unit" constraintName="FKB3BCEC927AAB286"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-94">
+        <createIndex indexName="file_version" tableName="ndbfile_info" unique="true">
+            <column name="file_version"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-95">
+        <createIndex indexName="file_version" tableName="ndbfood" unique="true">
+            <column name="file_version"/>
+            <column name="ndb_no"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-105">
+        <addForeignKeyConstraint baseColumnNames="within_id" baseTableName="app_request"
+                                 constraintName="FKF698627133B71FB7" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="test_scenario" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-107">
+        <addForeignKeyConstraint baseColumnNames="recipe_id" baseTableName="contribution_fulfillment"
+                                 constraintName="FK72EFBC2FF331B46" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="recipe" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-111">
+        <addForeignKeyConstraint baseColumnNames="frum_id" baseTableName="message" constraintName="FK38EB00072850A7E8"
+                                 deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="party" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-112">
+        <addForeignKeyConstraint baseColumnNames="reply_to_id" baseTableName="message"
+                                 constraintName="FK38EB00075C9F125C" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="message" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-113">
+        <addForeignKeyConstraint baseColumnNames="to_id" baseTableName="message" constraintName="FK38EB000751FF6671"
+                                 deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="party" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-114">
+        <addForeignKeyConstraint baseColumnNames="history_for_id" baseTableName="message_status"
+                                 constraintName="FK3C1B072A372EB4EE" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="message" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-115">
+        <addForeignKeyConstraint baseColumnNames="file_info_id" baseTableName="ndbfood"
+                                 constraintName="FK6B271FCAEB37FC11" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="ndbfile_info" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-116">
+        <addForeignKeyConstraint baseColumnNames="weight_for_id" baseTableName="ndbweight"
+                                 constraintName="FK5A512AE47BACE894" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="ndbfood" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-117">
+        <addForeignKeyConstraint baseColumnNames="ingredient_id" baseTableName="nutrition_link"
+                                 constraintName="FK86F86C415BE33994" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="recipe_ingredient" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-118">
+        <addForeignKeyConstraint baseColumnNames="nutrition_id" baseTableName="nutrition_link"
+                                 constraintName="FK86F86C41A382EE58" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="ndbweight" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-119">
+        <addForeignKeyConstraint baseColumnNames="prep_id" baseTableName="nutrition_link"
+                                 constraintName="FK86F86C4171B3B6F9" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="preparation_method" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-120">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="nutrition_link"
+                                 constraintName="FK86F86C41813624CA" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="item" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-121">
+        <addForeignKeyConstraint baseColumnNames="quantity_id" baseTableName="nutrition_link"
+                                 constraintName="FK86F86C415C657B26" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="quantity" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-122">
+        <addForeignKeyConstraint baseColumnNames="unit_id" baseTableName="nutrition_link"
+                                 constraintName="FK86F86C417AAB286" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="unit" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-129">
+        <addForeignKeyConstraint baseColumnNames="food_mapping_id" baseTableName="recipe_ingredient"
+                                 constraintName="FKE4FD0D2267AD791" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="nutrition_link" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-133">
+        <addForeignKeyConstraint baseColumnNames="fulfilled_by_id" baseTableName="subscription_contribution_requirement"
+                                 constraintName="FK584E0B763204CDCD" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="contribution_fulfillment" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-134">
+        <addForeignKeyConstraint baseColumnNames="required_for_id" baseTableName="subscription_contribution_requirement"
+                                 constraintName="FK584E0B76EFF6F2D3" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="community_subscription" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-135">
+        <addForeignKeyConstraint baseColumnNames="requires_id" baseTableName="subscription_contribution_requirement"
+                                 constraintName="FK584E0B7650342C9B" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="contribution_requirement" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-138">
+        <addForeignKeyConstraint baseColumnNames="community_subscription_id" baseTableName="subscription_requirement"
+                                 constraintName="FKC605D0213A251909" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="community_subscription" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-139">
+        <addForeignKeyConstraint baseColumnNames="contribution_requirement_id" baseTableName="subscription_requirement"
+                                 constraintName="FKC605D021B34C5FF5" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="contribution_requirement" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-141">
+        <addForeignKeyConstraint baseColumnNames="within_id" baseTableName="test_interval"
+                                 constraintName="FKD7DDD5D2827A9823" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="app_request" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-150">
+        <dropIndex indexName="recipe_id" tableName="recipe_ingredient"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1328744610603-158">
+        <dropTable tableName="measurable_product_unit"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1329353866090-1">
+        <createTable tableName="subscription_subscription_contribution_requirement">
+            <column name="subscription_requirements_id" type="BIGINT"/>
+            <column name="subscription_contribution_requirement_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1329353866090-2">
+        <addNotNullConstraint columnDataType="LONGBLOB" columnName="content" tableName="asynchronous_mail_attachment"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1329353866090-5">
+        <addForeignKeyConstraint baseColumnNames="subscription_contribution_requirement_id"
+           baseTableName="subscription_subscription_contribution_requirement"
+           constraintName="FKB4DDC5D4DEBC6BF6" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+           onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="subscription_contribution_requirement"
+           referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1329353866090-6">
+        <addForeignKeyConstraint baseColumnNames="subscription_requirements_id"
+           baseTableName="subscription_subscription_contribution_requirement"
+           constraintName="FKB4DDC5D4BC3F1F69" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+           onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="subscription"
+           referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher" id="1329353866090-8">
+        <sql>insert into permission_level (version, level, role_id, permission)
+            values (0, 1,(select id from security_role where name='Super Admin'),'MANAGE_SUBSCRIPTIONS')
+        </sql>
+    </changeSet>
+    <changeSet author="Brent Fisher" id="1329353866090-9">
+        <sql>insert into permission_level (version, level, role_id, permission)
+            values (0, 1,(select id from security_role where name='Super Admin'),'MANAGE_THEMES')
+        </sql>
+    </changeSet>
 </databaseChangeLog>

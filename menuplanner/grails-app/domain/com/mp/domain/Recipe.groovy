@@ -58,7 +58,7 @@ class Recipe extends Item implements Commentable, Rateable {
             aisleString = aisleList.join(',')
         }
         return aisleString
-    }
+        }
 
     String getPreparationMethodString() {
         String preparationString = ''

@@ -11,6 +11,7 @@ import com.mp.subscriptions.SubscriptionStatus
 
 public class Subscription {
   static belongsTo = [subscriptionFor:Subscriber]
+    static hasMany = [requirements: SubscriptionContributionRequirement]
 
   SubscriptionStatus status = SubscriptionStatus.CURRENT
   Subscriber subscriptionFor

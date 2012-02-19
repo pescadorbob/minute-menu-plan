@@ -1,4 +1,5 @@
 import com.mp.tools.UserTools
+import grails.plugin.databasemigration.MigrationUtils
 
 // locations to search for config files that get merged into the main config
 // config files can either be Java properties files or ConfigSlurper scripts
@@ -138,6 +139,9 @@ fckeditor {
 
 environments {
     production {
+        grails.plugin.databasemigration.updateOnStart = true
+        grails.plugin.databasemigration.updateOnStartFileNames = ['changelog.xml']
+
         google.analytics.webPropertyID = 'UA-4197138-5'
         google.analytics.enabled = true
         grails.serverURL = "http://www.minutemenuplan.com"
@@ -159,7 +163,11 @@ environments {
         }
     }
     development {
-        migrations.enabled = false
+        imagesRootDir = "c:/work/trunk/mpImages/"
+        // re-enable to test migrations
+        grails.plugin.databasemigration.updateOnStart = true
+        grails.plugin.databasemigration.updateOnStartFileNames = ['changelog.xml']
+
         grails.paypal.server = "https://www.sandbox.paypal.com/cgi-bin/webscr"
         grails.paypal.email = "dev.mm_1293518198_biz@gmail.com"
         google.analytics.enabled = false

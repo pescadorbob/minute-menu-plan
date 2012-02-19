@@ -75,8 +75,10 @@
     </ul>
 
 </div>
-    <g:if test="${nutrition}&& !${recipe?.nutrients}">
-                    <g:render template="nutritionFacts" model="[nutrition:nutrition]"/>
+    <g:if test="${nutrition}">
+        <g:if test="!recipe?.nutrients">
+            <g:render template="nutritionFacts" model="[nutrition:nutrition]"/>
+        </g:if>
     </g:if>
     <g:if test="${UserTools.currentUser}">
         <g:if test="${isPrintable}">
