@@ -86,6 +86,55 @@
            maxElementsInMemory="10000"
            timeToIdleSeconds="300"
             />
+    <cache name="weceem.gspCache"
+           maxElementsInMemory="5000"
+           eternal="false"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="3600"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LFU"/>
+
+    <cache name="weceem.contentTreeFingerprintCache"
+           maxElementsInMemory="5000"
+           eternal="true"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LFU"/>
+
+    <cache name="weceem.contentFingerprintCache"
+           maxElementsInMemory="5000"
+           eternal="true"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LFU"/>
+
+    <cache name="weceem.uriToContentCache"
+           maxElementsInMemory="1000"
+           eternal="false"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="3600"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LFU"/>
+
+    <cache name="weceem.contentCache"
+           maxElementsInMemory="1000"
+           eternal="false"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="3600"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LFU"/>
+
+    <cache name="weceem.dataFeeds"
+           maxElementsInMemory="100"
+           eternal="false"
+           timeToIdleSeconds="60"
+           timeToLiveSeconds="60"
+           overflowToDisk="false"
+           memoryStoreEvictionPolicy="LFU"/>
+
+    <!-- For immutable constants/pre-prepared data only -->
+    <cache name="weceem.eternalCache"
+           maxElementsInMemory="10000"
+           eternal="true"
+           overflowToDisk="false"/>
 
 
 

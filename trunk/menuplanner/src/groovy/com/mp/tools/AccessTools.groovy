@@ -38,7 +38,7 @@ public class AccessTools {
     boolean isUnrestrictedAccess = (unrestrictedAccessFilters && unrestrictedAccessFilters.findAll {
       (!it.controllerFilter || controller ==~ it.controllerFilter) &&
               (!it.actionFilter || action ==~ it.actionFilter) &&
-              (!it.uriFilter || uri ==~ it.uriFilter)
+              (!it.uriFilter || (uri && uri ==~ it.uriFilter))
     }.size() > 0)
     return isUnrestrictedAccess
   }

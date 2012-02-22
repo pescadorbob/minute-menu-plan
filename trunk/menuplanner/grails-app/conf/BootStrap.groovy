@@ -169,7 +169,8 @@ class BootStrap {
       inner join fetch food.weights weights \
       inner join fetch food.fileInfo file ')
       def end = System.currentTimeMillis()
-      println 'Caches loaded in ${(end-start)}ms'
+        def totalTime = end - start
+      println 'Caches loaded in ${totalTime} ms'
 
         if (!SystemOfUnit.count()) {masterDataBootStrapService.populateSystemOfUnits()}
         if (!Time.count()) {masterDataBootStrapService.populateTimeUnits()}
@@ -185,10 +186,7 @@ class BootStrap {
         if (!Testimonial.count()) {masterDataBootStrapService.populateTestimonials()}
         if (!Theme.count()) {masterDataBootStrapService.populateThemes()}
         if (!AccessFilterSet.count()) {masterDataBootStrapService.populateAccessFilterSets()}
-        if (!NDBFileInfo.findByFileVersion("23")&& !(GrailsUtil.environment in ['development', 'test'])) {
-          masterDataBootStrapService.populateNDBFood()
-          assert NDBFood.count() > 7600
-        }
+
         if (!OperationalAccount.count() && SuperAdmin.count()) {
             OperationalAccount opAcct = new OperationalAccount(name: MMP_OPERATIONAL_ACCOUNT).s()
             def superAdmin = SuperAdmin.list().first().party
