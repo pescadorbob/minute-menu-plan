@@ -150,8 +150,8 @@ environments {
             apiKey = "120e11133b438517eea8c2bae826af1b"
             secretKey = "602b4d22ab0e5ff2c230362085c60235"
         }
-        imagesRootDir = "c:/work/trunk/mpImages/"
-//        imagesRootDir = "/home/ubuntu/mpImages/"
+//        imagesRootDir = "c:/work/trunk/mpImages/"
+        imagesRootDir = "/home/ubuntu/mpImages/"
         tempDir = "/home/ubuntu/mpImages/tempImages"
         googleCheckout {
             merchantId = "826975927018241"
