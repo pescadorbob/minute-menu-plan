@@ -67,10 +67,10 @@ class MenuplannerTagLib {
     def weights
     NDBFood.withSession {
       def ndbfood = NDBFood.get(foodId)
-      weights = ndbfood.weights
+      weights = ndbfood?.weights
     }
 
-    weights.sort {it.seq}.eachWithIndex {obj, index ->
+    weights?.sort {it.seq}.eachWithIndex {obj, index ->
       out << body((var): obj, (status): index)
     }
   }
