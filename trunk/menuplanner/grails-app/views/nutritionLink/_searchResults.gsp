@@ -6,7 +6,7 @@
   }
 %>
 <g:form name="matchForm">
-    <g:actionSubmit id="btnSubmit" controller="NDBProductMappingController" action="match" name="submit" value="Match"/>
+    <g:actionSubmit id="btnSubmit" action="match" name="submit" value="Match-it"/>
     <g:each in="${pagingParamsIng}" var="hidPar">
       <g:if test="${hidPar.key != 'quantity' && hidPar.key != 'factor' && hidPar.key != 'preparationMethods'}">
         <g:hiddenField name="${hidPar.key}" value="${hidPar.value}"/>
@@ -117,7 +117,7 @@
           </div>
           <div>
             <div class="paginateButtons">
-              <g:if test="${haveResults}">
+              <g:if test="${haveResults && searchResult}">
                 <g:set var="totalPages" value="${Math.ceil(searchResult.total / searchResult.max)}"/>
                 <g:if test="${totalPages == 1}"><span class="currentStep">1</span></g:if>
                 <g:else>
