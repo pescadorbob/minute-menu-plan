@@ -1,4 +1,4 @@
-<div id="right-panel">
+<div class="right-panel">
     <div id="right-head-without-image">
     </div>
     <div class="top-shadow">

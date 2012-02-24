@@ -39,7 +39,11 @@ html[xmlns] .clearfix {display: block;}
 #wrapper{background:url(../images/wrapper-bg.gif) repeat-y top center;}
 #content-wrapper{ margin:auto; width:1005px; padding-top:23px; background:url(../images/content-wrapper-bg.gif) no-repeat top center;}
 #left-panel{ float:left; width:629px;}
+.left-ads{ float:left; max-width:120px;}
+.right-ads{ float:right; max-width:120px;}
 #right-panel{ float:right; width:355px;}
+.right-panel{ float:right; width:355px;}
+.browse-recipe-ads{ float:right; margin: 10, 10, 10, 10}
 /* end wrapper start footer */
 #footer{background:url(../images/footer-bg.gif) no-repeat top center; height:126px;}
 #copyright { font-size:10px; text-align:center;margin-top:-100px;color:#666666;}

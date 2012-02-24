@@ -7,6 +7,7 @@ package com.mp.domain
 
 enum ElementLocation {
 
+  RECIPE('RECIPE'),
   CSS('CSS'),
   HEADER('HEADER'),
   MENU('MENU'),
@@ -15,6 +16,7 @@ enum ElementLocation {
   FOOTER('FOOTER'),
   LEFT('LEFT'),
   CENTER('CENTER'),
+  BROWSE_RECIPES_MENU('BROWSE_RECIPES_MENU'),
   BROWSE_RECIPES('BROWSE_RECIPES'),
   SHOPPING_LIST('SHOPPING_LIST')
 

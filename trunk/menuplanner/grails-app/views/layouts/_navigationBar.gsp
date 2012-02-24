@@ -11,7 +11,7 @@
     <analytics:recordIn name="browse" details=""/>
 
     <li><g:link controller="recipe" action="list" class="browse recipeListFT">Browse&nbsp;Recipes</g:link>
-      <theme:gadget location="${ElementLocation.BROWSE_RECIPES}"/></li>
+      <theme:gadget location="${ElementLocation.BROWSE_RECIPES_MENU}"/></li>
     <analytics:recordOut name="browse" />
 
     <analytics:recordIn name="user" details=""/>
