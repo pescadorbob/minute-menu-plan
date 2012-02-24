@@ -67,6 +67,8 @@
         </div>
         <div class="bottom-shadow"><label></label></div>
     </div>
+    <div class="right-panel"><theme:gadget location="${ElementLocation.RECIPE}"/></div>
+
     <div id="showPrintInstructions">
         <g:render template="/recipe/printInstructions"/>
     </div>

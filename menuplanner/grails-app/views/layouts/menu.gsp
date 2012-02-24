@@ -25,7 +25,10 @@
     </div>
     <!-- end header start wrapper -->
     <div id="wrapper" class="clearfix">
+    <div class="right-ads"><theme:gadget location="${ElementLocation.RIGHT}"/></div>
+    <div class="left-ads"><theme:gadget location="${ElementLocation.LEFT}"/></div>
         <g:layoutBody/>
+        <theme:gadget location="${ElementLocation.FOOTER}"/>
     </div>
     <!--end wrapper start footer -->
     <span id="ajax_spinner" style="display: none;position:absolute; top:40%; left:50%; z-index:3000;">
@@ -33,8 +36,9 @@
     </span>
     <div id="footer"></div>
     
-    <div class="footer"><theme:gadget location="${ElementLocation.FOOTER}"/>
+    <div class="footer">
 
+        <div id="copyright" style="margin-bottom:5px">&copy; 2010 MinuteMenuPlan.com</div>
         <div class="analytics"><analytics:time/></div>
       
         </div>

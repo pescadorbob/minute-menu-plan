@@ -27,6 +27,7 @@
                 <div class="top-shadow">
                     <label>&nbsp;</label>
                 </div>
+
                 <div id="rightContainer" class="leftbox clearfix">
                   <analytics:profile name="list-recipe" details="">
                     <g:render template="/recipe/searchResultRecipe" model="['recipeList':recipeList]"/>
