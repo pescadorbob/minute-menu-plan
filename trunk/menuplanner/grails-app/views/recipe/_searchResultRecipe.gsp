@@ -7,9 +7,7 @@
          <g:if test="${index %3==0}">
           </div><div class="clearfix">
          </g:if>
-            <g:if test="${index>0 && index %15==0}">
-                </div><div>
-            </g:if>
+
           <analytics:profile name="recipe:${item.name}" details="">
             <g:render template="/recipe/showRecipeForRecipeCard" model="['item':item ,'index':index]"/>
           </analytics:profile>

@@ -1,6 +1,10 @@
 body{margin:21px 0px; background:#bee2e0 url(../images/bg.gif) repeat-x top left;font-family:Arial;}
 
 h1, h2, h3, h4, h5, h6, form, p, ul{padding:0px; margin:0px; list-style:none;}
+p.offer { padding: 5px;}
+.leftbox p.offer ul li {
+    list-style: circle;
+}
 .clearfix:after {content: ".";	display: block;	clear: both;	visibility: hidden;	line-height: 0;	height: 0;} 
 .clearfix {	display: inline-block;}
 html[xmlns] .clearfix {display: block;}

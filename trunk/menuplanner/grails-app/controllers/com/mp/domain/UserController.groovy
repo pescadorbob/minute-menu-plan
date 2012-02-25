@@ -151,7 +151,7 @@ class UserController {
         String name = params.searchName
         def userList
         Integer total
-        def criteriaClosure = {
+        def activeUserCriteria = MenuConstants.activeUserCriteria {
             if (name) {
                 ilike('name', "%${name}%")
             }
@@ -170,17 +170,17 @@ class UserController {
             }
         }
         def criteria1 = Party.createCriteria()
-        criteriaClosure.delegate = criteria1
+        activeUserCriteria.delegate = criteria1
         def userIdsList = criteria1.listDistinct() {
-            criteriaClosure()
+            activeUserCriteria()
             maxResults(params.max)
             firstResult(params.offset)
         }
         userList = userIdsList ? Party.getAll(userIdsList) : []
         def criteria2 = Party.createCriteria()
-        criteriaClosure.delegate = criteria2
+        activeUserCriteria.delegate = criteria2
         total = criteria2.count() {
-            criteriaClosure()
+            activeUserCriteria()
         }
 
         if (!params.userStatus) {
