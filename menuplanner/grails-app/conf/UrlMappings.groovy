@@ -7,5 +7,9 @@ class UrlMappings {
 	  }
       "/"(controller: 'login', action: 'index')
 	  "500"(view:'/error')
+        "/sitemap.xml"{
+            controller = 'sitemap'
+            action = 'sitemap'
+        }
 	}
 }

@@ -96,7 +96,7 @@ class RecipeController {
   }
 
   def list = {
-    params.max = Math.min(params.max ? params.int('max') : 15, 150)
+    params.max = Math.min(params.max ? params.int('max') : 12, 150)
     params.offset = Math.min(params.offset ? params.int('offset') : 0, 100)
     analyticsService.recordIntervalIn(System.currentTimeMillis(), request.'appRequestCO', "filtered-results", params.toString())
     Party currentUser = UserTools.currentUser?.party

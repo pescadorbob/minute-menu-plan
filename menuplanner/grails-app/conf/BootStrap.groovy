@@ -1,7 +1,6 @@
 import com.mp.MenuConstants
 import com.mp.domain.access.AccessFilterSet
 import com.mp.domain.access.SecurityRole
-import com.mp.domain.ndb.NDBFileInfo
 import com.mp.domain.ndb.NDBFood
 import com.mp.domain.party.Party
 import com.mp.domain.party.Subscriber

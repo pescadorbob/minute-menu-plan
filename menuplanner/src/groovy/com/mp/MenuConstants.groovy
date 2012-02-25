@@ -186,4 +186,5 @@ class MenuConstants {
   // 3 weeks = 3weeks*7days/week*24hours/day*60min/hour*60sec/hour*1000ms/sec
   static Integer SESSION_TIMEOUT = 3*7*24*60*60*1000
   static final String CONTRIBUTION = "Contribution"
+
 }

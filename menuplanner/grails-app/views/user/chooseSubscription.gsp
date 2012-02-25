@@ -34,15 +34,28 @@
         </g:if>
 
         <div class="clearfix"><br/>
-            Some information is available to subscribed community members only.<br/>
-            Why not subscribe to the Minute Menu Plan community to see more.<br/>          
-          <g:if test="${UserTools.currentUser}">
-          <g:if test="${pendingSubscriptions?.size()>0}">
-            The following PENDING subscriptions were found that you could activate: </br>
-            <g:render template="pendingSubscriptions" model="[pendingSubscriptions:pendingSubscriptions]" />
-          </g:if>
-          </g:if>
-          <i>If you really want don't want to contribute a recipe, then you can purchase a subscription.  You choose.</i>
+            <p class="offer">Some information is available to subscribed community members only.<br/>
+            <b>Why not subscribe to the Minute Menu Plan community to see more.</b><br/></p>
+            
+          <g:if test="${UserTools.currentUser}"><p class="offer">
+                  <g:if test="${pendingSubscriptions?.size()>0}">
+                    The following PENDING subscriptions were found that you could activate: </br>
+                    <g:render template="pendingSubscriptions" model="[pendingSubscriptions:pendingSubscriptions]" />
+                      <i>If you really want don't want to contribute a recipe, then you can purchase a subscription.  You choose.</i>
+                  </g:if>
+              </p>
+          </g:if>            
+        <g:else>
+            <p class="offer"><i>Community Membership is easy, and fun!</i>
+              <ul><li>All it takes for a Community Membership is your
+            favority recipe contribution.</li>
+              <li>If you don't want to contribute your recipe or you'd just like to support
+            the community more, please choose a supporting membership.  We love you for it!</li>
+              <li>Supporting members have
+            priority on new feature requests!</li>
+
+            </ul></i></p>
+        </g:else>
         </div>
 
     %{--<div id="ajaxPaypalForm" style="display:none">--}%
