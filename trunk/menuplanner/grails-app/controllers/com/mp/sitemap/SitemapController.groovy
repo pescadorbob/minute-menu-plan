@@ -181,4 +181,24 @@ class SitemapController {
         }
 
     }
+    def urllist = {
+        render(contentType: 'text/plain', encoding: 'UTF-8') {
+
+                def space = wcmContentRepositoryService.findDefaultSpace()
+                if (space) {
+                    def pages = wcmContentRepositoryService.findAllContent(wcmContentRepositoryService.findDefaultSpace())
+                    pages.each { page ->
+                        if (page instanceof WcmHTMLContent && page.status.getPublicContent()) {
+                          render(text:g.createLink(action: page.absoluteURI, absolute: true, controller: ConfigurationHolder.config.weceem.content.prefix)+"\n")
+                        }
+                    }
+                }
+                Recipe.list().sort {it.id }.each { recipe ->
+                    render(text:g.createLink(absolute: true, controller: 'recipe', action: 'show', id: recipe.id)+"\r")
+                }
+                Party.list().sort {it.id }.each { user ->
+                    render(text:g.createLink(absolute: true, controller: 'user', action: 'show', id: user.id)+"\r")
+                }
+        }
+    }
 }
