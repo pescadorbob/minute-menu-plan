@@ -28,25 +28,25 @@ class SitemapController {
                 Resource {
                     type("Recipe")
                     seeAlso {
-                        rdf(resource: "${g.createLink(uri: "/rdf/recipes")}")
+                        rdf(resource: "${g.createLink(uri: "/rdf/recipes.xml")}")
                     }
                 }
                 Resource {
                     type("People")
                     seeAlso {
-                        rdf(resource: "${g.createLink(uri: "/rdf/people")}")
+                        rdf(resource: "${g.createLink(uri: "/rdf/people.xml")}")
                     }
                 }
                 Resource {
                     type("Menu Plans")
                     seeAlso {
-                        rdf(resource: "${g.createLink(uri: "/rdf/menuPlans")}")
+                        rdf(resource: "${g.createLink(uri: "/rdf/menuPlans.xml")}")
                     }
                 }
                 Resource {
                     type("Articles")
                     seeAlso {
-                        rdf(resource: "${g.createLink(uri: "/rdf/articles")}")
+                        rdf(resource: "${g.createLink(uri: "/rdf/articles.xml")}")
                     }
                 }
             }
@@ -104,7 +104,7 @@ class SitemapController {
                         contributor(recipe.contributor?.name)
                         servings(recipe.servings)
                         serveWith(recipe.serveWithString)
-                      imageUrl(recipe.imagePath)
+                      imageURL(g.createLink(absolute: true,controller: 'image', action: 'image', id: recipe.image?.id))
                     }
                 }
             }

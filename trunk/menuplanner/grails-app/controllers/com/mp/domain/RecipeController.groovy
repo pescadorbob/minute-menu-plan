@@ -21,6 +21,7 @@ import com.mp.domain.subscriptions.RecipeContribution
 import com.mp.domain.subscriptions.SubscriptionContributionRequirement
 
 class RecipeController {
+  final int resultsPerPage = 12
   static config = ConfigurationHolder.config
   def unitService
   def recipeService
@@ -96,7 +97,7 @@ class RecipeController {
   }
 
   def list = {
-    params.max = Math.min(params.max ? params.int('max') : 12, 150)
+    params.max = Math.min(params.max ? params.int('max') : resultsPerPage, 150)
     params.offset = Math.min(params.offset ? params.int('offset') : 0, 100)
     analyticsService.recordIntervalIn(System.currentTimeMillis(), request.'appRequestCO', "filtered-results", params.toString())
     Party currentUser = UserTools.currentUser?.party
@@ -192,7 +193,7 @@ class RecipeController {
     Integer total
     query += " (shareWithCommunity:true${(currentUser ? (" OR contributorsString:" + NumberTools.longToString(currentUser?.id)) : '')})"
     if (!currentUser?.showAlcoholicContent) { query += "  isAlcoholic:false" }
-    def searchList = Recipe.search([reload: true, max: 15, offset: params.offset ? params.long('offset') : 0]) {
+    def searchList = Recipe.search([reload: true, max: resultsPerPage, offset: params.offset ? params.long('offset') : 0]) {
       must(queryString(query))
     }
     results = searchList?.results
@@ -200,7 +201,7 @@ class RecipeController {
 
     if (!results && keyword) {
       String newQuery = recipeService.fuzzySearchQuery(query, keyword)
-      searchList = Recipe.search([reload: true, max: 15, offset: params.offset ? params.long('offset') : 0]) {
+      searchList = Recipe.search([reload: true, max: resultsPerPage, offset: params.offset ? params.long('offset') : 0]) {
         must(queryString(newQuery))
       }
       results = searchList?.results
