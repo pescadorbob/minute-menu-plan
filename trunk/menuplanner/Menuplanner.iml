@@ -4,13 +4,20 @@
     <facet type="web" name="Web">
       <configuration>
         <descriptors>
-          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/src/templates/war/web.xml" />
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/src/templates/war/web.xml" optional="false" version="2.5" />
         </descriptors>
         <webroots>
           <root url="file://$MODULE_DIR$/src/templates/war" relative="/WEB-INF" />
           <root url="file://$MODULE_DIR$/web-app" relative="/" />
         </webroots>
         <sourceRoots />
+        <building>
+          <setting name="EXPLODED_URL" value="file://" />
+          <setting name="EXPLODED_ENABLED" value="false" />
+          <setting name="JAR_URL" value="file://" />
+          <setting name="JAR_ENABLED" value="false" />
+          <setting name="EXCLUDE_EXPLODED_DIRECTORY" value="true" />
+        </building>
       </configuration>
     </facet>
     <facet type="Spring" name="Spring">
@@ -22,7 +29,6 @@
         <fileset id="Grails" name="Grails" removed="false">
           <file>file://$MODULE_DIR$/web-app/WEB-INF/applicationContext.xml</file>
         </fileset>
-        <fileset id="web: application context" profiles="" autodetected="true" />
       </configuration>
     </facet>
     <facet type="web" name="GrailsWeb">
@@ -32,6 +38,13 @@
           <root url="file://$MODULE_DIR$/grails-app/views" relative="/" />
         </webroots>
         <sourceRoots />
+        <building>
+          <setting name="EXPLODED_URL" value="file://" />
+          <setting name="EXPLODED_ENABLED" value="false" />
+          <setting name="JAR_URL" value="file://" />
+          <setting name="JAR_ENABLED" value="false" />
+          <setting name="EXCLUDE_EXPLODED_DIRECTORY" value="true" />
+        </building>
       </configuration>
     </facet>
   </component>
