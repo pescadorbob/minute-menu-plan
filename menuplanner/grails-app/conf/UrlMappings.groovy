@@ -7,6 +7,11 @@ class UrlMappings {
 	  }
       "/"(controller: 'login', action: 'index')
 	  "500"(view:'/error')
+        "/rdf/$action"(controller:"sitemap")
+        "/ror.xml" {
+            controller = 'sitemap'
+            action = 'ror'
+        }
         "/sitemap.xml"{
             controller = 'sitemap'
             action = 'sitemap'
