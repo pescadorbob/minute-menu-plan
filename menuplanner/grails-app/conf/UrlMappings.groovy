@@ -7,6 +7,7 @@ class UrlMappings {
 	  }
       "/"(controller: 'login', action: 'index')
 	  "500"(view:'/error')
+        "/urllist.txt"(controller:"sitemap",action:'urllist')
         "/rdf/recipes.xml"(controller:"sitemap",action:'recipes')
         "/rdf/people.xml"(controller:"sitemap",action:'people')
         "/rdf/menuPlans.xml"(controller:"sitemap",action:'menuPlans')
