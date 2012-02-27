@@ -26,9 +26,7 @@
               <g:if test="${party?.coach}">
                 <li><pty:clientCount party="${party}" /> clients</li>
                 </g:if>
-              <g:if test="${party?.email}">
-                <li><a href="mailto:${party.email}">email</a></li>
-                </g:if>
+              
             </ul>
         </li>
     </ul>
