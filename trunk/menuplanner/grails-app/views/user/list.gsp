@@ -16,7 +16,7 @@
             <div class="top-shadow">
                 <label>&nbsp;</label>
             </div>
-            <div class="leftbox clearfix">
+            <div class="clients clearfix">
                 <g:if test="${flash.message}">
                     <div class="userFlashMessage">
                         ${flash.message}
@@ -45,7 +45,7 @@
                         </g:form>
                     </ul>
                 </div>
-                <div id="userlist" class="clearfix">
+                <div  class="clearfix">
                     <g:render template="/user/usersResult" model="[parties:parties]"/>
                 </div>
                 <div class="paginateButtons">

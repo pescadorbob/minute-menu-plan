@@ -146,7 +146,7 @@ class UserController {
     }
 
     def list = {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        params.max = Math.min(params.max ? params.int('max') : 500, 1000)
         params.offset = params.offset ? params.int('offset') : 0
         String name = params.searchName
         def userList
