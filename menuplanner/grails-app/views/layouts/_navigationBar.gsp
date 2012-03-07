@@ -28,7 +28,7 @@
 
           <wcmhelp:eachPage var="content">
 
-            <a href="${ConfigurationHolder.config.grails.serverURL}/${ConfigurationHolder.config.weceem.content.prefix}/${content.absoluteURI}">${content.title}</a>
+            <a href="${ConfigurationHolder.config.grails.serverURL}/${ConfigurationHolder.config.weceem.content.prefix}/${content.absoluteURI}">${content.menuTitle?content.menuTitle:content.title}</a>
           </wcmhelp:eachPage>
           <analytics:recordOut name="wcm" />
 

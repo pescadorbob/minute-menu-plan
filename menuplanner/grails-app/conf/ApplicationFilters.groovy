@@ -128,6 +128,13 @@ class ApplicationFilters {
                 }
             }
         }
+        updateLastSeen(controller: '*', action: '*') {
+          before = {
+              if (UserTools.currentUser){
+                UserTools.currentUser.party.lastLogin = new Date()
+              }
+          }
+        }
         checkPreview(controller: '*', action: '*') {
             before = {
                 if (!UserTools.currentUser && params.controller in ['recipe', 'menuPlan', 'shoppingList'] && params.action in ['show', 'list']) {
