@@ -659,9 +659,9 @@ class UserCO {
     static constraints = {
         id(nullable: true)
         email(blank: false, nullable: false, email: true, validator: {val, obj ->
-            if (val ) {
+            if (val && !obj.id) {
                 LoginCredential credential = UserLogin.findByEmail(val)
-                if (credential ) {
+                if (credential && (credential?.id != obj?.id?.toLong())) {
                     return "userCO.email.unique.error"
                 }
             }
