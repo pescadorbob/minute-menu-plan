@@ -48,7 +48,7 @@
         <g:else>
             <p class="offer"><i>Community Membership is easy, and fun!</i>
               <ul><li>All it takes for a Community Membership is your
-            favority recipe contribution.</li>
+            favorite recipe contribution.</li>
               <li>If you don't want to contribute your recipe or you'd just like to support
             the community more, please choose a supporting membership.  We love you for it!</li>
               <li>Supporting members have
