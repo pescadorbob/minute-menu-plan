@@ -374,10 +374,11 @@ class MenuplannerTagLib {
       StandardConversion link_conversion = fact[2]
       def quantity
       factName.split(',').each {it ->
+        def weightFor = link.nutrition.getWeightFor()[it]==null?0:link.nutrition.getWeightFor()[it]
         if (ri.quantity?.unit && link_conversion) {
-          quantity = link.nutrition.getWeightFor()[it] * (ri.quantity?.value / link_conversion.conversionFactor) * link.nutrition.gmWgt / 100
+          quantity = weightFor * (ri.quantity?.value / link_conversion.conversionFactor) * link.nutrition.gmWgt / 100
         } else {
-          quantity = link.nutrition.getWeightFor()[it] * ri.quantity?.value * link.nutrition.gmWgt / 100
+          quantity = weightFor * ri.quantity?.value * link.nutrition.gmWgt / 100
         }
         total += quantity
       }

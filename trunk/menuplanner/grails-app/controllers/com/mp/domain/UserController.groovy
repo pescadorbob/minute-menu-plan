@@ -432,7 +432,7 @@ class UserController {
 //    }
 
   def createFreeUser = {
-    forward(action: 'chooseSubscription')
+    redirect(action: 'chooseSubscription')
   }
     def newUserCheckout = {UserCO userCO ->
         if (params.productId) {

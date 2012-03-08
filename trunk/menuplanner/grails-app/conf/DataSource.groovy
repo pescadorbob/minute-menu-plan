@@ -36,6 +36,13 @@ environments {
 		dataSource {
 //			dbCreate = "create" // one of 'create', 'create-drop','update'
 			loggingSql = true
+			url = "jdbc:mysql://localhost:3306/master-prod-03082012?autoReconnect=true"
+		}
+	}
+	developmentOrig {
+		dataSource {
+//			dbCreate = "create" // one of 'create', 'create-drop','update'
+			loggingSql = true
 			url = "jdbc:mysql://localhost:3306/mmp-prod-copy2?autoReconnect=true"
 		}
 	}

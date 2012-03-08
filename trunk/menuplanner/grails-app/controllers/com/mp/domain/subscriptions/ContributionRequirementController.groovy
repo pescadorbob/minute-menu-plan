@@ -3,11 +3,15 @@ package com.mp.domain.subscriptions
 class ContributionRequirementController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
-
+    def masterDataBootStrapService
     def index = {
         redirect(action: "list", params: params)
     }
-
+    def populate = {
+        masterDataBootStrapService.populateCommunitySubscriptionRecipeContributionRequirements()
+        flash.message = 'Finished populating'
+        redirect(action: 'list')
+    }
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [contributionRequirementList: ContributionRequirement.list(params), contributionRequirementTotal: ContributionRequirement.count()]
