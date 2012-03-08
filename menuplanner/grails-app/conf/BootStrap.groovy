@@ -140,6 +140,8 @@ class BootStrap {
     }
 
     private void bootstrapMasterData() {
+
+      masterDataBootStrapService.populateCommunitySubscriptionRecipeContributionRequirements()
       masterDataBootStrapService.populateAlcoholicContentList()
       // prime StandardConversions, Units, Time, Categories,
       // NDBFileInfo,NDBFood, NDBWeight

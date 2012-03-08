@@ -33,6 +33,7 @@ import com.mp.domain.subscriptions.BasePrice
 import com.mp.ndb.NdbService
 import com.mp.domain.subscriptions.FeaturedOfferingApplicability
 import com.mp.domain.subscriptions.Feature
+import com.mp.domain.subscriptions.ContributionRequirement
 
 class MasterDataBootStrapService implements ApplicationContextAware {
 
@@ -43,6 +44,23 @@ class MasterDataBootStrapService implements ApplicationContextAware {
     def messageSource
     Object[] testArgs = {}
 
+    public populateCommunitySubscriptionRecipeContributionRequirements = {
+        if(!ContributionRequirement.count()){
+          ProductOffering communityProductOffering =
+            ProductOffering.findByName('Community Subscription')
+          def requirement =
+          new ContributionRequirement(controllerName:'recipe',
+          actionName:'create',
+                  pricingFor:communityProductOffering,
+          activeFrom:new Date(),
+          value:0.0,
+          name:'Recipe Contribution',
+          description:'''Choosing a Community Subscription helps the community out with your
+recipe.  Thank you!  Contribute your absolute favorite recipe, with a nice picture,
+and a little bit about it.''')
+          requirement.s()
+        }
+    }
     public void populateSystemOfUnits() {
         SystemOfUnit systemOfUnitsUsa = new SystemOfUnit(systemName: SYSTEM_OF_UNIT_USA, standardizationBody: SYSTEM_OF_UNIT_USA_STANDARDIZATION_BODY).s()
         SystemOfUnit systemOfUnitsMetric = new SystemOfUnit(systemName: SYSTEM_OF_UNIT_METRIC, standardizationBody: SYSTEM_OF_UNIT_METRIC_STANDARDIZATION_BODY).s()
