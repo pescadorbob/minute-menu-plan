@@ -153,7 +153,7 @@ environments {
         }
 //        imagesRootDir = "c:/work/trunk/mpImages/"
         imagesRootDir = "/home/ubuntu/mpImages/"
-        weceem.upload.dir = "/home/ubuntu/weceem"
+        weceem.upload.dir = "file:///home/ubuntu/weceem"
         tempDir = "/home/ubuntu/mpImages/tempImages"
         googleCheckout {
             merchantId = "826975927018241"
@@ -168,7 +168,7 @@ environments {
     }
     development {
         imagesRootDir = "c:/work/trunk/mpImages/"
-      weceem.upload.dir = "c:/work/weceem"
+      weceem.upload.dir = "file://c:/work/weceem"
 
         // re-enable to test migrations
         grails.plugin.databasemigration.updateOnStart = true
