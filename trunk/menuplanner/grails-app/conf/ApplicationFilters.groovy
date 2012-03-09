@@ -74,7 +74,7 @@ class ApplicationFilters {
 //                println("Verifying Access:${new Date()}:${params}");
                 def start = System.currentTimeMillis()
                 analyticsService.recordIntervalIn(start, request.'appRequestCO', "verify-access", params.toString())
-                if(!request.requestURI ==~ '.*js|.*css|.*image.*' )
+                if(!(request.requestURI ==~ '.*js|.*css|.*image.*' ))
                 {
                     List<Cookie> cookies = request.cookies as List
                     Cookie guestVisitor = cookies.find {it.name == 'guestVisitor'}

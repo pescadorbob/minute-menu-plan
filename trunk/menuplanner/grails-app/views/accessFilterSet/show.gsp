@@ -40,7 +40,10 @@
                             <td valign="top" style="text-align: left;" class="value">
                                 <ul>
                                 <g:each in="${accessFilterSet.accessFilters}" var="a">
-                                    <li><g:link controller="accessFilter" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></li>
+                                    <li><g:link controller="accessFilter" action="show" id="${a.id}">
+                                      ${a?.name?.encodeAsHTML()} : 
+                                      ${a?.description?.encodeAsHTML()}
+                                    </g:link></li>
                                 </g:each>
                                 </ul>
                             </td>
