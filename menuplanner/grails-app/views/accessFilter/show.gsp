@@ -65,7 +65,11 @@
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="accessFilter.filterFor.label" default="Filter For" /></td>
                             
-                            <td valign="top" class="value"><g:link controller="accessFilterSet" action="show" id="${accessFilter?.filterFor?.id}">${accessFilter?.filterFor?.encodeAsHTML()}</g:link></td>
+                            <td valign="top" class="value"><g:link controller="accessFilterSet" action="show"
+                                    id="${accessFilter?.filterFor?.id}">
+                              ${accessFilter?.filterFor?.name?.encodeAsHTML()}:
+                              ${accessFilter?.filterFor?.type?.encodeAsHTML()}
+                            </g:link></td>
                             
                         </tr>
                     
