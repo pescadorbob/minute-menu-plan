@@ -19,6 +19,7 @@ import com.mp.subscriptions.SubscriptionStatus
 import com.mp.domain.subscriptions.CommunitySubscription
 import com.mp.domain.subscriptions.RecipeContribution
 import com.mp.domain.subscriptions.SubscriptionContributionRequirement
+import com.mp.domain.pricing.Price
 
 class RecipeController {
   final int resultsPerPage = 12
@@ -553,6 +554,8 @@ class RecipeCO {
     Long preparationUnitId
     Integer cookTime         
     Long cookUnitId
+    BigDecimal cost
+
     def selectRecipeImage
     def selectRecipeImagePath
 
@@ -654,7 +657,13 @@ class RecipeCO {
         }
         recipe.preparationTime = makeTimeQuantity(preparationTime, preparationUnitId)
         recipe.cookingTime = makeTimeQuantity(cookTime, cookUnitId)
-
+        Price price = recipe.avePrice
+        if(!price){
+          Quantity quantity = new Quantity(value:1,unit:Unit.findByName('Each'),savedUnit:Unit.findByName('Each')).s()
+          price = new Price(price:cost,quantity:quantity).s()
+          recipe.avePrice = price
+        }
+        price.price = cost
         recipe.subCategories = []
         addSubCategoriesToRecipe(recipe, subCategoryIds)
 
@@ -685,6 +694,7 @@ class RecipeCO {
         addNutrientsToRecipe(recipe, nutrientQuantities, nutrientIds)
 
         recipe.s()
+        price.s()
         attachImage(recipe, selectRecipeImagePath)
         recipe.isAlcoholic = recipe.isAlcoholic ? true : recipeService.isRecipeAlcoholic(recipe?.id)
         recipe.s()

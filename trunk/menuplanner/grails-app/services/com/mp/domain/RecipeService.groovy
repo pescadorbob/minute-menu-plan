@@ -174,6 +174,7 @@ class RecipeService {
         recipeCO.serveWithItems = (recipe?.items) ? (recipe?.items*.name) : []
         recipeCO.isAlcoholic = recipe?.isAlcoholic
 
+        recipeCO.cost = recipe?.avePrice?.price
 
         recipeCO.preparationUnitId = recipe?.preparationTime?.unit?.id
         recipeCO.preparationTime = recipe?.preparationTime ? StandardConversion.getQuantityValueString(recipe?.preparationTime)?.toInteger() : null

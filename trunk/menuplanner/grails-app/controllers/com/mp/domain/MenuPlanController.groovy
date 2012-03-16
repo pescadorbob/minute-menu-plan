@@ -10,12 +10,14 @@ import com.mp.tools.UserTools
 class MenuPlanController {
 
     def recipeService
+    def priceService
     def index = { }
 
     def show = {
         params.max = Math.min(params.max ? params.int('max') : 4, 150)
         List<Recipe> recipeList = Recipe.list(params)
         MenuPlan menuPlan = MenuPlan.get(params.long("id"))
+        priceService.calculateMenuPlanCosts(menuPlan)
         List<SubCategory> subCategories = (Recipe.list()*.subCategories)?.flatten()?.unique {it.id}?.sort {it.name}
         List<Category> categories = (subCategories*.category)?.flatten()?.unique {it.id}?.sort {it.name}
         render(view: 'show', model: [menuPlan: menuPlan, categories: categories, subCategories: subCategories, itemList: recipeList, itemTotal: Recipe.count(), openInNewWindow: false, party: UserTools.currentUser?.party])

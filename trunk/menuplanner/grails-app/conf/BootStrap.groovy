@@ -19,6 +19,7 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import static com.mp.MenuConstants.MMP_OPERATIONAL_ACCOUNT
 import com.mp.domain.*
 import com.mp.domain.accounting.*
+import com.mp.tools.UserTools
 
 class BootStrap {
 
@@ -33,11 +34,33 @@ class BootStrap {
     def recipeService
     def wcmSecurityService
     static config = ConfigurationHolder.config
-
+    def static roleMapping = ["Super Admin":'ROLE_ADMIN',"Admin":'ROLE_USER']
 
     def init = {servletContext ->
-//    wcmSecurityService.securityDelegate = WcmSecurityDelegate.delegate
-        config.bootstrapMode = true
+
+//      wcmSecurityService.securityDelegate = [
+//          getUserName : { ->
+//              UserTools?.currentUser?.party?.name
+//          },
+//          getUserEmail : { ->
+//            UserTools?.currentUser?.party?.email
+//          },
+//          getUserRoles : { ->
+//              if(UserTools?.currentUser){
+//                UserTools?.currentUser?.party?.roles.collect { role ->
+//                   roleMapping[role.type]
+//                }
+//              } else {
+//                ['ROLE_GUEST']
+//              }
+//          },
+//          getUserPrincipal : { ->
+//            [id:UserTools?.currentUser?.party?.email,
+//                    name:UserTools?.currentUser?.party?.name,
+//                    email:UserTools?.currentUser?.party?.email]
+//          }
+//      ]
+      config.bootstrapMode = true
         // Inject the helper s() method
         Object.metaClass.s = MenuConstants.s
 

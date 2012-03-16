@@ -34,6 +34,7 @@ import com.mp.ndb.NdbService
 import com.mp.domain.subscriptions.FeaturedOfferingApplicability
 import com.mp.domain.subscriptions.Feature
 import com.mp.domain.subscriptions.ContributionRequirement
+import com.mp.domain.pricing.Price
 
 class MasterDataBootStrapService implements ApplicationContextAware {
 
@@ -44,6 +45,21 @@ class MasterDataBootStrapService implements ApplicationContextAware {
     def messageSource
     Object[] testArgs = {}
 
+    def populateRecipePrices = {
+      Unit unit = Unit.findByName(UNIT_EACH)
+      Unit savedUnit = Unit.findByName(UNIT_EACH)
+      Quantity quantity = new Quantity(value:1,unit:unit,savedUnit:savedUnit)
+      quantity.save()
+      Item.list().each { item ->
+        Price avePrice = new Price(
+                price: 30.0-Math.random()*15.0,
+                quantity:quantity)
+        avePrice.s()
+        item.avePrice = avePrice
+        item.s()
+        avePrice.s()
+      }
+    }
     public populateCommunitySubscriptionRecipeContributionRequirements = {
         if(!ContributionRequirement.count()){
           ProductOffering communityProductOffering =

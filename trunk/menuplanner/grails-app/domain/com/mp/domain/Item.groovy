@@ -1,6 +1,7 @@
 package com.mp.domain
 
 import com.mp.domain.ndb.ItemNutritionLink
+import com.mp.domain.pricing.Price
 
 class Item {
     static searchable = true
@@ -10,6 +11,10 @@ class Item {
     Aisle suggestedAisle
     Boolean shareWithCommunity = false
     Boolean isAlcoholic = false
+    Price avePrice
+    Price bestPrice
+    Price worstPrice
+
     static hasMany = [links:ItemNutritionLink,recipeIngredients:RecipeIngredient]
 
     String toString() {
@@ -18,6 +23,9 @@ class Item {
 
     static constraints = {
         suggestedAisle(nullable: true)
+        avePrice(nullable: true)
+        bestPrice(nullable: true)
+        worstPrice(nullable: true)
     }
 
     static mapping = {
