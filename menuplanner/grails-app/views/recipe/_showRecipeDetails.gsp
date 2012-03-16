@@ -1,4 +1,4 @@
-<%@ page import="com.mp.tools.UserTools; com.mp.domain.LoginCredential; com.mp.domain.Recipe" %>
+<%@ page import="com.mp.tools.CurrencyUtils; com.mp.tools.UserTools; com.mp.domain.LoginCredential; com.mp.domain.Recipe" %>
 <div id="contectElement">
     <ul>
         <li id="leftLiElements">
@@ -6,6 +6,7 @@
                 <li id="prepAndCookTimesTst">
                     <g:if test="${recipe?.preparationTime}">Prep - ${recipe.preparationTime.toReadableTimeString()}</g:if><br/>
                     <g:if test="${recipe?.cookingTime}">Cook - ${recipe.cookingTime.toReadableTimeString()}</g:if><br/>
+                    <g:if test="${recipe?.avePrice}">Ave. Price - $${CurrencyUtils.getRoundedAmount(recipe.avePrice?.price)}</g:if><br/>
                 </li>
                 <li><g:if test="${recipe?.difficulty}"><span>Difficulty Level: ${recipe?.difficulty}</span><br/></g:if>
                     <g:if test="${recipe?.servings}"><span>Servings: ${customServings ? customServings : recipe?.servings}</span></g:if>

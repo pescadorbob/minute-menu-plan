@@ -1,10 +1,12 @@
 package com.mp.domain
 
+import com.mp.domain.pricing.Price
+
 class Meal {
 
     MealType type
     List<Item> items = []
-
+    BigDecimal cost
     static belongsTo = [Day, QuickFill]
     static hasMany = [items: Item]
 
@@ -13,6 +15,7 @@ class Meal {
     }
 
     static constraints = {
+      cost(nullable:true)
     }
 
 }

@@ -168,7 +168,7 @@ environments {
     }
     development {
         imagesRootDir = "c:/work/trunk/mpImages/"
-      weceem.upload.dir = "file://c:/work/weceem"
+      weceem.upload.dir = "file:///c:/work/weceem"
 
         // re-enable to test migrations
         grails.plugin.databasemigration.updateOnStart = true

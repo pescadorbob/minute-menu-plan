@@ -95,7 +95,7 @@
 #rightElement ul li a:hover{text-decoration:underline;}
 #left-panel-product{float:left;width:215px;}
 #left-panel-product h2{line-height:18px;color:#292e2e;font-size:15px;font-weight:bold;}
-#left-panel-product h3{line-height:18px;font-size:15px;color:#e67432;font-weight:bold;}
+#left-panel-product h3,#left-panel-product span.recipe-name,{line-height:18px;font-size:15px;color:#e67432;font-weight:bold;}
 #right-panel-product{float:right;width:775px;}
 .product{clear:both;font-size:11px;font-family:Arial, Helvetica, sans-serif; background:#fff;}
 .product ul li{float:left;width:215px;cursor:pointer; margin:0 14px; position:relative;}
@@ -105,7 +105,7 @@
 .product ul li ul li{margin:0 !important;padding:0;width:210px; background:none  !important; position:relative;}
 .product ul li ul li h3{;margin:0;line-height:18px;font-size:12px;padding:0px 5px;}
 .product ul li ul li h3 a{text-decoration:none;color:#2aa4af;}
-.product ul li ul li h3 p{text-decoration:none;color:#2aa4af;}
+.product ul li ul li h3 p,.product ul li ul li p{text-decoration:none;color:#2aa4af;}
 .product ul li ul li ul li{float:left;width:100px !important;background:none !important;}
 .product ul li ul li ul li ul li{line-height:12px;clear:both;}
 .product ul li:hover div.frame-corner{background-position:0 -80px;}

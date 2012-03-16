@@ -31,12 +31,11 @@ environments {
 			url = "jdbc:mysql://localhost:3306/mmp-dev?autoReconnect=true"
 		}
 	}
-//	developmentprodcopy {
 	development {
 		dataSource {
-//			dbCreate = "create" // one of 'create', 'create-drop','update'
+//			dbCreate = "update" // one of 'create', 'create-drop','update'
 			loggingSql = true
-			url = "jdbc:mysql://localhost:3306/master-prod-03082012?autoReconnect=true"
+			url = "jdbc:mysql://localhost:3306/mmp-prod-copy3?autoReconnect=true"
 		}
 	}
 	developmentOrig {

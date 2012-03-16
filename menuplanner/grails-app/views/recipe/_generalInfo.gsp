@@ -60,8 +60,17 @@
                     <li>
                         <label>Makes</label>
                         <span>
-                            <g:textField class="inpboxSmall ${hasErrors(bean:recipeCO,field:'makesServing', 'errors')}" name="makesServing" value="${recipeCO?.makesServing}"/>
-                            Servings <br/><g:checkBox name="shareWithCommunity" value="${recipeCO?.shareWithCommunity}"/> Share with community
+                            <g:textField class="inpboxSmall ${hasErrors(bean:recipeCO,field:'makesServing', 'errors')}"
+                                    name="makesServing" value="${recipeCO?.makesServing}"/>
+                            Servings
+                        </span>
+                    </li>
+                    <li>
+                        <label>Average Cost</label>
+                        <span>
+                            <g:textField class="inpboxSmall ${hasErrors(bean:recipeCO,field:'cost', 'errors')}"
+                                    name="cost" value="${recipeCO?.cost}"/>
+                            <br/><g:checkBox name="shareWithCommunity" value="${recipeCO?.shareWithCommunity}"/> Share with community
                         </span>
                     </li>
                 </ul>

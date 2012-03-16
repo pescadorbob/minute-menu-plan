@@ -308,7 +308,8 @@ $.widget("ui.sortable", $.extend({}, $.ui.mouse, {
 		} else {
 			this._clear(event, noPropagation);
 		}
-
+        setTimeout("bindTotals1()", 900);
+          
 		return false;
 
 	},

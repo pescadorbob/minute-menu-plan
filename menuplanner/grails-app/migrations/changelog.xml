@@ -1005,7 +1005,8 @@
                 baseColumnNames="account_transaction_id"
                 baseTableName="account_account_transaction"
                 constraintName="FKB1061EBAC663DB2B" deferrable="false"
-                initiallyDeferred="false" referencedColumnNames="id" referencedTableName="account_transaction"/>
+                initiallyDeferred="false" referencedColumnNames="id"
+                referencedTableName="account_transaction"/>
     </changeSet>
     <changeSet author="aman (generated)" id="1281344986756-82">
         <addForeignKeyConstraint baseColumnNames="message_id"
@@ -3149,14 +3150,156 @@
            onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="subscription"
            referencesUniqueColumn="false"/>
     </changeSet>
-    <changeSet author="Brent Fisher" id="1329353866090-8">
+    <changeSet author="Brent Fisher (generated)" id="1329353866090-8">
         <sql>insert into permission_level (version, level, role_id, permission)
             values (0, 1,(select id from security_role where name='Super Admin'),'MANAGE_SUBSCRIPTIONS')
         </sql>
     </changeSet>
-    <changeSet author="Brent Fisher" id="1329353866090-9">
+    <changeSet author="Brent Fisher (generated)" id="1329353866090-9">
         <sql>insert into permission_level (version, level, role_id, permission)
             values (0, 1,(select id from security_role where name='Super Admin'),'MANAGE_THEMES')
         </sql>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1329353866100-1" >
+        <createTable tableName="price">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1329353866100-2">
+        <addColumn tableName="item">
+            <column name="ave_price_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+            <column name="best_price_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+                <column name="worst_price_id" type="BIGINT">
+                    <constraints nullable="true"/>
+                </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1329353866100-3">
+        <createTable tableName="item_price">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price_of_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="recorded_on" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1329353866100-4">
+        <addColumn tableName="day">
+            <column name="cost" type="FLOAT">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1329353866100-5">
+        <addColumn tableName="meal">
+            <column name="cost" type="FLOAT">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1329353866100-6">
+        <addColumn tableName="menu_plan">
+            <column name="cost" type="FLOAT">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1329353866100-7">
+        <addColumn tableName="week">
+            <column name="cost" type="FLOAT">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1329353866100-8">
+        <createTable tableName="landing_page">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active_from" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active_to" type="DATETIME"/>
+            <column name="last_modified" type="DATETIME"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="redirecturi" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1329353866100-9">
+        <addForeignKeyConstraint baseColumnNames="ave_price_id"
+           baseTableName="item"
+           constraintName="FK_ITEM_AVE_PR" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+           onUpdate="NO ACTION" referencedColumnNames="id"
+           referencedTableName="price"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1329353866100-10">
+        <addForeignKeyConstraint baseColumnNames="best_price_id"
+           baseTableName="item"
+           constraintName="FK_ITEM_BST_PR" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+           onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="price"
+           />
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1329353866100-11">
+        <addForeignKeyConstraint baseColumnNames="worst_price_id"
+           baseTableName="item"
+           constraintName="FK_ITEM_WST_PR" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+           onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="price"
+           />
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1329353866100-12">
+        <addForeignKeyConstraint baseColumnNames="price_id"
+           baseTableName="item_price"
+           constraintName="FK_ITEM_PR" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+           onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="price"
+           />
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1329353866100-13">
+        <addForeignKeyConstraint baseColumnNames="price_of_id"
+           baseTableName="item_price"
+           constraintName="FK_ITEM_PR_OF" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+           onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="item"
+           />
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1329353866100-14">
+        <addForeignKeyConstraint baseColumnNames="quantity_id"
+           baseTableName="price"
+           constraintName="FK_PRICE_Q" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+           onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="quantity"
+           />
     </changeSet>
 </databaseChangeLog>

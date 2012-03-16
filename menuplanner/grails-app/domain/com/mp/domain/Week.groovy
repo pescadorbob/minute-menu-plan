@@ -1,9 +1,11 @@
 package com.mp.domain
 
+import com.mp.domain.pricing.Price
+
 class Week {
 
     List<Day> days = []
-
+    BigDecimal cost
     static belongsTo = [menuPlan: MenuPlan]
     static hasMany = [days: Day]
 
@@ -12,6 +14,7 @@ class Week {
     }
 
     static constraints = {
+      cost(nullable:true)
     }
 
     boolean equals(o) {
