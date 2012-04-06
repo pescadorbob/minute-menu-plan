@@ -21,6 +21,7 @@
                     <g:link class="addCoachFT" name="createCoach" controller="user" action="createCoach">Add Coach</g:link>
                 </g:if>
                 <g:link controller="user" action="chooseSubscription">Buy Subscription</g:link>
+                <g:link controller="itemPrice" action="createList">Log Receipts</g:link>
             </li>
             <li><g:link class="logoutLink" controller="login" action="logout">Logout</g:link></li>
         </ul>
@@ -30,6 +31,6 @@
 
     <li> <a href="#"><span>Hi! Guest</span></a>
         <ul>
-            <li><g:link uri="/">Login</g:link></li>
+            <li><g:link uri="/login/homePage">Login</g:link></li>
         </ul>
 </g:else>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet author="Brent Fisher (generated)" id="1333633601375-1">
+        <createTable tableName="address">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address_lines" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="city" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="region_or_state" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zip_or_post_code" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601375-2">
+        <createTable tableName="grocer">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601375-3">
+        <createTable tableName="organization">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="organization_name_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601375-4">
+        <createTable tableName="organization_name">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="the_use" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601375-5">
+        <createTable tableName="organization_organization_name">
+            <column name="organization_other_organization_names_id" type="BIGINT"/>
+            <column name="organization_name_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601375-6">
+        <createTable tableName="party_address">
+            <column name="party_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="from_date" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="thru_date" type="DATETIME"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601375-7">
+        <addColumn tableName="item_price">
+            <column name="grocer_id" type="BIGINT"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601375-12">
+        <addColumn tableName="party">
+            <column name="organization_name_id" type="BIGINT"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601375-14">
+        <addPrimaryKey columnNames="party_id, address_id" tableName="party_address"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601375-15">
+        <addForeignKeyConstraint baseColumnNames="grocer_id" baseTableName="item_price"
+                                 constraintName="FK8B7BB51D9B9B418E"
+                                 deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="grocer"
+                                 referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601375-16">
+        <addForeignKeyConstraint baseColumnNames="recorded_by_id" baseTableName="item_price"
+                                 constraintName="FK8B7BB51D83AA12C6"
+                                 deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="party"
+                                 referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601375-17">
+        <addForeignKeyConstraint baseColumnNames="organization_name_id" baseTableName="organization"
+                                 constraintName="FK4644ED33490B90F5"
+                                 deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="organization_name"
+                                 referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601375-18">
+        <addForeignKeyConstraint baseColumnNames="organization_name_id" baseTableName="organization_organization_name"
+                                 constraintName="FK32149E0B490B90F5"
+                                 deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="organization_name"
+                                 referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601375-19">
+        <addForeignKeyConstraint baseColumnNames="organization_other_organization_names_id"
+                                 baseTableName="organization_organization_name" 
+                                 constraintName="FK32149E0B18D44B8A" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="organization" 
+                                 referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601375-20">
+        <addForeignKeyConstraint baseColumnNames="organization_name_id" baseTableName="party"
+                                 constraintName="FK6581AE6490B90F5"
+                                 deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="organization_name"
+                                 referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601375-21">
+        <addForeignKeyConstraint baseColumnNames="address_id" baseTableName="party_address"
+                                 constraintName="FK9F41179B4F606066"
+                                 deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="address"
+                                 referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601375-22">
+        <addForeignKeyConstraint baseColumnNames="party_id" baseTableName="party_address"
+                                 constraintName="FK9F41179B924C7E26"
+                                 deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="party"
+                                 referencesUniqueColumn="false"/>
+    </changeSet>
+</databaseChangeLog>

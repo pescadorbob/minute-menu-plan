@@ -3302,4 +3302,37 @@
            onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="quantity"
            />
     </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1329353866101-1">
+        <addColumn tableName="landing_page">
+            <column name="controller_name" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="landing_page">
+            <column name="action_name" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="landing_page">
+            <column name="description" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1329353866101-2">
+        <dropNotNullConstraint columnDataType="VARCHAR(255)" tableName="landing_page" columnName="redirecturi"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1329353866102-1">
+        <addColumn tableName="item_price">
+            <column name="recorded_by_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1329353866102-2">
+        <sql>update item_price set recorded_by_id = (select id from party
+            where name = "Brent Fisher")
+        </sql>
+    </changeSet>
+    <include file="grocer.xml"/>
 </databaseChangeLog>

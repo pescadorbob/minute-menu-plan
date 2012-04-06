@@ -20,6 +20,8 @@ import static com.mp.MenuConstants.MMP_OPERATIONAL_ACCOUNT
 import com.mp.domain.*
 import com.mp.domain.accounting.*
 import com.mp.tools.UserTools
+import com.mp.domain.party.OrganizationName
+import com.mp.domain.party.Grocer
 
 class BootStrap {
 
@@ -96,6 +98,16 @@ class BootStrap {
         Fraction.metaClass.myFormatUsingFractionFormat = {->
             new FractionFormat().format(delegate)
         }
+        OrganizationName.metaClass.toString = {->
+            "${delegate.name}:'${delegate.description}'"
+        }
+
+        OrganizationName.metaClass.encodeAsHtml = {->
+            "${delegate.name}:'${delegate.description}'"
+        }
+
+        Grocer.metaClass.encodeAsHtml = {-> "${delegate.organizationName.encodeAsHtml()}"  }
+        Grocer.metaClass.toString = {-> "${delegate.organizationName.encodeAsHtml()}"  }
 
         bootstrapMasterData()
 

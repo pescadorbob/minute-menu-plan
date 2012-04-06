@@ -305,3 +305,6 @@ div.menu-item-row {
     
 }
 .recipe-name { font-weight:700;font-size:12px;text-decoration:none;color:#2aa4af; }
+.prop {
+    padding: 5px;
+}
