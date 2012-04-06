@@ -11,6 +11,7 @@
                 <g:link class="securityRoleLinkFT"  controller="securityRole" action="list">Security Role</g:link>
                 <g:if test="${(permission.hasPermission(permission: Permission.MANAGE_HOME_PAGE))}">
                     <g:link class="homePageLinkFT" name="manageHomePage" controller="homePage" action="list">Homepage</g:link>
+                    <g:link class="landingPageLinkFT" name="manageLandingPage" controller="landingPage" action="list">Landing Page</g:link>
                 </g:if>
                 <g:if test="${(permission.hasPermission(permission: Permission.MANAGE_TESTIMONIAL))}">
                     <g:link class="testimonialLinkFT" name="manageTestimonials" controller="testimonial" action="list">Testimonials</g:link>

@@ -9,6 +9,7 @@ package com.mp.domain.pricing
 
 enum PriceType {
   AVE('Average'),
+  SINGLE('Single'),
   HIGH('High'),
   LOW('Low')
 

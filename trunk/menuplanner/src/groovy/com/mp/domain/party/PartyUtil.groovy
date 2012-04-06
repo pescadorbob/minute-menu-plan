@@ -17,43 +17,10 @@ import com.mp.domain.CommentAbuse
 import com.mp.domain.RecipeAbuse
 import com.mp.domain.PartyRoleType
 
-public class Party {
-    String name
-    Date joiningDate
-    FacebookAccount facebookAccount
-    Boolean isEnabled
-    Boolean showAlcoholicContent = false
-    String uniqueId = UUID.randomUUID().toString()
-    Date lastLogin
-    OrganizationName organizationName
-
-    Set<PartyRole> roles = []
-    Set<LoginCredential> loginCredentials = []
-    Set<Recipe> contributions = []
-    Set<MenuPlan> menuPlans = []
-    Set<Recipe> favourites = []
-    Set<ShoppingList> shoppingLists = []
-    List<Aisle> aisles = []
-    List<Product> ingredients = []
-
-    static transients = ['canViewItem', 'isEnabledString', 'email', 'password', 'userLogin', 'role', 'administrator', 'superAdmin', 'subscriber', 'director', 'coach']
-
-    static hasMany = [favourites: Recipe, contributions: Recipe, menuPlans: MenuPlan, aisles: Aisle, ingredients: Product,
-            roles: PartyRole, loginCredentials: LoginCredential, shoppingLists: ShoppingList]
-
-    def beforeInsert = {
-        joiningDate = new Date()
-    }
+public class PartyUtil {
 
     Boolean canViewItem(Item item) {
         return (item.shareWithCommunity || (item?.id in contributions*.id) || (item?.id in ingredients*.id))
-    }
-
-    def beforeDelete = {
-    }
-
-    String toString() {
-        return name
     }
 
     String getEmail() {
@@ -71,21 +38,6 @@ public class Party {
         return userLogin
     }
 
-    static mapping = {
-        tablePerHierarchy false
-        menuPlans cascade: "all-delete-orphan"
-        shoppingLists cascade: "all-delete-orphan"
-        loginCredentials cascade: "all-delete-orphan"
-    }
-    static fetchMode = [roles:'eager']
-    static constraints = {
-        lastLogin(nullable: true)
-        facebookAccount(nullable: true)
-        joiningDate(nullable: true, blank: true)
-        uniqueId(nullable: true, blank: true)
-        isEnabled(nullable: true)
-        organizationName(nullable:true)
-    }
 
     String getIsEnabledString() {
         if (isEnabled == null) {

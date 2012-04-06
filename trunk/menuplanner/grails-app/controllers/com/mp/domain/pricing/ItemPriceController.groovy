@@ -1,13 +1,22 @@
 package com.mp.domain.pricing
 
+import com.mp.domain.Unit
+
 class ItemPriceController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
-
+    def priceService
+  
     def index = {
         redirect(action: "list", params: params)
     }
 
+  def createList = {
+    [now: new Date(),metricUnits: Unit.sortedMetricUnits]
+  }
+  def cancel = {
+    redirect(action:"list",params:params)
+  }
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [itemPriceList: ItemPrice.list(params), itemPriceTotal: ItemPrice.count()]
@@ -19,6 +28,17 @@ class ItemPriceController {
         return [itemPrice: itemPrice]
     }
 
+  def calculateRecipePrices = {
+    priceService.calculateRecipePrices()
+    flash.message = "Recipe Prices are being calculated in the background."
+    redirect(action:"list")
+  }
+
+  def saveList = {ReceiptCO receiptCO->
+    def numCreated = priceService.recordReceipt(receiptCO)
+    flash.message = "${message(code: 'num.created.message', args: [message(code: 'itemPrice.label', default: 'Item Price'), numCreated])}"
+    redirect(action:"list")
+  }
     def save = {
         def itemPrice = new ItemPrice(params)
         if (itemPrice.save(flush: true)) {
@@ -97,4 +117,18 @@ class ItemPriceController {
             redirect(action: "list")
         }
     }
+}
+class ReceiptCO {
+
+   Long id
+   Long grocerId
+
+   List <String> itemProductIds = []
+   List <String> itemQuantities = []
+   List <String> itemUnitIds = []
+   List <String> itemPrices = []
+
+   List <String> hiddenItemProductNames = []
+   List <String> hiddenItemUnitNames = []
+   List <String> hiddenItemUnitSymbols = []
 }
