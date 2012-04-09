@@ -143,7 +143,9 @@ environments {
     production {
         grails.plugin.databasemigration.updateOnStart = true
         grails.plugin.databasemigration.updateOnStartFileNames = ['changelog.xml']
-
+      grails.paypal.server = "https://www.paypal.com/cgi-bin/webscr"
+      grails.paypal.email = "bc.fisher@yahoo.com"
+                     
         google.analytics.webPropertyID = 'UA-4197138-5'
         google.analytics.enabled = true
         grails.serverURL = "http://www.minutemenuplan.com"
