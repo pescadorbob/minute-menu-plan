@@ -1,10 +1,10 @@
 
-<%@ page import="com.mp.domain.Category" %>
+<%@ page import="com.mp.domain.SubCategory" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="menu" />
-        <g:set var="entityName" value="${message(code: 'category.label', default: 'Category')}" />
+        <g:set var="entityName" value="${message(code: 'subCategory.label', default: 'SubCategory')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -28,29 +28,23 @@
                     <tbody>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="category.id.label" default="Id" /></td>
+                            <td valign="top" class="name"><g:message code="subCategory.id.label" default="Id" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: category, field: "id")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="category.name.label" default="Name" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: category, field: "name")}</td>
+                            <td valign="top" class="value">${fieldValue(bean: subCategory, field: "id")}</td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="category.subCategories.label" default="Sub Categories" /></td>
+                            <td valign="top" class="name"><g:message code="subCategory.name.label" default="Name" /></td>
                             
-                            <td valign="top" style="text-align: left;" class="value">
-                                <ul>
-                                <g:each in="${category.subCategories}" var="s">
-                                    <li><g:link controller="subCategory" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></li>
-                                </g:each>
-                                </ul>
-                            </td>
+                            <td valign="top" class="value">${fieldValue(bean: subCategory, field: "name")}</td>
+                            
+                        </tr>
+                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="subCategory.category.label" default="Category" /></td>
+                            
+                            <td valign="top" class="value"><g:link controller="category" action="show" id="${subCategory?.category?.id}">${subCategory?.category?.encodeAsHTML()}</g:link></td>
                             
                         </tr>
                     
@@ -59,7 +53,7 @@
             </div>
             <div class="buttons">
                 <g:form>
-                    <g:hiddenField name="id" value="${category?.id}" />
+                    <g:hiddenField name="id" value="${subCategory?.id}" />
                     <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </g:form>

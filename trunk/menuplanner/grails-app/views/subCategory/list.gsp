@@ -1,10 +1,10 @@
 
-<%@ page import="com.mp.domain.Category" %>
+<%@ page import="com.mp.domain.SubCategory" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="menu" />
-        <g:set var="entityName" value="${message(code: 'category.label', default: 'Category')}" />
+        <g:set var="entityName" value="${message(code: 'subCategory.label', default: 'SubCategory')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -25,19 +25,23 @@
                     <thead>
                         <tr>
                         
-                            <g:sortableColumn property="id" title="${message(code: 'category.id.label', default: 'Id')}" />
+                            <g:sortableColumn property="id" title="${message(code: 'subCategory.id.label', default: 'Id')}" />
                         
-                            <g:sortableColumn property="name" title="${message(code: 'category.name.label', default: 'Name')}" />
+                            <g:sortableColumn property="name" title="${message(code: 'subCategory.name.label', default: 'Name')}" />
                         
+                            <th><g:message code="subCategory.category.label" default="Category" /></th>
+                   	    
                         </tr>
                     </thead>
                     <tbody>
-                    <g:each in="${categoryList}" status="i" var="category">
+                    <g:each in="${subCategoryList}" status="i" var="subCategory">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
-                            <td><g:link action="show" id="${category.id}">${fieldValue(bean: category, field: "id")}</g:link></td>
+                            <td><g:link action="show" id="${subCategory.id}">${fieldValue(bean: subCategory, field: "id")}</g:link></td>
                         
-                            <td>${fieldValue(bean: category, field: "name")}</td>
+                            <td>${fieldValue(bean: subCategory, field: "name")}</td>
+                        
+                            <td>${fieldValue(bean: subCategory, field: "category")}</td>
                         
                         </tr>
                     </g:each>
@@ -45,7 +49,7 @@
                 </table>
             </div>
             <div class="paginateButtons">
-                <g:paginate total="${categoryTotal}" />
+                <g:paginate total="${subCategoryTotal}" />
             </div>
           </div></div></div>
         </div>

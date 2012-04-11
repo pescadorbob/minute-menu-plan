@@ -1,10 +1,10 @@
 
-<%@ page import="com.mp.domain.Category" %>
+<%@ page import="com.mp.domain.SubCategory" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="menu" />
-        <g:set var="entityName" value="${message(code: 'category.label', default: 'Category')}" />
+        <g:set var="entityName" value="${message(code: 'subCategory.label', default: 'SubCategory')}" />
         <title><g:message code="default.edit.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -23,40 +23,33 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <g:hasErrors bean="${category}">
+            <g:hasErrors bean="${subCategory}">
             <div class="errors">
-                <g:renderErrors bean="${category}" as="list" />
+                <g:renderErrors bean="${subCategory}" as="list" />
             </div>
             </g:hasErrors>
             <g:form method="post" >
-                <g:hiddenField name="id" value="${category?.id}" />
-                <g:hiddenField name="version" value="${category?.version}" />
+                <g:hiddenField name="id" value="${subCategory?.id}" />
+                <g:hiddenField name="version" value="${subCategory?.version}" />
                 <div class="dialog">
                     <table>
                         <tbody>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="name"><g:message code="category.name.label" default="Name" /></label>
+                                  <label for="name"><g:message code="subCategory.name.label" default="Name" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: category, field: 'name', 'errors')}">
-                                    <g:textField name="name" value="${category?.name}" />
+                                <td valign="top" class="value ${hasErrors(bean: subCategory, field: 'name', 'errors')}">
+                                    <g:textField name="name" value="${subCategory?.name}" />
                                 </td>
                             </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="subCategories"><g:message code="category.subCategories.label" default="Sub Categories" /></label>
+                                  <label for="category"><g:message code="subCategory.category.label" default="Category" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: category, field: 'subCategories', 'errors')}">
-                                    
-<ul>
-<g:each in="${category?.subCategories?}" var="s">
-    <li><g:link controller="subCategory" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></li>
-</g:each>
-</ul>
-<g:link controller="subCategory" action="create" params="['category.id': category?.id]">${message(code: 'default.add.label', args: [message(code: 'subCategory.label', default: 'SubCategory')])}</g:link>
-
+                                <td valign="top" class="value ${hasErrors(bean: subCategory, field: 'category', 'errors')}">
+                                    <g:select name="category.id" from="${com.mp.domain.Category.list()}" optionKey="id" value="${subCategory?.category?.id}"  />
                                 </td>
                             </tr>
                         
