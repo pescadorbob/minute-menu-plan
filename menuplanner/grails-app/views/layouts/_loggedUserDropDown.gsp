@@ -31,6 +31,6 @@
 
     <li> <a href="#"><span>Hi! Guest</span></a>
         <ul>
-            <li><g:link uri="/login/homePage">Login</g:link></li>
+            <li><g:link uri="/">Login</g:link></li>
         </ul>
 </g:else>
