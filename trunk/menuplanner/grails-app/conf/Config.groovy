@@ -145,7 +145,8 @@ environments {
         grails.plugin.databasemigration.updateOnStartFileNames = ['changelog.xml']
       grails.paypal.server = "https://www.paypal.com/cgi-bin/webscr"
       grails.paypal.email = "bc.fisher@yahoo.com"
-                     
+      grails.paypal.returnUrl = "bc.fisher@yahoo.com"
+
         google.analytics.webPropertyID = 'UA-4197138-5'
         google.analytics.enabled = true
         grails.serverURL = "http://www.minutemenuplan.com"
@@ -177,7 +178,9 @@ environments {
         grails.plugin.databasemigration.updateOnStartFileNames = ['changelog.xml']
 
         grails.paypal.server = "https://www.sandbox.paypal.com/cgi-bin/webscr"
-        grails.paypal.email = "dev.mm_1293518198_biz@gmail.com"
+        grails.paypal.email = "qa.men_1291870296_biz@gmail.com"
+        grails.paypal.returnUrl = "http://mmp.no-ip.org:8080/menuplanner/subscription/paymentConfirm"
+        grails.paypal.pdttoken = "NuPSG08guvqaIgOTMz2yjqnI-zAKEIrv82WcyF4o6sd7oFe2mQCVj66lebq"
         google.analytics.enabled = false
         grails.serverURL = "http://localhost:8080/menuplanner"
         facebookConnect {

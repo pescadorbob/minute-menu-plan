@@ -597,7 +597,7 @@ class RecipeCO {
                 return 'recipeCO.name.blank.error.name'
             }
         })
-
+        cost(blank: true, nullable: true)
         difficulty(blank: true, nullable: true)
         description(blank: true, nullable: true)
         makesServing(nullable: true, blank: true)
@@ -658,12 +658,13 @@ class RecipeCO {
         recipe.preparationTime = makeTimeQuantity(preparationTime, preparationUnitId)
         recipe.cookingTime = makeTimeQuantity(cookTime, cookUnitId)
         Price price = recipe.avePrice
-        if(!price){
+        if(!price && cost){
           Quantity quantity = new Quantity(value:1,unit:Unit.findByName('Each'),savedUnit:Unit.findByName('Each')).s()
           price = new Price(price:cost,quantity:quantity).s()
           recipe.avePrice = price
+          price.price = cost
         }
-        price.price = cost
+
         recipe.subCategories = []
         addSubCategoriesToRecipe(recipe, subCategoryIds)
 
@@ -694,7 +695,7 @@ class RecipeCO {
         addNutrientsToRecipe(recipe, nutrientQuantities, nutrientIds)
 
         recipe.s()
-        price.s()
+        if(price)price.s()
         attachImage(recipe, selectRecipeImagePath)
         recipe.isAlcoholic = recipe.isAlcoholic ? true : recipeService.isRecipeAlcoholic(recipe?.id)
         recipe.s()

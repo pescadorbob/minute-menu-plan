@@ -14,7 +14,7 @@
     <input type="hidden" name="cancelAction" value="paymentCancel" id="cancelAction"/>
     <input type="hidden" name="cancelController" value="subscription" id="cancelController"/>
     %{--<input type="hidden" name="notify_url" value="${createLink(controller: 'subscription', action: 'paymentConfirm')}" id="notify_url"/>--}%
-    %{--<input type="hidden" name="return" value="http://qa.menuplanner.intelligrape.net/subscription/paymentConfirm?buyerId=${userId}&item_number=${item_number}" id="return"/>--}%
+    %{--<input type="hidden" name="return" value="${ConfigurationHolder.config.grails.paypal.returnURL}?buyerId=${userId}&item_number=${item_number}" id="return"/>--}%
     <input type="hidden" name="business" value="${ConfigurationHolder.config.grails.paypal.email}">
     <input type="hidden" name="lc" value="US">
     <input type="hidden" name="custom" value="${userId}">

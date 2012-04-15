@@ -4,6 +4,8 @@ class ShoppingIngredient {
 
     String name
     Aisle aisle
+    Item ingredient
+    Quantity quantity
 
     String toString() {
         return name
@@ -11,6 +13,7 @@ class ShoppingIngredient {
 
     static constraints = {
         aisle(nullable: true, blank: true)
+        ingredient(nullable: true)
     }
 
 }

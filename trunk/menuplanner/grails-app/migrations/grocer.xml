@@ -148,4 +148,34 @@
                                  referencedColumnNames="id" referencedTableName="party"
                                  referencesUniqueColumn="false"/>
     </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601376-1">
+        <addColumn tableName="shopping_ingredient">
+            <column name="ingredient_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601376-2">
+        <addForeignKeyConstraint baseColumnNames="ingredient_id" baseTableName="shopping_ingredient"
+                                 constraintName="FK9F41179B924C7E27"
+                                 deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="Item"
+                                 referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601376-3">
+        <addColumn tableName="shopping_ingredient">
+            <column name="quantity_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601376-4">
+        <addForeignKeyConstraint baseColumnNames="quantity_id" baseTableName="shopping_ingredient"
+                                 constraintName="FK9F41179B924C7E28"
+                                 deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="Item"
+                                 referencesUniqueColumn="false"/>
+    </changeSet>
 </databaseChangeLog>
