@@ -71,6 +71,37 @@ class UtilService {
     subscriptionService.createSubscriptionForUserSignUp(party, ProductOffering.findByName(COMMUNITY_SUBSCRIPTION).id, communitySubscriptionClosure)
   }
 
+  void allocatePaypalSubscription(party) {
+    party.isEnabled = true
+    party.s()
+    accountingService.findOrCreateNewAccount(party)
+    def communitySubscriptionClosure = { productOffering, subscriber, start, endDate ->
+      def contributionRequirements = ContributionRequirement.withCriteria {
+          pricingFor {
+            idEq(productOffering.id)
+          }
+      }
+      def subscription = CommunitySubscription.findBySubscriptionFor(subscriber)
+      if(!subscription){
+          subscription = new CommunitySubscription(status:SubscriptionStatus.PENDING,
+                  contribution: null,
+                  subscribedProductOffering: productOffering,
+              subscriptionFor: subscriber,
+              originalProductOffering: productOffering?.name, activeFrom: start, activeTo: endDate,
+          )
+        def subscriptionRequirements = contributionRequirements.collect { contributionRequirement ->
+           new SubscriptionContributionRequirement(created:new Date(),requiredFor:subscription,
+                      requires:contributionRequirement)
+        }
+        subscriptionRequirements.each{
+          subscription.addToRequirements(it)
+        }
+      }
+      subscription
+    }
+    subscriptionService.createSubscriptionForUserSignUp(party, ProductOffering.findByName(COMMUNITY_SUBSCRIPTION).id, communitySubscriptionClosure)
+  }
+
   List<IngredientItemVO> parseIngredients(String rawIngredients) {
     List list = rawIngredients.readLines()
     List<IngredientItemVO> ingredientItemVos = []

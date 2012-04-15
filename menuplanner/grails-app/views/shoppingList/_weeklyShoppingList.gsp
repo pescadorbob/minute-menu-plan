@@ -12,8 +12,16 @@
             <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${(aisle ? aisle : 'Others')}</strong>
             <span id="products_${weeklyShoppingList.weekIndex}" class="grocery">
                 <table id="ProductTable_${weeklyShoppingList.weekIndex}" style="width:100%">
+                  <tr><th></th><th>
+                    <div class="list-header" style="width:146px;">Description</div>
+                    <div class="list-header" style="width:58px;">Quantity</div>
+                    <div class="list-header" style="width:108px;">Unit</div>
+                    <div class="list-header" style="width:194px;">Ingredient</div>
+                    <div class="list-header" style="width:50px;">Price</div>
+                  </th>   </tr>
                     <g:each in="${weeklyShoppingList.getProductsByAisle(aisle)}" var="product" status="i">
-                        <g:render template="/shoppingList/productsWithParams" model="[product:product, weekIndex:weeklyShoppingList.weekIndex, aisle: aisle]"/>
+                        <g:render template="/shoppingList/productsWithParams"
+                                model="[product:product, weekIndex:weeklyShoppingList.weekIndex, aisle: aisle]"/>
                     </g:each>
                 </table>
             </span>
@@ -35,15 +43,15 @@
         </g:each>
     </div>
     <g:set var="weekIndex" value="${weeklyShoppingList.weekIndex}"/>
-    <div class="winter-week">
-        <div class="addProductItem">
-            <ul>
-                <li><h3>Add items to Shopping List</h3></li>
-                <li><g:select name="aisleList_${weekIndex}" from="${Aisle.getAislesForCurrentUser()}" optionKey="id" optionValue="${it?.name}" noSelection="['':'-Select Aisle-']"/></li>
-                <li><input name="addItemTxt_${weekIndex}" class="inpbox" id="addItemTxt_${weekIndex}" title="${g.message(code: 'toolTip.recipe.unit')}"></li>
-                <li><input type="button" name="addItemBtn_${weekIndex}" id="addItemBtn_${weekIndex}" value="Add Item"/></li>
-            </ul></div>
-    </div>
+    %{--<div class="winter-week">--}%
+        %{--<div class="addProductItem">--}%
+            %{--<ul>--}%
+                %{--<li><h3>Add items to Shopping List</h3></li>--}%
+                %{--<li><g:select name="aisleList_${weekIndex}" from="${Aisle.getAislesForCurrentUser()}" optionKey="id" optionValue="${it?.name}" noSelection="['':'-Select Aisle-']"/></li>--}%
+                %{--<li><input name="addItemTxt_${weekIndex}" class="inpbox" id="addItemTxt_${weekIndex}" title="${g.message(code: 'toolTip.recipe.unit')}"></li>--}%
+                %{--<li><input type="button" name="addItemBtn_${weekIndex}" id="addItemBtn_${weekIndex}" value="Add Item"/></li>--}%
+            %{--</ul></div>--}%
+    %{--</div>--}%
 </div>
 <script type="text/javascript">
     var htmlString = jQuery('#groceryTemplateRow>tbody').html()

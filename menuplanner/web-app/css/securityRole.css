@@ -52,3 +52,7 @@
 .btnCross{width:18px; height:18px; cursor:pointer;}
 .linkEdit{font-weight:bolder;cursor:pointer; color:black;}
 .alternate{ background:#fafaf6;clear:both;}
+.list-header {
+    font:bolder;
+    float:left;
+}

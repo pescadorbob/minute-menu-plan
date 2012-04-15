@@ -101,7 +101,8 @@ class ShoppingListService {
                 day?.meals?.each {Meal meal ->
                     meal?.items?.each {Item item ->
                         if (item?.instanceOf(Recipe.class)) {
-                            weeklyRecipeIngredients += getRecipeIngredientsList(item, shoppingList, isScaled)
+                            def list = getRecipeIngredientsList(item, shoppingList, isScaled)
+                            weeklyRecipeIngredients += list
                         }
                     }
                 }
@@ -117,31 +118,6 @@ class ShoppingListService {
         if (recipe?.instanceOf(Recipe.class)) {
             recipe.ingredients.each {RecipeIngredient recipeIngredient ->
 
-//                if (recipeIngredient.ingredient?.instanceOf(Recipe.class)) {
-//                    List<RecipeIngredient> subRecipeIngredients = getRecipeIngredientsList(recipeIngredient.ingredient as Recipe, shoppingList)
-//                    subRecipeIngredients.each {RecipeIngredient subRecipeIngredient ->
-//                        if (subRecipeIngredient.quantity && recipeIngredient.quantity) {
-//                            RecipeIngredient newSubRecipeIngredient = new RecipeIngredient()
-//                            newSubRecipeIngredient.with {
-//                                ingredient = subRecipeIngredient.ingredient
-//                                quantity = Quantity.multiply(subRecipeIngredient.quantity, recipeIngredient.quantity)
-//                                aisle = subRecipeIngredient.aisle
-//                                preparationMethod = subRecipeIngredient.preparationMethod
-//                            }
-//                            if (newSubRecipeIngredient.quantity) {ingredients.add(newSubRecipeIngredient)}
-//                        } else {
-//                            if (subRecipeIngredient.quantity) {
-//                                RecipeIngredient recipeIngredientNew = cloneRecipeIngredient(subRecipeIngredient)
-//                                recipeIngredientNew.quantity.value = ((recipeIngredient.quantity.value * shoppingList.servings) / recipeIngredient.recipe.servings).toFloat()
-//                                ingredients.add(recipeIngredientNew)
-//                            }
-//                        }
-//                    }
-
-//                    RecipeIngredient recipeIngredientNew = cloneRecipeIngredient(recipeIngredient)
-//                    recipeIngredientNew.quantity.value = ((recipeIngredient.quantity.value * shoppingList.servings) / recipeIngredient.recipe.servings).toFloat()
-//                    ingredients.add(recipeIngredientNew)
-//                } else {
                 if (recipeIngredient.quantity) {
                     RecipeIngredient recipeIngredientNew = cloneRecipeIngredient(recipeIngredient)
                     if (isScaled) {
@@ -194,7 +170,9 @@ class ShoppingListService {
                     ingredientsAggregatedWithSimilarUnits.add(totalQuantity)
                 }
                 ingredientsAggregatedWithSimilarUnits?.each {Quantity quantity ->
-                    ShoppingIngredient shoppingIngredient = new ShoppingIngredient(name: "${(quantity) ? quantity.toBiggestUnitString(differentIngredient.density) + ' ' : ''}" + differentIngredient.name, aisle: (aisle?.id) ? aisle : null)
+                    ShoppingIngredient shoppingIngredient = new ShoppingIngredient(quantity:quantity,ingredient:differentIngredient,
+                            name: "${(quantity) ? quantity.toBiggestUnitString(differentIngredient.density) + ' ' : ''}" +
+                            differentIngredient.name, aisle: (aisle?.id) ? aisle : null)
                     productListForWeek.add(shoppingIngredient)
                 }
             }
