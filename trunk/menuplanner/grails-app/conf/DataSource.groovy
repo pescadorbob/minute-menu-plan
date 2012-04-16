@@ -42,7 +42,7 @@ environments {
 		dataSource {
 //			dbCreate = "update" // one of 'create', 'create-drop','update'
 			loggingSql = true
-			url = "jdbc:mysql://localhost:3306/mmp-prod-copy4?autoReconnect=true"
+			url = "jdbc:mysql://localhost:3306/mmp-prod-copy-1?autoReconnect=true"
 		}
 	}
 	developmentOrig {
