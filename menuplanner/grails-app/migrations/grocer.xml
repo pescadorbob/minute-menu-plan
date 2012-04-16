@@ -160,7 +160,7 @@
                                  constraintName="FK9F41179B924C7E27"
                                  deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
                                  onUpdate="NO ACTION"
-                                 referencedColumnNames="id" referencedTableName="Item"
+                                 referencedColumnNames="id" referencedTableName="item"
                                  referencesUniqueColumn="false"/>
     </changeSet>
     <changeSet author="Brent Fisher (generated)" id="1333633601376-3">
@@ -175,7 +175,7 @@
                                  constraintName="FK9F41179B924C7E28"
                                  deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
                                  onUpdate="NO ACTION"
-                                 referencedColumnNames="id" referencedTableName="Item"
+                                 referencedColumnNames="id" referencedTableName="item"
                                  referencesUniqueColumn="false"/>
     </changeSet>
 </databaseChangeLog>
