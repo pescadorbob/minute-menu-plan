@@ -12,8 +12,7 @@ class RecipeIngredient {
     Aisle aisle
     PreparationMethod preparationMethod
     NutritionLink foodMapping
-
-    static belongsTo = [recipe: Recipe]
+    Recipe recipe
 
     String toString() {
         return ("${quantity ? quantity : ''} ${StringUtils.capitaliseAllWords(ingredient.toString())}${preparationMethod ? ' ('+preparationMethod+')' : ''}")
@@ -24,6 +23,7 @@ class RecipeIngredient {
         preparationMethod(nullable: true, blank: true)
         aisle(nullable: true, blank: true)
         foodMapping(nullable: true)
+        recipe(nullable: true)
     }
 
     static mapping = {

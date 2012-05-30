@@ -14,10 +14,8 @@ class Item {
     Price avePrice
     Price bestPrice
     Price worstPrice
-    String shoppingListUnits
-    String mainShoppingListUnit
-  
-    static hasMany = [links:ItemNutritionLink,recipeIngredients:RecipeIngredient]
+
+    static hasMany = [preferredGroceryUnits:ShoppingListUnitGroup,links:ItemNutritionLink,recipeIngredients:RecipeIngredient]
 
     String toString() {
         return name

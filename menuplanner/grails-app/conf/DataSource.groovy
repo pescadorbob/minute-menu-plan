@@ -42,7 +42,7 @@ environments {
 		dataSource {
 //			dbCreate = "update" // one of 'create', 'create-drop','update'
 			loggingSql = true
-			url = "jdbc:mysql://localhost:3306/mmp-prod-copy-1?autoReconnect=true"
+			url = "jdbc:mysql://localhost:3306/mmp7?autoReconnect=true"
 		}
 	}
 	developmentOrig {
@@ -56,7 +56,7 @@ environments {
 		dataSource {
 //			dbCreate = "create"
 			loggingSql = true
-			url = "jdbc:mysql://localhost:3306/menuplanner_test?autoReconnect=true"
+			url = "jdbc:mysql://localhost:3306/mmp6?autoReconnect=true"
 		}
 	}
 	qa {

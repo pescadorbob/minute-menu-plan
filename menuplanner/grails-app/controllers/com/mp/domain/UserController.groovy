@@ -671,7 +671,7 @@ class UserCO {
             obj.properties['password'] == val
         })
         name(nullable: false, blank: false, matches: /[a-zA-Z0-9\s\&]*/)
-        mouthsToFeed(nullable: true, blank: true, matches: /[0-9]*/)
+        mouthsToFeed(nullable: true)
         introduction(nullable: true, blank: true)
         city(nullable: true, blank: true)
         isEnabled(nullable: true)

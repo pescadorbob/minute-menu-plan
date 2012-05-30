@@ -24,7 +24,7 @@ class QuantityTests extends GrailsUnitTestCase {
     Unit unit = new Unit( name:'unitname',symbol:'S',definition:'def', metricType:MetricType.UNIT)
     Quantity quant1 = new Quantity(value:10.0,unit:unit,savedUnit:savedUnit)
     Quantity quant2
-      def stanCon = mockFor(StandardConversion,true)
+      def stanCon = mockFor(StandardConversionService,true)
           String str= "1 1 / 2"
           stanCon.demand.static.getQuantityValueString(1..2) { Quantity quantity,Float c -> return str }
           stanCon.demand.static.getQuantityToSave(1..2) {String a, Unit b,Float c -> return new Quantity(value:15.0,unit:unit,savedUnit:savedUnit) }
@@ -55,7 +55,7 @@ class QuantityTests extends GrailsUnitTestCase {
     Quantity quant1 = new Quantity(value:10.0,unit:unit,savedUnit:savedUnit)
     Quantity quant2 = new Quantity(value:20.0,unit:unit,savedUnit:savedUnit)
 
-    def stanCon = mockFor(StandardConversion,true)
+    def stanCon = mockFor(StandardConversionService,true)
     String str= "1 1 / 2"
     stanCon.demand.static.getQuantityValueString(1..2) { Quantity quantity,Float c -> return str }
     stanCon.demand.static.getQuantityToSave(1..2) {String a, Unit b,Float c -> return new Quantity(value:15.0,unit:unit,savedUnit:savedUnit) }
@@ -80,7 +80,7 @@ class QuantityTests extends GrailsUnitTestCase {
     Quantity quant2 = new Quantity(value:null,unit:null,savedUnit:savedUnit)
 
 
-    def stanCon = mockFor(StandardConversion,true)
+    def stanCon = mockFor(StandardConversionService,true)
     String str= "1 1 / 2"
     stanCon.demand.static.getQuantityValueString(1..2) { Quantity quantity -> return null }
     stanCon.demand.static.getQuantityToSave(1..2) {String a, Unit b -> return null }

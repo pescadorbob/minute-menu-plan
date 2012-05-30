@@ -12,7 +12,7 @@ class Quantity {
   String getSmall() {
     String amount
     String result
-    amount = StandardConversion.getQuantityValueString(this)
+    amount = StandardConversionService.getQuantityValueString(this)
     result = "${amount ? amount : ''}${unit ? (unit?.small) : ''}"
     return result.trim()
 
@@ -21,7 +21,7 @@ class Quantity {
   String toString() {
     String amount
     String result
-    amount = StandardConversion.getQuantityValueString(this)
+    amount = StandardConversionService.getQuantityValueString(this)
     result = "${amount ? amount : ''}${unit ? (' ' + unit?.symbol) : ''}"
     return result.trim()
   }
@@ -29,9 +29,9 @@ class Quantity {
   static transients = ['small','toReadableTimeString','addTime','add','toBiggestUnitString','getSmall']
 
   static constraints = {
-    value(nullable: true, blank: true)
-    unit(nullable: true, blank: true)
-    savedUnit(nullable: true, blank: true)
+    value(nullable: true)
+    unit(nullable: true)
+    savedUnit(nullable: true)
   }
 
   static mapping = {
@@ -63,15 +63,15 @@ class Quantity {
   public static Quantity add(Quantity quantity1, Quantity quantity2, List<StandardConversion> standardConversions = []) {
     if (!quantity1) { return quantity2 }
     if (!quantity2) { return quantity1 }
-    String usVal1 = (quantity1.value) ? (StandardConversion.getQuantityValueString(quantity1, 1.0f, standardConversions)) : ''
+    String usVal1 = (quantity1.value) ? (StandardConversionService.getQuantityValueString(quantity1, 1.0f, standardConversions)) : ''
     Unit displayUnit1 = quantity1.unit
-    String usVal2 = (quantity2.value) ? (StandardConversion.getQuantityValueString(quantity2, 1.0f, standardConversions)) : ''
+    String usVal2 = (quantity2.value) ? (StandardConversionService.getQuantityValueString(quantity2, 1.0f, standardConversions)) : ''
     Unit displayUnit2 = quantity2.unit
     Quantity resultantQuantity
     usVal1 = usVal1 ? usVal1.replaceAll(',', '') : ''
     usVal2 = usVal2 ? usVal2.replaceAll(',', '') : ''
-    Quantity q1 = StandardConversion.getQuantityToSave(usVal1, displayUnit1, 1.0f, standardConversions)
-    Quantity q2 = StandardConversion.getQuantityToSave(usVal2, displayUnit2, 1.0f, standardConversions)
+    Quantity q1 = StandardConversionService.getQuantityToSave(usVal1, displayUnit1, 1.0f, standardConversions)
+    Quantity q2 = StandardConversionService.getQuantityToSave(usVal2, displayUnit2, 1.0f, standardConversions)
     if (q1 != null && (q1?.savedUnit == q2?.savedUnit)) {
       resultantQuantity = new Quantity()
       Unit displayUnit = q1?.unit

@@ -186,5 +186,15 @@ class MenuConstants {
   // 3 weeks = 3weeks*7days/week*24hours/day*60min/hour*60sec/hour*1000ms/sec
   static Integer SESSION_TIMEOUT = 3*7*24*60*60*1000
   static final String CONTRIBUTION = "Contribution"
-
+  public static final String ENGLISH_WET = 'ew'
+  public static final String ENGLISH_DRY = 'ed'
+  public static final String METRIC_WET = 'mw'
+  public static final String METRIC_DRY = 'md'
+  public static final String DOZENAL = 'dz'
+  public static final Map unitGroups = ['ew':'Fluid Ounce,Pint,Quart,Gallon',
+     'ed':'Ounce,Pound',
+     'mw':'Milliliter,Liter',
+     'md':'Milligram,Gram,Kilogram',
+     'dz':'Each|Small|Medium|Large,Dozen']
+   
 }

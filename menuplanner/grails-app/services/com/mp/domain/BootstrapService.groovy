@@ -13,7 +13,8 @@ class BootstrapService {
     boolean transactional = true
     def excelService
     def shoppingListService
-    
+    def standardConversionService
+
 
 
     public void addAbusesOnCommentsAndRecipes() {
@@ -168,7 +169,7 @@ class BootstrapService {
             RecipeIngredient ingredient = new RecipeIngredient()
             ingredient.recipe = recipe
             ingredient.ingredient = MeasurableProduct.get(new Random().nextInt(MeasurableProduct.count()) + 1)
-            Quantity quantity = StandardConversion.getQuantityToSave((new Random().nextInt(5) + 1).toString(), Unit.findByName(UNIT_FIFTH), recipe.density)
+            Quantity quantity = StandardConversionService.getQuantityToSave((new Random().nextInt(5) + 1).toString(), Unit.findByName(UNIT_FIFTH), recipe.density)
             quantity?.s()
 
             ingredient.quantity = quantity
