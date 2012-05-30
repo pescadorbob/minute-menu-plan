@@ -33,7 +33,7 @@ class UnitService {
     assert mL
     StandardConversion targetConversion = StandardConversion.findBySourceUnitAndTargetUnit(target,mL)
     def total = source.value / targetConversion.conversionFactor
-    def x = StandardConversion.getQuantityToSave("${total}",target)
+    def x = StandardConversionService.getQuantityToSave("${total}",target)
     println("${source} = ${x}")
     x
   }

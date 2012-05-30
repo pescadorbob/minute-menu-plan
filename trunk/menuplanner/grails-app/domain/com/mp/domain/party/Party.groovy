@@ -81,7 +81,7 @@ public class Party {
     static constraints = {
         lastLogin(nullable: true)
         facebookAccount(nullable: true)
-        joiningDate(nullable: true, blank: true)
+        joiningDate(nullable: true)
         uniqueId(nullable: true, blank: true)
         isEnabled(nullable: true)
         organizationName(nullable:true)

@@ -1,7 +1,21 @@
+<!-- in:
+hiddenItemProductNames:product?.ingredient?.name,
+  ingredientQuantity:StandardConversionService.getQuantityValueString(product?.quantity),
+  hiddenItemUnitNames:product?.quantity?.unit,
+  ingredientUnitId:product?.quantity?.unit?.id,
+  hiddenItemUnitSymbol:product?.quantity?.unit?.symbol,
+  product:product 
+-->
 <li style="width:672px;display:${display ?: ''}">
     <span class="toolBoxes addIngredientBox" style="width:400px;">
         <span class="ingredent">
             <div style="float:left;">
+              %{--<g:render controller="recipe" template="nutrientLink"--}%
+                      %{--model="[ingredientFoodMapId:product.links[0]?.id,--}%
+                      %{--hiddenIngredientFoodMapName:product.links[0]?.nutrition?.weightFor?.shrtDesc]"/>--}%
+              <!-- predicted price -->
+              <g:textField class="inpboxSmall showToolTip iPredictedPrice" name="itemQuantities"
+                  value="${ingredientPredictedPrice}" title="${g.message(code:'toolTip.prices.predicted')}" style="width:40px;"/>
               <!-- quantity -->
               <g:textField class="inpboxSmall showToolTip iAmount" name="itemQuantities"
                   value="${ingredientQuantity}" title="${g.message(code:'toolTip.prices.quantity')}" style="width:40px;"/>
@@ -17,7 +31,7 @@
                       title="${g.message(code: 'toolTip.prices.ingredient')}" style="width:180px;"/>
               <input type="hidden" value="${hiddenItemProductNames}" name="itemProductIds"/>
               <!-- price -->
-              <g:textField class="inpboxSmall showToolTip iAmount" name="itemPrices"
+              <g:textField class="inpboxSmall showToolTip iPrice" name="itemPrices"
                     value="" title="${g.message(code: 'toolTip.prices.price')}" style="width:50px;"/>
             </div>
         </span>

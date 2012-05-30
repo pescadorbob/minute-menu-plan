@@ -14,6 +14,7 @@
                 <table id="ProductTable_${weeklyShoppingList.weekIndex}" style="width:100%">
                   <tr><th></th><th>
                     <div class="list-header" style="width:146px;">Description</div>
+                    <div class="list-header" style="width:58px;">Predicted Price</div>
                     <div class="list-header" style="width:58px;">Quantity</div>
                     <div class="list-header" style="width:108px;">Unit</div>
                     <div class="list-header" style="width:194px;">Ingredient</div>

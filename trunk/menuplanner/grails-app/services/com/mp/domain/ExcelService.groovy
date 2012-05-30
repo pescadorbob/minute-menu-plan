@@ -10,6 +10,7 @@ class ExcelService {
 
     boolean transactional = true
     static config = ConfigurationHolder.config
+    def standardConversionService
 
     public List<String> createLineItems(File file) {
         println "Creating line items.."
@@ -87,7 +88,7 @@ class ExcelService {
             else if (recipe[2].getAt(2).toLowerCase() == 'hrs.') {
                 unit = Unit.findByName(TIME_UNIT_HOURS)
             }
-            prep = StandardConversion.getQuantityToSave(recipe[2].getAt(1), unit)
+            prep = StandardConversionService.getQuantityToSave(recipe[2].getAt(1), unit)
             prep?.s()
             recipeInstance.preparationTime = prep
         }
@@ -102,7 +103,7 @@ class ExcelService {
             else if (recipe[3].getAt(2).toLowerCase() == 'hrs.') {
                 unit = Unit.findByName(TIME_UNIT_HOURS)
             }
-            cook = StandardConversion.getQuantityToSave(recipe[3].getAt(1), unit)
+            cook = StandardConversionService.getQuantityToSave(recipe[3].getAt(1), unit)
             cook?.s()
             recipeInstance.cookingTime = cook
         }
@@ -198,9 +199,9 @@ class ExcelService {
                 if (!unit) {
                     println "Unknown unit: " + ingredientRow.getAt(2)
                 }
-                quantity = StandardConversion.getQuantityToSave(ingredientRow.getAt(1), unit, item.density)
+                quantity = StandardConversionService.getQuantityToSave(ingredientRow.getAt(1), unit, item.density)
             } else if (ingredientRow.getAt(1)) {  // only Amount is specified:
-                quantity = StandardConversion.getQuantityToSave(ingredientRow.getAt(1), null, item.density)
+                quantity = StandardConversionService.getQuantityToSave(ingredientRow.getAt(1), null, item.density)
             }
             quantity?.s()
             recipeIngredient.quantity = quantity

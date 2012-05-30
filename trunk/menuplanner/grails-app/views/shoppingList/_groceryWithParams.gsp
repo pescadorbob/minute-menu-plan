@@ -17,6 +17,7 @@
         </g:else>
     </div>
         <g:render template="/shoppingList/itemPrice" model="[hiddenItemProductNames:grocery?.ingredient?.name,
+        ingredientPredictedPrice:grocery?.predictedPrice,
         ingredientQuantity:grocery?.quantity?.value,
         hiddenItemUnitNames:grocery?.quantity?.unit,
         ingredientUnitId:grocery?.quantity?.unit?.id,

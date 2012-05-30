@@ -1,6 +1,10 @@
 package com.mp.domain
 
 import com.mp.tools.UserTools
+import com.mp.domain.pricing.Price
+import com.mp.domain.ndb.ItemNutritionLink
+import com.mp.domain.ndb.NDBWeight
+import com.mp.tools.UnitUtil
 
 class ShoppingListService {
 
@@ -170,15 +174,39 @@ class ShoppingListService {
                     ingredientsAggregatedWithSimilarUnits.add(totalQuantity)
                 }
                 ingredientsAggregatedWithSimilarUnits?.each {Quantity quantity ->
-                    ShoppingIngredient shoppingIngredient = new ShoppingIngredient(quantity:quantity,ingredient:differentIngredient,
-                            name: "${(quantity) ? quantity.toBiggestUnitString(differentIngredient.density) + ' ' : ''}" +
-                            differentIngredient.name, aisle: (aisle?.id) ? aisle : null)
+                  // the grocery quantity is known only if the ingredient has been matched to a food item.
+                  Quantity groceryQuantity = calculateGroceryQuantity(quantity,differentIngredient)
+                  groceryQuantity.s()
+                  Price predictedPrice = calculatePredictedPrice(groceryQuantity,differentIngredient)
+                    ShoppingIngredient shoppingIngredient = new ShoppingIngredient(
+                            quantity:groceryQuantity,
+                            ingredient:differentIngredient,
+                            name: "${groceryQuantity} ${differentIngredient.name}",
+                            aisle: (aisle?.id) ? aisle : null,
+                            predictedPrice:predictedPrice)
                     productListForWeek.add(shoppingIngredient)
                 }
             }
         }
         return productListForWeek
     }
+  Quantity calculateGroceryQuantity(Quantity fromQ, Item fromProduct) {
+    Unit toUnit
+    if(fromProduct?.preferredGroceryUnit){
+      toUnit = fromProduct.preferredGroceryUnit
+    } else {
+      toUnit = Unit.findByName('Pound')
+    }
+    Quantity converted = UnitUtil.convert(fromQ, null,
+                       fromProduct,toUnit)
+    converted
+  }
+  Price calculatePredictedPrice(Quantity quantity, Item item) {
+    def p = new Price(price:4,quantity:quantity)
+    p.s()
+    p
+  }
+
 
     RecipeIngredient cloneRecipeIngredient(RecipeIngredient recipeIngredient) {
         RecipeIngredient recipeIngredientNew = new RecipeIngredient()
@@ -256,4 +284,5 @@ class ShoppingListService {
         }
         return products
     }
+
 }

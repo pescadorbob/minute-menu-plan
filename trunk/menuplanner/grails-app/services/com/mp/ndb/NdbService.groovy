@@ -34,6 +34,7 @@ public class NdbService implements ApplicationContextAware {
   def cleanUpGorm() {
 
     try {
+      if(!sessionFactory?.currentSession)return
       def session = sessionFactory.currentSession
       session.flush()
       session.clear()
@@ -66,7 +67,7 @@ public class NdbService implements ApplicationContextAware {
   /**
    *  imports food file, returns number of food data items imported.
    */
-  def importFoodData(foodFile, version, importedDate, frum) {
+  def importFoodData(foodFile, version, importedDate, frum,int max=-1) {
     NDBFileInfo fileInfo = new NDBFileInfo(fileVersion: version, importedDate: importedDate, frum: frum)
     fileInfo.save()
     def foodColumnMapping = NDBFoodFileColumnMapping.foodColumnMapping()
@@ -74,6 +75,10 @@ public class NdbService implements ApplicationContextAware {
     def foods = []
     def total = 0
     foodFile.eachLine {line, index ->
+      if (max>0 && index>max){
+        cleanUpGorm()
+        return total;
+      }
       def columns = line.split("\\^")
       NDBFood food = new NDBFood(fileVersion:version)
       food.fileInfo = fileInfo
@@ -112,13 +117,17 @@ public class NdbService implements ApplicationContextAware {
 
   }
 
-  def importWeight(weightFile, version, importedDate, frum) {
+  def importWeight(weightFile, version, importedDate, frum,int max=-1) {
     NDBFileInfo fileInfo = NDBFileInfo.findByFileVersion(version)
     assert fileInfo
     def weightColumnMapping = NDBFoodFileColumnMapping.weightColumnMapping()
     long startTime = System.currentTimeMillis()
     def total = 0
     weightFile.eachLine {line, index ->
+      if (max>0 && index>max){
+        cleanUpGorm()
+        return total;
+      }
       def columns = line.split("\\^")
       NDBWeight weight = new NDBWeight()
       columns.eachWithIndex {col, colIndex ->
@@ -135,7 +144,7 @@ public class NdbService implements ApplicationContextAware {
           weight."${weightColumnMapping[colIndex.toString()]}" = new Float(col)
         }
       }
-      while(weight.id == null){
+      for(int i=0;i<10 && weight.id == null;i++){
         try {
           weight.save()
         } catch (Exception e){
@@ -143,6 +152,7 @@ public class NdbService implements ApplicationContextAware {
           sleep 1
         }
       }
+      if(!weight.id) throw Exception("Unable to save weight: ${weight}")
       if (index % 1000 == 0) {
         cleanUpGorm()
         System.println("inserted last ${index} weights ${weight?.weightFor?.ndbNo}:${weight?.weightFor?.shrtDesc} weighs ${weight?.gmWgt} grams for ${weight?.amount} ${weight?.msreDesc} in ${System.currentTimeMillis() - startTime} ms")

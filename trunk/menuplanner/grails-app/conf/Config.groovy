@@ -145,7 +145,6 @@ environments {
         grails.plugin.databasemigration.updateOnStartFileNames = ['changelog.xml']
       grails.paypal.server = "https://www.paypal.com/cgi-bin/webscr"
       grails.paypal.email = "bc.fisher@yahoo.com"
-      grails.paypal.returnUrl = "bc.fisher@yahoo.com"
 
         google.analytics.webPropertyID = 'UA-4197138-5'
         google.analytics.enabled = true
@@ -181,6 +180,7 @@ environments {
         grails.paypal.email = "qa.men_1291870296_biz@gmail.com"
         grails.paypal.returnUrl = "http://mmp.no-ip.org:8080/menuplanner/subscription/paymentConfirm"
         grails.paypal.pdttoken = "NuPSG08guvqaIgOTMz2yjqnI-zAKEIrv82WcyF4o6sd7oFe2mQCVj66lebq"
+
         google.analytics.enabled = false
         grails.serverURL = "http://localhost:8080/menuplanner"
         facebookConnect {
@@ -312,6 +312,24 @@ log4j = {
                     'org.codehaus.groovy.grails.commons', // core / classloading
                     'org.codehaus.groovy.grails.plugins', // plugins
                     'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
+                    'org.springframework',
+                    'org.hibernate',
+                    'net.sf.ehcache.hibernate'
+
+            warn 'org.mortbay.log'
+            debug "grails.app", "grails.app.tagLib", "com.mp", "grails.app.filter"
+            info "com.linkedin.grails"
+        }
+        test {
+            error 'org.codehaus.groovy.grails.web.servlet',  //  controllers
+                    'org.codehaus.groovy.grails.web.pages', //  GSP
+                    'org.codehaus.groovy.grails.web.sitemesh', //  layouts
+                    'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
+                    'org.codehaus.groovy.grails.web.mapping', // URL mapping
+                    'org.codehaus.groovy.grails.commons', // core / classloading
+                    'org.codehaus.groovy.grails.plugins', // plugins
+                    'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
+                    'org.codehaus.groovy.grails.web.binding', 
                     'org.springframework',
                     'org.hibernate',
                     'net.sf.ehcache.hibernate'

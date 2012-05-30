@@ -31,7 +31,7 @@ class RecipeController {
   def userService
   def asynchronousMailService
   def analyticsService
-
+  def standardConversionService
   static allowedMethods = [save: "POST", update: "POST"]
 
   def calculateNutrition = {
@@ -60,7 +60,7 @@ class RecipeController {
         def CM = mapping.weightMap.weight.Gm_Wgt
         def amount = mapping.weightMap.weight.Amount
         def volume = mapping.weightMap.volume
-        def weighedQuantity = StandardConversion.getQuantityToSave("${amount}",volume)
+        def weighedQuantity = StandardConversionService.getQuantityToSave("${amount}",volume)
         def convQ = unitService.convertQuantity(weighedQuantity,q.unit)
         def VH = /* add in the amount factor here */ (q.value/convQ.value) * N * CM / 100
         println "Ingredient ${it} has ${VH} g Water."
@@ -402,46 +402,13 @@ class RecipeController {
   }
   def show = {
     def recipe = getRecipe(params?.long("id"))
-    def nutritionFacts = nutritionFacts(recipe)
+    def nutritionFacts = recipeService.nutritionFacts(recipe)
       // if there aren't equal number of nutritional facts as ingredients, then all of the nutritional facts aren't
       // know for the recipe, and so the nutrition facts will be sent as null
     nutritionFacts = nutritionFacts.size() == recipe.ingredients.size()?nutritionFacts:null
     render(view: 'show', model: ['nutrition':nutritionFacts,recipe: recipe, party: UserTools.currentUser?.party])
   }
 
-  def nutritionFacts = { recipe ->
-
-     def query =
-"select link, ri \
-from NutritionLink link, RecipeIngredient ri \
-inner join ri.quantity as riq \
-left join riq.savedUnit as hidden_unit \
-left join riq.unit as ri_unit \
-where ri.recipe = :recipe \
- and link.product = ri.ingredient \
- and ((ri.preparationMethod is null and link.prep is null) \
-      or (ri.preparationMethod = link.prep))"
-    
-    def map = [recipe:recipe]
-    def nutrition = NutritionLink.executeQuery(query,map)
-    def linksMap = [:]
-    nutrition.each { link->
-      def conversion = link[0].unit?getStandardConversion(link[0].unit):null
-      linksMap[link[1].id] = [link[0],link[1],conversion]
-    }
-    linksMap
-  }
-    private StandardConversion getStandardConversion(Unit unit){
-    def query =
-  "select link_conversion from StandardConversion link_conversion \
-     where link_conversion.targetUnit.symbol = 'mL' \
-      and link_conversion.sourceUnit = :unit"
-    def map = [unit:unit]
-    def conversions = StandardConversion.executeQuery(query,map)
-    if(conversions.size()>0){
-      conversions[0]
-    } else null
-  }
   def printRecipes = {
     Integer noOfServings = params?.long("noOfServings")
     String customServingChecked = params?.customServings
@@ -556,8 +523,8 @@ class RecipeCO {
     Long cookUnitId
     BigDecimal cost
 
-    def selectRecipeImage
-    def selectRecipeImagePath
+    String selectRecipeImage
+    String selectRecipeImagePath
 
     Set<Long> subCategoryIds = []
     Set<String> categoryNames = []
@@ -597,14 +564,14 @@ class RecipeCO {
                 return 'recipeCO.name.blank.error.name'
             }
         })
-        cost(blank: true, nullable: true)
+        cost(nullable: true)
         difficulty(blank: true, nullable: true)
         description(blank: true, nullable: true)
-        makesServing(nullable: true, blank: true)
+        makesServing(nullable: true)
         selectRecipeImagePath(nullable: true, blank: true)
         selectRecipeImage(nullable: true, blank: true)
-        preparationTime(nullable: true, blank: true)
-        cookTime(nullable: true, blank: true)
+        preparationTime(nullable: true)
+        cookTime(nullable: true)
 
         nutrientQuantities(validator: {val ->
             if (val.findAll {!(it instanceof Float || it == "")}.size() > 0) {
@@ -737,7 +704,7 @@ class RecipeCO {
         }
         Quantity time = new Quantity()
         Unit unit = Unit.get(unitId)
-        time = StandardConversion.getQuantityToSave(minutes.toString(), unit)
+        time = StandardConversionService.getQuantityToSave(minutes.toString(), unit)
         time?.s()
         if (time) {
             return time
@@ -760,7 +727,7 @@ class RecipeCO {
                 if (productName) {
                     Item product = getProductForRecipeIngredient(productName, party, unit, aisle)
                     PreparationMethod preparationMethod = getPreparationMethodForRecipeIngredient(preparationMethodNames[index])
-                    Quantity quantity = StandardConversion.getQuantityToSave(amounts?.getAt(index) ? amounts[index] : null, unit, product.density)
+                    Quantity quantity = StandardConversionService.getQuantityToSave(amounts?.getAt(index) ? amounts[index] : null, unit, product.density)
                     quantity?.s()
                     recipeIngredient.ingredient = product
                     recipeIngredient.quantity = quantity
@@ -794,7 +761,7 @@ class RecipeCO {
             if (amount) {
                 RecipeNutrient recipeNutrient = new RecipeNutrient()
                 recipeNutrient.nutrient = Nutrient.get(nutrientIds[index])
-                Quantity quantity = StandardConversion.getQuantityToSave(amount?.toInteger()?.toString(), Nutrient.get(nutrientIds[index]).preferredUnit)
+                Quantity quantity = StandardConversionService.getQuantityToSave(amount?.toInteger()?.toString(), Nutrient.get(nutrientIds[index]).preferredUnit)
                 quantity?.s()
                 recipeNutrient.quantity = quantity
                 recipeNutrientList.add(recipeNutrient)
