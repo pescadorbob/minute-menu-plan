@@ -7,6 +7,7 @@ class Metric {
     String small
     String definition
     MetricType metricType
+    String preferredDisplayType
 
     String toString() {
         return "${name}"

@@ -6,7 +6,7 @@ hiddenItemProductNames:product?.ingredient?.name,
   hiddenItemUnitSymbol:product?.quantity?.unit?.symbol,
   product:product 
 -->
-<li style="width:672px;display:${display ?: ''}">
+<div class="receipt-row" >
     <span class="toolBoxes addIngredientBox" style="width:400px;">
         <span class="ingredent">
             <div style="float:left;">
@@ -14,13 +14,13 @@ hiddenItemProductNames:product?.ingredient?.name,
                       %{--model="[ingredientFoodMapId:product.links[0]?.id,--}%
                       %{--hiddenIngredientFoodMapName:product.links[0]?.nutrition?.weightFor?.shrtDesc]"/>--}%
               <!-- predicted price -->
-              <g:textField class="inpboxSmall showToolTip iPredictedPrice" name="itemQuantities"
-                  value="${ingredientPredictedPrice}" title="${g.message(code:'toolTip.prices.predicted')}" style="width:40px;"/>
+              %{--<g:textField class="inpboxSmall showToolTip iPredictedPrice" name="week${weekIndex}.predictedPrice"--}%
+                  %{--value="${ingredientPredictedPrice}" title="${g.message(code:'toolTip.prices.predicted')}" style="width:40px;"/>--}%
               <!-- quantity -->
               <g:textField class="inpboxSmall showToolTip iAmount" name="itemQuantities"
                   value="${ingredientQuantity}" title="${g.message(code:'toolTip.prices.quantity')}" style="width:40px;"/>
               <!-- unit -->
-              <input name="hiddenItemUnitNames" value="${hiddenItemUnitNames}"
+              <input name="week${weekIndex}.hiddenItemUnitNames" value="${hiddenItemUnitNames}"
                   class="inpbox showToolTip iUnit"
                   title="${g.message(code: 'toolTip.prices.unit')}" style="width:90px;">
               <input type="hidden" value="${ingredientUnitId}" name="itemUnitIds"/>
@@ -29,11 +29,11 @@ hiddenItemProductNames:product?.ingredient?.name,
               <input class="inpbox showToolTip iProduct" name="hiddenItemProductNames"
                       value="${hiddenItemProductNames?.encodeAsHTML()}"
                       title="${g.message(code: 'toolTip.prices.ingredient')}" style="width:180px;"/>
-              <input type="hidden" value="${hiddenItemProductNames}" name="itemProductIds"/>
+              <input type="hidden" value="${hiddenItemProductNames}" name="itemProductNames"/>
               <!-- price -->
               <g:textField class="inpboxSmall showToolTip iPrice" name="itemPrices"
                     value="" title="${g.message(code: 'toolTip.prices.price')}" style="width:50px;"/>
             </div>
         </span>
     </span>
-</li>
+</div>

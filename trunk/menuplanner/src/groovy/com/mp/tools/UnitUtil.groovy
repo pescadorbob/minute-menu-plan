@@ -2,6 +2,8 @@ package com.mp.tools
 
 import com.mp.domain.ndb.ItemNutritionLink
 import com.mp.domain.*
+import org.apache.commons.math.fraction.Fraction
+import org.apache.commons.math.util.MathUtils
 
 /**
  */
@@ -99,7 +101,7 @@ public class UnitUtil {
 
   static convertGramsToTargetUnit(float fromQInGrams, Unit targetUnit) {
     def milliliterUnit = Unit.findByName('Milliliter')
-    def gramsUnit = Unit.findByName('Grams')
+    def gramsUnit = Unit.findByName('Gram')
 
 
     StandardConversion convTomL =
@@ -117,6 +119,42 @@ public class UnitUtil {
       println("Unable to calculate Target Unit ${fromQInGrams} ${targetUnit}")
     }
 
+  }
+
+  public static String getQuantityValueString(Quantity sourceQuantity, Float density = 1.0f, List<StandardConversion> standardConversions = []) {
+    String result = ''
+    if(sourceQuantity?.unit && sourceQuantity?.unit.belongsToUsaSystem()){
+      Float f = StandardConversionService.getQuantityValueAsFloat(sourceQuantity,density,standardConversions)
+      if(f){
+        if(sourceQuantity?.unit.belongsToUsaSystem() && sourceQuantity.unit.preferredDisplayType == DisplayType.FRACTIONS.name){
+          result = new Fraction(MathUtils.round(Math.round(f*8.0)/8.0,3)).myFormatUsingProperFractionFormat()
+        } else {
+          f = MathUtils.round(f,1)
+          if((long)f == f){
+            result = ((long)f).toString()
+          } else {
+            result = f.toString()
+          }
+        }
+      }
+    } else if(sourceQuantity?.unit && sourceQuantity?.unit.belongsToMetricSystem()){
+      if(sourceQuantity?.value){
+        float f = MathUtils.round(Math.round(sourceQuantity?.value*8.0)/8.0,3)
+        if((long)f == f){
+          result = ((long)f).toString()
+        } else {
+          result = f.toString()
+        }
+      }
+    } else {
+      // for no units value at all
+      if((long)sourceQuantity.value == sourceQuantity.value){
+        result = ((long)sourceQuantity.value).toString()
+      } else {
+        result = sourceQuantity.value?.toString()
+      }
+    }
+    result
   }
 
   /**

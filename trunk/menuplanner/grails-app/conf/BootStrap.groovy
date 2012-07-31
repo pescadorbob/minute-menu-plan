@@ -84,11 +84,11 @@ class BootStrap {
         }
 
         Fraction.metaClass.constructor << {String stringToParse ->
-            new ProperFractionFormat().parse(stringToParse)
+            MenuConstants.fractionFormat.parse(stringToParse)
         }
 
         Fraction.metaClass.myFormatUsingProperFractionFormat = {->
-            String f = new ProperFractionFormat().format(delegate, new StringBuffer(), new FieldPosition(0))?.toString()
+            String f = MenuConstants.fractionFormat.format(delegate, new StringBuffer(), new FieldPosition(0))?.toString()
             if (f && f.endsWith('0 / 1')) {
                 f = f.tokenize(" ").first()
             }
@@ -96,7 +96,7 @@ class BootStrap {
         }
 
         Fraction.metaClass.myFormatUsingFractionFormat = {->
-            new FractionFormat().format(delegate)
+            MenuConstants.fractionFormat.format(delegate)
         }
         OrganizationName.metaClass.toString = {->
             "${delegate.name}:'${delegate.description}'"
@@ -229,4 +229,6 @@ class BootStrap {
             new AccountRole(roleFor: superAdmin, describes: opAcct, type: AccountRoleType.OWNER).s()
         }
     }
+
+
 }

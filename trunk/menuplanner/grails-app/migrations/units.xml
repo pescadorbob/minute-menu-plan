@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-1">
+        <createTable tableName="item_shopping_list_unit_group">
+            <column name="item_preferred_grocery_units_id" type="bigint"/>
+            <column name="shopping_list_unit_group_id" type="bigint"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-2">
+        <createTable tableName="shopping_list_unit_group">
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="shopping_listPK"/>
+            </column>
+            <column name="version" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-3">
+        <createTable tableName="shopping_list_unit_group_unit">
+            <column name="shopping_list_unit_group_units_id" type="bigint"/>
+            <column name="unit_id" type="bigint"/>
+            <column name="units_idx" type="integer"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Brent Fisher" id="1338298824071-34">
+        <sql>insert into shopping_list_unit_group (name,version) values ('english baking goods',0); </sql>
+    </changeSet>
+    <changeSet author="Brent Fisher" id="1338298824071-34">
+        <sql>insert into item_shopping_list_unit_group (item_preferred_grocery_units_id,shopping_list_unit_group_id)
+            values ('english baking goods',0); </sql>
+    </changeSet>
+    <changeSet author="Brent Fisher" id="1338298824071-35">
+        <sql>insert into shopping_list_unit_group (name,version) values ('metric baking goods',0); </sql>
+    </changeSet>
+    <changeSet author="Brent Fisher" id="1338298824071-35">
+        <sql>insert into shopping_list_unit_group (name,version) values ('english liquids',0); </sql>
+    </changeSet>
+    <changeSet author="Brent Fisher" id="1338298824071-35">
+        <sql>insert into shopping_list_unit_group (name,version) values ('metric liquids',0); </sql>
+    </changeSet>
+    <changeSet author="Brent Fisher" id="1338298824071-35">
+        <sql>insert into shopping_list_unit_group (name,version) values ('english eggs',0); </sql>
+    </changeSet>
+    <changeSet author="Brent Fisher" id="1338298824071-35">
+        <sql>insert into shopping_list_unit_group (name,version) values ('metric eggs',0); </sql>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-4">
+        <modifyDataType columnName="density" newDataType="numeric(19)" tableName="item"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-5">
+        <addNotNullConstraint columnDataType="bigint" columnName="grocer_id" tableName="item_price"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-6">
+        <addNotNullConstraint columnDataType="bigint" columnName="recorded_by_id" tableName="item_price"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-7">
+        <addNotNullConstraint columnDataType="varchar(255)" columnName="description" tableName="landing_page"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-8">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="small" tableName="metric"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-9">
+        <modifyDataType columnName="value" newDataType="numeric(19)" tableName="quantity"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-10">
+        <dropNotNullConstraint columnDataType="bigint" columnName="recipe_id" tableName="recipe_ingredient"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-11">
+        <modifyDataType columnName="conversion_factor" newDataType="numeric(19)" tableName="standard_conversion"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-12">
+        <dropForeignKeyConstraint baseTableName="organization" baseTableSchemaName="mmp7"
+                                  constraintName="FK4644ED33490B90F5"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-13">
+        <dropForeignKeyConstraint baseTableName="shopping_ingredient" baseTableSchemaName="mmp7"
+                                  constraintName="FK9F41179B924C7E28"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-14">
+        <createIndex indexName="FKBEBD11A2213C1E6" tableName="item_shopping_list_unit_group">
+            <column name="item_preferred_grocery_units_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-15">
+        <createIndex indexName="FKBEBD11A6E7ACF95" tableName="item_shopping_list_unit_group">
+            <column name="shopping_list_unit_group_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-16">
+        <createIndex indexName="name_unique_1338298816940" tableName="landing_page" unique="true">
+            <column name="name"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-17">
+        <createIndex indexName="DESCRIPTION_Idx" tableName="ndbfood">
+            <column name="shrt_desc"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-18">
+        <createIndex indexName="NDB_No_Idx" tableName="ndbfood">
+            <column name="ndb_no"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-19">
+        <createIndex indexName="FK9F41179B924C7E26" tableName="party_address">
+            <column name="party_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-20">
+        <createIndex indexName="FK8B9B99B57AAB286" tableName="shopping_list_unit_group_unit">
+            <column name="unit_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-21">
+        <createIndex indexName="FK951FF55BE1775669" tableName="wcm_content">
+            <column name="parent_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-22">
+        <createIndex indexName="content_aliasURI_Idx" tableName="wcm_content">
+            <column name="aliasuri"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-23">
+        <createIndex indexName="content_changedOn_Idx" tableName="wcm_content">
+            <column name="changed_on"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-24">
+        <createIndex indexName="content_contentName_Idx" tableName="wcm_content">
+            <column name="title"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-25">
+        <createIndex indexName="content_createdOn_Idx" tableName="wcm_content">
+            <column name="created_on"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-26">
+        <createIndex indexName="space_aliasURI_Idx" tableName="wcm_space">
+            <column name="aliasuri"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-27">
+        <createIndex indexName="space_name_Idx" tableName="wcm_space">
+            <column name="name"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-28">
+        <addForeignKeyConstraint baseColumnNames="item_preferred_grocery_units_id"
+                                 baseTableName="item_shopping_list_unit_group" constraintName="FKBEBD11A2213C1E6"
+                                 deferrable="false" initiallyDeferred="false" referencedColumnNames="id"
+                                 referencedTableName="item" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-29">
+        <addForeignKeyConstraint baseColumnNames="shopping_list_unit_group_id"
+                                 baseTableName="item_shopping_list_unit_group" constraintName="FKBEBD11A6E7ACF95"
+                                 deferrable="false" initiallyDeferred="false" referencedColumnNames="id"
+                                 referencedTableName="shopping_list_unit_group" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-30">
+        <addForeignKeyConstraint baseColumnNames="quantity_id" baseTableName="shopping_ingredient"
+                                 constraintName="FKA59365085C657B26" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="id" referencedTableName="quantity"
+                                 referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-31">
+        <addForeignKeyConstraint baseColumnNames="unit_id" baseTableName="shopping_list_unit_group_unit"
+                                 constraintName="FK8B9B99B57AAB286" deferrable="false" initiallyDeferred="false"
+                                 referencedColumnNames="id" referencedTableName="unit" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-32">
+        <dropColumn columnName="organization_name_id" tableName="organization"/>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1338298824071-33">
+        <dropColumn columnName="the_use" tableName="organization_name"/>
+    </changeSet>
+</databaseChangeLog>

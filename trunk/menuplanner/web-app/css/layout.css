@@ -351,3 +351,8 @@ li.product ul li.user-recipes {
      margin: 0 9px;
 }
 .userThumbnail{font-size:11px;font-family:Arial, Helvetica, sans-serif; background:#fff;}
+.list-description {width:206px}
+.list-description-head {width:219px}
+.receipt-row {width:672px ; background-color:yellow}
+.receipt-header{background-color:yellow ; width:428px}
+th.receipt  ,div.receipt {padding:0;border:0;margin:6;background-color:yellow}

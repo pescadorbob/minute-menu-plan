@@ -2,6 +2,8 @@ package com.mp
 
 import com.mp.domain.PartyRoleType
 import com.mp.domain.PartyRoleType
+import org.apache.commons.math.fraction.ProperFractionFormat
+import java.text.NumberFormat
 
 class MenuConstants {
 
@@ -195,6 +197,10 @@ class MenuConstants {
      'ed':'Ounce,Pound',
      'mw':'Milliliter,Liter',
      'md':'Milligram,Gram,Kilogram',
-     'dz':'Each|Small|Medium|Large,Dozen']
-   
+     'dz':'Each:Small:Medium:Large,Dozen']
+  public static final ProperFractionFormat fractionFormat =  new ProperFractionFormat(NumberFormat.getInstance())
+  static {
+    fractionFormat.setMaximumIntegerDigits(1) 
+  }
+  
 }

@@ -3,6 +3,7 @@ package com.mp.domain
 import static com.mp.MenuConstants.*
 import com.mp.tools.UserTools
 import org.apache.commons.math.fraction.Fraction
+import org.apache.commons.math.util.MathUtils
 
 class StandardConversionService {
 
@@ -73,24 +74,6 @@ class StandardConversionService {
     result
   }
 
-  public static String getQuantityValueString(Quantity sourceQuantity, Float density = 1.0f, List<StandardConversion> standardConversions = []) {
-    String result = ''
-    if(sourceQuantity?.unit && sourceQuantity?.unit.belongsToUsaSystem()){
-      Float f = getQuantityValueAsFloat(sourceQuantity,density,standardConversions)
-      if(f){
-        if(sourceQuantity?.unit.belongsToUsaSystem()){
-          result = new Fraction(f).myFormatUsingProperFractionFormat()
-        } else {
-          result = f.value.toString()
-        }
-      }
-    }
-    else {
-      if(sourceQuantity?.value){
-        result = sourceQuantity?.value.toString()
-      }
-    }
-  }
   public static String getQuantityValueString_old(Quantity sourceQuantity, Float density = 1.0f, List<StandardConversion> standardConversions = []) {
     String result = ''
     Float floatValue = sourceQuantity?.value

@@ -1,15 +1,26 @@
 package com.mp.domain.pricing
 
+import com.mp.tools.UserTools
+
 class PriceController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
   def masterDataBootStrapService
+  def priceService
     def populateRandomPrices = {
       masterDataBootStrapService.populateRecipePrices()
       flash.message = 'Recipes have been populated with random pricing.'
         redirect(action: "list", params: params)
     }
+  def calculateRealPrices = {
+    final party = UserTools.getCurrentUser().party
+    runAsync {
+       priceService.calculateRecipePrices(party)
+    }
+    flash.message = 'Recipe Pricing has begun in a background thread.'
+      redirect(action: "list", params: params)
+  }
     def index = {
         redirect(action: "list", params: params)
     }

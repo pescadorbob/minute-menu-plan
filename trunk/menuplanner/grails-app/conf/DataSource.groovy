@@ -41,8 +41,8 @@ environments {
 	development {
 		dataSource {
 //			dbCreate = "update" // one of 'create', 'create-drop','update'
-			loggingSql = true
-			url = "jdbc:mysql://localhost:3306/mmp7?autoReconnect=true"
+//			loggingSql = true
+			url = "jdbc:mysql://localhost:3306/mmp8?autoReconnect=true"
 		}
 	}
 	developmentOrig {
