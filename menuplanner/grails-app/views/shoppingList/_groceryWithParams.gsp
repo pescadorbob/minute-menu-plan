@@ -1,3 +1,4 @@
+<%@ page import="org.apache.commons.math.util.MathUtils" %>
 <tr class="addGrocery">
     <td width="30px;" valign="top">
         <img class="btnCross" src="${resource(dir: 'images', file: 'crossImg.png')}" hspace="2" vspace="2"/>
@@ -18,7 +19,7 @@
     </div>
         <g:render template="/shoppingList/itemPrice" model="[hiddenItemProductNames:grocery?.ingredient?.name,
         ingredientPredictedPrice:grocery?.predictedPrice,
-        ingredientQuantity:grocery?.quantity?.value,
+        ingredientQuantity:grocery?.quantity?.value?MathUtils.round(grocery?.quantity?.value,1):null,
         hiddenItemUnitNames:grocery?.quantity?.unit,
         ingredientUnitId:grocery?.quantity?.unit?.id,
         hiddenItemUnitSymbol:grocery?.quantity?.unit?.symbol

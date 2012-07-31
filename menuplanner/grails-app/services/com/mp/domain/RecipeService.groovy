@@ -12,6 +12,7 @@ import com.mp.domain.ndb.IngredientNutritionLink
 import java.util.regex.Pattern
 import com.mp.domain.party.Party
 import com.mp.tools.UserTools
+import com.mp.tools.UnitUtil
 
 
 class RecipeService {
@@ -206,10 +207,10 @@ where link_conversion.targetUnit.symbol = 'mL' \
     recipeCO.cost = recipe?.avePrice?.price
 
     recipeCO.preparationUnitId = recipe?.preparationTime?.unit?.id
-    recipeCO.preparationTime = recipe?.preparationTime ? StandardConversionService.getQuantityValueString(recipe?.preparationTime)?.toInteger() : null
+    recipeCO.preparationTime = recipe?.preparationTime ? UnitUtil.getQuantityValueString(recipe?.preparationTime)?.toInteger() : null
 
     recipeCO.cookUnitId = recipe?.cookingTime?.unit?.id
-    recipeCO.cookTime = recipe?.cookingTime ? StandardConversionService.getQuantityValueString(recipe?.cookingTime)?.toInteger() : null
+    recipeCO.cookTime = recipe?.cookingTime ? UnitUtil.getQuantityValueString(recipe?.cookingTime)?.toInteger() : null
 
     recipeCO.subCategoryIds = recipe?.subCategories*.id as Set
     recipeCO.directions = recipe?.directions
@@ -259,7 +260,7 @@ where link_conversion.targetUnit.symbol = 'mL' \
     }
 
     recipe?.ingredients*.quantity?.value?.eachWithIndex {Float val, Integer index ->
-      String usValue = StandardConversionService.getQuantityValueString(recipe?.ingredients?.getAt(index)?.quantity)
+      String usValue = UnitUtil.getQuantityValueString(recipe?.ingredients?.getAt(index)?.quantity)
       recipeCO.ingredientQuantities.add(usValue)
     }
 
@@ -268,7 +269,7 @@ where link_conversion.targetUnit.symbol = 'mL' \
       recipeCO.nutrientQuantities[it] = ""
     }
     recipe?.nutrients.each {RecipeNutrient recipeNutrient ->
-      Integer val = StandardConversionService.getQuantityValueString(recipeNutrient?.quantity)?.toBigDecimal()
+      Integer val = UnitUtil.getQuantityValueString(recipeNutrient?.quantity)?.toBigDecimal()
       recipeCO.nutrientQuantities[recipeNutrient?.nutrient?.id?.toInteger() - 1] = val
     }
     recipeCO

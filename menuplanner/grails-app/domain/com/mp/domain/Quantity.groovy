@@ -2,6 +2,7 @@ package com.mp.domain
 
 import static com.mp.MenuConstants.*
 import org.apache.commons.math.fraction.Fraction
+import com.mp.tools.UnitUtil
 
 class Quantity {
 
@@ -12,7 +13,7 @@ class Quantity {
   String getSmall() {
     String amount
     String result
-    amount = StandardConversionService.getQuantityValueString(this)
+    amount = UnitUtil.getQuantityValueString(this)
     result = "${amount ? amount : ''}${unit ? (unit?.small) : ''}"
     return result.trim()
 
@@ -21,7 +22,7 @@ class Quantity {
   String toString() {
     String amount
     String result
-    amount = StandardConversionService.getQuantityValueString(this)
+    amount = UnitUtil.getQuantityValueString(this)
     result = "${amount ? amount : ''}${unit ? (' ' + unit?.symbol) : ''}"
     return result.trim()
   }
@@ -63,9 +64,9 @@ class Quantity {
   public static Quantity add(Quantity quantity1, Quantity quantity2, List<StandardConversion> standardConversions = []) {
     if (!quantity1) { return quantity2 }
     if (!quantity2) { return quantity1 }
-    String usVal1 = (quantity1.value) ? (StandardConversionService.getQuantityValueString(quantity1, 1.0f, standardConversions)) : ''
+    String usVal1 = (quantity1.value) ? (UnitUtil.getQuantityValueString(quantity1, 1.0f, standardConversions)) : ''
     Unit displayUnit1 = quantity1.unit
-    String usVal2 = (quantity2.value) ? (StandardConversionService.getQuantityValueString(quantity2, 1.0f, standardConversions)) : ''
+    String usVal2 = (quantity2.value) ? (UnitUtil.getQuantityValueString(quantity2, 1.0f, standardConversions)) : ''
     Unit displayUnit2 = quantity2.unit
     Quantity resultantQuantity
     usVal1 = usVal1 ? usVal1.replaceAll(',', '') : ''

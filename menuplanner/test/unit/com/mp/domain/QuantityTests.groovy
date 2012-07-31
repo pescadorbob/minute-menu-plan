@@ -3,6 +3,7 @@ package com.mp.domain
 import grails.test.*
 import org.hibernate.classic.Session
 import org.apache.commons.lang.math.Fraction
+import com.mp.tools.UnitUtil
 
 class QuantityTests extends GrailsUnitTestCase {
     protected void setUp() {
@@ -25,8 +26,9 @@ class QuantityTests extends GrailsUnitTestCase {
     Quantity quant1 = new Quantity(value:10.0,unit:unit,savedUnit:savedUnit)
     Quantity quant2
       def stanCon = mockFor(StandardConversionService,true)
-          String str= "1 1 / 2"
-          stanCon.demand.static.getQuantityValueString(1..2) { Quantity quantity,Float c -> return str }
+    String str= "1 1 / 2"
+      def unitUtilCon = mockFor(UnitUtil,true)
+          unitUtilCon.demand.static.getQuantityValueString(1..2) { Quantity quantity,Float c -> return str }
           stanCon.demand.static.getQuantityToSave(1..2) {String a, Unit b,Float c -> return new Quantity(value:15.0,unit:unit,savedUnit:savedUnit) }
       Quantity quant = Quantity.add(quant1,quant2,scInstances)
     assertNotNull quant
@@ -57,7 +59,8 @@ class QuantityTests extends GrailsUnitTestCase {
 
     def stanCon = mockFor(StandardConversionService,true)
     String str= "1 1 / 2"
-    stanCon.demand.static.getQuantityValueString(1..2) { Quantity quantity,Float c -> return str }
+     def unitUtilCon = mockFor(UnitUtil,true)
+         unitUtilCon.demand.static.getQuantityValueString(1..2) { Quantity quantity,Float c -> return str }
     stanCon.demand.static.getQuantityToSave(1..2) {String a, Unit b,Float c -> return new Quantity(value:15.0,unit:unit,savedUnit:savedUnit) }
 
     Quantity quant = Quantity.add(quant1,quant2,scInstances)
@@ -82,7 +85,8 @@ class QuantityTests extends GrailsUnitTestCase {
 
     def stanCon = mockFor(StandardConversionService,true)
     String str= "1 1 / 2"
-    stanCon.demand.static.getQuantityValueString(1..2) { Quantity quantity -> return null }
+    def unitUtilCon = mockFor(UnitUtil,true)
+        unitUtilCon.demand.static.getQuantityValueString(1..2) { Quantity quantity,Float c -> return str }
     stanCon.demand.static.getQuantityToSave(1..2) {String a, Unit b -> return null }
 
     Quantity quant = Quantity.add(quant1,quant2)

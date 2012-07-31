@@ -10,6 +10,7 @@ import com.mp.domain.*
 import com.mp.domain.ndb.NutritionLink
 import org.apache.commons.math.fraction.ProperFractionFormat
 import org.apache.commons.math.fraction.Fraction
+import com.mp.MenuConstants
 
 /**
  */
@@ -39,37 +40,40 @@ public class UnitUtilTests extends GrailsUnitTestCase {
   }
 
   //id,--,sourceUnit,conversionFactor,targetUnit
-  def static conversions = """1	0	1	1.0000000000	1
-2	0	2	60.0000000000	1
-3	0	3	1.0000000000	3
-4	0	4	0.0010000000	3
-5	0	5	1.0000000000	3
-6	0	6	1000.0000000000	3
-8	0	8	5.0000000000	3
-9	0	9	15.0000000000	3
-10	0	10	30.0000000000	3
-12	0	12	240.0000000000	3
-13	0	13	768.0000000000	3
-14	0	14	960.0000000000	3
-15	0	15	3840.0000000000	3
-16	0	16	480.0000000000	3
-17	0	31	12.0	26
-17	0	31	12.0	27
-17	0	31	12.0	28
-17	0	31	12.0	29
-18	0	6	1000.0	5
-19	0	5	1000.0	4
-20	0	16	16.0	10
-21	0	15	4.0	14
-21	0	14	2.0	31
+  def static conversions = """1	0	1	1	1
+2	0	2	60	1
+3	0	3	1	3
+4	0	4	0.001	3
+5	0	5	1	3
+6	0	6	1000	3
+8	0	8	5	3
+9	0	9	15	3
+10	0	10	30	3
+12	0	12	240	3
+13	0	13	768	3
+14	0	14	960	3
+15	0	15	3840	3
+16	0	16	480	3
+17	0	31	12	26
+17	0	31	12	27
+17	0	31	12	28
+17	0	31	12	29
+18	0	6	1000	5
+19	0	5	1000	4
+20	0	16	16	10
+21	0	15	4	14
+21	0	14	2	32
 """
   def assertQuantityEquals(Quantity expectedQuantity, Quantity resultQuantity) {
     assert expectedQuantity
     assert resultQuantity
     assert expectedQuantity.value
     assert resultQuantity.value
-    assertEquals(expectedQuantity.unit, resultQuantity.unit)    
-    assertEquals(expectedQuantity.value, resultQuantity.value, 0.1f)
+    if(expectedQuantity.unit.name!=resultQuantity.unit.name &&
+       expectedQuantity.value != expectedQuantity.value){
+        fail("""Expected ${expectedQuantity.toString()} but was
+    ${resultQuantity.toString()}""",expectedQuantity.unit, resultQuantity.unit)
+    }
   }
 
 
@@ -83,12 +87,12 @@ public class UnitUtilTests extends GrailsUnitTestCase {
     unitInstances
   }
 
-  def static units = """1	0	TIME	mins	This is definition for minutes	Minutes	m
-  2	0	TIME	hrs	This is definition for hours	Hours	h
+  def static units = """1	0	TIME	mins	This is definition for minutes	Minute	m
+  2	0	TIME	hrs	This is definition for hours	Hour	h
   3	0	METRIC	mL	This is definition for millilitre	Milliliter
   4	0	METRIC	mg.	This is definition for milligram	Milligram
-  5	0	METRIC	g.	This is definition for gram	Grams
-  6	0	METRIC	Kg.	This is definition for kilogram	Kilograms
+  5	0	METRIC	g.	This is definition for gram	Gram
+  6	0	METRIC	Kg.	This is definition for kilogram	Kilogram
   8	0	METRIC	t	This is definition for Teaspoon	Teaspoon
   9	0	METRIC	T	This is definition for Tablespoon	Tablespoon
   10	0	METRIC	oz.	This is definition for Ounce	Ounce
@@ -133,7 +137,7 @@ public class UnitUtilTests extends GrailsUnitTestCase {
     Quantity fromQuantity = StandardConversionService.getQuantityToSave('5', fromUnit)
     assert fromQuantity.save();
     Grams: {
-      Unit toUnit = Unit.findByName('Grams')
+      Unit toUnit = Unit.findByName('Gram')
       assert toUnit
       // 2
       Quantity resultQuantity = UnitUtil.convert(fromQuantity, preparationMethod, fromProduct, toUnit)
@@ -144,7 +148,7 @@ public class UnitUtilTests extends GrailsUnitTestCase {
       assertQuantityEquals(expectedQuantity, resultQuantity)
     }
     kilograms: {
-      Unit toUnit = Unit.findByName('Kilograms')
+      Unit toUnit = Unit.findByName('Kilogram')
       assert toUnit
       // 2
       Quantity resultQuantity = UnitUtil.convert(fromQuantity, preparationMethod, fromProduct, toUnit)
@@ -175,6 +179,7 @@ public class UnitUtilTests extends GrailsUnitTestCase {
             product: fromProduct, prep: preparationMethod)
     mockDomain(ItemNutritionLink, [link])
     mockDomain(NutritionLink, [link])
+    //1 tsp
     Quantity fromQuantity = StandardConversionService.getQuantityToSave('1', fromUnit)
     assert fromQuantity.save();
     Unit ounceUnit = Unit.findByName('Ounce')
@@ -198,12 +203,16 @@ public class UnitUtilTests extends GrailsUnitTestCase {
       Quantity expectedQuantity = StandardConversionService.getQuantityToSave('0.0095833333333333', poundUnit) // 1/16 of the ounce evaluation
       assert expectedQuantity.save()
 
-      Quantity expectedNormalizedQuantity = StandardConversionService.getQuantityToSave('0.15333333', ounceUnit)
-      assert expectedNormalizedQuantity.save()
+      assertQuantityEquals(expectedQuantity,resultQuantity)
 
-      Quantity resultNormalizedQuantity = UnitUtil.normalizeQuantity(resultQuantity)
+      Quantity ounce1 = StandardConversionService.getQuantityToSave('0.15333333', Unit.findByName('Ounce'))
+      assert ounce1.save()
+      def bakingSoda = MeasurableProduct.findByName("baking soda")
+      Quantity pound1_16 = UnitUtil.convert(ounce1,null,bakingSoda,Unit.findByName('Pound'))
 
-      assertQuantityEquals(expectedNormalizedQuantity, resultNormalizedQuantity)
+      Quantity resultNormalizedQuantity = UnitUtil.normalizeQuantity(pound1_16)
+
+      assertQuantityEquals(ounce1, resultNormalizedQuantity)
     }
   }
 
@@ -230,7 +239,7 @@ public class UnitUtilTests extends GrailsUnitTestCase {
 
     Quantity fromQuantity = StandardConversionService.getQuantityToSave('1', fromUnit)
     assert fromQuantity.save()
-    Unit toUnit = Unit.findByName('Grams')
+    Unit toUnit = Unit.findByName('Gram')
     assert toUnit
     // 2
     Quantity resultQuantity = UnitUtil.convert(fromQuantity, preparationMethod, fromProduct, toUnit)
@@ -240,6 +249,50 @@ public class UnitUtilTests extends GrailsUnitTestCase {
 
     assert expectedQuantity.save()
     assertQuantityEquals(expectedQuantity, resultQuantity)
+
+    Quantity resultNormalizedQuantity = UnitUtil.normalizeQuantity(resultQuantity)
+    Quantity expectedNormalizedQuantity = StandardConversionService.getQuantityToSaveFloat(1,Unit.findByName('Dozen'))
+    assertQuantityEquals(expectedNormalizedQuantity, resultNormalizedQuantity)
+
+  }
+  def testConvertDozenLargeTomatoes() {
+    NDBFileInfo fileInfo = new NDBFileInfo(id: 1, fileVersion: 23, frum: new Date(), importedDate: new Date())
+    mockDomain(NDBFileInfo, [fileInfo])
+    mockDomain(Quantity, [])
+    mockDomain(MeasurableProduct, [new MeasurableProduct(id: 7734, name: 'tomatoes',shoppingListUnits: MenuConstants.DOZENAL)])
+    def standardConversions = getStandardConversions(conversions)
+    mockDomain(StandardConversion, standardConversions)
+    def weight = new NDBWeight(id: 5858, amount: 1, msreDesc: 'large whole (3" dia)', gmWgt: 182)
+    mockDomain NDBWeight, [weight]
+
+    Unit fromUnit = Unit.findByName('Large')
+    assert fromUnit
+    def fromProduct = MeasurableProduct.findByName("tomatoes")
+    def preparationMethod = null;
+    // half way
+    mockDomain(NDBFood, [new NDBFood(id: 1265, fileInfo: fileInfo, shrtDesc: "TOMATOES,RED,RIPE,RAW,YEAR RND AVERAGE")])
+    ItemNutritionLink itemNutritionLink = new ItemNutritionLink(id: 12, nutrition: weight, unit: fromUnit,
+            product: fromProduct, prep: preparationMethod)
+    mockDomain(ItemNutritionLink, [itemNutritionLink])
+    mockDomain(NutritionLink, [itemNutritionLink])
+
+    Quantity fromQuantity = StandardConversionService.getQuantityToSave('12', fromUnit)
+    assert fromQuantity.save()
+    Unit toUnit = Unit.findByName('Gram')
+    assert toUnit
+    // 2
+    Quantity resultQuantity = UnitUtil.convert(fromQuantity, preparationMethod, fromProduct, toUnit)
+    assert resultQuantity
+    Quantity expectedQuantity = StandardConversionService.getQuantityToSave('2184', toUnit)
+    // 3
+
+    assert expectedQuantity.save()
+    assertQuantityEquals(expectedQuantity, resultQuantity)
+
+    Quantity resultNormalizedQuantity = UnitUtil.normalizeQuantity(fromQuantity)
+    Quantity expectedNormalizedQuantity = StandardConversionService.getQuantityToSaveFloat(1,Unit.findByName('Dozen'))
+    assertQuantityEquals(expectedNormalizedQuantity, resultNormalizedQuantity)
+
   }
 
   def testConvertEggs() {
@@ -265,7 +318,7 @@ public class UnitUtilTests extends GrailsUnitTestCase {
 
     Quantity fromQuantity = StandardConversionService.getQuantityToSave('1', fromUnit)
     assert fromQuantity.save()
-    Unit toUnit = Unit.findByName('Grams')
+    Unit toUnit = Unit.findByName('Gram')
     assert toUnit
     // 2
     Quantity resultQuantity = UnitUtil.convert(fromQuantity, preparationMethod, fromProduct, toUnit)
@@ -381,5 +434,11 @@ public class UnitUtilTests extends GrailsUnitTestCase {
 
     assert expectedQuantity.save()
     assertQuantityEquals(expectedQuantity, resultQuantity)
+  }
+  public void testFractions(){
+    Fraction f = new Fraction(0.25)
+    assertEquals("1 / 4",MenuConstants.fractionFormat.format(f))
+    f = new Fraction (100,333)
+    assertEquals("1 / 3",MenuConstants.fractionFormat.format(f))
   }
 }

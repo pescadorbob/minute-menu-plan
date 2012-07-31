@@ -197,77 +197,127 @@
         <sql>insert into metric (version,metric_type,symbol,definition,name,small)
             values (0,'METRIC','dz.','12 count','Dozen','') </sql>
     </changeSet>
-    <changeSet author="Brent Fisher (generated)" id="1333633601378-4">
-        <sql>insert into unit (id,is_convertible, is_weight_unit)
-            values ((select id from metric where name='Dozen'),1,0) </sql>
-    </changeSet>
-    <changeSet author="Brent Fisher (generated)" id="1333633601378-5a">
+    <!--<changeSet author="Brent Fisher (generated)" id="1333633601378-4xxx">-->
+        <!--<sql>insert into unit (id,is_convertible, is_weight_unit)-->
+            <!--values ((select id from metric where name='Dozen'),1,0) </sql>-->
+    <!--</changeSet>-->
+    <changeSet author="Brent Fisher (generated)" id="1333633601378-5axxx">
         <sql>insert into metric (version,metric_type,symbol,definition,name,small)
             values (0,'METRIC','oz.','Weight measure for ounce, not fluids','Ounce','oz') </sql>
     </changeSet>
-    <changeSet author="Brent Fisher (generated)" id="1333633601378-6">
+    <changeSet author="Brent Fisher (generated)" id="1333633601378-6xxx">
         <sql>insert into unit (id,is_convertible, is_weight_unit)
             values ((select id from metric where name='Ounce'),1,1) </sql>
     </changeSet>
-    <changeSet author="Brent Fisher (generated)" id="1333633601378-7">
+    <changeSet author="Brent Fisher (generated)" id="xxx1333633601378-7xxx">
         <sql>insert into metric (version,metric_type,symbol,definition,name,small)
             values (0,'METRIC','l.','Measure for liter','Liter','l') </sql>
     </changeSet>
-    <changeSet author="Brent Fisher (generated)" id="1333633601378-8">
+    <changeSet author="Brent Fisher (generated)" id="xxx1333633601378-8">
         <sql>insert into unit (id,is_convertible, is_weight_unit)
             values ((select id from metric where name='Liter'),1,1) </sql>
     </changeSet>
-    <changeSet author="Brent Fisher (generated)" id="1333633601378-7a">
+    <changeSet author="Brent Fisher (generated)" id="xxx1333633601378-7a">
         <sql>insert into metric (version,metric_type,symbol,definition,name,small)
             values (0,'METRIC','pt.','Liquid measure for pint','Pint','pt') </sql>
     </changeSet>
-    <changeSet author="Brent Fisher (generated)" id="1333633601378-8a">
+    <changeSet author="Brent Fisher (generated)" id="xxx1333633601378-8a">
         <sql>insert into unit (id,is_convertible, is_weight_unit)
             values ((select id from metric where name='Pint'),1,1) </sql>
     </changeSet>
-    <changeSet author="Brent Fisher (generated)" id="1333633601378-9">
-        <sql>insert into standard_conversion (source_unit_id, target_unit_id, conversion_factor)
-            values ((select id from metric where name='Liter'),(select id from metric where name='Milliliter'),1000.0) </sql>
+    <changeSet author="Brent Fisher (generated)" id="xxx1333633601378-9">
+        <sql>insert into standard_conversion (version, source_unit_id, target_unit_id, conversion_factor)
+            values (0,(select id from metric where name='Liter'),(select id from metric where name='Milliliter'),1000.0) </sql>
     </changeSet>
-    <changeSet author="Brent Fisher (generated)" id="1333633601378-10">
-        <sql>insert into standard_conversion (source_unit_id, target_unit_id, conversion_factor)
-            values ((select id from metric where name='Pound'),(select id from metric where name='Ounce'),16.0) </sql>
+    <changeSet author="Brent Fisher (generated)" id="xxx1333633601378-10">
+        <sql>insert into standard_conversion (version, source_unit_id, target_unit_id, conversion_factor)
+            values (0,(select id from metric where name='Pound'),(select id from metric where name='Ounce'),16.0) </sql>
     </changeSet>
-    <changeSet author="Brent Fisher (generated)" id="1333633601378-11">
-        <sql>insert into standard_conversion (source_unit_id, target_unit_id, conversion_factor)
-            values ((select id from metric where name='Pound'),(select id from metric where name='Ounce'),16.0) </sql>
+    <changeSet author="Brent Fisher (generated)" id="xxx1333633601378-11">
+        <sql>insert into standard_conversion (version, source_unit_id, target_unit_id, conversion_factor)
+            values (0, (select id from metric where name='Pound'),(select id from metric where name='Ounce'),16.0) </sql>
     </changeSet>
-    <changeSet author="Brent Fisher (generated)" id="1333633601378-12">
-        <sql>insert into standard_conversion (source_unit_id, target_unit_id, conversion_factor)
-            values ((select id from metric where name='Dozen'),(select id from metric where name='each'),12.0) </sql>
+    <changeSet author="Brent Fisher (generated)" id="xxx1333633601378-12">
+        <sql>insert into standard_conversion (version, source_unit_id, target_unit_id, conversion_factor)
+            values (0,(select id from metric where name='Dozen'),(select id from metric where name='each'),12.0) </sql>
     </changeSet>
-    <changeSet author="Brent Fisher (generated)" id="1333633601378-13">
-        <sql>insert into standard_conversion (source_unit_id, target_unit_id, conversion_factor)
-            values ((select id from metric where name='Dozen'),(select id from metric where name='Large'),12.0) </sql>
+    <changeSet author="Brent Fisher (generated)" id="xxx1333633601378-13">
+        <sql>insert into standard_conversion (version, source_unit_id, target_unit_id, conversion_factor)
+            values (0, (select id from metric where name='Dozen'),(select id from metric where name='Large'),12.0) </sql>
     </changeSet>
-    <changeSet author="Brent Fisher (generated)" id="1333633601378-14">
-        <sql>insert into standard_conversion (source_unit_id, target_unit_id, conversion_factor)
-            values ((select id from metric where name='Dozen'),(select id from metric where name='Medium'),12.0) </sql>
+    <changeSet author="Brent Fisher (generated)" id="xxx1333633601378-14">
+        <sql>insert into standard_conversion (version, source_unit_id, target_unit_id, conversion_factor)
+            values (0,(select id from metric where name='Dozen'),(select id from metric where name='Medium'),12.0) </sql>
     </changeSet>
-    <changeSet author="Brent Fisher (generated)" id="1333633601378-15">
-        <sql>insert into standard_conversion (source_unit_id, target_unit_id, conversion_factor)
-            values ((select id from metric where name='Dozen'),(select id from metric where name='Small'),12.0) </sql>
+    <changeSet author="Brent Fisher (generated)" id="xxx1333633601378-15">
+        <sql>insert into standard_conversion (version, source_unit_id, target_unit_id, conversion_factor)
+            values (0,(select id from metric where name='Dozen'),(select id from metric where name='Small'),12.0) </sql>
     </changeSet>
-    <changeSet author="Brent Fisher (generated)" id="1333633601378-16">
-        <sql>insert into standard_conversion (source_unit_id, target_unit_id, conversion_factor)
-            values ((select id from metric where name='Gallon'),(select id from metric where name='Fifth'),5.0) </sql>
+    <changeSet author="Brent Fisher (generated)" id="xxx1333633601378-16">
+        <sql>insert into standard_conversion (version, source_unit_id, target_unit_id, conversion_factor)
+            values (0, (select id from metric where name='Gallon'),(select id from metric where name='Fifth'),5.0) </sql>
     </changeSet>
-    <changeSet author="Brent Fisher (generated)" id="1333633601378-16a">
-        <sql>insert into standard_conversion (source_unit_id, target_unit_id, conversion_factor)
-            values ((select id from metric where name='Quart'),(select id from metric where name='Pint'),2.0) </sql>
+    <changeSet author="Brent Fisher (generated)" id="xxx1333633601378-16a">
+        <sql>insert into standard_conversion (version, source_unit_id, target_unit_id, conversion_factor)
+            values (0,(select id from metric where name='Quart'),(select id from metric where name='Pint'),2.0) </sql>
     </changeSet>
-    <changeSet author="Brent Fisher (generated)" id="1333633601378-17">
+    <changeSet author="Brent Fisher (generated)" id="xxx1333633601378-17">
         <sql>update metric set name = 'Kilogram' where name = 'Kilograms' </sql>
     </changeSet>
-    <changeSet author="Brent Fisher (generated)" id="1333633601378-18">
+    <changeSet author="Brent Fisher (generated)" id="xxx1333633601378-18">
         <sql>update metric set name = 'Gram' where name = 'Grams' </sql>
     </changeSet>
-    <changeSet author="Brent Fisher (generated)" id="1333633601378-19">
+    <changeSet author="Brent Fisher (generated)" id="xxx1333633601378-19">
         <sql>update metric set name = 'Calorie' where name = 'Calories' </sql>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="xxx1333633601379-3">
+        <addColumn tableName="item">
+            <column name="shopping_list_units" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="xxx1333633601379-4">
+        <addColumn tableName="item">
+            <column name="main_shopping_list_unit" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="xxx1333633601380-1">
+        <sql>update Item set main_shopping_list_unit = 'Pound'</sql>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="xxx1333633601381-1">
+        <sql>update Item set shopping_list_units = 'Pound'</sql>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601382-1">
+        <addColumn tableName="metric">
+            <column name="preferred_display_type" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601382-5">
+        <sql>update metric set preferred_display_type = 'Decimals'</sql>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601382-6">
+        <sql>update metric set preferred_display_type = 'Fractions' where name = 'Pound'</sql>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601382-7">
+        <sql>update metric set preferred_display_type = 'Fractions' where name = 'Gallon'</sql>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601382-8">
+        <sql>update metric set preferred_display_type = 'Fractions' where name = 'Cup'</sql>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601382-9">
+        <sql>update metric set preferred_display_type = 'Fractions' where name = 'Teaspoon'</sql>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601382-10">
+        <sql>update metric set preferred_display_type = 'Fractions' where name = 'Tablespoon'</sql>
+    </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="1333633601382-11">
+        <sql>insert into system_of_unit_units (system_of_unit_id,unit_id)
+        values ((select id from system_of_unit where standardization_body='EEUU'),
+        (select id from metric where name = 'Ounce'))</sql>
     </changeSet>
 </databaseChangeLog>

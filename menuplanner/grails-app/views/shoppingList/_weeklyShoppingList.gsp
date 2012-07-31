@@ -1,9 +1,14 @@
-<%@ page import="com.mp.domain.Aisle" %>
+<%@ page import="com.mp.domain.party.Grocer; com.mp.domain.Aisle" %>
 <div class="clearfix">
     <div class="winter-week" id="shoppingWeek${weeklyShoppingList.weekIndex}">
         <br/>
         <g:if test="${!shoppingList?.isWeeklyShoppingList}">
             <div class="winterButton"><h3><strong>Complete List</strong></h3></div>
+          <div class="list-header receipt-header" >Enter the price and quantity purchased from receipts.
+                    This helps others and yourself understand the cost of meals on the Minute Menu Plan </div>
+          <div>
+            <g:select name="grocerId" from="${Grocer.list()}" optionKey="id" value=""  />            
+          </div>
         </g:if>
         <g:else>
             <div class="winterButton"><h3><strong>Week ${weeklyShoppingList.weekIndex + 1}</strong></h3></div>
@@ -11,14 +16,15 @@
         <g:each in="${weeklyShoppingList.aisles + null}" var="aisle">
             <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${(aisle ? aisle : 'Others')}</strong>
             <span id="products_${weeklyShoppingList.weekIndex}" class="grocery">
-                <table id="ProductTable_${weeklyShoppingList.weekIndex}" style="width:100%">
-                  <tr><th></th><th>
-                    <div class="list-header" style="width:146px;">Description</div>
-                    <div class="list-header" style="width:58px;">Predicted Price</div>
-                    <div class="list-header" style="width:58px;">Quantity</div>
-                    <div class="list-header" style="width:108px;">Unit</div>
-                    <div class="list-header" style="width:194px;">Ingredient</div>
-                    <div class="list-header" style="width:50px;">Price</div>
+                <table id="ProductTable_${weeklyShoppingList.weekIndex}" style="width:100%" >
+                  <tr><th></th><th>                                        
+                  </th></tr>
+                  <tr><th></th><th class="receipt">
+                    <div class="list-header list-description-head" >Description</div>
+                    <div class="list-header receipt" style="width:58px;">Quantity</div>
+                    <div class="list-header receipt" style="width:108px;">Unit</div>
+                    <div class="list-header receipt" style="width:194px;">Ingredient</div>
+                    <div class="list-header receipt" style="width:50px;">Price</div>
                   </th>   </tr>
                     <g:each in="${weeklyShoppingList.getProductsByAisle(aisle)}" var="product" status="i">
                         <g:render template="/shoppingList/productsWithParams"
