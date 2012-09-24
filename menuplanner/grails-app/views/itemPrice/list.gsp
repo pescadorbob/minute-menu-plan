@@ -1,5 +1,5 @@
 
-<%@ page import="com.mp.domain.pricing.ItemPrice" %>
+<%@ page import="com.mp.tools.CurrencyUtils; com.mp.tools.UnitUtil; com.mp.domain.pricing.ItemPrice" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -29,8 +29,8 @@
                         
                             <th><g:message code="itemPrice.price.label" default="Price" /></th>
                    	    
-                            <th><g:message code="itemPrice.priceOf.label" default="Price Of" /></th>
-                   	    
+                            <th><g:message code="itemPrice.priceOf.label" default="Recipe" /></th>
+
                             <g:sortableColumn property="recordedOn" title="${message(code: 'itemPrice.recordedOn.label', default: 'Recorded On')}" />
                         
                             <g:sortableColumn property="type" title="${message(code: 'itemPrice.type.label', default: 'Type')}" />
@@ -45,13 +45,19 @@
                     <g:each in="${itemPriceList}" status="i" var="itemPrice">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
-                            <td>${fieldValue(bean: itemPrice, field: "price.price")} for
-                            ${fieldValue(bean: itemPrice, field: "price.quantity.value")}
-                            ${fieldValue(bean: itemPrice, field: "price.quantity.unit.symbol")} 
+                            <td><g:link action="show" id="${itemPrice.id}">
+                                <pricing:price itemPrice="${itemPrice}" /></g:link>
                             </td>
                         
-                            <td><g:link action="show" id="${itemPrice.id}">${fieldValue(bean: itemPrice, field: "priceOf")}</g:link></td>
-                        
+                            <td>
+                                <g:if test="${itemPrice.priceOf.class.getName().contains('Recipe')}">
+                                    <g:link controller="recipe" action="show" id="${itemPrice.priceOf.id}">${fieldValue(bean: itemPrice, field: "priceOf")}</g:link>
+                                </g:if>
+                                <g:else>
+                                    <g:link controller="item" action="show" id="${itemPrice.priceOf.id}">${fieldValue(bean: itemPrice, field: "priceOf")}</g:link>
+                                </g:else>
+                            </td>
+
                             <td><g:formatDate date="${itemPrice.recordedOn}" /></td>
                         
                             <td>${fieldValue(bean: itemPrice, field: "type")}</td>

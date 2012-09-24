@@ -55,8 +55,8 @@ environments {
 	test {
 		dataSource {
 //			dbCreate = "create"
-			loggingSql = true
-			url = "jdbc:mysql://localhost:3306/mmp6?autoReconnect=true"
+//			loggingSql = true
+			url = "jdbc:mysql://localhost:3306/test8?autoReconnect=true"
 		}
 	}
 	qa {

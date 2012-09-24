@@ -1,3 +1,6 @@
+cobertura {
+    enabledByDefault = false
+}
 coverage {
 	exclusions = ['**/plugins/**', '**/functionaltestplugin/**', '**/org/grails/**', '**/org/*/grails/**', '**/*Filters*/**', '**/*TagLib*/**', '**/*Config*/**', '**/*Searchable*/**', '**/*JQueryService*/**', '**/*asynchronousmail*/**']
 }

@@ -14,7 +14,11 @@ import com.mp.domain.pricing.ReceiptCO
 import com.mp.domain.Product
 import com.mp.domain.Recipe
 import com.mp.domain.RecipeIngredient
-import com.mp.domain.Metric
+
+import com.mp.domain.party.Party
+import com.mp.domain.StandardConversionService
+import com.mp.tools.UnitUtil
+import com.mp.domain.pricing.IngredientPrice
 
 /**
  * User: Brent Fisher
@@ -24,112 +28,169 @@ import com.mp.domain.Metric
 
 public class PriceService {
   def standardConversionService
-  
-  def calculateRecipePrices(recParty){
-    ItemPrice.findAllByType(PriceType.AVE)*.delete()
-    ItemPrice.findAllByType(PriceType.HIGH)*.delete()
-    ItemPrice.findAllByType(PriceType.LOW)*.delete()
-    Unit oz = Unit.findByName("Ounce")
-    Quantity normalizedQuantity = standardConversionService.getQuantityToSaveFloat(1.0f, oz)
-    normalizedQuantity.s()
+  def unitService
+
+  def calculateRecipePrices(Party recParty, productIds, grocerIds) {
     def now = new Date()
-    Product.list().each { product1 ->
-      Grocer.list().each { grocer1 ->
-        def c = ItemPrice.createCriteria()
-        def itemPrices = c {
-            eq("type",PriceType.SINGLE)
-            grocer {
-              eq("id",grocer1.id)
-            }
-            priceOf {
-              eq("id",product1.id)
-            }          
-        }
-        if(itemPrices && itemPrices.size()>0){
-          def prices = itemPrices.collect {it.price.price / it.price.quantity.value}
-
-          Price avePrice = new Price(price: prices.sum() / prices.size(), quantity: normalizedQuantity)
-          avePrice.s()
-          ItemPrice aveIPrice = new ItemPrice(recordedOn:now,priceOf:product1,type:PriceType.AVE,
-             recordedBy:recParty,grocer:grocer1,price:avePrice)
-          aveIPrice.s()
-          Price maxPrice = new Price(price: prices.max(), quantity: normalizedQuantity)
-          maxPrice.s()
-          ItemPrice aveMaxPrice = new ItemPrice(recordedOn:now,priceOf:product1,type:PriceType.AVE,
-             recordedBy:recParty,grocer:grocer1,price:maxPrice)
-          aveMaxPrice.s()
-          Price minPrice = new Price(price: prices.min(), quantity: normalizedQuantity)
-          minPrice.s()
-          ItemPrice aveMinPrice = new ItemPrice(recordedOn:now,priceOf:product1,type:PriceType.AVE,
-             recordedBy:recParty,grocer:grocer1,price:minPrice)
-          aveMinPrice.s()
-          
-        }
-      }
+    def grocers = [:]
+    ItemPrice.withTransaction {
+      ItemPrice.findAllByType(PriceType.AVE)*.delete(flush: true)
+      ItemPrice.findAllByType(PriceType.HIGH)*.delete(flush: true)
+      ItemPrice.findAllByType(PriceType.LOW)*.delete(flush: true)
     }
-    // now that all of the product prices are known calculate the recipe prices?
-    // per grocer, and for all grocers
-    Quantity oneEach = standardConversionService.getQuantityToSaveFloat(1.0f,Unit.findByName("Each"))
-    oneEach.s()
-    Recipe.list().each { it ->
-       Recipe recipe = it
-      Grocer.list().each { grocer1 ->
-        BigDecimal grocerTotalPrice = 0.0;
-        recipe.ingredients.each { ri ->
-          RecipeIngredient recipeIngredient = ri
+    Product.withTransaction {
+      if (log.isDebugEnabled()) {
+        log.debug "Pricing out ${productIds.size()} products and ${grocerIds.size()} grocers"
+      }
+      productIds.each {productId ->
+        grocerIds.each {gId ->
           def c = ItemPrice.createCriteria()
-           def aveItemPrices = c {
-            eq("type",PriceType.AVE)
+          def itemPrices = c {
+            eq("type", PriceType.SINGLE)
             grocer {
-              eq("id",grocer1.id)
+              eq("id", gId)
             }
             priceOf {
-              eq("id",ri.ingredient.id)
+              eq("id", productId)
             }
           }
+          if (itemPrices?.size() > 0) {
+            Item p = itemPrices.last().priceOf
+            Grocer grocer = itemPrices.last().grocer
+            grocers[grocer.id] = grocer
 
+            BigDecimal avePriceDollarPerMilliliter = itemPrices.collect { ip ->
+                ip.price.price / ip.price.quantity.value
+                // this quantity is always milliliter, so the number is pretty small.
+                // small errors in rounding could be problematic.
+            }.sum()/itemPrices.size()
 
-          if(aveItemPrices && aveItemPrices.size()>0){
-            ItemPrice aveItemPrice = aveItemPrices.last()
-             // now take the price (oz) by the quantity of the ingredient (in oz)
-             BigDecimal ingPrice
+            Unit preferredGroceryUnit = Unit.findByName(p.mainShoppingListUnit)
 
-              if(recipeIngredient.quantity) ingPrice = aveItemPrice.price.price * recipeIngredient.quantity.value
-              else ingPrice = aveItemPrice.price.price
-            
-            grocerTotalPrice += ingPrice
+              Quantity preferredUnitOfProduct = standardConversionService
+                      .getQuantityToSaveFloat(1,preferredGroceryUnit)
+              preferredUnitOfProduct.s()
+              Price avePrice = new Price(
+                      price: avePriceDollarPerMilliliter*preferredUnitOfProduct.value,
+                      quantity: preferredUnitOfProduct)
+            avePrice.s()
+
+            ItemPrice aveIPrice = new ItemPrice(recordedOn: now, priceOf: p, type: PriceType.AVE,
+                    recordedBy: recParty, grocer: grocer, price: avePrice)
+            aveIPrice.s()
+
           }
         }
-        Price price = new Price(price:grocerTotalPrice,quantity:oneEach)
-        price.s()
-        ItemPrice grcTotalPrice = new ItemPrice(recordedBy:recParty,recordedOn:now,priceOf:recipe,price:price,type:PriceType.AVE,grocer:grocer1)
-        grcTotalPrice.s()
       }
     }
+    def recipeIds = []
+    Recipe.withTransaction {
+      // now that all of the product prices are known calculate the recipe prices?
+      // per grocer, and for all grocers
+      Quantity oneEach = standardConversionService.getQuantityToSaveFloat(1.0d, Unit.findByName("Each"))
+      oneEach.s()
+      def recipes = []
+      productIds.each {pid ->
+        recipes.addAll Recipe.executeQuery("select ri.recipe from RecipeIngredient ri where ri.ingredient.id = ?", [pid])
+      }
+      recipes.each {recipe1 ->
+        Recipe recipe = recipe1
+        recipeIds << recipe.id
+        grocerIds.each {gId ->
+          BigDecimal grocerTotalPrice = 0.0;
+          recipe.ingredients.each {ri ->
+            RecipeIngredient recipeIngredient = ri
+            def c = ItemPrice.createCriteria()
+            def aveItemPrices = c {
+              eq("type", PriceType.AVE)
+              grocer {
+                eq("id", gId)
+              }
+              priceOf {
+                eq("id", ri.ingredient.id)
+              }
+            }
 
+
+            if (aveItemPrices && aveItemPrices.size() > 0) {
+              ItemPrice aveItemPrice = aveItemPrices.last()
+              // now take the price (oz) by the quantity of the ingredient (in oz)
+              BigDecimal ingPriceValue
+
+              if (recipeIngredient.quantity){
+                  ingPriceValue = aveItemPrice.price.price *
+                          StandardConversionService.getQuantityValueAsFloat(
+                                  UnitUtil.convert(recipeIngredient.quantity,recipeIngredient.preparationMethod,recipeIngredient.ingredient, aveItemPrice.price.quantity.unit))
+              }
+              else ingPriceValue = aveItemPrice.price.price
+
+              grocerTotalPrice += ingPriceValue
+                Price ingPrice = new Price(price: ingPriceValue,quantity: recipeIngredient.quantity)
+                if(ingPrice.save()){
+                    IngredientPrice ip = new IngredientPrice(recordedOn:now,priceOf:recipeIngredient,
+                            price: ingPrice, type: PriceType.SINGLE, recordedBy: recParty )
+                    ip.save()
+                } else {
+                    println "Ingredient missing the quantity for ${recipeIngredient.recipe.name} + ${recipeIngredient.ingredient.name}"
+                }
+            }
+          }
+          Price price = new Price(price: grocerTotalPrice, quantity: oneEach)
+          price.s()
+          ItemPrice grcTotalPrice = new ItemPrice(recordedBy: recParty, recordedOn: now, priceOf: recipe, price: price, type: PriceType.AVE, grocer: Grocer.get(gId))
+          grcTotalPrice.s()
+        }
+      }
+    }
   }
+
   def recordReceipt(ReceiptCO receipt) {
     Grocer grocer = Grocer.get(receipt.grocerId)
     Long itemCount = 0;
     def now = new Date()
-    def enteredPrices = receipt.itemProductIds.eachWithIndex {productId, index->
-      if(productId?.length()>0){
-        itemCount ++
-        def price = new Price(price:receipt.itemPrices[index].toBigDecimal(),
-                        quantity:new Quantity(value:receipt.itemQuantities[index]?.toFloat(),
-                                              unit:Unit.get(receipt.itemUnitIds[index]?.toLong())).s()).s()
+    def enteredPrices = receipt.itemProductIds.eachWithIndex {productId, index ->
+      if (productId?.length() > 0) {
+        itemCount++
+        def price = new Price(price: receipt.itemPrices[index].toBigDecimal(),
+                quantity: new Quantity(value: receipt.itemQuantities[index]?.toFloat(),
+                        unit: Unit.get(receipt.itemUnitIds[index]?.toLong())).s()).s()
         ItemPrice itemPrice = new ItemPrice(recordedOn: now,
                 priceOf: Item.get(productId?.toLong()),
                 price: price,
                 type: PriceType.SINGLE,
-                recordedBy:UserTools.currentUser.party,
-                grocer:grocer).s()
+                recordedBy: UserTools.currentUser.party,
+                grocer: grocer).s()
       }
     }
     return itemCount
   }
 
-  def calculateMenuPlanCosts(MenuPlan menuPlan) {
+    def getAvePrices(MenuPlan menuPlan)
+    {
+        def avePricesIds = []
+        menuPlan.weeks.each {it ->
+            Week week = it;
+            week.days.each {day ->
+                day.meals.each {meal ->
+                    meal.items.each { item ->
+                        avePricesIds << item.id
+                    }
+                }
+            }
+        }
+        def c = ItemPrice.createCriteria()
+        def aveItemPrices = c {
+         priceOf {
+             'in'('id',avePricesIds)
+         }
+        }
+        def aveItemPriceMap = [:]
+        aveItemPrices.each {
+            aveItemPriceMap[it.priceOf] = it
+        }
+        aveItemPriceMap
+    }
+  def calculateMenuPlanCosts(MenuPlan menuPlan,avePrice) {
 
     menuPlan.weeks.each {it ->
       Week week = it;
@@ -151,7 +212,9 @@ public class PriceService {
       week.days.each {day ->
         day.meals.each {meal ->
           meal.items.each {item ->
-            meal.cost += item.avePrice ? item.avePrice.price : 0
+              if(avePrice[item]?.price?.price) {
+                  meal.cost += avePrice[item]?.price?.price
+              }
           }
           meal.s()
           println "Meal total:${meal.cost}"
@@ -169,4 +232,18 @@ public class PriceService {
     println "Menu Plan total:${menuPlan.cost}"
   }
 
+    def calculateRecipeCosts(List<Recipe> recipes) {
+        def c = ItemPrice.createCriteria()
+        def itemPrices = c {
+            priceOf {
+                'in'('id',recipes*.id)
+            }
+        }
+        def avePrices = [:]
+        itemPrices.each {
+            avePrices[it.priceOf]=it
+        }
+        avePrices
+        
+    }
 }

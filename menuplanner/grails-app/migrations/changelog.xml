@@ -3335,4 +3335,5 @@
         </sql>
     </changeSet>
     <include file="grocer.xml"/>
+    <include file="pricing.xml"/>
 </databaseChangeLog>

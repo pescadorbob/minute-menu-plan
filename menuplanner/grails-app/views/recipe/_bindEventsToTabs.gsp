@@ -1,6 +1,6 @@
 <script type="text/javascript">
     jQuery(document).ready(function() {
-        /* ADD INGREDIENT:  function to be executed when btnAddIngredient is Clicked or optionIngredientAisleIds is blured... */
+        /* ADD INGREDIENT:  function to be executed when btnAddIngredient is Clicked or optionIngredientAisleIds is blurred... */
         jQuery('#btnAddIngredient').click(function() {
             var quantity = jQuery('#optionIngredientQuantities').attr('value')
             var unitId = jQuery('#optionIngredientUnitIds').attr('value')

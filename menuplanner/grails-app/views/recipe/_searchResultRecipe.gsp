@@ -9,7 +9,7 @@
          </g:if>
 
           <analytics:profile name="recipe:${item.name}" details="">
-            <g:render template="/recipe/showRecipeForRecipeCard" model="['item':item ,'index':index]"/>
+            <g:render template="/recipe/showRecipeForRecipeCard" model="['item':item ,'index':index,'avePrice':avePrice]"/>
           </analytics:profile>
         </g:each>
         <div class="browse-recipe-ads"><theme:gadget location="${ElementLocation.BROWSE_RECIPES}"/></div>

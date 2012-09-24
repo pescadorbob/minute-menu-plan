@@ -6,7 +6,7 @@ import com.mp.tools.UnitUtil
 
 class Quantity {
 
-  Float value
+  BigDecimal value
   Unit unit
   Unit savedUnit
 

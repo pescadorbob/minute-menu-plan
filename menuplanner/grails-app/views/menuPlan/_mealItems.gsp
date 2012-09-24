@@ -17,7 +17,7 @@
                     <input type="hidden" name="mealItems.${mealType}.week${weekIndex}.day${index}" value="${mealItem.id}"/>
                     <img src="${resource(dir: "images", file: "delete.jpg")}" alt="" align="left" style="display:none;" class="deleteImage">
                     <span>
-                    <g:if test="${mealItem.avePrice}">
+                    <g:if test="${avePrice[mealItem]}">
                       <p class="item-ellipsis" >
                     </g:if>
                     <g:else >
@@ -27,9 +27,9 @@
 
                           <g:link controller="recipe" target="blank" action="show" id="${mealItem.id}">
                             ${mealItem}</g:link></p>
-                          <g:if test="${mealItem.avePrice}">
+                          <g:if test="${avePrice[mealItem]}">
                         <p class='item-cost'>
-                            ${CurrencyUtils.getRoundedAmount(mealItem.avePrice.price,0)}
+                            ${CurrencyUtils.getRoundedAmount(avePrice[mealItem].price?.price,0)}
                             </p>
                           </g:if>
                         <g:if test="${params.action in ['printerFriendlyMenuPlan']}">
@@ -39,9 +39,9 @@
                     </g:if>
                     <g:else>
                           ${mealItem}</p>
-                          <g:if test="${mealItem.avePrice}">
+                          <g:if test="${avePrice[mealItem]}">
                         <p class='item-cost'>
-                            ${CurrencyUtils.getRoundedAmount(mealItem?.avePrice?.price,0)}
+                            ${CurrencyUtils.getRoundedAmount(avePrice[mealItem]?.price,0)}
                             </p>
                           </g:if>
                         </span>

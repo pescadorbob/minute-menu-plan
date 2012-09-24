@@ -8,7 +8,7 @@ import static com.mp.MenuConstants.*
 class StandardConversion {
     Unit sourceUnit
     Unit targetUnit
-    Float conversionFactor
+    BigDecimal conversionFactor
 
     static mapping = {
         sourceUnit fetch: 'join'

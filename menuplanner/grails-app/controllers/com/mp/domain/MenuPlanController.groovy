@@ -6,21 +6,23 @@ import javax.servlet.http.Cookie
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import com.mp.domain.party.Party
 import com.mp.tools.UserTools
+import com.mp.PriceService
 
 class MenuPlanController {
 
     def recipeService
-    def priceService
+    PriceService priceService
     def index = { }
 
     def show = {
         params.max = Math.min(params.max ? params.int('max') : 4, 150)
         List<Recipe> recipeList = Recipe.list(params)
         MenuPlan menuPlan = MenuPlan.get(params.long("id"))
-        priceService.calculateMenuPlanCosts(menuPlan)
+        def avePrice = priceService.getAvePrices(menuPlan)
+        priceService.calculateMenuPlanCosts(menuPlan,avePrice)
         List<SubCategory> subCategories = (Recipe.list()*.subCategories)?.flatten()?.unique {it.id}?.sort {it.name}
         List<Category> categories = (subCategories*.category)?.flatten()?.unique {it.id}?.sort {it.name}
-        render(view: 'show', model: [menuPlan: menuPlan, categories: categories, subCategories: subCategories, itemList: recipeList, itemTotal: Recipe.count(), openInNewWindow: false, party: UserTools.currentUser?.party])
+        render(view: 'show', model: [avePrice:avePrice,menuPlan: menuPlan, categories: categories, subCategories: subCategories, itemList: recipeList, itemTotal: Recipe.count(), openInNewWindow: false, party: UserTools.currentUser?.party])
     }
 
     def create = {

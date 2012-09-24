@@ -11,9 +11,6 @@ class Item {
     Aisle suggestedAisle
     Boolean shareWithCommunity = false
     Boolean isAlcoholic = false
-    Price avePrice
-    Price bestPrice
-    Price worstPrice
     String shoppingListUnits
     String mainShoppingListUnit
   
@@ -25,9 +22,6 @@ class Item {
 
     static constraints = {
         suggestedAisle(nullable: true)
-        avePrice(nullable: true)
-        bestPrice(nullable: true)
-        worstPrice(nullable: true)
     }
 
     static mapping = {

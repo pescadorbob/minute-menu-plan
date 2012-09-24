@@ -63,7 +63,7 @@
         </div>
         <div class="top-shadow"><label></label></div>
         <div class="leftbox clearfix">
-            <g:render template="/recipe/showRecipeDetails" model="[recipe: recipe,imageSize:200]"/>
+            <g:render template="/recipe/showRecipeDetails" model="[avePrice:avePrice,recipe: recipe,imageSize:200]"/>
         </div>
         <div class="bottom-shadow"><label></label></div>
     </div>

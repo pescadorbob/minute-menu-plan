@@ -13,6 +13,8 @@ import java.util.regex.Pattern
 import com.mp.domain.party.Party
 import com.mp.tools.UserTools
 import com.mp.tools.UnitUtil
+import com.mp.domain.pricing.ItemPrice
+import com.mp.domain.pricing.PriceType
 
 
 class RecipeService {
@@ -120,10 +122,11 @@ where link_conversion.targetUnit.symbol = 'mL' \
     List<RecipeIngredient> recipeIngredients = []
     visibleItems.each {RecipeIngredient recipeIngredient ->
       RecipeIngredient recipeIngredientNew = new RecipeIngredient()
-      Item ingredient = new Item()
-      ingredient.name = recipeIngredient?.ingredient?.name
-      recipeIngredientNew.ingredient = ingredient
-
+      Item item = new Item()
+      item.name = recipeIngredient?.ingredient?.name
+        item.id = recipeIngredient?.ingredient?.id
+      recipeIngredientNew.ingredient = item
+      recipeIngredientNew.id = recipeIngredient?.id
       Quantity quantity = new Quantity()
       quantity.unit = recipeIngredient?.quantity?.unit
       quantity.value = recipeIngredient?.quantity?.value
@@ -204,7 +207,17 @@ where link_conversion.targetUnit.symbol = 'mL' \
     recipeCO.serveWithItems = (recipe?.items) ? (recipe?.items*.name) : []
     recipeCO.isAlcoholic = recipe?.isAlcoholic
 
-    recipeCO.cost = recipe?.avePrice?.price
+      def c = ItemPrice.createCriteria()
+
+    ItemPrice [] itemPrices = c {
+          priceOf {
+              eq('id',recipe.id)
+          }
+          eq('type',PriceType.AVE)
+      }
+      if(itemPrices?.size()>0){
+          recipeCO.cost = itemPrices.first().price.price
+      }
 
     recipeCO.preparationUnitId = recipe?.preparationTime?.unit?.id
     recipeCO.preparationTime = recipe?.preparationTime ? UnitUtil.getQuantityValueString(recipe?.preparationTime)?.toInteger() : null

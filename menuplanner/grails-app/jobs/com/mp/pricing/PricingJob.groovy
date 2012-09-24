@@ -1,3 +1,7 @@
+package com.mp.pricing
+
+import grails.util.GrailsUtil
+
 class PricingJob
 {
   static triggers = {

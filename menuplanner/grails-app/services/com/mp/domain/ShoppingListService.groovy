@@ -6,6 +6,8 @@ import com.mp.domain.ndb.ItemNutritionLink
 import com.mp.domain.ndb.NDBWeight
 import com.mp.tools.UnitUtil
 import org.apache.commons.math.util.MathUtils
+import com.mp.domain.pricing.ItemPrice
+import com.mp.domain.pricing.PriceType
 
 class ShoppingListService {
 
@@ -181,7 +183,8 @@ class ShoppingListService {
           Price predictedPrice = calculatePredictedPrice(groceryQuantity, differentIngredient)
           def name = "${groceryQuantity} ${differentIngredient.name} "
           if (predictedPrice?.price) {
-            name += " (~\$${MathUtils.round(predictedPrice.price, 2)})"
+              Price avePrice = getAvePrice(differentIngredient)
+            name += " \$${MathUtils.round(predictedPrice.price, 2)} + ${avePrice}"
           }
           ShoppingIngredient shoppingIngredient = new ShoppingIngredient(
                   quantity: groceryQuantity,
@@ -211,29 +214,37 @@ class ShoppingListService {
 
   Price calculatePredictedPrice(Quantity quantity, Item item) {
     // now, look at the average price of this item to predict the price
-    Price avePrice = item?.avePrice
+
+      Price avePrice = getAvePrice(item)
     def p = null
     if (avePrice) {
-      Double value = avePrice.price * quantity.value
-      // convert the average price to a common conversion (grams)
-      // convert the quantity to the common conversion (grams)
-      // multiply by the average conversion and divide by the quantity conversion
-      Unit grams = Unit.findByName("Gram")
-      StandardConversion aveConversion =
-         StandardConversion.findByTargetUnitAndSourceUnit(grams, avePrice.quantity.unit)
-      StandardConversion quantityConversion =
-         StandardConversion.findByTargetUnitAndSourceUnit(grams, quantity.unit)
-      value *= aveConversion.conversionFactor
-      value /= quantityConversion.conversionFactor
-
-      p = new Price(price: value, quantity: quantity)
-      p.s()
+        Unit preferredGroceryUnit = Unit.findByName(item.mainShoppingListUnit)
+        BigDecimal priceDollarPerMilliliter = avePrice.price / avePrice.quantity.value
+        Price price = new Price(
+                price: priceDollarPerMilliliter*quantity.value, 
+                quantity: quantity)
+        price.s()
+        p = price
     }
     p
   }
 
+    private Price getAvePrice(Item item) {
+        def c = ItemPrice.createCriteria()
+        def avePrices = c {
+            eq('type', PriceType.AVE)
+            priceOf {
+                eq('id', item.id)
+            }
+        }
+        Price avePrice
+        if (avePrices.size() > 0)
+            avePrice = avePrices.first().price
+        return avePrice
+    }
 
-  RecipeIngredient cloneRecipeIngredient(RecipeIngredient recipeIngredient) {
+
+    RecipeIngredient cloneRecipeIngredient(RecipeIngredient recipeIngredient) {
     RecipeIngredient recipeIngredientNew = new RecipeIngredient()
     Quantity quantity = new Quantity()
     quantity.value = recipeIngredient.quantity.value

@@ -21,7 +21,7 @@ class StandardConversionService {
     getQuantityToSaveFloat(amount, displayUnit, density, standardConversions)
   }
 
-  public static Quantity getQuantityToSaveFloat(Float amount, Unit displayUnit, Float density = 1.0f, List<StandardConversion> standardConversions = []) {
+  public static Quantity getQuantityToSaveFloat(BigDecimal amount, Unit displayUnit, BigDecimal density = 1.0d, List<StandardConversion> standardConversions = []) {
     Quantity result
     if (null != amount) {
       result = new Quantity()
@@ -36,7 +36,7 @@ class StandardConversionService {
       // store the quantity value.
       // if however, the convert to milliliter isn't found, then the value is just stored AS IS
         StandardConversion.findBySourceUnitAndTargetUnit(displayUnit, milliliterUnit)
-      Float conversionFactor = standardConversion ? standardConversion.conversionFactor : 1.0f
+      BigDecimal conversionFactor = standardConversion ? standardConversion.conversionFactor : 1.0d
       if (displayUnit.isWeightUnit) {
         result.value = ((amount * conversionFactor) / density)
       } else {
@@ -51,7 +51,7 @@ class StandardConversionService {
   boolean transactional = true
   def conversions = []
 
-  public static Float getQuantityValueAsFloat(Quantity sourceQuantity, Float density = 1.0f, List<StandardConversion> standardConversions = []) {
+  public static Float getQuantityValueAsFloat(Quantity sourceQuantity, BigDecimal density = 1.0d, List<StandardConversion> standardConversions = []) {
     Float result;
     Float floatValue = sourceQuantity?.value
     Unit unit = sourceQuantity?.unit

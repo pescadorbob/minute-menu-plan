@@ -21,7 +21,7 @@ public class UnitUtil {
 
     ItemNutritionLink link
     if (fromPrep) {
-      link = ItemNutritionLink.findByProductAndByPrep(fromProduct, fromPrep)
+      link = ItemNutritionLink.findByProductAndPrep(fromProduct, fromPrep)
     } else {
       link = ItemNutritionLink.findByProduct(fromProduct)
     }

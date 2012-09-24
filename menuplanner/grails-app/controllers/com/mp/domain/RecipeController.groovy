@@ -20,12 +20,16 @@ import com.mp.domain.subscriptions.CommunitySubscription
 import com.mp.domain.subscriptions.RecipeContribution
 import com.mp.domain.subscriptions.SubscriptionContributionRequirement
 import com.mp.domain.pricing.Price
+import com.mp.PriceService
+import com.mp.domain.pricing.ItemPrice
+import com.mp.domain.pricing.PriceType
 
 class RecipeController {
   final int resultsPerPage = 12
   static config = ConfigurationHolder.config
   def unitService
   def recipeService
+  def priceService
   def masterDataBootStrapService
   def searchableService
   def userService
@@ -111,10 +115,11 @@ class RecipeController {
     def subCategories = SubCategory.findAll('from SubCategory s where s in (select s.id from Recipe r join r.subCategories s)').sort{it.name}
     analyticsService.recordIntervalOut(System.currentTimeMillis(), request.'appRequestCO', "sub-categories")
     def categories = com.mp.domain.Category.findAll('from Category c where c in (select s.category.id from SubCategory s where s in (select s.id from Recipe r join r.subCategories s))').sort{it.name}
-    render(view: 'list', model: [recipeList: filteredResults, categories: categories, subCategories: subCategories, recipeTotal: total])
+      def avePrice = priceService.calculateRecipeCosts(filteredResults)
+      render(view: 'list', model: [avePrice: avePrice, recipeList: filteredResults, categories: categories, subCategories: subCategories, recipeTotal: total])
   }
 
-  private List<Recipe> hydrateRecipeResults(List results) {
+    private List<Recipe> hydrateRecipeResults(List results) {
     def recipeIds = results.collect {it.id}
     List<Recipe> filteredResults
     def lids = '('
@@ -406,7 +411,15 @@ class RecipeController {
       // if there aren't equal number of nutritional facts as ingredients, then all of the nutritional facts aren't
       // know for the recipe, and so the nutrition facts will be sent as null
     nutritionFacts = nutritionFacts.size() == recipe.ingredients.size()?nutritionFacts:null
-    render(view: 'show', model: ['nutrition':nutritionFacts,recipe: recipe, party: UserTools.currentUser?.party])
+      def c = ItemPrice.createCriteria()
+      def aveItemPrices = c {
+          priceOf {
+              eq('id',recipe.id)
+          }
+      }
+
+
+    render(view: 'show', model: [avePrice:aveItemPrices.size()>0?aveItemPrices.first():null,'nutrition':nutritionFacts,recipe: recipe, party: UserTools.currentUser?.party])
   }
 
   def printRecipes = {
@@ -624,13 +637,6 @@ class RecipeCO {
         }
         recipe.preparationTime = makeTimeQuantity(preparationTime, preparationUnitId)
         recipe.cookingTime = makeTimeQuantity(cookTime, cookUnitId)
-        Price price = recipe.avePrice
-        if(!price && cost){
-          Quantity quantity = new Quantity(value:1,unit:Unit.findByName('Each'),savedUnit:Unit.findByName('Each')).s()
-          price = new Price(price:cost,quantity:quantity).s()
-          recipe.avePrice = price
-          price.price = cost
-        }
 
         recipe.subCategories = []
         addSubCategoriesToRecipe(recipe, subCategoryIds)
