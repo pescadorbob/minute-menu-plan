@@ -1,6 +1,7 @@
 package com.mp.domain.pricing
 
 import com.mp.tools.UserTools
+import com.mp.domain.party.Grocer
 
 class PriceController {
 
@@ -15,10 +16,13 @@ class PriceController {
     }
   def calculateRealPrices = {
     final party = UserTools.getCurrentUser().party
-    runAsync {
-       priceService.calculateRecipePrices(party)
-    }
-    flash.message = 'Recipe Pricing has begun in a background thread.'
+    final productIds = ItemPrice.executeQuery("select distinct ip.priceOf.id from ItemPrice ip")[1..1]
+    final grocerIds = Grocer.executeQuery("select distinct g.id from Grocer g")
+
+//    runAsync {
+       priceService.calculateRecipePrices(party,productIds,grocerIds)
+//    }
+    flash.message = "Pricing out ${productIds.size()} products and ${grocerIds.size()} grocers."
       redirect(action: "list", params: params)
   }
     def index = {

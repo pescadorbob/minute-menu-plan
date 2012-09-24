@@ -7,7 +7,7 @@ import java.text.NumberFormat
 
 class MenuConstants {
 
-  public static final String MMP_OPERATIONAL_ACCOUNT = 'MMP Operational Account'
+    public static final String MMP_OPERATIONAL_ACCOUNT = 'MMP Operational Account'
 
     public static final String SYSTEM_OF_UNIT_USA = "United States Customary System"
     public static final String SYSTEM_OF_UNIT_USA_STANDARDIZATION_BODY = "EEUU"
@@ -171,36 +171,37 @@ class MenuConstants {
 
     public static final Integer IMAGE_RENDERING_TYPE = 1
 
-    public static final List<Integer> USER_IMAGE_SIZES = [50,200]
+    public static final List<Integer> USER_IMAGE_SIZES = [50, 200]
     public static final String TRIAL_SUBSCRIPTION = '1 Month Free Trial'
     public static final String COMMUNITY_SUBSCRIPTION = 'Community Subscription'
     public static final String PREVIEW_TRACKER = 'previewTracker'
 
     public static final s = {
-      def object = delegate.save(flush: true)
-      if (!object) {
-        delegate.errors.allErrors.each {
-          println it
+        def object = delegate.save(flush: true)
+        if (!object) {
+            delegate.errors.allErrors.each {
+                println it
+            }
         }
-      }
-      object
+        object
     }
-  // 3 weeks = 3weeks*7days/week*24hours/day*60min/hour*60sec/hour*1000ms/sec
-  static Integer SESSION_TIMEOUT = 3*7*24*60*60*1000
-  static final String CONTRIBUTION = "Contribution"
-  public static final String ENGLISH_WET = 'ew'
-  public static final String ENGLISH_DRY = 'ed'
-  public static final String METRIC_WET = 'mw'
-  public static final String METRIC_DRY = 'md'
-  public static final String DOZENAL = 'dz'
-  public static final Map unitGroups = ['ew':'Fluid Ounce,Pint,Quart,Gallon',
-     'ed':'Ounce,Pound',
-     'mw':'Milliliter,Liter',
-     'md':'Milligram,Gram,Kilogram',
-     'dz':'Each:Small:Medium:Large,Dozen']
-  public static final ProperFractionFormat fractionFormat =  new ProperFractionFormat(NumberFormat.getInstance())
-  static {
-    fractionFormat.setMaximumIntegerDigits(1) 
-  }
-  
+    // 3 weeks = 3weeks*7days/week*24hours/day*60min/hour*60sec/hour*1000ms/sec
+    static Integer SESSION_TIMEOUT = 3 * 7 * 24 * 60 * 60 * 1000
+    static final String CONTRIBUTION = "Contribution"
+    public static final String ENGLISH_WET = 'ew'
+    public static final String ENGLISH_DRY = 'ed'
+    public static final String METRIC_WET = 'mw'
+    public static final String METRIC_DRY = 'md'
+    public static final String DOZENAL = 'dz'
+    public static final Map unitGroups = [
+            'ew': 'Fluid Ounce,Pint,Quart,Gallon',
+            'ed': 'Ounce,Pound',
+            'mw': 'Milliliter,Liter',
+            'md': 'Milligram,Gram,Kilogram',
+            'dz': 'Each:Small:Medium:Large,Dozen']
+    public static final ProperFractionFormat fractionFormat = new ProperFractionFormat(NumberFormat.getInstance())
+    static {
+        fractionFormat.setMaximumIntegerDigits(1)
+    }
+
 }

@@ -17,12 +17,12 @@ hiddenItemProductNames:product?.ingredient?.name,
               %{--<g:textField class="inpboxSmall showToolTip iPredictedPrice" name="week${weekIndex}.predictedPrice"--}%
                   %{--value="${ingredientPredictedPrice}" title="${g.message(code:'toolTip.prices.predicted')}" style="width:40px;"/>--}%
               <!-- quantity -->
-              <g:textField class="inpboxSmall showToolTip iAmount" name="itemQuantities"
+              <g:textField class="inpboxSmall showToolTip iAmount" name="itemQuantities" autocomplete="off"
                   value="${ingredientQuantity}" title="${g.message(code:'toolTip.prices.quantity')}" style="width:40px;"/>
               <!-- unit -->
               <input name="week${weekIndex}.hiddenItemUnitNames" value="${hiddenItemUnitNames}"
                   class="inpbox showToolTip iUnit"
-                  title="${g.message(code: 'toolTip.prices.unit')}" style="width:90px;">
+                  title="${g.message(code: 'toolTip.prices.unit')}" style="width:90px;" autocomplete="off">
               <input type="hidden" value="${ingredientUnitId}" name="itemUnitIds"/>
               <input type="hidden" name="hiddenItemUnitSymbols" value="${hiddenItemUnitSymbol}"/>
               <!-- ingredient -->
@@ -31,7 +31,7 @@ hiddenItemProductNames:product?.ingredient?.name,
                       title="${g.message(code: 'toolTip.prices.ingredient')}" style="width:180px;"/>
               <input type="hidden" value="${hiddenItemProductNames}" name="itemProductNames"/>
               <!-- price -->
-              <g:textField class="inpboxSmall showToolTip iPrice" name="itemPrices"
+              <g:textField class="inpboxSmall showToolTip iPrice" autocomplete="off" name="itemPrices"
                     value="" title="${g.message(code: 'toolTip.prices.price')}" style="width:50px;"/>
             </div>
         </span>

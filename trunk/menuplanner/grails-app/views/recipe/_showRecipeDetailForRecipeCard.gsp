@@ -8,8 +8,8 @@
 <li style="top:0px;" class="topcorner">
     <p:image src='top-rounded.png' width="215" border="0"/></li>
 <li><span class='recipe-name'>${item.name}</span>
-  <g:if test="${item.avePrice}">
-   <span class="price">$${CurrencyUtils.getRoundedAmount(item.avePrice.price,0)}</span>
+  <g:if test="${avePrice && avePrice[item]}">
+   <span class="price">$${CurrencyUtils.getRoundedAmount(avePrice[item]?.price?.price,0)}</span>
   </g:if>
 </li>
 <li>

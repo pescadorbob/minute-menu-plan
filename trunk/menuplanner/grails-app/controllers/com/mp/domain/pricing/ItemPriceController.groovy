@@ -1,6 +1,10 @@
 package com.mp.domain.pricing
 
 import com.mp.domain.Unit
+import com.mp.domain.LoginCO
+import com.mp.tools.UserTools
+import com.mp.domain.Product
+import com.mp.domain.party.Grocer
 
 class ItemPriceController {
 
@@ -29,7 +33,8 @@ class ItemPriceController {
     }
 
   def calculateRecipePrices = {
-    priceService.calculateRecipePrices()
+    priceService.calculateRecipePrices(UserTools.currentUser.party,
+            ItemPrice.findAllByType(PriceType.SINGLE).collect {it.priceOf.id}.unique(),Grocer.list().collect {it.id})
     flash.message = "Recipe Prices are being calculated in the background."
     redirect(action:"list")
   }

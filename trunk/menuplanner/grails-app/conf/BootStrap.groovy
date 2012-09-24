@@ -25,7 +25,7 @@ import com.mp.domain.party.Grocer
 
 class BootStrap {
 
-  def utilService
+    def utilService
     def dataSource
     def grailsApplication
     def bootstrapService
@@ -36,7 +36,7 @@ class BootStrap {
     def recipeService
     def wcmSecurityService
     static config = ConfigurationHolder.config
-    def static roleMapping = ["Super Admin":'ROLE_ADMIN',"Admin":'ROLE_USER']
+    def static roleMapping = ["Super Admin": 'ROLE_ADMIN', "Admin": 'ROLE_USER']
 
     def init = {servletContext ->
 
@@ -62,7 +62,7 @@ class BootStrap {
 //                    email:UserTools?.currentUser?.party?.email]
 //          }
 //      ]
-      config.bootstrapMode = true
+        config.bootstrapMode = true
         // Inject the helper s() method
         Object.metaClass.s = MenuConstants.s
 
@@ -106,19 +106,19 @@ class BootStrap {
             "${delegate.name}:'${delegate.description}'"
         }
 
-        Grocer.metaClass.encodeAsHtml = {-> "${delegate.organizationName.encodeAsHtml()}"  }
-        Grocer.metaClass.toString = {-> "${delegate.organizationName.encodeAsHtml()}"  }
+        Grocer.metaClass.encodeAsHtml = {-> "${delegate.organizationName.encodeAsHtml()}" }
+        Grocer.metaClass.toString = {-> "${delegate.organizationName.encodeAsHtml()}" }
 
         bootstrapMasterData()
 
         if (!(GrailsUtil.environment in [Environment.PRODUCTION, 'qa']) && !Subscriber.count()) {
-                Map<String, List<PartyRoleType>> userNames = ['superAdmin': [PartyRoleType.SuperAdmin], 'admin': [PartyRoleType.Admin],
-                        'director': [PartyRoleType.Director, PartyRoleType.Subscriber],
-                        'coach': [PartyRoleType.Coach, PartyRoleType.Subscriber], 'user1': [PartyRoleType.Subscriber]]
-                userNames.each {String name, roles ->
-                    println "Populating User - ${name} : ${roles}"
-                    bootstrapService.populateUser(name, roles*.name())
-                }
+            Map<String, List<PartyRoleType>> userNames = ['superAdmin': [PartyRoleType.SuperAdmin], 'admin': [PartyRoleType.Admin],
+                    'director': [PartyRoleType.Director, PartyRoleType.Subscriber],
+                    'coach': [PartyRoleType.Coach, PartyRoleType.Subscriber], 'user1': [PartyRoleType.Subscriber]]
+            userNames.each {String name, roles ->
+                println "Populating User - ${name} : ${roles}"
+                bootstrapService.populateUser(name, roles*.name())
+            }
             println "Populated Users"
             if (!Account.count() && !AccountTransaction.count()) {masterDataBootStrapService.populateAccounts()}
 
@@ -146,9 +146,9 @@ class BootStrap {
             println "Populated Quick Fills"
         }
 
-        allocateTrialSubscriptions()
+//        allocateTrialSubscriptions()
 
-        if ( !(GrailsUtil.environment in ['development', 'test'])) {
+        if (!(GrailsUtil.environment in ['development', 'test'])) {
             Thread.start {
                 searchableService.index()
             }
@@ -158,13 +158,13 @@ class BootStrap {
     def destroy = {
     }
 
-    void allocateTrialSubscriptions(){
+    void allocateTrialSubscriptions() {
         println "Allocating Trial Subscriptions."
 
-      long startTime = System.currentTimeMillis()
+        long startTime = System.currentTimeMillis()
 
 //      Book.findAll("from Book as b where not exists (from Borrow as br where br.book = b)")
-      def subscribers = Subscriber.findAll("from Subscriber s where not exists (from Subscription sub where sub.subscriptionFor = s)")
+        def subscribers = Subscriber.findAll("from Subscriber s where not exists (from Subscription sub where sub.subscriptionFor = s)")
         Set<Party> parties = subscribers*.party as Set
         parties.each {Party party ->
             utilService.allocateTrialSubscription(party)
@@ -176,37 +176,39 @@ class BootStrap {
 
     private void bootstrapMasterData() {
 
-      masterDataBootStrapService.populateCommunitySubscriptionRecipeContributionRequirements()
-      masterDataBootStrapService.populateAlcoholicContentList()
-      // prime StandardConversions, Units, Time, Categories,
-      // NDBFileInfo,NDBFood, NDBWeight
-      println 'loading caches'
-      def start = System.currentTimeMillis()
-      def cachedConversions = StandardConversion.findAll(
-              'from StandardConversion as s \
-      inner join fetch s.sourceUnit  source \
-      inner join fetch s.targetUnit  target \
-      inner join fetch source.systemOfUnits sourceSystem  \
-      inner join fetch target.systemOfUnits targetSystem ')
-      def cachedUnits = Unit.findAll(
-              'from Unit as s \
-      inner join fetch s.systemOfUnits system ')
+        masterDataBootStrapService.populateCommunitySubscriptionRecipeContributionRequirements()
+        masterDataBootStrapService.populateAlcoholicContentList()
+        // prime StandardConversions, Units, Time, Categories,
+        // NDBFileInfo,NDBFood, NDBWeight
+        println 'loading caches'
+        def start = System.currentTimeMillis()
+        if (GrailsUtil.environment in ['production']) {
+            def cachedConversions = StandardConversion.findAll(
+                    'from StandardConversion as s \
+               inner join fetch s.sourceUnit  source \
+               inner join fetch s.targetUnit  target \
+               inner join fetch source.systemOfUnits sourceSystem  \
+               inner join fetch target.systemOfUnits targetSystem ')
+            def cachedUnits = Unit.findAll(
+                    'from Unit as s \
+               inner join fetch s.systemOfUnits system ')
 
-      def cachedTimeUnits = Time.findAll(
-              'from Time as t \
-      inner join fetch t.systemOfUnits system ')
+            def cachedTimeUnits = Time.findAll(
+                    'from Time as t \
+               inner join fetch t.systemOfUnits system ')
 
-      def cachedCategories = Category.findAll(
-              'from Category c \
-      inner join fetch c.subCategories subcategories ')
+            def cachedCategories = Category.findAll(
+                    'from Category c \
+               inner join fetch c.subCategories subcategories ')
 
-      def nutritionalValues = NDBFood.findAll(
-              'from NDBFood food \
-      inner join fetch food.weights weights \
-      inner join fetch food.fileInfo file ')
-      def end = System.currentTimeMillis()
+            def nutritionalValues = NDBFood.findAll(
+                    'from NDBFood food \
+               inner join fetch food.weights weights \
+               inner join fetch food.fileInfo file ')
+        }
+        def end = System.currentTimeMillis()
         def totalTime = end - start
-      println 'Caches loaded in ${totalTime} ms'
+        println 'Caches loaded in ${totalTime} ms'
 
         if (!SystemOfUnit.count()) {masterDataBootStrapService.populateSystemOfUnits()}
         if (!Time.count()) {masterDataBootStrapService.populateTimeUnits()}

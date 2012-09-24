@@ -12,6 +12,8 @@ import com.mp.domain.ndb.ItemNutritionLink
 import com.mp.domain.ndb.NutritionLink
 import java.text.NumberFormat
 import java.text.DecimalFormat
+import com.mp.domain.pricing.ItemPrice
+import com.mp.domain.pricing.PriceType
 
 
 class MenuplannerTagLib {
@@ -319,9 +321,22 @@ class MenuplannerTagLib {
     Integer customServings = attrs['customServings']
     customServings = customServings ? customServings : recipe?.servings
     if (recipe) {
-      List<RecipeIngredient> customRecipeIngredients = []
-      customRecipeIngredients = recipeService.getRecipeIngredientsWithCustomServings(recipe, customServings)
-      out << g.render(template: "/recipe/recipeIngredients", model: [ingredients: customRecipeIngredients])
+      List<RecipeIngredient> customRecipeIngredients = recipeService.getRecipeIngredientsWithCustomServings(recipe, customServings)
+        def prices = [:]
+        customRecipeIngredients.each { ing ->
+            def c =ItemPrice.createCriteria()
+            def avePrices = c {
+                priceOf {
+                    eq("id",ing.ingredient.id)
+                }
+                eq("type",PriceType.AVE)
+            }
+            if(avePrices?.size()>0){
+                ItemPrice p = avePrices.first()
+                if(p) prices[ing] = p
+            }
+        }
+      out << g.render(template: "/recipe/recipeIngredients", model: [prices:prices,ingredients: customRecipeIngredients])
     }
   }
 

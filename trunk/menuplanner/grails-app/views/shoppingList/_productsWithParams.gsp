@@ -7,12 +7,12 @@
     <td width="250" class="groceryTextBox">
   <div style="float:left;">
         <g:if test="${aisle}">
-            <input class="inpbox showToolTip iUnit list-description"
+            <input class="inpbox showToolTip list-description" autocomplete="off"
                   title="${g.message(code: 'toolTip.shopping.item.name')}"
                     type="text" name="week${weekIndex}.products.${aisle.id}" value="${product}"/>
         </g:if>
         <g:else>
-            <input class="inpbox list-description showToolTip iUnit"
+            <input class="inpbox list-description showToolTip " autocomplete="off"
                   title="${g.message(code: 'toolTip.shopping.item.name')}" type="text" name="week${weekIndex}.products.0" value="${product}"/>
         </g:else>
 

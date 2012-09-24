@@ -237,6 +237,10 @@
         <sql>insert into standard_conversion (version, source_unit_id, target_unit_id, conversion_factor)
             values (0, (select id from metric where name='Pound'),(select id from metric where name='Ounce'),16.0) </sql>
     </changeSet>
+    <changeSet author="Brent Fisher (generated)" id="xxx1333633601378-11a">
+        <sql>insert into standard_conversion (version, source_unit_id, target_unit_id, conversion_factor)
+            values (0, (select id from metric where name='Ounce'),(select id from metric where name='Milliliter'),30.0) </sql>
+    </changeSet>
     <changeSet author="Brent Fisher (generated)" id="xxx1333633601378-12">
         <sql>insert into standard_conversion (version, source_unit_id, target_unit_id, conversion_factor)
             values (0,(select id from metric where name='Dozen'),(select id from metric where name='each'),12.0) </sql>

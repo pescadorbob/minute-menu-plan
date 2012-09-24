@@ -19,7 +19,7 @@ public class UnitGroup {
 
     MenuConstants.unitGroups.each {key, value ->
 //     'md':'Milligram,Gram,Kilogram',
-//     'dz':'Each|Small|Medium|Large,Dozen'
+//     'dz':'Each:Small:Medium:Large,Dozen'
       def units = value.split(',')
       units.eachWithIndex {unitNameList,index ->
         def possibleUnits = unitNameList.split(':')

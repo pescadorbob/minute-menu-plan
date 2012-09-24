@@ -214,7 +214,8 @@ class ShoppingListController {
           shoppingListNew = shoppingListService.modifyShoppingList(pslCO, shoppingListOld, isWeeklyList)
           break;
       }
-      render(view: 'create', model: [shoppingList: shoppingListNew, shoppingListId: shoppingListOld?.id, isWeeklyList: isWeeklyList])
+      render(view: 'create', model: [shoppingList: shoppingListNew, shoppingListId: shoppingListOld?.id, isWeeklyList: isWeeklyList,
+              metricUnits: Unit.sortedMetricUnits,  preparationMethods: PreparationMethod.list()])
     }
     else {
       pslCO.errors.allErrors.each {
@@ -245,7 +246,8 @@ class ShoppingListController {
           break;
       }
       shoppingListNew.servings = params?.servings?.toInteger()
-      render(view: 'create', model: [shoppingList: shoppingListNew, shoppingListId: shoppingListOld?.id])
+      render(view: 'create', model: [shoppingList: shoppingListNew, shoppingListId: shoppingListOld?.id,
+              metricUnits: Unit.sortedMetricUnits,  preparationMethods: PreparationMethod.list()])
     }
     else {
       pslCO.errors.allErrors.each {

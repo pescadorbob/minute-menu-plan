@@ -48,6 +48,71 @@
                         </li></ul>
                     </div>
                 </g:form>
+                <script type="text/javascript">
+                    var itemsJson = {
+                        <g:each in="${Item.list()}" var="itemVar">
+                        '${itemVar?.name?.replaceAll("'","\\\\'")}':['${itemVar?.suggestedAisle?.name?.replaceAll("'","\\\\'")}','${itemVar?.suggestedAisle?.id}'],
+                        </g:each>
+                    }
+
+                    var metricUnits = []
+                    <g:each in="${metricUnits}" var="metricUnit">
+                    metricUnits.push(['${metricUnit}','${metricUnit.id}'])
+                    </g:each>
+                    //    metricUnits.push('Other...')
+
+                    //    var unitPopupCaller;
+
+                    function resetUnitAutocomplete() {
+                        $(".iUnit").unautocomplete().autocomplete(metricUnits, {
+                            matchContains: true,
+                            minChars: 0,
+                            max:0,
+                            mustMatch:true
+                        }).result(function(event, data, formatted) {
+                                    var unitId = data[1];
+                                    var currentUnit = jQuery(this).val()
+                                    $(this).next().val(unitId);
+                                    if (jQuery('#unitTable td:contains(' + currentUnit + ')')) {
+                                        if (jQuery('#unitTable td:contains(' + currentUnit + ')').eq(0).text() == currentUnit) {
+                                            var unitSymbol = jQuery('#unitTable td:contains(' + currentUnit + ')').eq(0).next().html()
+                                            $(this).next().next().val(unitSymbol)
+                                        }
+                                    }
+                                })
+                    }
+                    function resetIngredients() {
+
+                        resetUnitAutocomplete()
+                        $(".iProduct").unautocomplete().autocomplete("${createLink(action: 'getMatchingProducts', controller: 'recipe')}", {
+                            width : 300,
+                            minChars: 3,
+                            selectFirst: false
+                        }).result(function(event, data, formatted) {
+                                    $(this).val(data[0]);
+                                    $(this).next().val(data[1])
+                                })
+                        showNewLineOnLastFocus();
+                        bindEventUpDownIngredientArrow()
+                    }
+
+
+                    $(function() {
+                        resetIngredients();
+                    })
+
+                    $("#ingredientGrid>li:eq(1) input:visible[value='']").tooltip({events: {
+                        input: "focus,blur"
+                    },
+                        effect:'slide'
+                    }).dynamic({ bottom: { direction: 'down', bounce: true } })
+
+                    $("#ingredientGrid>li:eq(1) input:visible[value='']").keydown(function() {
+                        $(this).unbind('focus')
+                        $(".tooltip").hide();
+                    })
+
+                </script>
             </div>
             <div class="bottom-shadow">
                 <label></label>

@@ -117,7 +117,7 @@ public class SubscriptionService {
         Party theParty = user?.party
         def hasActiveSubscription = false
         def c = Subscription.createCriteria()
-        c.list {
+        def subscriptionsForUser = c.list {
             subscriptionFor {
                 party {
                     idEq(theParty.id)
@@ -129,7 +129,10 @@ public class SubscriptionService {
               ge('activeTo', now - 1)
             }
             eq('status',SubscriptionStatus.CURRENT)
-        }.each {subscription ->
+        }
+
+
+        subscriptionsForUser.each {subscription ->
           subscription.subscribedProductOffering.applicableFeatures*.describedBy.each { feature ->
             if (feature.class == ControllerActionFeature.class) {
                 if (log.isDebugEnabled()) {
