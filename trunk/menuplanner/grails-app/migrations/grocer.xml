@@ -197,10 +197,10 @@
         <sql>insert into metric (version,metric_type,symbol,definition,name,small)
             values (0,'METRIC','dz.','12 count','Dozen','') </sql>
     </changeSet>
-    <!--<changeSet author="Brent Fisher (generated)" id="1333633601378-4xxx">-->
-        <!--<sql>insert into unit (id,is_convertible, is_weight_unit)-->
-            <!--values ((select id from metric where name='Dozen'),1,0) </sql>-->
-    <!--</changeSet>-->
+    <changeSet author="Brent Fisher (generated)" id="1333633601378-4xxx">
+        <sql>insert into unit (id,is_convertible, is_weight_unit)
+            values ((select id from metric where name='Dozen'),1,0) </sql>
+    </changeSet>
     <changeSet author="Brent Fisher (generated)" id="1333633601378-5axxx">
         <sql>insert into metric (version,metric_type,symbol,definition,name,small)
             values (0,'METRIC','oz.','Weight measure for ounce, not fluids','Ounce','oz') </sql>
@@ -241,9 +241,9 @@
         <sql>insert into standard_conversion (version, source_unit_id, target_unit_id, conversion_factor)
             values (0, (select id from metric where name='Ounce'),(select id from metric where name='Milliliter'),30.0) </sql>
     </changeSet>
-    <changeSet author="Brent Fisher (generated)" id="xxx1333633601378-12">
+    <changeSet author="Brent Fisher (generated)" id="xxxx1333633601378-12">
         <sql>insert into standard_conversion (version, source_unit_id, target_unit_id, conversion_factor)
-            values (0,(select id from metric where name='Dozen'),(select id from metric where name='each'),12.0) </sql>
+            values (0,(select id from metric where name='Dozen'),(select id from metric where name='Each'),12.0) </sql>
     </changeSet>
     <changeSet author="Brent Fisher (generated)" id="xxx1333633601378-13">
         <sql>insert into standard_conversion (version, source_unit_id, target_unit_id, conversion_factor)
