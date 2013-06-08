@@ -55,7 +55,8 @@ class ShoppingListController {
   }
 
   def createOriginal = {PrintShoppingListCO pslCO ->
-    pslCO.areServingsRequired = false
+      def listErrors = []
+      pslCO.areServingsRequired = false
     pslCO.areWeeksRequired = (params.shoppingList == "GENERATE_WITH_WEEKS")
     if (pslCO.validate()) {
       ShoppingList shoppingList
@@ -63,11 +64,11 @@ class ShoppingListController {
       switch (params?.shoppingList) {
         case "GENERATE_WITH_WEEKS":
           weeklyList = true
-          shoppingList = shoppingListService.createShoppingList(pslCO, weeklyList)
+          shoppingList = shoppingListService.createShoppingList(pslCO, weeklyList,listErrors)
           break;
         case "GENERATE_WITHOUT_WEEKS":
           weeklyList = false
-          shoppingList = shoppingListService.createShoppingList(pslCO, weeklyList)
+          shoppingList = shoppingListService.createShoppingList(pslCO, weeklyList,listErrors)
           break;
       }
       render(view: 'create', model: [shoppingList: shoppingList, weeklyList: weeklyList])
@@ -78,12 +79,13 @@ class ShoppingListController {
       LoginCredential user = UserTools.currentUser
       List<MenuPlan> menuPlans = user?.party?.menuPlans as List
       Integer mouthsToFeed = user?.party?.subscriber?.mouthsToFeed
-      render(view: 'generateShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: mouthsToFeed])
+      render(view: 'generateShoppingList', model: [listErrors:listErrors,pslCO: pslCO, menuPlans: menuPlans, servings: mouthsToFeed])
     }
   }
 
   def createScaled = {PrintShoppingListCO pslCO ->
-    pslCO.areServingsRequired = true
+      def listErrors = []
+      pslCO.areServingsRequired = true
     pslCO.areWeeksRequired = (params.shoppingList == "GENERATE_WITH_WEEKS")
     if (pslCO.validate()) {
       Integer servings = pslCO.servings?.toInteger()
@@ -92,14 +94,14 @@ class ShoppingListController {
       switch (params?.shoppingList) {
         case "GENERATE_WITH_WEEKS":
           weeklyList = true
-          shoppingList = shoppingListService.createShoppingList(pslCO, weeklyList)
+          shoppingList = shoppingListService.createShoppingList(pslCO, weeklyList,listErrors)
           break;
         case "GENERATE_WITHOUT_WEEKS":
           weeklyList = false
-          shoppingList = shoppingListService.createShoppingList(pslCO, weeklyList)
+          shoppingList = shoppingListService.createShoppingList(pslCO, weeklyList,listErrors)
           break;
       }
-      render(view: 'create', model: [shoppingList: shoppingList, weeklyList: weeklyList, servings: servings])
+      render(view: 'create', model: [listErrors:listErrors,shoppingList: shoppingList, weeklyList: weeklyList, servings: servings])
     } else {
       pslCO.errors.allErrors.each {
         println it
@@ -107,7 +109,7 @@ class ShoppingListController {
       LoginCredential user = UserTools.currentUser
       List<MenuPlan> menuPlans = user?.party?.menuPlans as List
       Integer mouthsToFeed = user?.party?.subscriber?.mouthsToFeed
-      render(view: 'generateShoppingList', model: [pslCO: pslCO, menuPlans: menuPlans, servings: mouthsToFeed])
+      render(view: 'generateShoppingList', model: [listErrors:listErrors,pslCO: pslCO, menuPlans: menuPlans, servings: mouthsToFeed])
     }
   }
 

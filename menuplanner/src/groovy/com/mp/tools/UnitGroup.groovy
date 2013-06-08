@@ -31,7 +31,10 @@ public class UnitGroup {
 
       }
     }
-    if(!retVal)    throw new RuntimeException('null retval fail')
+//    if(!retVal){
+//        throw new RuntimeException('''An unexpected unrecoverable error occurred why determining the Unit Group,
+//(used for determining weight).  No matching weight group was found for the unit ${unit.name}''')
+//    }
     retVal
   }
 
