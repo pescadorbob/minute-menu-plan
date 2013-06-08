@@ -21,6 +21,15 @@
                     ${flash.message}
                 </div>
             </g:if>
+            <g:if test="${listErrors && listErrors.size()>0}">
+                <div id="errorsDiv" class="errors">
+                    <ul>
+                        <g:each in="${listErrors}" var="error" status="i">
+                            <li>${error}</li>
+                        </g:each>
+                    </ul>
+                </div>
+            </g:if>
             <div class="headbox">
                 <h3>${shoppingList?.name}</h3>
             </div>

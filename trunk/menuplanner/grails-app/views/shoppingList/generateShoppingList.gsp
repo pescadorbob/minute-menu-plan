@@ -13,7 +13,8 @@
                     <g:renderErrors bean="${pslCO}"/>
                 </div>
             </g:hasErrors>
-            <div class="top-shadow">
+
+                <div class="top-shadow">
                 <label>&nbsp;</label>
             </div>
             <div class="leftbox clearfix">

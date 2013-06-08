@@ -165,6 +165,9 @@ public class UnitUtil {
   static Quantity normalizeQuantity(Quantity quantity) {
     Quantity result = quantity
     Float quantityValue = StandardConversionService.getQuantityValueAsFloat(quantity)
+      if(null == quantity) {
+          throw new RuntimeException("Unexpectedly, the Quantity passed in is null")
+      }
     Quantity normalize =downConvert(quantityValue,quantity.unit)
     if(normalize?.unit == quantity?.unit){
       normalize = upConvert(quantityValue,quantity.unit)

@@ -13,7 +13,7 @@ class ShoppingListService {
 
   boolean transactional = true
 
-  ShoppingList createShoppingList(PrintShoppingListCO shoppingListCO, Boolean isWeeklyList) {
+  ShoppingList createShoppingList(PrintShoppingListCO shoppingListCO, Boolean isWeeklyList,errors) {
     MenuPlan menuPlan = MenuPlan.get(shoppingListCO.menuPlanId?.toLong())
     Boolean isScaled = shoppingListCO.areServingsRequired
     ShoppingList shoppingList = new ShoppingList()
@@ -28,13 +28,13 @@ class ShoppingListService {
         shoppingList.addToWeeklyShoppingLists(weeklyShoppingList)
       }
     } else {
-      WeeklyShoppingList weeklyShoppingList = createCompleteShoppingList(shoppingList, menuPlan, isScaled)
+      WeeklyShoppingList weeklyShoppingList = createCompleteShoppingList(shoppingList, menuPlan, isScaled,errors)
       shoppingList.addToWeeklyShoppingLists(weeklyShoppingList)
     }
     return shoppingList
   }
 
-  ShoppingList modifyShoppingList(PrintShoppingListCO shoppingListCO, ShoppingList shoppingListOld, Boolean isWeeklyList) {
+  ShoppingList modifyShoppingList(PrintShoppingListCO shoppingListCO, ShoppingList shoppingListOld, Boolean isWeeklyList,errors) {
     MenuPlan menuPlan = MenuPlan.get(shoppingListCO.menuPlanId?.toLong())
     Boolean isScaled = shoppingListCO.areServingsRequired
     ShoppingList shoppingList = new ShoppingList()
@@ -53,7 +53,7 @@ class ShoppingListService {
         }
       }
     } else {
-      WeeklyShoppingList weeklyShoppingList = createCompleteShoppingList(shoppingList, menuPlan, isScaled)
+      WeeklyShoppingList weeklyShoppingList = createCompleteShoppingList(shoppingList, menuPlan, isScaled,errors)
       shoppingList.addToWeeklyShoppingLists(weeklyShoppingList)
     }
     return shoppingList
@@ -70,10 +70,10 @@ class ShoppingListService {
     return weeklyShoppingList
   }
 
-  WeeklyShoppingList createCompleteShoppingList(ShoppingList shoppingList, MenuPlan menuPlan, Boolean isScaled) {
+  WeeklyShoppingList createCompleteShoppingList(ShoppingList shoppingList, MenuPlan menuPlan, Boolean isScaled,errors) {
     WeeklyShoppingList weeklyShoppingList = new WeeklyShoppingList()
     weeklyShoppingList.weekIndex = 0
-    weeklyShoppingList.products = getCompleteProductListFromMenuPlan(menuPlan, shoppingList, isScaled)
+    weeklyShoppingList.products = getCompleteProductListFromMenuPlan(menuPlan, shoppingList, isScaled,errors)
     weeklyShoppingList.groceries = getCompleteGroceryListFromMenuPlan(menuPlan)
     weeklyShoppingList.groceries = weeklyShoppingList.groceries.findAll {grocery ->
       !weeklyShoppingList.products.any {it.name.endsWith(grocery.name)}
@@ -81,7 +81,7 @@ class ShoppingListService {
     return weeklyShoppingList
   }
 
-  List<ShoppingIngredient> getProductListForWeekFromMenuPlan(MenuPlan menuPlan, String weekIndex, ShoppingList shoppingList, Boolean isScaled) {
+  List<ShoppingIngredient> getProductListForWeekFromMenuPlan(MenuPlan menuPlan, String weekIndex, ShoppingList shoppingList, Boolean isScaled,errors) {
     List<ShoppingIngredient> productListForWeek = []
     List<RecipeIngredient> weeklyRecipeIngredients = []
     Week week = menuPlan?.weeks[weekIndex?.toInteger()]
@@ -94,11 +94,11 @@ class ShoppingListService {
         }
       }
     }
-    productListForWeek = getWeeklyProductsGroupByAisle(weeklyRecipeIngredients)
+    productListForWeek = getWeeklyProductsGroupByAisle(weeklyRecipeIngredients,errors)
     return productListForWeek
   }
 
-  List<ShoppingIngredient> getCompleteProductListFromMenuPlan(MenuPlan menuPlan, ShoppingList shoppingList, Boolean isScaled) {
+  List<ShoppingIngredient> getCompleteProductListFromMenuPlan(MenuPlan menuPlan, ShoppingList shoppingList, Boolean isScaled,errors) {
     List<ShoppingIngredient> allProductList = []
     List<RecipeIngredient> weeklyRecipeIngredients = []
 
@@ -115,7 +115,7 @@ class ShoppingListService {
         }
       }
     }
-    allProductList = getWeeklyProductsGroupByAisle(weeklyRecipeIngredients)
+    allProductList = getWeeklyProductsGroupByAisle(weeklyRecipeIngredients,errors)
     return allProductList
   }
 
@@ -143,7 +143,7 @@ class ShoppingListService {
     return ingredients
   }
 
-  List<ShoppingIngredient> getWeeklyProductsGroupByAisle(List<RecipeIngredient> weeklyRecipeIngredients) {
+  List<ShoppingIngredient> getWeeklyProductsGroupByAisle(List<RecipeIngredient> weeklyRecipeIngredients,errors) {
     List<ShoppingIngredient> productListForWeek = []
     List<StandardConversion> standardConversions = StandardConversion.list([cache: true])
 
@@ -161,18 +161,25 @@ class ShoppingListService {
 
         Map similarIngredientsWithSameUnits = similarIngredients.groupBy {
           if (!it.quantity.unit) {
-            return 1
-          } else if (!it.quantity.unit.isWeightUnit) {
-            return 2
+            return 'unitless'
+//          } else if (!it.quantity.unit.isWeightUnit) {
+//            return 'weightless'
           } else {
-            return ((it.quantity.unit.isConvertible) ? 3 : it.quantity.unit)
+            return ((it.quantity.unit.isConvertible) ? 'convertible' : it.quantity.unit)
           }
         }
         List<Quantity> ingredientsAggregatedWithSimilarUnits = []
         similarIngredientsWithSameUnits.values()?.each {def sameUnitQuantities ->
-          Quantity totalQuantity = sameUnitQuantities[0].quantity
+            RecipeIngredient initialRecipeIngredient =  sameUnitQuantities[0]
+          Quantity totalQuantity = initialRecipeIngredient.quantity
           sameUnitQuantities.tail().each {
-            totalQuantity = Quantity.add(totalQuantity, it.quantity, standardConversions)
+            def addedQuantity = Quantity.add(totalQuantity, it.quantity, standardConversions)
+            if(addedQuantity){
+                totalQuantity = addedQuantity
+            } else {
+                // if these quantities can't be added, there was an error.
+                errors.add(new Error("Couldn't add ${it.quantity} ${initialRecipeIngredient.ingredient} to Total:${totalQuantity} ${initialRecipeIngredient.ingredient} "))
+            }
           }
           ingredientsAggregatedWithSimilarUnits.add(totalQuantity)
         }

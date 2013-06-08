@@ -148,18 +148,21 @@ public class PriceService {
     Grocer grocer = Grocer.get(receipt.grocerId)
     Long itemCount = 0;
     def now = new Date()
-    def enteredPrices = receipt.itemProductIds.eachWithIndex {productId, index ->
+    receipt.itemProductIds.eachWithIndex {productId, index ->
       if (productId?.length() > 0) {
         itemCount++
+          Quantity q = StandardConversionService.getQuantityToSave( receipt.itemQuantities[index], Unit.get(receipt.itemUnitIds[index]?.toLong()))
+          q.s()
         def price = new Price(price: receipt.itemPrices[index].toBigDecimal(),
-                quantity: new Quantity(value: receipt.itemQuantities[index]?.toFloat(),
-                        unit: Unit.get(receipt.itemUnitIds[index]?.toLong())).s()).s()
+                quantity: q)
+          price.s()
         ItemPrice itemPrice = new ItemPrice(recordedOn: now,
                 priceOf: Item.get(productId?.toLong()),
                 price: price,
                 type: PriceType.SINGLE,
                 recordedBy: UserTools.currentUser.party,
-                grocer: grocer).s()
+                grocer: grocer)
+          itemPrice.s()
       }
     }
     return itemCount

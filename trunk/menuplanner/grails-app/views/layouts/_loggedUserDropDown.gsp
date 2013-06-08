@@ -22,6 +22,7 @@
                 </g:if>
                 <g:link controller="user" action="chooseSubscription">Buy Subscription</g:link>
                 <g:link controller="itemPrice" action="createList">Log Receipts</g:link>
+                <g:link controller="itemPrice" action="list">Item Prices</g:link>
             </li>
             <li><g:link class="logoutLink" controller="login" action="logout">Logout</g:link></li>
         </ul>

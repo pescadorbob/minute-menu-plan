@@ -109,6 +109,9 @@ class BootStrap {
         Grocer.metaClass.encodeAsHtml = {-> "${delegate.organizationName.encodeAsHtml()}" }
         Grocer.metaClass.toString = {-> "${delegate.organizationName.encodeAsHtml()}" }
 
+        StandardConversion.metaClass.toString = {->
+            "${delegate.sourceUnit.symbol}=${delegate.conversionFactor} ${delegate.targetUnit.symbol}"
+        }
         bootstrapMasterData()
 
         if (!(GrailsUtil.environment in [Environment.PRODUCTION, 'qa']) && !Subscriber.count()) {
